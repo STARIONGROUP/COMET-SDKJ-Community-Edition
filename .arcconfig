@@ -1,0 +1,5 @@
+{
+	"phabricator.uri" : "http://phabricator.adgahq.ca/",
+	"arc.feature.start.default" : "development",
+	"arc.land.onto.default" : "development"
+}
