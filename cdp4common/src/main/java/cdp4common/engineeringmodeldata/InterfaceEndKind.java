@@ -16,25 +16,25 @@ public enum InterfaceEndKind
     /**
      * not an interface end
      */
-    N_O_N_E,
+    NONE,
 
     /**
      * general undirected interface endExample: For example a mechanical mounting plate.
      */
-    U_N_D_I_R_E_C_T_E_D,
+    UNDIRECTED,
 
     /**
      * interface end that acts as an input for its <i>containingElement</i> ElementDefinitionExample: For example a power inlet socket.
      */
-    I_N_P_U_T,
+    INPUT,
 
     /**
      * interface end that acts as an output for its <i>containingElement</i> ElementDefinitionExample: For example a signal output connector on a sensor.
      */
-    O_U_T_P_U_T,
+    OUTPUT,
 
     /**
      * interface end that acts both as an input and an output for its <i>containingElement</i> ElementDefinitionExample: For example an Ethernet port on an electronic device.
      */
-    I_N__O_U_T,
+    IN_OUT,
 }

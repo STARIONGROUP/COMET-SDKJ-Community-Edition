@@ -16,15 +16,15 @@ public enum AnnotationApprovalKind
     /**
      * Assertion that the annotation was accepted
      */
-    A_C_C_E_P_T_E_D,
+    ACCEPTED,
 
     /**
      * Assertion that the annotation was rejected
      */
-    R_E_J_E_C_T_E_D,
+    REJECTED,
 
     /**
      * Assertion that the annotation was withdrawn
      */
-    W_I_T_H_D_R_A_W_N,
+    WITHDRAWN,
 }

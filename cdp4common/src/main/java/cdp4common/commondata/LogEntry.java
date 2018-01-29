@@ -23,7 +23,7 @@ public interface LogEntry {
      * weak reference to zero or more items that are relevant to or affected by what is described in the content of this LogEntry
      * Note: Each reference should be an <i>iid</i> of a Thing that exists when the log entry is created. The references are of type Uuid in order to support retaining log entries even when the referenced Thing is later deleted. An implementation of E-TM-10-25 shall support a mechanism to dereference items by Uuid and report when items can not (no longer) be dereferenced.
      */
-    List<UUID> getAffectedItemIid();
+    ArrayList<UUID> getAffectedItemIid();
 
     /**
      * Gets the Author.
@@ -43,7 +43,7 @@ public interface LogEntry {
      * weak reference to zero or more items that are relevant to or affected by what is described in the content of this LogEntry
      * Note: Each reference should be an <i>iid</i> of a Thing that exists when the log entry is created. The references are of type Uuid in order to support retaining log entries even when the referenced Thing is later deleted. An implementation of E-TM-10-25 shall support a mechanism to dereference items by Uuid and report when items can not (no longer) be dereferenced.
      */
-    void setAffectedItemIid(List<UUID> affectedItemIid);
+    void setAffectedItemIid(ArrayList<UUID> affectedItemIid);
 
     /**
      * Sets the Author.

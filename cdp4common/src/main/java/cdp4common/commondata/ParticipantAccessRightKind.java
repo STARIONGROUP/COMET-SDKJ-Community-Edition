@@ -16,35 +16,35 @@ public enum ParticipantAccessRightKind
     /**
      * assertion that Participant access to the given class of objects is not applicable
      */
-    N_O_T__A_P_P_L_I_C_A_B_L_E,
+    NOT_APPLICABLE,
 
     /**
      * no access
      */
-    N_O_N_E,
+    NONE,
 
     /**
      * access right to a given class of objects is the same as that of the class of its container object
      */
-    S_A_M_E__A_S__C_O_N_T_A_I_N_E_R,
+    SAME_AS_CONTAINER,
 
     /**
      * access right to a given class of objects is the same as that of its superclass
      */
-    S_A_M_E__A_S__S_U_P_E_R_C_L_A_S_S,
+    SAME_AS_SUPERCLASS,
 
     /**
      * read-only access
      */
-    R_E_A_D,
+    READ,
 
     /**
      * modify access
      */
-    M_O_D_I_F_Y,
+    MODIFY,
 
     /**
      * modify access for objects owned by a selected DomainOfExpertiseNote: A Participant in a concurrent engineering session can only represent one DomainOfExpertise at a time, but may switch between the (possible) domains assigned to the Participant.
      */
-    M_O_D_I_F_Y__I_F__O_W_N_E_R,
+    MODIFY_IF_OWNER,
 }

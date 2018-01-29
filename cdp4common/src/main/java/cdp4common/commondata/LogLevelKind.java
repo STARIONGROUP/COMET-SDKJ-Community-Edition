@@ -16,20 +16,20 @@ public enum LogLevelKind
     /**
      * designation of a trace level log entry used to mark and annotate very low level detailed event logging for software development or problem fixing purposes
      */
-    T_R_A_C_E,
+    TRACE,
 
     /**
      * designation of a debug level log entry used to mark and annotate low level detailed event logging for software development or problem fixing purposes
      */
-    D_E_B_U_G,
+    DEBUG,
 
     /**
      * designation of an information level log entry used to mark and annotate event logging for informationNote: Information level LogEntry instances are typically produced automatically by executing applications.
      */
-    I_N_F_O,
+    INFO,
 
     /**
      * designation of a user level log entry used to mark and annotate event logging with user defined contentNote: User level LogEntry instances are typically produced on demand by a human user and its <i>content</i> is typically manually written. Its use is similar to the log message used upon commit or check-in in a configuration control system.
      */
-    U_S_E_R,
+    USER,
 }

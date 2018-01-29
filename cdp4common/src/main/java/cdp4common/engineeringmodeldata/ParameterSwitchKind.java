@@ -16,15 +16,15 @@ public enum ParameterSwitchKind
     /**
      * assertion that the computed value of a Parameter, ParameterOverride or ParameterSubscription will be used as the actual value
      */
-    C_O_M_P_U_T_E_D,
+    COMPUTED,
 
     /**
      * assertion that the manual value of a Parameter, ParameterOverride or ParameterSubscription will be used as the actual value
      */
-    M_A_N_U_A_L,
+    MANUAL,
 
     /**
      * assertion that the reference value of a Parameter, ParameterOverride or ParameterSubscription will be used as the actual value
      */
-    R_E_F_E_R_E_N_C_E,
+    REFERENCE,
 }

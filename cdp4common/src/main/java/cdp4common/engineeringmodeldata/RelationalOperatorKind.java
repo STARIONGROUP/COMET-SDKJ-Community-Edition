@@ -16,30 +16,30 @@ public enum RelationalOperatorKind
     /**
      * equal
      */
-    E_Q,
+    EQ,
 
     /**
      * not equal
      */
-    N_E,
+    NE,
 
     /**
      * less than
      */
-    L_T,
+    LT,
 
     /**
      * greater than
      */
-    G_T,
+    GT,
 
     /**
      * less than or equal
      */
-    L_E,
+    LE,
 
     /**
      * greater than or equal
      */
-    G_E,
+    GE,
 }

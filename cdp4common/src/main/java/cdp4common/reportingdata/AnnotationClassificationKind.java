@@ -16,10 +16,10 @@ public enum AnnotationClassificationKind
     /**
      * Assertion that defines that the ModellingAnnotation is classified as Major
      */
-    M_A_J_O_R,
+    MAJOR,
 
     /**
      * Assertion that describes that the ModellingAnnotation is classified as Minor
      */
-    M_I_N_O_R,
+    MINOR,
 }

@@ -1,6 +1,9 @@
-/*
+/* --------------------------------------------------------------------------------------------------------------------
  * ClassKind.java
- * Copyright (c) RHEA System S.A.
+ * Copyright (c) 2018 RHEA System S.A.
+ *
+ * This is an auto-generated Enumeration. Any manual changes to this file will be overwritten!
+ * --------------------------------------------------------------------------------------------------------------------
  */
 
 package cdp4common.commondata;

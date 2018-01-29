@@ -16,30 +16,30 @@ public enum AnnotationStatusKind
     /**
      * 
      */
-    O_P_E_N,
+    OPEN,
 
     /**
      * 
      */
-    D_O_N_E,
+    DONE,
 
     /**
      * 
      */
-    C_L_O_S_E_D,
+    CLOSED,
 
     /**
      * 
      */
-    I_N_V_A_L_I_D,
+    INVALID,
 
     /**
      * 
      */
-    W_O_N_T_F_I_X,
+    WONTFIX,
 
     /**
      * 
      */
-    N_O_T__A_P_P_L_I_C_A_B_L_E,
+    NOT_APPLICABLE,
 }

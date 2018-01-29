@@ -16,45 +16,45 @@ public enum PersonAccessRightKind
     /**
      * assertion that Person access to the given class of objects is not applicable
      */
-    N_O_T__A_P_P_L_I_C_A_B_L_E,
+    NOT_APPLICABLE,
 
     /**
      * no access
      */
-    N_O_N_E,
+    NONE,
 
     /**
      * access right to a given class of objects is the same as that of the class of its container object
      */
-    S_A_M_E__A_S__C_O_N_T_A_I_N_E_R,
+    SAME_AS_CONTAINER,
 
     /**
      * access right to a given class of objects is the same as that of its superclass
      */
-    S_A_M_E__A_S__S_U_P_E_R_C_L_A_S_S,
+    SAME_AS_SUPERCLASS,
 
     /**
      * read-only access
      */
-    R_E_A_D,
+    READ,
 
     /**
      * modify access
      */
-    M_O_D_I_F_Y,
+    MODIFY,
 
     /**
      * read-only access to information contained in EngineeringModelSetups where the authenticated Person is a ParticipantNote: If an authenticated Person has PersonAccessRightKind.MODIFY_OWN_PERSON to the ClassKind.Person, then READ_IF_PARTICIPANT also implies READ access on any Person that is associated with any Participant in any of the EngineeringModelSetups in which the authenticated Person is a Participant. In other words, READ access to the union of Persons referenced by Participants in the union of EngineeringModelSetups for which the authenticated Person has at least READ_IF_PARTICIPANT access. Basically this means that a Participant has access to the information describing the other Participants and Persons in a team that he or she is a member of.
      */
-    R_E_A_D__I_F__P_A_R_T_I_C_I_P_A_N_T,
+    READ_IF_PARTICIPANT,
 
     /**
      * modify access to information contained in EngineeringModelSetups where the authenticated Person is a Participant
      */
-    M_O_D_I_F_Y__I_F__P_A_R_T_I_C_I_P_A_N_T,
+    MODIFY_IF_PARTICIPANT,
 
     /**
      * modify access to the Person data of the actual authenticated person (i.e. user) in a session
      */
-    M_O_D_I_F_Y__O_W_N__P_E_R_S_O_N,
+    MODIFY_OWN_PERSON,
 }

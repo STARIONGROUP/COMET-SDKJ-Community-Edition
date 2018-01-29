@@ -16,20 +16,20 @@ public enum RuleVerificationStatusKind
     /**
      * verification has not been executed yet
      */
-    N_O_N_E,
+    NONE,
 
     /**
      * verification passed successfully, the rule is satisfied
      */
-    P_A_S_S_E_D,
+    PASSED,
 
     /**
      * verification failed, the rule is violated
      */
-    F_A_I_L_E_D,
+    FAILED,
 
     /**
      * verification was executed, but no verdict could be produced
      */
-    I_N_C_O_N_C_L_U_S_I_V_E,
+    INCONCLUSIVE,
 }

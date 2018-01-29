@@ -16,15 +16,15 @@ public enum LogarithmBaseKind
     /**
      * natural logarithm
      */
-    N_A_T_U_R_A_L,
+    NATURAL,
 
     /**
      * base 2 logarithm
      */
-    B_A_S_E2,
+    BASE2,
 
     /**
      * base 10 logarithm
      */
-    B_A_S_E10,
+    BASE10,
 }

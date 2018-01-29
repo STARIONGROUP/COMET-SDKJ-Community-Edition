@@ -16,15 +16,15 @@ public enum BooleanOperatorKind
     /**
      * conjunction boolean operatorNote: When both operands are true then the result is true, otherwise false.
      */
-    A_N_D,
+    AND,
 
     /**
      * disjunction boolean operatorNote: When at least one operand is true then the result is true,otherwise false.
      */
-    O_R,
+    OR,
 
     /**
      * exclusive or boolean operatorNote: When one operand is true and the other is false then the result istrue, when both operands are true or both are false then the result isfalse.
      */
-    X_O_R,
+    XOR,
 }

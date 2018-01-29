@@ -21,12 +21,12 @@ public interface OptionDependentThing {
      * reference to zero or more Options from which this OptionDependentThing is excluded
      * Note: By default all OptionDependentThings are included in all Options in an EngineeringModel. Only the exclusions are recorded in the data model because this is the most efficient way of storing and handling the option dependency. In client applications it may be more intuitive to show the included Options, but that is a simple transformation.
      */
-    List<Option> getExcludeOption();
+    ArrayList<Option> getExcludeOption();
 
     /**
      * Sets a list of Option.
      * reference to zero or more Options from which this OptionDependentThing is excluded
      * Note: By default all OptionDependentThings are included in all Options in an EngineeringModel. Only the exclusions are recorded in the data model because this is the most efficient way of storing and handling the option dependency. In client applications it may be more intuitive to show the included Options, but that is a simple transformation.
      */
-    void setExcludeOption(List<Option> excludeOption);
+    void setExcludeOption(ArrayList<Option> excludeOption);
 }

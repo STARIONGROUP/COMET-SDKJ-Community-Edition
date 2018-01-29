@@ -16,45 +16,45 @@ public enum VcardTelephoneNumberKind
     /**
      * indication that a telephone number is for professional use
      */
-    W_O_R_K,
+    WORK,
 
     /**
      * indication that a telephone number is for private or home use
      */
-    H_O_M_E,
+    HOME,
 
     /**
      * indication of a voice telephone number
      */
-    V_O_I_C_E,
+    VOICE,
 
     /**
      * indication that the telephone number supports text messages (SMS)
      */
-    T_E_X_T,
+    TEXT,
 
     /**
      * indication of a facsimile telephone number
      */
-    F_A_X,
+    FAX,
 
     /**
      * indication of a cellular or mobile telephone number
      */
-    C_E_L_L,
+    CELL,
 
     /**
      * indication of a paging device telephone number
      */
-    P_A_G_E_R,
+    PAGER,
 
     /**
      * indication of a telecommunication device for people with hearing or speech difficulties
      */
-    T_E_X_T_P_H_O_N_E,
+    TEXTPHONE,
 
     /**
      * indication of a video conferencing telephone number
      */
-    V_I_D_E_O,
+    VIDEO,
 }

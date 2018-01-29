@@ -23,11 +23,11 @@ public interface CategorizableThing {
      * Gets a list of Category.
      * reference to zero or more Categories of which this CategorizableThing is a member
      */
-    List<Category> getCategory();
+    ArrayList<Category> getCategory();
 
     /**
      * Sets a list of Category.
      * reference to zero or more Categories of which this CategorizableThing is a member
      */
-    void setCategory(List<Category> category);
+    void setCategory(ArrayList<Category> category);
 }

@@ -16,10 +16,10 @@ public enum ActualFiniteStateKind
     /**
      * assertion that an ActualFiniteState is mandatory, i.e. shall be used as an actualState on a ParameterValueSet or ParameterSubscriptionValueSet for a Parameter that has a <i>stateDependence</i> on the ActualFiniteStateList that contains the ActualFiniteState
      */
-    M_A_N_D_A_T_O_R_Y,
+    MANDATORY,
 
     /**
      * assertion that an ActualFiniteState is forbidden, i.e. shall be not used as an actualState on a ParameterValueSet or ParameterSubscriptionValueSet for a Parameter that has a <i>stateDependence</i> on the ActualFiniteStateList that contains the ActualFiniteState
      */
-    F_O_R_B_I_D_D_E_N,
+    FORBIDDEN,
 }

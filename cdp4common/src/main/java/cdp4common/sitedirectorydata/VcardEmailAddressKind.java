@@ -16,10 +16,10 @@ public enum VcardEmailAddressKind
     /**
      * indication that an e-mail address is for professional use
      */
-    W_O_R_K,
+    WORK,
 
     /**
      * indication that an e-mail address is for private or home use
      */
-    H_O_M_E,
+    HOME,
 }
