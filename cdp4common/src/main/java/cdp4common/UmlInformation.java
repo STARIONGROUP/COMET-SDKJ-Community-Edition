@@ -1,6 +1,6 @@
 /*
  * UmlInformation.java
- * Copyright (c) RHEA System S.A.
+ * Copyright (c) 2018 RHEA System S.A.
  */
 
 package cdp4common;
