@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Glossary.class, propertyName = "term")
 @ToString
 @EqualsAndHashCode
-public  class Term extends DefinedThing implements DeprecatableThing {
+public  class Term extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -99,8 +99,15 @@ public  class Term extends DefinedThing implements DeprecatableThing {
      * @return A cloned instance of {@link Term}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Term clone = (Term)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Term clone;
+        try {
+            clone = (Term)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Term cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -126,7 +133,7 @@ public  class Term extends DefinedThing implements DeprecatableThing {
      * @return A cloned instance of {@link Term}.
      */
     @Override
-    public Term clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Term clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Term)this.genericClone(cloneContainedThings);
@@ -137,7 +144,7 @@ public  class Term extends DefinedThing implements DeprecatableThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

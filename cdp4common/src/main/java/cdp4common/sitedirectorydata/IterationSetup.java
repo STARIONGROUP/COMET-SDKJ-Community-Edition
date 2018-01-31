@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModelSetup.class, propertyName = "iterationSetup")
 @ToString
 @EqualsAndHashCode
-public  class IterationSetup extends Thing implements ParticipantAffectedAccessThing, TimeStampedThing {
+public  class IterationSetup extends Thing implements Cloneable, ParticipantAffectedAccessThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -266,8 +266,15 @@ public  class IterationSetup extends Thing implements ParticipantAffectedAccessT
      * @return A cloned instance of {@link IterationSetup}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        IterationSetup clone = (IterationSetup)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        IterationSetup clone;
+        try {
+            clone = (IterationSetup)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow IterationSetup cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -287,7 +294,7 @@ public  class IterationSetup extends Thing implements ParticipantAffectedAccessT
      * @return A cloned instance of {@link IterationSetup}.
      */
     @Override
-    public IterationSetup clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public IterationSetup clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (IterationSetup)this.genericClone(cloneContainedThings);
@@ -298,7 +305,7 @@ public  class IterationSetup extends Thing implements ParticipantAffectedAccessT
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getDescription().trim().isEmpty()) {

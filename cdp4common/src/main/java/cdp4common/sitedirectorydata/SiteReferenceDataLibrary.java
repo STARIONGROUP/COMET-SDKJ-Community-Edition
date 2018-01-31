@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = SiteDirectory.class, propertyName = "siteReferenceDataLibrary")
 @ToString
 @EqualsAndHashCode
-public  class SiteReferenceDataLibrary extends ReferenceDataLibrary implements DeprecatableThing {
+public  class SiteReferenceDataLibrary extends ReferenceDataLibrary implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -101,8 +101,15 @@ public  class SiteReferenceDataLibrary extends ReferenceDataLibrary implements D
      * @return A cloned instance of {@link SiteReferenceDataLibrary}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        SiteReferenceDataLibrary clone = (SiteReferenceDataLibrary)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        SiteReferenceDataLibrary clone;
+        try {
+            clone = (SiteReferenceDataLibrary)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow SiteReferenceDataLibrary cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setBaseQuantityKind(new OrderedItemList<QuantityKind>(this.getBaseQuantityKind(), this));
         clone.setBaseUnit(new ArrayList<MeasurementUnit>(this.getBaseUnit()));
@@ -150,7 +157,7 @@ public  class SiteReferenceDataLibrary extends ReferenceDataLibrary implements D
      * @return A cloned instance of {@link SiteReferenceDataLibrary}.
      */
     @Override
-    public SiteReferenceDataLibrary clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public SiteReferenceDataLibrary clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (SiteReferenceDataLibrary)this.genericClone(cloneContainedThings);
@@ -161,7 +168,7 @@ public  class SiteReferenceDataLibrary extends ReferenceDataLibrary implements D
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

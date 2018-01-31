@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ActualFiniteStateList.class, propertyName = "actualState")
 @ToString
 @EqualsAndHashCode
-public  class ActualFiniteState extends Thing implements NamedThing, OwnedThing, ShortNamedThing {
+public  class ActualFiniteState extends Thing implements Cloneable, NamedThing, OwnedThing, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -227,8 +227,15 @@ public  class ActualFiniteState extends Thing implements NamedThing, OwnedThing,
      * @return A cloned instance of {@link ActualFiniteState}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ActualFiniteState clone = (ActualFiniteState)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ActualFiniteState clone;
+        try {
+            clone = (ActualFiniteState)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ActualFiniteState cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setPossibleState(new ArrayList<PossibleFiniteState>(this.getPossibleState()));
@@ -249,7 +256,7 @@ public  class ActualFiniteState extends Thing implements NamedThing, OwnedThing,
      * @return A cloned instance of {@link ActualFiniteState}.
      */
     @Override
-    public ActualFiniteState clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ActualFiniteState clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ActualFiniteState)this.genericClone(cloneContainedThings);
@@ -260,7 +267,7 @@ public  class ActualFiniteState extends Thing implements NamedThing, OwnedThing,
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int possibleStateCount = this.getPossibleState().size();

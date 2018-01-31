@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = PersonRole.class, propertyName = "personPermission")
 @ToString
 @EqualsAndHashCode
-public  class PersonPermission extends Thing implements DeprecatableThing {
+public  class PersonPermission extends Thing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -152,8 +152,15 @@ public  class PersonPermission extends Thing implements DeprecatableThing {
      * @return A cloned instance of {@link PersonPermission}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        PersonPermission clone = (PersonPermission)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        PersonPermission clone;
+        try {
+            clone = (PersonPermission)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow PersonPermission cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -173,7 +180,7 @@ public  class PersonPermission extends Thing implements DeprecatableThing {
      * @return A cloned instance of {@link PersonPermission}.
      */
     @Override
-    public PersonPermission clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public PersonPermission clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (PersonPermission)this.genericClone(cloneContainedThings);
@@ -184,7 +191,7 @@ public  class PersonPermission extends Thing implements DeprecatableThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

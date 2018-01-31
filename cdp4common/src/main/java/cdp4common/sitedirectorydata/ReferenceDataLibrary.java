@@ -39,7 +39,7 @@ import lombok.EqualsAndHashCode;
  */
 @ToString
 @EqualsAndHashCode
-public  abstract class ReferenceDataLibrary extends DefinedThing implements ParticipantAffectedAccessThing {
+public  abstract class ReferenceDataLibrary extends DefinedThing implements Cloneable, ParticipantAffectedAccessThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -473,7 +473,7 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Part
      * @return A cloned instance of {@link ReferenceDataLibrary}.
      */
     @Override
-    public ReferenceDataLibrary clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ReferenceDataLibrary clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ReferenceDataLibrary)this.genericClone(cloneContainedThings);
@@ -484,7 +484,7 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Part
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

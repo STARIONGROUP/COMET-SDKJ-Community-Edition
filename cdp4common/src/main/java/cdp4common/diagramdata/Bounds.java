@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = DiagramElementContainer.class, propertyName = "bounds")
 @ToString
 @EqualsAndHashCode
-public  class Bounds extends DiagramThingBase  {
+public  class Bounds extends DiagramThingBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -175,8 +175,15 @@ public  class Bounds extends DiagramThingBase  {
      * @return A cloned instance of {@link Bounds}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Bounds clone = (Bounds)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Bounds clone;
+        try {
+            clone = (Bounds)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Bounds cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -196,7 +203,7 @@ public  class Bounds extends DiagramThingBase  {
      * @return A cloned instance of {@link Bounds}.
      */
     @Override
-    public Bounds clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Bounds clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Bounds)this.genericClone(cloneContainedThings);
@@ -207,7 +214,7 @@ public  class Bounds extends DiagramThingBase  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

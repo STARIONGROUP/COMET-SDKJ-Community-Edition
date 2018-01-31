@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = SiteDirectory.class, propertyName = "organization")
 @ToString
 @EqualsAndHashCode
-public  class Organization extends Thing implements DeprecatableThing, NamedThing, ShortNamedThing {
+public  class Organization extends Thing implements Cloneable, DeprecatableThing, NamedThing, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -162,8 +162,15 @@ public  class Organization extends Thing implements DeprecatableThing, NamedThin
      * @return A cloned instance of {@link Organization}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Organization clone = (Organization)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Organization clone;
+        try {
+            clone = (Organization)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Organization cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -183,7 +190,7 @@ public  class Organization extends Thing implements DeprecatableThing, NamedThin
      * @return A cloned instance of {@link Organization}.
      */
     @Override
-    public Organization clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Organization clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Organization)this.genericClone(cloneContainedThings);
@@ -194,7 +201,7 @@ public  class Organization extends Thing implements DeprecatableThing, NamedThin
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getName().trim().isEmpty()) {

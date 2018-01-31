@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = DiagrammingStyle.class, propertyName = "usedColor")
 @ToString
 @EqualsAndHashCode
-public  class Color extends DiagramThingBase  {
+public  class Color extends DiagramThingBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -149,8 +149,15 @@ public  class Color extends DiagramThingBase  {
      * @return A cloned instance of {@link Color}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Color clone = (Color)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Color clone;
+        try {
+            clone = (Color)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Color cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -170,7 +177,7 @@ public  class Color extends DiagramThingBase  {
      * @return A cloned instance of {@link Color}.
      */
     @Override
-    public Color clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Color clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Color)this.genericClone(cloneContainedThings);
@@ -181,7 +188,7 @@ public  class Color extends DiagramThingBase  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

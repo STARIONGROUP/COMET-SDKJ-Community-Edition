@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ParameterOrOverrideBase.class, propertyName = "parameterSubscription")
 @ToString
 @EqualsAndHashCode
-public  class ParameterSubscription extends ParameterBase  {
+public  class ParameterSubscription extends ParameterBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -272,8 +272,15 @@ public  class ParameterSubscription extends ParameterBase  {
      * @return A cloned instance of {@link ParameterSubscription}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ParameterSubscription clone = (ParameterSubscription)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ParameterSubscription clone;
+        try {
+            clone = (ParameterSubscription)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ParameterSubscription cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setValueSet(cloneContainedThings ? new ContainerList<ParameterSubscriptionValueSet>(clone) : new ContainerList<ParameterSubscriptionValueSet>(this.getValueSet(), clone));
@@ -295,7 +302,7 @@ public  class ParameterSubscription extends ParameterBase  {
      * @return A cloned instance of {@link ParameterSubscription}.
      */
     @Override
-    public ParameterSubscription clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ParameterSubscription clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ParameterSubscription)this.genericClone(cloneContainedThings);
@@ -306,7 +313,7 @@ public  class ParameterSubscription extends ParameterBase  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int valueSetCount = this.getValueSet().size();

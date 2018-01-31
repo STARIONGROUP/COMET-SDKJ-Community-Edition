@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Iteration.class, propertyName = "stakeholder")
 @ToString
 @EqualsAndHashCode
-public  class Stakeholder extends DefinedThing implements CategorizableThing {
+public  class Stakeholder extends DefinedThing implements Cloneable, CategorizableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -126,8 +126,15 @@ public  class Stakeholder extends DefinedThing implements CategorizableThing {
      * @return A cloned instance of {@link Stakeholder}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Stakeholder clone = (Stakeholder)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Stakeholder clone;
+        try {
+            clone = (Stakeholder)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Stakeholder cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
@@ -155,7 +162,7 @@ public  class Stakeholder extends DefinedThing implements CategorizableThing {
      * @return A cloned instance of {@link Stakeholder}.
      */
     @Override
-    public Stakeholder clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Stakeholder clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Stakeholder)this.genericClone(cloneContainedThings);
@@ -166,7 +173,7 @@ public  class Stakeholder extends DefinedThing implements CategorizableThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

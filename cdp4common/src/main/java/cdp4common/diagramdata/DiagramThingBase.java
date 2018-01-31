@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @CDPVersion(version = "1.1.0")
 @ToString
 @EqualsAndHashCode
-public  abstract class DiagramThingBase extends Thing implements NamedThing {
+public  abstract class DiagramThingBase extends Thing implements Cloneable, NamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -101,7 +101,7 @@ public  abstract class DiagramThingBase extends Thing implements NamedThing {
      * @return A cloned instance of {@link DiagramThingBase}.
      */
     @Override
-    public DiagramThingBase clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public DiagramThingBase clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (DiagramThingBase)this.genericClone(cloneContainedThings);
@@ -112,7 +112,7 @@ public  abstract class DiagramThingBase extends Thing implements NamedThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getName().trim().isEmpty()) {

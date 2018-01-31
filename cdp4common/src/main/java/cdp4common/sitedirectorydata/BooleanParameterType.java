@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
 @EqualsAndHashCode
-public  class BooleanParameterType extends ScalarParameterType  {
+public  class BooleanParameterType extends ScalarParameterType implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -75,8 +75,15 @@ public  class BooleanParameterType extends ScalarParameterType  {
      * @return A cloned instance of {@link BooleanParameterType}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        BooleanParameterType clone = (BooleanParameterType)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        BooleanParameterType clone;
+        try {
+            clone = (BooleanParameterType)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow BooleanParameterType cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
@@ -103,7 +110,7 @@ public  class BooleanParameterType extends ScalarParameterType  {
      * @return A cloned instance of {@link BooleanParameterType}.
      */
     @Override
-    public BooleanParameterType clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public BooleanParameterType clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (BooleanParameterType)this.genericClone(cloneContainedThings);
@@ -114,7 +121,7 @@ public  class BooleanParameterType extends ScalarParameterType  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

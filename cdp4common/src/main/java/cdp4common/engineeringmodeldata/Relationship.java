@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Iteration.class, propertyName = "relationship")
 @ToString
 @EqualsAndHashCode
-public  abstract class Relationship extends Thing implements CategorizableThing, OwnedThing {
+public  abstract class Relationship extends Thing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -174,7 +174,7 @@ public  abstract class Relationship extends Thing implements CategorizableThing,
      * @return A cloned instance of {@link Relationship}.
      */
     @Override
-    public Relationship clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Relationship clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Relationship)this.genericClone(cloneContainedThings);
@@ -185,7 +185,7 @@ public  abstract class Relationship extends Thing implements CategorizableThing,
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {

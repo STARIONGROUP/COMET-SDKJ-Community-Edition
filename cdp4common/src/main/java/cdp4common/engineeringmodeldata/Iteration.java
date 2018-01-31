@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModel.class, propertyName = "iteration")
 @ToString
 @EqualsAndHashCode
-public  class Iteration extends Thing  {
+public  class Iteration extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -684,8 +684,15 @@ public  class Iteration extends Thing  {
      * @return A cloned instance of {@link Iteration}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Iteration clone = (Iteration)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Iteration clone;
+        try {
+            clone = (Iteration)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Iteration cannot be cloned.");
+        }
+
         clone.setActualFiniteStateList(cloneContainedThings ? new ContainerList<ActualFiniteStateList>(clone) : new ContainerList<ActualFiniteStateList>(this.getActualFiniteStateList(), clone));
         clone.setDiagramCanvas(cloneContainedThings ? new ContainerList<DiagramCanvas>(clone) : new ContainerList<DiagramCanvas>(this.getDiagramCanvas(), clone));
         clone.setDomainFileStore(cloneContainedThings ? new ContainerList<DomainFileStore>(clone) : new ContainerList<DomainFileStore>(this.getDomainFileStore(), clone));
@@ -739,7 +746,7 @@ public  class Iteration extends Thing  {
      * @return A cloned instance of {@link Iteration}.
      */
     @Override
-    public Iteration clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Iteration clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Iteration)this.genericClone(cloneContainedThings);
@@ -750,7 +757,7 @@ public  class Iteration extends Thing  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getIterationSetup() == null || this.getIterationSetup().getIid().equals(new UUID(0L, 0L))) {

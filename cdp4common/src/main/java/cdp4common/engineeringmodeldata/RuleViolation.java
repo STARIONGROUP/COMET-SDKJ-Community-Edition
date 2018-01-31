@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = RuleVerification.class, propertyName = "violation")
 @ToString
 @EqualsAndHashCode
-public  class RuleViolation extends Thing  {
+public  class RuleViolation extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -126,8 +126,15 @@ public  class RuleViolation extends Thing  {
      * @return A cloned instance of {@link RuleViolation}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        RuleViolation clone = (RuleViolation)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        RuleViolation clone;
+        try {
+            clone = (RuleViolation)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow RuleViolation cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setViolatingThing(new ArrayList<UUID>(this.getViolatingThing()));
@@ -148,7 +155,7 @@ public  class RuleViolation extends Thing  {
      * @return A cloned instance of {@link RuleViolation}.
      */
     @Override
-    public RuleViolation clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public RuleViolation clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (RuleViolation)this.genericClone(cloneContainedThings);
@@ -159,7 +166,7 @@ public  class RuleViolation extends Thing  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getDescription().trim().isEmpty()) {

@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModelDataAnnotation.class, propertyName = "relatedThing")
 @ToString
 @EqualsAndHashCode
-public  class ModellingThingReference extends ThingReference  {
+public  class ModellingThingReference extends ThingReference implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -75,8 +75,15 @@ public  class ModellingThingReference extends ThingReference  {
      * @return A cloned instance of {@link ModellingThingReference}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ModellingThingReference clone = (ModellingThingReference)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ModellingThingReference clone;
+        try {
+            clone = (ModellingThingReference)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ModellingThingReference cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -96,7 +103,7 @@ public  class ModellingThingReference extends ThingReference  {
      * @return A cloned instance of {@link ModellingThingReference}.
      */
     @Override
-    public ModellingThingReference clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ModellingThingReference clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ModellingThingReference)this.genericClone(cloneContainedThings);
@@ -107,7 +114,7 @@ public  class ModellingThingReference extends ThingReference  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Iteration.class, propertyName = "relationship")
 @ToString
 @EqualsAndHashCode
-public  class BinaryRelationship extends Relationship  {
+public  class BinaryRelationship extends Relationship implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -125,8 +125,15 @@ public  class BinaryRelationship extends Relationship  {
      * @return A cloned instance of {@link BinaryRelationship}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        BinaryRelationship clone = (BinaryRelationship)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        BinaryRelationship clone;
+        try {
+            clone = (BinaryRelationship)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow BinaryRelationship cannot be cloned.");
+        }
+
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -149,7 +156,7 @@ public  class BinaryRelationship extends Relationship  {
      * @return A cloned instance of {@link BinaryRelationship}.
      */
     @Override
-    public BinaryRelationship clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public BinaryRelationship clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (BinaryRelationship)this.genericClone(cloneContainedThings);
@@ -160,7 +167,7 @@ public  class BinaryRelationship extends Relationship  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getSource() == null || this.getSource().getIid().equals(new UUID(0L, 0L))) {

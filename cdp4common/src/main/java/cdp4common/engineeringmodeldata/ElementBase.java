@@ -35,7 +35,7 @@ import lombok.EqualsAndHashCode;
  */
 @ToString
 @EqualsAndHashCode
-public  abstract class ElementBase extends DefinedThing implements CategorizableThing, OwnedThing {
+public  abstract class ElementBase extends DefinedThing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -127,7 +127,7 @@ public  abstract class ElementBase extends DefinedThing implements Categorizable
      * @return A cloned instance of {@link ElementBase}.
      */
     @Override
-    public ElementBase clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ElementBase clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ElementBase)this.genericClone(cloneContainedThings);
@@ -138,7 +138,7 @@ public  abstract class ElementBase extends DefinedThing implements Categorizable
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {

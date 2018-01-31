@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModel.class, propertyName = "book")
 @ToString
 @EqualsAndHashCode
-public  class Book extends Thing implements CategorizableThing, NamedThing, OwnedThing, ShortNamedThing, TimeStampedThing {
+public  class Book extends Thing implements Cloneable, CategorizableThing, NamedThing, OwnedThing, ShortNamedThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -263,8 +263,15 @@ public  class Book extends Thing implements CategorizableThing, NamedThing, Owne
      * @return A cloned instance of {@link Book}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Book clone = (Book)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Book clone;
+        try {
+            clone = (Book)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Book cannot be cloned.");
+        }
+
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -287,7 +294,7 @@ public  class Book extends Thing implements CategorizableThing, NamedThing, Owne
      * @return A cloned instance of {@link Book}.
      */
     @Override
-    public Book clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Book clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Book)this.genericClone(cloneContainedThings);
@@ -298,7 +305,7 @@ public  class Book extends Thing implements CategorizableThing, NamedThing, Owne
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getName().trim().isEmpty()) {

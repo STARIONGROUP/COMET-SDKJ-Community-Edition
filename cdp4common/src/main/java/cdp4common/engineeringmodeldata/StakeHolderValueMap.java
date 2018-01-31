@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Iteration.class, propertyName = "stakeholderValueMap")
 @ToString
 @EqualsAndHashCode
-public  class StakeHolderValueMap extends DefinedThing implements CategorizableThing {
+public  class StakeHolderValueMap extends DefinedThing implements Cloneable, CategorizableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -237,8 +237,15 @@ public  class StakeHolderValueMap extends DefinedThing implements CategorizableT
      * @return A cloned instance of {@link StakeHolderValueMap}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        StakeHolderValueMap clone = (StakeHolderValueMap)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        StakeHolderValueMap clone;
+        try {
+            clone = (StakeHolderValueMap)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow StakeHolderValueMap cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
@@ -271,7 +278,7 @@ public  class StakeHolderValueMap extends DefinedThing implements CategorizableT
      * @return A cloned instance of {@link StakeHolderValueMap}.
      */
     @Override
-    public StakeHolderValueMap clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public StakeHolderValueMap clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (StakeHolderValueMap)this.genericClone(cloneContainedThings);
@@ -282,7 +289,7 @@ public  class StakeHolderValueMap extends DefinedThing implements CategorizableT
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int settingsCount = this.getSettings().size();

@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Parameter.class, propertyName = "valueSet")
 @ToString
 @EqualsAndHashCode
-public  class ParameterValueSet extends ParameterValueSetBase  {
+public  class ParameterValueSet extends ParameterValueSetBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -74,8 +74,15 @@ public  class ParameterValueSet extends ParameterValueSetBase  {
      * @return A cloned instance of {@link ParameterValueSet}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ParameterValueSet clone = (ParameterValueSet)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ParameterValueSet clone;
+        try {
+            clone = (ParameterValueSet)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ParameterValueSet cannot be cloned.");
+        }
+
         clone.setComputed(new ValueArray<String>(this.getComputed(), this));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -100,7 +107,7 @@ public  class ParameterValueSet extends ParameterValueSetBase  {
      * @return A cloned instance of {@link ParameterValueSet}.
      */
     @Override
-    public ParameterValueSet clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ParameterValueSet clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ParameterValueSet)this.genericClone(cloneContainedThings);
@@ -111,7 +118,7 @@ public  class ParameterValueSet extends ParameterValueSetBase  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

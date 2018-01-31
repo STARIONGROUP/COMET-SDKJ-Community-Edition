@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ExternalIdentifierMap.class, propertyName = "correspondence")
 @ToString
 @EqualsAndHashCode
-public  class IdCorrespondence extends Thing implements OwnedThing {
+public  class IdCorrespondence extends Thing implements Cloneable, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -160,8 +160,15 @@ public  class IdCorrespondence extends Thing implements OwnedThing {
      * @return A cloned instance of {@link IdCorrespondence}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        IdCorrespondence clone = (IdCorrespondence)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        IdCorrespondence clone;
+        try {
+            clone = (IdCorrespondence)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow IdCorrespondence cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -181,7 +188,7 @@ public  class IdCorrespondence extends Thing implements OwnedThing {
      * @return A cloned instance of {@link IdCorrespondence}.
      */
     @Override
-    public IdCorrespondence clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public IdCorrespondence clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (IdCorrespondence)this.genericClone(cloneContainedThings);
@@ -192,7 +199,7 @@ public  class IdCorrespondence extends Thing implements OwnedThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getExternalId().trim().isEmpty()) {

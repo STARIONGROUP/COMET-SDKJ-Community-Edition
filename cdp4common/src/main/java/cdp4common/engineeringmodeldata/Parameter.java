@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ElementDefinition.class, propertyName = "parameter")
 @ToString
 @EqualsAndHashCode
-public  class Parameter extends ParameterOrOverrideBase  {
+public  class Parameter extends ParameterOrOverrideBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -196,8 +196,15 @@ public  class Parameter extends ParameterOrOverrideBase  {
      * @return A cloned instance of {@link Parameter}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Parameter clone = (Parameter)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Parameter clone;
+        try {
+            clone = (Parameter)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Parameter cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setParameterSubscription(cloneContainedThings ? new ContainerList<ParameterSubscription>(clone) : new ContainerList<ParameterSubscription>(this.getParameterSubscription(), clone));
@@ -221,7 +228,7 @@ public  class Parameter extends ParameterOrOverrideBase  {
      * @return A cloned instance of {@link Parameter}.
      */
     @Override
-    public Parameter clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Parameter clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Parameter)this.genericClone(cloneContainedThings);
@@ -232,7 +239,7 @@ public  class Parameter extends ParameterOrOverrideBase  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int valueSetCount = this.getValueSet().size();

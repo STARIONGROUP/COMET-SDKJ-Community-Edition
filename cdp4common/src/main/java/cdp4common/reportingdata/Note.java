@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Page.class, propertyName = "note")
 @ToString
 @EqualsAndHashCode
-public  abstract class Note extends Thing implements CategorizableThing, NamedThing, OwnedThing, ShortNamedThing, TimeStampedThing {
+public  abstract class Note extends Thing implements Cloneable, CategorizableThing, NamedThing, OwnedThing, ShortNamedThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -219,7 +219,7 @@ public  abstract class Note extends Thing implements CategorizableThing, NamedTh
      * @return A cloned instance of {@link Note}.
      */
     @Override
-    public Note clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Note clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Note)this.genericClone(cloneContainedThings);
@@ -230,7 +230,7 @@ public  abstract class Note extends Thing implements CategorizableThing, NamedTh
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getName().trim().isEmpty()) {

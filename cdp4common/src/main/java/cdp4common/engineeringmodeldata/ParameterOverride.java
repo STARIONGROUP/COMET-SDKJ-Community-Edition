@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ElementUsage.class, propertyName = "parameterOverride")
 @ToString
 @EqualsAndHashCode
-public  class ParameterOverride extends ParameterOrOverrideBase  {
+public  class ParameterOverride extends ParameterOrOverrideBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -298,8 +298,15 @@ public  class ParameterOverride extends ParameterOrOverrideBase  {
      * @return A cloned instance of {@link ParameterOverride}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ParameterOverride clone = (ParameterOverride)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ParameterOverride clone;
+        try {
+            clone = (ParameterOverride)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ParameterOverride cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setParameterSubscription(cloneContainedThings ? new ContainerList<ParameterSubscription>(clone) : new ContainerList<ParameterSubscription>(this.getParameterSubscription(), clone));
@@ -323,7 +330,7 @@ public  class ParameterOverride extends ParameterOrOverrideBase  {
      * @return A cloned instance of {@link ParameterOverride}.
      */
     @Override
-    public ParameterOverride clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ParameterOverride clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ParameterOverride)this.genericClone(cloneContainedThings);
@@ -334,7 +341,7 @@ public  class ParameterOverride extends ParameterOrOverrideBase  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getParameter() == null || this.getParameter().getIid().equals(new UUID(0L, 0L))) {

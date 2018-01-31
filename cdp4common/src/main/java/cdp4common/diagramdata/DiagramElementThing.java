@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = DiagramElementContainer.class, propertyName = "diagramElement")
 @ToString
 @EqualsAndHashCode
-public  abstract class DiagramElementThing extends DiagramElementContainer  {
+public  abstract class DiagramElementThing extends DiagramElementContainer implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -169,7 +169,7 @@ public  abstract class DiagramElementThing extends DiagramElementContainer  {
      * @return A cloned instance of {@link DiagramElementThing}.
      */
     @Override
-    public DiagramElementThing clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public DiagramElementThing clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (DiagramElementThing)this.genericClone(cloneContainedThings);
@@ -180,7 +180,7 @@ public  abstract class DiagramElementThing extends DiagramElementContainer  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

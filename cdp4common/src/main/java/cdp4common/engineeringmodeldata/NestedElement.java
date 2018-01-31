@@ -40,7 +40,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Option.class, propertyName = "nestedElement")
 @ToString
 @EqualsAndHashCode
-public  class NestedElement extends Thing implements NamedThing, OwnedThing, ShortNamedThing, VolatileThing {
+public  class NestedElement extends Thing implements Cloneable, NamedThing, OwnedThing, ShortNamedThing, VolatileThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -303,8 +303,15 @@ public  class NestedElement extends Thing implements NamedThing, OwnedThing, Sho
      * @return A cloned instance of {@link NestedElement}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        NestedElement clone = (NestedElement)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        NestedElement clone;
+        try {
+            clone = (NestedElement)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow NestedElement cannot be cloned.");
+        }
+
         clone.setElementUsage(new OrderedItemList<ElementUsage>(this.getElementUsage(), this));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -327,7 +334,7 @@ public  class NestedElement extends Thing implements NamedThing, OwnedThing, Sho
      * @return A cloned instance of {@link NestedElement}.
      */
     @Override
-    public NestedElement clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public NestedElement clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (NestedElement)this.genericClone(cloneContainedThings);
@@ -338,7 +345,7 @@ public  class NestedElement extends Thing implements NamedThing, OwnedThing, Sho
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int elementUsageCount = this.getElementUsage().size();

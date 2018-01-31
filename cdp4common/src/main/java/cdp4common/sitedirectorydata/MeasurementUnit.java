@@ -45,7 +45,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "unit")
 @ToString
 @EqualsAndHashCode
-public  abstract class MeasurementUnit extends DefinedThing implements DeprecatableThing {
+public  abstract class MeasurementUnit extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -107,7 +107,7 @@ public  abstract class MeasurementUnit extends DefinedThing implements Deprecata
      * @return A cloned instance of {@link MeasurementUnit}.
      */
     @Override
-    public MeasurementUnit clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public MeasurementUnit clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (MeasurementUnit)this.genericClone(cloneContainedThings);
@@ -118,7 +118,7 @@ public  abstract class MeasurementUnit extends DefinedThing implements Deprecata
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

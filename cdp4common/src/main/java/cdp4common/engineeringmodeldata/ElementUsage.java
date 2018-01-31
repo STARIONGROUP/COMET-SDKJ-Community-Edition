@@ -40,7 +40,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ElementDefinition.class, propertyName = "containedElement")
 @ToString
 @EqualsAndHashCode
-public  class ElementUsage extends ElementBase implements OptionDependentThing {
+public  class ElementUsage extends ElementBase implements Cloneable, OptionDependentThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -230,8 +230,15 @@ public  class ElementUsage extends ElementBase implements OptionDependentThing {
      * @return A cloned instance of {@link ElementUsage}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ElementUsage clone = (ElementUsage)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ElementUsage clone;
+        try {
+            clone = (ElementUsage)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ElementUsage cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
@@ -261,7 +268,7 @@ public  class ElementUsage extends ElementBase implements OptionDependentThing {
      * @return A cloned instance of {@link ElementUsage}.
      */
     @Override
-    public ElementUsage clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ElementUsage clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ElementUsage)this.genericClone(cloneContainedThings);
@@ -272,7 +279,7 @@ public  class ElementUsage extends ElementBase implements OptionDependentThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getElementDefinition() == null || this.getElementDefinition().getIid().equals(new UUID(0L, 0L))) {

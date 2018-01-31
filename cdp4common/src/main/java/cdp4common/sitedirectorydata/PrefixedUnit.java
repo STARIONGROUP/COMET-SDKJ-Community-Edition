@@ -39,7 +39,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "unit")
 @ToString
 @EqualsAndHashCode
-public  class PrefixedUnit extends ConversionBasedUnit  {
+public  class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -202,8 +202,15 @@ public  class PrefixedUnit extends ConversionBasedUnit  {
      * @return A cloned instance of {@link PrefixedUnit}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        PrefixedUnit clone = (PrefixedUnit)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        PrefixedUnit clone;
+        try {
+            clone = (PrefixedUnit)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow PrefixedUnit cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -229,7 +236,7 @@ public  class PrefixedUnit extends ConversionBasedUnit  {
      * @return A cloned instance of {@link PrefixedUnit}.
      */
     @Override
-    public PrefixedUnit clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public PrefixedUnit clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (PrefixedUnit)this.genericClone(cloneContainedThings);
@@ -240,7 +247,7 @@ public  class PrefixedUnit extends ConversionBasedUnit  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getPrefix() == null || this.getPrefix().getIid().equals(new UUID(0L, 0L))) {

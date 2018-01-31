@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = FileStore.class, propertyName = "file")
 @ToString
 @EqualsAndHashCode
-public  class File extends Thing implements CategorizableThing, OwnedThing {
+public  class File extends Thing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -197,8 +197,15 @@ public  class File extends Thing implements CategorizableThing, OwnedThing {
      * @return A cloned instance of {@link File}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        File clone = (File)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        File clone;
+        try {
+            clone = (File)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow File cannot be cloned.");
+        }
+
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -221,7 +228,7 @@ public  class File extends Thing implements CategorizableThing, OwnedThing {
      * @return A cloned instance of {@link File}.
      */
     @Override
-    public File clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public File clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (File)this.genericClone(cloneContainedThings);
@@ -232,7 +239,7 @@ public  class File extends Thing implements CategorizableThing, OwnedThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int fileRevisionCount = this.getFileRevision().size();

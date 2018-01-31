@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = DiagramElementContainer.class, propertyName = "diagramElement")
 @ToString
 @EqualsAndHashCode
-public  class DiagramObject extends DiagramShape  {
+public  class DiagramObject extends DiagramShape implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -126,8 +126,15 @@ public  class DiagramObject extends DiagramShape  {
      * @return A cloned instance of {@link DiagramObject}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        DiagramObject clone = (DiagramObject)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        DiagramObject clone;
+        try {
+            clone = (DiagramObject)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow DiagramObject cannot be cloned.");
+        }
+
         clone.setBounds(cloneContainedThings ? new ContainerList<Bounds>(clone) : new ContainerList<Bounds>(this.getBounds(), clone));
         clone.setDiagramElement(cloneContainedThings ? new ContainerList<DiagramElementThing>(clone) : new ContainerList<DiagramElementThing>(this.getDiagramElement(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -153,7 +160,7 @@ public  class DiagramObject extends DiagramShape  {
      * @return A cloned instance of {@link DiagramObject}.
      */
     @Override
-    public DiagramObject clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public DiagramObject clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (DiagramObject)this.genericClone(cloneContainedThings);
@@ -164,7 +171,7 @@ public  class DiagramObject extends DiagramShape  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getDocumentation().trim().isEmpty()) {

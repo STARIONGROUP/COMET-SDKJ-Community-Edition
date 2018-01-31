@@ -39,7 +39,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModel.class, propertyName = "modellingAnnotation")
 @ToString
 @EqualsAndHashCode
-public  class ChangeRequest extends ContractDeviation  {
+public  class ChangeRequest extends ContractDeviation implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -77,8 +77,15 @@ public  class ChangeRequest extends ContractDeviation  {
      * @return A cloned instance of {@link ChangeRequest}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ChangeRequest clone = (ChangeRequest)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ChangeRequest clone;
+        try {
+            clone = (ChangeRequest)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ChangeRequest cannot be cloned.");
+        }
+
         clone.setApprovedBy(cloneContainedThings ? new ContainerList<Approval>(clone) : new ContainerList<Approval>(this.getApprovedBy(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDiscussion(cloneContainedThings ? new ContainerList<EngineeringModelDataDiscussionItem>(clone) : new ContainerList<EngineeringModelDataDiscussionItem>(this.getDiscussion(), clone));
@@ -106,7 +113,7 @@ public  class ChangeRequest extends ContractDeviation  {
      * @return A cloned instance of {@link ChangeRequest}.
      */
     @Override
-    public ChangeRequest clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ChangeRequest clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ChangeRequest)this.genericClone(cloneContainedThings);
@@ -117,7 +124,7 @@ public  class ChangeRequest extends ContractDeviation  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

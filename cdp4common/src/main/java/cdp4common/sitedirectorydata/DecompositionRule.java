@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "rule")
 @ToString
 @EqualsAndHashCode
-public  class DecompositionRule extends Rule  {
+public  class DecompositionRule extends Rule implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -187,8 +187,15 @@ public  class DecompositionRule extends Rule  {
      * @return A cloned instance of {@link DecompositionRule}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        DecompositionRule clone = (DecompositionRule)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        DecompositionRule clone;
+        try {
+            clone = (DecompositionRule)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow DecompositionRule cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setContainedCategory(new ArrayList<Category>(this.getContainedCategory()));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
@@ -215,7 +222,7 @@ public  class DecompositionRule extends Rule  {
      * @return A cloned instance of {@link DecompositionRule}.
      */
     @Override
-    public DecompositionRule clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public DecompositionRule clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (DecompositionRule)this.genericClone(cloneContainedThings);
@@ -226,7 +233,7 @@ public  class DecompositionRule extends Rule  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int containedCategoryCount = this.getContainedCategory().size();

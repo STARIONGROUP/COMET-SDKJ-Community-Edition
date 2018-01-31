@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
 @EqualsAndHashCode
-public  abstract class ParameterType extends DefinedThing implements CategorizableThing, DeprecatableThing {
+public  abstract class ParameterType extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -188,7 +188,7 @@ public  abstract class ParameterType extends DefinedThing implements Categorizab
      * @return A cloned instance of {@link ParameterType}.
      */
     @Override
-    public ParameterType clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ParameterType clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ParameterType)this.genericClone(cloneContainedThings);
@@ -199,7 +199,7 @@ public  abstract class ParameterType extends DefinedThing implements Categorizab
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getSymbol().trim().isEmpty()) {

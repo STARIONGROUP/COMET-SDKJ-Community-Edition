@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Definition.class, propertyName = "citation")
 @ToString
 @EqualsAndHashCode
-public  class Citation extends Thing implements ShortNamedThing {
+public  class Citation extends Thing implements Cloneable, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -215,8 +215,15 @@ public  class Citation extends Thing implements ShortNamedThing {
      * @return A cloned instance of {@link Citation}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Citation clone = (Citation)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Citation clone;
+        try {
+            clone = (Citation)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Citation cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -236,7 +243,7 @@ public  class Citation extends Thing implements ShortNamedThing {
      * @return A cloned instance of {@link Citation}.
      */
     @Override
-    public Citation clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Citation clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Citation)this.genericClone(cloneContainedThings);
@@ -247,7 +254,7 @@ public  class Citation extends Thing implements ShortNamedThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getShortName().trim().isEmpty()) {

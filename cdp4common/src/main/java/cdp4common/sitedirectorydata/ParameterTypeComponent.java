@@ -39,7 +39,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = CompoundParameterType.class, propertyName = "component")
 @ToString
 @EqualsAndHashCode
-public  class ParameterTypeComponent extends Thing implements ShortNamedThing {
+public  class ParameterTypeComponent extends Thing implements Cloneable, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -167,8 +167,15 @@ public  class ParameterTypeComponent extends Thing implements ShortNamedThing {
      * @return A cloned instance of {@link ParameterTypeComponent}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ParameterTypeComponent clone = (ParameterTypeComponent)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ParameterTypeComponent clone;
+        try {
+            clone = (ParameterTypeComponent)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ParameterTypeComponent cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -188,7 +195,7 @@ public  class ParameterTypeComponent extends Thing implements ShortNamedThing {
      * @return A cloned instance of {@link ParameterTypeComponent}.
      */
     @Override
-    public ParameterTypeComponent clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ParameterTypeComponent clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ParameterTypeComponent)this.genericClone(cloneContainedThings);
@@ -199,7 +206,7 @@ public  class ParameterTypeComponent extends Thing implements ShortNamedThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getParameterType() == null || this.getParameterType().getIid().equals(new UUID(0L, 0L))) {

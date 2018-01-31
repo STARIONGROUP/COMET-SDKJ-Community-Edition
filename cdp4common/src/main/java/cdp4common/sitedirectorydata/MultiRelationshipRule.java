@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "rule")
 @ToString
 @EqualsAndHashCode
-public  class MultiRelationshipRule extends Rule  {
+public  class MultiRelationshipRule extends Rule implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -185,8 +185,15 @@ public  class MultiRelationshipRule extends Rule  {
      * @return A cloned instance of {@link MultiRelationshipRule}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        MultiRelationshipRule clone = (MultiRelationshipRule)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        MultiRelationshipRule clone;
+        try {
+            clone = (MultiRelationshipRule)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow MultiRelationshipRule cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -213,7 +220,7 @@ public  class MultiRelationshipRule extends Rule  {
      * @return A cloned instance of {@link MultiRelationshipRule}.
      */
     @Override
-    public MultiRelationshipRule clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public MultiRelationshipRule clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (MultiRelationshipRule)this.genericClone(cloneContainedThings);
@@ -224,7 +231,7 @@ public  class MultiRelationshipRule extends Rule  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int relatedCategoryCount = this.getRelatedCategory().size();

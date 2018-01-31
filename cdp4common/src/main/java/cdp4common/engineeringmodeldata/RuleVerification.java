@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = RuleVerificationList.class, propertyName = "ruleVerification")
 @ToString
 @EqualsAndHashCode
-public  abstract class RuleVerification extends Thing implements NamedThing, OwnedThing {
+public  abstract class RuleVerification extends Thing implements Cloneable, NamedThing, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -255,7 +255,7 @@ public  abstract class RuleVerification extends Thing implements NamedThing, Own
      * @return A cloned instance of {@link RuleVerification}.
      */
     @Override
-    public RuleVerification clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public RuleVerification clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (RuleVerification)this.genericClone(cloneContainedThings);
@@ -266,7 +266,7 @@ public  abstract class RuleVerification extends Thing implements NamedThing, Own
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getName().trim().isEmpty()) {

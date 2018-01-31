@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Iteration.class, propertyName = "ruleVerificationList")
 @ToString
 @EqualsAndHashCode
-public  class RuleVerificationList extends DefinedThing implements OwnedThing {
+public  class RuleVerificationList extends DefinedThing implements Cloneable, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -145,8 +145,15 @@ public  class RuleVerificationList extends DefinedThing implements OwnedThing {
      * @return A cloned instance of {@link RuleVerificationList}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        RuleVerificationList clone = (RuleVerificationList)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        RuleVerificationList clone;
+        try {
+            clone = (RuleVerificationList)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow RuleVerificationList cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -174,7 +181,7 @@ public  class RuleVerificationList extends DefinedThing implements OwnedThing {
      * @return A cloned instance of {@link RuleVerificationList}.
      */
     @Override
-    public RuleVerificationList clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public RuleVerificationList clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (RuleVerificationList)this.genericClone(cloneContainedThings);
@@ -185,7 +192,7 @@ public  class RuleVerificationList extends DefinedThing implements OwnedThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {

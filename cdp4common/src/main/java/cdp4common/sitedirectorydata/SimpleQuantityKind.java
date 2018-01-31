@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
 @EqualsAndHashCode
-public  class SimpleQuantityKind extends QuantityKind  {
+public  class SimpleQuantityKind extends QuantityKind implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -76,8 +76,15 @@ public  class SimpleQuantityKind extends QuantityKind  {
      * @return A cloned instance of {@link SimpleQuantityKind}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        SimpleQuantityKind clone = (SimpleQuantityKind)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        SimpleQuantityKind clone;
+        try {
+            clone = (SimpleQuantityKind)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow SimpleQuantityKind cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
@@ -105,7 +112,7 @@ public  class SimpleQuantityKind extends QuantityKind  {
      * @return A cloned instance of {@link SimpleQuantityKind}.
      */
     @Override
-    public SimpleQuantityKind clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public SimpleQuantityKind clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (SimpleQuantityKind)this.genericClone(cloneContainedThings);
@@ -116,7 +123,7 @@ public  class SimpleQuantityKind extends QuantityKind  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

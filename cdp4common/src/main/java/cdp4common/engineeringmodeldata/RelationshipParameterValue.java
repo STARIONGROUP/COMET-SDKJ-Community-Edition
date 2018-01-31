@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Relationship.class, propertyName = "parameterValue")
 @ToString
 @EqualsAndHashCode
-public  class RelationshipParameterValue extends ParameterValue  {
+public  class RelationshipParameterValue extends ParameterValue implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -75,8 +75,15 @@ public  class RelationshipParameterValue extends ParameterValue  {
      * @return A cloned instance of {@link RelationshipParameterValue}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        RelationshipParameterValue clone = (RelationshipParameterValue)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        RelationshipParameterValue clone;
+        try {
+            clone = (RelationshipParameterValue)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow RelationshipParameterValue cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setValue(new ValueArray<String>(this.getValue(), this));
@@ -97,7 +104,7 @@ public  class RelationshipParameterValue extends ParameterValue  {
      * @return A cloned instance of {@link RelationshipParameterValue}.
      */
     @Override
-    public RelationshipParameterValue clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public RelationshipParameterValue clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (RelationshipParameterValue)this.genericClone(cloneContainedThings);
@@ -108,7 +115,7 @@ public  class RelationshipParameterValue extends ParameterValue  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

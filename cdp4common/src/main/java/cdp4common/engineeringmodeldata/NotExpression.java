@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ParametricConstraint.class, propertyName = "expression")
 @ToString
 @EqualsAndHashCode
-public  class NotExpression extends BooleanExpression  {
+public  class NotExpression extends BooleanExpression implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -100,8 +100,15 @@ public  class NotExpression extends BooleanExpression  {
      * @return A cloned instance of {@link NotExpression}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        NotExpression clone = (NotExpression)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        NotExpression clone;
+        try {
+            clone = (NotExpression)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow NotExpression cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -121,7 +128,7 @@ public  class NotExpression extends BooleanExpression  {
      * @return A cloned instance of {@link NotExpression}.
      */
     @Override
-    public NotExpression clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public NotExpression clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (NotExpression)this.genericClone(cloneContainedThings);
@@ -132,7 +139,7 @@ public  class NotExpression extends BooleanExpression  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getTerm() == null || this.getTerm().getIid().equals(new UUID(0L, 0L))) {

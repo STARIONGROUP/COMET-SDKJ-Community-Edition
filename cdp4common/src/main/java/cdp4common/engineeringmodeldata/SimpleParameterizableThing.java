@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
  */
 @ToString
 @EqualsAndHashCode
-public  abstract class SimpleParameterizableThing extends DefinedThing implements OwnedThing {
+public  abstract class SimpleParameterizableThing extends DefinedThing implements Cloneable, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -144,7 +144,7 @@ public  abstract class SimpleParameterizableThing extends DefinedThing implement
      * @return A cloned instance of {@link SimpleParameterizableThing}.
      */
     @Override
-    public SimpleParameterizableThing clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public SimpleParameterizableThing clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (SimpleParameterizableThing)this.genericClone(cloneContainedThings);
@@ -155,7 +155,7 @@ public  abstract class SimpleParameterizableThing extends DefinedThing implement
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {

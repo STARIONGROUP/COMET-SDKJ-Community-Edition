@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = SiteDirectory.class, propertyName = "logEntry")
 @ToString
 @EqualsAndHashCode
-public  class SiteLogEntry extends Thing implements Annotation, CategorizableThing, LogEntry, TimeStampedThing {
+public  class SiteLogEntry extends Thing implements Cloneable, Annotation, CategorizableThing, LogEntry, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -265,8 +265,15 @@ public  class SiteLogEntry extends Thing implements Annotation, CategorizableThi
      * @return A cloned instance of {@link SiteLogEntry}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        SiteLogEntry clone = (SiteLogEntry)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        SiteLogEntry clone;
+        try {
+            clone = (SiteLogEntry)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow SiteLogEntry cannot be cloned.");
+        }
+
         clone.setAffectedItemIid(new ArrayList<UUID>(this.getAffectedItemIid()));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -288,7 +295,7 @@ public  class SiteLogEntry extends Thing implements Annotation, CategorizableThi
      * @return A cloned instance of {@link SiteLogEntry}.
      */
     @Override
-    public SiteLogEntry clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public SiteLogEntry clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (SiteLogEntry)this.genericClone(cloneContainedThings);
@@ -299,7 +306,7 @@ public  class SiteLogEntry extends Thing implements Annotation, CategorizableThi
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getContent().trim().isEmpty()) {

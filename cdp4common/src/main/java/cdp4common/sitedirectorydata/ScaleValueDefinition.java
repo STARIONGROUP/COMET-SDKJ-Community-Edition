@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = MeasurementScale.class, propertyName = "valueDefinition")
 @ToString
 @EqualsAndHashCode
-public  class ScaleValueDefinition extends DefinedThing  {
+public  class ScaleValueDefinition extends DefinedThing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -100,8 +100,15 @@ public  class ScaleValueDefinition extends DefinedThing  {
      * @return A cloned instance of {@link ScaleValueDefinition}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ScaleValueDefinition clone = (ScaleValueDefinition)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ScaleValueDefinition clone;
+        try {
+            clone = (ScaleValueDefinition)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ScaleValueDefinition cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -127,7 +134,7 @@ public  class ScaleValueDefinition extends DefinedThing  {
      * @return A cloned instance of {@link ScaleValueDefinition}.
      */
     @Override
-    public ScaleValueDefinition clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ScaleValueDefinition clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ScaleValueDefinition)this.genericClone(cloneContainedThings);
@@ -138,7 +145,7 @@ public  class ScaleValueDefinition extends DefinedThing  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getValue().trim().isEmpty()) {

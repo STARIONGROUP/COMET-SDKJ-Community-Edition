@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModelSetup.class, propertyName = "requiredRdl")
 @ToString
 @EqualsAndHashCode
-public  class ModelReferenceDataLibrary extends ReferenceDataLibrary  {
+public  class ModelReferenceDataLibrary extends ReferenceDataLibrary implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -74,8 +74,15 @@ public  class ModelReferenceDataLibrary extends ReferenceDataLibrary  {
      * @return A cloned instance of {@link ModelReferenceDataLibrary}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ModelReferenceDataLibrary clone = (ModelReferenceDataLibrary)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ModelReferenceDataLibrary clone;
+        try {
+            clone = (ModelReferenceDataLibrary)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ModelReferenceDataLibrary cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setBaseQuantityKind(new OrderedItemList<QuantityKind>(this.getBaseQuantityKind(), this));
         clone.setBaseUnit(new ArrayList<MeasurementUnit>(this.getBaseUnit()));
@@ -123,7 +130,7 @@ public  class ModelReferenceDataLibrary extends ReferenceDataLibrary  {
      * @return A cloned instance of {@link ModelReferenceDataLibrary}.
      */
     @Override
-    public ModelReferenceDataLibrary clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ModelReferenceDataLibrary clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ModelReferenceDataLibrary)this.genericClone(cloneContainedThings);
@@ -134,7 +141,7 @@ public  class ModelReferenceDataLibrary extends ReferenceDataLibrary  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

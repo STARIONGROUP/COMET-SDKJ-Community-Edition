@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "rule")
 @ToString
 @EqualsAndHashCode
-public  abstract class Rule extends DefinedThing implements DeprecatableThing {
+public  abstract class Rule extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -99,7 +99,7 @@ public  abstract class Rule extends DefinedThing implements DeprecatableThing {
      * @return A cloned instance of {@link Rule}.
      */
     @Override
-    public Rule clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Rule clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Rule)this.genericClone(cloneContainedThings);
@@ -110,7 +110,7 @@ public  abstract class Rule extends DefinedThing implements DeprecatableThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

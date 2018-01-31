@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "definedCategory")
 @ToString
 @EqualsAndHashCode
-public  class Category extends DefinedThing implements DeprecatableThing {
+public  class Category extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -222,8 +222,15 @@ public  class Category extends DefinedThing implements DeprecatableThing {
      * @return A cloned instance of {@link Category}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Category clone = (Category)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Category clone;
+        try {
+            clone = (Category)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Category cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -251,7 +258,7 @@ public  class Category extends DefinedThing implements DeprecatableThing {
      * @return A cloned instance of {@link Category}.
      */
     @Override
-    public Category clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Category clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Category)this.genericClone(cloneContainedThings);
@@ -262,7 +269,7 @@ public  class Category extends DefinedThing implements DeprecatableThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int permissibleClassCount = this.getPermissibleClass().size();

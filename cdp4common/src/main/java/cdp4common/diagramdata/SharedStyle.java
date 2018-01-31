@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Iteration.class, propertyName = "sharedDiagramStyle")
 @ToString
 @EqualsAndHashCode
-public  class SharedStyle extends DiagrammingStyle  {
+public  class SharedStyle extends DiagrammingStyle implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -75,8 +75,15 @@ public  class SharedStyle extends DiagrammingStyle  {
      * @return A cloned instance of {@link SharedStyle}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        SharedStyle clone = (SharedStyle)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        SharedStyle clone;
+        try {
+            clone = (SharedStyle)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow SharedStyle cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setUsedColor(cloneContainedThings ? new ContainerList<Color>(clone) : new ContainerList<Color>(this.getUsedColor(), clone));
@@ -98,7 +105,7 @@ public  class SharedStyle extends DiagrammingStyle  {
      * @return A cloned instance of {@link SharedStyle}.
      */
     @Override
-    public SharedStyle clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public SharedStyle clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (SharedStyle)this.genericClone(cloneContainedThings);
@@ -109,7 +116,7 @@ public  class SharedStyle extends DiagrammingStyle  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

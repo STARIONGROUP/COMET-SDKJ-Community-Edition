@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = SiteDirectory.class, propertyName = "model")
 @ToString
 @EqualsAndHashCode
-public  class EngineeringModelSetup extends DefinedThing implements ParticipantAffectedAccessThing {
+public  class EngineeringModelSetup extends DefinedThing implements Cloneable, ParticipantAffectedAccessThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -333,8 +333,15 @@ public  class EngineeringModelSetup extends DefinedThing implements ParticipantA
      * @return A cloned instance of {@link EngineeringModelSetup}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        EngineeringModelSetup clone = (EngineeringModelSetup)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        EngineeringModelSetup clone;
+        try {
+            clone = (EngineeringModelSetup)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow EngineeringModelSetup cannot be cloned.");
+        }
+
         clone.setActiveDomain(new ArrayList<DomainOfExpertise>(this.getActiveDomain()));
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
@@ -367,7 +374,7 @@ public  class EngineeringModelSetup extends DefinedThing implements ParticipantA
      * @return A cloned instance of {@link EngineeringModelSetup}.
      */
     @Override
-    public EngineeringModelSetup clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public EngineeringModelSetup clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (EngineeringModelSetup)this.genericClone(cloneContainedThings);
@@ -378,7 +385,7 @@ public  class EngineeringModelSetup extends DefinedThing implements ParticipantA
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int activeDomainCount = this.getActiveDomain().size();

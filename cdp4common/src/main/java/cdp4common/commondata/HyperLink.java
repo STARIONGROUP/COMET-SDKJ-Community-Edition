@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = DefinedThing.class, propertyName = "hyperLink")
 @ToString
 @EqualsAndHashCode
-public  class HyperLink extends Thing implements Annotation {
+public  class HyperLink extends Thing implements Cloneable, Annotation {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -152,8 +152,15 @@ public  class HyperLink extends Thing implements Annotation {
      * @return A cloned instance of {@link HyperLink}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        HyperLink clone = (HyperLink)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        HyperLink clone;
+        try {
+            clone = (HyperLink)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow HyperLink cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -173,7 +180,7 @@ public  class HyperLink extends Thing implements Annotation {
      * @return A cloned instance of {@link HyperLink}.
      */
     @Override
-    public HyperLink clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public HyperLink clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (HyperLink)this.genericClone(cloneContainedThings);
@@ -184,7 +191,7 @@ public  class HyperLink extends Thing implements Annotation {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getContent().trim().isEmpty()) {

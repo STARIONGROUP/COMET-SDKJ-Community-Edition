@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = SiteDirectoryDataAnnotation.class, propertyName = "relatedThing")
 @ToString
 @EqualsAndHashCode
-public  class SiteDirectoryThingReference extends ThingReference  {
+public  class SiteDirectoryThingReference extends ThingReference implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -75,8 +75,15 @@ public  class SiteDirectoryThingReference extends ThingReference  {
      * @return A cloned instance of {@link SiteDirectoryThingReference}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        SiteDirectoryThingReference clone = (SiteDirectoryThingReference)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        SiteDirectoryThingReference clone;
+        try {
+            clone = (SiteDirectoryThingReference)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow SiteDirectoryThingReference cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -96,7 +103,7 @@ public  class SiteDirectoryThingReference extends ThingReference  {
      * @return A cloned instance of {@link SiteDirectoryThingReference}.
      */
     @Override
-    public SiteDirectoryThingReference clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public SiteDirectoryThingReference clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (SiteDirectoryThingReference)this.genericClone(cloneContainedThings);
@@ -107,7 +114,7 @@ public  class SiteDirectoryThingReference extends ThingReference  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

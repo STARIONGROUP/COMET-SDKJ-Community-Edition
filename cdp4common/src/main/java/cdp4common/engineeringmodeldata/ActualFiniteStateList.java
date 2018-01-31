@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Iteration.class, propertyName = "actualFiniteStateList")
 @ToString
 @EqualsAndHashCode
-public  class ActualFiniteStateList extends Thing implements NamedThing, OptionDependentThing, OwnedThing, ShortNamedThing {
+public  class ActualFiniteStateList extends Thing implements Cloneable, NamedThing, OptionDependentThing, OwnedThing, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -273,8 +273,15 @@ public  class ActualFiniteStateList extends Thing implements NamedThing, OptionD
      * @return A cloned instance of {@link ActualFiniteStateList}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ActualFiniteStateList clone = (ActualFiniteStateList)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ActualFiniteStateList clone;
+        try {
+            clone = (ActualFiniteStateList)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ActualFiniteStateList cannot be cloned.");
+        }
+
         clone.setActualState(cloneContainedThings ? new ContainerList<ActualFiniteState>(clone) : new ContainerList<ActualFiniteState>(this.getActualState(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -298,7 +305,7 @@ public  class ActualFiniteStateList extends Thing implements NamedThing, OptionD
      * @return A cloned instance of {@link ActualFiniteStateList}.
      */
     @Override
-    public ActualFiniteStateList clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ActualFiniteStateList clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ActualFiniteStateList)this.genericClone(cloneContainedThings);
@@ -309,7 +316,7 @@ public  class ActualFiniteStateList extends Thing implements NamedThing, OptionD
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {

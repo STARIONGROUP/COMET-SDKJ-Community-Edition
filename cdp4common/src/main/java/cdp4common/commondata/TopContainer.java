@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
  */
 @ToString
 @EqualsAndHashCode
-public  abstract class TopContainer extends Thing  {
+public  abstract class TopContainer extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -99,7 +99,7 @@ public  abstract class TopContainer extends Thing  {
      * @return A cloned instance of {@link TopContainer}.
      */
     @Override
-    public TopContainer clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public TopContainer clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (TopContainer)this.genericClone(cloneContainedThings);
@@ -110,7 +110,7 @@ public  abstract class TopContainer extends Thing  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

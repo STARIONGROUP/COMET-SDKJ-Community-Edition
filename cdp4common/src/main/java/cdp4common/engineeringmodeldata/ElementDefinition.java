@@ -41,7 +41,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Iteration.class, propertyName = "element")
 @ToString
 @EqualsAndHashCode
-public  class ElementDefinition extends ElementBase  {
+public  class ElementDefinition extends ElementBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -225,8 +225,15 @@ public  class ElementDefinition extends ElementBase  {
      * @return A cloned instance of {@link ElementDefinition}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ElementDefinition clone = (ElementDefinition)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ElementDefinition clone;
+        try {
+            clone = (ElementDefinition)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ElementDefinition cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setContainedElement(cloneContainedThings ? new ContainerList<ElementUsage>(clone) : new ContainerList<ElementUsage>(this.getContainedElement(), clone));
@@ -260,7 +267,7 @@ public  class ElementDefinition extends ElementBase  {
      * @return A cloned instance of {@link ElementDefinition}.
      */
     @Override
-    public ElementDefinition clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ElementDefinition clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ElementDefinition)this.genericClone(cloneContainedThings);
@@ -271,7 +278,7 @@ public  class ElementDefinition extends ElementBase  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

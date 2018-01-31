@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = RuleVerificationList.class, propertyName = "ruleVerification")
 @ToString
 @EqualsAndHashCode
-public  class BuiltInRuleVerification extends RuleVerification  {
+public  class BuiltInRuleVerification extends RuleVerification implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -75,8 +75,15 @@ public  class BuiltInRuleVerification extends RuleVerification  {
      * @return A cloned instance of {@link BuiltInRuleVerification}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        BuiltInRuleVerification clone = (BuiltInRuleVerification)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        BuiltInRuleVerification clone;
+        try {
+            clone = (BuiltInRuleVerification)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow BuiltInRuleVerification cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -96,7 +103,7 @@ public  class BuiltInRuleVerification extends RuleVerification  {
      * @return A cloned instance of {@link BuiltInRuleVerification}.
      */
     @Override
-    public BuiltInRuleVerification clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public BuiltInRuleVerification clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (BuiltInRuleVerification)this.genericClone(cloneContainedThings);
@@ -107,7 +114,7 @@ public  class BuiltInRuleVerification extends RuleVerification  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

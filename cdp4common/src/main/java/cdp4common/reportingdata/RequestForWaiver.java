@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModel.class, propertyName = "modellingAnnotation")
 @ToString
 @EqualsAndHashCode
-public  class RequestForWaiver extends ContractDeviation  {
+public  class RequestForWaiver extends ContractDeviation implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -75,8 +75,15 @@ public  class RequestForWaiver extends ContractDeviation  {
      * @return A cloned instance of {@link RequestForWaiver}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        RequestForWaiver clone = (RequestForWaiver)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        RequestForWaiver clone;
+        try {
+            clone = (RequestForWaiver)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow RequestForWaiver cannot be cloned.");
+        }
+
         clone.setApprovedBy(cloneContainedThings ? new ContainerList<Approval>(clone) : new ContainerList<Approval>(this.getApprovedBy(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDiscussion(cloneContainedThings ? new ContainerList<EngineeringModelDataDiscussionItem>(clone) : new ContainerList<EngineeringModelDataDiscussionItem>(this.getDiscussion(), clone));
@@ -104,7 +111,7 @@ public  class RequestForWaiver extends ContractDeviation  {
      * @return A cloned instance of {@link RequestForWaiver}.
      */
     @Override
-    public RequestForWaiver clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public RequestForWaiver clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (RequestForWaiver)this.genericClone(cloneContainedThings);
@@ -115,7 +122,7 @@ public  class RequestForWaiver extends ContractDeviation  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

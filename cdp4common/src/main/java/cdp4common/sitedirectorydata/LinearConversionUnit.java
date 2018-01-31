@@ -39,7 +39,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "unit")
 @ToString
 @EqualsAndHashCode
-public  class LinearConversionUnit extends ConversionBasedUnit  {
+public  class LinearConversionUnit extends ConversionBasedUnit implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -77,8 +77,15 @@ public  class LinearConversionUnit extends ConversionBasedUnit  {
      * @return A cloned instance of {@link LinearConversionUnit}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        LinearConversionUnit clone = (LinearConversionUnit)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        LinearConversionUnit clone;
+        try {
+            clone = (LinearConversionUnit)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow LinearConversionUnit cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -104,7 +111,7 @@ public  class LinearConversionUnit extends ConversionBasedUnit  {
      * @return A cloned instance of {@link LinearConversionUnit}.
      */
     @Override
-    public LinearConversionUnit clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public LinearConversionUnit clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (LinearConversionUnit)this.genericClone(cloneContainedThings);
@@ -115,7 +122,7 @@ public  class LinearConversionUnit extends ConversionBasedUnit  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

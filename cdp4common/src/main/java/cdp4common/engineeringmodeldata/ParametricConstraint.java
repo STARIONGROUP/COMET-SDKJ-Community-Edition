@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Requirement.class, propertyName = "parametricConstraint")
 @ToString
 @EqualsAndHashCode
-public  class ParametricConstraint extends Thing implements OwnedThing {
+public  class ParametricConstraint extends Thing implements Cloneable, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -172,8 +172,15 @@ public  class ParametricConstraint extends Thing implements OwnedThing {
      * @return A cloned instance of {@link ParametricConstraint}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ParametricConstraint clone = (ParametricConstraint)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ParametricConstraint clone;
+        try {
+            clone = (ParametricConstraint)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ParametricConstraint cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setExpression(cloneContainedThings ? new ContainerList<BooleanExpression>(clone) : new ContainerList<BooleanExpression>(this.getExpression(), clone));
@@ -195,7 +202,7 @@ public  class ParametricConstraint extends Thing implements OwnedThing {
      * @return A cloned instance of {@link ParametricConstraint}.
      */
     @Override
-    public ParametricConstraint clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ParametricConstraint clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ParametricConstraint)this.genericClone(cloneContainedThings);
@@ -206,7 +213,7 @@ public  class ParametricConstraint extends Thing implements OwnedThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int expressionCount = this.getExpression().size();

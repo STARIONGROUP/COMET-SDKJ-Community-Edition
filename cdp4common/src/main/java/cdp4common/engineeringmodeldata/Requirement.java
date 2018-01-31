@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = RequirementsSpecification.class, propertyName = "requirement")
 @ToString
 @EqualsAndHashCode
-public  class Requirement extends SimpleParameterizableThing implements CategorizableThing, DeprecatableThing {
+public  class Requirement extends SimpleParameterizableThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -198,8 +198,15 @@ public  class Requirement extends SimpleParameterizableThing implements Categori
      * @return A cloned instance of {@link Requirement}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Requirement clone = (Requirement)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Requirement clone;
+        try {
+            clone = (Requirement)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Requirement cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
@@ -230,7 +237,7 @@ public  class Requirement extends SimpleParameterizableThing implements Categori
      * @return A cloned instance of {@link Requirement}.
      */
     @Override
-    public Requirement clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Requirement clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Requirement)this.genericClone(cloneContainedThings);
@@ -241,7 +248,7 @@ public  class Requirement extends SimpleParameterizableThing implements Categori
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

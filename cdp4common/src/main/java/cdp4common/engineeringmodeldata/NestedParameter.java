@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = NestedElement.class, propertyName = "nestedParameter")
 @ToString
 @EqualsAndHashCode
-public  class NestedParameter extends Thing implements OwnedThing, VolatileThing {
+public  class NestedParameter extends Thing implements Cloneable, OwnedThing, VolatileThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -266,8 +266,15 @@ public  class NestedParameter extends Thing implements OwnedThing, VolatileThing
      * @return A cloned instance of {@link NestedParameter}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        NestedParameter clone = (NestedParameter)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        NestedParameter clone;
+        try {
+            clone = (NestedParameter)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow NestedParameter cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -287,7 +294,7 @@ public  class NestedParameter extends Thing implements OwnedThing, VolatileThing
      * @return A cloned instance of {@link NestedParameter}.
      */
     @Override
-    public NestedParameter clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public NestedParameter clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (NestedParameter)this.genericClone(cloneContainedThings);
@@ -298,7 +305,7 @@ public  class NestedParameter extends Thing implements OwnedThing, VolatileThing
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getActualValue().trim().isEmpty()) {

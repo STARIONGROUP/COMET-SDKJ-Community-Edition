@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Iteration.class, propertyName = "goal")
 @ToString
 @EqualsAndHashCode
-public  class Goal extends DefinedThing implements CategorizableThing {
+public  class Goal extends DefinedThing implements Cloneable, CategorizableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -102,8 +102,15 @@ public  class Goal extends DefinedThing implements CategorizableThing {
      * @return A cloned instance of {@link Goal}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Goal clone = (Goal)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Goal clone;
+        try {
+            clone = (Goal)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Goal cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
@@ -130,7 +137,7 @@ public  class Goal extends DefinedThing implements CategorizableThing {
      * @return A cloned instance of {@link Goal}.
      */
     @Override
-    public Goal clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Goal clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Goal)this.genericClone(cloneContainedThings);
@@ -141,7 +148,7 @@ public  class Goal extends DefinedThing implements CategorizableThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

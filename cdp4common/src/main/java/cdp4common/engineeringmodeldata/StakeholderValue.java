@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Iteration.class, propertyName = "stakeholderValue")
 @ToString
 @EqualsAndHashCode
-public  class StakeholderValue extends DefinedThing implements CategorizableThing {
+public  class StakeholderValue extends DefinedThing implements Cloneable, CategorizableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -102,8 +102,15 @@ public  class StakeholderValue extends DefinedThing implements CategorizableThin
      * @return A cloned instance of {@link StakeholderValue}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        StakeholderValue clone = (StakeholderValue)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        StakeholderValue clone;
+        try {
+            clone = (StakeholderValue)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow StakeholderValue cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
@@ -130,7 +137,7 @@ public  class StakeholderValue extends DefinedThing implements CategorizableThin
      * @return A cloned instance of {@link StakeholderValue}.
      */
     @Override
-    public StakeholderValue clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public StakeholderValue clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (StakeholderValue)this.genericClone(cloneContainedThings);
@@ -141,7 +148,7 @@ public  class StakeholderValue extends DefinedThing implements CategorizableThin
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

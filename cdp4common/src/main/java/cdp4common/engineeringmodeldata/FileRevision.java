@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = File.class, propertyName = "fileRevision")
 @ToString
 @EqualsAndHashCode
-public  class FileRevision extends Thing implements NamedThing, TimeStampedThing {
+public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -278,8 +278,15 @@ public  class FileRevision extends Thing implements NamedThing, TimeStampedThing
      * @return A cloned instance of {@link FileRevision}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        FileRevision clone = (FileRevision)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        FileRevision clone;
+        try {
+            clone = (FileRevision)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow FileRevision cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setFileType(new OrderedItemList<FileType>(this.getFileType(), this));
@@ -300,7 +307,7 @@ public  class FileRevision extends Thing implements NamedThing, TimeStampedThing
      * @return A cloned instance of {@link FileRevision}.
      */
     @Override
-    public FileRevision clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public FileRevision clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (FileRevision)this.genericClone(cloneContainedThings);
@@ -311,7 +318,7 @@ public  class FileRevision extends Thing implements NamedThing, TimeStampedThing
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getContentHash().trim().isEmpty()) {

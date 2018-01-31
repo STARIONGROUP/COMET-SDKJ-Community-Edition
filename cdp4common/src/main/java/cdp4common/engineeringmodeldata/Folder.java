@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = FileStore.class, propertyName = "folder")
 @ToString
 @EqualsAndHashCode
-public  class Folder extends Thing implements NamedThing, OwnedThing, TimeStampedThing {
+public  class Folder extends Thing implements Cloneable, NamedThing, OwnedThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -247,8 +247,15 @@ public  class Folder extends Thing implements NamedThing, OwnedThing, TimeStampe
      * @return A cloned instance of {@link Folder}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Folder clone = (Folder)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Folder clone;
+        try {
+            clone = (Folder)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Folder cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -268,7 +275,7 @@ public  class Folder extends Thing implements NamedThing, OwnedThing, TimeStampe
      * @return A cloned instance of {@link Folder}.
      */
     @Override
-    public Folder clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Folder clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Folder)this.genericClone(cloneContainedThings);
@@ -279,7 +286,7 @@ public  class Folder extends Thing implements NamedThing, OwnedThing, TimeStampe
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getCreator() == null || this.getCreator().getIid().equals(new UUID(0L, 0L))) {

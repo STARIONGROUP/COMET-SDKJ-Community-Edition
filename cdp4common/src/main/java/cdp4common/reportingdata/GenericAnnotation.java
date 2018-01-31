@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @CDPVersion(version = "1.1.0")
 @ToString
 @EqualsAndHashCode
-public  abstract class GenericAnnotation extends Thing implements Annotation, TimeStampedThing {
+public  abstract class GenericAnnotation extends Thing implements Cloneable, Annotation, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -154,7 +154,7 @@ public  abstract class GenericAnnotation extends Thing implements Annotation, Ti
      * @return A cloned instance of {@link GenericAnnotation}.
      */
     @Override
-    public GenericAnnotation clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public GenericAnnotation clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (GenericAnnotation)this.genericClone(cloneContainedThings);
@@ -165,7 +165,7 @@ public  abstract class GenericAnnotation extends Thing implements Annotation, Ti
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getContent().trim().isEmpty()) {

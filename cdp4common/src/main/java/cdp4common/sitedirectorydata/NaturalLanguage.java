@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = SiteDirectory.class, propertyName = "naturalLanguage")
 @ToString
 @EqualsAndHashCode
-public  class NaturalLanguage extends Thing implements NamedThing {
+public  class NaturalLanguage extends Thing implements Cloneable, NamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -154,8 +154,15 @@ public  class NaturalLanguage extends Thing implements NamedThing {
      * @return A cloned instance of {@link NaturalLanguage}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        NaturalLanguage clone = (NaturalLanguage)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        NaturalLanguage clone;
+        try {
+            clone = (NaturalLanguage)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow NaturalLanguage cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -175,7 +182,7 @@ public  class NaturalLanguage extends Thing implements NamedThing {
      * @return A cloned instance of {@link NaturalLanguage}.
      */
     @Override
-    public NaturalLanguage clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public NaturalLanguage clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (NaturalLanguage)this.genericClone(cloneContainedThings);
@@ -186,7 +193,7 @@ public  class NaturalLanguage extends Thing implements NamedThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getLanguageCode().trim().isEmpty()) {

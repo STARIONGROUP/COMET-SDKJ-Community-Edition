@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModel.class, propertyName = "modellingAnnotation")
 @ToString
 @EqualsAndHashCode
-public  abstract class ContractDeviation extends ModellingAnnotationItem  {
+public  abstract class ContractDeviation extends ModellingAnnotationItem implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -74,7 +74,7 @@ public  abstract class ContractDeviation extends ModellingAnnotationItem  {
      * @return A cloned instance of {@link ContractDeviation}.
      */
     @Override
-    public ContractDeviation clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ContractDeviation clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ContractDeviation)this.genericClone(cloneContainedThings);
@@ -85,7 +85,7 @@ public  abstract class ContractDeviation extends ModellingAnnotationItem  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

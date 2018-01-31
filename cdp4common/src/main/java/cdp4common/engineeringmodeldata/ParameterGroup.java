@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ElementDefinition.class, propertyName = "parameterGroup")
 @ToString
 @EqualsAndHashCode
-public  class ParameterGroup extends Thing implements NamedThing {
+public  class ParameterGroup extends Thing implements Cloneable, NamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -134,8 +134,15 @@ public  class ParameterGroup extends Thing implements NamedThing {
      * @return A cloned instance of {@link ParameterGroup}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ParameterGroup clone = (ParameterGroup)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ParameterGroup clone;
+        try {
+            clone = (ParameterGroup)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ParameterGroup cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -155,7 +162,7 @@ public  class ParameterGroup extends Thing implements NamedThing {
      * @return A cloned instance of {@link ParameterGroup}.
      */
     @Override
-    public ParameterGroup clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ParameterGroup clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ParameterGroup)this.genericClone(cloneContainedThings);
@@ -166,7 +173,7 @@ public  class ParameterGroup extends Thing implements NamedThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getName().trim().isEmpty()) {

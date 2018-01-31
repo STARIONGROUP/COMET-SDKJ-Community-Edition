@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ParametricConstraint.class, propertyName = "expression")
 @ToString
 @EqualsAndHashCode
-public  class RelationalExpression extends BooleanExpression  {
+public  class RelationalExpression extends BooleanExpression implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -179,8 +179,15 @@ public  class RelationalExpression extends BooleanExpression  {
      * @return A cloned instance of {@link RelationalExpression}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        RelationalExpression clone = (RelationalExpression)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        RelationalExpression clone;
+        try {
+            clone = (RelationalExpression)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow RelationalExpression cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setValue(new ValueArray<String>(this.getValue(), this));
@@ -201,7 +208,7 @@ public  class RelationalExpression extends BooleanExpression  {
      * @return A cloned instance of {@link RelationalExpression}.
      */
     @Override
-    public RelationalExpression clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public RelationalExpression clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (RelationalExpression)this.genericClone(cloneContainedThings);
@@ -212,7 +219,7 @@ public  class RelationalExpression extends BooleanExpression  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getParameterType() == null || this.getParameterType().getIid().equals(new UUID(0L, 0L))) {

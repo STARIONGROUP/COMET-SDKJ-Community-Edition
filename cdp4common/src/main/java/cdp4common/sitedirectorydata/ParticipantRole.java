@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = SiteDirectory.class, propertyName = "participantRole")
 @ToString
 @EqualsAndHashCode
-public  class ParticipantRole extends DefinedThing implements DeprecatableThing {
+public  class ParticipantRole extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -144,8 +144,15 @@ public  class ParticipantRole extends DefinedThing implements DeprecatableThing 
      * @return A cloned instance of {@link ParticipantRole}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ParticipantRole clone = (ParticipantRole)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ParticipantRole clone;
+        try {
+            clone = (ParticipantRole)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ParticipantRole cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -173,7 +180,7 @@ public  class ParticipantRole extends DefinedThing implements DeprecatableThing 
      * @return A cloned instance of {@link ParticipantRole}.
      */
     @Override
-    public ParticipantRole clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ParticipantRole clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ParticipantRole)this.genericClone(cloneContainedThings);
@@ -184,7 +191,7 @@ public  class ParticipantRole extends DefinedThing implements DeprecatableThing 
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

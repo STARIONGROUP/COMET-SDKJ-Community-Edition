@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = SiteDirectory.class, propertyName = "domainGroup")
 @ToString
 @EqualsAndHashCode
-public  class DomainOfExpertiseGroup extends DefinedThing implements DeprecatableThing {
+public  class DomainOfExpertiseGroup extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -127,8 +127,15 @@ public  class DomainOfExpertiseGroup extends DefinedThing implements Deprecatabl
      * @return A cloned instance of {@link DomainOfExpertiseGroup}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        DomainOfExpertiseGroup clone = (DomainOfExpertiseGroup)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        DomainOfExpertiseGroup clone;
+        try {
+            clone = (DomainOfExpertiseGroup)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow DomainOfExpertiseGroup cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
         clone.setDomain(new ArrayList<DomainOfExpertise>(this.getDomain()));
@@ -155,7 +162,7 @@ public  class DomainOfExpertiseGroup extends DefinedThing implements Deprecatabl
      * @return A cloned instance of {@link DomainOfExpertiseGroup}.
      */
     @Override
-    public DomainOfExpertiseGroup clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public DomainOfExpertiseGroup clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (DomainOfExpertiseGroup)this.genericClone(cloneContainedThings);
@@ -166,7 +173,7 @@ public  class DomainOfExpertiseGroup extends DefinedThing implements Deprecatabl
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Page.class, propertyName = "note")
 @ToString
 @EqualsAndHashCode
-public  class BinaryNote extends Note  {
+public  class BinaryNote extends Note implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -125,8 +125,15 @@ public  class BinaryNote extends Note  {
      * @return A cloned instance of {@link BinaryNote}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        BinaryNote clone = (BinaryNote)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        BinaryNote clone;
+        try {
+            clone = (BinaryNote)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow BinaryNote cannot be cloned.");
+        }
+
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -147,7 +154,7 @@ public  class BinaryNote extends Note  {
      * @return A cloned instance of {@link BinaryNote}.
      */
     @Override
-    public BinaryNote clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public BinaryNote clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (BinaryNote)this.genericClone(cloneContainedThings);
@@ -158,7 +165,7 @@ public  class BinaryNote extends Note  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getCaption().trim().isEmpty()) {

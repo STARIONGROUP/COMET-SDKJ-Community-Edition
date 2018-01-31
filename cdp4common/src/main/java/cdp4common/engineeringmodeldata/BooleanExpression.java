@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ParametricConstraint.class, propertyName = "expression")
 @ToString
 @EqualsAndHashCode
-public  abstract class BooleanExpression extends Thing  {
+public  abstract class BooleanExpression extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -74,7 +74,7 @@ public  abstract class BooleanExpression extends Thing  {
      * @return A cloned instance of {@link BooleanExpression}.
      */
     @Override
-    public BooleanExpression clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public BooleanExpression clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (BooleanExpression)this.genericClone(cloneContainedThings);
@@ -85,7 +85,7 @@ public  abstract class BooleanExpression extends Thing  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

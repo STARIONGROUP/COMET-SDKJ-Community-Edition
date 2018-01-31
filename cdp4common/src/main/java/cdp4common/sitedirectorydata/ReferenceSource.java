@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "referenceSource")
 @ToString
 @EqualsAndHashCode
-public  class ReferenceSource extends DefinedThing implements CategorizableThing, DeprecatableThing {
+public  class ReferenceSource extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -306,8 +306,15 @@ public  class ReferenceSource extends DefinedThing implements CategorizableThing
      * @return A cloned instance of {@link ReferenceSource}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ReferenceSource clone = (ReferenceSource)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ReferenceSource clone;
+        try {
+            clone = (ReferenceSource)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ReferenceSource cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
@@ -334,7 +341,7 @@ public  class ReferenceSource extends DefinedThing implements CategorizableThing
      * @return A cloned instance of {@link ReferenceSource}.
      */
     @Override
-    public ReferenceSource clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ReferenceSource clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ReferenceSource)this.genericClone(cloneContainedThings);
@@ -345,7 +352,7 @@ public  class ReferenceSource extends DefinedThing implements CategorizableThing
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

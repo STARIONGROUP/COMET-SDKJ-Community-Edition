@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = StakeHolderValueMap.class, propertyName = "settings")
 @ToString
 @EqualsAndHashCode
-public  class StakeHolderValueMapSettings extends Thing  {
+public  class StakeHolderValueMapSettings extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -141,8 +141,15 @@ public  class StakeHolderValueMapSettings extends Thing  {
      * @return A cloned instance of {@link StakeHolderValueMapSettings}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        StakeHolderValueMapSettings clone = (StakeHolderValueMapSettings)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        StakeHolderValueMapSettings clone;
+        try {
+            clone = (StakeHolderValueMapSettings)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow StakeHolderValueMapSettings cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -162,7 +169,7 @@ public  class StakeHolderValueMapSettings extends Thing  {
      * @return A cloned instance of {@link StakeHolderValueMapSettings}.
      */
     @Override
-    public StakeHolderValueMapSettings clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public StakeHolderValueMapSettings clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (StakeHolderValueMapSettings)this.genericClone(cloneContainedThings);
@@ -173,7 +180,7 @@ public  class StakeHolderValueMapSettings extends Thing  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

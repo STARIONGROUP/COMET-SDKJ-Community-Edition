@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Person.class, propertyName = "telephoneNumber")
 @ToString
 @EqualsAndHashCode
-public  class TelephoneNumber extends Thing  {
+public  class TelephoneNumber extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -138,8 +138,15 @@ public  class TelephoneNumber extends Thing  {
      * @return A cloned instance of {@link TelephoneNumber}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        TelephoneNumber clone = (TelephoneNumber)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        TelephoneNumber clone;
+        try {
+            clone = (TelephoneNumber)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow TelephoneNumber cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setVcardType(new ArrayList<VcardTelephoneNumberKind>(this.getVcardType()));
@@ -160,7 +167,7 @@ public  class TelephoneNumber extends Thing  {
      * @return A cloned instance of {@link TelephoneNumber}.
      */
     @Override
-    public TelephoneNumber clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public TelephoneNumber clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (TelephoneNumber)this.genericClone(cloneContainedThings);
@@ -171,7 +178,7 @@ public  class TelephoneNumber extends Thing  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getValue().trim().isEmpty()) {

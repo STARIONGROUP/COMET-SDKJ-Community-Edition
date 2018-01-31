@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
 @EqualsAndHashCode
-public  abstract class QuantityKind extends ScalarParameterType  {
+public  abstract class QuantityKind extends ScalarParameterType implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -278,7 +278,7 @@ public  abstract class QuantityKind extends ScalarParameterType  {
      * @return A cloned instance of {@link QuantityKind}.
      */
     @Override
-    public QuantityKind clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public QuantityKind clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (QuantityKind)this.genericClone(cloneContainedThings);
@@ -289,7 +289,7 @@ public  abstract class QuantityKind extends ScalarParameterType  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getDefaultScale() == null || this.getDefaultScale().getIid().equals(new UUID(0L, 0L))) {

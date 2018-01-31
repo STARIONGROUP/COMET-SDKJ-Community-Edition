@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = DefinedThing.class, propertyName = "definition")
 @ToString
 @EqualsAndHashCode
-public  class Definition extends Thing implements Annotation {
+public  class Definition extends Thing implements Cloneable, Annotation {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -227,8 +227,15 @@ public  class Definition extends Thing implements Annotation {
      * @return A cloned instance of {@link Definition}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Definition clone = (Definition)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Definition clone;
+        try {
+            clone = (Definition)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Definition cannot be cloned.");
+        }
+
         clone.setCitation(cloneContainedThings ? new ContainerList<Citation>(clone) : new ContainerList<Citation>(this.getCitation(), clone));
         clone.setExample(new OrderedItemList<String>(this.getExample(), this));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -252,7 +259,7 @@ public  class Definition extends Thing implements Annotation {
      * @return A cloned instance of {@link Definition}.
      */
     @Override
-    public Definition clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Definition clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Definition)this.genericClone(cloneContainedThings);
@@ -263,7 +270,7 @@ public  class Definition extends Thing implements Annotation {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getContent().trim().isEmpty()) {

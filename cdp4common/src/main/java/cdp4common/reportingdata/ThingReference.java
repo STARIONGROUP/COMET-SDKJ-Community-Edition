@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @CDPVersion(version = "1.1.0")
 @ToString
 @EqualsAndHashCode
-public  abstract class ThingReference extends Thing  {
+public  abstract class ThingReference extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -120,7 +120,7 @@ public  abstract class ThingReference extends Thing  {
      * @return A cloned instance of {@link ThingReference}.
      */
     @Override
-    public ThingReference clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ThingReference clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ThingReference)this.genericClone(cloneContainedThings);
@@ -131,7 +131,7 @@ public  abstract class ThingReference extends Thing  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getReferencedThing() == null || this.getReferencedThing().getIid().equals(new UUID(0L, 0L))) {

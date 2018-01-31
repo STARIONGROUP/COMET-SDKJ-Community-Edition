@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ParameterSubscription.class, propertyName = "valueSet")
 @ToString
 @EqualsAndHashCode
-public  class ParameterSubscriptionValueSet extends Thing implements OwnedThing {
+public  class ParameterSubscriptionValueSet extends Thing implements Cloneable, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -352,8 +352,15 @@ public  class ParameterSubscriptionValueSet extends Thing implements OwnedThing 
      * @return A cloned instance of {@link ParameterSubscriptionValueSet}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ParameterSubscriptionValueSet clone = (ParameterSubscriptionValueSet)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ParameterSubscriptionValueSet clone;
+        try {
+            clone = (ParameterSubscriptionValueSet)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ParameterSubscriptionValueSet cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setManual(new ValueArray<String>(this.getManual(), this));
@@ -374,7 +381,7 @@ public  class ParameterSubscriptionValueSet extends Thing implements OwnedThing 
      * @return A cloned instance of {@link ParameterSubscriptionValueSet}.
      */
     @Override
-    public ParameterSubscriptionValueSet clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ParameterSubscriptionValueSet clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ParameterSubscriptionValueSet)this.genericClone(cloneContainedThings);
@@ -385,7 +392,7 @@ public  class ParameterSubscriptionValueSet extends Thing implements OwnedThing 
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int manualCount = this.getManual().size();

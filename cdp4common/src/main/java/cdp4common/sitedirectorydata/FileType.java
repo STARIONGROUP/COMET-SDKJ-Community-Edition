@@ -39,7 +39,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "fileType")
 @ToString
 @EqualsAndHashCode
-public  class FileType extends DefinedThing implements CategorizableThing, DeprecatableThing {
+public  class FileType extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -160,8 +160,15 @@ public  class FileType extends DefinedThing implements CategorizableThing, Depre
      * @return A cloned instance of {@link FileType}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        FileType clone = (FileType)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        FileType clone;
+        try {
+            clone = (FileType)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow FileType cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
@@ -188,7 +195,7 @@ public  class FileType extends DefinedThing implements CategorizableThing, Depre
      * @return A cloned instance of {@link FileType}.
      */
     @Override
-    public FileType clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public FileType clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (FileType)this.genericClone(cloneContainedThings);
@@ -199,7 +206,7 @@ public  class FileType extends DefinedThing implements CategorizableThing, Depre
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getExtension().trim().isEmpty()) {

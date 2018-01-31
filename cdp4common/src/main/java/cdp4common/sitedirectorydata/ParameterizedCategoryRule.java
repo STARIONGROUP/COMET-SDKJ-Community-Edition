@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "rule")
 @ToString
 @EqualsAndHashCode
-public  class ParameterizedCategoryRule extends Rule  {
+public  class ParameterizedCategoryRule extends Rule implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -126,8 +126,15 @@ public  class ParameterizedCategoryRule extends Rule  {
      * @return A cloned instance of {@link ParameterizedCategoryRule}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ParameterizedCategoryRule clone = (ParameterizedCategoryRule)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ParameterizedCategoryRule clone;
+        try {
+            clone = (ParameterizedCategoryRule)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ParameterizedCategoryRule cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -154,7 +161,7 @@ public  class ParameterizedCategoryRule extends Rule  {
      * @return A cloned instance of {@link ParameterizedCategoryRule}.
      */
     @Override
-    public ParameterizedCategoryRule clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ParameterizedCategoryRule clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ParameterizedCategoryRule)this.genericClone(cloneContainedThings);
@@ -165,7 +172,7 @@ public  class ParameterizedCategoryRule extends Rule  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getCategory() == null || this.getCategory().getIid().equals(new UUID(0L, 0L))) {

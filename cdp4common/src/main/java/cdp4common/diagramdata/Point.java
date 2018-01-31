@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = DiagramEdge.class, propertyName = "point")
 @ToString
 @EqualsAndHashCode
-public  class Point extends DiagramThingBase  {
+public  class Point extends DiagramThingBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -126,8 +126,15 @@ public  class Point extends DiagramThingBase  {
      * @return A cloned instance of {@link Point}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Point clone = (Point)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Point clone;
+        try {
+            clone = (Point)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Point cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -147,7 +154,7 @@ public  class Point extends DiagramThingBase  {
      * @return A cloned instance of {@link Point}.
      */
     @Override
-    public Point clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Point clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Point)this.genericClone(cloneContainedThings);
@@ -158,7 +165,7 @@ public  class Point extends DiagramThingBase  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

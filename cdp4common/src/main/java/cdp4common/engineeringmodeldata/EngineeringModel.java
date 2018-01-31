@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
  */
 @ToString
 @EqualsAndHashCode
-public  class EngineeringModel extends TopContainer  {
+public  class EngineeringModel extends TopContainer implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -303,8 +303,15 @@ public  class EngineeringModel extends TopContainer  {
      * @return A cloned instance of {@link EngineeringModel}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        EngineeringModel clone = (EngineeringModel)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        EngineeringModel clone;
+        try {
+            clone = (EngineeringModel)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow EngineeringModel cannot be cloned.");
+        }
+
         clone.setBook(cloneContainedThings ? new OrderedItemList<Book>(clone, true) : new OrderedItemList<Book>(this.getBook(), clone));
         clone.setCommonFileStore(cloneContainedThings ? new ContainerList<CommonFileStore>(clone) : new ContainerList<CommonFileStore>(this.getCommonFileStore(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -336,7 +343,7 @@ public  class EngineeringModel extends TopContainer  {
      * @return A cloned instance of {@link EngineeringModel}.
      */
     @Override
-    public EngineeringModel clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public EngineeringModel clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (EngineeringModel)this.genericClone(cloneContainedThings);
@@ -347,7 +354,7 @@ public  class EngineeringModel extends TopContainer  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getEngineeringModelSetup() == null || this.getEngineeringModelSetup().getIid().equals(new UUID(0L, 0L))) {

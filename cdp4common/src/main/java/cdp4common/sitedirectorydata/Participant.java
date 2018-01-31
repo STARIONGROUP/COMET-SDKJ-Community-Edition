@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModelSetup.class, propertyName = "participant")
 @ToString
 @EqualsAndHashCode
-public  class Participant extends Thing implements ParticipantAffectedAccessThing {
+public  class Participant extends Thing implements Cloneable, ParticipantAffectedAccessThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -222,8 +222,15 @@ public  class Participant extends Thing implements ParticipantAffectedAccessThin
      * @return A cloned instance of {@link Participant}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Participant clone = (Participant)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Participant clone;
+        try {
+            clone = (Participant)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Participant cannot be cloned.");
+        }
+
         clone.setDomain(new ArrayList<DomainOfExpertise>(this.getDomain()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -244,7 +251,7 @@ public  class Participant extends Thing implements ParticipantAffectedAccessThin
      * @return A cloned instance of {@link Participant}.
      */
     @Override
-    public Participant clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Participant clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Participant)this.genericClone(cloneContainedThings);
@@ -255,7 +262,7 @@ public  class Participant extends Thing implements ParticipantAffectedAccessThin
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int domainCount = this.getDomain().size();

@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = RequirementsContainer.class, propertyName = "parameterValue")
 @ToString
 @EqualsAndHashCode
-public  class RequirementsContainerParameterValue extends ParameterValue  {
+public  class RequirementsContainerParameterValue extends ParameterValue implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -75,8 +75,15 @@ public  class RequirementsContainerParameterValue extends ParameterValue  {
      * @return A cloned instance of {@link RequirementsContainerParameterValue}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        RequirementsContainerParameterValue clone = (RequirementsContainerParameterValue)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        RequirementsContainerParameterValue clone;
+        try {
+            clone = (RequirementsContainerParameterValue)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow RequirementsContainerParameterValue cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setValue(new ValueArray<String>(this.getValue(), this));
@@ -97,7 +104,7 @@ public  class RequirementsContainerParameterValue extends ParameterValue  {
      * @return A cloned instance of {@link RequirementsContainerParameterValue}.
      */
     @Override
-    public RequirementsContainerParameterValue clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public RequirementsContainerParameterValue clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (RequirementsContainerParameterValue)this.genericClone(cloneContainedThings);
@@ -108,7 +115,7 @@ public  class RequirementsContainerParameterValue extends ParameterValue  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

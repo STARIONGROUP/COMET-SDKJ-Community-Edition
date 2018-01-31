@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ParametricConstraint.class, propertyName = "expression")
 @ToString
 @EqualsAndHashCode
-public  class ExclusiveOrExpression extends BooleanExpression  {
+public  class ExclusiveOrExpression extends BooleanExpression implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -102,8 +102,15 @@ public  class ExclusiveOrExpression extends BooleanExpression  {
      * @return A cloned instance of {@link ExclusiveOrExpression}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ExclusiveOrExpression clone = (ExclusiveOrExpression)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ExclusiveOrExpression clone;
+        try {
+            clone = (ExclusiveOrExpression)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ExclusiveOrExpression cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setTerm(new ArrayList<BooleanExpression>(this.getTerm()));
@@ -124,7 +131,7 @@ public  class ExclusiveOrExpression extends BooleanExpression  {
      * @return A cloned instance of {@link ExclusiveOrExpression}.
      */
     @Override
-    public ExclusiveOrExpression clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ExclusiveOrExpression clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ExclusiveOrExpression)this.genericClone(cloneContainedThings);
@@ -135,7 +142,7 @@ public  class ExclusiveOrExpression extends BooleanExpression  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int termCount = this.getTerm().size();

@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EnumerationParameterType.class, propertyName = "valueDefinition")
 @ToString
 @EqualsAndHashCode
-public  class EnumerationValueDefinition extends DefinedThing  {
+public  class EnumerationValueDefinition extends DefinedThing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -76,8 +76,15 @@ public  class EnumerationValueDefinition extends DefinedThing  {
      * @return A cloned instance of {@link EnumerationValueDefinition}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        EnumerationValueDefinition clone = (EnumerationValueDefinition)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        EnumerationValueDefinition clone;
+        try {
+            clone = (EnumerationValueDefinition)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow EnumerationValueDefinition cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -103,7 +110,7 @@ public  class EnumerationValueDefinition extends DefinedThing  {
      * @return A cloned instance of {@link EnumerationValueDefinition}.
      */
     @Override
-    public EnumerationValueDefinition clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public EnumerationValueDefinition clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (EnumerationValueDefinition)this.genericClone(cloneContainedThings);
@@ -114,7 +121,7 @@ public  class EnumerationValueDefinition extends DefinedThing  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

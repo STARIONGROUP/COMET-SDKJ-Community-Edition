@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ParameterOverride.class, propertyName = "valueSet")
 @ToString
 @EqualsAndHashCode
-public  class ParameterOverrideValueSet extends ParameterValueSetBase  {
+public  class ParameterOverrideValueSet extends ParameterValueSetBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -164,8 +164,15 @@ public  class ParameterOverrideValueSet extends ParameterValueSetBase  {
      * @return A cloned instance of {@link ParameterOverrideValueSet}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ParameterOverrideValueSet clone = (ParameterOverrideValueSet)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ParameterOverrideValueSet clone;
+        try {
+            clone = (ParameterOverrideValueSet)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ParameterOverrideValueSet cannot be cloned.");
+        }
+
         clone.setComputed(new ValueArray<String>(this.getComputed(), this));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -190,7 +197,7 @@ public  class ParameterOverrideValueSet extends ParameterValueSetBase  {
      * @return A cloned instance of {@link ParameterOverrideValueSet}.
      */
     @Override
-    public ParameterOverrideValueSet clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ParameterOverrideValueSet clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ParameterOverrideValueSet)this.genericClone(cloneContainedThings);
@@ -201,7 +208,7 @@ public  class ParameterOverrideValueSet extends ParameterValueSetBase  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getParameterValueSet() == null || this.getParameterValueSet().getIid().equals(new UUID(0L, 0L))) {

@@ -40,7 +40,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = MeasurementScale.class, propertyName = "mappingToReferenceScale")
 @ToString
 @EqualsAndHashCode
-public  class MappingToReferenceScale extends Thing  {
+public  class MappingToReferenceScale extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -128,8 +128,15 @@ public  class MappingToReferenceScale extends Thing  {
      * @return A cloned instance of {@link MappingToReferenceScale}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        MappingToReferenceScale clone = (MappingToReferenceScale)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        MappingToReferenceScale clone;
+        try {
+            clone = (MappingToReferenceScale)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow MappingToReferenceScale cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -149,7 +156,7 @@ public  class MappingToReferenceScale extends Thing  {
      * @return A cloned instance of {@link MappingToReferenceScale}.
      */
     @Override
-    public MappingToReferenceScale clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public MappingToReferenceScale clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (MappingToReferenceScale)this.genericClone(cloneContainedThings);
@@ -160,7 +167,7 @@ public  class MappingToReferenceScale extends Thing  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getDependentScaleValue() == null || this.getDependentScaleValue().getIid().equals(new UUID(0L, 0L))) {

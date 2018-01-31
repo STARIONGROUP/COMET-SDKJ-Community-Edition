@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Page.class, propertyName = "note")
 @ToString
 @EqualsAndHashCode
-public  class TextualNote extends Note  {
+public  class TextualNote extends Note implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -119,8 +119,15 @@ public  class TextualNote extends Note  {
      * @return A cloned instance of {@link TextualNote}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        TextualNote clone = (TextualNote)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        TextualNote clone;
+        try {
+            clone = (TextualNote)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow TextualNote cannot be cloned.");
+        }
+
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -141,7 +148,7 @@ public  class TextualNote extends Note  {
      * @return A cloned instance of {@link TextualNote}.
      */
     @Override
-    public TextualNote clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public TextualNote clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (TextualNote)this.genericClone(cloneContainedThings);
@@ -152,7 +159,7 @@ public  class TextualNote extends Note  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getContent().trim().isEmpty()) {

@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Iteration.class, propertyName = "relationship")
 @ToString
 @EqualsAndHashCode
-public  class MultiRelationship extends Relationship  {
+public  class MultiRelationship extends Relationship implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -103,8 +103,15 @@ public  class MultiRelationship extends Relationship  {
      * @return A cloned instance of {@link MultiRelationship}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        MultiRelationship clone = (MultiRelationship)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        MultiRelationship clone;
+        try {
+            clone = (MultiRelationship)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow MultiRelationship cannot be cloned.");
+        }
+
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -128,7 +135,7 @@ public  class MultiRelationship extends Relationship  {
      * @return A cloned instance of {@link MultiRelationship}.
      */
     @Override
-    public MultiRelationship clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public MultiRelationship clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (MultiRelationship)this.genericClone(cloneContainedThings);
@@ -139,7 +146,7 @@ public  class MultiRelationship extends Relationship  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

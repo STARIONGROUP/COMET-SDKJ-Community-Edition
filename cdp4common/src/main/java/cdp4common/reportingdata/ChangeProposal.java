@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModel.class, propertyName = "modellingAnnotation")
 @ToString
 @EqualsAndHashCode
-public  class ChangeProposal extends ModellingAnnotationItem  {
+public  class ChangeProposal extends ModellingAnnotationItem implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -100,8 +100,15 @@ public  class ChangeProposal extends ModellingAnnotationItem  {
      * @return A cloned instance of {@link ChangeProposal}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ChangeProposal clone = (ChangeProposal)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ChangeProposal clone;
+        try {
+            clone = (ChangeProposal)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ChangeProposal cannot be cloned.");
+        }
+
         clone.setApprovedBy(cloneContainedThings ? new ContainerList<Approval>(clone) : new ContainerList<Approval>(this.getApprovedBy(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDiscussion(cloneContainedThings ? new ContainerList<EngineeringModelDataDiscussionItem>(clone) : new ContainerList<EngineeringModelDataDiscussionItem>(this.getDiscussion(), clone));
@@ -129,7 +136,7 @@ public  class ChangeProposal extends ModellingAnnotationItem  {
      * @return A cloned instance of {@link ChangeProposal}.
      */
     @Override
-    public ChangeProposal clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ChangeProposal clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ChangeProposal)this.genericClone(cloneContainedThings);
@@ -140,7 +147,7 @@ public  class ChangeProposal extends ModellingAnnotationItem  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getChangeRequest() == null || this.getChangeRequest().getIid().equals(new UUID(0L, 0L))) {

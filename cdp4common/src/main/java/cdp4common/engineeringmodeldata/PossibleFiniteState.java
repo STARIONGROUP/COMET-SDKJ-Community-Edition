@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = PossibleFiniteStateList.class, propertyName = "possibleState")
 @ToString
 @EqualsAndHashCode
-public  class PossibleFiniteState extends DefinedThing implements OwnedThing {
+public  class PossibleFiniteState extends DefinedThing implements Cloneable, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -110,8 +110,15 @@ public  class PossibleFiniteState extends DefinedThing implements OwnedThing {
      * @return A cloned instance of {@link PossibleFiniteState}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        PossibleFiniteState clone = (PossibleFiniteState)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        PossibleFiniteState clone;
+        try {
+            clone = (PossibleFiniteState)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow PossibleFiniteState cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -137,7 +144,7 @@ public  class PossibleFiniteState extends DefinedThing implements OwnedThing {
      * @return A cloned instance of {@link PossibleFiniteState}.
      */
     @Override
-    public PossibleFiniteState clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public PossibleFiniteState clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (PossibleFiniteState)this.genericClone(cloneContainedThings);
@@ -148,7 +155,7 @@ public  class PossibleFiniteState extends DefinedThing implements OwnedThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

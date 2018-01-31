@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModel.class, propertyName = "modellingAnnotation")
 @ToString
 @EqualsAndHashCode
-public  abstract class ModellingAnnotationItem extends EngineeringModelDataAnnotation implements CategorizableThing, OwnedThing, ShortNamedThing {
+public  abstract class ModellingAnnotationItem extends EngineeringModelDataAnnotation implements Cloneable, CategorizableThing, OwnedThing, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -307,7 +307,7 @@ public  abstract class ModellingAnnotationItem extends EngineeringModelDataAnnot
      * @return A cloned instance of {@link ModellingAnnotationItem}.
      */
     @Override
-    public ModellingAnnotationItem clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ModellingAnnotationItem clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ModellingAnnotationItem)this.genericClone(cloneContainedThings);
@@ -318,7 +318,7 @@ public  abstract class ModellingAnnotationItem extends EngineeringModelDataAnnot
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {

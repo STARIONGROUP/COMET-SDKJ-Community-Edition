@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModel.class, propertyName = "modellingAnnotation")
 @ToString
 @EqualsAndHashCode
-public  class ActionItem extends ModellingAnnotationItem  {
+public  class ActionItem extends ModellingAnnotationItem implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -175,8 +175,15 @@ public  class ActionItem extends ModellingAnnotationItem  {
      * @return A cloned instance of {@link ActionItem}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ActionItem clone = (ActionItem)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ActionItem clone;
+        try {
+            clone = (ActionItem)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ActionItem cannot be cloned.");
+        }
+
         clone.setApprovedBy(cloneContainedThings ? new ContainerList<Approval>(clone) : new ContainerList<Approval>(this.getApprovedBy(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDiscussion(cloneContainedThings ? new ContainerList<EngineeringModelDataDiscussionItem>(clone) : new ContainerList<EngineeringModelDataDiscussionItem>(this.getDiscussion(), clone));
@@ -204,7 +211,7 @@ public  class ActionItem extends ModellingAnnotationItem  {
      * @return A cloned instance of {@link ActionItem}.
      */
     @Override
-    public ActionItem clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ActionItem clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ActionItem)this.genericClone(cloneContainedThings);
@@ -215,7 +222,7 @@ public  class ActionItem extends ModellingAnnotationItem  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getActionee() == null || this.getActionee().getIid().equals(new UUID(0L, 0L))) {

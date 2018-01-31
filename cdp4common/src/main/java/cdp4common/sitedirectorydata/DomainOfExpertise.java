@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = SiteDirectory.class, propertyName = "domain")
 @ToString
 @EqualsAndHashCode
-public  class DomainOfExpertise extends DefinedThing implements CategorizableThing, DeprecatableThing {
+public  class DomainOfExpertise extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -128,8 +128,15 @@ public  class DomainOfExpertise extends DefinedThing implements CategorizableThi
      * @return A cloned instance of {@link DomainOfExpertise}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        DomainOfExpertise clone = (DomainOfExpertise)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        DomainOfExpertise clone;
+        try {
+            clone = (DomainOfExpertise)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow DomainOfExpertise cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
@@ -156,7 +163,7 @@ public  class DomainOfExpertise extends DefinedThing implements CategorizableThi
      * @return A cloned instance of {@link DomainOfExpertise}.
      */
     @Override
-    public DomainOfExpertise clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public DomainOfExpertise clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (DomainOfExpertise)this.genericClone(cloneContainedThings);
@@ -167,7 +174,7 @@ public  class DomainOfExpertise extends DefinedThing implements CategorizableThi
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

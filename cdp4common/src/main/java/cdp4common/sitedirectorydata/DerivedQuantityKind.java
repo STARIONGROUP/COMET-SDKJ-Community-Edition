@@ -39,7 +39,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
 @EqualsAndHashCode
-public  class DerivedQuantityKind extends QuantityKind  {
+public  class DerivedQuantityKind extends QuantityKind implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -119,8 +119,15 @@ public  class DerivedQuantityKind extends QuantityKind  {
      * @return A cloned instance of {@link DerivedQuantityKind}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        DerivedQuantityKind clone = (DerivedQuantityKind)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        DerivedQuantityKind clone;
+        try {
+            clone = (DerivedQuantityKind)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow DerivedQuantityKind cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
@@ -150,7 +157,7 @@ public  class DerivedQuantityKind extends QuantityKind  {
      * @return A cloned instance of {@link DerivedQuantityKind}.
      */
     @Override
-    public DerivedQuantityKind clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public DerivedQuantityKind clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (DerivedQuantityKind)this.genericClone(cloneContainedThings);
@@ -161,7 +168,7 @@ public  class DerivedQuantityKind extends QuantityKind  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int quantityKindFactorCount = this.getQuantityKindFactor().size();

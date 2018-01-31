@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @CDPVersion(version = "1.1.0")
 @ToString
 @EqualsAndHashCode
-public  abstract class EngineeringModelDataAnnotation extends GenericAnnotation  {
+public  abstract class EngineeringModelDataAnnotation extends GenericAnnotation implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -193,7 +193,7 @@ public  abstract class EngineeringModelDataAnnotation extends GenericAnnotation 
      * @return A cloned instance of {@link EngineeringModelDataAnnotation}.
      */
     @Override
-    public EngineeringModelDataAnnotation clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public EngineeringModelDataAnnotation clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (EngineeringModelDataAnnotation)this.genericClone(cloneContainedThings);
@@ -204,7 +204,7 @@ public  abstract class EngineeringModelDataAnnotation extends GenericAnnotation 
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getAuthor() == null || this.getAuthor().getIid().equals(new UUID(0L, 0L))) {

@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Iteration.class, propertyName = "externalIdentifierMap")
 @ToString
 @EqualsAndHashCode
-public  class ExternalIdentifierMap extends Thing implements NamedThing, OwnedThing {
+public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThing, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -273,8 +273,15 @@ public  class ExternalIdentifierMap extends Thing implements NamedThing, OwnedTh
      * @return A cloned instance of {@link ExternalIdentifierMap}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ExternalIdentifierMap clone = (ExternalIdentifierMap)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ExternalIdentifierMap clone;
+        try {
+            clone = (ExternalIdentifierMap)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ExternalIdentifierMap cannot be cloned.");
+        }
+
         clone.setCorrespondence(cloneContainedThings ? new ContainerList<IdCorrespondence>(clone) : new ContainerList<IdCorrespondence>(this.getCorrespondence(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -296,7 +303,7 @@ public  class ExternalIdentifierMap extends Thing implements NamedThing, OwnedTh
      * @return A cloned instance of {@link ExternalIdentifierMap}.
      */
     @Override
-    public ExternalIdentifierMap clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ExternalIdentifierMap clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ExternalIdentifierMap)this.genericClone(cloneContainedThings);
@@ -307,7 +314,7 @@ public  class ExternalIdentifierMap extends Thing implements NamedThing, OwnedTh
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getExternalModelName().trim().isEmpty()) {

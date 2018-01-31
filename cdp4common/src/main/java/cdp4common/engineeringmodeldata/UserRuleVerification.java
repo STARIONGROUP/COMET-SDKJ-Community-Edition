@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = RuleVerificationList.class, propertyName = "ruleVerification")
 @ToString
 @EqualsAndHashCode
-public  class UserRuleVerification extends RuleVerification  {
+public  class UserRuleVerification extends RuleVerification implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -130,8 +130,15 @@ public  class UserRuleVerification extends RuleVerification  {
      * @return A cloned instance of {@link UserRuleVerification}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        UserRuleVerification clone = (UserRuleVerification)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        UserRuleVerification clone;
+        try {
+            clone = (UserRuleVerification)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow UserRuleVerification cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -151,7 +158,7 @@ public  class UserRuleVerification extends RuleVerification  {
      * @return A cloned instance of {@link UserRuleVerification}.
      */
     @Override
-    public UserRuleVerification clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public UserRuleVerification clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (UserRuleVerification)this.genericClone(cloneContainedThings);
@@ -162,7 +169,7 @@ public  class UserRuleVerification extends RuleVerification  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getRule() == null || this.getRule().getIid().equals(new UUID(0L, 0L))) {

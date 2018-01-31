@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModel.class, propertyName = "genericNote")
 @ToString
 @EqualsAndHashCode
-public  class EngineeringModelDataNote extends EngineeringModelDataAnnotation  {
+public  class EngineeringModelDataNote extends EngineeringModelDataAnnotation implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -75,8 +75,15 @@ public  class EngineeringModelDataNote extends EngineeringModelDataAnnotation  {
      * @return A cloned instance of {@link EngineeringModelDataNote}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        EngineeringModelDataNote clone = (EngineeringModelDataNote)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        EngineeringModelDataNote clone;
+        try {
+            clone = (EngineeringModelDataNote)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow EngineeringModelDataNote cannot be cloned.");
+        }
+
         clone.setDiscussion(cloneContainedThings ? new ContainerList<EngineeringModelDataDiscussionItem>(clone) : new ContainerList<EngineeringModelDataDiscussionItem>(this.getDiscussion(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -100,7 +107,7 @@ public  class EngineeringModelDataNote extends EngineeringModelDataAnnotation  {
      * @return A cloned instance of {@link EngineeringModelDataNote}.
      */
     @Override
-    public EngineeringModelDataNote clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public EngineeringModelDataNote clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (EngineeringModelDataNote)this.genericClone(cloneContainedThings);
@@ -111,7 +118,7 @@ public  class EngineeringModelDataNote extends EngineeringModelDataAnnotation  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

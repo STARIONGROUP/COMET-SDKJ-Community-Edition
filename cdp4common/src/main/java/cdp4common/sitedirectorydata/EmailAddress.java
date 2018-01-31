@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Person.class, propertyName = "emailAddress")
 @ToString
 @EqualsAndHashCode
-public  class EmailAddress extends Thing  {
+public  class EmailAddress extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -130,8 +130,15 @@ public  class EmailAddress extends Thing  {
      * @return A cloned instance of {@link EmailAddress}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        EmailAddress clone = (EmailAddress)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        EmailAddress clone;
+        try {
+            clone = (EmailAddress)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow EmailAddress cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -151,7 +158,7 @@ public  class EmailAddress extends Thing  {
      * @return A cloned instance of {@link EmailAddress}.
      */
     @Override
-    public EmailAddress clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public EmailAddress clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (EmailAddress)this.genericClone(cloneContainedThings);
@@ -162,7 +169,7 @@ public  class EmailAddress extends Thing  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getValue().trim().isEmpty()) {

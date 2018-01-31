@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = DefinedThing.class, propertyName = "alias")
 @ToString
 @EqualsAndHashCode
-public  class Alias extends Thing implements Annotation {
+public  class Alias extends Thing implements Cloneable, Annotation {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -156,8 +156,15 @@ public  class Alias extends Thing implements Annotation {
      * @return A cloned instance of {@link Alias}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        Alias clone = (Alias)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        Alias clone;
+        try {
+            clone = (Alias)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow Alias cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -177,7 +184,7 @@ public  class Alias extends Thing implements Annotation {
      * @return A cloned instance of {@link Alias}.
      */
     @Override
-    public Alias clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Alias clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (Alias)this.genericClone(cloneContainedThings);
@@ -188,7 +195,7 @@ public  class Alias extends Thing implements Annotation {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getContent().trim().isEmpty()) {

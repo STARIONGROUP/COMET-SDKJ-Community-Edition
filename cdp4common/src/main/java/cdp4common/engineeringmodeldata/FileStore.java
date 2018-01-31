@@ -35,7 +35,7 @@ import lombok.EqualsAndHashCode;
  */
 @ToString
 @EqualsAndHashCode
-public  abstract class FileStore extends Thing implements NamedThing, OwnedThing, TimeStampedThing {
+public  abstract class FileStore extends Thing implements Cloneable, NamedThing, OwnedThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -226,7 +226,7 @@ public  abstract class FileStore extends Thing implements NamedThing, OwnedThing
      * @return A cloned instance of {@link FileStore}.
      */
     @Override
-    public FileStore clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public FileStore clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (FileStore)this.genericClone(cloneContainedThings);
@@ -237,7 +237,7 @@ public  abstract class FileStore extends Thing implements NamedThing, OwnedThing
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getName().trim().isEmpty()) {

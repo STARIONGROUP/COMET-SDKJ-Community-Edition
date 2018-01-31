@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "unitPrefix")
 @ToString
 @EqualsAndHashCode
-public  class UnitPrefix extends DefinedThing implements DeprecatableThing {
+public  class UnitPrefix extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -125,8 +125,15 @@ public  class UnitPrefix extends DefinedThing implements DeprecatableThing {
      * @return A cloned instance of {@link UnitPrefix}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        UnitPrefix clone = (UnitPrefix)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        UnitPrefix clone;
+        try {
+            clone = (UnitPrefix)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow UnitPrefix cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -152,7 +159,7 @@ public  class UnitPrefix extends DefinedThing implements DeprecatableThing {
      * @return A cloned instance of {@link UnitPrefix}.
      */
     @Override
-    public UnitPrefix clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public UnitPrefix clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (UnitPrefix)this.genericClone(cloneContainedThings);
@@ -163,7 +170,7 @@ public  class UnitPrefix extends DefinedThing implements DeprecatableThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getConversionFactor().trim().isEmpty()) {

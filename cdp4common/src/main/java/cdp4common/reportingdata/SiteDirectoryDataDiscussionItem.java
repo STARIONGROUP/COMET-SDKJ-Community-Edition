@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = SiteDirectoryDataAnnotation.class, propertyName = "discussion")
 @ToString
 @EqualsAndHashCode
-public  class SiteDirectoryDataDiscussionItem extends DiscussionItem  {
+public  class SiteDirectoryDataDiscussionItem extends DiscussionItem implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -100,8 +100,15 @@ public  class SiteDirectoryDataDiscussionItem extends DiscussionItem  {
      * @return A cloned instance of {@link SiteDirectoryDataDiscussionItem}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        SiteDirectoryDataDiscussionItem clone = (SiteDirectoryDataDiscussionItem)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        SiteDirectoryDataDiscussionItem clone;
+        try {
+            clone = (SiteDirectoryDataDiscussionItem)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow SiteDirectoryDataDiscussionItem cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -121,7 +128,7 @@ public  class SiteDirectoryDataDiscussionItem extends DiscussionItem  {
      * @return A cloned instance of {@link SiteDirectoryDataDiscussionItem}.
      */
     @Override
-    public SiteDirectoryDataDiscussionItem clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public SiteDirectoryDataDiscussionItem clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (SiteDirectoryDataDiscussionItem)this.genericClone(cloneContainedThings);
@@ -132,7 +139,7 @@ public  class SiteDirectoryDataDiscussionItem extends DiscussionItem  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getAuthor() == null || this.getAuthor().getIid().equals(new UUID(0L, 0L))) {

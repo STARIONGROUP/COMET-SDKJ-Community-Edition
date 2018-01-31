@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
 @EqualsAndHashCode
-public  abstract class ScalarParameterType extends ParameterType  {
+public  abstract class ScalarParameterType extends ParameterType implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -75,7 +75,7 @@ public  abstract class ScalarParameterType extends ParameterType  {
      * @return A cloned instance of {@link ScalarParameterType}.
      */
     @Override
-    public ScalarParameterType clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ScalarParameterType clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ScalarParameterType)this.genericClone(cloneContainedThings);
@@ -86,7 +86,7 @@ public  abstract class ScalarParameterType extends ParameterType  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

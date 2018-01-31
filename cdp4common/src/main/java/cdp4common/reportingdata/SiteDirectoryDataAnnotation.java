@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = SiteDirectory.class, propertyName = "annotation")
 @ToString
 @EqualsAndHashCode
-public  class SiteDirectoryDataAnnotation extends GenericAnnotation  {
+public  class SiteDirectoryDataAnnotation extends GenericAnnotation implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -194,8 +194,15 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation  {
      * @return A cloned instance of {@link SiteDirectoryDataAnnotation}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        SiteDirectoryDataAnnotation clone = (SiteDirectoryDataAnnotation)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        SiteDirectoryDataAnnotation clone;
+        try {
+            clone = (SiteDirectoryDataAnnotation)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow SiteDirectoryDataAnnotation cannot be cloned.");
+        }
+
         clone.setDiscussion(cloneContainedThings ? new ContainerList<SiteDirectoryDataDiscussionItem>(clone) : new ContainerList<SiteDirectoryDataDiscussionItem>(this.getDiscussion(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -219,7 +226,7 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation  {
      * @return A cloned instance of {@link SiteDirectoryDataAnnotation}.
      */
     @Override
-    public SiteDirectoryDataAnnotation clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public SiteDirectoryDataAnnotation clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (SiteDirectoryDataAnnotation)this.genericClone(cloneContainedThings);
@@ -230,7 +237,7 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getAuthor() == null || this.getAuthor().getIid().equals(new UUID(0L, 0L))) {

@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Person.class, propertyName = "userPreference")
 @ToString
 @EqualsAndHashCode
-public  class UserPreference extends Thing implements ShortNamedThing {
+public  class UserPreference extends Thing implements Cloneable, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -134,8 +134,15 @@ public  class UserPreference extends Thing implements ShortNamedThing {
      * @return A cloned instance of {@link UserPreference}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        UserPreference clone = (UserPreference)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        UserPreference clone;
+        try {
+            clone = (UserPreference)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow UserPreference cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
@@ -155,7 +162,7 @@ public  class UserPreference extends Thing implements ShortNamedThing {
      * @return A cloned instance of {@link UserPreference}.
      */
     @Override
-    public UserPreference clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public UserPreference clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (UserPreference)this.genericClone(cloneContainedThings);
@@ -166,7 +173,7 @@ public  class UserPreference extends Thing implements ShortNamedThing {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getShortName().trim().isEmpty()) {

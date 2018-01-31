@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @CDPVersion(version = "1.1.0")
 @ToString
 @EqualsAndHashCode
-public  abstract class ParameterValue extends Thing  {
+public  abstract class ParameterValue extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -151,7 +151,7 @@ public  abstract class ParameterValue extends Thing  {
      * @return A cloned instance of {@link ParameterValue}.
      */
     @Override
-    public ParameterValue clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ParameterValue clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ParameterValue)this.genericClone(cloneContainedThings);
@@ -162,7 +162,7 @@ public  abstract class ParameterValue extends Thing  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getParameterType() == null || this.getParameterType().getIid().equals(new UUID(0L, 0L))) {

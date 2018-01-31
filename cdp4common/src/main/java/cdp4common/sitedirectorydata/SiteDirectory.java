@@ -40,7 +40,7 @@ import lombok.EqualsAndHashCode;
  */
 @ToString
 @EqualsAndHashCode
-public  class SiteDirectory extends TopContainer implements NamedThing, ShortNamedThing, TimeStampedThing {
+public  class SiteDirectory extends TopContainer implements Cloneable, NamedThing, ShortNamedThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -546,8 +546,15 @@ public  class SiteDirectory extends TopContainer implements NamedThing, ShortNam
      * @return A cloned instance of {@link SiteDirectory}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        SiteDirectory clone = (SiteDirectory)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        SiteDirectory clone;
+        try {
+            clone = (SiteDirectory)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow SiteDirectory cannot be cloned.");
+        }
+
         clone.setAnnotation(cloneContainedThings ? new ContainerList<SiteDirectoryDataAnnotation>(clone) : new ContainerList<SiteDirectoryDataAnnotation>(this.getAnnotation(), clone));
         clone.setDomain(cloneContainedThings ? new ContainerList<DomainOfExpertise>(clone) : new ContainerList<DomainOfExpertise>(this.getDomain(), clone));
         clone.setDomainGroup(cloneContainedThings ? new ContainerList<DomainOfExpertiseGroup>(clone) : new ContainerList<DomainOfExpertiseGroup>(this.getDomainGroup(), clone));
@@ -589,7 +596,7 @@ public  class SiteDirectory extends TopContainer implements NamedThing, ShortNam
      * @return A cloned instance of {@link SiteDirectory}.
      */
     @Override
-    public SiteDirectory clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public SiteDirectory clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (SiteDirectory)this.genericClone(cloneContainedThings);
@@ -600,7 +607,7 @@ public  class SiteDirectory extends TopContainer implements NamedThing, ShortNam
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getName().trim().isEmpty()) {

@@ -55,7 +55,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
 @EqualsAndHashCode
-public  class RatioScale extends MeasurementScale  {
+public  class RatioScale extends MeasurementScale implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -93,8 +93,15 @@ public  class RatioScale extends MeasurementScale  {
      * @return A cloned instance of {@link RatioScale}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        RatioScale clone = (RatioScale)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        RatioScale clone;
+        try {
+            clone = (RatioScale)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow RatioScale cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -124,7 +131,7 @@ public  class RatioScale extends MeasurementScale  {
      * @return A cloned instance of {@link RatioScale}.
      */
     @Override
-    public RatioScale clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public RatioScale clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (RatioScale)this.genericClone(cloneContainedThings);
@@ -135,7 +142,7 @@ public  class RatioScale extends MeasurementScale  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

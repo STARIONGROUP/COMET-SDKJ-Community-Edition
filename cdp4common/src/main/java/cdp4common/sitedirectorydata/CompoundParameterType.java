@@ -40,7 +40,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
 @EqualsAndHashCode
-public  class CompoundParameterType extends ParameterType  {
+public  class CompoundParameterType extends ParameterType implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -148,8 +148,15 @@ public  class CompoundParameterType extends ParameterType  {
      * @return A cloned instance of {@link CompoundParameterType}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        CompoundParameterType clone = (CompoundParameterType)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        CompoundParameterType clone;
+        try {
+            clone = (CompoundParameterType)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow CompoundParameterType cannot be cloned.");
+        }
+
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setComponent(cloneContainedThings ? new OrderedItemList<ParameterTypeComponent>(clone, true) : new OrderedItemList<ParameterTypeComponent>(this.getComponent(), clone));
@@ -178,7 +185,7 @@ public  class CompoundParameterType extends ParameterType  {
      * @return A cloned instance of {@link CompoundParameterType}.
      */
     @Override
-    public CompoundParameterType clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public CompoundParameterType clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (CompoundParameterType)this.genericClone(cloneContainedThings);
@@ -189,7 +196,7 @@ public  class CompoundParameterType extends ParameterType  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int componentCount = this.getComponent().size();

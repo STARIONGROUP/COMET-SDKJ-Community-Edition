@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = DiagramElementContainer.class, propertyName = "diagramElement")
 @ToString
 @EqualsAndHashCode
-public  class DiagramEdge extends DiagramElementThing  {
+public  class DiagramEdge extends DiagramElementThing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -168,8 +168,15 @@ public  class DiagramEdge extends DiagramElementThing  {
      * @return A cloned instance of {@link DiagramEdge}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        DiagramEdge clone = (DiagramEdge)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        DiagramEdge clone;
+        try {
+            clone = (DiagramEdge)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow DiagramEdge cannot be cloned.");
+        }
+
         clone.setBounds(cloneContainedThings ? new ContainerList<Bounds>(clone) : new ContainerList<Bounds>(this.getBounds(), clone));
         clone.setDiagramElement(cloneContainedThings ? new ContainerList<DiagramElementThing>(clone) : new ContainerList<DiagramElementThing>(this.getDiagramElement(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -197,7 +204,7 @@ public  class DiagramEdge extends DiagramElementThing  {
      * @return A cloned instance of {@link DiagramEdge}.
      */
     @Override
-    public DiagramEdge clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public DiagramEdge clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (DiagramEdge)this.genericClone(cloneContainedThings);
@@ -208,7 +215,7 @@ public  class DiagramEdge extends DiagramElementThing  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getSource() == null || this.getSource().getIid().equals(new UUID(0L, 0L))) {

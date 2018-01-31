@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @CDPVersion(version = "1.1.0")
 @ToString
 @EqualsAndHashCode
-public  abstract class DiscussionItem extends GenericAnnotation  {
+public  abstract class DiscussionItem extends GenericAnnotation implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -98,7 +98,7 @@ public  abstract class DiscussionItem extends GenericAnnotation  {
      * @return A cloned instance of {@link DiscussionItem}.
      */
     @Override
-    public DiscussionItem clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public DiscussionItem clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (DiscussionItem)this.genericClone(cloneContainedThings);
@@ -109,7 +109,7 @@ public  abstract class DiscussionItem extends GenericAnnotation  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

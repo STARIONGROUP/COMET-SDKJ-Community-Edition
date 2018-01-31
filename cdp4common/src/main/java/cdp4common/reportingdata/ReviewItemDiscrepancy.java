@@ -39,7 +39,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModel.class, propertyName = "modellingAnnotation")
 @ToString
 @EqualsAndHashCode
-public  class ReviewItemDiscrepancy extends ModellingAnnotationItem  {
+public  class ReviewItemDiscrepancy extends ModellingAnnotationItem implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -119,8 +119,15 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem  {
      * @return A cloned instance of {@link ReviewItemDiscrepancy}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        ReviewItemDiscrepancy clone = (ReviewItemDiscrepancy)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        ReviewItemDiscrepancy clone;
+        try {
+            clone = (ReviewItemDiscrepancy)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow ReviewItemDiscrepancy cannot be cloned.");
+        }
+
         clone.setApprovedBy(cloneContainedThings ? new ContainerList<Approval>(clone) : new ContainerList<Approval>(this.getApprovedBy(), clone));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDiscussion(cloneContainedThings ? new ContainerList<EngineeringModelDataDiscussionItem>(clone) : new ContainerList<EngineeringModelDataDiscussionItem>(this.getDiscussion(), clone));
@@ -150,7 +157,7 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem  {
      * @return A cloned instance of {@link ReviewItemDiscrepancy}.
      */
     @Override
-    public ReviewItemDiscrepancy clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public ReviewItemDiscrepancy clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (ReviewItemDiscrepancy)this.genericClone(cloneContainedThings);
@@ -161,7 +168,7 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

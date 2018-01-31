@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ParametricConstraint.class, propertyName = "expression")
 @ToString
 @EqualsAndHashCode
-public  class OrExpression extends BooleanExpression  {
+public  class OrExpression extends BooleanExpression implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -101,8 +101,15 @@ public  class OrExpression extends BooleanExpression  {
      * @return A cloned instance of {@link OrExpression}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        OrExpression clone = (OrExpression)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        OrExpression clone;
+        try {
+            clone = (OrExpression)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow OrExpression cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setTerm(new ArrayList<BooleanExpression>(this.getTerm()));
@@ -123,7 +130,7 @@ public  class OrExpression extends BooleanExpression  {
      * @return A cloned instance of {@link OrExpression}.
      */
     @Override
-    public OrExpression clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public OrExpression clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (OrExpression)this.genericClone(cloneContainedThings);
@@ -134,7 +141,7 @@ public  class OrExpression extends BooleanExpression  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int termCount = this.getTerm().size();

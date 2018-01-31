@@ -35,7 +35,7 @@ import lombok.EqualsAndHashCode;
  */
 @ToString
 @EqualsAndHashCode
-public  abstract class DefinedThing extends Thing implements NamedThing, ShortNamedThing {
+public  abstract class DefinedThing extends Thing implements Cloneable, NamedThing, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -238,7 +238,7 @@ public  abstract class DefinedThing extends Thing implements NamedThing, ShortNa
      * @return A cloned instance of {@link DefinedThing}.
      */
     @Override
-    public DefinedThing clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public DefinedThing clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (DefinedThing)this.genericClone(cloneContainedThings);
@@ -249,7 +249,7 @@ public  abstract class DefinedThing extends Thing implements NamedThing, ShortNa
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getName().trim().isEmpty()) {

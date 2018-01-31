@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = EngineeringModel.class, propertyName = "commonFileStore")
 @ToString
 @EqualsAndHashCode
-public  class CommonFileStore extends FileStore  {
+public  class CommonFileStore extends FileStore implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -75,8 +75,15 @@ public  class CommonFileStore extends FileStore  {
      * @return A cloned instance of {@link CommonFileStore}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        CommonFileStore clone = (CommonFileStore)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        CommonFileStore clone;
+        try {
+            clone = (CommonFileStore)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow CommonFileStore cannot be cloned.");
+        }
+
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setFile(cloneContainedThings ? new ContainerList<File>(clone) : new ContainerList<File>(this.getFile(), clone));
@@ -100,7 +107,7 @@ public  class CommonFileStore extends FileStore  {
      * @return A cloned instance of {@link CommonFileStore}.
      */
     @Override
-    public CommonFileStore clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public CommonFileStore clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (CommonFileStore)this.genericClone(cloneContainedThings);
@@ -111,7 +118,7 @@ public  class CommonFileStore extends FileStore  {
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

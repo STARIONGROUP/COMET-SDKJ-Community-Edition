@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
 @EqualsAndHashCode
-public  abstract class MeasurementScale extends DefinedThing implements DeprecatableThing {
+public  abstract class MeasurementScale extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -412,7 +412,7 @@ public  abstract class MeasurementScale extends DefinedThing implements Deprecat
      * @return A cloned instance of {@link MeasurementScale}.
      */
     @Override
-    public MeasurementScale clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public MeasurementScale clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (MeasurementScale)this.genericClone(cloneContainedThings);
@@ -423,7 +423,7 @@ public  abstract class MeasurementScale extends DefinedThing implements Deprecat
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getUnit() == null || this.getUnit().getIid().equals(new UUID(0L, 0L))) {

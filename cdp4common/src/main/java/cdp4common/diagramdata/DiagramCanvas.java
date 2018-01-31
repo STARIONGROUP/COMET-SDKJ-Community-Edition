@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Iteration.class, propertyName = "diagramCanvas")
 @ToString
 @EqualsAndHashCode
-public  class DiagramCanvas extends DiagramElementContainer implements TimeStampedThing {
+public  class DiagramCanvas extends DiagramElementContainer implements Cloneable, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -103,8 +103,15 @@ public  class DiagramCanvas extends DiagramElementContainer implements TimeStamp
      * @return A cloned instance of {@link DiagramCanvas}.
      */
     @Override
-    protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
-        DiagramCanvas clone = (DiagramCanvas)this.clone();
+    protected Thing genericClone(boolean cloneContainedThings) {
+        DiagramCanvas clone;
+        try {
+            clone = (DiagramCanvas)this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("Somehow DiagramCanvas cannot be cloned.");
+        }
+
         clone.setBounds(cloneContainedThings ? new ContainerList<Bounds>(clone) : new ContainerList<Bounds>(this.getBounds(), clone));
         clone.setDiagramElement(cloneContainedThings ? new ContainerList<DiagramElementThing>(clone) : new ContainerList<DiagramElementThing>(this.getDiagramElement(), clone));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -128,7 +135,7 @@ public  class DiagramCanvas extends DiagramElementContainer implements TimeStamp
      * @return A cloned instance of {@link DiagramCanvas}.
      */
     @Override
-    public DiagramCanvas clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public DiagramCanvas clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
         return (DiagramCanvas)this.genericClone(cloneContainedThings);
@@ -139,7 +146,7 @@ public  class DiagramCanvas extends DiagramElementContainer implements TimeStamp
      *
      * @return A list of potential errors.
      */
-    protected Iterable<String> validatePojoCardinality() {
+    protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;
