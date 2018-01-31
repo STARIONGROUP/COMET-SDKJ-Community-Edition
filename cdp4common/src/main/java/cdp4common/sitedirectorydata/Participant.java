@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -39,38 +40,31 @@ public  class Participant extends Thing implements ParticipantAffectedAccessThin
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NONE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NONE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
 
     /**
-     * Initializes a new instance of the <code>Participant<code/> class.
-     *
-     * @see Participant
+     * Initializes a new instance of the {@link Participant} class.
      */
     public Participant() {
         this.domain = new ArrayList<DomainOfExpertise>();
     }
 
     /**
-     * Initializes a new instance of the <code>Participant<code/> class.
+     * Initializes a new instance of the {@link Participant} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see Participant
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public Participant(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public Participant(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.domain = new ArrayList<DomainOfExpertise>();
     }
 
@@ -221,38 +215,33 @@ public  class Participant extends Thing implements ParticipantAffectedAccessThin
     }
 
     /**
-     * Creates and returns a copy of this <code>Participant<code/> for edit purpose.
+     * Creates and returns a copy of this {@link Participant} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>Participant<code/>.
-     *
-     * @see Participant
-     * @see Thing
+     * @return A cloned instance of {@link Participant}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         Participant clone = (Participant)this.clone();
-        clone.setDomain(new List<DomainOfExpertise>(this.getDomain()));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setDomain(new ArrayList<DomainOfExpertise>(this.getDomain()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
         if (cloneContainedThings) {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>Participant<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link Participant} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>Participant<code/>.
-     * 
-     * @see Participant
+     * @return A cloned instance of {@link Participant}.
      */
     @Override
     public Participant clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -262,13 +251,11 @@ public  class Participant extends Thing implements ParticipantAffectedAccessThin
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>Participant<code/>.
+     * Validates the cardinalities of the properties of this <clone>Participant}.
      *
      * @return A list of potential errors.
-     *
-     * @see Participant
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int domainCount = this.getDomain().size();
@@ -279,60 +266,54 @@ public  class Participant extends Thing implements ParticipantAffectedAccessThin
         if (this.getPerson() == null || this.getPerson().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property person is null.");
             this.setPerson(SentinelThingProvider.getSentinel<Person>());
-            this.sentinelResetMap["person"] = () -> this.setPerson(null);
+            this.sentinelResetMap.put("person", new ActionImpl(() -> this.setPerson(null)));
         }
 
         if (this.getRole() == null || this.getRole().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property role is null.");
             this.setRole(SentinelThingProvider.getSentinel<ParticipantRole>());
-            this.sentinelResetMap["role"] = () -> this.setRole(null);
+            this.sentinelResetMap.put("role", new ActionImpl(() -> this.setRole(null)));
         }
 
         if (this.getSelectedDomain() == null || this.getSelectedDomain().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property selectedDomain is null.");
             this.setSelectedDomain(SentinelThingProvider.getSentinel<DomainOfExpertise>());
-            this.sentinelResetMap["selectedDomain"] = () -> this.setSelectedDomain(null);
+            this.sentinelResetMap.put("selectedDomain", new ActionImpl(() -> this.setSelectedDomain(null)));
         }
 
         return errorList;
     }
 
     /**
-     * Resolve the properties of the current <code>Participant<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link Participant} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see Participant
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.Participant dto = (cdp4common.dto.Participant)dtoThing;
 
-        this.domain.resolveList(dto.getDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.setIsActive(dto.getIsActive());
+        this.getDomain().resolveList(dto.getDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.setActive(dto.getActive());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setPerson(this.cache.get<Person>(dto.getPerson(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Person>());
+        this.setPerson(this.getCache().get<Person>(dto.getPerson(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Person>());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setRole(this.cache.get<ParticipantRole>(dto.getRole(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ParticipantRole>());
-        this.setSelectedDomain(this.cache.get<DomainOfExpertise>(dto.getSelectedDomain(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setRole(this.getCache().get<ParticipantRole>(dto.getRole(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ParticipantRole>());
+        this.setSelectedDomain(this.getCache().get<DomainOfExpertise>(dto.getSelectedDomain(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
 
         this.resolveExtraProperties();
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>Participant<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link Participant}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see Participant
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -341,16 +322,16 @@ public  class Participant extends Thing implements ParticipantAffectedAccessThin
         dto.getDomain().add(this.getDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
         dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
         dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setIsActive(this.getIsActive());
+        dto.setActive(this.getActive());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setPerson(this.getPerson() != null ? this.getPerson().getIid() : new UUID(0L, 0L));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setRole(this.getRole() != null ? this.getRole().getIid() : new UUID(0L, 0L));
         dto.setSelectedDomain(this.getSelectedDomain() != null ? this.getSelectedDomain().getIid() : new UUID(0L, 0L));
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

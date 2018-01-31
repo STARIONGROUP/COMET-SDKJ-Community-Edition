@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -41,37 +42,30 @@ public  class DiagramObject extends DiagramShape  {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_SUPERCLASS;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_SUPERCLASS;
 
     /**
-     * Initializes a new instance of the <code>DiagramObject<code/> class.
-     *
-     * @see DiagramObject
+     * Initializes a new instance of the {@link DiagramObject} class.
      */
     public DiagramObject() {
     }
 
     /**
-     * Initializes a new instance of the <code>DiagramObject<code/> class.
+     * Initializes a new instance of the {@link DiagramObject} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see DiagramObject
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public DiagramObject(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public DiagramObject(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
     }
 
     /**
@@ -125,22 +119,19 @@ public  class DiagramObject extends DiagramShape  {
     }
 
     /**
-     * Creates and returns a copy of this <code>DiagramObject<code/> for edit purpose.
+     * Creates and returns a copy of this {@link DiagramObject} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>DiagramObject<code/>.
-     *
-     * @see DiagramObject
-     * @see Thing
+     * @return A cloned instance of {@link DiagramObject}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         DiagramObject clone = (DiagramObject)this.clone();
         clone.setBounds(cloneContainedThings ? new ContainerList<Bounds>(clone) : new ContainerList<Bounds>(this.getBounds(), clone));
         clone.setDiagramElement(cloneContainedThings ? new ContainerList<DiagramElementThing>(clone) : new ContainerList<DiagramElementThing>(this.getDiagramElement(), clone));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setLocalStyle(cloneContainedThings ? new ContainerList<OwnedStyle>(clone) : new ContainerList<OwnedStyle>(this.getLocalStyle(), clone));
 
         if (cloneContainedThings) {
@@ -150,18 +141,16 @@ public  class DiagramObject extends DiagramShape  {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>DiagramObject<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link DiagramObject} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>DiagramObject<code/>.
-     * 
-     * @see DiagramObject
+     * @return A cloned instance of {@link DiagramObject}.
      */
     @Override
     public DiagramObject clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -171,13 +160,11 @@ public  class DiagramObject extends DiagramShape  {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>DiagramObject<code/>.
+     * Validates the cardinalities of the properties of this <clone>DiagramObject}.
      *
      * @return A list of potential errors.
-     *
-     * @see DiagramObject
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getDocumentation().trim().isEmpty()) {
@@ -188,28 +175,25 @@ public  class DiagramObject extends DiagramShape  {
     }
 
     /**
-     * Resolve the properties of the current <code>DiagramObject<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link DiagramObject} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see DiagramObject
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.DiagramObject dto = (cdp4common.dto.DiagramObject)dtoThing;
 
-        this.bounds.resolveList(dto.getBounds(), dto.getIterationContainerId(), this.getCache());
+        this.getBounds().resolveList(dto.getBounds(), dto.getIterationContainerId(), this.getCache());
         this.setDepictedThing((dto.getDepictedThing() != null) ? this.getCache().get<Thing>(dto.getDepictedThing.getValue(), dto.getIterationContainerId()) : null);
-        this.diagramElement.resolveList(dto.getDiagramElement(), dto.getIterationContainerId(), this.getCache());
+        this.getDiagramElement().resolveList(dto.getDiagramElement(), dto.getIterationContainerId(), this.getCache());
         this.setDocumentation(dto.getDocumentation());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.localStyle.resolveList(dto.getLocalStyle(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getLocalStyle().resolveList(dto.getLocalStyle(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
         this.setResolution(dto.getResolution());
@@ -220,12 +204,9 @@ public  class DiagramObject extends DiagramShape  {
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>DiagramObject<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link DiagramObject}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see DiagramObject
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -244,9 +225,9 @@ public  class DiagramObject extends DiagramShape  {
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setSharedStyle(this.getSharedStyle() != null ? (UUID)this.getSharedStyle().getIid() : null);
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

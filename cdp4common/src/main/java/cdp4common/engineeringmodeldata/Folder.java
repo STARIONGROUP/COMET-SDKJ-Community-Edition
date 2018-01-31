@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -40,37 +41,30 @@ public  class Folder extends Thing implements NamedThing, OwnedThing, TimeStampe
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
 
     /**
-     * Initializes a new instance of the <code>Folder<code/> class.
-     *
-     * @see Folder
+     * Initializes a new instance of the {@link Folder} class.
      */
     public Folder() {
     }
 
     /**
-     * Initializes a new instance of the <code>Folder<code/> class.
+     * Initializes a new instance of the {@link Folder} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see Folder
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public Folder(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public Folder(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
     }
 
     /**
@@ -246,37 +240,32 @@ public  class Folder extends Thing implements NamedThing, OwnedThing, TimeStampe
     }
 
     /**
-     * Creates and returns a copy of this <code>Folder<code/> for edit purpose.
+     * Creates and returns a copy of this {@link Folder} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>Folder<code/>.
-     *
-     * @see Folder
-     * @see Thing
+     * @return A cloned instance of {@link Folder}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         Folder clone = (Folder)this.clone();
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
         if (cloneContainedThings) {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>Folder<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link Folder} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>Folder<code/>.
-     * 
-     * @see Folder
+     * @return A cloned instance of {@link Folder}.
      */
     @Override
     public Folder clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -286,19 +275,17 @@ public  class Folder extends Thing implements NamedThing, OwnedThing, TimeStampe
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>Folder<code/>.
+     * Validates the cardinalities of the properties of this <clone>Folder}.
      *
      * @return A list of potential errors.
-     *
-     * @see Folder
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getCreator() == null || this.getCreator().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property creator is null.");
             this.setCreator(SentinelThingProvider.getSentinel<Participant>());
-            this.sentinelResetMap["creator"] = () -> this.setCreator(null);
+            this.sentinelResetMap.put("creator", new ActionImpl(() -> this.setCreator(null)));
         }
 
         if (this.getName().trim().isEmpty()) {
@@ -308,22 +295,19 @@ public  class Folder extends Thing implements NamedThing, OwnedThing, TimeStampe
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property owner is null.");
             this.setOwner(SentinelThingProvider.getSentinel<DomainOfExpertise>());
-            this.sentinelResetMap["owner"] = () -> this.setOwner(null);
+            this.sentinelResetMap.put("owner", new ActionImpl(() -> this.setOwner(null)));
         }
 
         return errorList;
     }
 
     /**
-     * Resolve the properties of the current <code>Folder<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link Folder} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see Folder
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
@@ -332,24 +316,21 @@ public  class Folder extends Thing implements NamedThing, OwnedThing, TimeStampe
 
         this.setContainingFolder((dto.getContainingFolder() != null) ? this.getCache().get<Folder>(dto.getContainingFolder.getValue(), dto.getIterationContainerId()) : null);
         this.setCreatedOn(dto.getCreatedOn());
-        this.setCreator(this.cache.get<Participant>(dto.getCreator(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Participant>());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.setCreator(this.getCache().get<Participant>(dto.getCreator(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Participant>());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setOwner(this.cache.get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>Folder<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link Folder}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see Folder
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -365,9 +346,9 @@ public  class Folder extends Thing implements NamedThing, OwnedThing, TimeStampe
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));
         dto.setRevisionNumber(this.getRevisionNumber());
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

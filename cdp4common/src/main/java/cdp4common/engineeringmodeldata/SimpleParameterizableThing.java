@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -40,38 +41,31 @@ public  abstract class SimpleParameterizableThing extends DefinedThing implement
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
 
     /**
-     * Initializes a new instance of the <code>SimpleParameterizableThing<code/> class.
-     *
-     * @see SimpleParameterizableThing
+     * Initializes a new instance of the {@link SimpleParameterizableThing} class.
      */
     protected SimpleParameterizableThing() {
         this.parameterValue = new ContainerList<SimpleParameterValue>(this);
     }
 
     /**
-     * Initializes a new instance of the <code>SimpleParameterizableThing<code/> class.
+     * Initializes a new instance of the {@link SimpleParameterizableThing} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see SimpleParameterizableThing
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    protected SimpleParameterizableThing(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    protected SimpleParameterizableThing(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.parameterValue = new ContainerList<SimpleParameterValue>(this);
     }
 
@@ -91,10 +85,7 @@ public  abstract class SimpleParameterizableThing extends DefinedThing implement
     private ContainerList<SimpleParameterValue> parameterValue;
 
     /**
-     * <code>IEnumerable{IEnumerable}<code/> that references the composite properties of the current <code>SimpleParameterizableThing<code/>.
-     *
-     * @see Iterable
-     * @see SimpleParameterizableThing
+     * {@link Iterable<Iterable>} that references the composite properties of the current {@link SimpleParameterizableThing}.
      */
     public Iterable<Iterable> containerLists;
 
@@ -137,25 +128,20 @@ public  abstract class SimpleParameterizableThing extends DefinedThing implement
     }
 
     /**
-     * Gets an <code>Iterable<Iterable><code/> that references the composite properties of the current <code>SimpleParameterizableThing<code/>.
-     *
-     * @see Iterable
-     * @see SimpleParameterizableThing
+     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link SimpleParameterizableThing}.
      */
     @Override
-    public Iterable<Iterable> getContainerLists {
-        List<Iterable> containers = new ArrayList<Iterable>(super.getContainerLists());
-        containers.Add(this.parameterValue);
+    public List<List<Thing>> getContainerLists() {
+        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+        containers.add(this.parameterValue);
         return containers;
     }
 
     /**
-     * Creates and returns a copy of this <code>SimpleParameterizableThing<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link SimpleParameterizableThing} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>SimpleParameterizableThing<code/>.
-     * 
-     * @see SimpleParameterizableThing
+     * @return A cloned instance of {@link SimpleParameterizableThing}.
      */
     @Override
     public SimpleParameterizableThing clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -165,19 +151,17 @@ public  abstract class SimpleParameterizableThing extends DefinedThing implement
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>SimpleParameterizableThing<code/>.
+     * Validates the cardinalities of the properties of this <clone>SimpleParameterizableThing}.
      *
      * @return A list of potential errors.
-     *
-     * @see SimpleParameterizableThing
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property owner is null.");
             this.setOwner(SentinelThingProvider.getSentinel<DomainOfExpertise>());
-            this.sentinelResetMap["owner"] = () -> this.setOwner(null);
+            this.sentinelResetMap.put("owner", new ActionImpl(() -> this.setOwner(null)));
         }
 
         return errorList;

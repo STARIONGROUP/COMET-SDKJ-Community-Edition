@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -39,60 +40,50 @@ public  class ModelReferenceDataLibrary extends ReferenceDataLibrary  {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NONE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NONE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
 
     /**
-     * Initializes a new instance of the <code>ModelReferenceDataLibrary<code/> class.
-     *
-     * @see ModelReferenceDataLibrary
+     * Initializes a new instance of the {@link ModelReferenceDataLibrary} class.
      */
     public ModelReferenceDataLibrary() {
     }
 
     /**
-     * Initializes a new instance of the <code>ModelReferenceDataLibrary<code/> class.
+     * Initializes a new instance of the {@link ModelReferenceDataLibrary} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see ModelReferenceDataLibrary
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public ModelReferenceDataLibrary(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public ModelReferenceDataLibrary(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
     }
 
     /**
-     * Creates and returns a copy of this <code>ModelReferenceDataLibrary<code/> for edit purpose.
+     * Creates and returns a copy of this {@link ModelReferenceDataLibrary} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ModelReferenceDataLibrary<code/>.
-     *
-     * @see ModelReferenceDataLibrary
-     * @see Thing
+     * @return A cloned instance of {@link ModelReferenceDataLibrary}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         ModelReferenceDataLibrary clone = (ModelReferenceDataLibrary)this.clone();
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setBaseQuantityKind(new OrderedItemList<QuantityKind>(this.getBaseQuantityKind(), this));
-        clone.setBaseUnit(new List<MeasurementUnit>(this.getBaseUnit()));
+        clone.setBaseUnit(new ArrayList<MeasurementUnit>(this.getBaseUnit()));
         clone.setConstant(cloneContainedThings ? new ContainerList<Constant>(clone) : new ContainerList<Constant>(this.getConstant(), clone));
         clone.setDefinedCategory(cloneContainedThings ? new ContainerList<Category>(clone) : new ContainerList<Category>(this.getDefinedCategory(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setFileType(cloneContainedThings ? new ContainerList<FileType>(clone) : new ContainerList<FileType>(this.getFileType(), clone));
         clone.setGlossary(cloneContainedThings ? new ContainerList<Glossary>(clone) : new ContainerList<Glossary>(this.getGlossary(), clone));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
@@ -120,18 +111,16 @@ public  class ModelReferenceDataLibrary extends ReferenceDataLibrary  {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>ModelReferenceDataLibrary<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link ModelReferenceDataLibrary} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ModelReferenceDataLibrary<code/>.
-     * 
-     * @see ModelReferenceDataLibrary
+     * @return A cloned instance of {@link ModelReferenceDataLibrary}.
      */
     @Override
     public ModelReferenceDataLibrary clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -141,67 +130,59 @@ public  class ModelReferenceDataLibrary extends ReferenceDataLibrary  {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ModelReferenceDataLibrary<code/>.
+     * Validates the cardinalities of the properties of this <clone>ModelReferenceDataLibrary}.
      *
      * @return A list of potential errors.
-     *
-     * @see ModelReferenceDataLibrary
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;
     }
 
     /**
-     * Resolve the properties of the current <code>ModelReferenceDataLibrary<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link ModelReferenceDataLibrary} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see ModelReferenceDataLibrary
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.ModelReferenceDataLibrary dto = (cdp4common.dto.ModelReferenceDataLibrary)dtoThing;
 
-        this.alias.resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.baseQuantityKind.resolveList(dto.getBaseQuantityKind(), dto.getIterationContainerId(), this.getCache());
-        this.baseUnit.resolveList(dto.getBaseUnit(), dto.getIterationContainerId(), this.getCache());
-        this.constant.resolveList(dto.getConstant(), dto.getIterationContainerId(), this.getCache());
-        this.definedCategory.resolveList(dto.getDefinedCategory(), dto.getIterationContainerId(), this.getCache());
-        this.definition.resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.fileType.resolveList(dto.getFileType(), dto.getIterationContainerId(), this.getCache());
-        this.glossary.resolveList(dto.getGlossary(), dto.getIterationContainerId(), this.getCache());
-        this.hyperLink.resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
+        this.getBaseQuantityKind().resolveList(dto.getBaseQuantityKind(), dto.getIterationContainerId(), this.getCache());
+        this.getBaseUnit().resolveList(dto.getBaseUnit(), dto.getIterationContainerId(), this.getCache());
+        this.getConstant().resolveList(dto.getConstant(), dto.getIterationContainerId(), this.getCache());
+        this.getDefinedCategory().resolveList(dto.getDefinedCategory(), dto.getIterationContainerId(), this.getCache());
+        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getFileType().resolveList(dto.getFileType(), dto.getIterationContainerId(), this.getCache());
+        this.getGlossary().resolveList(dto.getGlossary(), dto.getIterationContainerId(), this.getCache());
+        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.parameterType.resolveList(dto.getParameterType(), dto.getIterationContainerId(), this.getCache());
-        this.referenceSource.resolveList(dto.getReferenceSource(), dto.getIterationContainerId(), this.getCache());
+        this.getParameterType().resolveList(dto.getParameterType(), dto.getIterationContainerId(), this.getCache());
+        this.getReferenceSource().resolveList(dto.getReferenceSource(), dto.getIterationContainerId(), this.getCache());
         this.setRequiredRdl((dto.getRequiredRdl() != null) ? this.getCache().get<SiteReferenceDataLibrary>(dto.getRequiredRdl.getValue(), dto.getIterationContainerId()) : null);
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.rule.resolveList(dto.getRule(), dto.getIterationContainerId(), this.getCache());
-        this.scale.resolveList(dto.getScale(), dto.getIterationContainerId(), this.getCache());
+        this.getRule().resolveList(dto.getRule(), dto.getIterationContainerId(), this.getCache());
+        this.getScale().resolveList(dto.getScale(), dto.getIterationContainerId(), this.getCache());
         this.setShortName(dto.getShortName());
-        this.unit.resolveList(dto.getUnit(), dto.getIterationContainerId(), this.getCache());
-        this.unitPrefix.resolveList(dto.getUnitPrefix(), dto.getIterationContainerId(), this.getCache());
+        this.getUnit().resolveList(dto.getUnit(), dto.getIterationContainerId(), this.getCache());
+        this.getUnitPrefix().resolveList(dto.getUnitPrefix(), dto.getIterationContainerId(), this.getCache());
 
         this.resolveExtraProperties();
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>ModelReferenceDataLibrary<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link ModelReferenceDataLibrary}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see ModelReferenceDataLibrary
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -230,9 +211,9 @@ public  class ModelReferenceDataLibrary extends ReferenceDataLibrary  {
         dto.getUnit().add(this.getUnit().stream().map(x -> x.getIid()).collect(Collectors.toList()));
         dto.getUnitPrefix().add(this.getUnitPrefix().stream().map(x -> x.getIid()).collect(Collectors.toList()));
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

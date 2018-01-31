@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -44,17 +45,17 @@ public  class ElementDefinition extends ElementBase  {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
 
     /**
-     * Initializes a new instance of the <code>ElementDefinition<code/> class.
-     *
-     * @see ElementDefinition
+     * Initializes a new instance of the {@link ElementDefinition} class.
      */
     public ElementDefinition() {
         this.containedElement = new ContainerList<ElementUsage>(this);
@@ -64,21 +65,14 @@ public  class ElementDefinition extends ElementBase  {
     }
 
     /**
-     * Initializes a new instance of the <code>ElementDefinition<code/> class.
+     * Initializes a new instance of the {@link ElementDefinition} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see ElementDefinition
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public ElementDefinition(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public ElementDefinition(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.containedElement = new ContainerList<ElementUsage>(this);
         this.parameter = new ContainerList<Parameter>(this);
         this.parameterGroup = new ContainerList<ParameterGroup>(this);
@@ -121,10 +115,7 @@ public  class ElementDefinition extends ElementBase  {
     private ArrayList<NestedElement> referencedElement;
 
     /**
-     * <code>IEnumerable{IEnumerable}<code/> that references the composite properties of the current <code>ElementDefinition<code/>.
-     *
-     * @see Iterable
-     * @see ElementDefinition
+     * {@link Iterable<Iterable>} that references the composite properties of the current {@link ElementDefinition}.
      */
     public Iterable<Iterable> containerLists;
 
@@ -215,43 +206,37 @@ public  class ElementDefinition extends ElementBase  {
     }
 
     /**
-     * Gets an <code>Iterable<Iterable><code/> that references the composite properties of the current <code>ElementDefinition<code/>.
-     *
-     * @see Iterable
-     * @see ElementDefinition
+     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link ElementDefinition}.
      */
     @Override
-    public Iterable<Iterable> getContainerLists {
-        List<Iterable> containers = new ArrayList<Iterable>(super.getContainerLists());
-        containers.Add(this.containedElement);
-        containers.Add(this.parameter);
-        containers.Add(this.parameterGroup);
+    public List<List<Thing>> getContainerLists() {
+        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+        containers.add(this.containedElement);
+        containers.add(this.parameter);
+        containers.add(this.parameterGroup);
         return containers;
     }
 
     /**
-     * Creates and returns a copy of this <code>ElementDefinition<code/> for edit purpose.
+     * Creates and returns a copy of this {@link ElementDefinition} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ElementDefinition<code/>.
-     *
-     * @see ElementDefinition
-     * @see Thing
+     * @return A cloned instance of {@link ElementDefinition}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         ElementDefinition clone = (ElementDefinition)this.clone();
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
-        clone.setCategory(new List<Category>(this.getCategory()));
+        clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setContainedElement(cloneContainedThings ? new ContainerList<ElementUsage>(clone) : new ContainerList<ElementUsage>(this.getContainedElement(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
         clone.setParameter(cloneContainedThings ? new ContainerList<Parameter>(clone) : new ContainerList<Parameter>(this.getParameter(), clone));
         clone.setParameterGroup(cloneContainedThings ? new ContainerList<ParameterGroup>(clone) : new ContainerList<ParameterGroup>(this.getParameterGroup(), clone));
-        clone.setReferencedElement(new List<NestedElement>(this.getReferencedElement()));
+        clone.setReferencedElement(new ArrayList<NestedElement>(this.getReferencedElement()));
 
         if (cloneContainedThings) {
             clone.getAlias().addAll(this.getAlias().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
@@ -263,18 +248,16 @@ public  class ElementDefinition extends ElementBase  {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>ElementDefinition<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link ElementDefinition} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ElementDefinition<code/>.
-     * 
-     * @see ElementDefinition
+     * @return A cloned instance of {@link ElementDefinition}.
      */
     @Override
     public ElementDefinition clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -284,47 +267,42 @@ public  class ElementDefinition extends ElementBase  {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ElementDefinition<code/>.
+     * Validates the cardinalities of the properties of this <clone>ElementDefinition}.
      *
      * @return A list of potential errors.
-     *
-     * @see ElementDefinition
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;
     }
 
     /**
-     * Resolve the properties of the current <code>ElementDefinition<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link ElementDefinition} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see ElementDefinition
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.ElementDefinition dto = (cdp4common.dto.ElementDefinition)dtoThing;
 
-        this.alias.resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.category.resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
-        this.containedElement.resolveList(dto.getContainedElement(), dto.getIterationContainerId(), this.getCache());
-        this.definition.resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.hyperLink.resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
+        this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
+        this.getContainedElement().resolveList(dto.getContainedElement(), dto.getIterationContainerId(), this.getCache());
+        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setOwner(this.cache.get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
-        this.parameter.resolveList(dto.getParameter(), dto.getIterationContainerId(), this.getCache());
-        this.parameterGroup.resolveList(dto.getParameterGroup(), dto.getIterationContainerId(), this.getCache());
-        this.referencedElement.resolveList(dto.getReferencedElement(), dto.getIterationContainerId(), this.getCache());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.getParameter().resolveList(dto.getParameter(), dto.getIterationContainerId(), this.getCache());
+        this.getParameterGroup().resolveList(dto.getParameterGroup(), dto.getIterationContainerId(), this.getCache());
+        this.getReferencedElement().resolveList(dto.getReferencedElement(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
 
@@ -332,12 +310,9 @@ public  class ElementDefinition extends ElementBase  {
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>ElementDefinition<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link ElementDefinition}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see ElementDefinition
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -359,9 +334,9 @@ public  class ElementDefinition extends ElementBase  {
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

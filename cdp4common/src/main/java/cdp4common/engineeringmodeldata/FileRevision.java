@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -41,38 +42,31 @@ public  class FileRevision extends Thing implements NamedThing, TimeStampedThing
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_CONTAINER;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_CONTAINER;
 
     /**
-     * Initializes a new instance of the <code>FileRevision<code/> class.
-     *
-     * @see FileRevision
+     * Initializes a new instance of the {@link FileRevision} class.
      */
     public FileRevision() {
         this.fileType = new OrderedItemList<FileType>(this);
     }
 
     /**
-     * Initializes a new instance of the <code>FileRevision<code/> class.
+     * Initializes a new instance of the {@link FileRevision} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see FileRevision
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public FileRevision(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public FileRevision(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.fileType = new OrderedItemList<FileType>(this);
     }
 
@@ -277,38 +271,33 @@ public  class FileRevision extends Thing implements NamedThing, TimeStampedThing
     }
 
     /**
-     * Creates and returns a copy of this <code>FileRevision<code/> for edit purpose.
+     * Creates and returns a copy of this {@link FileRevision} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>FileRevision<code/>.
-     *
-     * @see FileRevision
-     * @see Thing
+     * @return A cloned instance of {@link FileRevision}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         FileRevision clone = (FileRevision)this.clone();
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setFileType(new OrderedItemList<FileType>(this.getFileType(), this));
 
         if (cloneContainedThings) {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>FileRevision<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link FileRevision} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>FileRevision<code/>.
-     * 
-     * @see FileRevision
+     * @return A cloned instance of {@link FileRevision}.
      */
     @Override
     public FileRevision clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -318,13 +307,11 @@ public  class FileRevision extends Thing implements NamedThing, TimeStampedThing
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>FileRevision<code/>.
+     * Validates the cardinalities of the properties of this <clone>FileRevision}.
      *
      * @return A list of potential errors.
-     *
-     * @see FileRevision
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getContentHash().trim().isEmpty()) {
@@ -334,7 +321,7 @@ public  class FileRevision extends Thing implements NamedThing, TimeStampedThing
         if (this.getCreator() == null || this.getCreator().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property creator is null.");
             this.setCreator(SentinelThingProvider.getSentinel<Participant>());
-            this.sentinelResetMap["creator"] = () -> this.setCreator(null);
+            this.sentinelResetMap.put("creator", new ActionImpl(() -> this.setCreator(null)));
         }
 
         int fileTypeCount = this.getFileType().size();
@@ -350,15 +337,12 @@ public  class FileRevision extends Thing implements NamedThing, TimeStampedThing
     }
 
     /**
-     * Resolve the properties of the current <code>FileRevision<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link FileRevision} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see FileRevision
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
@@ -368,10 +352,10 @@ public  class FileRevision extends Thing implements NamedThing, TimeStampedThing
         this.setContainingFolder((dto.getContainingFolder() != null) ? this.getCache().get<Folder>(dto.getContainingFolder.getValue(), dto.getIterationContainerId()) : null);
         this.setContentHash(dto.getContentHash());
         this.setCreatedOn(dto.getCreatedOn());
-        this.setCreator(this.cache.get<Participant>(dto.getCreator(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Participant>());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.fileType.resolveList(dto.getFileType(), dto.getIterationContainerId(), this.getCache());
+        this.setCreator(this.getCache().get<Participant>(dto.getCreator(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Participant>());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getFileType().resolveList(dto.getFileType(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
         this.setRevisionNumber(dto.getRevisionNumber());
@@ -380,12 +364,9 @@ public  class FileRevision extends Thing implements NamedThing, TimeStampedThing
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>FileRevision<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link FileRevision}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see FileRevision
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -402,9 +383,9 @@ public  class FileRevision extends Thing implements NamedThing, TimeStampedThing
         dto.setName(this.getName());
         dto.setRevisionNumber(this.getRevisionNumber());
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

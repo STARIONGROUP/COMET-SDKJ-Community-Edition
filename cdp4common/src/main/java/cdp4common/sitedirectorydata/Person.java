@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -41,17 +42,17 @@ public  class Person extends Thing implements DeprecatableThing, NamedThing, Sho
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NONE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NONE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
 
     /**
-     * Initializes a new instance of the <code>Person<code/> class.
-     *
-     * @see Person
+     * Initializes a new instance of the {@link Person} class.
      */
     public Person() {
         this.emailAddress = new ContainerList<EmailAddress>(this);
@@ -60,21 +61,14 @@ public  class Person extends Thing implements DeprecatableThing, NamedThing, Sho
     }
 
     /**
-     * Initializes a new instance of the <code>Person<code/> class.
+     * Initializes a new instance of the {@link Person} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see Person
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public Person(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public Person(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.emailAddress = new ContainerList<EmailAddress>(this);
         this.telephoneNumber = new ContainerList<TelephoneNumber>(this);
         this.userPreference = new ContainerList<UserPreference>(this);
@@ -207,10 +201,7 @@ public  class Person extends Thing implements DeprecatableThing, NamedThing, Sho
     private ContainerList<UserPreference> userPreference;
 
     /**
-     * <code>IEnumerable{IEnumerable}<code/> that references the composite properties of the current <code>Person<code/>.
-     *
-     * @see Iterable
-     * @see Person
+     * {@link Iterable<Iterable>} that references the composite properties of the current {@link Person}.
      */
     public Iterable<Iterable> containerLists;
 
@@ -537,36 +528,30 @@ public  class Person extends Thing implements DeprecatableThing, NamedThing, Sho
     }
 
     /**
-     * Gets an <code>Iterable<Iterable><code/> that references the composite properties of the current <code>Person<code/>.
-     *
-     * @see Iterable
-     * @see Person
+     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link Person}.
      */
     @Override
-    public Iterable<Iterable> getContainerLists {
-        List<Iterable> containers = new ArrayList<Iterable>(super.getContainerLists());
-        containers.Add(this.emailAddress);
-        containers.Add(this.telephoneNumber);
-        containers.Add(this.userPreference);
+    public List<List<Thing>> getContainerLists() {
+        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+        containers.add(this.emailAddress);
+        containers.add(this.telephoneNumber);
+        containers.add(this.userPreference);
         return containers;
     }
 
     /**
-     * Creates and returns a copy of this <code>Person<code/> for edit purpose.
+     * Creates and returns a copy of this {@link Person} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>Person<code/>.
-     *
-     * @see Person
-     * @see Thing
+     * @return A cloned instance of {@link Person}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         Person clone = (Person)this.clone();
         clone.setEmailAddress(cloneContainedThings ? new ContainerList<EmailAddress>(clone) : new ContainerList<EmailAddress>(this.getEmailAddress(), clone));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setTelephoneNumber(cloneContainedThings ? new ContainerList<TelephoneNumber>(clone) : new ContainerList<TelephoneNumber>(this.getTelephoneNumber(), clone));
         clone.setUserPreference(cloneContainedThings ? new ContainerList<UserPreference>(clone) : new ContainerList<UserPreference>(this.getUserPreference(), clone));
 
@@ -577,18 +562,16 @@ public  class Person extends Thing implements DeprecatableThing, NamedThing, Sho
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>Person<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link Person} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>Person<code/>.
-     * 
-     * @see Person
+     * @return A cloned instance of {@link Person}.
      */
     @Override
     public Person clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -598,13 +581,11 @@ public  class Person extends Thing implements DeprecatableThing, NamedThing, Sho
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>Person<code/>.
+     * Validates the cardinalities of the properties of this <clone>Person}.
      *
      * @return A list of potential errors.
-     *
-     * @see Person
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getGivenName().trim().isEmpty()) {
@@ -623,15 +604,12 @@ public  class Person extends Thing implements DeprecatableThing, NamedThing, Sho
     }
 
     /**
-     * Resolve the properties of the current <code>Person<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link Person} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see Person
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
@@ -641,12 +619,12 @@ public  class Person extends Thing implements DeprecatableThing, NamedThing, Sho
         this.setDefaultDomain((dto.getDefaultDomain() != null) ? this.getCache().get<DomainOfExpertise>(dto.getDefaultDomain.getValue(), dto.getIterationContainerId()) : null);
         this.setDefaultEmailAddress((dto.getDefaultEmailAddress() != null) ? this.getCache().get<EmailAddress>(dto.getDefaultEmailAddress.getValue(), dto.getIterationContainerId()) : null);
         this.setDefaultTelephoneNumber((dto.getDefaultTelephoneNumber() != null) ? this.getCache().get<TelephoneNumber>(dto.getDefaultTelephoneNumber.getValue(), dto.getIterationContainerId()) : null);
-        this.emailAddress.resolveList(dto.getEmailAddress(), dto.getIterationContainerId(), this.getCache());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getEmailAddress().resolveList(dto.getEmailAddress(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setGivenName(dto.getGivenName());
-        this.setIsActive(dto.getIsActive());
-        this.setIsDeprecated(dto.getIsDeprecated());
+        this.setActive(dto.getActive());
+        this.setDeprecated(dto.getDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
         this.setOrganization((dto.getOrganization() != null) ? this.getCache().get<Organization>(dto.getOrganization.getValue(), dto.getIterationContainerId()) : null);
         this.setOrganizationalUnit(dto.getOrganizationalUnit());
@@ -655,19 +633,16 @@ public  class Person extends Thing implements DeprecatableThing, NamedThing, Sho
         this.setRole((dto.getRole() != null) ? this.getCache().get<PersonRole>(dto.getRole.getValue(), dto.getIterationContainerId()) : null);
         this.setShortName(dto.getShortName());
         this.setSurname(dto.getSurname());
-        this.telephoneNumber.resolveList(dto.getTelephoneNumber(), dto.getIterationContainerId(), this.getCache());
-        this.userPreference.resolveList(dto.getUserPreference(), dto.getIterationContainerId(), this.getCache());
+        this.getTelephoneNumber().resolveList(dto.getTelephoneNumber(), dto.getIterationContainerId(), this.getCache());
+        this.getUserPreference().resolveList(dto.getUserPreference(), dto.getIterationContainerId(), this.getCache());
 
         this.resolveExtraProperties();
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>Person<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link Person}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see Person
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -680,8 +655,8 @@ public  class Person extends Thing implements DeprecatableThing, NamedThing, Sho
         dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
         dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
         dto.setGivenName(this.getGivenName());
-        dto.setIsActive(this.getIsActive());
-        dto.setIsDeprecated(this.getIsDeprecated());
+        dto.setActive(this.getActive());
+        dto.setDeprecated(this.getDeprecated());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setOrganization(this.getOrganization() != null ? (UUID)this.getOrganization().getIid() : null);
         dto.setOrganizationalUnit(this.getOrganizationalUnit());
@@ -693,9 +668,9 @@ public  class Person extends Thing implements DeprecatableThing, NamedThing, Sho
         dto.getTelephoneNumber().add(this.getTelephoneNumber().stream().map(x -> x.getIid()).collect(Collectors.toList()));
         dto.getUserPreference().add(this.getUserPreference().stream().map(x -> x.getIid()).collect(Collectors.toList()));
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -42,17 +43,17 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Part
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
 
     /**
-     * Initializes a new instance of the <code>ReferenceDataLibrary<code/> class.
-     *
-     * @see ReferenceDataLibrary
+     * Initializes a new instance of the {@link ReferenceDataLibrary} class.
      */
     protected ReferenceDataLibrary() {
         this.baseQuantityKind = new OrderedItemList<QuantityKind>(this);
@@ -70,21 +71,14 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Part
     }
 
     /**
-     * Initializes a new instance of the <code>ReferenceDataLibrary<code/> class.
+     * Initializes a new instance of the {@link ReferenceDataLibrary} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see ReferenceDataLibrary
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    protected ReferenceDataLibrary(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    protected ReferenceDataLibrary(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.baseQuantityKind = new OrderedItemList<QuantityKind>(this);
         this.baseUnit = new ArrayList<MeasurementUnit>();
         this.constant = new ContainerList<Constant>(this);
@@ -199,10 +193,7 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Part
     private ContainerList<UnitPrefix> unitPrefix;
 
     /**
-     * <code>IEnumerable{IEnumerable}<code/> that references the composite properties of the current <code>ReferenceDataLibrary<code/>.
-     *
-     * @see Iterable
-     * @see ReferenceDataLibrary
+     * {@link Iterable<Iterable>} that references the composite properties of the current {@link ReferenceDataLibrary}.
      */
     public Iterable<Iterable> containerLists;
 
@@ -457,34 +448,29 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Part
     }
 
     /**
-     * Gets an <code>Iterable<Iterable><code/> that references the composite properties of the current <code>ReferenceDataLibrary<code/>.
-     *
-     * @see Iterable
-     * @see ReferenceDataLibrary
+     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link ReferenceDataLibrary}.
      */
     @Override
-    public Iterable<Iterable> getContainerLists {
-        List<Iterable> containers = new ArrayList<Iterable>(super.getContainerLists());
-        containers.Add(this.constant);
-        containers.Add(this.definedCategory);
-        containers.Add(this.fileType);
-        containers.Add(this.glossary);
-        containers.Add(this.parameterType);
-        containers.Add(this.referenceSource);
-        containers.Add(this.rule);
-        containers.Add(this.scale);
-        containers.Add(this.unit);
-        containers.Add(this.unitPrefix);
+    public List<List<Thing>> getContainerLists() {
+        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+        containers.add(this.constant);
+        containers.add(this.definedCategory);
+        containers.add(this.fileType);
+        containers.add(this.glossary);
+        containers.add(this.parameterType);
+        containers.add(this.referenceSource);
+        containers.add(this.rule);
+        containers.add(this.scale);
+        containers.add(this.unit);
+        containers.add(this.unitPrefix);
         return containers;
     }
 
     /**
-     * Creates and returns a copy of this <code>ReferenceDataLibrary<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link ReferenceDataLibrary} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ReferenceDataLibrary<code/>.
-     * 
-     * @see ReferenceDataLibrary
+     * @return A cloned instance of {@link ReferenceDataLibrary}.
      */
     @Override
     public ReferenceDataLibrary clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -494,13 +480,11 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Part
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ReferenceDataLibrary<code/>.
+     * Validates the cardinalities of the properties of this <clone>ReferenceDataLibrary}.
      *
      * @return A list of potential errors.
-     *
-     * @see ReferenceDataLibrary
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

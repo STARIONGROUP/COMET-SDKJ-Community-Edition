@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -39,37 +40,30 @@ public  class UserRuleVerification extends RuleVerification  {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_SUPERCLASS;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_SUPERCLASS;
 
     /**
-     * Initializes a new instance of the <code>UserRuleVerification<code/> class.
-     *
-     * @see UserRuleVerification
+     * Initializes a new instance of the {@link UserRuleVerification} class.
      */
     public UserRuleVerification() {
     }
 
     /**
-     * Initializes a new instance of the <code>UserRuleVerification<code/> class.
+     * Initializes a new instance of the {@link UserRuleVerification} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see UserRuleVerification
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public UserRuleVerification(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public UserRuleVerification(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
     }
 
     /**
@@ -129,37 +123,32 @@ public  class UserRuleVerification extends RuleVerification  {
     }
 
     /**
-     * Creates and returns a copy of this <code>UserRuleVerification<code/> for edit purpose.
+     * Creates and returns a copy of this {@link UserRuleVerification} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>UserRuleVerification<code/>.
-     *
-     * @see UserRuleVerification
-     * @see Thing
+     * @return A cloned instance of {@link UserRuleVerification}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         UserRuleVerification clone = (UserRuleVerification)this.clone();
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
         if (cloneContainedThings) {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>UserRuleVerification<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link UserRuleVerification} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>UserRuleVerification<code/>.
-     * 
-     * @see UserRuleVerification
+     * @return A cloned instance of {@link UserRuleVerification}.
      */
     @Override
     public UserRuleVerification clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -169,60 +158,52 @@ public  class UserRuleVerification extends RuleVerification  {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>UserRuleVerification<code/>.
+     * Validates the cardinalities of the properties of this <clone>UserRuleVerification}.
      *
      * @return A list of potential errors.
-     *
-     * @see UserRuleVerification
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getRule() == null || this.getRule().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property rule is null.");
             this.setRule(SentinelThingProvider.getSentinel<Rule>());
-            this.sentinelResetMap["rule"] = () -> this.setRule(null);
+            this.sentinelResetMap.put("rule", new ActionImpl(() -> this.setRule(null)));
         }
 
         return errorList;
     }
 
     /**
-     * Resolve the properties of the current <code>UserRuleVerification<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link UserRuleVerification} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see UserRuleVerification
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.UserRuleVerification dto = (cdp4common.dto.UserRuleVerification)dtoThing;
 
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setExecutedOn(dto.getExecutedOn());
-        this.setIsActive(dto.getIsActive());
+        this.setActive(dto.getActive());
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setRule(this.cache.get<Rule>(dto.getRule(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Rule>());
+        this.setRule(this.getCache().get<Rule>(dto.getRule(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Rule>());
         this.setStatus(dto.getStatus());
-        this.violation.resolveList(dto.getViolation(), dto.getIterationContainerId(), this.getCache());
+        this.getViolation().resolveList(dto.getViolation(), dto.getIterationContainerId(), this.getCache());
 
         this.resolveExtraProperties();
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>UserRuleVerification<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link UserRuleVerification}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see UserRuleVerification
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -231,16 +212,16 @@ public  class UserRuleVerification extends RuleVerification  {
         dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
         dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
         dto.setExecutedOn(this.getExecutedOn());
-        dto.setIsActive(this.getIsActive());
+        dto.setActive(this.getActive());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setRule(this.getRule() != null ? this.getRule().getIid() : new UUID(0L, 0L));
         dto.setStatus(this.getStatus());
         dto.getViolation().add(this.getViolation().stream().map(x -> x.getIid()).collect(Collectors.toList()));
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -39,37 +40,30 @@ public  abstract class ConversionBasedUnit extends MeasurementUnit  {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.SAME_AS_SUPERCLASS;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.SAME_AS_SUPERCLASS;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_SUPERCLASS;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_SUPERCLASS;
 
     /**
-     * Initializes a new instance of the <code>ConversionBasedUnit<code/> class.
-     *
-     * @see ConversionBasedUnit
+     * Initializes a new instance of the {@link ConversionBasedUnit} class.
      */
     protected ConversionBasedUnit() {
     }
 
     /**
-     * Initializes a new instance of the <code>ConversionBasedUnit<code/> class.
+     * Initializes a new instance of the {@link ConversionBasedUnit} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see ConversionBasedUnit
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    protected ConversionBasedUnit(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    protected ConversionBasedUnit(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
     }
 
     /**
@@ -123,12 +117,10 @@ public  abstract class ConversionBasedUnit extends MeasurementUnit  {
     }
 
     /**
-     * Creates and returns a copy of this <code>ConversionBasedUnit<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link ConversionBasedUnit} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ConversionBasedUnit<code/>.
-     * 
-     * @see ConversionBasedUnit
+     * @return A cloned instance of {@link ConversionBasedUnit}.
      */
     @Override
     public ConversionBasedUnit clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -138,13 +130,11 @@ public  abstract class ConversionBasedUnit extends MeasurementUnit  {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ConversionBasedUnit<code/>.
+     * Validates the cardinalities of the properties of this <clone>ConversionBasedUnit}.
      *
      * @return A list of potential errors.
-     *
-     * @see ConversionBasedUnit
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getConversionFactor().trim().isEmpty()) {
@@ -154,7 +144,7 @@ public  abstract class ConversionBasedUnit extends MeasurementUnit  {
         if (this.getReferenceUnit() == null || this.getReferenceUnit().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property referenceUnit is null.");
             this.setReferenceUnit(SentinelThingProvider.getSentinel<MeasurementUnit>());
-            this.sentinelResetMap["referenceUnit"] = () -> this.setReferenceUnit(null);
+            this.sentinelResetMap.put("referenceUnit", new ActionImpl(() -> this.setReferenceUnit(null)));
         }
 
         return errorList;

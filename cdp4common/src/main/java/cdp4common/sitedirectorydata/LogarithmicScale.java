@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -42,38 +43,31 @@ public  class LogarithmicScale extends MeasurementScale  {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.SAME_AS_SUPERCLASS;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.SAME_AS_SUPERCLASS;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_SUPERCLASS;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_SUPERCLASS;
 
     /**
-     * Initializes a new instance of the <code>LogarithmicScale<code/> class.
-     *
-     * @see LogarithmicScale
+     * Initializes a new instance of the {@link LogarithmicScale} class.
      */
     public LogarithmicScale() {
         this.referenceQuantityValue = new ContainerList<ScaleReferenceQuantityValue>(this);
     }
 
     /**
-     * Initializes a new instance of the <code>LogarithmicScale<code/> class.
+     * Initializes a new instance of the {@link LogarithmicScale} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see LogarithmicScale
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public LogarithmicScale(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public LogarithmicScale(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.referenceQuantityValue = new ContainerList<ScaleReferenceQuantityValue>(this);
     }
 
@@ -115,10 +109,7 @@ public  class LogarithmicScale extends MeasurementScale  {
     private ContainerList<ScaleReferenceQuantityValue> referenceQuantityValue;
 
     /**
-     * <code>IEnumerable{IEnumerable}<code/> that references the composite properties of the current <code>LogarithmicScale<code/>.
-     *
-     * @see Iterable
-     * @see LogarithmicScale
+     * {@link Iterable<Iterable>} that references the composite properties of the current {@link LogarithmicScale}.
      */
     public Iterable<Iterable> containerLists;
 
@@ -217,35 +208,29 @@ public  class LogarithmicScale extends MeasurementScale  {
     }
 
     /**
-     * Gets an <code>Iterable<Iterable><code/> that references the composite properties of the current <code>LogarithmicScale<code/>.
-     *
-     * @see Iterable
-     * @see LogarithmicScale
+     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link LogarithmicScale}.
      */
     @Override
-    public Iterable<Iterable> getContainerLists {
-        List<Iterable> containers = new ArrayList<Iterable>(super.getContainerLists());
-        containers.Add(this.referenceQuantityValue);
+    public List<List<Thing>> getContainerLists() {
+        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+        containers.add(this.referenceQuantityValue);
         return containers;
     }
 
     /**
-     * Creates and returns a copy of this <code>LogarithmicScale<code/> for edit purpose.
+     * Creates and returns a copy of this {@link LogarithmicScale} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>LogarithmicScale<code/>.
-     *
-     * @see LogarithmicScale
-     * @see Thing
+     * @return A cloned instance of {@link LogarithmicScale}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         LogarithmicScale clone = (LogarithmicScale)this.clone();
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
         clone.setMappingToReferenceScale(cloneContainedThings ? new ContainerList<MappingToReferenceScale>(clone) : new ContainerList<MappingToReferenceScale>(this.getMappingToReferenceScale(), clone));
         clone.setReferenceQuantityValue(cloneContainedThings ? new ContainerList<ScaleReferenceQuantityValue>(clone) : new ContainerList<ScaleReferenceQuantityValue>(this.getReferenceQuantityValue(), clone));
@@ -261,18 +246,16 @@ public  class LogarithmicScale extends MeasurementScale  {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>LogarithmicScale<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link LogarithmicScale} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>LogarithmicScale<code/>.
-     * 
-     * @see LogarithmicScale
+     * @return A cloned instance of {@link LogarithmicScale}.
      */
     @Override
     public LogarithmicScale clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -282,13 +265,11 @@ public  class LogarithmicScale extends MeasurementScale  {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>LogarithmicScale<code/>.
+     * Validates the cardinalities of the properties of this <clone>LogarithmicScale}.
      *
      * @return A list of potential errors.
-     *
-     * @see LogarithmicScale
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getExponent().trim().isEmpty()) {
@@ -302,40 +283,37 @@ public  class LogarithmicScale extends MeasurementScale  {
         if (this.getReferenceQuantityKind() == null || this.getReferenceQuantityKind().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property referenceQuantityKind is null.");
             this.setReferenceQuantityKind(SentinelThingProvider.getSentinel<QuantityKind>());
-            this.sentinelResetMap["referenceQuantityKind"] = () -> this.setReferenceQuantityKind(null);
+            this.sentinelResetMap.put("referenceQuantityKind", new ActionImpl(() -> this.setReferenceQuantityKind(null)));
         }
 
         return errorList;
     }
 
     /**
-     * Resolve the properties of the current <code>LogarithmicScale<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link LogarithmicScale} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see LogarithmicScale
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.LogarithmicScale dto = (cdp4common.dto.LogarithmicScale)dtoThing;
 
-        this.alias.resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.definition.resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
+        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setExponent(dto.getExponent());
         this.setFactor(dto.getFactor());
-        this.hyperLink.resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
-        this.setIsDeprecated(dto.getIsDeprecated());
-        this.setIsMaximumInclusive(dto.getIsMaximumInclusive());
-        this.setIsMinimumInclusive(dto.getIsMinimumInclusive());
+        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        this.setDeprecated(dto.getDeprecated());
+        this.setMaximumInclusive(dto.getMaximumInclusive());
+        this.setMinimumInclusive(dto.getMinimumInclusive());
         this.setLogarithmBase(dto.getLogarithmBase());
-        this.mappingToReferenceScale.resolveList(dto.getMappingToReferenceScale(), dto.getIterationContainerId(), this.getCache());
+        this.getMappingToReferenceScale().resolveList(dto.getMappingToReferenceScale(), dto.getIterationContainerId(), this.getCache());
         this.setMaximumPermissibleValue(dto.getMaximumPermissibleValue());
         this.setMinimumPermissibleValue(dto.getMinimumPermissibleValue());
         this.setModifiedOn(dto.getModifiedOn());
@@ -343,23 +321,20 @@ public  class LogarithmicScale extends MeasurementScale  {
         this.setNegativeValueConnotation(dto.getNegativeValueConnotation());
         this.setNumberSet(dto.getNumberSet());
         this.setPositiveValueConnotation(dto.getPositiveValueConnotation());
-        this.setReferenceQuantityKind(this.cache.get<QuantityKind>(dto.getReferenceQuantityKind(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<QuantityKind>());
-        this.referenceQuantityValue.resolveList(dto.getReferenceQuantityValue(), dto.getIterationContainerId(), this.getCache());
+        this.setReferenceQuantityKind(this.getCache().get<QuantityKind>(dto.getReferenceQuantityKind(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<QuantityKind>());
+        this.getReferenceQuantityValue().resolveList(dto.getReferenceQuantityValue(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
-        this.setUnit(this.cache.get<MeasurementUnit>(dto.getUnit(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<MeasurementUnit>());
-        this.valueDefinition.resolveList(dto.getValueDefinition(), dto.getIterationContainerId(), this.getCache());
+        this.setUnit(this.getCache().get<MeasurementUnit>(dto.getUnit(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<MeasurementUnit>());
+        this.getValueDefinition().resolveList(dto.getValueDefinition(), dto.getIterationContainerId(), this.getCache());
 
         this.resolveExtraProperties();
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>LogarithmicScale<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link LogarithmicScale}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see LogarithmicScale
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -372,9 +347,9 @@ public  class LogarithmicScale extends MeasurementScale  {
         dto.setExponent(this.getExponent());
         dto.setFactor(this.getFactor());
         dto.getHyperLink().add(this.getHyperLink().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setIsDeprecated(this.getIsDeprecated());
-        dto.setIsMaximumInclusive(this.getIsMaximumInclusive());
-        dto.setIsMinimumInclusive(this.getIsMinimumInclusive());
+        dto.setDeprecated(this.getDeprecated());
+        dto.setMaximumInclusive(this.getMaximumInclusive());
+        dto.setMinimumInclusive(this.getMinimumInclusive());
         dto.setLogarithmBase(this.getLogarithmBase());
         dto.getMappingToReferenceScale().add(this.getMappingToReferenceScale().stream().map(x -> x.getIid()).collect(Collectors.toList()));
         dto.setMaximumPermissibleValue(this.getMaximumPermissibleValue());
@@ -391,9 +366,9 @@ public  class LogarithmicScale extends MeasurementScale  {
         dto.setUnit(this.getUnit() != null ? this.getUnit().getIid() : new UUID(0L, 0L));
         dto.getValueDefinition().add(this.getValueDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

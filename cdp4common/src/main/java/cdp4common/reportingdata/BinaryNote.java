@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -40,37 +41,30 @@ public  class BinaryNote extends Note  {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_SUPERCLASS;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_SUPERCLASS;
 
     /**
-     * Initializes a new instance of the <code>BinaryNote<code/> class.
-     *
-     * @see BinaryNote
+     * Initializes a new instance of the {@link BinaryNote} class.
      */
     public BinaryNote() {
     }
 
     /**
-     * Initializes a new instance of the <code>BinaryNote<code/> class.
+     * Initializes a new instance of the {@link BinaryNote} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see BinaryNote
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public BinaryNote(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public BinaryNote(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
     }
 
     /**
@@ -124,38 +118,33 @@ public  class BinaryNote extends Note  {
     }
 
     /**
-     * Creates and returns a copy of this <code>BinaryNote<code/> for edit purpose.
+     * Creates and returns a copy of this {@link BinaryNote} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>BinaryNote<code/>.
-     *
-     * @see BinaryNote
-     * @see Thing
+     * @return A cloned instance of {@link BinaryNote}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         BinaryNote clone = (BinaryNote)this.clone();
-        clone.setCategory(new List<Category>(this.getCategory()));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setCategory(new ArrayList<Category>(this.getCategory()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
         if (cloneContainedThings) {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>BinaryNote<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link BinaryNote} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>BinaryNote<code/>.
-     * 
-     * @see BinaryNote
+     * @return A cloned instance of {@link BinaryNote}.
      */
     @Override
     public BinaryNote clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -165,13 +154,11 @@ public  class BinaryNote extends Note  {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>BinaryNote<code/>.
+     * Validates the cardinalities of the properties of this <clone>BinaryNote}.
      *
      * @return A list of potential errors.
-     *
-     * @see BinaryNote
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getCaption().trim().isEmpty()) {
@@ -181,22 +168,19 @@ public  class BinaryNote extends Note  {
         if (this.getFileType() == null || this.getFileType().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property fileType is null.");
             this.setFileType(SentinelThingProvider.getSentinel<FileType>());
-            this.sentinelResetMap["fileType"] = () -> this.setFileType(null);
+            this.sentinelResetMap.put("fileType", new ActionImpl(() -> this.setFileType(null)));
         }
 
         return errorList;
     }
 
     /**
-     * Resolve the properties of the current <code>BinaryNote<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link BinaryNote} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see BinaryNote
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
@@ -204,14 +188,14 @@ public  class BinaryNote extends Note  {
         cdp4common.dto.BinaryNote dto = (cdp4common.dto.BinaryNote)dtoThing;
 
         this.setCaption(dto.getCaption());
-        this.category.resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
+        this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
         this.setCreatedOn(dto.getCreatedOn());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.setFileType(this.cache.get<FileType>(dto.getFileType(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<FileType>());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.setFileType(this.getCache().get<FileType>(dto.getFileType(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<FileType>());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setOwner(this.cache.get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
 
@@ -219,12 +203,9 @@ public  class BinaryNote extends Note  {
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>BinaryNote<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link BinaryNote}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see BinaryNote
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -242,9 +223,9 @@ public  class BinaryNote extends Note  {
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

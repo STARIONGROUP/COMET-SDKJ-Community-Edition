@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -40,17 +41,17 @@ public  class Definition extends Thing implements Annotation {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.SAME_AS_CONTAINER;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.SAME_AS_CONTAINER;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_CONTAINER;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_CONTAINER;
 
     /**
-     * Initializes a new instance of the <code>Definition<code/> class.
-     *
-     * @see Definition
+     * Initializes a new instance of the {@link Definition} class.
      */
     public Definition() {
         this.citation = new ContainerList<Citation>(this);
@@ -59,21 +60,14 @@ public  class Definition extends Thing implements Annotation {
     }
 
     /**
-     * Initializes a new instance of the <code>Definition<code/> class.
+     * Initializes a new instance of the {@link Definition} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see Definition
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public Definition(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public Definition(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.citation = new ContainerList<Citation>(this);
         this.example = new OrderedItemList<String>(this);
         this.note = new OrderedItemList<String>(this);
@@ -117,10 +111,7 @@ public  class Definition extends Thing implements Annotation {
     private OrderedItemList<String> note;
 
     /**
-     * <code>IEnumerable{IEnumerable}<code/> that references the composite properties of the current <code>Definition<code/>.
-     *
-     * @see Iterable
-     * @see Definition
+     * {@link Iterable<Iterable>} that references the composite properties of the current {@link Definition}.
      */
     public Iterable<Iterable> containerLists;
 
@@ -219,35 +210,29 @@ public  class Definition extends Thing implements Annotation {
     }
 
     /**
-     * Gets an <code>Iterable<Iterable><code/> that references the composite properties of the current <code>Definition<code/>.
-     *
-     * @see Iterable
-     * @see Definition
+     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link Definition}.
      */
     @Override
-    public Iterable<Iterable> getContainerLists {
-        List<Iterable> containers = new ArrayList<Iterable>(super.getContainerLists());
-        containers.Add(this.citation);
+    public List<List<Thing>> getContainerLists() {
+        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+        containers.add(this.citation);
         return containers;
     }
 
     /**
-     * Creates and returns a copy of this <code>Definition<code/> for edit purpose.
+     * Creates and returns a copy of this {@link Definition} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>Definition<code/>.
-     *
-     * @see Definition
-     * @see Thing
+     * @return A cloned instance of {@link Definition}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         Definition clone = (Definition)this.clone();
         clone.setCitation(cloneContainedThings ? new ContainerList<Citation>(clone) : new ContainerList<Citation>(this.getCitation(), clone));
         clone.setExample(new OrderedItemList<String>(this.getExample(), this));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setNote(new OrderedItemList<String>(this.getNote(), this));
 
         if (cloneContainedThings) {
@@ -255,18 +240,16 @@ public  class Definition extends Thing implements Annotation {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>Definition<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link Definition} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>Definition<code/>.
-     * 
-     * @see Definition
+     * @return A cloned instance of {@link Definition}.
      */
     @Override
     public Definition clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -276,13 +259,11 @@ public  class Definition extends Thing implements Annotation {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>Definition<code/>.
+     * Validates the cardinalities of the properties of this <clone>Definition}.
      *
      * @return A list of potential errors.
-     *
-     * @see Definition
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getContent().trim().isEmpty()) {
@@ -297,41 +278,35 @@ public  class Definition extends Thing implements Annotation {
     }
 
     /**
-     * Resolve the properties of the current <code>Definition<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link Definition} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see Definition
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.Definition dto = (cdp4common.dto.Definition)dtoThing;
 
-        this.citation.resolveList(dto.getCitation(), dto.getIterationContainerId(), this.getCache());
+        this.getCitation().resolveList(dto.getCitation(), dto.getIterationContainerId(), this.getCache());
         this.setContent(dto.getContent());
-        this.example.clearAndAddRange(dto.getExample());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getExample().clearAndAddRange(dto.getExample());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setLanguageCode(dto.getLanguageCode());
         this.setModifiedOn(dto.getModifiedOn());
-        this.note.clearAndAddRange(dto.getNote());
+        this.getNote().clearAndAddRange(dto.getNote());
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>Definition<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link Definition}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see Definition
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -347,9 +322,9 @@ public  class Definition extends Thing implements Annotation {
         dto.getNote().add(this.getNote().toDtoOrderedItemList());
         dto.setRevisionNumber(this.getRevisionNumber());
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

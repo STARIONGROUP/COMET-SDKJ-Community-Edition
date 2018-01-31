@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -42,38 +43,31 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem  {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
 
     /**
-     * Initializes a new instance of the <code>ReviewItemDiscrepancy<code/> class.
-     *
-     * @see ReviewItemDiscrepancy
+     * Initializes a new instance of the {@link ReviewItemDiscrepancy} class.
      */
     public ReviewItemDiscrepancy() {
         this.solution = new ContainerList<Solution>(this);
     }
 
     /**
-     * Initializes a new instance of the <code>ReviewItemDiscrepancy<code/> class.
+     * Initializes a new instance of the {@link ReviewItemDiscrepancy} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see ReviewItemDiscrepancy
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public ReviewItemDiscrepancy(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public ReviewItemDiscrepancy(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.solution = new ContainerList<Solution>(this);
     }
 
@@ -85,10 +79,7 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem  {
     private ContainerList<Solution> solution;
 
     /**
-     * <code>IEnumerable{IEnumerable}<code/> that references the composite properties of the current <code>ReviewItemDiscrepancy<code/>.
-     *
-     * @see Iterable
-     * @see ReviewItemDiscrepancy
+     * {@link Iterable<Iterable>} that references the composite properties of the current {@link ReviewItemDiscrepancy}.
      */
     public Iterable<Iterable> containerLists;
 
@@ -111,39 +102,33 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem  {
     }
 
     /**
-     * Gets an <code>Iterable<Iterable><code/> that references the composite properties of the current <code>ReviewItemDiscrepancy<code/>.
-     *
-     * @see Iterable
-     * @see ReviewItemDiscrepancy
+     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link ReviewItemDiscrepancy}.
      */
     @Override
-    public Iterable<Iterable> getContainerLists {
-        List<Iterable> containers = new ArrayList<Iterable>(super.getContainerLists());
-        containers.Add(this.solution);
+    public List<List<Thing>> getContainerLists() {
+        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+        containers.add(this.solution);
         return containers;
     }
 
     /**
-     * Creates and returns a copy of this <code>ReviewItemDiscrepancy<code/> for edit purpose.
+     * Creates and returns a copy of this {@link ReviewItemDiscrepancy} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ReviewItemDiscrepancy<code/>.
-     *
-     * @see ReviewItemDiscrepancy
-     * @see Thing
+     * @return A cloned instance of {@link ReviewItemDiscrepancy}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         ReviewItemDiscrepancy clone = (ReviewItemDiscrepancy)this.clone();
         clone.setApprovedBy(cloneContainedThings ? new ContainerList<Approval>(clone) : new ContainerList<Approval>(this.getApprovedBy(), clone));
-        clone.setCategory(new List<Category>(this.getCategory()));
+        clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDiscussion(cloneContainedThings ? new ContainerList<EngineeringModelDataDiscussionItem>(clone) : new ContainerList<EngineeringModelDataDiscussionItem>(this.getDiscussion(), clone));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setRelatedThing(cloneContainedThings ? new ContainerList<ModellingThingReference>(clone) : new ContainerList<ModellingThingReference>(this.getRelatedThing(), clone));
         clone.setSolution(cloneContainedThings ? new ContainerList<Solution>(clone) : new ContainerList<Solution>(this.getSolution(), clone));
-        clone.setSourceAnnotation(new List<ModellingAnnotationItem>(this.getSourceAnnotation()));
+        clone.setSourceAnnotation(new ArrayList<ModellingAnnotationItem>(this.getSourceAnnotation()));
 
         if (cloneContainedThings) {
             clone.getApprovedBy().addAll(this.getApprovedBy().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
@@ -153,18 +138,16 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem  {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>ReviewItemDiscrepancy<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link ReviewItemDiscrepancy} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ReviewItemDiscrepancy<code/>.
-     * 
-     * @see ReviewItemDiscrepancy
+     * @return A cloned instance of {@link ReviewItemDiscrepancy}.
      */
     @Override
     public ReviewItemDiscrepancy clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -174,52 +157,47 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem  {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ReviewItemDiscrepancy<code/>.
+     * Validates the cardinalities of the properties of this <clone>ReviewItemDiscrepancy}.
      *
      * @return A list of potential errors.
-     *
-     * @see ReviewItemDiscrepancy
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;
     }
 
     /**
-     * Resolve the properties of the current <code>ReviewItemDiscrepancy<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link ReviewItemDiscrepancy} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see ReviewItemDiscrepancy
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.ReviewItemDiscrepancy dto = (cdp4common.dto.ReviewItemDiscrepancy)dtoThing;
 
-        this.approvedBy.resolveList(dto.getApprovedBy(), dto.getIterationContainerId(), this.getCache());
-        this.setAuthor(this.cache.get<Participant>(dto.getAuthor(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Participant>());
-        this.category.resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
+        this.getApprovedBy().resolveList(dto.getApprovedBy(), dto.getIterationContainerId(), this.getCache());
+        this.setAuthor(this.getCache().get<Participant>(dto.getAuthor(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Participant>());
+        this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
         this.setClassification(dto.getClassification());
         this.setContent(dto.getContent());
         this.setCreatedOn(dto.getCreatedOn());
-        this.discussion.resolveList(dto.getDiscussion(), dto.getIterationContainerId(), this.getCache());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getDiscussion().resolveList(dto.getDiscussion(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setLanguageCode(dto.getLanguageCode());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.cache.get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
         this.setPrimaryAnnotatedThing((dto.getPrimaryAnnotatedThing() != null) ? this.getCache().get<ModellingThingReference>(dto.getPrimaryAnnotatedThing.getValue(), dto.getIterationContainerId()) : null);
-        this.relatedThing.resolveList(dto.getRelatedThing(), dto.getIterationContainerId(), this.getCache());
+        this.getRelatedThing().resolveList(dto.getRelatedThing(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
-        this.solution.resolveList(dto.getSolution(), dto.getIterationContainerId(), this.getCache());
-        this.sourceAnnotation.resolveList(dto.getSourceAnnotation(), dto.getIterationContainerId(), this.getCache());
+        this.getSolution().resolveList(dto.getSolution(), dto.getIterationContainerId(), this.getCache());
+        this.getSourceAnnotation().resolveList(dto.getSourceAnnotation(), dto.getIterationContainerId(), this.getCache());
         this.setStatus(dto.getStatus());
         this.setTitle(dto.getTitle());
 
@@ -227,12 +205,9 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem  {
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>ReviewItemDiscrepancy<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link ReviewItemDiscrepancy}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see ReviewItemDiscrepancy
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -259,9 +234,9 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem  {
         dto.setStatus(this.getStatus());
         dto.setTitle(this.getTitle());
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

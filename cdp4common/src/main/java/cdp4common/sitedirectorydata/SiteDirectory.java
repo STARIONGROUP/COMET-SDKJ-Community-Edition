@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -43,17 +44,17 @@ public  class SiteDirectory extends TopContainer implements NamedThing, ShortNam
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NONE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NONE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
 
     /**
-     * Initializes a new instance of the <code>SiteDirectory<code/> class.
-     *
-     * @see SiteDirectory
+     * Initializes a new instance of the {@link SiteDirectory} class.
      */
     public SiteDirectory() {
         this.annotation = new ContainerList<SiteDirectoryDataAnnotation>(this);
@@ -70,21 +71,14 @@ public  class SiteDirectory extends TopContainer implements NamedThing, ShortNam
     }
 
     /**
-     * Initializes a new instance of the <code>SiteDirectory<code/> class.
+     * Initializes a new instance of the {@link SiteDirectory} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see SiteDirectory
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public SiteDirectory(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public SiteDirectory(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.annotation = new ContainerList<SiteDirectoryDataAnnotation>(this);
         this.domain = new ContainerList<DomainOfExpertise>(this);
         this.domainGroup = new ContainerList<DomainOfExpertiseGroup>(this);
@@ -218,10 +212,7 @@ public  class SiteDirectory extends TopContainer implements NamedThing, ShortNam
     private ContainerList<SiteReferenceDataLibrary> siteReferenceDataLibrary;
 
     /**
-     * <code>IEnumerable{IEnumerable}<code/> that references the composite properties of the current <code>SiteDirectory<code/>.
-     *
-     * @see Iterable
-     * @see SiteDirectory
+     * {@link Iterable<Iterable>} that references the composite properties of the current {@link SiteDirectory}.
      */
     public Iterable<Iterable> containerLists;
 
@@ -528,37 +519,31 @@ public  class SiteDirectory extends TopContainer implements NamedThing, ShortNam
     }
 
     /**
-     * Gets an <code>Iterable<Iterable><code/> that references the composite properties of the current <code>SiteDirectory<code/>.
-     *
-     * @see Iterable
-     * @see SiteDirectory
+     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link SiteDirectory}.
      */
     @Override
-    public Iterable<Iterable> getContainerLists {
-        List<Iterable> containers = new ArrayList<Iterable>(super.getContainerLists());
-        containers.Add(this.annotation);
-        containers.Add(this.domain);
-        containers.Add(this.domainGroup);
-        containers.Add(this.logEntry);
-        containers.Add(this.model);
-        containers.Add(this.naturalLanguage);
-        containers.Add(this.organization);
-        containers.Add(this.participantRole);
-        containers.Add(this.person);
-        containers.Add(this.personRole);
-        containers.Add(this.siteReferenceDataLibrary);
+    public List<List<Thing>> getContainerLists() {
+        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+        containers.add(this.annotation);
+        containers.add(this.domain);
+        containers.add(this.domainGroup);
+        containers.add(this.logEntry);
+        containers.add(this.model);
+        containers.add(this.naturalLanguage);
+        containers.add(this.organization);
+        containers.add(this.participantRole);
+        containers.add(this.person);
+        containers.add(this.personRole);
+        containers.add(this.siteReferenceDataLibrary);
         return containers;
     }
 
     /**
-     * Creates and returns a copy of this <code>SiteDirectory<code/> for edit purpose.
+     * Creates and returns a copy of this {@link SiteDirectory} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>SiteDirectory<code/>.
-     *
-     * @see SiteDirectory
-     * @see Thing
+     * @return A cloned instance of {@link SiteDirectory}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -566,8 +551,8 @@ public  class SiteDirectory extends TopContainer implements NamedThing, ShortNam
         clone.setAnnotation(cloneContainedThings ? new ContainerList<SiteDirectoryDataAnnotation>(clone) : new ContainerList<SiteDirectoryDataAnnotation>(this.getAnnotation(), clone));
         clone.setDomain(cloneContainedThings ? new ContainerList<DomainOfExpertise>(clone) : new ContainerList<DomainOfExpertise>(this.getDomain(), clone));
         clone.setDomainGroup(cloneContainedThings ? new ContainerList<DomainOfExpertiseGroup>(clone) : new ContainerList<DomainOfExpertiseGroup>(this.getDomainGroup(), clone));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setLogEntry(cloneContainedThings ? new ContainerList<SiteLogEntry>(clone) : new ContainerList<SiteLogEntry>(this.getLogEntry(), clone));
         clone.setModel(cloneContainedThings ? new ContainerList<EngineeringModelSetup>(clone) : new ContainerList<EngineeringModelSetup>(this.getModel(), clone));
         clone.setNaturalLanguage(cloneContainedThings ? new ContainerList<NaturalLanguage>(clone) : new ContainerList<NaturalLanguage>(this.getNaturalLanguage(), clone));
@@ -592,18 +577,16 @@ public  class SiteDirectory extends TopContainer implements NamedThing, ShortNam
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>SiteDirectory<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link SiteDirectory} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>SiteDirectory<code/>.
-     * 
-     * @see SiteDirectory
+     * @return A cloned instance of {@link SiteDirectory}.
      */
     @Override
     public SiteDirectory clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -613,13 +596,11 @@ public  class SiteDirectory extends TopContainer implements NamedThing, ShortNam
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>SiteDirectory<code/>.
+     * Validates the cardinalities of the properties of this <clone>SiteDirectory}.
      *
      * @return A list of potential errors.
-     *
-     * @see SiteDirectory
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getName().trim().isEmpty()) {
@@ -634,53 +615,47 @@ public  class SiteDirectory extends TopContainer implements NamedThing, ShortNam
     }
 
     /**
-     * Resolve the properties of the current <code>SiteDirectory<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link SiteDirectory} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see SiteDirectory
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.SiteDirectory dto = (cdp4common.dto.SiteDirectory)dtoThing;
 
-        this.annotation.resolveList(dto.getAnnotation(), dto.getIterationContainerId(), this.getCache());
+        this.getAnnotation().resolveList(dto.getAnnotation(), dto.getIterationContainerId(), this.getCache());
         this.setCreatedOn(dto.getCreatedOn());
         this.setDefaultParticipantRole((dto.getDefaultParticipantRole() != null) ? this.getCache().get<ParticipantRole>(dto.getDefaultParticipantRole.getValue(), dto.getIterationContainerId()) : null);
         this.setDefaultPersonRole((dto.getDefaultPersonRole() != null) ? this.getCache().get<PersonRole>(dto.getDefaultPersonRole.getValue(), dto.getIterationContainerId()) : null);
-        this.domain.resolveList(dto.getDomain(), dto.getIterationContainerId(), this.getCache());
-        this.domainGroup.resolveList(dto.getDomainGroup(), dto.getIterationContainerId(), this.getCache());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getDomain().resolveList(dto.getDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getDomainGroup().resolveList(dto.getDomainGroup(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setLastModifiedOn(dto.getLastModifiedOn());
-        this.logEntry.resolveList(dto.getLogEntry(), dto.getIterationContainerId(), this.getCache());
-        this.model.resolveList(dto.getModel(), dto.getIterationContainerId(), this.getCache());
+        this.getLogEntry().resolveList(dto.getLogEntry(), dto.getIterationContainerId(), this.getCache());
+        this.getModel().resolveList(dto.getModel(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.naturalLanguage.resolveList(dto.getNaturalLanguage(), dto.getIterationContainerId(), this.getCache());
-        this.organization.resolveList(dto.getOrganization(), dto.getIterationContainerId(), this.getCache());
-        this.participantRole.resolveList(dto.getParticipantRole(), dto.getIterationContainerId(), this.getCache());
-        this.person.resolveList(dto.getPerson(), dto.getIterationContainerId(), this.getCache());
-        this.personRole.resolveList(dto.getPersonRole(), dto.getIterationContainerId(), this.getCache());
+        this.getNaturalLanguage().resolveList(dto.getNaturalLanguage(), dto.getIterationContainerId(), this.getCache());
+        this.getOrganization().resolveList(dto.getOrganization(), dto.getIterationContainerId(), this.getCache());
+        this.getParticipantRole().resolveList(dto.getParticipantRole(), dto.getIterationContainerId(), this.getCache());
+        this.getPerson().resolveList(dto.getPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getPersonRole().resolveList(dto.getPersonRole(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
-        this.siteReferenceDataLibrary.resolveList(dto.getSiteReferenceDataLibrary(), dto.getIterationContainerId(), this.getCache());
+        this.getSiteReferenceDataLibrary().resolveList(dto.getSiteReferenceDataLibrary(), dto.getIterationContainerId(), this.getCache());
 
         this.resolveExtraProperties();
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>SiteDirectory<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link SiteDirectory}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see SiteDirectory
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -708,9 +683,9 @@ public  class SiteDirectory extends TopContainer implements NamedThing, ShortNam
         dto.setShortName(this.getShortName());
         dto.getSiteReferenceDataLibrary().add(this.getSiteReferenceDataLibrary().stream().map(x -> x.getIid()).collect(Collectors.toList()));
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

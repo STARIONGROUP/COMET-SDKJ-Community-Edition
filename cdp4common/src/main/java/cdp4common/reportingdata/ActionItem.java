@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -40,37 +41,30 @@ public  class ActionItem extends ModellingAnnotationItem  {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
 
     /**
-     * Initializes a new instance of the <code>ActionItem<code/> class.
-     *
-     * @see ActionItem
+     * Initializes a new instance of the {@link ActionItem} class.
      */
     public ActionItem() {
     }
 
     /**
-     * Initializes a new instance of the <code>ActionItem<code/> class.
+     * Initializes a new instance of the {@link ActionItem} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see ActionItem
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public ActionItem(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public ActionItem(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
     }
 
     /**
@@ -174,25 +168,22 @@ public  class ActionItem extends ModellingAnnotationItem  {
     }
 
     /**
-     * Creates and returns a copy of this <code>ActionItem<code/> for edit purpose.
+     * Creates and returns a copy of this {@link ActionItem} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ActionItem<code/>.
-     *
-     * @see ActionItem
-     * @see Thing
+     * @return A cloned instance of {@link ActionItem}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         ActionItem clone = (ActionItem)this.clone();
         clone.setApprovedBy(cloneContainedThings ? new ContainerList<Approval>(clone) : new ContainerList<Approval>(this.getApprovedBy(), clone));
-        clone.setCategory(new List<Category>(this.getCategory()));
+        clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setDiscussion(cloneContainedThings ? new ContainerList<EngineeringModelDataDiscussionItem>(clone) : new ContainerList<EngineeringModelDataDiscussionItem>(this.getDiscussion(), clone));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setRelatedThing(cloneContainedThings ? new ContainerList<ModellingThingReference>(clone) : new ContainerList<ModellingThingReference>(this.getRelatedThing(), clone));
-        clone.setSourceAnnotation(new List<ModellingAnnotationItem>(this.getSourceAnnotation()));
+        clone.setSourceAnnotation(new ArrayList<ModellingAnnotationItem>(this.getSourceAnnotation()));
 
         if (cloneContainedThings) {
             clone.getApprovedBy().addAll(this.getApprovedBy().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
@@ -201,18 +192,16 @@ public  class ActionItem extends ModellingAnnotationItem  {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>ActionItem<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link ActionItem} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ActionItem<code/>.
-     * 
-     * @see ActionItem
+     * @return A cloned instance of {@link ActionItem}.
      */
     @Override
     public ActionItem clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -222,61 +211,56 @@ public  class ActionItem extends ModellingAnnotationItem  {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ActionItem<code/>.
+     * Validates the cardinalities of the properties of this <clone>ActionItem}.
      *
      * @return A list of potential errors.
-     *
-     * @see ActionItem
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getActionee() == null || this.getActionee().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property actionee is null.");
             this.setActionee(SentinelThingProvider.getSentinel<Participant>());
-            this.sentinelResetMap["actionee"] = () -> this.setActionee(null);
+            this.sentinelResetMap.put("actionee", new ActionImpl(() -> this.setActionee(null)));
         }
 
         return errorList;
     }
 
     /**
-     * Resolve the properties of the current <code>ActionItem<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link ActionItem} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see ActionItem
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.ActionItem dto = (cdp4common.dto.ActionItem)dtoThing;
 
-        this.setActionee(this.cache.get<Participant>(dto.getActionee(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Participant>());
-        this.approvedBy.resolveList(dto.getApprovedBy(), dto.getIterationContainerId(), this.getCache());
-        this.setAuthor(this.cache.get<Participant>(dto.getAuthor(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Participant>());
-        this.category.resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
+        this.setActionee(this.getCache().get<Participant>(dto.getActionee(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Participant>());
+        this.getApprovedBy().resolveList(dto.getApprovedBy(), dto.getIterationContainerId(), this.getCache());
+        this.setAuthor(this.getCache().get<Participant>(dto.getAuthor(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Participant>());
+        this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
         this.setClassification(dto.getClassification());
         this.setCloseOutDate(dto.getCloseOutDate());
         this.setCloseOutStatement(dto.getCloseOutStatement());
         this.setContent(dto.getContent());
         this.setCreatedOn(dto.getCreatedOn());
-        this.discussion.resolveList(dto.getDiscussion(), dto.getIterationContainerId(), this.getCache());
+        this.getDiscussion().resolveList(dto.getDiscussion(), dto.getIterationContainerId(), this.getCache());
         this.setDueDate(dto.getDueDate());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setLanguageCode(dto.getLanguageCode());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.cache.get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
         this.setPrimaryAnnotatedThing((dto.getPrimaryAnnotatedThing() != null) ? this.getCache().get<ModellingThingReference>(dto.getPrimaryAnnotatedThing.getValue(), dto.getIterationContainerId()) : null);
-        this.relatedThing.resolveList(dto.getRelatedThing(), dto.getIterationContainerId(), this.getCache());
+        this.getRelatedThing().resolveList(dto.getRelatedThing(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
-        this.sourceAnnotation.resolveList(dto.getSourceAnnotation(), dto.getIterationContainerId(), this.getCache());
+        this.getSourceAnnotation().resolveList(dto.getSourceAnnotation(), dto.getIterationContainerId(), this.getCache());
         this.setStatus(dto.getStatus());
         this.setTitle(dto.getTitle());
 
@@ -284,12 +268,9 @@ public  class ActionItem extends ModellingAnnotationItem  {
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>ActionItem<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link ActionItem}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see ActionItem
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -319,9 +300,9 @@ public  class ActionItem extends ModellingAnnotationItem  {
         dto.setStatus(this.getStatus());
         dto.setTitle(this.getTitle());
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

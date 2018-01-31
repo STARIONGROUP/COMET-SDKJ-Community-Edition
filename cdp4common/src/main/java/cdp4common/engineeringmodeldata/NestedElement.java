@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -43,17 +44,17 @@ public  class NestedElement extends Thing implements NamedThing, OwnedThing, Sho
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
 
     /**
-     * Initializes a new instance of the <code>NestedElement<code/> class.
-     *
-     * @see NestedElement
+     * Initializes a new instance of the {@link NestedElement} class.
      */
     public NestedElement() {
         this.elementUsage = new OrderedItemList<ElementUsage>(this);
@@ -61,21 +62,14 @@ public  class NestedElement extends Thing implements NamedThing, OwnedThing, Sho
     }
 
     /**
-     * Initializes a new instance of the <code>NestedElement<code/> class.
+     * Initializes a new instance of the {@link NestedElement} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see NestedElement
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public NestedElement(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public NestedElement(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.elementUsage = new OrderedItemList<ElementUsage>(this);
         this.nestedParameter = new ContainerList<NestedParameter>(this);
     }
@@ -135,10 +129,7 @@ public  class NestedElement extends Thing implements NamedThing, OwnedThing, Sho
  
 
     /**
-     * <code>IEnumerable{IEnumerable}<code/> that references the composite properties of the current <code>NestedElement<code/>.
-     *
-     * @see Iterable
-     * @see NestedElement
+     * {@link Iterable<Iterable>} that references the composite properties of the current {@link NestedElement}.
      */
     public Iterable<Iterable> containerLists;
 
@@ -295,34 +286,28 @@ public  class NestedElement extends Thing implements NamedThing, OwnedThing, Sho
     }
 
     /**
-     * Gets an <code>Iterable<Iterable><code/> that references the composite properties of the current <code>NestedElement<code/>.
-     *
-     * @see Iterable
-     * @see NestedElement
+     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link NestedElement}.
      */
     @Override
-    public Iterable<Iterable> getContainerLists {
-        List<Iterable> containers = new ArrayList<Iterable>(super.getContainerLists());
-        containers.Add(this.nestedParameter);
+    public List<List<Thing>> getContainerLists() {
+        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+        containers.add(this.nestedParameter);
         return containers;
     }
 
     /**
-     * Creates and returns a copy of this <code>NestedElement<code/> for edit purpose.
+     * Creates and returns a copy of this {@link NestedElement} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>NestedElement<code/>.
-     *
-     * @see NestedElement
-     * @see Thing
+     * @return A cloned instance of {@link NestedElement}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         NestedElement clone = (NestedElement)this.clone();
         clone.setElementUsage(new OrderedItemList<ElementUsage>(this.getElementUsage(), this));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setNestedParameter(cloneContainedThings ? new ContainerList<NestedParameter>(clone) : new ContainerList<NestedParameter>(this.getNestedParameter(), clone));
 
         if (cloneContainedThings) {
@@ -330,18 +315,16 @@ public  class NestedElement extends Thing implements NamedThing, OwnedThing, Sho
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>NestedElement<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link NestedElement} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>NestedElement<code/>.
-     * 
-     * @see NestedElement
+     * @return A cloned instance of {@link NestedElement}.
      */
     @Override
     public NestedElement clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -351,13 +334,11 @@ public  class NestedElement extends Thing implements NamedThing, OwnedThing, Sho
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>NestedElement<code/>.
+     * Validates the cardinalities of the properties of this <clone>NestedElement}.
      *
      * @return A list of potential errors.
-     *
-     * @see NestedElement
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int elementUsageCount = this.getElementUsage().size();
@@ -368,47 +349,41 @@ public  class NestedElement extends Thing implements NamedThing, OwnedThing, Sho
         if (this.getRootElement() == null || this.getRootElement().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property rootElement is null.");
             this.setRootElement(SentinelThingProvider.getSentinel<ElementDefinition>());
-            this.sentinelResetMap["rootElement"] = () -> this.setRootElement(null);
+            this.sentinelResetMap.put("rootElement", new ActionImpl(() -> this.setRootElement(null)));
         }
 
         return errorList;
     }
 
     /**
-     * Resolve the properties of the current <code>NestedElement<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link NestedElement} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see NestedElement
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.NestedElement dto = (cdp4common.dto.NestedElement)dtoThing;
 
-        this.elementUsage.resolveList(dto.getElementUsage(), dto.getIterationContainerId(), this.getCache());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.setIsVolatile(dto.getIsVolatile());
+        this.getElementUsage().resolveList(dto.getElementUsage(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.setVolatile(dto.getVolatile());
         this.setModifiedOn(dto.getModifiedOn());
-        this.nestedParameter.resolveList(dto.getNestedParameter(), dto.getIterationContainerId(), this.getCache());
+        this.getNestedParameter().resolveList(dto.getNestedParameter(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setRootElement(this.cache.get<ElementDefinition>(dto.getRootElement(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ElementDefinition>());
+        this.setRootElement(this.getCache().get<ElementDefinition>(dto.getRootElement(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ElementDefinition>());
 
         this.resolveExtraProperties();
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>NestedElement<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link NestedElement}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see NestedElement
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -417,15 +392,15 @@ public  class NestedElement extends Thing implements NamedThing, OwnedThing, Sho
         dto.getElementUsage().add(this.getElementUsage().toDtoOrderedItemList());
         dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
         dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setIsVolatile(this.getIsVolatile());
+        dto.setVolatile(this.getVolatile());
         dto.setModifiedOn(this.getModifiedOn());
         dto.getNestedParameter().add(this.getNestedParameter().stream().map(x -> x.getIid()).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setRootElement(this.getRootElement() != null ? this.getRootElement().getIid() : new UUID(0L, 0L));
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

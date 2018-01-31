@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -41,17 +42,17 @@ public  class Iteration extends Thing  {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
 
     /**
-     * Initializes a new instance of the <code>Iteration<code/> class.
-     *
-     * @see Iteration
+     * Initializes a new instance of the {@link Iteration} class.
      */
     public Iteration() {
         this.actualFiniteStateList = new ContainerList<ActualFiniteStateList>(this);
@@ -74,21 +75,14 @@ public  class Iteration extends Thing  {
     }
 
     /**
-     * Initializes a new instance of the <code>Iteration<code/> class.
+     * Initializes a new instance of the {@link Iteration} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see Iteration
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public Iteration(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public Iteration(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.actualFiniteStateList = new ContainerList<ActualFiniteStateList>(this);
         this.diagramCanvas = new ContainerList<DiagramCanvas>(this);
         this.domainFileStore = new ContainerList<DomainFileStore>(this);
@@ -262,10 +256,7 @@ public  class Iteration extends Thing  {
     private ContainerList<ValueGroup> valueGroup;
 
     /**
-     * <code>IEnumerable{IEnumerable}<code/> that references the composite properties of the current <code>Iteration<code/>.
-     *
-     * @see Iterable
-     * @see Iteration
+     * {@link Iterable<Iterable>} that references the composite properties of the current {@link Iteration}.
      */
     public Iterable<Iterable> containerLists;
 
@@ -660,43 +651,37 @@ public  class Iteration extends Thing  {
     }
 
     /**
-     * Gets an <code>Iterable<Iterable><code/> that references the composite properties of the current <code>Iteration<code/>.
-     *
-     * @see Iterable
-     * @see Iteration
+     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link Iteration}.
      */
     @Override
-    public Iterable<Iterable> getContainerLists {
-        List<Iterable> containers = new ArrayList<Iterable>(super.getContainerLists());
-        containers.Add(this.actualFiniteStateList);
-        containers.Add(this.diagramCanvas);
-        containers.Add(this.domainFileStore);
-        containers.Add(this.element);
-        containers.Add(this.externalIdentifierMap);
-        containers.Add(this.goal);
-        containers.Add(this.option);
-        containers.Add(this.possibleFiniteStateList);
-        containers.Add(this.publication);
-        containers.Add(this.relationship);
-        containers.Add(this.requirementsSpecification);
-        containers.Add(this.ruleVerificationList);
-        containers.Add(this.sharedDiagramStyle);
-        containers.Add(this.stakeholder);
-        containers.Add(this.stakeholderValue);
-        containers.Add(this.stakeholderValueMap);
-        containers.Add(this.valueGroup);
+    public List<List<Thing>> getContainerLists() {
+        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+        containers.add(this.actualFiniteStateList);
+        containers.add(this.diagramCanvas);
+        containers.add(this.domainFileStore);
+        containers.add(this.element);
+        containers.add(this.externalIdentifierMap);
+        containers.add(this.goal);
+        containers.add(this.option);
+        containers.add(this.possibleFiniteStateList);
+        containers.add(this.publication);
+        containers.add(this.relationship);
+        containers.add(this.requirementsSpecification);
+        containers.add(this.ruleVerificationList);
+        containers.add(this.sharedDiagramStyle);
+        containers.add(this.stakeholder);
+        containers.add(this.stakeholderValue);
+        containers.add(this.stakeholderValueMap);
+        containers.add(this.valueGroup);
         return containers;
     }
 
     /**
-     * Creates and returns a copy of this <code>Iteration<code/> for edit purpose.
+     * Creates and returns a copy of this {@link Iteration} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>Iteration<code/>.
-     *
-     * @see Iteration
-     * @see Thing
+     * @return A cloned instance of {@link Iteration}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -705,8 +690,8 @@ public  class Iteration extends Thing  {
         clone.setDiagramCanvas(cloneContainedThings ? new ContainerList<DiagramCanvas>(clone) : new ContainerList<DiagramCanvas>(this.getDiagramCanvas(), clone));
         clone.setDomainFileStore(cloneContainedThings ? new ContainerList<DomainFileStore>(clone) : new ContainerList<DomainFileStore>(this.getDomainFileStore(), clone));
         clone.setElement(cloneContainedThings ? new ContainerList<ElementDefinition>(clone) : new ContainerList<ElementDefinition>(this.getElement(), clone));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setExternalIdentifierMap(cloneContainedThings ? new ContainerList<ExternalIdentifierMap>(clone) : new ContainerList<ExternalIdentifierMap>(this.getExternalIdentifierMap(), clone));
         clone.setGoal(cloneContainedThings ? new ContainerList<Goal>(clone) : new ContainerList<Goal>(this.getGoal(), clone));
         clone.setOption(cloneContainedThings ? new OrderedItemList<Option>(clone, true) : new OrderedItemList<Option>(this.getOption(), clone));
@@ -742,18 +727,16 @@ public  class Iteration extends Thing  {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>Iteration<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link Iteration} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>Iteration<code/>.
-     * 
-     * @see Iteration
+     * @return A cloned instance of {@link Iteration}.
      */
     @Override
     public Iteration clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -763,19 +746,17 @@ public  class Iteration extends Thing  {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>Iteration<code/>.
+     * Validates the cardinalities of the properties of this <clone>Iteration}.
      *
      * @return A list of potential errors.
-     *
-     * @see Iteration
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getIterationSetup() == null || this.getIterationSetup().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property iterationSetup is null.");
             this.setIterationSetup(SentinelThingProvider.getSentinel<IterationSetup>());
-            this.sentinelResetMap["iterationSetup"] = () -> this.setIterationSetup(null);
+            this.sentinelResetMap.put("iterationSetup", new ActionImpl(() -> this.setIterationSetup(null)));
         }
 
         int optionCount = this.getOption().size();
@@ -787,57 +768,51 @@ public  class Iteration extends Thing  {
     }
 
     /**
-     * Resolve the properties of the current <code>Iteration<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link Iteration} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see Iteration
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.Iteration dto = (cdp4common.dto.Iteration)dtoThing;
 
-        this.actualFiniteStateList.resolveList(dto.getActualFiniteStateList(), dto.getIid(), this.getCache());
+        this.getActualFiniteStateList().resolveList(dto.getActualFiniteStateList(), dto.getIid(), this.getCache());
         this.setDefaultOption((dto.getDefaultOption() != null) ? this.getCache().get<Option>(dto.getDefaultOption.getValue(), dto.getIid()) : null);
-        this.diagramCanvas.resolveList(dto.getDiagramCanvas(), dto.getIid(), this.getCache());
-        this.domainFileStore.resolveList(dto.getDomainFileStore(), dto.getIid(), this.getCache());
-        this.element.resolveList(dto.getElement(), dto.getIid(), this.getCache());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIid(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIid(), this.getCache());
-        this.externalIdentifierMap.resolveList(dto.getExternalIdentifierMap(), dto.getIid(), this.getCache());
-        this.goal.resolveList(dto.getGoal(), dto.getIid(), this.getCache());
-        this.setIterationSetup(this.cache.get<IterationSetup>(dto.getIterationSetup(), dto.getIid()) ?? SentinelThingProvider.getSentinel<IterationSetup>());
+        this.getDiagramCanvas().resolveList(dto.getDiagramCanvas(), dto.getIid(), this.getCache());
+        this.getDomainFileStore().resolveList(dto.getDomainFileStore(), dto.getIid(), this.getCache());
+        this.getElement().resolveList(dto.getElement(), dto.getIid(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIid(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIid(), this.getCache());
+        this.getExternalIdentifierMap().resolveList(dto.getExternalIdentifierMap(), dto.getIid(), this.getCache());
+        this.getGoal().resolveList(dto.getGoal(), dto.getIid(), this.getCache());
+        this.setIterationSetup(this.getCache().get<IterationSetup>(dto.getIterationSetup(), dto.getIid()) ?? SentinelThingProvider.getSentinel<IterationSetup>());
         this.setModifiedOn(dto.getModifiedOn());
-        this.option.resolveList(dto.getOption(), dto.getIid(), this.getCache());
-        this.possibleFiniteStateList.resolveList(dto.getPossibleFiniteStateList(), dto.getIid(), this.getCache());
-        this.publication.resolveList(dto.getPublication(), dto.getIid(), this.getCache());
-        this.relationship.resolveList(dto.getRelationship(), dto.getIid(), this.getCache());
-        this.requirementsSpecification.resolveList(dto.getRequirementsSpecification(), dto.getIid(), this.getCache());
+        this.getOption().resolveList(dto.getOption(), dto.getIid(), this.getCache());
+        this.getPossibleFiniteStateList().resolveList(dto.getPossibleFiniteStateList(), dto.getIid(), this.getCache());
+        this.getPublication().resolveList(dto.getPublication(), dto.getIid(), this.getCache());
+        this.getRelationship().resolveList(dto.getRelationship(), dto.getIid(), this.getCache());
+        this.getRequirementsSpecification().resolveList(dto.getRequirementsSpecification(), dto.getIid(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.ruleVerificationList.resolveList(dto.getRuleVerificationList(), dto.getIid(), this.getCache());
-        this.sharedDiagramStyle.resolveList(dto.getSharedDiagramStyle(), dto.getIid(), this.getCache());
+        this.getRuleVerificationList().resolveList(dto.getRuleVerificationList(), dto.getIid(), this.getCache());
+        this.getSharedDiagramStyle().resolveList(dto.getSharedDiagramStyle(), dto.getIid(), this.getCache());
         this.setSourceIterationIid(dto.getSourceIterationIid());
-        this.stakeholder.resolveList(dto.getStakeholder(), dto.getIid(), this.getCache());
-        this.stakeholderValue.resolveList(dto.getStakeholderValue(), dto.getIid(), this.getCache());
-        this.stakeholderValueMap.resolveList(dto.getStakeholderValueMap(), dto.getIid(), this.getCache());
+        this.getStakeholder().resolveList(dto.getStakeholder(), dto.getIid(), this.getCache());
+        this.getStakeholderValue().resolveList(dto.getStakeholderValue(), dto.getIid(), this.getCache());
+        this.getStakeholderValueMap().resolveList(dto.getStakeholderValueMap(), dto.getIid(), this.getCache());
         this.setTopElement((dto.getTopElement() != null) ? this.getCache().get<ElementDefinition>(dto.getTopElement.getValue(), dto.getIid()) : null);
-        this.valueGroup.resolveList(dto.getValueGroup(), dto.getIid(), this.getCache());
+        this.getValueGroup().resolveList(dto.getValueGroup(), dto.getIid(), this.getCache());
 
         this.resolveExtraProperties();
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>Iteration<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link Iteration}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see Iteration
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -869,9 +844,9 @@ public  class Iteration extends Thing  {
         dto.setTopElement(this.getTopElement() != null ? (UUID)this.getTopElement().getIid() : null);
         dto.getValueGroup().add(this.getValueGroup().stream().map(x -> x.getIid()).collect(Collectors.toList()));
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

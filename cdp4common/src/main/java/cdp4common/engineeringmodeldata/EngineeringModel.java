@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -40,17 +41,17 @@ public  class EngineeringModel extends TopContainer  {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
 
     /**
-     * Initializes a new instance of the <code>EngineeringModel<code/> class.
-     *
-     * @see EngineeringModel
+     * Initializes a new instance of the {@link EngineeringModel} class.
      */
     public EngineeringModel() {
         this.book = new OrderedItemList<Book>(this, true);
@@ -62,21 +63,14 @@ public  class EngineeringModel extends TopContainer  {
     }
 
     /**
-     * Initializes a new instance of the <code>EngineeringModel<code/> class.
+     * Initializes a new instance of the {@link EngineeringModel} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see EngineeringModel
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public EngineeringModel(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public EngineeringModel(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.book = new OrderedItemList<Book>(this, true);
         this.commonFileStore = new ContainerList<CommonFileStore>(this);
         this.genericNote = new ContainerList<EngineeringModelDataNote>(this);
@@ -142,10 +136,7 @@ public  class EngineeringModel extends TopContainer  {
     private ContainerList<ModellingAnnotationItem> modellingAnnotation;
 
     /**
-     * <code>IEnumerable{IEnumerable}<code/> that references the composite properties of the current <code>EngineeringModel<code/>.
-     *
-     * @see Iterable
-     * @see EngineeringModel
+     * {@link Iterable<Iterable>} that references the composite properties of the current {@link EngineeringModel}.
      */
     public Iterable<Iterable> containerLists;
 
@@ -290,40 +281,34 @@ public  class EngineeringModel extends TopContainer  {
     }
 
     /**
-     * Gets an <code>Iterable<Iterable><code/> that references the composite properties of the current <code>EngineeringModel<code/>.
-     *
-     * @see Iterable
-     * @see EngineeringModel
+     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link EngineeringModel}.
      */
     @Override
-    public Iterable<Iterable> getContainerLists {
-        List<Iterable> containers = new ArrayList<Iterable>(super.getContainerLists());
-        containers.Add(this.book);
-        containers.Add(this.commonFileStore);
-        containers.Add(this.genericNote);
-        containers.Add(this.iteration);
-        containers.Add(this.logEntry);
-        containers.Add(this.modellingAnnotation);
+    public List<List<Thing>> getContainerLists() {
+        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+        containers.add(this.book);
+        containers.add(this.commonFileStore);
+        containers.add(this.genericNote);
+        containers.add(this.iteration);
+        containers.add(this.logEntry);
+        containers.add(this.modellingAnnotation);
         return containers;
     }
 
     /**
-     * Creates and returns a copy of this <code>EngineeringModel<code/> for edit purpose.
+     * Creates and returns a copy of this {@link EngineeringModel} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>EngineeringModel<code/>.
-     *
-     * @see EngineeringModel
-     * @see Thing
+     * @return A cloned instance of {@link EngineeringModel}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         EngineeringModel clone = (EngineeringModel)this.clone();
         clone.setBook(cloneContainedThings ? new OrderedItemList<Book>(clone, true) : new OrderedItemList<Book>(this.getBook(), clone));
         clone.setCommonFileStore(cloneContainedThings ? new ContainerList<CommonFileStore>(clone) : new ContainerList<CommonFileStore>(this.getCommonFileStore(), clone));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setGenericNote(cloneContainedThings ? new ContainerList<EngineeringModelDataNote>(clone) : new ContainerList<EngineeringModelDataNote>(this.getGenericNote(), clone));
         clone.setIteration(cloneContainedThings ? new ContainerList<Iteration>(clone) : new ContainerList<Iteration>(this.getIteration(), clone));
         clone.setLogEntry(cloneContainedThings ? new ContainerList<ModelLogEntry>(clone) : new ContainerList<ModelLogEntry>(this.getLogEntry(), clone));
@@ -339,18 +324,16 @@ public  class EngineeringModel extends TopContainer  {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>EngineeringModel<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link EngineeringModel} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>EngineeringModel<code/>.
-     * 
-     * @see EngineeringModel
+     * @return A cloned instance of {@link EngineeringModel}.
      */
     @Override
     public EngineeringModel clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -360,19 +343,17 @@ public  class EngineeringModel extends TopContainer  {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>EngineeringModel<code/>.
+     * Validates the cardinalities of the properties of this <clone>EngineeringModel}.
      *
      * @return A list of potential errors.
-     *
-     * @see EngineeringModel
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getEngineeringModelSetup() == null || this.getEngineeringModelSetup().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property engineeringModelSetup is null.");
             this.setEngineeringModelSetup(SentinelThingProvider.getSentinel<EngineeringModelSetup>());
-            this.sentinelResetMap["engineeringModelSetup"] = () -> this.setEngineeringModelSetup(null);
+            this.sentinelResetMap.put("engineeringModelSetup", new ActionImpl(() -> this.setEngineeringModelSetup(null)));
         }
 
         int iterationCount = this.getIteration().size();
@@ -384,31 +365,28 @@ public  class EngineeringModel extends TopContainer  {
     }
 
     /**
-     * Resolve the properties of the current <code>EngineeringModel<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link EngineeringModel} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see EngineeringModel
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.EngineeringModel dto = (cdp4common.dto.EngineeringModel)dtoThing;
 
-        this.book.resolveList(dto.getBook(), dto.getIterationContainerId(), this.getCache());
-        this.commonFileStore.resolveList(dto.getCommonFileStore(), dto.getIterationContainerId(), this.getCache());
-        this.setEngineeringModelSetup(this.cache.get<EngineeringModelSetup>(dto.getEngineeringModelSetup(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<EngineeringModelSetup>());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.genericNote.resolveList(dto.getGenericNote(), dto.getIterationContainerId(), this.getCache());
-        this.iteration.resolveList(dto.getIteration(), dto.getIterationContainerId(), this.getCache());
+        this.getBook().resolveList(dto.getBook(), dto.getIterationContainerId(), this.getCache());
+        this.getCommonFileStore().resolveList(dto.getCommonFileStore(), dto.getIterationContainerId(), this.getCache());
+        this.setEngineeringModelSetup(this.getCache().get<EngineeringModelSetup>(dto.getEngineeringModelSetup(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<EngineeringModelSetup>());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getGenericNote().resolveList(dto.getGenericNote(), dto.getIterationContainerId(), this.getCache());
+        this.getIteration().resolveList(dto.getIteration(), dto.getIterationContainerId(), this.getCache());
         this.setLastModifiedOn(dto.getLastModifiedOn());
-        this.logEntry.resolveList(dto.getLogEntry(), dto.getIterationContainerId(), this.getCache());
-        this.modellingAnnotation.resolveList(dto.getModellingAnnotation(), dto.getIterationContainerId(), this.getCache());
+        this.getLogEntry().resolveList(dto.getLogEntry(), dto.getIterationContainerId(), this.getCache());
+        this.getModellingAnnotation().resolveList(dto.getModellingAnnotation(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
 
@@ -416,12 +394,9 @@ public  class EngineeringModel extends TopContainer  {
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>EngineeringModel<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link EngineeringModel}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see EngineeringModel
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -440,9 +415,9 @@ public  class EngineeringModel extends TopContainer  {
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

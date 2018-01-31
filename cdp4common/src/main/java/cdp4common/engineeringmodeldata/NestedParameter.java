@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -40,37 +41,30 @@ public  class NestedParameter extends Thing implements OwnedThing, VolatileThing
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
 
     /**
-     * Initializes a new instance of the <code>NestedParameter<code/> class.
-     *
-     * @see NestedParameter
+     * Initializes a new instance of the {@link NestedParameter} class.
      */
     public NestedParameter() {
     }
 
     /**
-     * Initializes a new instance of the <code>NestedParameter<code/> class.
+     * Initializes a new instance of the {@link NestedParameter} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see NestedParameter
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public NestedParameter(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public NestedParameter(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
     }
 
     /**
@@ -265,37 +259,32 @@ public  class NestedParameter extends Thing implements OwnedThing, VolatileThing
     }
 
     /**
-     * Creates and returns a copy of this <code>NestedParameter<code/> for edit purpose.
+     * Creates and returns a copy of this {@link NestedParameter} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>NestedParameter<code/>.
-     *
-     * @see NestedParameter
-     * @see Thing
+     * @return A cloned instance of {@link NestedParameter}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         NestedParameter clone = (NestedParameter)this.clone();
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
         if (cloneContainedThings) {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>NestedParameter<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link NestedParameter} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>NestedParameter<code/>.
-     * 
-     * @see NestedParameter
+     * @return A cloned instance of {@link NestedParameter}.
      */
     @Override
     public NestedParameter clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -305,13 +294,11 @@ public  class NestedParameter extends Thing implements OwnedThing, VolatileThing
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>NestedParameter<code/>.
+     * Validates the cardinalities of the properties of this <clone>NestedParameter}.
      *
      * @return A list of potential errors.
-     *
-     * @see NestedParameter
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getActualValue().trim().isEmpty()) {
@@ -321,7 +308,7 @@ public  class NestedParameter extends Thing implements OwnedThing, VolatileThing
         if (this.getAssociatedParameter() == null || this.getAssociatedParameter().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property associatedParameter is null.");
             this.setAssociatedParameter(SentinelThingProvider.getSentinel<ParameterBase>());
-            this.sentinelResetMap["associatedParameter"] = () -> this.setAssociatedParameter(null);
+            this.sentinelResetMap.put("associatedParameter", new ActionImpl(() -> this.setAssociatedParameter(null)));
         }
 
         if (this.getFormula().trim().isEmpty()) {
@@ -331,22 +318,19 @@ public  class NestedParameter extends Thing implements OwnedThing, VolatileThing
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property owner is null.");
             this.setOwner(SentinelThingProvider.getSentinel<DomainOfExpertise>());
-            this.sentinelResetMap["owner"] = () -> this.setOwner(null);
+            this.sentinelResetMap.put("owner", new ActionImpl(() -> this.setOwner(null)));
         }
 
         return errorList;
     }
 
     /**
-     * Resolve the properties of the current <code>NestedParameter<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link NestedParameter} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see NestedParameter
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
@@ -355,25 +339,22 @@ public  class NestedParameter extends Thing implements OwnedThing, VolatileThing
 
         this.setActualState((dto.getActualState() != null) ? this.getCache().get<ActualFiniteState>(dto.getActualState.getValue(), dto.getIterationContainerId()) : null);
         this.setActualValue(dto.getActualValue());
-        this.setAssociatedParameter(this.cache.get<ParameterBase>(dto.getAssociatedParameter(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ParameterBase>());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.setAssociatedParameter(this.getCache().get<ParameterBase>(dto.getAssociatedParameter(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ParameterBase>());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setFormula(dto.getFormula());
-        this.setIsVolatile(dto.getIsVolatile());
+        this.setVolatile(dto.getVolatile());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.cache.get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>NestedParameter<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link NestedParameter}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see NestedParameter
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -385,14 +366,14 @@ public  class NestedParameter extends Thing implements OwnedThing, VolatileThing
         dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
         dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
         dto.setFormula(this.getFormula());
-        dto.setIsVolatile(this.getIsVolatile());
+        dto.setVolatile(this.getVolatile());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));
         dto.setRevisionNumber(this.getRevisionNumber());
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

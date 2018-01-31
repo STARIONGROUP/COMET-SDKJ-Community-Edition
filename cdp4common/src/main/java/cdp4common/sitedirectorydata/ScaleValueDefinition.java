@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -40,37 +41,30 @@ public  class ScaleValueDefinition extends DefinedThing  {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.SAME_AS_CONTAINER;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.SAME_AS_CONTAINER;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_CONTAINER;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_CONTAINER;
 
     /**
-     * Initializes a new instance of the <code>ScaleValueDefinition<code/> class.
-     *
-     * @see ScaleValueDefinition
+     * Initializes a new instance of the {@link ScaleValueDefinition} class.
      */
     public ScaleValueDefinition() {
     }
 
     /**
-     * Initializes a new instance of the <code>ScaleValueDefinition<code/> class.
+     * Initializes a new instance of the {@link ScaleValueDefinition} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see ScaleValueDefinition
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public ScaleValueDefinition(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public ScaleValueDefinition(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
     }
 
     /**
@@ -99,22 +93,19 @@ public  class ScaleValueDefinition extends DefinedThing  {
     }
 
     /**
-     * Creates and returns a copy of this <code>ScaleValueDefinition<code/> for edit purpose.
+     * Creates and returns a copy of this {@link ScaleValueDefinition} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ScaleValueDefinition<code/>.
-     *
-     * @see ScaleValueDefinition
-     * @see Thing
+     * @return A cloned instance of {@link ScaleValueDefinition}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         ScaleValueDefinition clone = (ScaleValueDefinition)this.clone();
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
 
         if (cloneContainedThings) {
@@ -124,18 +115,16 @@ public  class ScaleValueDefinition extends DefinedThing  {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>ScaleValueDefinition<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link ScaleValueDefinition} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ScaleValueDefinition<code/>.
-     * 
-     * @see ScaleValueDefinition
+     * @return A cloned instance of {@link ScaleValueDefinition}.
      */
     @Override
     public ScaleValueDefinition clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -145,13 +134,11 @@ public  class ScaleValueDefinition extends DefinedThing  {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ScaleValueDefinition<code/>.
+     * Validates the cardinalities of the properties of this <clone>ScaleValueDefinition}.
      *
      * @return A list of potential errors.
-     *
-     * @see ScaleValueDefinition
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getValue().trim().isEmpty()) {
@@ -162,26 +149,23 @@ public  class ScaleValueDefinition extends DefinedThing  {
     }
 
     /**
-     * Resolve the properties of the current <code>ScaleValueDefinition<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link ScaleValueDefinition} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see ScaleValueDefinition
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.ScaleValueDefinition dto = (cdp4common.dto.ScaleValueDefinition)dtoThing;
 
-        this.alias.resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.definition.resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.hyperLink.resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
+        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
         this.setRevisionNumber(dto.getRevisionNumber());
@@ -192,12 +176,9 @@ public  class ScaleValueDefinition extends DefinedThing  {
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>ScaleValueDefinition<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link ScaleValueDefinition}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see ScaleValueDefinition
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -214,9 +195,9 @@ public  class ScaleValueDefinition extends DefinedThing  {
         dto.setShortName(this.getShortName());
         dto.setValue(this.getValue());
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

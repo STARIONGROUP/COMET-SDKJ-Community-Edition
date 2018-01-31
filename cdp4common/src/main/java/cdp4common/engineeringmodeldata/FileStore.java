@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -38,17 +39,17 @@ public  abstract class FileStore extends Thing implements NamedThing, OwnedThing
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
 
     /**
-     * Initializes a new instance of the <code>FileStore<code/> class.
-     *
-     * @see FileStore
+     * Initializes a new instance of the {@link FileStore} class.
      */
     protected FileStore() {
         this.file = new ContainerList<File>(this);
@@ -56,21 +57,14 @@ public  abstract class FileStore extends Thing implements NamedThing, OwnedThing
     }
 
     /**
-     * Initializes a new instance of the <code>FileStore<code/> class.
+     * Initializes a new instance of the {@link FileStore} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see FileStore
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    protected FileStore(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    protected FileStore(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.file = new ContainerList<File>(this);
         this.folder = new ContainerList<Folder>(this);
     }
@@ -114,10 +108,7 @@ public  abstract class FileStore extends Thing implements NamedThing, OwnedThing
     private DomainOfExpertise owner;
 
     /**
-     * <code>IEnumerable{IEnumerable}<code/> that references the composite properties of the current <code>FileStore<code/>.
-     *
-     * @see Iterable
-     * @see FileStore
+     * {@link Iterable<Iterable>} that references the composite properties of the current {@link FileStore}.
      */
     public Iterable<Iterable> containerLists;
 
@@ -218,26 +209,21 @@ public  abstract class FileStore extends Thing implements NamedThing, OwnedThing
     }
 
     /**
-     * Gets an <code>Iterable<Iterable><code/> that references the composite properties of the current <code>FileStore<code/>.
-     *
-     * @see Iterable
-     * @see FileStore
+     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link FileStore}.
      */
     @Override
-    public Iterable<Iterable> getContainerLists {
-        List<Iterable> containers = new ArrayList<Iterable>(super.getContainerLists());
-        containers.Add(this.file);
-        containers.Add(this.folder);
+    public List<List<Thing>> getContainerLists() {
+        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+        containers.add(this.file);
+        containers.add(this.folder);
         return containers;
     }
 
     /**
-     * Creates and returns a copy of this <code>FileStore<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link FileStore} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>FileStore<code/>.
-     * 
-     * @see FileStore
+     * @return A cloned instance of {@link FileStore}.
      */
     @Override
     public FileStore clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -247,13 +233,11 @@ public  abstract class FileStore extends Thing implements NamedThing, OwnedThing
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>FileStore<code/>.
+     * Validates the cardinalities of the properties of this <clone>FileStore}.
      *
      * @return A list of potential errors.
-     *
-     * @see FileStore
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getName().trim().isEmpty()) {
@@ -263,7 +247,7 @@ public  abstract class FileStore extends Thing implements NamedThing, OwnedThing
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property owner is null.");
             this.setOwner(SentinelThingProvider.getSentinel<DomainOfExpertise>());
-            this.sentinelResetMap["owner"] = () -> this.setOwner(null);
+            this.sentinelResetMap.put("owner", new ActionImpl(() -> this.setOwner(null)));
         }
 
         return errorList;

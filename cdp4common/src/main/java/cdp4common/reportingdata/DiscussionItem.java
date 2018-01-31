@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -39,37 +40,30 @@ public  abstract class DiscussionItem extends GenericAnnotation  {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NOT_APPLICABLE;
 
     /**
-     * Initializes a new instance of the <code>DiscussionItem<code/> class.
-     *
-     * @see DiscussionItem
+     * Initializes a new instance of the {@link DiscussionItem} class.
      */
     protected DiscussionItem() {
     }
 
     /**
-     * Initializes a new instance of the <code>DiscussionItem<code/> class.
+     * Initializes a new instance of the {@link DiscussionItem} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see DiscussionItem
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    protected DiscussionItem(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    protected DiscussionItem(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
     }
 
     /**
@@ -98,12 +92,10 @@ public  abstract class DiscussionItem extends GenericAnnotation  {
     }
 
     /**
-     * Creates and returns a copy of this <code>DiscussionItem<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link DiscussionItem} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>DiscussionItem<code/>.
-     * 
-     * @see DiscussionItem
+     * @return A cloned instance of {@link DiscussionItem}.
      */
     @Override
     public DiscussionItem clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -113,13 +105,11 @@ public  abstract class DiscussionItem extends GenericAnnotation  {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>DiscussionItem<code/>.
+     * Validates the cardinalities of the properties of this <clone>DiscussionItem}.
      *
      * @return A list of potential errors.
-     *
-     * @see DiscussionItem
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;

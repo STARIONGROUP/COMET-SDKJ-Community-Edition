@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -39,38 +40,31 @@ public  class ParameterSubscriptionValueSet extends Thing implements OwnedThing 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_CONTAINER;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.SAME_AS_CONTAINER;
 
     /**
-     * Initializes a new instance of the <code>ParameterSubscriptionValueSet<code/> class.
-     *
-     * @see ParameterSubscriptionValueSet
+     * Initializes a new instance of the {@link ParameterSubscriptionValueSet} class.
      */
     public ParameterSubscriptionValueSet() {
         this.manual = new ValueArray<String>(this);
     }
 
     /**
-     * Initializes a new instance of the <code>ParameterSubscriptionValueSet<code/> class.
+     * Initializes a new instance of the {@link ParameterSubscriptionValueSet} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see ParameterSubscriptionValueSet
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public ParameterSubscriptionValueSet(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public ParameterSubscriptionValueSet(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.manual = new ValueArray<String>(this);
     }
 
@@ -351,38 +345,33 @@ public  class ParameterSubscriptionValueSet extends Thing implements OwnedThing 
     }
 
     /**
-     * Creates and returns a copy of this <code>ParameterSubscriptionValueSet<code/> for edit purpose.
+     * Creates and returns a copy of this {@link ParameterSubscriptionValueSet} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ParameterSubscriptionValueSet<code/>.
-     *
-     * @see ParameterSubscriptionValueSet
-     * @see Thing
+     * @return A cloned instance of {@link ParameterSubscriptionValueSet}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         ParameterSubscriptionValueSet clone = (ParameterSubscriptionValueSet)this.clone();
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setManual(new ValueArray<String>(this.getManual(), this));
 
         if (cloneContainedThings) {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>ParameterSubscriptionValueSet<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link ParameterSubscriptionValueSet} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ParameterSubscriptionValueSet<code/>.
-     * 
-     * @see ParameterSubscriptionValueSet
+     * @return A cloned instance of {@link ParameterSubscriptionValueSet}.
      */
     @Override
     public ParameterSubscriptionValueSet clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -392,13 +381,11 @@ public  class ParameterSubscriptionValueSet extends Thing implements OwnedThing 
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ParameterSubscriptionValueSet<code/>.
+     * Validates the cardinalities of the properties of this <clone>ParameterSubscriptionValueSet}.
      *
      * @return A list of potential errors.
-     *
-     * @see ParameterSubscriptionValueSet
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int manualCount = this.getManual().size();
@@ -409,46 +396,40 @@ public  class ParameterSubscriptionValueSet extends Thing implements OwnedThing 
         if (this.getSubscribedValueSet() == null || this.getSubscribedValueSet().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property subscribedValueSet is null.");
             this.setSubscribedValueSet(SentinelThingProvider.getSentinel<ParameterValueSetBase>());
-            this.sentinelResetMap["subscribedValueSet"] = () -> this.setSubscribedValueSet(null);
+            this.sentinelResetMap.put("subscribedValueSet", new ActionImpl(() -> this.setSubscribedValueSet(null)));
         }
 
         return errorList;
     }
 
     /**
-     * Resolve the properties of the current <code>ParameterSubscriptionValueSet<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link ParameterSubscriptionValueSet} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see ParameterSubscriptionValueSet
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.ParameterSubscriptionValueSet dto = (cdp4common.dto.ParameterSubscriptionValueSet)dtoThing;
 
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setManual(new ValueArray<String>(dto.getManual(), this));
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setSubscribedValueSet(this.cache.get<ParameterValueSetBase>(dto.getSubscribedValueSet(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ParameterValueSetBase>());
+        this.setSubscribedValueSet(this.getCache().get<ParameterValueSetBase>(dto.getSubscribedValueSet(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ParameterValueSetBase>());
         this.setValueSwitch(dto.getValueSwitch());
 
         this.resolveExtraProperties();
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>ParameterSubscriptionValueSet<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link ParameterSubscriptionValueSet}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see ParameterSubscriptionValueSet
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -462,9 +443,9 @@ public  class ParameterSubscriptionValueSet extends Thing implements OwnedThing 
         dto.setSubscribedValueSet(this.getSubscribedValueSet() != null ? this.getSubscribedValueSet().getIid() : new UUID(0L, 0L));
         dto.setValueSwitch(this.getValueSwitch());
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

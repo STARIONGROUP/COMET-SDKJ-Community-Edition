@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -40,38 +41,31 @@ public  class ParameterSubscription extends ParameterBase  {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
 
     /**
-     * Initializes a new instance of the <code>ParameterSubscription<code/> class.
-     *
-     * @see ParameterSubscription
+     * Initializes a new instance of the {@link ParameterSubscription} class.
      */
     public ParameterSubscription() {
         this.valueSet = new ContainerList<ParameterSubscriptionValueSet>(this);
     }
 
     /**
-     * Initializes a new instance of the <code>ParameterSubscription<code/> class.
+     * Initializes a new instance of the {@link ParameterSubscription} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see ParameterSubscription
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    public ParameterSubscription(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    public ParameterSubscription(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.valueSet = new ContainerList<ParameterSubscriptionValueSet>(this);
     }
 
@@ -118,10 +112,7 @@ public  class ParameterSubscription extends ParameterBase  {
     private ContainerList<ParameterSubscriptionValueSet> valueSet;
 
     /**
-     * <code>IEnumerable{IEnumerable}<code/> that references the composite properties of the current <code>ParameterSubscription<code/>.
-     *
-     * @see Iterable
-     * @see ParameterSubscription
+     * {@link Iterable<Iterable>} that references the composite properties of the current {@link ParameterSubscription}.
      */
     public Iterable<Iterable> containerLists;
 
@@ -264,33 +255,27 @@ public  class ParameterSubscription extends ParameterBase  {
     }
 
     /**
-     * Gets an <code>Iterable<Iterable><code/> that references the composite properties of the current <code>ParameterSubscription<code/>.
-     *
-     * @see Iterable
-     * @see ParameterSubscription
+     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link ParameterSubscription}.
      */
     @Override
-    public Iterable<Iterable> getContainerLists {
-        List<Iterable> containers = new ArrayList<Iterable>(super.getContainerLists());
-        containers.Add(this.valueSet);
+    public List<List<Thing>> getContainerLists() {
+        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+        containers.add(this.valueSet);
         return containers;
     }
 
     /**
-     * Creates and returns a copy of this <code>ParameterSubscription<code/> for edit purpose.
+     * Creates and returns a copy of this {@link ParameterSubscription} for edit purpose.
      *
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ParameterSubscription<code/>.
-     *
-     * @see ParameterSubscription
-     * @see Thing
+     * @return A cloned instance of {@link ParameterSubscription}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) throws CloneNotSupportedException {
         ParameterSubscription clone = (ParameterSubscription)this.clone();
-        clone.setExcludedDomain(new List<DomainOfExpertise>(this.getExcludedDomain()));
-        clone.setExcludedPerson(new List<Person>(this.getExcludedPerson()));
+        clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
+        clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setValueSet(cloneContainedThings ? new ContainerList<ParameterSubscriptionValueSet>(clone) : new ContainerList<ParameterSubscriptionValueSet>(this.getValueSet(), clone));
 
         if (cloneContainedThings) {
@@ -298,18 +283,16 @@ public  class ParameterSubscription extends ParameterBase  {
         }
 
         clone.setOriginal(this);
-        clone.ResetCacheId();
+        clone.resetCacheId();
 
         return clone;
     }
 
     /**
-     * Creates and returns a copy of this <code>ParameterSubscription<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link ParameterSubscription} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>ParameterSubscription<code/>.
-     * 
-     * @see ParameterSubscription
+     * @return A cloned instance of {@link ParameterSubscription}.
      */
     @Override
     public ParameterSubscription clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -319,13 +302,11 @@ public  class ParameterSubscription extends ParameterBase  {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ParameterSubscription<code/>.
+     * Validates the cardinalities of the properties of this <clone>ParameterSubscription}.
      *
      * @return A list of potential errors.
-     *
-     * @see ParameterSubscription
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         int valueSetCount = this.getValueSet().size();
@@ -337,38 +318,32 @@ public  class ParameterSubscription extends ParameterBase  {
     }
 
     /**
-     * Resolve the properties of the current <code>ParameterSubscription<code/> from its <code>cdp4common.dto.Thing<code/> counter-part
+     * Resolve the properties of the current {@link ParameterSubscription} from its {@link cdp4common.dto.Thing} counter-part
      *
-     * @param dtoThing The source <code>cdp4common.dto.Thing<code/>
-     *
-     * @see ParameterSubscription
-     * @see cdp4common.dto.Thing
+     * @param dtoThing The source {@link cdp4common.dto.Thing}
      */
     @Override
-    void resolveProperties(cdp4common.dto.Thing dtoThing) {
+    public void resolveProperties(cdp4common.dto.Thing dtoThing) {
         if (dtoThing == null) {
             throw new IllegalArgumentException("dtoThing");
         }
 
         cdp4common.dto.ParameterSubscription dto = (cdp4common.dto.ParameterSubscription)dtoThing;
 
-        this.excludedDomain.resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.excludedPerson.resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
+        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.cache.get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.valueSet.resolveList(dto.getValueSet(), dto.getIterationContainerId(), this.getCache());
+        this.getValueSet().resolveList(dto.getValueSet(), dto.getIterationContainerId(), this.getCache());
 
         this.resolveExtraProperties();
     }
 
     /**
-     * Generates a <code>cdp4common.dto.Thing<code/> from the current <code>ParameterSubscription<code/>
+     * Generates a {@link cdp4common.dto.Thing} from the current {@link ParameterSubscription}
      *
-     * @return Generated <code>cdp4common.dto.Thing<code/>
-     *
-     * @see cdp4common.dto.Thing
-     * @see ParameterSubscription
+     * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
     public cdp4common.dto.Thing toDto() {
@@ -381,9 +356,9 @@ public  class ParameterSubscription extends ParameterBase  {
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.getValueSet().add(this.getValueSet().stream().map(x -> x.getIid()).collect(Collectors.toList()));
 
-        dto.setIterationContainerId(this.getCacheId().getItem2());
-        dto.RegisterSourceThing(this);
-        this.BuildDtoPartialRoutes(dto);
+        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.registerSourceThing(this);
+        this.buildDtoPartialRoutes(dto);
 
         return dto;
     }

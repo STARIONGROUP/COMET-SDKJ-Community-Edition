@@ -24,6 +24,7 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.ehcache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -40,38 +41,31 @@ public  abstract class Note extends Thing implements CategorizableThing, NamedTh
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
+    @Getter
+    private final PersonAccessRightKind defaultPersonAccess = PersonAccessRightKind.NOT_APPLICABLE;
 
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
-    public final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
+    @Getter
+    private final ParticipantAccessRightKind defaultParticipantAccess = ParticipantAccessRightKind.NONE;
 
     /**
-     * Initializes a new instance of the <code>Note<code/> class.
-     *
-     * @see Note
+     * Initializes a new instance of the {@link Note} class.
      */
     protected Note() {
         this.category = new ArrayList<Category>();
     }
 
     /**
-     * Initializes a new instance of the <code>Note<code/> class.
+     * Initializes a new instance of the {@link Note} class.
      * @param iid The unique identifier.
-     * @param cache The <code>ConcurrentHashMap<K,V></code> where the current thing is stored.
-     * The <code>Pair<L,R><code/> of <code>UUID<code/> is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its <code>Iteration<code/> container if applicable or null.
-     * @param iDalUri The <code>URI</code> of this thing
-     *
-     * @see ConcurrentHashMap
-     * @see URI
-     * @see UUID
-     * @see Pair
-     * @see Iteration
-     * @see Note
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iDalUri The {@link URI} of this thing
      */
-    protected Note(UUID iid, ConcurrentHashMap<Pair<UUID, UUID>, Lazy<Thing>> cache, URI iDalUri) {
+    protected Note(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         this.category = new ArrayList<Category>();
     }
 
@@ -219,12 +213,10 @@ public  abstract class Note extends Thing implements CategorizableThing, NamedTh
     }
 
     /**
-     * Creates and returns a copy of this <code>Note<code/> for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained <code>Thing<code/>s should be cloned or not.
+     * Creates and returns a copy of this {@link Note} for edit purpose.
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
-     * @return A cloned instance of <code>Note<code/>.
-     * 
-     * @see Note
+     * @return A cloned instance of {@link Note}.
      */
     @Override
     public Note clone(boolean cloneContainedThings) throws CloneNotSupportedException {
@@ -234,13 +226,11 @@ public  abstract class Note extends Thing implements CategorizableThing, NamedTh
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>Note<code/>.
+     * Validates the cardinalities of the properties of this <clone>Note}.
      *
      * @return A list of potential errors.
-     *
-     * @see Note
      */
-    protected Iterable<String> validatePocoCardinality() {
+    protected Iterable<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         if (this.getName().trim().isEmpty()) {
@@ -250,7 +240,7 @@ public  abstract class Note extends Thing implements CategorizableThing, NamedTh
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property owner is null.");
             this.setOwner(SentinelThingProvider.getSentinel<DomainOfExpertise>());
-            this.sentinelResetMap["owner"] = () -> this.setOwner(null);
+            this.sentinelResetMap.put("owner", new ActionImpl(() -> this.setOwner(null)));
         }
 
         if (this.getShortName().trim().isEmpty()) {
