@@ -5,6 +5,9 @@
 
 package cdp4common.helpers;
 
+/**
+ * It is an implementation of {@link Action} that is used to mimic C# Action Delegate
+ */
 public class ActionImpl implements Action {
     private Action action;
 

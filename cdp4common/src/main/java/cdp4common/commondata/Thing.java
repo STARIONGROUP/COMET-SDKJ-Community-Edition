@@ -397,7 +397,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      * @param cloneContainedThings Indicates whether the contained {@link Thing} should be cloned or not.
      * @return A cloned instance of {@link Thing}
      */
-    public Thing clone(boolean cloneContainedThings) throws CloneNotSupportedException {
+    public Thing clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
         return this.genericClone(cloneContainedThings);
     }
