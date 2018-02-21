@@ -5,37 +5,29 @@
 
 package cdp4common;
 
+import cdp4common.commondata.Thing;
+
 /**
- * Enum to specify the edit status of a <code>Thing</code>
- *
- * @see Thing
+ * Enum to specify the edit status of a {@link Thing}
  */
 public enum ChangeKind {
     /**
-     * The <code>Thing</code> is not being updated
-     *
-     * @see Thing
+     * The {@link Thing} is not being updated
      */
     NONE(0),
 
     /**
-     * The <code>Thing</code> is being deleted
-     *
-     * @see Thing
+     * The {@link Thing} is being deleted
      */
     DELETE(-1),
 
     /**
-     * The <code>Thing</code> is being updated
-     *
-     * @see Thing
+     * The {@link Thing} is being updated
      */
     UPDATE(1),
 
     /**
-     * The <code>Thing</code> is being created
-     *
-     * @see Thing
+     * The {@link Thing} is being created
      */
     CREATE(2);
 
