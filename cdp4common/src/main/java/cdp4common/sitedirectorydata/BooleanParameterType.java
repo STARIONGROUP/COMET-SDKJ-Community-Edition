@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractBooleanParameterType.java
+ * BooleanParameterType.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
-@EqualsAndHashCode
-public  class BooleanParameterType extends ScalarParameterType implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class BooleanParameterType extends ScalarParameterType implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -65,6 +65,7 @@ public  class BooleanParameterType extends ScalarParameterType implements Clonea
      * @param iDalUri The {@link URI} of this thing
      */
     public BooleanParameterType(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -84,17 +85,17 @@ public  class BooleanParameterType extends ScalarParameterType implements Clonea
             throw new IllegalAccessError("Somehow BooleanParameterType cannot be cloned.");
         }
 
-        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
+        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
-        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
+        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
+        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -117,7 +118,7 @@ public  class BooleanParameterType extends ScalarParameterType implements Clonea
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>BooleanParameterType}.
+     * Validates the cardinalities of the properties of this BooleanParameterType}.
      *
      * @return A list of potential errors.
      */
@@ -146,7 +147,7 @@ public  class BooleanParameterType extends ScalarParameterType implements Clonea
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
-        this.setDeprecated(dto.getDeprecated());
+        this.setDeprecated(dto.isDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
         this.setRevisionNumber(dto.getRevisionNumber());
@@ -162,16 +163,16 @@ public  class BooleanParameterType extends ScalarParameterType implements Clonea
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.BooleanParameterType dto = new cdp4common.dto.BooleanParameterType(this.getIid(), this.getRevisionNumber());
 
-        dto.getAlias().add(this.getAlias().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getCategory().add(this.getCategory().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getDefinition().add(this.getDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getHyperLink().add(this.getHyperLink().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setDeprecated(this.getDeprecated());
+        dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getDefinition().addAll(this.getDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setDeprecated(this.isDeprecated());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
         dto.setRevisionNumber(this.getRevisionNumber());

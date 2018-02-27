@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractReviewItemDiscrepancy.java
+ * ReviewItemDiscrepancy.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.reportingdata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -38,8 +38,8 @@ import lombok.EqualsAndHashCode;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = EngineeringModel.class, propertyName = "modellingAnnotation")
 @ToString
-@EqualsAndHashCode
-public  class ReviewItemDiscrepancy extends ModellingAnnotationItem implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class ReviewItemDiscrepancy extends ModellingAnnotationItem implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -68,6 +68,7 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem implements C
      * @param iDalUri The {@link URI} of this thing
      */
     public ReviewItemDiscrepancy(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.solution = new ContainerList<Solution>(this);
     }
 
@@ -76,6 +77,8 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem implements C
      * The decision taken to solve this ReviewItemDiscrepancy
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<Solution> solution;
 
     /**
@@ -84,29 +87,11 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem implements C
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets a list of contained Solution.
-     * The decision taken to solve this ReviewItemDiscrepancy
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<Solution> getSolution(){
-         return this.solution;
-    }
-
-    /**
-     * Sets a list of contained Solution.
-     * The decision taken to solve this ReviewItemDiscrepancy
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setSolution(ContainerList<Solution> solution){
-        this.solution = solution;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link ReviewItemDiscrepancy}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link ReviewItemDiscrepancy}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.solution);
         return containers;
     }
@@ -128,20 +113,20 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem implements C
             throw new IllegalAccessError("Somehow ReviewItemDiscrepancy cannot be cloned.");
         }
 
-        clone.setApprovedBy(cloneContainedThings ? new ContainerList<Approval>(clone) : new ContainerList<Approval>(this.getApprovedBy(), clone));
+        clone.setApprovedBy(cloneContainedThings ? new ContainerList<Approval>(clone) : new ContainerList<Approval>(this.getApprovedBy(), clone, false));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
-        clone.setDiscussion(cloneContainedThings ? new ContainerList<EngineeringModelDataDiscussionItem>(clone) : new ContainerList<EngineeringModelDataDiscussionItem>(this.getDiscussion(), clone));
+        clone.setDiscussion(cloneContainedThings ? new ContainerList<EngineeringModelDataDiscussionItem>(clone) : new ContainerList<EngineeringModelDataDiscussionItem>(this.getDiscussion(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setRelatedThing(cloneContainedThings ? new ContainerList<ModellingThingReference>(clone) : new ContainerList<ModellingThingReference>(this.getRelatedThing(), clone));
-        clone.setSolution(cloneContainedThings ? new ContainerList<Solution>(clone) : new ContainerList<Solution>(this.getSolution(), clone));
+        clone.setRelatedThing(cloneContainedThings ? new ContainerList<ModellingThingReference>(clone) : new ContainerList<ModellingThingReference>(this.getRelatedThing(), clone, false));
+        clone.setSolution(cloneContainedThings ? new ContainerList<Solution>(clone) : new ContainerList<Solution>(this.getSolution(), clone, false));
         clone.setSourceAnnotation(new ArrayList<ModellingAnnotationItem>(this.getSourceAnnotation()));
 
         if (cloneContainedThings) {
-            clone.getApprovedBy().addAll(this.getApprovedBy().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDiscussion().addAll(this.getDiscussion().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getRelatedThing().addAll(this.getRelatedThing().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getSolution().addAll(this.getSolution().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getApprovedBy().addAll(this.getApprovedBy().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDiscussion().addAll(this.getDiscussion().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getRelatedThing().addAll(this.getRelatedThing().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getSolution().addAll(this.getSolution().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -164,7 +149,7 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem implements C
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ReviewItemDiscrepancy}.
+     * Validates the cardinalities of the properties of this ReviewItemDiscrepancy}.
      *
      * @return A list of potential errors.
      */
@@ -188,7 +173,7 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem implements C
         cdp4common.dto.ReviewItemDiscrepancy dto = (cdp4common.dto.ReviewItemDiscrepancy)dtoThing;
 
         this.getApprovedBy().resolveList(dto.getApprovedBy(), dto.getIterationContainerId(), this.getCache());
-        this.setAuthor(this.getCache().get<Participant>(dto.getAuthor(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Participant>());
+        this.setAuthor(this.getCache().get<Participant>(dto.getAuthor(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Participant.class));
         this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
         this.setClassification(dto.getClassification());
         this.setContent(dto.getContent());
@@ -198,7 +183,7 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem implements C
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setLanguageCode(dto.getLanguageCode());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
         this.setPrimaryAnnotatedThing((dto.getPrimaryAnnotatedThing() != null) ? this.getCache().get<ModellingThingReference>(dto.getPrimaryAnnotatedThing.getValue(), dto.getIterationContainerId()) : null);
         this.getRelatedThing().resolveList(dto.getRelatedThing(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
@@ -217,27 +202,27 @@ public  class ReviewItemDiscrepancy extends ModellingAnnotationItem implements C
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.ReviewItemDiscrepancy dto = new cdp4common.dto.ReviewItemDiscrepancy(this.getIid(), this.getRevisionNumber());
 
-        dto.getApprovedBy().add(this.getApprovedBy().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getApprovedBy().addAll(this.getApprovedBy().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setAuthor(this.getAuthor() != null ? this.getAuthor().getIid() : new UUID(0L, 0L));
-        dto.getCategory().add(this.getCategory().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setClassification(this.getClassification());
         dto.setContent(this.getContent());
         dto.setCreatedOn(this.getCreatedOn());
-        dto.getDiscussion().add(this.getDiscussion().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getDiscussion().addAll(this.getDiscussion().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setLanguageCode(this.getLanguageCode());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));
         dto.setPrimaryAnnotatedThing(this.getPrimaryAnnotatedThing() != null ? (UUID)this.getPrimaryAnnotatedThing().getIid() : null);
-        dto.getRelatedThing().add(this.getRelatedThing().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getRelatedThing().addAll(this.getRelatedThing().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
-        dto.getSolution().add(this.getSolution().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getSourceAnnotation().add(this.getSourceAnnotation().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getSolution().addAll(this.getSolution().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getSourceAnnotation().addAll(this.getSourceAnnotation().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setStatus(this.getStatus());
         dto.setTitle(this.getTitle());
 

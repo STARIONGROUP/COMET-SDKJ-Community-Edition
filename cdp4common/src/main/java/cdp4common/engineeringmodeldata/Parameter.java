@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractParameter.java
+ * Parameter.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -37,8 +37,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ElementDefinition.class, propertyName = "parameter")
 @ToString
-@EqualsAndHashCode
-public  class Parameter extends ParameterOrOverrideBase implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class Parameter extends ParameterOrOverrideBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -67,6 +67,7 @@ public  class Parameter extends ParameterOrOverrideBase implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     public Parameter(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.valueSet = new ContainerList<ParameterValueSet>(this);
     }
 
@@ -75,6 +76,8 @@ public  class Parameter extends ParameterOrOverrideBase implements Cloneable {
      * assertion whether a ParameterOverride associated with this Parameter may have a different owner DomainOfExpertise or not
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private boolean allowDifferentOwnerOfOverride;
 
     /**
@@ -82,6 +85,8 @@ public  class Parameter extends ParameterOrOverrideBase implements Cloneable {
      * assertion whether a ParameterOverride is expected for this Parameter in ElementUsages of the ElementDefinition that contains this Parameter
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private boolean expectsOverride;
 
     /**
@@ -90,6 +95,8 @@ public  class Parameter extends ParameterOrOverrideBase implements Cloneable {
      * Note: This property is used to signify that a Parameter has not been created (i.e. added to an ElementDefinition) by the owner DomainOfExpertise by is requested by a different DomainOfExpertise. When the value is unset (i.e. set to null) it signifies that the Parameter has been accepted by the owner DomainOfExpertise.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private DomainOfExpertise requestedBy;
 
     /**
@@ -97,6 +104,8 @@ public  class Parameter extends ParameterOrOverrideBase implements Cloneable {
      * representation of the switch and values of this Parameter
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<ParameterValueSet> valueSet;
 
     /**
@@ -105,85 +114,11 @@ public  class Parameter extends ParameterOrOverrideBase implements Cloneable {
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets a value indicating whether allowDifferentOwnerOfOverride.
-     * assertion whether a ParameterOverride associated with this Parameter may have a different owner DomainOfExpertise or not
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public boolean getAllowDifferentOwnerOfOverride(){
-         return this.allowDifferentOwnerOfOverride;
-    }
-
-    /**
-     * Gets a value indicating whether expectsOverride.
-     * assertion whether a ParameterOverride is expected for this Parameter in ElementUsages of the ElementDefinition that contains this Parameter
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public boolean getExpectsOverride(){
-         return this.expectsOverride;
-    }
-
-    /**
-     * Gets the requestedBy.
-     * optional reference to the DomainOfExpertise that has requested this Parameter
-     * Note: This property is used to signify that a Parameter has not been created (i.e. added to an ElementDefinition) by the owner DomainOfExpertise by is requested by a different DomainOfExpertise. When the value is unset (i.e. set to null) it signifies that the Parameter has been accepted by the owner DomainOfExpertise.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public DomainOfExpertise getRequestedBy(){
-         return this.requestedBy;
-    }
-
-    /**
-     * Gets a list of contained ParameterValueSet.
-     * representation of the switch and values of this Parameter
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<ParameterValueSet> getValueSet(){
-         return this.valueSet;
-    }
-
-    /**
-     *Sets a value indicating whether allowDifferentOwnerOfOverride.
-     * assertion whether a ParameterOverride associated with this Parameter may have a different owner DomainOfExpertise or not
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setAllowDifferentOwnerOfOverride(boolean allowDifferentOwnerOfOverride){
-        this.allowDifferentOwnerOfOverride = allowDifferentOwnerOfOverride;
-    }
-
-    /**
-     *Sets a value indicating whether expectsOverride.
-     * assertion whether a ParameterOverride is expected for this Parameter in ElementUsages of the ElementDefinition that contains this Parameter
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setExpectsOverride(boolean expectsOverride){
-        this.expectsOverride = expectsOverride;
-    }
-
-    /**
-     * Sets the requestedBy.
-     * optional reference to the DomainOfExpertise that has requested this Parameter
-     * Note: This property is used to signify that a Parameter has not been created (i.e. added to an ElementDefinition) by the owner DomainOfExpertise by is requested by a different DomainOfExpertise. When the value is unset (i.e. set to null) it signifies that the Parameter has been accepted by the owner DomainOfExpertise.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setRequestedBy(DomainOfExpertise requestedBy){
-        this.requestedBy = requestedBy;
-    }
-
-    /**
-     * Sets a list of contained ParameterValueSet.
-     * representation of the switch and values of this Parameter
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setValueSet(ContainerList<ParameterValueSet> valueSet){
-        this.valueSet = valueSet;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link Parameter}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link Parameter}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.valueSet);
         return containers;
     }
@@ -207,12 +142,12 @@ public  class Parameter extends ParameterOrOverrideBase implements Cloneable {
 
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setParameterSubscription(cloneContainedThings ? new ContainerList<ParameterSubscription>(clone) : new ContainerList<ParameterSubscription>(this.getParameterSubscription(), clone));
-        clone.setValueSet(cloneContainedThings ? new ContainerList<ParameterValueSet>(clone) : new ContainerList<ParameterValueSet>(this.getValueSet(), clone));
+        clone.setParameterSubscription(cloneContainedThings ? new ContainerList<ParameterSubscription>(clone) : new ContainerList<ParameterSubscription>(this.getParameterSubscription(), clone, false));
+        clone.setValueSet(cloneContainedThings ? new ContainerList<ParameterValueSet>(clone) : new ContainerList<ParameterValueSet>(this.getValueSet(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getParameterSubscription().addAll(this.getParameterSubscription().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getValueSet().addAll(this.getValueSet().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getParameterSubscription().addAll(this.getParameterSubscription().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getValueSet().addAll(this.getValueSet().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -235,7 +170,7 @@ public  class Parameter extends ParameterOrOverrideBase implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>Parameter}.
+     * Validates the cardinalities of the properties of this Parameter}.
      *
      * @return A list of potential errors.
      */
@@ -268,11 +203,11 @@ public  class Parameter extends ParameterOrOverrideBase implements Cloneable {
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setExpectsOverride(dto.getExpectsOverride());
         this.setGroup((dto.getGroup() != null) ? this.getCache().get<ParameterGroup>(dto.getGroup.getValue(), dto.getIterationContainerId()) : null);
-        this.setOptionDependent(dto.getOptionDependent());
+        this.setOptionDependent(dto.isOptionDependent());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
         this.getParameterSubscription().resolveList(dto.getParameterSubscription(), dto.getIterationContainerId(), this.getCache());
-        this.setParameterType(this.getCache().get<ParameterType>(dto.getParameterType(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ParameterType>());
+        this.setParameterType(this.getCache().get<ParameterType>(dto.getParameterType(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ParameterType.class));
         this.setRequestedBy((dto.getRequestedBy() != null) ? this.getCache().get<DomainOfExpertise>(dto.getRequestedBy.getValue(), dto.getIterationContainerId()) : null);
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setScale((dto.getScale() != null) ? this.getCache().get<MeasurementScale>(dto.getScale.getValue(), dto.getIterationContainerId()) : null);
@@ -288,24 +223,24 @@ public  class Parameter extends ParameterOrOverrideBase implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.Parameter dto = new cdp4common.dto.Parameter(this.getIid(), this.getRevisionNumber());
 
         dto.setAllowDifferentOwnerOfOverride(this.getAllowDifferentOwnerOfOverride());
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setExpectsOverride(this.getExpectsOverride());
         dto.setGroup(this.getGroup() != null ? (UUID)this.getGroup().getIid() : null);
-        dto.setOptionDependent(this.getOptionDependent());
+        dto.setOptionDependent(this.isOptionDependent());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));
-        dto.getParameterSubscription().add(this.getParameterSubscription().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getParameterSubscription().addAll(this.getParameterSubscription().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setParameterType(this.getParameterType() != null ? this.getParameterType().getIid() : new UUID(0L, 0L));
         dto.setRequestedBy(this.getRequestedBy() != null ? (UUID)this.getRequestedBy().getIid() : null);
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setScale(this.getScale() != null ? (UUID)this.getScale().getIid() : null);
         dto.setStateDependence(this.getStateDependence() != null ? (UUID)this.getStateDependence().getIid() : null);
-        dto.getValueSet().add(this.getValueSet().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getValueSet().addAll(this.getValueSet().stream().map(Thing::getIid).collect(Collectors.toList()));
 
         dto.setIterationContainerId(this.getCacheId().getRight());
         dto.registerSourceThing(this);

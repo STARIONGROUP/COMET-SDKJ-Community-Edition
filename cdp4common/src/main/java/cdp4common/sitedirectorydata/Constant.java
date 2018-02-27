@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractConstant.java
+ * Constant.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "constant")
 @ToString
-@EqualsAndHashCode
-public  class Constant extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
+@EqualsAndHashCode(callSuper = true)
+public class Constant extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -54,7 +54,7 @@ public  class Constant extends DefinedThing implements Cloneable, CategorizableT
      */
     public Constant() {
         this.category = new ArrayList<Category>();
-        this.value = new ValueArray<String>(this);
+        this.value = new ValueArray<String>(this, false);
     }
 
     /**
@@ -66,8 +66,9 @@ public  class Constant extends DefinedThing implements Cloneable, CategorizableT
      * @param iDalUri The {@link URI} of this thing
      */
     public Constant(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.category = new ArrayList<Category>();
-        this.value = new ValueArray<String>(this);
+        this.value = new ValueArray<String>(this, false);
     }
 
     /**
@@ -75,6 +76,8 @@ public  class Constant extends DefinedThing implements Cloneable, CategorizableT
      * reference to zero or more Categories of which this CategorizableThing is a member
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<Category> category;
 
     /**
@@ -82,6 +85,8 @@ public  class Constant extends DefinedThing implements Cloneable, CategorizableT
      * assertion whether a DeprecatableThing is deprecated or not
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private boolean isDeprecated;
 
     /**
@@ -89,6 +94,8 @@ public  class Constant extends DefinedThing implements Cloneable, CategorizableT
      * reference to the applicable ParameterType for this Constant
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ParameterType parameterType;
 
     /**
@@ -97,6 +104,8 @@ public  class Constant extends DefinedThing implements Cloneable, CategorizableT
      * Note: The MeasurementScale must be one of the <i>possibleScale</i> defined for the QuantityKind.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private MeasurementScale scale;
 
     /**
@@ -104,99 +113,9 @@ public  class Constant extends DefinedThing implements Cloneable, CategorizableT
      * value of this Constant
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ValueArray<String> value;
-
-    /**
-     * Gets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<Category> getCategory(){
-         return this.category;
-    }
-
-    /**
-     * Gets a value indicating whether isDeprecated.
-     * assertion whether a DeprecatableThing is deprecated or not
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public boolean getDeprecated(){
-         return this.isDeprecated;
-    }
-
-    /**
-     * Gets the parameterType.
-     * reference to the applicable ParameterType for this Constant
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ParameterType getParameterType(){
-         return this.parameterType;
-    }
-
-    /**
-     * Gets the scale.
-     * reference to the applicable MeasurementScale if the <i>parameterType</i> is a QuantityKind
-     * Note: The MeasurementScale must be one of the <i>possibleScale</i> defined for the QuantityKind.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public MeasurementScale getScale(){
-         return this.scale;
-    }
-
-    /**
-     * Gets a list of ordered String.
-     * value of this Constant
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-    public ValueArray<String> getValue(){
-         return this.value;
-    }
-
-    /**
-     * Sets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setCategory(ArrayList<Category> category){
-        this.category = category;
-    }
-
-    /**
-     *Sets a value indicating whether isDeprecated.
-     * assertion whether a DeprecatableThing is deprecated or not
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setDeprecated(boolean isDeprecated){
-        this.isDeprecated = isDeprecated;
-    }
-
-    /**
-     * Sets the parameterType.
-     * reference to the applicable ParameterType for this Constant
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setParameterType(ParameterType parameterType){
-        this.parameterType = parameterType;
-    }
-
-    /**
-     * Sets the scale.
-     * reference to the applicable MeasurementScale if the <i>parameterType</i> is a QuantityKind
-     * Note: The MeasurementScale must be one of the <i>possibleScale</i> defined for the QuantityKind.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setScale(MeasurementScale scale){
-        this.scale = scale;
-    }
-
-    /**
-     * Sets a list of ordered String.
-     * value of this Constant
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-     public void setValue(ValueArray<String> value){
-        this.value = value;
-    }
 
     /**
      * Creates and returns a copy of this {@link Constant} for edit purpose.
@@ -215,18 +134,18 @@ public  class Constant extends DefinedThing implements Cloneable, CategorizableT
             throw new IllegalAccessError("Somehow Constant cannot be cloned.");
         }
 
-        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
+        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
-        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
+        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
+        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
         clone.setValue(new ValueArray<String>(this.getValue(), this));
 
         if (cloneContainedThings) {
-            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -249,7 +168,7 @@ public  class Constant extends DefinedThing implements Cloneable, CategorizableT
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>Constant}.
+     * Validates the cardinalities of the properties of this Constant}.
      *
      * @return A list of potential errors.
      */
@@ -258,7 +177,7 @@ public  class Constant extends DefinedThing implements Cloneable, CategorizableT
 
         if (this.getParameterType() == null || this.getParameterType().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property parameterType is null.");
-            this.setParameterType(SentinelThingProvider.getSentinel<ParameterType>());
+            this.setParameterType(SentinelThingProvider.getSentinel(ParameterType.class));
             this.sentinelResetMap.put("parameterType", new ActionImpl(() -> this.setParameterType(null)));
         }
 
@@ -289,10 +208,10 @@ public  class Constant extends DefinedThing implements Cloneable, CategorizableT
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
-        this.setDeprecated(dto.getDeprecated());
+        this.setDeprecated(dto.isDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setParameterType(this.getCache().get<ParameterType>(dto.getParameterType(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ParameterType>());
+        this.setParameterType(this.getCache().get<ParameterType>(dto.getParameterType(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ParameterType.class));
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setScale((dto.getScale() != null) ? this.getCache().get<MeasurementScale>(dto.getScale.getValue(), dto.getIterationContainerId()) : null);
         this.setShortName(dto.getShortName());
@@ -307,16 +226,16 @@ public  class Constant extends DefinedThing implements Cloneable, CategorizableT
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.Constant dto = new cdp4common.dto.Constant(this.getIid(), this.getRevisionNumber());
 
-        dto.getAlias().add(this.getAlias().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getCategory().add(this.getCategory().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getDefinition().add(this.getDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getHyperLink().add(this.getHyperLink().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setDeprecated(this.getDeprecated());
+        dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getDefinition().addAll(this.getDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setDeprecated(this.isDeprecated());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
         dto.setParameterType(this.getParameterType() != null ? this.getParameterType().getIid() : new UUID(0L, 0L));

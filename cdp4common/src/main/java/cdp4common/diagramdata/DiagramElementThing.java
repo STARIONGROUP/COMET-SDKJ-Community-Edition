@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractDiagramElementThing.java
+ * DiagramElementThing.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.diagramdata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = DiagramElementContainer.class, propertyName = "diagramElement")
 @ToString
-@EqualsAndHashCode
-public  abstract class DiagramElementThing extends DiagramElementContainer implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public abstract class DiagramElementThing extends DiagramElementContainer implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -66,6 +66,7 @@ public  abstract class DiagramElementThing extends DiagramElementContainer imple
      * @param iDalUri The {@link URI} of this thing
      */
     protected DiagramElementThing(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.localStyle = new ContainerList<OwnedStyle>(this);
     }
 
@@ -75,6 +76,8 @@ public  abstract class DiagramElementThing extends DiagramElementContainer imple
      * NOTE: The depicted Thing cannot be a DiagramThingBase.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private Thing depictedThing;
 
     /**
@@ -82,6 +85,8 @@ public  abstract class DiagramElementThing extends DiagramElementContainer imple
      * The optional style applied locally on this DiagramElementThing
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<OwnedStyle> localStyle;
 
     /**
@@ -89,6 +94,8 @@ public  abstract class DiagramElementThing extends DiagramElementContainer imple
      * An optional shared style for this DiagramElementThing
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private SharedStyle sharedStyle;
 
     /**
@@ -97,67 +104,11 @@ public  abstract class DiagramElementThing extends DiagramElementContainer imple
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets the depictedThing.
-     * The Thing that is depicted by this DiagramElementThing.
-     * NOTE: The depicted Thing cannot be a DiagramThingBase.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public Thing getDepictedThing(){
-         return this.depictedThing;
-    }
-
-    /**
-     * Gets a list of contained OwnedStyle.
-     * The optional style applied locally on this DiagramElementThing
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<OwnedStyle> getLocalStyle(){
-         return this.localStyle;
-    }
-
-    /**
-     * Gets the sharedStyle.
-     * An optional shared style for this DiagramElementThing
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public SharedStyle getSharedStyle(){
-         return this.sharedStyle;
-    }
-
-    /**
-     * Sets the depictedThing.
-     * The Thing that is depicted by this DiagramElementThing.
-     * NOTE: The depicted Thing cannot be a DiagramThingBase.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setDepictedThing(Thing depictedThing){
-        this.depictedThing = depictedThing;
-    }
-
-    /**
-     * Sets a list of contained OwnedStyle.
-     * The optional style applied locally on this DiagramElementThing
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setLocalStyle(ContainerList<OwnedStyle> localStyle){
-        this.localStyle = localStyle;
-    }
-
-    /**
-     * Sets the sharedStyle.
-     * An optional shared style for this DiagramElementThing
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setSharedStyle(SharedStyle sharedStyle){
-        this.sharedStyle = sharedStyle;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link DiagramElementThing}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link DiagramElementThing}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.localStyle);
         return containers;
     }
@@ -176,7 +127,7 @@ public  abstract class DiagramElementThing extends DiagramElementContainer imple
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>DiagramElementThing}.
+     * Validates the cardinalities of the properties of this DiagramElementThing}.
      *
      * @return A list of potential errors.
      */

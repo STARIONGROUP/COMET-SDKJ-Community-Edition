@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractParameterType.java
+ * ParameterType.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
-@EqualsAndHashCode
-public  abstract class ParameterType extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
+@EqualsAndHashCode(callSuper = true)
+public abstract class ParameterType extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -66,6 +66,7 @@ public  abstract class ParameterType extends DefinedThing implements Cloneable, 
      * @param iDalUri The {@link URI} of this thing
      */
     protected ParameterType(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.category = new ArrayList<Category>();
     }
 
@@ -74,6 +75,8 @@ public  abstract class ParameterType extends DefinedThing implements Cloneable, 
      * reference to zero or more Categories of which this CategorizableThing is a member
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<Category> category;
 
     /**
@@ -81,6 +84,8 @@ public  abstract class ParameterType extends DefinedThing implements Cloneable, 
      * assertion whether a DeprecatableThing is deprecated or not
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private boolean isDeprecated;
 
     /**
@@ -89,72 +94,18 @@ public  abstract class ParameterType extends DefinedThing implements Cloneable, 
      * Note: For a ScalarParameterType this will be one, while for a CompoundParameterType this will amount to the (possibly recursive) summation of the <i>numberOfValues</i> in the ParameterTypes of all <i>component</i> ParameterTypeComponents.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private int numberOfValues;
- 
+
     /**
      * Property symbol.
      * short symbolic name of this ParameterType
      * Note: Where applicable this property shall be used to hold the symbol that is defined through a standard (e.g. from ISO) or by convention.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String symbol;
-
-    /**
-     * Gets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<Category> getCategory(){
-         return this.category;
-    }
-
-    /**
-     * Gets a value indicating whether isDeprecated.
-     * assertion whether a DeprecatableThing is deprecated or not
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public boolean getDeprecated(){
-         return this.isDeprecated;
-    }
-
-    /**
-     * Gets the numberOfValues.
-     * number of individual values in each of the parameter value properties of a ParameterValueSet, a ParameterSubscriptionValueSet or a SimpleParameterValue for this ParameterType
-     * Note: For a ScalarParameterType this will be one, while for a CompoundParameterType this will amount to the (possibly recursive) summation of the <i>numberOfValues</i> in the ParameterTypes of all <i>component</i> ParameterTypeComponents.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
-    public int getNumberOfValues(){
-        return this.GetDerivedNumberOfValues();
-    }
-
-    /**
-     * Gets the symbol.
-     * short symbolic name of this ParameterType
-     * Note: Where applicable this property shall be used to hold the symbol that is defined through a standard (e.g. from ISO) or by convention.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getSymbol(){
-         return this.symbol;
-    }
-
-    /**
-     * Sets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setCategory(ArrayList<Category> category){
-        this.category = category;
-    }
-
-    /**
-     *Sets a value indicating whether isDeprecated.
-     * assertion whether a DeprecatableThing is deprecated or not
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setDeprecated(boolean isDeprecated){
-        this.isDeprecated = isDeprecated;
-    }
 
     /**
      * Sets the numberOfValues.
@@ -166,19 +117,8 @@ public  abstract class ParameterType extends DefinedThing implements Cloneable, 
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
     public void setNumberOfValues(int numberOfValues){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterType.numberOfValues");
-    }
-
-    /**
-     * Sets the symbol.
-     * short symbolic name of this ParameterType
-     * Note: Where applicable this property shall be used to hold the symbol that is defined through a standard (e.g. from ISO) or by convention.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setSymbol(String symbol){
-        this.symbol = symbol;
     }
 
     /**
@@ -195,7 +135,7 @@ public  abstract class ParameterType extends DefinedThing implements Cloneable, 
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ParameterType}.
+     * Validates the cardinalities of the properties of this ParameterType}.
      *
      * @return A list of potential errors.
      */

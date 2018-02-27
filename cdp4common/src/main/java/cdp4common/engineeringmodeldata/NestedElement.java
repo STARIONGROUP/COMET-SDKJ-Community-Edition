@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractNestedElement.java
+ * NestedElement.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -39,8 +39,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = Option.class, propertyName = "nestedElement")
 @ToString
-@EqualsAndHashCode
-public  class NestedElement extends Thing implements Cloneable, NamedThing, OwnedThing, ShortNamedThing, VolatileThing {
+@EqualsAndHashCode(callSuper = true)
+public class NestedElement extends Thing implements Cloneable, NamedThing, OwnedThing, ShortNamedThing, VolatileThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -57,7 +57,7 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
      * Initializes a new instance of the {@link NestedElement} class.
      */
     public NestedElement() {
-        this.elementUsage = new OrderedItemList<ElementUsage>(this);
+        this.elementUsage = new OrderedItemList<ElementUsage>(this, false);
         this.nestedParameter = new ContainerList<NestedParameter>(this);
     }
 
@@ -70,7 +70,8 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
      * @param iDalUri The {@link URI} of this thing
      */
     public NestedElement(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
-        this.elementUsage = new OrderedItemList<ElementUsage>(this);
+        super(iid, cache, iDalUri);
+        this.elementUsage = new OrderedItemList<ElementUsage>(this, false);
         this.nestedParameter = new ContainerList<NestedParameter>(this);
     }
 
@@ -80,6 +81,8 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
      * Note: The first ElementUsage in the list must be a <i>containedElement</i> of the topElement of the relevant Iteration, the second ElementUsage must be a <i>containedElement</i> of the ElementDefinition pointed to by the <i>elementDefinition</i> of the first ElementUsage, and so on until the intended nested ElementUsage is reached.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private OrderedItemList<ElementUsage> elementUsage;
 
     /**
@@ -87,6 +90,8 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
      * Note: When an instance is marked volatile it will not be persisted in the persistent data store. This meant to allow for runtime-only use of such instances in a client application.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private boolean isVolatile;
 
     /**
@@ -94,14 +99,17 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
      * name derived from chain of the names of the <i>rootElement</i> and <i>elementUsage</i>
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private String name;
- 
+
     /**
      * List of contained NestedParameter.
      * ordered list of NestedParameters that defined the fully expanded parametric representation for this NestedElement for a combination of one Option and one DomainOfExpertise
      * Note: NestedParameters are meant to be present only on generated NestedElements.
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<NestedParameter> nestedParameter;
 
     /**
@@ -110,14 +118,17 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
      * Note: The owner DomainOfExpertise of this NestedElement is the same as the owner of the last ElementUsage in the <i>elementUsage</i> path.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private DomainOfExpertise owner;
- 
+
     /**
      * Property rootElement.
      * reference to the root ElementDefinition at which the path to this NestedElement starts
      * Note: For an EngineeringModel that is an EngineeringModelKind.STUDY_MODEL this is typically the <i>topElement</i> of the selected Iteration. However the rootElement may be any ElementDefinition which allows for the generation of subtrees subtended from anywhere in the composite structure of a model, which is for example useful in EngineeringModels that are of the EngineeringModelKind.CATALOGUE kind.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ElementDefinition rootElement;
 
     /**
@@ -125,102 +136,13 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
      * short name derived from chain of the names of the <i>rootElement</i> and <i>elementUsage</i>
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private String shortName;
- 
 
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link NestedElement}.
      */
     public Iterable<Iterable> containerLists;
-
-    /**
-     * Gets a list of ordered ElementUsage.
-     * unique path to a single NestedElement defined by an ordered list of references to ElementUsages
-     * Note: The first ElementUsage in the list must be a <i>containedElement</i> of the topElement of the relevant Iteration, the second ElementUsage must be a <i>containedElement</i> of the ElementDefinition pointed to by the <i>elementDefinition</i> of the first ElementUsage, and so on until the intended nested ElementUsage is reached.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-    public OrderedItemList<ElementUsage> getElementUsage(){
-         return this.elementUsage;
-    }
-
-    /**
-     * Gets a value indicating whether isVolatile.
-     * Note: When an instance is marked volatile it will not be persisted in the persistent data store. This meant to allow for runtime-only use of such instances in a client application.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public boolean getVolatile(){
-         return this.isVolatile;
-    }
-
-    /**
-     * Gets the name.
-     * name derived from chain of the names of the <i>rootElement</i> and <i>elementUsage</i>
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
-    public String getName(){
-        return this.GetDerivedName();
-    }
-
-    /**
-     * Gets a list of contained NestedParameter.
-     * ordered list of NestedParameters that defined the fully expanded parametric representation for this NestedElement for a combination of one Option and one DomainOfExpertise
-     * Note: NestedParameters are meant to be present only on generated NestedElements.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<NestedParameter> getNestedParameter(){
-         return this.nestedParameter;
-    }
-
-    /**
-     * Gets the owner.
-     * reference to the owner DomainOfExpertise of this NestedElement
-     * Note: The owner DomainOfExpertise of this NestedElement is the same as the owner of the last ElementUsage in the <i>elementUsage</i> path.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
-    public DomainOfExpertise getOwner(){
-        return this.GetDerivedOwner();
-    }
-
-    /**
-     * Gets the rootElement.
-     * reference to the root ElementDefinition at which the path to this NestedElement starts
-     * Note: For an EngineeringModel that is an EngineeringModelKind.STUDY_MODEL this is typically the <i>topElement</i> of the selected Iteration. However the rootElement may be any ElementDefinition which allows for the generation of subtrees subtended from anywhere in the composite structure of a model, which is for example useful in EngineeringModels that are of the EngineeringModelKind.CATALOGUE kind.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ElementDefinition getRootElement(){
-         return this.rootElement;
-    }
-
-    /**
-     * Gets the shortName.
-     * short name derived from chain of the names of the <i>rootElement</i> and <i>elementUsage</i>
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
-    public String getShortName(){
-        return this.GetDerivedShortName();
-    }
-
-    /**
-     * Sets a list of ordered ElementUsage.
-     * unique path to a single NestedElement defined by an ordered list of references to ElementUsages
-     * Note: The first ElementUsage in the list must be a <i>containedElement</i> of the topElement of the relevant Iteration, the second ElementUsage must be a <i>containedElement</i> of the ElementDefinition pointed to by the <i>elementDefinition</i> of the first ElementUsage, and so on until the intended nested ElementUsage is reached.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-     public void setElementUsage(OrderedItemList<ElementUsage> elementUsage){
-        this.elementUsage = elementUsage;
-    }
-
-    /**
-     *Sets a value indicating whether isVolatile.
-     * Note: When an instance is marked volatile it will not be persisted in the persistent data store. This meant to allow for runtime-only use of such instances in a client application.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setVolatile(boolean isVolatile){
-        this.isVolatile = isVolatile;
-    }
 
     /**
      * Sets the name.
@@ -231,19 +153,8 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
     public void setName(String name){
         throw new IllegalStateException("Forbidden Set value for the derived property NestedElement.name");
-    }
-
-    /**
-     * Sets a list of contained NestedParameter.
-     * ordered list of NestedParameters that defined the fully expanded parametric representation for this NestedElement for a combination of one Option and one DomainOfExpertise
-     * Note: NestedParameters are meant to be present only on generated NestedElements.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setNestedParameter(ContainerList<NestedParameter> nestedParameter){
-        this.nestedParameter = nestedParameter;
     }
 
     /**
@@ -256,19 +167,8 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
     public void setOwner(DomainOfExpertise owner){
         throw new IllegalStateException("Forbidden Set value for the derived property NestedElement.owner");
-    }
-
-    /**
-     * Sets the rootElement.
-     * reference to the root ElementDefinition at which the path to this NestedElement starts
-     * Note: For an EngineeringModel that is an EngineeringModelKind.STUDY_MODEL this is typically the <i>topElement</i> of the selected Iteration. However the rootElement may be any ElementDefinition which allows for the generation of subtrees subtended from anywhere in the composite structure of a model, which is for example useful in EngineeringModels that are of the EngineeringModelKind.CATALOGUE kind.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setRootElement(ElementDefinition rootElement){
-        this.rootElement = rootElement;
     }
 
     /**
@@ -280,17 +180,16 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
     public void setShortName(String shortName){
         throw new IllegalStateException("Forbidden Set value for the derived property NestedElement.shortName");
     }
 
     /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link NestedElement}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link NestedElement}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.nestedParameter);
         return containers;
     }
@@ -315,10 +214,10 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
         clone.setElementUsage(new OrderedItemList<ElementUsage>(this.getElementUsage(), this));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setNestedParameter(cloneContainedThings ? new ContainerList<NestedParameter>(clone) : new ContainerList<NestedParameter>(this.getNestedParameter(), clone));
+        clone.setNestedParameter(cloneContainedThings ? new ContainerList<NestedParameter>(clone) : new ContainerList<NestedParameter>(this.getNestedParameter(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getNestedParameter().addAll(this.getNestedParameter().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getNestedParameter().addAll(this.getNestedParameter().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -341,7 +240,7 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>NestedElement}.
+     * Validates the cardinalities of the properties of this NestedElement}.
      *
      * @return A list of potential errors.
      */
@@ -355,7 +254,7 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
 
         if (this.getRootElement() == null || this.getRootElement().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property rootElement is null.");
-            this.setRootElement(SentinelThingProvider.getSentinel<ElementDefinition>());
+            this.setRootElement(SentinelThingProvider.getSentinel(ElementDefinition.class));
             this.sentinelResetMap.put("rootElement", new ActionImpl(() -> this.setRootElement(null)));
         }
 
@@ -378,11 +277,11 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
         this.getElementUsage().resolveList(dto.getElementUsage(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.setVolatile(dto.getVolatile());
+        this.setVolatile(dto.isVolatile());
         this.setModifiedOn(dto.getModifiedOn());
         this.getNestedParameter().resolveList(dto.getNestedParameter(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setRootElement(this.getCache().get<ElementDefinition>(dto.getRootElement(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ElementDefinition>());
+        this.setRootElement(this.getCache().get<ElementDefinition>(dto.getRootElement(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ElementDefinition.class));
 
         this.resolveExtraProperties();
     }
@@ -393,15 +292,15 @@ public  class NestedElement extends Thing implements Cloneable, NamedThing, Owne
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.NestedElement dto = new cdp4common.dto.NestedElement(this.getIid(), this.getRevisionNumber());
 
-        dto.getElementUsage().add(this.getElementUsage().toDtoOrderedItemList());
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setVolatile(this.getVolatile());
+        dto.getElementUsage().addAll(this.getElementUsage().toDtoOrderedItemList());
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setVolatile(this.isVolatile());
         dto.setModifiedOn(this.getModifiedOn());
-        dto.getNestedParameter().add(this.getNestedParameter().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getNestedParameter().addAll(this.getNestedParameter().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setRootElement(this.getRootElement() != null ? this.getRootElement().getIid() : new UUID(0L, 0L));
 

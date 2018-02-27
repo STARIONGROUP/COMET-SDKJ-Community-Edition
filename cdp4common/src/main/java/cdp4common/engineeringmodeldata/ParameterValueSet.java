@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractParameterValueSet.java
+ * ParameterValueSet.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = Parameter.class, propertyName = "valueSet")
 @ToString
-@EqualsAndHashCode
-public  class ParameterValueSet extends ParameterValueSetBase implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class ParameterValueSet extends ParameterValueSetBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -64,6 +64,7 @@ public  class ParameterValueSet extends ParameterValueSetBase implements Cloneab
      * @param iDalUri The {@link URI} of this thing
      */
     public ParameterValueSet(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -114,7 +115,7 @@ public  class ParameterValueSet extends ParameterValueSetBase implements Cloneab
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ParameterValueSet}.
+     * Validates the cardinalities of the properties of this ParameterValueSet}.
      *
      * @return A list of potential errors.
      */
@@ -159,14 +160,14 @@ public  class ParameterValueSet extends ParameterValueSetBase implements Cloneab
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.ParameterValueSet dto = new cdp4common.dto.ParameterValueSet(this.getIid(), this.getRevisionNumber());
 
         dto.setActualOption(this.getActualOption() != null ? (UUID)this.getActualOption().getIid() : null);
         dto.setActualState(this.getActualState() != null ? (UUID)this.getActualState().getIid() : null);
         dto.setComputed(new ValueArray<String>(this.getComputed(), this));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setFormula(new ValueArray<String>(this.getFormula(), this));
         dto.setManual(new ValueArray<String>(this.getManual(), this));
         dto.setModifiedOn(this.getModifiedOn());

@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractOrganization.java
+ * Organization.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = SiteDirectory.class, propertyName = "organization")
 @ToString
-@EqualsAndHashCode
-public  class Organization extends Thing implements Cloneable, DeprecatableThing, NamedThing, ShortNamedThing {
+@EqualsAndHashCode(callSuper = true)
+public class Organization extends Thing implements Cloneable, DeprecatableThing, NamedThing, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -65,6 +65,7 @@ public  class Organization extends Thing implements Cloneable, DeprecatableThing
      * @param iDalUri The {@link URI} of this thing
      */
     public Organization(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -72,6 +73,8 @@ public  class Organization extends Thing implements Cloneable, DeprecatableThing
      * assertion whether a DeprecatableThing is deprecated or not
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private boolean isDeprecated;
 
     /**
@@ -80,6 +83,8 @@ public  class Organization extends Thing implements Cloneable, DeprecatableThing
      * Note: The implied LanguageCode of <i>name</i> is "en-GB".
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String name;
 
     /**
@@ -90,69 +95,9 @@ public  class Organization extends Thing implements Cloneable, DeprecatableThing
      * Note 4: A <i>shortName</i> should not contain any whitespace. Additional constraints are defined for some specializations of ShortNamedThing in order to ensure that the <i>shortName</i> can be used as a variable name in a programming or modelling language.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String shortName;
-
-    /**
-     * Gets a value indicating whether isDeprecated.
-     * assertion whether a DeprecatableThing is deprecated or not
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public boolean getDeprecated(){
-         return this.isDeprecated;
-    }
-
-    /**
-     * Gets the name.
-     * human readable character string in English by which something can be       referred       to
-     * Note: The implied LanguageCode of <i>name</i> is "en-GB".
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getName(){
-         return this.name;
-    }
-
-    /**
-     * Gets the shortName.
-     * Note 1: The implied LanguageCode of <i>shortName</i> is "en-GB".
-     * Note 2: The <i>shortName</i> is meant to be used to refer to something where little space is available, for example to name a domain of expertise, a parameter or a measurement scale or unit in the column header of a table or in a formula.
-     * Note 3: A <i>shortName</i> may be an acronym or an abbreviated term.
-     * Note 4: A <i>shortName</i> should not contain any whitespace. Additional constraints are defined for some specializations of ShortNamedThing in order to ensure that the <i>shortName</i> can be used as a variable name in a programming or modelling language.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getShortName(){
-         return this.shortName;
-    }
-
-    /**
-     *Sets a value indicating whether isDeprecated.
-     * assertion whether a DeprecatableThing is deprecated or not
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setDeprecated(boolean isDeprecated){
-        this.isDeprecated = isDeprecated;
-    }
-
-    /**
-     * Sets the name.
-     * human readable character string in English by which something can be       referred       to
-     * Note: The implied LanguageCode of <i>name</i> is "en-GB".
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setName(String name){
-        this.name = name;
-    }
-
-    /**
-     * Sets the shortName.
-     * Note 1: The implied LanguageCode of <i>shortName</i> is "en-GB".
-     * Note 2: The <i>shortName</i> is meant to be used to refer to something where little space is available, for example to name a domain of expertise, a parameter or a measurement scale or unit in the column header of a table or in a formula.
-     * Note 3: A <i>shortName</i> may be an acronym or an abbreviated term.
-     * Note 4: A <i>shortName</i> should not contain any whitespace. Additional constraints are defined for some specializations of ShortNamedThing in order to ensure that the <i>shortName</i> can be used as a variable name in a programming or modelling language.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setShortName(String shortName){
-        this.shortName = shortName;
-    }
 
     /**
      * Creates and returns a copy of this {@link Organization} for edit purpose.
@@ -197,7 +142,7 @@ public  class Organization extends Thing implements Cloneable, DeprecatableThing
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>Organization}.
+     * Validates the cardinalities of the properties of this Organization}.
      *
      * @return A list of potential errors.
      */
@@ -230,7 +175,7 @@ public  class Organization extends Thing implements Cloneable, DeprecatableThing
 
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.setDeprecated(dto.getDeprecated());
+        this.setDeprecated(dto.isDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
         this.setRevisionNumber(dto.getRevisionNumber());
@@ -245,12 +190,12 @@ public  class Organization extends Thing implements Cloneable, DeprecatableThing
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.Organization dto = new cdp4common.dto.Organization(this.getIid(), this.getRevisionNumber());
 
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setDeprecated(this.getDeprecated());
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setDeprecated(this.isDeprecated());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
         dto.setRevisionNumber(this.getRevisionNumber());

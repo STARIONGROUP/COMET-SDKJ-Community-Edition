@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractDiagramShape.java
+ * DiagramShape.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.diagramdata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -42,8 +42,8 @@ import lombok.EqualsAndHashCode;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = DiagramElementContainer.class, propertyName = "diagramElement")
 @ToString
-@EqualsAndHashCode
-public  abstract class DiagramShape extends DiagramElementThing implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public abstract class DiagramShape extends DiagramElementThing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -71,6 +71,7 @@ public  abstract class DiagramShape extends DiagramElementThing implements Clone
      * @param iDalUri The {@link URI} of this thing
      */
     protected DiagramShape(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -87,7 +88,7 @@ public  abstract class DiagramShape extends DiagramElementThing implements Clone
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>DiagramShape}.
+     * Validates the cardinalities of the properties of this DiagramShape}.
      *
      * @return A list of potential errors.
      */

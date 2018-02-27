@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractPrefixedUnit.java
+ * PrefixedUnit.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -38,8 +38,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "unit")
 @ToString
-@EqualsAndHashCode
-public  class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -67,6 +67,7 @@ public  class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     public PrefixedUnit(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -74,21 +75,25 @@ public  class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * applicable conversion factor derived from <i>prefix</i>
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private String conversionFactor;
- 
+
     /**
      * Property name.
      * derived name of this PrefixUnit
      * Note: The name is derived as the concatenation of name of the <i>prefix</i> and the name of the <i>referenceUnit</i>.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private String name;
- 
+
     /**
      * Property prefix.
      * reference to the applicable UnitPrefix
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private UnitPrefix prefix;
 
     /**
@@ -97,49 +102,8 @@ public  class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * Note: The symbol is derived as the concatenation of <i>shortName</i> of the <i>prefix</i> and the <i>shortName</i> of the <i>referenceUnit</i>.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private String shortName;
- 
-
-    /**
-     * Gets the conversionFactor.
-     * applicable conversion factor derived from <i>prefix</i>
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
-    public String getConversionFactor(){
-        return this.GetDerivedConversionFactor();
-    }
-
-    /**
-     * Gets the name.
-     * derived name of this PrefixUnit
-     * Note: The name is derived as the concatenation of name of the <i>prefix</i> and the name of the <i>referenceUnit</i>.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
-    public String getName(){
-        return this.GetDerivedName();
-    }
-
-    /**
-     * Gets the prefix.
-     * reference to the applicable UnitPrefix
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public UnitPrefix getPrefix(){
-         return this.prefix;
-    }
-
-    /**
-     * Gets the shortName.
-     * derived symbol of this PrefixUnit
-     * Note: The symbol is derived as the concatenation of <i>shortName</i> of the <i>prefix</i> and the <i>shortName</i> of the <i>referenceUnit</i>.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
-    public String getShortName(){
-        return this.GetDerivedShortName();
-    }
 
     /**
      * Sets the conversionFactor.
@@ -150,7 +114,6 @@ public  class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
     public void setConversionFactor(String conversionFactor){
         throw new IllegalStateException("Forbidden Set value for the derived property PrefixedUnit.conversionFactor");
     }
@@ -165,18 +128,8 @@ public  class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
     public void setName(String name){
         throw new IllegalStateException("Forbidden Set value for the derived property PrefixedUnit.name");
-    }
-
-    /**
-     * Sets the prefix.
-     * reference to the applicable UnitPrefix
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setPrefix(UnitPrefix prefix){
-        this.prefix = prefix;
     }
 
     /**
@@ -189,7 +142,6 @@ public  class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
     public void setShortName(String shortName){
         throw new IllegalStateException("Forbidden Set value for the derived property PrefixedUnit.shortName");
     }
@@ -211,16 +163,16 @@ public  class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
             throw new IllegalAccessError("Somehow PrefixedUnit cannot be cloned.");
         }
 
-        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
-        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
+        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
+        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
+        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -243,7 +195,7 @@ public  class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>PrefixedUnit}.
+     * Validates the cardinalities of the properties of this PrefixedUnit}.
      *
      * @return A list of potential errors.
      */
@@ -252,7 +204,7 @@ public  class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
 
         if (this.getPrefix() == null || this.getPrefix().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property prefix is null.");
-            this.setPrefix(SentinelThingProvider.getSentinel<UnitPrefix>());
+            this.setPrefix(SentinelThingProvider.getSentinel(UnitPrefix.class));
             this.sentinelResetMap.put("prefix", new ActionImpl(() -> this.setPrefix(null)));
         }
 
@@ -277,10 +229,10 @@ public  class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
-        this.setDeprecated(dto.getDeprecated());
+        this.setDeprecated(dto.isDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setPrefix(this.getCache().get<UnitPrefix>(dto.getPrefix(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<UnitPrefix>());
-        this.setReferenceUnit(this.getCache().get<MeasurementUnit>(dto.getReferenceUnit(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<MeasurementUnit>());
+        this.setPrefix(this.getCache().get<UnitPrefix>(dto.getPrefix(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(UnitPrefix.class));
+        this.setReferenceUnit(this.getCache().get<MeasurementUnit>(dto.getReferenceUnit(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(MeasurementUnit.class));
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -292,15 +244,15 @@ public  class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.PrefixedUnit dto = new cdp4common.dto.PrefixedUnit(this.getIid(), this.getRevisionNumber());
 
-        dto.getAlias().add(this.getAlias().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getDefinition().add(this.getDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getHyperLink().add(this.getHyperLink().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setDeprecated(this.getDeprecated());
+        dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getDefinition().addAll(this.getDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setDeprecated(this.isDeprecated());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setPrefix(this.getPrefix() != null ? this.getPrefix().getIid() : new UUID(0L, 0L));
         dto.setReferenceUnit(this.getReferenceUnit() != null ? this.getReferenceUnit().getIid() : new UUID(0L, 0L));

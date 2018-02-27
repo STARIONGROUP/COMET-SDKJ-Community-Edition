@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractIteration.java
+ * Iteration.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -37,8 +37,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = EngineeringModel.class, propertyName = "iteration")
 @ToString
-@EqualsAndHashCode
-public  class Iteration extends Thing implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class Iteration extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -83,6 +83,7 @@ public  class Iteration extends Thing implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     public Iteration(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.actualFiniteStateList = new ContainerList<ActualFiniteStateList>(this);
         this.diagramCanvas = new ContainerList<DiagramCanvas>(this);
         this.domainFileStore = new ContainerList<DomainFileStore>(this);
@@ -107,6 +108,8 @@ public  class Iteration extends Thing implements Cloneable {
      * collection of ActualFiniteStateLists defined for this Iteration of an EngineeringModel
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<ActualFiniteStateList> actualFiniteStateList;
 
     /**
@@ -115,6 +118,8 @@ public  class Iteration extends Thing implements Cloneable {
      * Note: The referenced default Option must be one of the Options defined in the <i>option</i> property of the Iteration.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private Option defaultOption;
 
     /**
@@ -123,6 +128,8 @@ public  class Iteration extends Thing implements Cloneable {
      */
     @CDPVersion(version = "1.1.0")
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<DiagramCanvas> diagramCanvas;
 
     /**
@@ -131,6 +138,8 @@ public  class Iteration extends Thing implements Cloneable {
      * Note: Typically there will be one DomainFileStore for each DomainOfExpertise in a particular EngineeringModel, plus one additional CommonFileStore shared by all domains.
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<DomainFileStore> domainFileStore;
 
     /**
@@ -138,6 +147,8 @@ public  class Iteration extends Thing implements Cloneable {
      * representation of all ElementDefinitions that represent the system-of-interest for this Iteration of an EngineeringModel
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<ElementDefinition> element;
 
     /**
@@ -145,6 +156,8 @@ public  class Iteration extends Thing implements Cloneable {
      * collection of ExternalIdentifierMaps defined in this EngineeringModel
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<ExternalIdentifierMap> externalIdentifierMap;
 
     /**
@@ -152,6 +165,8 @@ public  class Iteration extends Thing implements Cloneable {
      */
     @CDPVersion(version = "1.1.0")
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<Goal> goal;
 
     /**
@@ -159,6 +174,8 @@ public  class Iteration extends Thing implements Cloneable {
      * reference to the IterationSetup that contains descriptive information about this Iteration at SiteDirectory level
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private IterationSetup iterationSetup;
 
     /**
@@ -166,6 +183,8 @@ public  class Iteration extends Thing implements Cloneable {
      * collection of Options defined in this Iteration of an EngineeringModel
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private OrderedItemList<Option> option;
 
     /**
@@ -173,6 +192,8 @@ public  class Iteration extends Thing implements Cloneable {
      * collection of PossibleFiniteStateLists defined for this Iteration of an EngineeringModel
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<PossibleFiniteStateList> possibleFiniteStateList;
 
     /**
@@ -180,6 +201,8 @@ public  class Iteration extends Thing implements Cloneable {
      * collection of Publications that are part of this Iteration of an EngineeringModel
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<Publication> publication;
 
     /**
@@ -187,6 +210,8 @@ public  class Iteration extends Thing implements Cloneable {
      * collection of Relationships defined in this Iteration of an EngineeringModel
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<Relationship> relationship;
 
     /**
@@ -194,6 +219,8 @@ public  class Iteration extends Thing implements Cloneable {
      * collection of RequirementsSpecifications defined in this Iteration of an EngineeringModel
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<RequirementsSpecification> requirementsSpecification;
 
     /**
@@ -201,6 +228,8 @@ public  class Iteration extends Thing implements Cloneable {
      * collection of RuleVerificationLists defined for this Iteration of an EngineeringModel
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<RuleVerificationList> ruleVerificationList;
 
     /**
@@ -209,6 +238,8 @@ public  class Iteration extends Thing implements Cloneable {
      */
     @CDPVersion(version = "1.1.0")
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<SharedStyle> sharedDiagramStyle;
 
     /**
@@ -217,6 +248,8 @@ public  class Iteration extends Thing implements Cloneable {
      * Note: This property records the provenance of the Iteration. Except for the first Iteration of an EngineeeringModel any subsequent Iteration is created as a copy of a source Iteration. For the first Iteration the <i>sourceIterationIid</i> is set to <i>null</i>, which means there was no source.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
+    @Getter
+    @Setter
     private UUID sourceIterationIid;
 
     /**
@@ -224,6 +257,8 @@ public  class Iteration extends Thing implements Cloneable {
      */
     @CDPVersion(version = "1.1.0")
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<Stakeholder> stakeholder;
 
     /**
@@ -231,6 +266,8 @@ public  class Iteration extends Thing implements Cloneable {
      */
     @CDPVersion(version = "1.1.0")
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<StakeholderValue> stakeholderValue;
 
     /**
@@ -238,6 +275,8 @@ public  class Iteration extends Thing implements Cloneable {
      */
     @CDPVersion(version = "1.1.0")
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<StakeHolderValueMap> stakeholderValueMap;
 
     /**
@@ -246,6 +285,8 @@ public  class Iteration extends Thing implements Cloneable {
      * Note: There is one single topElement for all Options.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ElementDefinition topElement;
 
     /**
@@ -253,6 +294,8 @@ public  class Iteration extends Thing implements Cloneable {
      */
     @CDPVersion(version = "1.1.0")
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<ValueGroup> valueGroup;
 
     /**
@@ -261,401 +304,11 @@ public  class Iteration extends Thing implements Cloneable {
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets a list of contained ActualFiniteStateList.
-     * collection of ActualFiniteStateLists defined for this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<ActualFiniteStateList> getActualFiniteStateList(){
-         return this.actualFiniteStateList;
-    }
-
-    /**
-     * Gets the defaultOption.
-     * reference to the Option that is considered the default Option for this Iteration
-     * Note: The referenced default Option must be one of the Options defined in the <i>option</i> property of the Iteration.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public Option getDefaultOption(){
-         return this.defaultOption;
-    }
-
-    /**
-     * Gets a list of contained DiagramCanvas.
-     * The diagrams created in the scope of the current iteration
-     */
-    @CDPVersion(version = "1.1.0")
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<DiagramCanvas> getDiagramCanvas(){
-         return this.diagramCanvas;
-    }
-
-    /**
-     * Gets a list of contained DomainFileStore.
-     * collection of DomainFileStores in this Iteration
-     * Note: Typically there will be one DomainFileStore for each DomainOfExpertise in a particular EngineeringModel, plus one additional CommonFileStore shared by all domains.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<DomainFileStore> getDomainFileStore(){
-         return this.domainFileStore;
-    }
-
-    /**
-     * Gets a list of contained ElementDefinition.
-     * representation of all ElementDefinitions that represent the system-of-interest for this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<ElementDefinition> getElement(){
-         return this.element;
-    }
-
-    /**
-     * Gets a list of contained ExternalIdentifierMap.
-     * collection of ExternalIdentifierMaps defined in this EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<ExternalIdentifierMap> getExternalIdentifierMap(){
-         return this.externalIdentifierMap;
-    }
-
-    /**
-     * Gets a list of contained Goal.
-     */
-    @CDPVersion(version = "1.1.0")
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<Goal> getGoal(){
-         return this.goal;
-    }
-
-    /**
-     * Gets the iterationSetup.
-     * reference to the IterationSetup that contains descriptive information about this Iteration at SiteDirectory level
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public IterationSetup getIterationSetup(){
-         return this.iterationSetup;
-    }
-
-    /**
-     * Gets a list of ordered contained Option.
-     * collection of Options defined in this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-    public OrderedItemList<Option> getOption(){
-         return this.option;
-    }
-
-    /**
-     * Gets a list of contained PossibleFiniteStateList.
-     * collection of PossibleFiniteStateLists defined for this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<PossibleFiniteStateList> getPossibleFiniteStateList(){
-         return this.possibleFiniteStateList;
-    }
-
-    /**
-     * Gets a list of contained Publication.
-     * collection of Publications that are part of this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<Publication> getPublication(){
-         return this.publication;
-    }
-
-    /**
-     * Gets a list of contained Relationship.
-     * collection of Relationships defined in this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<Relationship> getRelationship(){
-         return this.relationship;
-    }
-
-    /**
-     * Gets a list of contained RequirementsSpecification.
-     * collection of RequirementsSpecifications defined in this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<RequirementsSpecification> getRequirementsSpecification(){
-         return this.requirementsSpecification;
-    }
-
-    /**
-     * Gets a list of contained RuleVerificationList.
-     * collection of RuleVerificationLists defined for this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<RuleVerificationList> getRuleVerificationList(){
-         return this.ruleVerificationList;
-    }
-
-    /**
-     * Gets a list of contained SharedStyle.
-     * The shared styles to be applied on diagram elements
-     */
-    @CDPVersion(version = "1.1.0")
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<SharedStyle> getSharedDiagramStyle(){
-         return this.sharedDiagramStyle;
-    }
-
-    /**
-     * Gets the sourceIterationIid.
-     * definition of the unique instance identifier of Iteration that was used as the source to create this Iteration
-     * Note: This property records the provenance of the Iteration. Except for the first Iteration of an EngineeeringModel any subsequent Iteration is created as a copy of a source Iteration. For the first Iteration the <i>sourceIterationIid</i> is set to <i>null</i>, which means there was no source.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
-    public UUID getSourceIterationIid(){
-         return this.sourceIterationIid;
-    }
-
-    /**
-     * Gets a list of contained Stakeholder.
-     */
-    @CDPVersion(version = "1.1.0")
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<Stakeholder> getStakeholder(){
-         return this.stakeholder;
-    }
-
-    /**
-     * Gets a list of contained StakeholderValue.
-     */
-    @CDPVersion(version = "1.1.0")
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<StakeholderValue> getStakeholderValue(){
-         return this.stakeholderValue;
-    }
-
-    /**
-     * Gets a list of contained StakeHolderValueMap.
-     */
-    @CDPVersion(version = "1.1.0")
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<StakeHolderValueMap> getStakeholderValueMap(){
-         return this.stakeholderValueMap;
-    }
-
-    /**
-     * Gets the topElement.
-     * reference to the ElementDefinition that represents the top node of the decomposition of the system-of-interest for this Iteration of an EngineeringModel
-     * Note: There is one single topElement for all Options.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ElementDefinition getTopElement(){
-         return this.topElement;
-    }
-
-    /**
-     * Gets a list of contained ValueGroup.
-     */
-    @CDPVersion(version = "1.1.0")
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<ValueGroup> getValueGroup(){
-         return this.valueGroup;
-    }
-
-    /**
-     * Sets a list of contained ActualFiniteStateList.
-     * collection of ActualFiniteStateLists defined for this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setActualFiniteStateList(ContainerList<ActualFiniteStateList> actualFiniteStateList){
-        this.actualFiniteStateList = actualFiniteStateList;
-    }
-
-    /**
-     * Sets the defaultOption.
-     * reference to the Option that is considered the default Option for this Iteration
-     * Note: The referenced default Option must be one of the Options defined in the <i>option</i> property of the Iteration.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setDefaultOption(Option defaultOption){
-        this.defaultOption = defaultOption;
-    }
-
-    /**
-     * Sets a list of contained DiagramCanvas.
-     * The diagrams created in the scope of the current iteration
-     */
-    @CDPVersion(version = "1.1.0")
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setDiagramCanvas(ContainerList<DiagramCanvas> diagramCanvas){
-        this.diagramCanvas = diagramCanvas;
-    }
-
-    /**
-     * Sets a list of contained DomainFileStore.
-     * collection of DomainFileStores in this Iteration
-     * Note: Typically there will be one DomainFileStore for each DomainOfExpertise in a particular EngineeringModel, plus one additional CommonFileStore shared by all domains.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setDomainFileStore(ContainerList<DomainFileStore> domainFileStore){
-        this.domainFileStore = domainFileStore;
-    }
-
-    /**
-     * Sets a list of contained ElementDefinition.
-     * representation of all ElementDefinitions that represent the system-of-interest for this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setElement(ContainerList<ElementDefinition> element){
-        this.element = element;
-    }
-
-    /**
-     * Sets a list of contained ExternalIdentifierMap.
-     * collection of ExternalIdentifierMaps defined in this EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setExternalIdentifierMap(ContainerList<ExternalIdentifierMap> externalIdentifierMap){
-        this.externalIdentifierMap = externalIdentifierMap;
-    }
-
-    /**
-     * Sets a list of contained Goal.
-     */
-    @CDPVersion(version = "1.1.0")
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setGoal(ContainerList<Goal> goal){
-        this.goal = goal;
-    }
-
-    /**
-     * Sets the iterationSetup.
-     * reference to the IterationSetup that contains descriptive information about this Iteration at SiteDirectory level
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setIterationSetup(IterationSetup iterationSetup){
-        this.iterationSetup = iterationSetup;
-    }
-
-    /**
-     * Sets a list of ordered contained Option.
-     * collection of Options defined in this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-     protected void setOption(OrderedItemList<Option> option){
-        this.option = option;
-    }
-
-    /**
-     * Sets a list of contained PossibleFiniteStateList.
-     * collection of PossibleFiniteStateLists defined for this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setPossibleFiniteStateList(ContainerList<PossibleFiniteStateList> possibleFiniteStateList){
-        this.possibleFiniteStateList = possibleFiniteStateList;
-    }
-
-    /**
-     * Sets a list of contained Publication.
-     * collection of Publications that are part of this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setPublication(ContainerList<Publication> publication){
-        this.publication = publication;
-    }
-
-    /**
-     * Sets a list of contained Relationship.
-     * collection of Relationships defined in this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setRelationship(ContainerList<Relationship> relationship){
-        this.relationship = relationship;
-    }
-
-    /**
-     * Sets a list of contained RequirementsSpecification.
-     * collection of RequirementsSpecifications defined in this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setRequirementsSpecification(ContainerList<RequirementsSpecification> requirementsSpecification){
-        this.requirementsSpecification = requirementsSpecification;
-    }
-
-    /**
-     * Sets a list of contained RuleVerificationList.
-     * collection of RuleVerificationLists defined for this Iteration of an EngineeringModel
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setRuleVerificationList(ContainerList<RuleVerificationList> ruleVerificationList){
-        this.ruleVerificationList = ruleVerificationList;
-    }
-
-    /**
-     * Sets a list of contained SharedStyle.
-     * The shared styles to be applied on diagram elements
-     */
-    @CDPVersion(version = "1.1.0")
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setSharedDiagramStyle(ContainerList<SharedStyle> sharedDiagramStyle){
-        this.sharedDiagramStyle = sharedDiagramStyle;
-    }
-
-    /**
-     * Sets the sourceIterationIid.
-     * definition of the unique instance identifier of Iteration that was used as the source to create this Iteration
-     * Note: This property records the provenance of the Iteration. Except for the first Iteration of an EngineeeringModel any subsequent Iteration is created as a copy of a source Iteration. For the first Iteration the <i>sourceIterationIid</i> is set to <i>null</i>, which means there was no source.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
-     public void setSourceIterationIid(UUID sourceIterationIid){
-        this.sourceIterationIid = sourceIterationIid;
-    }
-
-    /**
-     * Sets a list of contained Stakeholder.
-     */
-    @CDPVersion(version = "1.1.0")
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setStakeholder(ContainerList<Stakeholder> stakeholder){
-        this.stakeholder = stakeholder;
-    }
-
-    /**
-     * Sets a list of contained StakeholderValue.
-     */
-    @CDPVersion(version = "1.1.0")
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setStakeholderValue(ContainerList<StakeholderValue> stakeholderValue){
-        this.stakeholderValue = stakeholderValue;
-    }
-
-    /**
-     * Sets a list of contained StakeHolderValueMap.
-     */
-    @CDPVersion(version = "1.1.0")
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setStakeholderValueMap(ContainerList<StakeHolderValueMap> stakeholderValueMap){
-        this.stakeholderValueMap = stakeholderValueMap;
-    }
-
-    /**
-     * Sets the topElement.
-     * reference to the ElementDefinition that represents the top node of the decomposition of the system-of-interest for this Iteration of an EngineeringModel
-     * Note: There is one single topElement for all Options.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setTopElement(ElementDefinition topElement){
-        this.topElement = topElement;
-    }
-
-    /**
-     * Sets a list of contained ValueGroup.
-     */
-    @CDPVersion(version = "1.1.0")
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setValueGroup(ContainerList<ValueGroup> valueGroup){
-        this.valueGroup = valueGroup;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link Iteration}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link Iteration}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.actualFiniteStateList);
         containers.add(this.diagramCanvas);
         containers.add(this.domainFileStore);
@@ -693,44 +346,44 @@ public  class Iteration extends Thing implements Cloneable {
             throw new IllegalAccessError("Somehow Iteration cannot be cloned.");
         }
 
-        clone.setActualFiniteStateList(cloneContainedThings ? new ContainerList<ActualFiniteStateList>(clone) : new ContainerList<ActualFiniteStateList>(this.getActualFiniteStateList(), clone));
-        clone.setDiagramCanvas(cloneContainedThings ? new ContainerList<DiagramCanvas>(clone) : new ContainerList<DiagramCanvas>(this.getDiagramCanvas(), clone));
-        clone.setDomainFileStore(cloneContainedThings ? new ContainerList<DomainFileStore>(clone) : new ContainerList<DomainFileStore>(this.getDomainFileStore(), clone));
-        clone.setElement(cloneContainedThings ? new ContainerList<ElementDefinition>(clone) : new ContainerList<ElementDefinition>(this.getElement(), clone));
+        clone.setActualFiniteStateList(cloneContainedThings ? new ContainerList<ActualFiniteStateList>(clone) : new ContainerList<ActualFiniteStateList>(this.getActualFiniteStateList(), clone, false));
+        clone.setDiagramCanvas(cloneContainedThings ? new ContainerList<DiagramCanvas>(clone) : new ContainerList<DiagramCanvas>(this.getDiagramCanvas(), clone, false));
+        clone.setDomainFileStore(cloneContainedThings ? new ContainerList<DomainFileStore>(clone) : new ContainerList<DomainFileStore>(this.getDomainFileStore(), clone, false));
+        clone.setElement(cloneContainedThings ? new ContainerList<ElementDefinition>(clone) : new ContainerList<ElementDefinition>(this.getElement(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setExternalIdentifierMap(cloneContainedThings ? new ContainerList<ExternalIdentifierMap>(clone) : new ContainerList<ExternalIdentifierMap>(this.getExternalIdentifierMap(), clone));
-        clone.setGoal(cloneContainedThings ? new ContainerList<Goal>(clone) : new ContainerList<Goal>(this.getGoal(), clone));
+        clone.setExternalIdentifierMap(cloneContainedThings ? new ContainerList<ExternalIdentifierMap>(clone) : new ContainerList<ExternalIdentifierMap>(this.getExternalIdentifierMap(), clone, false));
+        clone.setGoal(cloneContainedThings ? new ContainerList<Goal>(clone) : new ContainerList<Goal>(this.getGoal(), clone, false));
         clone.setOption(cloneContainedThings ? new OrderedItemList<Option>(clone, true) : new OrderedItemList<Option>(this.getOption(), clone));
-        clone.setPossibleFiniteStateList(cloneContainedThings ? new ContainerList<PossibleFiniteStateList>(clone) : new ContainerList<PossibleFiniteStateList>(this.getPossibleFiniteStateList(), clone));
-        clone.setPublication(cloneContainedThings ? new ContainerList<Publication>(clone) : new ContainerList<Publication>(this.getPublication(), clone));
-        clone.setRelationship(cloneContainedThings ? new ContainerList<Relationship>(clone) : new ContainerList<Relationship>(this.getRelationship(), clone));
-        clone.setRequirementsSpecification(cloneContainedThings ? new ContainerList<RequirementsSpecification>(clone) : new ContainerList<RequirementsSpecification>(this.getRequirementsSpecification(), clone));
-        clone.setRuleVerificationList(cloneContainedThings ? new ContainerList<RuleVerificationList>(clone) : new ContainerList<RuleVerificationList>(this.getRuleVerificationList(), clone));
-        clone.setSharedDiagramStyle(cloneContainedThings ? new ContainerList<SharedStyle>(clone) : new ContainerList<SharedStyle>(this.getSharedDiagramStyle(), clone));
-        clone.setStakeholder(cloneContainedThings ? new ContainerList<Stakeholder>(clone) : new ContainerList<Stakeholder>(this.getStakeholder(), clone));
-        clone.setStakeholderValue(cloneContainedThings ? new ContainerList<StakeholderValue>(clone) : new ContainerList<StakeholderValue>(this.getStakeholderValue(), clone));
-        clone.setStakeholderValueMap(cloneContainedThings ? new ContainerList<StakeHolderValueMap>(clone) : new ContainerList<StakeHolderValueMap>(this.getStakeholderValueMap(), clone));
-        clone.setValueGroup(cloneContainedThings ? new ContainerList<ValueGroup>(clone) : new ContainerList<ValueGroup>(this.getValueGroup(), clone));
+        clone.setPossibleFiniteStateList(cloneContainedThings ? new ContainerList<PossibleFiniteStateList>(clone) : new ContainerList<PossibleFiniteStateList>(this.getPossibleFiniteStateList(), clone, false));
+        clone.setPublication(cloneContainedThings ? new ContainerList<Publication>(clone) : new ContainerList<Publication>(this.getPublication(), clone, false));
+        clone.setRelationship(cloneContainedThings ? new ContainerList<Relationship>(clone) : new ContainerList<Relationship>(this.getRelationship(), clone, false));
+        clone.setRequirementsSpecification(cloneContainedThings ? new ContainerList<RequirementsSpecification>(clone) : new ContainerList<RequirementsSpecification>(this.getRequirementsSpecification(), clone, false));
+        clone.setRuleVerificationList(cloneContainedThings ? new ContainerList<RuleVerificationList>(clone) : new ContainerList<RuleVerificationList>(this.getRuleVerificationList(), clone, false));
+        clone.setSharedDiagramStyle(cloneContainedThings ? new ContainerList<SharedStyle>(clone) : new ContainerList<SharedStyle>(this.getSharedDiagramStyle(), clone, false));
+        clone.setStakeholder(cloneContainedThings ? new ContainerList<Stakeholder>(clone) : new ContainerList<Stakeholder>(this.getStakeholder(), clone, false));
+        clone.setStakeholderValue(cloneContainedThings ? new ContainerList<StakeholderValue>(clone) : new ContainerList<StakeholderValue>(this.getStakeholderValue(), clone, false));
+        clone.setStakeholderValueMap(cloneContainedThings ? new ContainerList<StakeHolderValueMap>(clone) : new ContainerList<StakeHolderValueMap>(this.getStakeholderValueMap(), clone, false));
+        clone.setValueGroup(cloneContainedThings ? new ContainerList<ValueGroup>(clone) : new ContainerList<ValueGroup>(this.getValueGroup(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getActualFiniteStateList().addAll(this.getActualFiniteStateList().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDiagramCanvas().addAll(this.getDiagramCanvas().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDomainFileStore().addAll(this.getDomainFileStore().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getElement().addAll(this.getElement().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getExternalIdentifierMap().addAll(this.getExternalIdentifierMap().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getGoal().addAll(this.getGoal().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getOption().addAll(this.getOption().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getPossibleFiniteStateList().addAll(this.getPossibleFiniteStateList().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getPublication().addAll(this.getPublication().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getRelationship().addAll(this.getRelationship().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getRequirementsSpecification().addAll(this.getRequirementsSpecification().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getRuleVerificationList().addAll(this.getRuleVerificationList().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getSharedDiagramStyle().addAll(this.getSharedDiagramStyle().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getStakeholder().addAll(this.getStakeholder().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getStakeholderValue().addAll(this.getStakeholderValue().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getStakeholderValueMap().addAll(this.getStakeholderValueMap().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getValueGroup().addAll(this.getValueGroup().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getActualFiniteStateList().addAll(this.getActualFiniteStateList().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDiagramCanvas().addAll(this.getDiagramCanvas().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDomainFileStore().addAll(this.getDomainFileStore().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getElement().addAll(this.getElement().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getExternalIdentifierMap().addAll(this.getExternalIdentifierMap().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getGoal().addAll(this.getGoal().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getOption().addAll(this.getOption().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getPossibleFiniteStateList().addAll(this.getPossibleFiniteStateList().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getPublication().addAll(this.getPublication().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getRelationship().addAll(this.getRelationship().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getRequirementsSpecification().addAll(this.getRequirementsSpecification().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getRuleVerificationList().addAll(this.getRuleVerificationList().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getSharedDiagramStyle().addAll(this.getSharedDiagramStyle().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getStakeholder().addAll(this.getStakeholder().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getStakeholderValue().addAll(this.getStakeholderValue().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getStakeholderValueMap().addAll(this.getStakeholderValueMap().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getValueGroup().addAll(this.getValueGroup().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -753,7 +406,7 @@ public  class Iteration extends Thing implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>Iteration}.
+     * Validates the cardinalities of the properties of this Iteration}.
      *
      * @return A list of potential errors.
      */
@@ -762,7 +415,7 @@ public  class Iteration extends Thing implements Cloneable {
 
         if (this.getIterationSetup() == null || this.getIterationSetup().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property iterationSetup is null.");
-            this.setIterationSetup(SentinelThingProvider.getSentinel<IterationSetup>());
+            this.setIterationSetup(SentinelThingProvider.getSentinel(IterationSetup.class));
             this.sentinelResetMap.put("iterationSetup", new ActionImpl(() -> this.setIterationSetup(null)));
         }
 
@@ -796,7 +449,7 @@ public  class Iteration extends Thing implements Cloneable {
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIid(), this.getCache());
         this.getExternalIdentifierMap().resolveList(dto.getExternalIdentifierMap(), dto.getIid(), this.getCache());
         this.getGoal().resolveList(dto.getGoal(), dto.getIid(), this.getCache());
-        this.setIterationSetup(this.getCache().get<IterationSetup>(dto.getIterationSetup(), dto.getIid()) ?? SentinelThingProvider.getSentinel<IterationSetup>());
+        this.setIterationSetup(this.getCache().get<IterationSetup>(dto.getIterationSetup(), dto.getIid()) ?? SentinelThingProvider.getSentinel(IterationSetup.class));
         this.setModifiedOn(dto.getModifiedOn());
         this.getOption().resolveList(dto.getOption(), dto.getIid(), this.getCache());
         this.getPossibleFiniteStateList().resolveList(dto.getPossibleFiniteStateList(), dto.getIid(), this.getCache());
@@ -822,34 +475,34 @@ public  class Iteration extends Thing implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.Iteration dto = new cdp4common.dto.Iteration(this.getIid(), this.getRevisionNumber());
 
-        dto.getActualFiniteStateList().add(this.getActualFiniteStateList().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getActualFiniteStateList().addAll(this.getActualFiniteStateList().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setDefaultOption(this.getDefaultOption() != null ? (UUID)this.getDefaultOption().getIid() : null);
-        dto.getDiagramCanvas().add(this.getDiagramCanvas().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getDomainFileStore().add(this.getDomainFileStore().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getElement().add(this.getElement().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExternalIdentifierMap().add(this.getExternalIdentifierMap().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getGoal().add(this.getGoal().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getDiagramCanvas().addAll(this.getDiagramCanvas().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getDomainFileStore().addAll(this.getDomainFileStore().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getElement().addAll(this.getElement().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExternalIdentifierMap().addAll(this.getExternalIdentifierMap().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getGoal().addAll(this.getGoal().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setIterationSetup(this.getIterationSetup() != null ? this.getIterationSetup().getIid() : new UUID(0L, 0L));
         dto.setModifiedOn(this.getModifiedOn());
-        dto.getOption().add(this.getOption().toDtoOrderedItemList());
-        dto.getPossibleFiniteStateList().add(this.getPossibleFiniteStateList().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getPublication().add(this.getPublication().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getRelationship().add(this.getRelationship().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getRequirementsSpecification().add(this.getRequirementsSpecification().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getOption().addAll(this.getOption().toDtoOrderedItemList());
+        dto.getPossibleFiniteStateList().addAll(this.getPossibleFiniteStateList().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getPublication().addAll(this.getPublication().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getRelationship().addAll(this.getRelationship().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getRequirementsSpecification().addAll(this.getRequirementsSpecification().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
-        dto.getRuleVerificationList().add(this.getRuleVerificationList().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getSharedDiagramStyle().add(this.getSharedDiagramStyle().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getRuleVerificationList().addAll(this.getRuleVerificationList().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getSharedDiagramStyle().addAll(this.getSharedDiagramStyle().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setSourceIterationIid(this.getSourceIterationIid());
-        dto.getStakeholder().add(this.getStakeholder().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getStakeholderValue().add(this.getStakeholderValue().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getStakeholderValueMap().add(this.getStakeholderValueMap().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getStakeholder().addAll(this.getStakeholder().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getStakeholderValue().addAll(this.getStakeholderValue().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getStakeholderValueMap().addAll(this.getStakeholderValueMap().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setTopElement(this.getTopElement() != null ? (UUID)this.getTopElement().getIid() : null);
-        dto.getValueGroup().add(this.getValueGroup().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getValueGroup().addAll(this.getValueGroup().stream().map(Thing::getIid).collect(Collectors.toList()));
 
         dto.setIterationContainerId(this.getCacheId().getRight());
         dto.registerSourceThing(this);

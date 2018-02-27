@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractDecompositionRule.java
+ * DecompositionRule.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -37,8 +37,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "rule")
 @ToString
-@EqualsAndHashCode
-public  class DecompositionRule extends Rule implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class DecompositionRule extends Rule implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -67,6 +67,7 @@ public  class DecompositionRule extends Rule implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     public DecompositionRule(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.containedCategory = new ArrayList<Category>();
     }
 
@@ -75,6 +76,8 @@ public  class DecompositionRule extends Rule implements Cloneable {
      * reference to one or more valid Categories for the <i>elementDefinition</i> of <i>containedElement</i> ElementUsages
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<Category> containedCategory;
 
     /**
@@ -82,6 +85,8 @@ public  class DecompositionRule extends Rule implements Cloneable {
      * reference to the Category for <i>containingElement</i> ElementDefinitions to which this rule applies
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private Category containingCategory;
 
     /**
@@ -91,6 +96,8 @@ public  class DecompositionRule extends Rule implements Cloneable {
      * Note 2: If not specified it signifies that an unlimited number of <i>containedElement</i> is valid.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
+    @Getter
+    @Setter
     private Integer maxContained;
 
     /**
@@ -99,85 +106,9 @@ public  class DecompositionRule extends Rule implements Cloneable {
      * Note: This can be used to specify a cardinality constraint.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private int minContained;
-
-    /**
-     * Gets a list of Category.
-     * reference to one or more valid Categories for the <i>elementDefinition</i> of <i>containedElement</i> ElementUsages
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<Category> getContainedCategory(){
-         return this.containedCategory;
-    }
-
-    /**
-     * Gets the containingCategory.
-     * reference to the Category for <i>containingElement</i> ElementDefinitions to which this rule applies
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public Category getContainingCategory(){
-         return this.containingCategory;
-    }
-
-    /**
-     * Gets the maxContained.
-     * optional definition of the valid maximum number of <i>containedElement</i> ElementUsages
-     * Note 1: This can be used to specify a cardinality constraint.
-     * Note 2: If not specified it signifies that an unlimited number of <i>containedElement</i> is valid.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
-    public Integer getMaxContained(){
-         return this.maxContained;
-    }
-
-    /**
-     * Gets the minContained.
-     * definition of the valid minimum number of <i>containedElement</i> ElementUsages
-     * Note: This can be used to specify a cardinality constraint.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public int getMinContained(){
-         return this.minContained;
-    }
-
-    /**
-     * Sets a list of Category.
-     * reference to one or more valid Categories for the <i>elementDefinition</i> of <i>containedElement</i> ElementUsages
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setContainedCategory(ArrayList<Category> containedCategory){
-        this.containedCategory = containedCategory;
-    }
-
-    /**
-     * Sets the containingCategory.
-     * reference to the Category for <i>containingElement</i> ElementDefinitions to which this rule applies
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setContainingCategory(Category containingCategory){
-        this.containingCategory = containingCategory;
-    }
-
-    /**
-     * Sets the maxContained.
-     * optional definition of the valid maximum number of <i>containedElement</i> ElementUsages
-     * Note 1: This can be used to specify a cardinality constraint.
-     * Note 2: If not specified it signifies that an unlimited number of <i>containedElement</i> is valid.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
-     public void setMaxContained(Integer maxContained){
-        this.maxContained = maxContained;
-    }
-
-    /**
-     * Sets the minContained.
-     * definition of the valid minimum number of <i>containedElement</i> ElementUsages
-     * Note: This can be used to specify a cardinality constraint.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setMinContained(int minContained){
-        this.minContained = minContained;
-    }
 
     /**
      * Creates and returns a copy of this {@link DecompositionRule} for edit purpose.
@@ -196,17 +127,17 @@ public  class DecompositionRule extends Rule implements Cloneable {
             throw new IllegalAccessError("Somehow DecompositionRule cannot be cloned.");
         }
 
-        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
+        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
         clone.setContainedCategory(new ArrayList<Category>(this.getContainedCategory()));
-        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
+        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
+        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -229,7 +160,7 @@ public  class DecompositionRule extends Rule implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>DecompositionRule}.
+     * Validates the cardinalities of the properties of this DecompositionRule}.
      *
      * @return A list of potential errors.
      */
@@ -243,7 +174,7 @@ public  class DecompositionRule extends Rule implements Cloneable {
 
         if (this.getContainingCategory() == null || this.getContainingCategory().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property containingCategory is null.");
-            this.setContainingCategory(SentinelThingProvider.getSentinel<Category>());
+            this.setContainingCategory(SentinelThingProvider.getSentinel(Category.class));
             this.sentinelResetMap.put("containingCategory", new ActionImpl(() -> this.setContainingCategory(null)));
         }
 
@@ -265,12 +196,12 @@ public  class DecompositionRule extends Rule implements Cloneable {
 
         this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
         this.getContainedCategory().resolveList(dto.getContainedCategory(), dto.getIterationContainerId(), this.getCache());
-        this.setContainingCategory(this.getCache().get<Category>(dto.getContainingCategory(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Category>());
+        this.setContainingCategory(this.getCache().get<Category>(dto.getContainingCategory(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Category.class));
         this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
-        this.setDeprecated(dto.getDeprecated());
+        this.setDeprecated(dto.isDeprecated());
         this.setMaxContained(dto.getMaxContained());
         this.setMinContained(dto.getMinContained());
         this.setModifiedOn(dto.getModifiedOn());
@@ -287,17 +218,17 @@ public  class DecompositionRule extends Rule implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.DecompositionRule dto = new cdp4common.dto.DecompositionRule(this.getIid(), this.getRevisionNumber());
 
-        dto.getAlias().add(this.getAlias().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getContainedCategory().add(this.getContainedCategory().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getContainedCategory().addAll(this.getContainedCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setContainingCategory(this.getContainingCategory() != null ? this.getContainingCategory().getIid() : new UUID(0L, 0L));
-        dto.getDefinition().add(this.getDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getHyperLink().add(this.getHyperLink().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setDeprecated(this.getDeprecated());
+        dto.getDefinition().addAll(this.getDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setDeprecated(this.isDeprecated());
         dto.setMaxContained(this.getMaxContained());
         dto.setMinContained(this.getMinContained());
         dto.setModifiedOn(this.getModifiedOn());

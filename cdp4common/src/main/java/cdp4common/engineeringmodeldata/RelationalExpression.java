@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractRelationalExpression.java
+ * RelationalExpression.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ParametricConstraint.class, propertyName = "expression")
 @ToString
-@EqualsAndHashCode
-public  class RelationalExpression extends BooleanExpression implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class RelationalExpression extends BooleanExpression implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -53,7 +53,7 @@ public  class RelationalExpression extends BooleanExpression implements Cloneabl
      * Initializes a new instance of the {@link RelationalExpression} class.
      */
     public RelationalExpression() {
-        this.value = new ValueArray<String>(this);
+        this.value = new ValueArray<String>(this, false);
     }
 
     /**
@@ -65,7 +65,8 @@ public  class RelationalExpression extends BooleanExpression implements Cloneabl
      * @param iDalUri The {@link URI} of this thing
      */
     public RelationalExpression(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
-        this.value = new ValueArray<String>(this);
+        super(iid, cache, iDalUri);
+        this.value = new ValueArray<String>(this, false);
     }
 
     /**
@@ -74,6 +75,8 @@ public  class RelationalExpression extends BooleanExpression implements Cloneabl
      * ParametricConstraint
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ParameterType parameterType;
 
     /**
@@ -81,6 +84,8 @@ public  class RelationalExpression extends BooleanExpression implements Cloneabl
      * specification of the relational operator
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private RelationalOperatorKind relationalOperator;
 
     /**
@@ -88,6 +93,8 @@ public  class RelationalExpression extends BooleanExpression implements Cloneabl
      * reference to the applicable MeasurementScale in case the parameterType is a QuantityKind
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private MeasurementScale scale;
 
     /**
@@ -95,81 +102,9 @@ public  class RelationalExpression extends BooleanExpression implements Cloneabl
      * specification of the parameter value
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ValueArray<String> value;
-
-    /**
-     * Gets the parameterType.
-     * specification of the parameter type that defines the free variable in this
-     * ParametricConstraint
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ParameterType getParameterType(){
-         return this.parameterType;
-    }
-
-    /**
-     * Gets the relationalOperator.
-     * specification of the relational operator
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public RelationalOperatorKind getRelationalOperator(){
-         return this.relationalOperator;
-    }
-
-    /**
-     * Gets the scale.
-     * reference to the applicable MeasurementScale in case the parameterType is a QuantityKind
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public MeasurementScale getScale(){
-         return this.scale;
-    }
-
-    /**
-     * Gets a list of ordered String.
-     * specification of the parameter value
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-    public ValueArray<String> getValue(){
-         return this.value;
-    }
-
-    /**
-     * Sets the parameterType.
-     * specification of the parameter type that defines the free variable in this
-     * ParametricConstraint
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setParameterType(ParameterType parameterType){
-        this.parameterType = parameterType;
-    }
-
-    /**
-     * Sets the relationalOperator.
-     * specification of the relational operator
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setRelationalOperator(RelationalOperatorKind relationalOperator){
-        this.relationalOperator = relationalOperator;
-    }
-
-    /**
-     * Sets the scale.
-     * reference to the applicable MeasurementScale in case the parameterType is a QuantityKind
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setScale(MeasurementScale scale){
-        this.scale = scale;
-    }
-
-    /**
-     * Sets a list of ordered String.
-     * specification of the parameter value
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-     public void setValue(ValueArray<String> value){
-        this.value = value;
-    }
 
     /**
      * Creates and returns a copy of this {@link RelationalExpression} for edit purpose.
@@ -215,7 +150,7 @@ public  class RelationalExpression extends BooleanExpression implements Cloneabl
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>RelationalExpression}.
+     * Validates the cardinalities of the properties of this RelationalExpression}.
      *
      * @return A list of potential errors.
      */
@@ -224,7 +159,7 @@ public  class RelationalExpression extends BooleanExpression implements Cloneabl
 
         if (this.getParameterType() == null || this.getParameterType().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property parameterType is null.");
-            this.setParameterType(SentinelThingProvider.getSentinel<ParameterType>());
+            this.setParameterType(SentinelThingProvider.getSentinel(ParameterType.class));
             this.sentinelResetMap.put("parameterType", new ActionImpl(() -> this.setParameterType(null)));
         }
 
@@ -252,7 +187,7 @@ public  class RelationalExpression extends BooleanExpression implements Cloneabl
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setParameterType(this.getCache().get<ParameterType>(dto.getParameterType(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ParameterType>());
+        this.setParameterType(this.getCache().get<ParameterType>(dto.getParameterType(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ParameterType.class));
         this.setRelationalOperator(dto.getRelationalOperator());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setScale((dto.getScale() != null) ? this.getCache().get<MeasurementScale>(dto.getScale.getValue(), dto.getIterationContainerId()) : null);
@@ -267,11 +202,11 @@ public  class RelationalExpression extends BooleanExpression implements Cloneabl
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.RelationalExpression dto = new cdp4common.dto.RelationalExpression(this.getIid(), this.getRevisionNumber());
 
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setParameterType(this.getParameterType() != null ? this.getParameterType().getIid() : new UUID(0L, 0L));
         dto.setRelationalOperator(this.getRelationalOperator());

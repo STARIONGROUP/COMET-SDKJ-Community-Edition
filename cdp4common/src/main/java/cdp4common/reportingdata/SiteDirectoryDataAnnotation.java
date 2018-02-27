@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractSiteDirectoryDataAnnotation.java
+ * SiteDirectoryDataAnnotation.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.reportingdata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = SiteDirectory.class, propertyName = "annotation")
 @ToString
-@EqualsAndHashCode
-public  class SiteDirectoryDataAnnotation extends GenericAnnotation implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class SiteDirectoryDataAnnotation extends GenericAnnotation implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -66,6 +66,7 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation implements C
      * @param iDalUri The {@link URI} of this thing
      */
     public SiteDirectoryDataAnnotation(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.discussion = new ContainerList<SiteDirectoryDataDiscussionItem>(this);
         this.relatedThing = new ContainerList<SiteDirectoryThingReference>(this);
     }
@@ -75,6 +76,8 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation implements C
      * The author of the annotation
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private Person author;
 
     /**
@@ -82,6 +85,8 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation implements C
      * The discussion related to this annotation
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<SiteDirectoryDataDiscussionItem> discussion;
 
     /**
@@ -89,6 +94,8 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation implements C
      * The reference of the primary Thing that is being annotated
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private SiteDirectoryThingReference primaryAnnotatedThing;
 
     /**
@@ -96,6 +103,8 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation implements C
      * The reference of the things that are related to this annotation
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<SiteDirectoryThingReference> relatedThing;
 
     /**
@@ -104,83 +113,11 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation implements C
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets the author.
-     * The author of the annotation
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public Person getAuthor(){
-         return this.author;
-    }
-
-    /**
-     * Gets a list of contained SiteDirectoryDataDiscussionItem.
-     * The discussion related to this annotation
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<SiteDirectoryDataDiscussionItem> getDiscussion(){
-         return this.discussion;
-    }
-
-    /**
-     * Gets the primaryAnnotatedThing.
-     * The reference of the primary Thing that is being annotated
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public SiteDirectoryThingReference getPrimaryAnnotatedThing(){
-         return this.primaryAnnotatedThing;
-    }
-
-    /**
-     * Gets a list of contained SiteDirectoryThingReference.
-     * The reference of the things that are related to this annotation
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<SiteDirectoryThingReference> getRelatedThing(){
-         return this.relatedThing;
-    }
-
-    /**
-     * Sets the author.
-     * The author of the annotation
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setAuthor(Person author){
-        this.author = author;
-    }
-
-    /**
-     * Sets a list of contained SiteDirectoryDataDiscussionItem.
-     * The discussion related to this annotation
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setDiscussion(ContainerList<SiteDirectoryDataDiscussionItem> discussion){
-        this.discussion = discussion;
-    }
-
-    /**
-     * Sets the primaryAnnotatedThing.
-     * The reference of the primary Thing that is being annotated
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setPrimaryAnnotatedThing(SiteDirectoryThingReference primaryAnnotatedThing){
-        this.primaryAnnotatedThing = primaryAnnotatedThing;
-    }
-
-    /**
-     * Sets a list of contained SiteDirectoryThingReference.
-     * The reference of the things that are related to this annotation
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setRelatedThing(ContainerList<SiteDirectoryThingReference> relatedThing){
-        this.relatedThing = relatedThing;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link SiteDirectoryDataAnnotation}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link SiteDirectoryDataAnnotation}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.discussion);
         containers.add(this.relatedThing);
         return containers;
@@ -203,14 +140,14 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation implements C
             throw new IllegalAccessError("Somehow SiteDirectoryDataAnnotation cannot be cloned.");
         }
 
-        clone.setDiscussion(cloneContainedThings ? new ContainerList<SiteDirectoryDataDiscussionItem>(clone) : new ContainerList<SiteDirectoryDataDiscussionItem>(this.getDiscussion(), clone));
+        clone.setDiscussion(cloneContainedThings ? new ContainerList<SiteDirectoryDataDiscussionItem>(clone) : new ContainerList<SiteDirectoryDataDiscussionItem>(this.getDiscussion(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setRelatedThing(cloneContainedThings ? new ContainerList<SiteDirectoryThingReference>(clone) : new ContainerList<SiteDirectoryThingReference>(this.getRelatedThing(), clone));
+        clone.setRelatedThing(cloneContainedThings ? new ContainerList<SiteDirectoryThingReference>(clone) : new ContainerList<SiteDirectoryThingReference>(this.getRelatedThing(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getDiscussion().addAll(this.getDiscussion().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getRelatedThing().addAll(this.getRelatedThing().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getDiscussion().addAll(this.getDiscussion().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getRelatedThing().addAll(this.getRelatedThing().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -233,7 +170,7 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation implements C
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>SiteDirectoryDataAnnotation}.
+     * Validates the cardinalities of the properties of this SiteDirectoryDataAnnotation}.
      *
      * @return A list of potential errors.
      */
@@ -242,13 +179,13 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation implements C
 
         if (this.getAuthor() == null || this.getAuthor().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property author is null.");
-            this.setAuthor(SentinelThingProvider.getSentinel<Person>());
+            this.setAuthor(SentinelThingProvider.getSentinel(Person.class));
             this.sentinelResetMap.put("author", new ActionImpl(() -> this.setAuthor(null)));
         }
 
         if (this.getPrimaryAnnotatedThing() == null || this.getPrimaryAnnotatedThing().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property primaryAnnotatedThing is null.");
-            this.setPrimaryAnnotatedThing(SentinelThingProvider.getSentinel<SiteDirectoryThingReference>());
+            this.setPrimaryAnnotatedThing(SentinelThingProvider.getSentinel(SiteDirectoryThingReference.class));
             this.sentinelResetMap.put("primaryAnnotatedThing", new ActionImpl(() -> this.setPrimaryAnnotatedThing(null)));
         }
 
@@ -273,7 +210,7 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation implements C
 
         cdp4common.dto.SiteDirectoryDataAnnotation dto = (cdp4common.dto.SiteDirectoryDataAnnotation)dtoThing;
 
-        this.setAuthor(this.getCache().get<Person>(dto.getAuthor(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Person>());
+        this.setAuthor(this.getCache().get<Person>(dto.getAuthor(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Person.class));
         this.setContent(dto.getContent());
         this.setCreatedOn(dto.getCreatedOn());
         this.getDiscussion().resolveList(dto.getDiscussion(), dto.getIterationContainerId(), this.getCache());
@@ -281,7 +218,7 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation implements C
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setLanguageCode(dto.getLanguageCode());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setPrimaryAnnotatedThing(this.getCache().get<SiteDirectoryThingReference>(dto.getPrimaryAnnotatedThing(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<SiteDirectoryThingReference>());
+        this.setPrimaryAnnotatedThing(this.getCache().get<SiteDirectoryThingReference>(dto.getPrimaryAnnotatedThing(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(SiteDirectoryThingReference.class));
         this.getRelatedThing().resolveList(dto.getRelatedThing(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
 
@@ -294,19 +231,19 @@ public  class SiteDirectoryDataAnnotation extends GenericAnnotation implements C
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.SiteDirectoryDataAnnotation dto = new cdp4common.dto.SiteDirectoryDataAnnotation(this.getIid(), this.getRevisionNumber());
 
         dto.setAuthor(this.getAuthor() != null ? this.getAuthor().getIid() : new UUID(0L, 0L));
         dto.setContent(this.getContent());
         dto.setCreatedOn(this.getCreatedOn());
-        dto.getDiscussion().add(this.getDiscussion().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getDiscussion().addAll(this.getDiscussion().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setLanguageCode(this.getLanguageCode());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setPrimaryAnnotatedThing(this.getPrimaryAnnotatedThing() != null ? this.getPrimaryAnnotatedThing().getIid() : new UUID(0L, 0L));
-        dto.getRelatedThing().add(this.getRelatedThing().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getRelatedThing().addAll(this.getRelatedThing().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
 
         dto.setIterationContainerId(this.getCacheId().getRight());

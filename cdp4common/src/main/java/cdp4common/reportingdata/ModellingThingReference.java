@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractModellingThingReference.java
+ * ModellingThingReference.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.reportingdata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = EngineeringModelDataAnnotation.class, propertyName = "relatedThing")
 @ToString
-@EqualsAndHashCode
-public  class ModellingThingReference extends ThingReference implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class ModellingThingReference extends ThingReference implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -65,6 +65,7 @@ public  class ModellingThingReference extends ThingReference implements Cloneabl
      * @param iDalUri The {@link URI} of this thing
      */
     public ModellingThingReference(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -110,7 +111,7 @@ public  class ModellingThingReference extends ThingReference implements Cloneabl
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ModellingThingReference}.
+     * Validates the cardinalities of the properties of this ModellingThingReference}.
      *
      * @return A list of potential errors.
      */
@@ -137,7 +138,7 @@ public  class ModellingThingReference extends ThingReference implements Cloneabl
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
         this.setReferencedRevisionNumber(dto.getReferencedRevisionNumber());
-        this.setReferencedThing(this.getCache().get<Thing>(dto.getReferencedThing(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Thing>());
+        this.setReferencedThing(this.getCache().get<Thing>(dto.getReferencedThing(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Thing.class));
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -149,11 +150,11 @@ public  class ModellingThingReference extends ThingReference implements Cloneabl
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.ModellingThingReference dto = new cdp4common.dto.ModellingThingReference(this.getIid(), this.getRevisionNumber());
 
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setReferencedRevisionNumber(this.getReferencedRevisionNumber());
         dto.setReferencedThing(this.getReferencedThing() != null ? this.getReferencedThing().getIid() : new UUID(0L, 0L));

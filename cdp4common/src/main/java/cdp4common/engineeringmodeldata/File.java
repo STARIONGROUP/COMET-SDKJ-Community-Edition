@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractFile.java
+ * File.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = FileStore.class, propertyName = "file")
 @ToString
-@EqualsAndHashCode
-public  class File extends Thing implements Cloneable, CategorizableThing, OwnedThing {
+@EqualsAndHashCode(callSuper = true)
+public class File extends Thing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -67,6 +67,7 @@ public  class File extends Thing implements Cloneable, CategorizableThing, Owned
      * @param iDalUri The {@link URI} of this thing
      */
     public File(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.category = new ArrayList<Category>();
         this.fileRevision = new ContainerList<FileRevision>(this);
     }
@@ -76,6 +77,8 @@ public  class File extends Thing implements Cloneable, CategorizableThing, Owned
      * reference to zero or more Categories of which this CategorizableThing is a member
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<Category> category;
 
     /**
@@ -83,6 +86,8 @@ public  class File extends Thing implements Cloneable, CategorizableThing, Owned
      * collection of revisions for this File
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<FileRevision> fileRevision;
 
     /**
@@ -90,6 +95,8 @@ public  class File extends Thing implements Cloneable, CategorizableThing, Owned
      * reference to a Person that has locked this File for write / modify access
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private Person lockedBy;
 
     /**
@@ -98,6 +105,8 @@ public  class File extends Thing implements Cloneable, CategorizableThing, Owned
      * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private DomainOfExpertise owner;
 
     /**
@@ -106,85 +115,11 @@ public  class File extends Thing implements Cloneable, CategorizableThing, Owned
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<Category> getCategory(){
-         return this.category;
-    }
-
-    /**
-     * Gets a list of contained FileRevision.
-     * collection of revisions for this File
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<FileRevision> getFileRevision(){
-         return this.fileRevision;
-    }
-
-    /**
-     * Gets the lockedBy.
-     * reference to a Person that has locked this File for write / modify access
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public Person getLockedBy(){
-         return this.lockedBy;
-    }
-
-    /**
-     * Gets the owner.
-     * reference to a DomainOfExpertise that is the owner of this OwnedThing
-     * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public DomainOfExpertise getOwner(){
-         return this.owner;
-    }
-
-    /**
-     * Sets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setCategory(ArrayList<Category> category){
-        this.category = category;
-    }
-
-    /**
-     * Sets a list of contained FileRevision.
-     * collection of revisions for this File
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setFileRevision(ContainerList<FileRevision> fileRevision){
-        this.fileRevision = fileRevision;
-    }
-
-    /**
-     * Sets the lockedBy.
-     * reference to a Person that has locked this File for write / modify access
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setLockedBy(Person lockedBy){
-        this.lockedBy = lockedBy;
-    }
-
-    /**
-     * Sets the owner.
-     * reference to a DomainOfExpertise that is the owner of this OwnedThing
-     * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setOwner(DomainOfExpertise owner){
-        this.owner = owner;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link File}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link File}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.fileRevision);
         return containers;
     }
@@ -209,10 +144,10 @@ public  class File extends Thing implements Cloneable, CategorizableThing, Owned
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setFileRevision(cloneContainedThings ? new ContainerList<FileRevision>(clone) : new ContainerList<FileRevision>(this.getFileRevision(), clone));
+        clone.setFileRevision(cloneContainedThings ? new ContainerList<FileRevision>(clone) : new ContainerList<FileRevision>(this.getFileRevision(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getFileRevision().addAll(this.getFileRevision().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getFileRevision().addAll(this.getFileRevision().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -235,7 +170,7 @@ public  class File extends Thing implements Cloneable, CategorizableThing, Owned
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>File}.
+     * Validates the cardinalities of the properties of this File}.
      *
      * @return A list of potential errors.
      */
@@ -249,7 +184,7 @@ public  class File extends Thing implements Cloneable, CategorizableThing, Owned
 
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property owner is null.");
-            this.setOwner(SentinelThingProvider.getSentinel<DomainOfExpertise>());
+            this.setOwner(SentinelThingProvider.getSentinel(DomainOfExpertise.class));
             this.sentinelResetMap.put("owner", new ActionImpl(() -> this.setOwner(null)));
         }
 
@@ -275,7 +210,7 @@ public  class File extends Thing implements Cloneable, CategorizableThing, Owned
         this.getFileRevision().resolveList(dto.getFileRevision(), dto.getIterationContainerId(), this.getCache());
         this.setLockedBy((dto.getLockedBy() != null) ? this.getCache().get<Person>(dto.getLockedBy.getValue(), dto.getIterationContainerId()) : null);
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -287,13 +222,13 @@ public  class File extends Thing implements Cloneable, CategorizableThing, Owned
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.File dto = new cdp4common.dto.File(this.getIid(), this.getRevisionNumber());
 
-        dto.getCategory().add(this.getCategory().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getFileRevision().add(this.getFileRevision().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getFileRevision().addAll(this.getFileRevision().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setLockedBy(this.getLockedBy() != null ? (UUID)this.getLockedBy().getIid() : null);
         dto.setModifiedOn(this.getModifiedOn());
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));

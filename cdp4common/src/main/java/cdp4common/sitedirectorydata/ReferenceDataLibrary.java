@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractReferenceDataLibrary.java
+ * ReferenceDataLibrary.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -38,8 +38,8 @@ import lombok.EqualsAndHashCode;
  * may not be deleted because that would potentially invalidate such libraries for earlier EngineeringModels or other ReferenceDataLibraries that reference them. Such instances may only be deprecated, see DeprecatableThing.
  */
 @ToString
-@EqualsAndHashCode
-public  abstract class ReferenceDataLibrary extends DefinedThing implements Cloneable, ParticipantAffectedAccessThing {
+@EqualsAndHashCode(callSuper = true)
+public abstract class ReferenceDataLibrary extends DefinedThing implements Cloneable, ParticipantAffectedAccessThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -56,7 +56,7 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * Initializes a new instance of the {@link ReferenceDataLibrary} class.
      */
     protected ReferenceDataLibrary() {
-        this.baseQuantityKind = new OrderedItemList<QuantityKind>(this);
+        this.baseQuantityKind = new OrderedItemList<QuantityKind>(this, false);
         this.baseUnit = new ArrayList<MeasurementUnit>();
         this.constant = new ContainerList<Constant>(this);
         this.definedCategory = new ContainerList<Category>(this);
@@ -79,7 +79,8 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * @param iDalUri The {@link URI} of this thing
      */
     protected ReferenceDataLibrary(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
-        this.baseQuantityKind = new OrderedItemList<QuantityKind>(this);
+        super(iid, cache, iDalUri);
+        this.baseQuantityKind = new OrderedItemList<QuantityKind>(this, false);
         this.baseUnit = new ArrayList<MeasurementUnit>();
         this.constant = new ContainerList<Constant>(this);
         this.definedCategory = new ContainerList<Category>(this);
@@ -100,6 +101,8 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * Note 2: If a QuantityKind is in this collection and thus a base QuantityKind, then this base QuantityKind is considered to be primary kind of quantity for the MeasurementUnit of the <i>defaultScale</i> MeasurementScale.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private OrderedItemList<QuantityKind> baseQuantityKind;
 
     /**
@@ -112,6 +115,8 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * expressed.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<MeasurementUnit> baseUnit;
 
     /**
@@ -119,6 +124,8 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * contained collection of Constants
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<Constant> constant;
 
     /**
@@ -126,6 +133,8 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * collection of defined, i.e. known, Categories
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<Category> definedCategory;
 
     /**
@@ -133,6 +142,8 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * collection of defined, i.e. known, FileTypes
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<FileType> fileType;
 
     /**
@@ -140,6 +151,8 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * contained collection of Glossaries
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<Glossary> glossary;
 
     /**
@@ -147,6 +160,8 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * contained collection of ParameterTypes
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<ParameterType> parameterType;
 
     /**
@@ -154,6 +169,8 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * contained collection of ReferenceSources
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<ReferenceSource> referenceSource;
 
     /**
@@ -162,6 +179,8 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * Note: This property allows chaining an ordered list of ReferenceDataLibraries for use within an EngineeringModel. Its implementation shall have a similar effect as an "import" or "include" statement in a programming language. There shall not be any circular references in the list. This property is empty for the top level ReferenceDataLibrary.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private SiteReferenceDataLibrary requiredRdl;
 
     /**
@@ -169,6 +188,8 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * collection of defined, i.e. known, Rules
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<Rule> rule;
 
     /**
@@ -176,6 +197,8 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * contained collection of MeasurementScales
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<MeasurementScale> scale;
 
     /**
@@ -183,6 +206,8 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * contained collection of MeasurementUnits
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<MeasurementUnit> unit;
 
     /**
@@ -190,6 +215,8 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
      * collection of zero or more UnitPrefix instances that define the prefixes for multiples and submultiples of (metric) MeasurementUnits
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<UnitPrefix> unitPrefix;
 
     /**
@@ -198,261 +225,11 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets a list of ordered QuantityKind.
-     * collection of references to the QuantityKinds that are selected as a basis of the system of quantities defined in this ReferenceDataLibrary
-     * Note 1: This is a subset of the complete set of QuantityKinds. The base quantities define the basis for the quantity dimension of a kind of quantity.
-     * Note 2: If a QuantityKind is in this collection and thus a base QuantityKind, then this base QuantityKind is considered to be primary kind of quantity for the MeasurementUnit of the <i>defaultScale</i> MeasurementScale.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-    public OrderedItemList<QuantityKind> getBaseQuantityKind(){
-         return this.baseQuantityKind;
-    }
-
-    /**
-     * Gets a list of MeasurementUnit.
-     * specification of the base MeasurementUnits for the system of units
-     * defined in this ReferenceDataLibrary
-     * Note: A "base unit" is defined in [VIM] as a "measurement unit that is
-     * adopted by convention for a base quantity", i.e. it is the (preferred)
-     * unit in which base quantities of the associated system of quantities are
-     * expressed.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<MeasurementUnit> getBaseUnit(){
-         return this.baseUnit;
-    }
-
-    /**
-     * Gets a list of contained Constant.
-     * contained collection of Constants
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<Constant> getConstant(){
-         return this.constant;
-    }
-
-    /**
-     * Gets a list of contained Category.
-     * collection of defined, i.e. known, Categories
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<Category> getDefinedCategory(){
-         return this.definedCategory;
-    }
-
-    /**
-     * Gets a list of contained FileType.
-     * collection of defined, i.e. known, FileTypes
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<FileType> getFileType(){
-         return this.fileType;
-    }
-
-    /**
-     * Gets a list of contained Glossary.
-     * contained collection of Glossaries
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<Glossary> getGlossary(){
-         return this.glossary;
-    }
-
-    /**
-     * Gets a list of contained ParameterType.
-     * contained collection of ParameterTypes
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<ParameterType> getParameterType(){
-         return this.parameterType;
-    }
-
-    /**
-     * Gets a list of contained ReferenceSource.
-     * contained collection of ReferenceSources
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<ReferenceSource> getReferenceSource(){
-         return this.referenceSource;
-    }
-
-    /**
-     * Gets the requiredRdl.
-     * optional reference to the required next higher level ReferenceDataLibrary
-     * Note: This property allows chaining an ordered list of ReferenceDataLibraries for use within an EngineeringModel. Its implementation shall have a similar effect as an "import" or "include" statement in a programming language. There shall not be any circular references in the list. This property is empty for the top level ReferenceDataLibrary.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public SiteReferenceDataLibrary getRequiredRdl(){
-         return this.requiredRdl;
-    }
-
-    /**
-     * Gets a list of contained Rule.
-     * collection of defined, i.e. known, Rules
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<Rule> getRule(){
-         return this.rule;
-    }
-
-    /**
-     * Gets a list of contained MeasurementScale.
-     * contained collection of MeasurementScales
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<MeasurementScale> getScale(){
-         return this.scale;
-    }
-
-    /**
-     * Gets a list of contained MeasurementUnit.
-     * contained collection of MeasurementUnits
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<MeasurementUnit> getUnit(){
-         return this.unit;
-    }
-
-    /**
-     * Gets a list of contained UnitPrefix.
-     * collection of zero or more UnitPrefix instances that define the prefixes for multiples and submultiples of (metric) MeasurementUnits
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<UnitPrefix> getUnitPrefix(){
-         return this.unitPrefix;
-    }
-
-    /**
-     * Sets a list of ordered QuantityKind.
-     * collection of references to the QuantityKinds that are selected as a basis of the system of quantities defined in this ReferenceDataLibrary
-     * Note 1: This is a subset of the complete set of QuantityKinds. The base quantities define the basis for the quantity dimension of a kind of quantity.
-     * Note 2: If a QuantityKind is in this collection and thus a base QuantityKind, then this base QuantityKind is considered to be primary kind of quantity for the MeasurementUnit of the <i>defaultScale</i> MeasurementScale.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-     public void setBaseQuantityKind(OrderedItemList<QuantityKind> baseQuantityKind){
-        this.baseQuantityKind = baseQuantityKind;
-    }
-
-    /**
-     * Sets a list of MeasurementUnit.
-     * specification of the base MeasurementUnits for the system of units
-     * defined in this ReferenceDataLibrary
-     * Note: A "base unit" is defined in [VIM] as a "measurement unit that is
-     * adopted by convention for a base quantity", i.e. it is the (preferred)
-     * unit in which base quantities of the associated system of quantities are
-     * expressed.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setBaseUnit(ArrayList<MeasurementUnit> baseUnit){
-        this.baseUnit = baseUnit;
-    }
-
-    /**
-     * Sets a list of contained Constant.
-     * contained collection of Constants
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setConstant(ContainerList<Constant> constant){
-        this.constant = constant;
-    }
-
-    /**
-     * Sets a list of contained Category.
-     * collection of defined, i.e. known, Categories
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setDefinedCategory(ContainerList<Category> definedCategory){
-        this.definedCategory = definedCategory;
-    }
-
-    /**
-     * Sets a list of contained FileType.
-     * collection of defined, i.e. known, FileTypes
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setFileType(ContainerList<FileType> fileType){
-        this.fileType = fileType;
-    }
-
-    /**
-     * Sets a list of contained Glossary.
-     * contained collection of Glossaries
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setGlossary(ContainerList<Glossary> glossary){
-        this.glossary = glossary;
-    }
-
-    /**
-     * Sets a list of contained ParameterType.
-     * contained collection of ParameterTypes
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setParameterType(ContainerList<ParameterType> parameterType){
-        this.parameterType = parameterType;
-    }
-
-    /**
-     * Sets a list of contained ReferenceSource.
-     * contained collection of ReferenceSources
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setReferenceSource(ContainerList<ReferenceSource> referenceSource){
-        this.referenceSource = referenceSource;
-    }
-
-    /**
-     * Sets the requiredRdl.
-     * optional reference to the required next higher level ReferenceDataLibrary
-     * Note: This property allows chaining an ordered list of ReferenceDataLibraries for use within an EngineeringModel. Its implementation shall have a similar effect as an "import" or "include" statement in a programming language. There shall not be any circular references in the list. This property is empty for the top level ReferenceDataLibrary.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setRequiredRdl(SiteReferenceDataLibrary requiredRdl){
-        this.requiredRdl = requiredRdl;
-    }
-
-    /**
-     * Sets a list of contained Rule.
-     * collection of defined, i.e. known, Rules
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setRule(ContainerList<Rule> rule){
-        this.rule = rule;
-    }
-
-    /**
-     * Sets a list of contained MeasurementScale.
-     * contained collection of MeasurementScales
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setScale(ContainerList<MeasurementScale> scale){
-        this.scale = scale;
-    }
-
-    /**
-     * Sets a list of contained MeasurementUnit.
-     * contained collection of MeasurementUnits
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setUnit(ContainerList<MeasurementUnit> unit){
-        this.unit = unit;
-    }
-
-    /**
-     * Sets a list of contained UnitPrefix.
-     * collection of zero or more UnitPrefix instances that define the prefixes for multiples and submultiples of (metric) MeasurementUnits
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setUnitPrefix(ContainerList<UnitPrefix> unitPrefix){
-        this.unitPrefix = unitPrefix;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link ReferenceDataLibrary}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link ReferenceDataLibrary}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.constant);
         containers.add(this.definedCategory);
         containers.add(this.fileType);
@@ -480,7 +257,7 @@ public  abstract class ReferenceDataLibrary extends DefinedThing implements Clon
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ReferenceDataLibrary}.
+     * Validates the cardinalities of the properties of this ReferenceDataLibrary}.
      *
      * @return A list of potential errors.
      */

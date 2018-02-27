@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractSiteDirectoryDataDiscussionItem.java
+ * SiteDirectoryDataDiscussionItem.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.reportingdata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = SiteDirectoryDataAnnotation.class, propertyName = "discussion")
 @ToString
-@EqualsAndHashCode
-public  class SiteDirectoryDataDiscussionItem extends DiscussionItem implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class SiteDirectoryDataDiscussionItem extends DiscussionItem implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -65,6 +65,7 @@ public  class SiteDirectoryDataDiscussionItem extends DiscussionItem implements 
      * @param iDalUri The {@link URI} of this thing
      */
     public SiteDirectoryDataDiscussionItem(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -72,25 +73,9 @@ public  class SiteDirectoryDataDiscussionItem extends DiscussionItem implements 
      * The person who wrote this discussion item
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private Person author;
-
-    /**
-     * Gets the author.
-     * The person who wrote this discussion item
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public Person getAuthor(){
-         return this.author;
-    }
-
-    /**
-     * Sets the author.
-     * The person who wrote this discussion item
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setAuthor(Person author){
-        this.author = author;
-    }
 
     /**
      * Creates and returns a copy of this {@link SiteDirectoryDataDiscussionItem} for edit purpose.
@@ -135,7 +120,7 @@ public  class SiteDirectoryDataDiscussionItem extends DiscussionItem implements 
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>SiteDirectoryDataDiscussionItem}.
+     * Validates the cardinalities of the properties of this SiteDirectoryDataDiscussionItem}.
      *
      * @return A list of potential errors.
      */
@@ -144,7 +129,7 @@ public  class SiteDirectoryDataDiscussionItem extends DiscussionItem implements 
 
         if (this.getAuthor() == null || this.getAuthor().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property author is null.");
-            this.setAuthor(SentinelThingProvider.getSentinel<Person>());
+            this.setAuthor(SentinelThingProvider.getSentinel(Person.class));
             this.sentinelResetMap.put("author", new ActionImpl(() -> this.setAuthor(null)));
         }
 
@@ -164,7 +149,7 @@ public  class SiteDirectoryDataDiscussionItem extends DiscussionItem implements 
 
         cdp4common.dto.SiteDirectoryDataDiscussionItem dto = (cdp4common.dto.SiteDirectoryDataDiscussionItem)dtoThing;
 
-        this.setAuthor(this.getCache().get<Person>(dto.getAuthor(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Person>());
+        this.setAuthor(this.getCache().get<Person>(dto.getAuthor(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Person.class));
         this.setContent(dto.getContent());
         this.setCreatedOn(dto.getCreatedOn());
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
@@ -183,14 +168,14 @@ public  class SiteDirectoryDataDiscussionItem extends DiscussionItem implements 
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.SiteDirectoryDataDiscussionItem dto = new cdp4common.dto.SiteDirectoryDataDiscussionItem(this.getIid(), this.getRevisionNumber());
 
         dto.setAuthor(this.getAuthor() != null ? this.getAuthor().getIid() : new UUID(0L, 0L));
         dto.setContent(this.getContent());
         dto.setCreatedOn(this.getCreatedOn());
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setLanguageCode(this.getLanguageCode());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setReplyTo(this.getReplyTo() != null ? (UUID)this.getReplyTo().getIid() : null);

@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractElementDefinition.java
+ * ElementDefinition.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -40,8 +40,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = Iteration.class, propertyName = "element")
 @ToString
-@EqualsAndHashCode
-public  class ElementDefinition extends ElementBase implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class ElementDefinition extends ElementBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -73,6 +73,7 @@ public  class ElementDefinition extends ElementBase implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     public ElementDefinition(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.containedElement = new ContainerList<ElementUsage>(this);
         this.parameter = new ContainerList<Parameter>(this);
         this.parameterGroup = new ContainerList<ParameterGroup>(this);
@@ -87,6 +88,8 @@ public  class ElementDefinition extends ElementBase implements Cloneable {
      * Note 3: The <i>containedElement</i> property is the equivalent of a <i>part property</i> of a <i>Block</i> in OMG SysML.
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<ElementUsage> containedElement;
 
     /**
@@ -95,6 +98,8 @@ public  class ElementDefinition extends ElementBase implements Cloneable {
      * Note: Parameters and ParameterValueSets together form the parametric definition of this ElementDefinition as well as of ElementUsages that are typed by this ElementDefinition.
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<Parameter> parameter;
 
     /**
@@ -103,6 +108,8 @@ public  class ElementDefinition extends ElementBase implements Cloneable {
      * Note: This grouping does not carry specific meaning, but is a convenience mechanism to assist in the management and presentation of large sets of parameters.
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<ParameterGroup> parameterGroup;
 
     /**
@@ -112,6 +119,8 @@ public  class ElementDefinition extends ElementBase implements Cloneable {
      * Note 2: In order to adhere to the principle of strict modularity, the only permissible referencedElement(s) are ElementUsage(s) contained in the subtree of this ElementDefinition.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<NestedElement> referencedElement;
 
     /**
@@ -120,97 +129,11 @@ public  class ElementDefinition extends ElementBase implements Cloneable {
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets a list of contained ElementUsage.
-     * list of zero or more usages of elements at the next lower level of hierarchical decomposition, where each element is defined (typed) by an(other) ElementDefinition
-     * Note 1: This property captures the whole-part relationship between an ElementDefinition (the whole, the <i>containingElement</i>) and an ElementUsage (the part, the <i>containedElement</i>). This implies that the ElementUsage is existence dependent on the <i>containingElement</i> ElementDefinition. If the ElementDefinition is removed from the system-of-interest also its dependent ElementUsages are removed, as well as any subtree of ElementUsages subtended below the first lower level.
-     * Note 2: The permitted <i>containedElement</i> and <i>referencedElement</i> collections can be defined through a combination of appropriate Categories, DecompositionRules and ReferencerRules.
-     * Note 3: The <i>containedElement</i> property is the equivalent of a <i>part property</i> of a <i>Block</i> in OMG SysML.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<ElementUsage> getContainedElement(){
-         return this.containedElement;
-    }
-
-    /**
-     * Gets a list of contained Parameter.
-     * collection of Parameters that define characteristics of this ElementDefinition
-     * Note: Parameters and ParameterValueSets together form the parametric definition of this ElementDefinition as well as of ElementUsages that are typed by this ElementDefinition.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<Parameter> getParameter(){
-         return this.parameter;
-    }
-
-    /**
-     * Gets a list of contained ParameterGroup.
-     * collection of ParameterGroups that define a grouping hierarchy to hold the Parameters of this ElementDefinition
-     * Note: This grouping does not carry specific meaning, but is a convenience mechanism to assist in the management and presentation of large sets of parameters.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<ParameterGroup> getParameterGroup(){
-         return this.parameterGroup;
-    }
-
-    /**
-     * Gets a list of NestedElement.
-     * zero or more references to ElementUsages at lower level(s) in the hierarchical decomposition of the system-of-interest
-     * Note 1: Referencing elements through NestedElements is a flexible and unconstrained mechanism to support network-type architectures and ad-hoc structures. The semantics of these references need to be defined through appropriate Categories that are associated with the participating ElementDefinitions, ElementUsages and NestedElements. Since the Categories are defined in ReferenceDataLibraries the interpretation of such references is therefore reference data dependent.
-     * Note 2: In order to adhere to the principle of strict modularity, the only permissible referencedElement(s) are ElementUsage(s) contained in the subtree of this ElementDefinition.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<NestedElement> getReferencedElement(){
-         return this.referencedElement;
-    }
-
-    /**
-     * Sets a list of contained ElementUsage.
-     * list of zero or more usages of elements at the next lower level of hierarchical decomposition, where each element is defined (typed) by an(other) ElementDefinition
-     * Note 1: This property captures the whole-part relationship between an ElementDefinition (the whole, the <i>containingElement</i>) and an ElementUsage (the part, the <i>containedElement</i>). This implies that the ElementUsage is existence dependent on the <i>containingElement</i> ElementDefinition. If the ElementDefinition is removed from the system-of-interest also its dependent ElementUsages are removed, as well as any subtree of ElementUsages subtended below the first lower level.
-     * Note 2: The permitted <i>containedElement</i> and <i>referencedElement</i> collections can be defined through a combination of appropriate Categories, DecompositionRules and ReferencerRules.
-     * Note 3: The <i>containedElement</i> property is the equivalent of a <i>part property</i> of a <i>Block</i> in OMG SysML.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setContainedElement(ContainerList<ElementUsage> containedElement){
-        this.containedElement = containedElement;
-    }
-
-    /**
-     * Sets a list of contained Parameter.
-     * collection of Parameters that define characteristics of this ElementDefinition
-     * Note: Parameters and ParameterValueSets together form the parametric definition of this ElementDefinition as well as of ElementUsages that are typed by this ElementDefinition.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setParameter(ContainerList<Parameter> parameter){
-        this.parameter = parameter;
-    }
-
-    /**
-     * Sets a list of contained ParameterGroup.
-     * collection of ParameterGroups that define a grouping hierarchy to hold the Parameters of this ElementDefinition
-     * Note: This grouping does not carry specific meaning, but is a convenience mechanism to assist in the management and presentation of large sets of parameters.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setParameterGroup(ContainerList<ParameterGroup> parameterGroup){
-        this.parameterGroup = parameterGroup;
-    }
-
-    /**
-     * Sets a list of NestedElement.
-     * zero or more references to ElementUsages at lower level(s) in the hierarchical decomposition of the system-of-interest
-     * Note 1: Referencing elements through NestedElements is a flexible and unconstrained mechanism to support network-type architectures and ad-hoc structures. The semantics of these references need to be defined through appropriate Categories that are associated with the participating ElementDefinitions, ElementUsages and NestedElements. Since the Categories are defined in ReferenceDataLibraries the interpretation of such references is therefore reference data dependent.
-     * Note 2: In order to adhere to the principle of strict modularity, the only permissible referencedElement(s) are ElementUsage(s) contained in the subtree of this ElementDefinition.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setReferencedElement(ArrayList<NestedElement> referencedElement){
-        this.referencedElement = referencedElement;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link ElementDefinition}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link ElementDefinition}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.containedElement);
         containers.add(this.parameter);
         containers.add(this.parameterGroup);
@@ -234,24 +157,24 @@ public  class ElementDefinition extends ElementBase implements Cloneable {
             throw new IllegalAccessError("Somehow ElementDefinition cannot be cloned.");
         }
 
-        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
+        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
-        clone.setContainedElement(cloneContainedThings ? new ContainerList<ElementUsage>(clone) : new ContainerList<ElementUsage>(this.getContainedElement(), clone));
-        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
+        clone.setContainedElement(cloneContainedThings ? new ContainerList<ElementUsage>(clone) : new ContainerList<ElementUsage>(this.getContainedElement(), clone, false));
+        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
-        clone.setParameter(cloneContainedThings ? new ContainerList<Parameter>(clone) : new ContainerList<Parameter>(this.getParameter(), clone));
-        clone.setParameterGroup(cloneContainedThings ? new ContainerList<ParameterGroup>(clone) : new ContainerList<ParameterGroup>(this.getParameterGroup(), clone));
+        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
+        clone.setParameter(cloneContainedThings ? new ContainerList<Parameter>(clone) : new ContainerList<Parameter>(this.getParameter(), clone, false));
+        clone.setParameterGroup(cloneContainedThings ? new ContainerList<ParameterGroup>(clone) : new ContainerList<ParameterGroup>(this.getParameterGroup(), clone, false));
         clone.setReferencedElement(new ArrayList<NestedElement>(this.getReferencedElement()));
 
         if (cloneContainedThings) {
-            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getContainedElement().addAll(this.getContainedElement().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getParameter().addAll(this.getParameter().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getParameterGroup().addAll(this.getParameterGroup().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getContainedElement().addAll(this.getContainedElement().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getParameter().addAll(this.getParameter().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getParameterGroup().addAll(this.getParameterGroup().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -274,7 +197,7 @@ public  class ElementDefinition extends ElementBase implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ElementDefinition}.
+     * Validates the cardinalities of the properties of this ElementDefinition}.
      *
      * @return A list of potential errors.
      */
@@ -306,7 +229,7 @@ public  class ElementDefinition extends ElementBase implements Cloneable {
         this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
         this.getParameter().resolveList(dto.getParameter(), dto.getIterationContainerId(), this.getCache());
         this.getParameterGroup().resolveList(dto.getParameterGroup(), dto.getIterationContainerId(), this.getCache());
         this.getReferencedElement().resolveList(dto.getReferencedElement(), dto.getIterationContainerId(), this.getCache());
@@ -322,22 +245,22 @@ public  class ElementDefinition extends ElementBase implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.ElementDefinition dto = new cdp4common.dto.ElementDefinition(this.getIid(), this.getRevisionNumber());
 
-        dto.getAlias().add(this.getAlias().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getCategory().add(this.getCategory().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getContainedElement().add(this.getContainedElement().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getDefinition().add(this.getDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getHyperLink().add(this.getHyperLink().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getContainedElement().addAll(this.getContainedElement().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getDefinition().addAll(this.getDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));
-        dto.getParameter().add(this.getParameter().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getParameterGroup().add(this.getParameterGroup().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getReferencedElement().add(this.getReferencedElement().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getParameter().addAll(this.getParameter().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getParameterGroup().addAll(this.getParameterGroup().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getReferencedElement().addAll(this.getReferencedElement().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
 

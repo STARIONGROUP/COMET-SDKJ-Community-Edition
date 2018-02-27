@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractParametricConstraint.java
+ * ParametricConstraint.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = Requirement.class, propertyName = "parametricConstraint")
 @ToString
-@EqualsAndHashCode
-public  class ParametricConstraint extends Thing implements Cloneable, OwnedThing {
+@EqualsAndHashCode(callSuper = true)
+public class ParametricConstraint extends Thing implements Cloneable, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -65,6 +65,7 @@ public  class ParametricConstraint extends Thing implements Cloneable, OwnedThin
      * @param iDalUri The {@link URI} of this thing
      */
     public ParametricConstraint(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.expression = new ContainerList<BooleanExpression>(this);
     }
 
@@ -73,6 +74,8 @@ public  class ParametricConstraint extends Thing implements Cloneable, OwnedThin
      * collection of all BooleanExpressions that define this ParametricConstraint
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<BooleanExpression> expression;
 
     /**
@@ -80,56 +83,22 @@ public  class ParametricConstraint extends Thing implements Cloneable, OwnedThin
      * reference to the DomainOfExpertise that is the owner of this RequirementsGroup, which is derived to be the same as the owner of the next higher level RequirementsGroup or RequirementsSpecification
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private DomainOfExpertise owner;
- 
+
     /**
      * Property topExpression.
      * reference to the top BooleanExpression (of a possibly nested set of BooleanExpression) that defines this ParametricConstraint
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private BooleanExpression topExpression;
 
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link ParametricConstraint}.
      */
     public Iterable<Iterable> containerLists;
-
-    /**
-     * Gets a list of contained BooleanExpression.
-     * collection of all BooleanExpressions that define this ParametricConstraint
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<BooleanExpression> getExpression(){
-         return this.expression;
-    }
-
-    /**
-     * Gets the owner.
-     * reference to the DomainOfExpertise that is the owner of this RequirementsGroup, which is derived to be the same as the owner of the next higher level RequirementsGroup or RequirementsSpecification
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
-    public DomainOfExpertise getOwner(){
-        return this.GetDerivedOwner();
-    }
-
-    /**
-     * Gets the topExpression.
-     * reference to the top BooleanExpression (of a possibly nested set of BooleanExpression) that defines this ParametricConstraint
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public BooleanExpression getTopExpression(){
-         return this.topExpression;
-    }
-
-    /**
-     * Sets a list of contained BooleanExpression.
-     * collection of all BooleanExpressions that define this ParametricConstraint
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setExpression(ContainerList<BooleanExpression> expression){
-        this.expression = expression;
-    }
 
     /**
      * Sets the owner.
@@ -140,26 +109,16 @@ public  class ParametricConstraint extends Thing implements Cloneable, OwnedThin
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
     public void setOwner(DomainOfExpertise owner){
         throw new IllegalStateException("Forbidden Set value for the derived property ParametricConstraint.owner");
     }
 
     /**
-     * Sets the topExpression.
-     * reference to the top BooleanExpression (of a possibly nested set of BooleanExpression) that defines this ParametricConstraint
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setTopExpression(BooleanExpression topExpression){
-        this.topExpression = topExpression;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link ParametricConstraint}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link ParametricConstraint}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.expression);
         return containers;
     }
@@ -183,10 +142,10 @@ public  class ParametricConstraint extends Thing implements Cloneable, OwnedThin
 
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setExpression(cloneContainedThings ? new ContainerList<BooleanExpression>(clone) : new ContainerList<BooleanExpression>(this.getExpression(), clone));
+        clone.setExpression(cloneContainedThings ? new ContainerList<BooleanExpression>(clone) : new ContainerList<BooleanExpression>(this.getExpression(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getExpression().addAll(this.getExpression().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getExpression().addAll(this.getExpression().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -209,7 +168,7 @@ public  class ParametricConstraint extends Thing implements Cloneable, OwnedThin
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ParametricConstraint}.
+     * Validates the cardinalities of the properties of this ParametricConstraint}.
      *
      * @return A list of potential errors.
      */
@@ -253,12 +212,12 @@ public  class ParametricConstraint extends Thing implements Cloneable, OwnedThin
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.ParametricConstraint dto = new cdp4common.dto.ParametricConstraint(this.getIid(), this.getRevisionNumber());
 
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExpression().add(this.getExpression().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExpression().addAll(this.getExpression().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setTopExpression(this.getTopExpression() != null ? (UUID)this.getTopExpression().getIid() : null);

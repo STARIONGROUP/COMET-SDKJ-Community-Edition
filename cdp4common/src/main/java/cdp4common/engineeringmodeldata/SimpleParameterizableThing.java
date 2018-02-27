@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractSimpleParameterizableThing.java
+ * SimpleParameterizableThing.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
  * Example: An example of a SimpleParameterizableThing is a Requirement.
  */
 @ToString
-@EqualsAndHashCode
-public  abstract class SimpleParameterizableThing extends DefinedThing implements Cloneable, OwnedThing {
+@EqualsAndHashCode(callSuper = true)
+public abstract class SimpleParameterizableThing extends DefinedThing implements Cloneable, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -66,6 +66,7 @@ public  abstract class SimpleParameterizableThing extends DefinedThing implement
      * @param iDalUri The {@link URI} of this thing
      */
     protected SimpleParameterizableThing(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.parameterValue = new ContainerList<SimpleParameterValue>(this);
     }
 
@@ -75,6 +76,8 @@ public  abstract class SimpleParameterizableThing extends DefinedThing implement
      * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private DomainOfExpertise owner;
 
     /**
@@ -82,6 +85,8 @@ public  abstract class SimpleParameterizableThing extends DefinedThing implement
      * collection of parameters with values for this SimpleParameterizableThing
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<SimpleParameterValue> parameterValue;
 
     /**
@@ -90,49 +95,11 @@ public  abstract class SimpleParameterizableThing extends DefinedThing implement
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets the owner.
-     * reference to a DomainOfExpertise that is the owner of this OwnedThing
-     * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public DomainOfExpertise getOwner(){
-         return this.owner;
-    }
-
-    /**
-     * Gets a list of contained SimpleParameterValue.
-     * collection of parameters with values for this SimpleParameterizableThing
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<SimpleParameterValue> getParameterValue(){
-         return this.parameterValue;
-    }
-
-    /**
-     * Sets the owner.
-     * reference to a DomainOfExpertise that is the owner of this OwnedThing
-     * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setOwner(DomainOfExpertise owner){
-        this.owner = owner;
-    }
-
-    /**
-     * Sets a list of contained SimpleParameterValue.
-     * collection of parameters with values for this SimpleParameterizableThing
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setParameterValue(ContainerList<SimpleParameterValue> parameterValue){
-        this.parameterValue = parameterValue;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link SimpleParameterizableThing}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link SimpleParameterizableThing}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.parameterValue);
         return containers;
     }
@@ -151,7 +118,7 @@ public  abstract class SimpleParameterizableThing extends DefinedThing implement
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>SimpleParameterizableThing}.
+     * Validates the cardinalities of the properties of this SimpleParameterizableThing}.
      *
      * @return A list of potential errors.
      */
@@ -160,7 +127,7 @@ public  abstract class SimpleParameterizableThing extends DefinedThing implement
 
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property owner is null.");
-            this.setOwner(SentinelThingProvider.getSentinel<DomainOfExpertise>());
+            this.setOwner(SentinelThingProvider.getSentinel(DomainOfExpertise.class));
             this.sentinelResetMap.put("owner", new ActionImpl(() -> this.setOwner(null)));
         }
 

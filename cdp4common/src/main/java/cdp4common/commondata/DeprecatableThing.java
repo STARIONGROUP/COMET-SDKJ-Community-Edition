@@ -21,7 +21,7 @@ public interface DeprecatableThing {
      * Gets the IsDeprecated.
      * assertion whether a DeprecatableThing is deprecated or not
      */
-    boolean getDeprecated();
+    boolean isDeprecated();
 
     /**
      * Sets the IsDeprecated.

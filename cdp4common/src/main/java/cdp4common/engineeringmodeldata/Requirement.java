@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractRequirement.java
+ * Requirement.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -37,8 +37,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = RequirementsSpecification.class, propertyName = "requirement")
 @ToString
-@EqualsAndHashCode
-public  class Requirement extends SimpleParameterizableThing implements Cloneable, CategorizableThing, DeprecatableThing {
+@EqualsAndHashCode(callSuper = true)
+public class Requirement extends SimpleParameterizableThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -68,6 +68,7 @@ public  class Requirement extends SimpleParameterizableThing implements Cloneabl
      * @param iDalUri The {@link URI} of this thing
      */
     public Requirement(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.category = new ArrayList<Category>();
         this.parametricConstraint = new OrderedItemList<ParametricConstraint>(this, true);
     }
@@ -77,6 +78,8 @@ public  class Requirement extends SimpleParameterizableThing implements Cloneabl
      * reference to zero or more Categories of which this CategorizableThing is a member
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<Category> category;
 
     /**
@@ -84,6 +87,8 @@ public  class Requirement extends SimpleParameterizableThing implements Cloneabl
      * optional reference to a RequirementsGroup of which this Requirement is a member
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private RequirementsGroup group;
 
     /**
@@ -91,6 +96,8 @@ public  class Requirement extends SimpleParameterizableThing implements Cloneabl
      * assertion whether a DeprecatableThing is deprecated or not
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private boolean isDeprecated;
 
     /**
@@ -99,6 +106,8 @@ public  class Requirement extends SimpleParameterizableThing implements Cloneabl
      * Note: In addition to a textual specification of a requirement, such a constraint enables a precise mathematical formulation of the requirement in the form of a boolean expression that can in principle be evaluated by machine. It may form the basis for an automated comparison with Parameters of the same ParameterType(s) as used in the ParametricConstraint of ElementDefinitions that characterise the achieved or realizable capabilities and performances of a designed solution.
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private OrderedItemList<ParametricConstraint> parametricConstraint;
 
     /**
@@ -107,85 +116,11 @@ public  class Requirement extends SimpleParameterizableThing implements Cloneabl
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<Category> getCategory(){
-         return this.category;
-    }
-
-    /**
-     * Gets the group.
-     * optional reference to a RequirementsGroup of which this Requirement is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public RequirementsGroup getGroup(){
-         return this.group;
-    }
-
-    /**
-     * Gets a value indicating whether isDeprecated.
-     * assertion whether a DeprecatableThing is deprecated or not
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public boolean getDeprecated(){
-         return this.isDeprecated;
-    }
-
-    /**
-     * Gets a list of ordered contained ParametricConstraint.
-     * optional parametric constraint that provides a specification of a quantifiable requirement in the form of a boolean expression
-     * Note: In addition to a textual specification of a requirement, such a constraint enables a precise mathematical formulation of the requirement in the form of a boolean expression that can in principle be evaluated by machine. It may form the basis for an automated comparison with Parameters of the same ParameterType(s) as used in the ParametricConstraint of ElementDefinitions that characterise the achieved or realizable capabilities and performances of a designed solution.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-    public OrderedItemList<ParametricConstraint> getParametricConstraint(){
-         return this.parametricConstraint;
-    }
-
-    /**
-     * Sets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setCategory(ArrayList<Category> category){
-        this.category = category;
-    }
-
-    /**
-     * Sets the group.
-     * optional reference to a RequirementsGroup of which this Requirement is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setGroup(RequirementsGroup group){
-        this.group = group;
-    }
-
-    /**
-     *Sets a value indicating whether isDeprecated.
-     * assertion whether a DeprecatableThing is deprecated or not
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setDeprecated(boolean isDeprecated){
-        this.isDeprecated = isDeprecated;
-    }
-
-    /**
-     * Sets a list of ordered contained ParametricConstraint.
-     * optional parametric constraint that provides a specification of a quantifiable requirement in the form of a boolean expression
-     * Note: In addition to a textual specification of a requirement, such a constraint enables a precise mathematical formulation of the requirement in the form of a boolean expression that can in principle be evaluated by machine. It may form the basis for an automated comparison with Parameters of the same ParameterType(s) as used in the ParametricConstraint of ElementDefinitions that characterise the achieved or realizable capabilities and performances of a designed solution.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-     protected void setParametricConstraint(OrderedItemList<ParametricConstraint> parametricConstraint){
-        this.parametricConstraint = parametricConstraint;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link Requirement}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link Requirement}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.parametricConstraint);
         return containers;
     }
@@ -207,21 +142,21 @@ public  class Requirement extends SimpleParameterizableThing implements Cloneabl
             throw new IllegalAccessError("Somehow Requirement cannot be cloned.");
         }
 
-        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
+        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
-        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
+        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
-        clone.setParameterValue(cloneContainedThings ? new ContainerList<SimpleParameterValue>(clone) : new ContainerList<SimpleParameterValue>(this.getParameterValue(), clone));
+        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
+        clone.setParameterValue(cloneContainedThings ? new ContainerList<SimpleParameterValue>(clone) : new ContainerList<SimpleParameterValue>(this.getParameterValue(), clone, false));
         clone.setParametricConstraint(cloneContainedThings ? new OrderedItemList<ParametricConstraint>(clone, true) : new OrderedItemList<ParametricConstraint>(this.getParametricConstraint(), clone));
 
         if (cloneContainedThings) {
-            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getParameterValue().addAll(this.getParameterValue().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getParametricConstraint().addAll(this.getParametricConstraint().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getParameterValue().addAll(this.getParameterValue().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getParametricConstraint().addAll(this.getParametricConstraint().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -244,7 +179,7 @@ public  class Requirement extends SimpleParameterizableThing implements Cloneabl
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>Requirement}.
+     * Validates the cardinalities of the properties of this Requirement}.
      *
      * @return A list of potential errors.
      */
@@ -274,10 +209,10 @@ public  class Requirement extends SimpleParameterizableThing implements Cloneabl
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setGroup((dto.getGroup() != null) ? this.getCache().get<RequirementsGroup>(dto.getGroup.getValue(), dto.getIterationContainerId()) : null);
         this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
-        this.setDeprecated(dto.getDeprecated());
+        this.setDeprecated(dto.isDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
         this.getParameterValue().resolveList(dto.getParameterValue(), dto.getIterationContainerId(), this.getCache());
         this.getParametricConstraint().resolveList(dto.getParametricConstraint(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
@@ -292,22 +227,22 @@ public  class Requirement extends SimpleParameterizableThing implements Cloneabl
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.Requirement dto = new cdp4common.dto.Requirement(this.getIid(), this.getRevisionNumber());
 
-        dto.getAlias().add(this.getAlias().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getCategory().add(this.getCategory().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getDefinition().add(this.getDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getDefinition().addAll(this.getDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setGroup(this.getGroup() != null ? (UUID)this.getGroup().getIid() : null);
-        dto.getHyperLink().add(this.getHyperLink().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setDeprecated(this.getDeprecated());
+        dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setDeprecated(this.isDeprecated());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));
-        dto.getParameterValue().add(this.getParameterValue().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getParametricConstraint().add(this.getParametricConstraint().toDtoOrderedItemList());
+        dto.getParameterValue().addAll(this.getParameterValue().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getParametricConstraint().addAll(this.getParametricConstraint().toDtoOrderedItemList());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
 

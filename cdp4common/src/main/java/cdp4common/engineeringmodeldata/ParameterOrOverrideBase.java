@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractParameterOrOverrideBase.java
+ * ParameterOrOverrideBase.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -34,8 +34,8 @@ import lombok.EqualsAndHashCode;
  * abstract superclass to provide a common reference to Parameter and ParameterOverride
  */
 @ToString
-@EqualsAndHashCode
-public  abstract class ParameterOrOverrideBase extends ParameterBase implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public abstract class ParameterOrOverrideBase extends ParameterBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -64,6 +64,7 @@ public  abstract class ParameterOrOverrideBase extends ParameterBase implements 
      * @param iDalUri The {@link URI} of this thing
      */
     protected ParameterOrOverrideBase(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.parameterSubscription = new ContainerList<ParameterSubscription>(this);
     }
 
@@ -72,6 +73,8 @@ public  abstract class ParameterOrOverrideBase extends ParameterBase implements 
      * zero or more ParameterSubscriptions that other domains than the owner DomainOfExpertise of this Parameter or ParameterOverride have subscribed to
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<ParameterSubscription> parameterSubscription;
 
     /**
@@ -80,29 +83,11 @@ public  abstract class ParameterOrOverrideBase extends ParameterBase implements 
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets a list of contained ParameterSubscription.
-     * zero or more ParameterSubscriptions that other domains than the owner DomainOfExpertise of this Parameter or ParameterOverride have subscribed to
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<ParameterSubscription> getParameterSubscription(){
-         return this.parameterSubscription;
-    }
-
-    /**
-     * Sets a list of contained ParameterSubscription.
-     * zero or more ParameterSubscriptions that other domains than the owner DomainOfExpertise of this Parameter or ParameterOverride have subscribed to
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setParameterSubscription(ContainerList<ParameterSubscription> parameterSubscription){
-        this.parameterSubscription = parameterSubscription;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link ParameterOrOverrideBase}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link ParameterOrOverrideBase}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.parameterSubscription);
         return containers;
     }
@@ -121,7 +106,7 @@ public  abstract class ParameterOrOverrideBase extends ParameterBase implements 
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ParameterOrOverrideBase}.
+     * Validates the cardinalities of the properties of this ParameterOrOverrideBase}.
      *
      * @return A list of potential errors.
      */

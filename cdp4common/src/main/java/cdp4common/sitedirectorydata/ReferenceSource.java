@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractReferenceSource.java
+ * ReferenceSource.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -37,8 +37,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "referenceSource")
 @ToString
-@EqualsAndHashCode
-public  class ReferenceSource extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
+@EqualsAndHashCode(callSuper = true)
+public class ReferenceSource extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -67,6 +67,7 @@ public  class ReferenceSource extends DefinedThing implements Cloneable, Categor
      * @param iDalUri The {@link URI} of this thing
      */
     public ReferenceSource(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.category = new ArrayList<Category>();
     }
 
@@ -76,6 +77,8 @@ public  class ReferenceSource extends DefinedThing implements Cloneable, Categor
      * Note: If there are multiple authors, the author names should be separated by commas.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String author;
 
     /**
@@ -83,6 +86,8 @@ public  class ReferenceSource extends DefinedThing implements Cloneable, Categor
      * reference to zero or more Categories of which this CategorizableThing is a member
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<Category> category;
 
     /**
@@ -90,6 +95,8 @@ public  class ReferenceSource extends DefinedThing implements Cloneable, Categor
      * assertion whether a DeprecatableThing is deprecated or not
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private boolean isDeprecated;
 
     /**
@@ -97,6 +104,8 @@ public  class ReferenceSource extends DefinedThing implements Cloneable, Categor
      * optional specification of the natural language code that this     ReferenceSource     is     written     in
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String language;
 
     /**
@@ -104,6 +113,8 @@ public  class ReferenceSource extends DefinedThing implements Cloneable, Categor
      * optional year of publication of this ReferenceSource
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
+    @Getter
+    @Setter
     private Integer publicationYear;
 
     /**
@@ -111,6 +122,8 @@ public  class ReferenceSource extends DefinedThing implements Cloneable, Categor
      * optional reference to another ReferenceSource than this ReferenceSource,     in     which     this     ReferenceSource     is     published
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ReferenceSource publishedIn;
 
     /**
@@ -118,6 +131,8 @@ public  class ReferenceSource extends DefinedThing implements Cloneable, Categor
      * optional reference to the Organization that is the publisher of this     ReferenceSource
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private Organization publisher;
 
     /**
@@ -125,6 +140,8 @@ public  class ReferenceSource extends DefinedThing implements Cloneable, Categor
      * optional date of release of this version of this ReferenceSource
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
+    @Getter
+    @Setter
     private LocalDateTime versionDate;
 
     /**
@@ -132,171 +149,9 @@ public  class ReferenceSource extends DefinedThing implements Cloneable, Categor
      * optional identifier denoting the version of this ReferenceSource
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String versionIdentifier;
-
-    /**
-     * Gets the author.
-     * optional specification of the author or authors of this ReferenceSource
-     * Note: If there are multiple authors, the author names should be separated by commas.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getAuthor(){
-         return this.author;
-    }
-
-    /**
-     * Gets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<Category> getCategory(){
-         return this.category;
-    }
-
-    /**
-     * Gets a value indicating whether isDeprecated.
-     * assertion whether a DeprecatableThing is deprecated or not
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public boolean getDeprecated(){
-         return this.isDeprecated;
-    }
-
-    /**
-     * Gets the language.
-     * optional specification of the natural language code that this     ReferenceSource     is     written     in
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getLanguage(){
-         return this.language;
-    }
-
-    /**
-     * Gets the publicationYear.
-     * optional year of publication of this ReferenceSource
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
-    public Integer getPublicationYear(){
-         return this.publicationYear;
-    }
-
-    /**
-     * Gets the publishedIn.
-     * optional reference to another ReferenceSource than this ReferenceSource,     in     which     this     ReferenceSource     is     published
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ReferenceSource getPublishedIn(){
-         return this.publishedIn;
-    }
-
-    /**
-     * Gets the publisher.
-     * optional reference to the Organization that is the publisher of this     ReferenceSource
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public Organization getPublisher(){
-         return this.publisher;
-    }
-
-    /**
-     * Gets the versionDate.
-     * optional date of release of this version of this ReferenceSource
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
-    public LocalDateTime getVersionDate(){
-         return this.versionDate;
-    }
-
-    /**
-     * Gets the versionIdentifier.
-     * optional identifier denoting the version of this ReferenceSource
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getVersionIdentifier(){
-         return this.versionIdentifier;
-    }
-
-    /**
-     * Sets the author.
-     * optional specification of the author or authors of this ReferenceSource
-     * Note: If there are multiple authors, the author names should be separated by commas.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setAuthor(String author){
-        this.author = author;
-    }
-
-    /**
-     * Sets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setCategory(ArrayList<Category> category){
-        this.category = category;
-    }
-
-    /**
-     *Sets a value indicating whether isDeprecated.
-     * assertion whether a DeprecatableThing is deprecated or not
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setDeprecated(boolean isDeprecated){
-        this.isDeprecated = isDeprecated;
-    }
-
-    /**
-     * Sets the language.
-     * optional specification of the natural language code that this     ReferenceSource     is     written     in
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setLanguage(String language){
-        this.language = language;
-    }
-
-    /**
-     * Sets the publicationYear.
-     * optional year of publication of this ReferenceSource
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
-     public void setPublicationYear(Integer publicationYear){
-        this.publicationYear = publicationYear;
-    }
-
-    /**
-     * Sets the publishedIn.
-     * optional reference to another ReferenceSource than this ReferenceSource,     in     which     this     ReferenceSource     is     published
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setPublishedIn(ReferenceSource publishedIn){
-        this.publishedIn = publishedIn;
-    }
-
-    /**
-     * Sets the publisher.
-     * optional reference to the Organization that is the publisher of this     ReferenceSource
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setPublisher(Organization publisher){
-        this.publisher = publisher;
-    }
-
-    /**
-     * Sets the versionDate.
-     * optional date of release of this version of this ReferenceSource
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
-     public void setVersionDate(LocalDateTime versionDate){
-        this.versionDate = versionDate;
-    }
-
-    /**
-     * Sets the versionIdentifier.
-     * optional identifier denoting the version of this ReferenceSource
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setVersionIdentifier(String versionIdentifier){
-        this.versionIdentifier = versionIdentifier;
-    }
 
     /**
      * Creates and returns a copy of this {@link ReferenceSource} for edit purpose.
@@ -315,17 +170,17 @@ public  class ReferenceSource extends DefinedThing implements Cloneable, Categor
             throw new IllegalAccessError("Somehow ReferenceSource cannot be cloned.");
         }
 
-        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
+        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
-        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
+        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
+        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -348,7 +203,7 @@ public  class ReferenceSource extends DefinedThing implements Cloneable, Categor
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ReferenceSource}.
+     * Validates the cardinalities of the properties of this ReferenceSource}.
      *
      * @return A list of potential errors.
      */
@@ -378,7 +233,7 @@ public  class ReferenceSource extends DefinedThing implements Cloneable, Categor
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
-        this.setDeprecated(dto.getDeprecated());
+        this.setDeprecated(dto.isDeprecated());
         this.setLanguage(dto.getLanguage());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
@@ -399,17 +254,17 @@ public  class ReferenceSource extends DefinedThing implements Cloneable, Categor
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.ReferenceSource dto = new cdp4common.dto.ReferenceSource(this.getIid(), this.getRevisionNumber());
 
-        dto.getAlias().add(this.getAlias().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setAuthor(this.getAuthor());
-        dto.getCategory().add(this.getCategory().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getDefinition().add(this.getDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getHyperLink().add(this.getHyperLink().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setDeprecated(this.getDeprecated());
+        dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getDefinition().addAll(this.getDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setDeprecated(this.isDeprecated());
         dto.setLanguage(this.getLanguage());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());

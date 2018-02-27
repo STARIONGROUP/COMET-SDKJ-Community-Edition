@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractFileRevision.java
+ * FileRevision.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -37,8 +37,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = File.class, propertyName = "fileRevision")
 @ToString
-@EqualsAndHashCode
-public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeStampedThing {
+@EqualsAndHashCode(callSuper = true)
+public class FileRevision extends Thing implements Cloneable, NamedThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -55,7 +55,7 @@ public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeS
      * Initializes a new instance of the {@link FileRevision} class.
      */
     public FileRevision() {
-        this.fileType = new OrderedItemList<FileType>(this);
+        this.fileType = new OrderedItemList<FileType>(this, false);
     }
 
     /**
@@ -67,7 +67,8 @@ public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeS
      * @param iDalUri The {@link URI} of this thing
      */
     public FileRevision(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
-        this.fileType = new OrderedItemList<FileType>(this);
+        super(iid, cache, iDalUri);
+        this.fileType = new OrderedItemList<FileType>(this, false);
     }
 
     /**
@@ -76,6 +77,8 @@ public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeS
      * Note: If the reference is undefined (or null) the File and FileRevision are considered to be contained by the containing FileStore at the top level.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private Folder containingFolder;
 
     /**
@@ -84,6 +87,8 @@ public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeS
      * Note: The SHA-1 cryptographic hash is described in <a href="http://en.wikipedia.org/wiki/SHA-1">http://en.wikipedia.org/wiki/SHA-1</a>. It provides a unique hash to the file content of the FileRevision and was selected for future compatibility with a GIT (<a href="http://git-scm.com/">http://git-scm.com/</a>) version controlled file store. Implementations of E-TM-10-25 need to provide a way to associate a SHA-1 hash to the content of a file. Whether or not the content of two FileRevisions differs can then be determined by just comparing the SHA-1 hashes without the need for having access to the actual file content itself.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String contentHash;
 
     /**
@@ -92,6 +97,8 @@ public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeS
      * Note 2: All persistent date-and-time-stamps in this model shall be stored in UTC. When local calendar dates and clock times in a specific timezone are needed they shall be converted on the fly from and to UTC by client applications.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private LocalDateTime createdOn;
 
     /**
@@ -99,6 +106,8 @@ public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeS
      * reference to the Participant who created this FileRevision
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private Participant creator;
 
     /**
@@ -107,6 +116,8 @@ public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeS
      * Note: A file can have more than one FileType in order to support possible encryption and compression formats. The order in which the FileTypes are defined is the same as the order the formats were applied from the "inside out", i.e. the first FileType is the normal format of the content, e.g. text or Microsoft Excel, and the subsequent formats are the encryption and/or compression formats, e.g. public-key cryptography standard <a href="http://en.wikipedia.org/wiki/PKCS">PKCS#7</a> and zip.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private OrderedItemList<FileType> fileType;
 
     /**
@@ -115,6 +126,8 @@ public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeS
      * Note: The implied LanguageCode of <i>name</i> is "en-GB".
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String name;
 
     /**
@@ -123,137 +136,8 @@ public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeS
      * Note: The path is derived to be the concatenation of the path of the containingFolder (if any) followed by a forward slash and the name of this FileRevision and then a dot separated concatenation of the extensions of the associated FileTypes. This yields a path that is similar to that of a "file://" URL starting from the containing FileStore.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private String path;
- 
-
-    /**
-     * Gets the containingFolder.
-     * optional reference to the containing Folder
-     * Note: If the reference is undefined (or null) the File and FileRevision are considered to be contained by the containing FileStore at the top level.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public Folder getContainingFolder(){
-         return this.containingFolder;
-    }
-
-    /**
-     * Gets the contentHash.
-     * SHA-1 hash code of the content (byte stream) of this FileRevision
-     * Note: The SHA-1 cryptographic hash is described in <a href="http://en.wikipedia.org/wiki/SHA-1">http://en.wikipedia.org/wiki/SHA-1</a>. It provides a unique hash to the file content of the FileRevision and was selected for future compatibility with a GIT (<a href="http://git-scm.com/">http://git-scm.com/</a>) version controlled file store. Implementations of E-TM-10-25 need to provide a way to associate a SHA-1 hash to the content of a file. Whether or not the content of two FileRevisions differs can then be determined by just comparing the SHA-1 hashes without the need for having access to the actual file content itself.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getContentHash(){
-         return this.contentHash;
-    }
-
-    /**
-     * Gets the createdOn.
-     * Note 1: This implies that any value shall comply with the following (informative) ISO 8601 format "yyyy-mm-ddThh:mm:ss.sssZ".
-     * Note 2: All persistent date-and-time-stamps in this model shall be stored in UTC. When local calendar dates and clock times in a specific timezone are needed they shall be converted on the fly from and to UTC by client applications.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public LocalDateTime getCreatedOn(){
-         return this.createdOn;
-    }
-
-    /**
-     * Gets the creator.
-     * reference to the Participant who created this FileRevision
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public Participant getCreator(){
-         return this.creator;
-    }
-
-    /**
-     * Gets a list of ordered FileType.
-     * reference to one or more FileTypes that define the type and format of this FileRevision
-     * Note: A file can have more than one FileType in order to support possible encryption and compression formats. The order in which the FileTypes are defined is the same as the order the formats were applied from the "inside out", i.e. the first FileType is the normal format of the content, e.g. text or Microsoft Excel, and the subsequent formats are the encryption and/or compression formats, e.g. public-key cryptography standard <a href="http://en.wikipedia.org/wiki/PKCS">PKCS#7</a> and zip.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-    public OrderedItemList<FileType> getFileType(){
-         return this.fileType;
-    }
-
-    /**
-     * Gets the name.
-     * human readable character string in English by which something can be       referred       to
-     * Note: The implied LanguageCode of <i>name</i> is "en-GB".
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getName(){
-         return this.name;
-    }
-
-    /**
-     * Gets the path.
-     * full path name including folder path and type extension(s)
-     * Note: The path is derived to be the concatenation of the path of the containingFolder (if any) followed by a forward slash and the name of this FileRevision and then a dot separated concatenation of the extensions of the associated FileTypes. This yields a path that is similar to that of a "file://" URL starting from the containing FileStore.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
-    public String getPath(){
-        return this.GetDerivedPath();
-    }
-
-    /**
-     * Sets the containingFolder.
-     * optional reference to the containing Folder
-     * Note: If the reference is undefined (or null) the File and FileRevision are considered to be contained by the containing FileStore at the top level.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setContainingFolder(Folder containingFolder){
-        this.containingFolder = containingFolder;
-    }
-
-    /**
-     * Sets the contentHash.
-     * SHA-1 hash code of the content (byte stream) of this FileRevision
-     * Note: The SHA-1 cryptographic hash is described in <a href="http://en.wikipedia.org/wiki/SHA-1">http://en.wikipedia.org/wiki/SHA-1</a>. It provides a unique hash to the file content of the FileRevision and was selected for future compatibility with a GIT (<a href="http://git-scm.com/">http://git-scm.com/</a>) version controlled file store. Implementations of E-TM-10-25 need to provide a way to associate a SHA-1 hash to the content of a file. Whether or not the content of two FileRevisions differs can then be determined by just comparing the SHA-1 hashes without the need for having access to the actual file content itself.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setContentHash(String contentHash){
-        this.contentHash = contentHash;
-    }
-
-    /**
-     * Sets the createdOn.
-     * Note 1: This implies that any value shall comply with the following (informative) ISO 8601 format "yyyy-mm-ddThh:mm:ss.sssZ".
-     * Note 2: All persistent date-and-time-stamps in this model shall be stored in UTC. When local calendar dates and clock times in a specific timezone are needed they shall be converted on the fly from and to UTC by client applications.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setCreatedOn(LocalDateTime createdOn){
-        this.createdOn = createdOn;
-    }
-
-    /**
-     * Sets the creator.
-     * reference to the Participant who created this FileRevision
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setCreator(Participant creator){
-        this.creator = creator;
-    }
-
-    /**
-     * Sets a list of ordered FileType.
-     * reference to one or more FileTypes that define the type and format of this FileRevision
-     * Note: A file can have more than one FileType in order to support possible encryption and compression formats. The order in which the FileTypes are defined is the same as the order the formats were applied from the "inside out", i.e. the first FileType is the normal format of the content, e.g. text or Microsoft Excel, and the subsequent formats are the encryption and/or compression formats, e.g. public-key cryptography standard <a href="http://en.wikipedia.org/wiki/PKCS">PKCS#7</a> and zip.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-     public void setFileType(OrderedItemList<FileType> fileType){
-        this.fileType = fileType;
-    }
-
-    /**
-     * Sets the name.
-     * human readable character string in English by which something can be       referred       to
-     * Note: The implied LanguageCode of <i>name</i> is "en-GB".
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setName(String name){
-        this.name = name;
-    }
 
     /**
      * Sets the path.
@@ -265,7 +149,6 @@ public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeS
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
     public void setPath(String path){
         throw new IllegalStateException("Forbidden Set value for the derived property FileRevision.path");
     }
@@ -314,7 +197,7 @@ public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeS
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>FileRevision}.
+     * Validates the cardinalities of the properties of this FileRevision}.
      *
      * @return A list of potential errors.
      */
@@ -327,7 +210,7 @@ public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeS
 
         if (this.getCreator() == null || this.getCreator().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property creator is null.");
-            this.setCreator(SentinelThingProvider.getSentinel<Participant>());
+            this.setCreator(SentinelThingProvider.getSentinel(Participant.class));
             this.sentinelResetMap.put("creator", new ActionImpl(() -> this.setCreator(null)));
         }
 
@@ -359,7 +242,7 @@ public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeS
         this.setContainingFolder((dto.getContainingFolder() != null) ? this.getCache().get<Folder>(dto.getContainingFolder.getValue(), dto.getIterationContainerId()) : null);
         this.setContentHash(dto.getContentHash());
         this.setCreatedOn(dto.getCreatedOn());
-        this.setCreator(this.getCache().get<Participant>(dto.getCreator(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Participant>());
+        this.setCreator(this.getCache().get<Participant>(dto.getCreator(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Participant.class));
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.getFileType().resolveList(dto.getFileType(), dto.getIterationContainerId(), this.getCache());
@@ -376,16 +259,16 @@ public  class FileRevision extends Thing implements Cloneable, NamedThing, TimeS
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.FileRevision dto = new cdp4common.dto.FileRevision(this.getIid(), this.getRevisionNumber());
 
         dto.setContainingFolder(this.getContainingFolder() != null ? (UUID)this.getContainingFolder().getIid() : null);
         dto.setContentHash(this.getContentHash());
         dto.setCreatedOn(this.getCreatedOn());
         dto.setCreator(this.getCreator() != null ? this.getCreator().getIid() : new UUID(0L, 0L));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getFileType().add(this.getFileType().toDtoOrderedItemList());
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getFileType().addAll(this.getFileType().toDtoOrderedItemList());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
         dto.setRevisionNumber(this.getRevisionNumber());

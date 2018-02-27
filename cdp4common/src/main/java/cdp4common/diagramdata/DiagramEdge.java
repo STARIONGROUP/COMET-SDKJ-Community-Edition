@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractDiagramEdge.java
+ * DiagramEdge.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.diagramdata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -37,8 +37,8 @@ import lombok.EqualsAndHashCode;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = DiagramElementContainer.class, propertyName = "diagramElement")
 @ToString
-@EqualsAndHashCode
-public  class DiagramEdge extends DiagramElementThing implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class DiagramEdge extends DiagramElementThing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -67,6 +67,7 @@ public  class DiagramEdge extends DiagramElementThing implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     public DiagramEdge(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.point = new OrderedItemList<Point>(this, true);
     }
 
@@ -75,6 +76,8 @@ public  class DiagramEdge extends DiagramElementThing implements Cloneable {
      * An optional list of points relative to the origin of the nesting diagram that specifies the connected line segments of the edge
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private OrderedItemList<Point> point;
 
     /**
@@ -82,6 +85,8 @@ public  class DiagramEdge extends DiagramElementThing implements Cloneable {
      * The edge's source diagram element, i.e., where this starts from
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private DiagramElementThing source;
 
     /**
@@ -89,6 +94,8 @@ public  class DiagramEdge extends DiagramElementThing implements Cloneable {
      * The edge's target, i.e., where the edge ends at
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private DiagramElementThing target;
 
     /**
@@ -97,65 +104,11 @@ public  class DiagramEdge extends DiagramElementThing implements Cloneable {
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets a list of ordered contained Point.
-     * An optional list of points relative to the origin of the nesting diagram that specifies the connected line segments of the edge
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-    public OrderedItemList<Point> getPoint(){
-         return this.point;
-    }
-
-    /**
-     * Gets the source.
-     * The edge's source diagram element, i.e., where this starts from
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public DiagramElementThing getSource(){
-         return this.source;
-    }
-
-    /**
-     * Gets the target.
-     * The edge's target, i.e., where the edge ends at
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public DiagramElementThing getTarget(){
-         return this.target;
-    }
-
-    /**
-     * Sets a list of ordered contained Point.
-     * An optional list of points relative to the origin of the nesting diagram that specifies the connected line segments of the edge
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-     protected void setPoint(OrderedItemList<Point> point){
-        this.point = point;
-    }
-
-    /**
-     * Sets the source.
-     * The edge's source diagram element, i.e., where this starts from
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setSource(DiagramElementThing source){
-        this.source = source;
-    }
-
-    /**
-     * Sets the target.
-     * The edge's target, i.e., where the edge ends at
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setTarget(DiagramElementThing target){
-        this.target = target;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link DiagramEdge}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link DiagramEdge}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.point);
         return containers;
     }
@@ -177,18 +130,18 @@ public  class DiagramEdge extends DiagramElementThing implements Cloneable {
             throw new IllegalAccessError("Somehow DiagramEdge cannot be cloned.");
         }
 
-        clone.setBounds(cloneContainedThings ? new ContainerList<Bounds>(clone) : new ContainerList<Bounds>(this.getBounds(), clone));
-        clone.setDiagramElement(cloneContainedThings ? new ContainerList<DiagramElementThing>(clone) : new ContainerList<DiagramElementThing>(this.getDiagramElement(), clone));
+        clone.setBounds(cloneContainedThings ? new ContainerList<Bounds>(clone) : new ContainerList<Bounds>(this.getBounds(), clone, false));
+        clone.setDiagramElement(cloneContainedThings ? new ContainerList<DiagramElementThing>(clone) : new ContainerList<DiagramElementThing>(this.getDiagramElement(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setLocalStyle(cloneContainedThings ? new ContainerList<OwnedStyle>(clone) : new ContainerList<OwnedStyle>(this.getLocalStyle(), clone));
+        clone.setLocalStyle(cloneContainedThings ? new ContainerList<OwnedStyle>(clone) : new ContainerList<OwnedStyle>(this.getLocalStyle(), clone, false));
         clone.setPoint(cloneContainedThings ? new OrderedItemList<Point>(clone, true) : new OrderedItemList<Point>(this.getPoint(), clone));
 
         if (cloneContainedThings) {
-            clone.getBounds().addAll(this.getBounds().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDiagramElement().addAll(this.getDiagramElement().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getLocalStyle().addAll(this.getLocalStyle().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getPoint().addAll(this.getPoint().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getBounds().addAll(this.getBounds().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDiagramElement().addAll(this.getDiagramElement().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getLocalStyle().addAll(this.getLocalStyle().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getPoint().addAll(this.getPoint().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -211,7 +164,7 @@ public  class DiagramEdge extends DiagramElementThing implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>DiagramEdge}.
+     * Validates the cardinalities of the properties of this DiagramEdge}.
      *
      * @return A list of potential errors.
      */
@@ -220,13 +173,13 @@ public  class DiagramEdge extends DiagramElementThing implements Cloneable {
 
         if (this.getSource() == null || this.getSource().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property source is null.");
-            this.setSource(SentinelThingProvider.getSentinel<DiagramElementThing>());
+            this.setSource(SentinelThingProvider.getSentinel(DiagramElementThing.class));
             this.sentinelResetMap.put("source", new ActionImpl(() -> this.setSource(null)));
         }
 
         if (this.getTarget() == null || this.getTarget().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property target is null.");
-            this.setTarget(SentinelThingProvider.getSentinel<DiagramElementThing>());
+            this.setTarget(SentinelThingProvider.getSentinel(DiagramElementThing.class));
             this.sentinelResetMap.put("target", new ActionImpl(() -> this.setTarget(null)));
         }
 
@@ -257,8 +210,8 @@ public  class DiagramEdge extends DiagramElementThing implements Cloneable {
         this.getPoint().resolveList(dto.getPoint(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setSharedStyle((dto.getSharedStyle() != null) ? this.getCache().get<SharedStyle>(dto.getSharedStyle.getValue(), dto.getIterationContainerId()) : null);
-        this.setSource(this.getCache().get<DiagramElementThing>(dto.getSource(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DiagramElementThing>());
-        this.setTarget(this.getCache().get<DiagramElementThing>(dto.getTarget(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DiagramElementThing>());
+        this.setSource(this.getCache().get<DiagramElementThing>(dto.getSource(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DiagramElementThing.class));
+        this.setTarget(this.getCache().get<DiagramElementThing>(dto.getTarget(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DiagramElementThing.class));
 
         this.resolveExtraProperties();
     }
@@ -269,18 +222,18 @@ public  class DiagramEdge extends DiagramElementThing implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.DiagramEdge dto = new cdp4common.dto.DiagramEdge(this.getIid(), this.getRevisionNumber());
 
-        dto.getBounds().add(this.getBounds().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getBounds().addAll(this.getBounds().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setDepictedThing(this.getDepictedThing() != null ? (UUID)this.getDepictedThing().getIid() : null);
-        dto.getDiagramElement().add(this.getDiagramElement().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getLocalStyle().add(this.getLocalStyle().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getDiagramElement().addAll(this.getDiagramElement().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getLocalStyle().addAll(this.getLocalStyle().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
-        dto.getPoint().add(this.getPoint().toDtoOrderedItemList());
+        dto.getPoint().addAll(this.getPoint().toDtoOrderedItemList());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setSharedStyle(this.getSharedStyle() != null ? (UUID)this.getSharedStyle().getIid() : null);
         dto.setSource(this.getSource() != null ? this.getSource().getIid() : new UUID(0L, 0L));

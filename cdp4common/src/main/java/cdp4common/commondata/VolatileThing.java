@@ -21,7 +21,7 @@ public interface VolatileThing {
      * Gets the IsVolatile.
      * Note: When an instance is marked volatile it will not be persisted in the persistent data store. This meant to allow for runtime-only use of such instances in a client application.
      */
-    boolean getVolatile();
+    boolean isVolatile();
 
     /**
      * Sets the IsVolatile.

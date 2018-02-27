@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractParameterOverride.java
+ * ParameterOverride.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -37,8 +37,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ElementUsage.class, propertyName = "parameterOverride")
 @ToString
-@EqualsAndHashCode
-public  class ParameterOverride extends ParameterOrOverrideBase implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class ParameterOverride extends ParameterOrOverrideBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -67,6 +67,7 @@ public  class ParameterOverride extends ParameterOrOverrideBase implements Clone
      * @param iDalUri The {@link URI} of this thing
      */
     public ParameterOverride(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.valueSet = new ContainerList<ParameterOverrideValueSet>(this);
     }
 
@@ -75,20 +76,24 @@ public  class ParameterOverride extends ParameterOrOverrideBase implements Clone
      * group derived from associated Parameter for convenience
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private ParameterGroup group;
- 
+
     /**
      * Value indicating whether isOptionDependent.
      * isOptionDependent derived from associated Parameter for convenience
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private boolean isOptionDependent;
- 
+
     /**
      * Property parameter.
      * reference to the Parameter whose values this ParameterOverride (possibly) overrides
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private Parameter parameter;
 
     /**
@@ -96,101 +101,38 @@ public  class ParameterOverride extends ParameterOrOverrideBase implements Clone
      * parameterType derived from associated Parameter for convenience
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private ParameterType parameterType;
- 
+
     /**
      * Property scale.
      * scale derived from associated Parameter for convenience
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private MeasurementScale scale;
- 
+
     /**
      * Property stateDependence.
      * stateDependence derived from associated Parameter for convenience
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private ActualFiniteStateList stateDependence;
- 
+
     /**
      * List of contained ParameterOverrideValueSet.
      * representation of the switch and values of this ParameterOverride
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<ParameterOverrideValueSet> valueSet;
 
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link ParameterOverride}.
      */
     public Iterable<Iterable> containerLists;
-
-    /**
-     * Gets the group.
-     * group derived from associated Parameter for convenience
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
-    public ParameterGroup getGroup(){
-        return this.GetDerivedGroup();
-    }
-
-    /**
-     * Gets a value indicating whether isOptionDependent.
-     * isOptionDependent derived from associated Parameter for convenience
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
-    public boolean getOptionDependent(){
-        return this.GetDerivedIsOptionDependent();
-    }
-
-    /**
-     * Gets the parameter.
-     * reference to the Parameter whose values this ParameterOverride (possibly) overrides
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public Parameter getParameter(){
-         return this.parameter;
-    }
-
-    /**
-     * Gets the parameterType.
-     * parameterType derived from associated Parameter for convenience
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
-    public ParameterType getParameterType(){
-        return this.GetDerivedParameterType();
-    }
-
-    /**
-     * Gets the scale.
-     * scale derived from associated Parameter for convenience
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
-    public MeasurementScale getScale(){
-        return this.GetDerivedScale();
-    }
-
-    /**
-     * Gets the stateDependence.
-     * stateDependence derived from associated Parameter for convenience
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
-    public ActualFiniteStateList getStateDependence(){
-        return this.GetDerivedStateDependence();
-    }
-
-    /**
-     * Gets a list of contained ParameterOverrideValueSet.
-     * representation of the switch and values of this ParameterOverride
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<ParameterOverrideValueSet> getValueSet(){
-         return this.valueSet;
-    }
 
     /**
      * Sets the group.
@@ -201,7 +143,6 @@ public  class ParameterOverride extends ParameterOrOverrideBase implements Clone
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
     public void setGroup(ParameterGroup group){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterOverride.group");
     }
@@ -215,18 +156,8 @@ public  class ParameterOverride extends ParameterOrOverrideBase implements Clone
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
     public void setOptionDependent(boolean isOptionDependent){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterOverride.isOptionDependent");
-    }
-
-    /**
-     * Sets the parameter.
-     * reference to the Parameter whose values this ParameterOverride (possibly) overrides
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setParameter(Parameter parameter){
-        this.parameter = parameter;
     }
 
     /**
@@ -238,7 +169,6 @@ public  class ParameterOverride extends ParameterOrOverrideBase implements Clone
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
     public void setParameterType(ParameterType parameterType){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterOverride.parameterType");
     }
@@ -252,7 +182,6 @@ public  class ParameterOverride extends ParameterOrOverrideBase implements Clone
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
     public void setScale(MeasurementScale scale){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterOverride.scale");
     }
@@ -266,26 +195,16 @@ public  class ParameterOverride extends ParameterOrOverrideBase implements Clone
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
     public void setStateDependence(ActualFiniteStateList stateDependence){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterOverride.stateDependence");
     }
 
     /**
-     * Sets a list of contained ParameterOverrideValueSet.
-     * representation of the switch and values of this ParameterOverride
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setValueSet(ContainerList<ParameterOverrideValueSet> valueSet){
-        this.valueSet = valueSet;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link ParameterOverride}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link ParameterOverride}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.valueSet);
         return containers;
     }
@@ -309,12 +228,12 @@ public  class ParameterOverride extends ParameterOrOverrideBase implements Clone
 
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setParameterSubscription(cloneContainedThings ? new ContainerList<ParameterSubscription>(clone) : new ContainerList<ParameterSubscription>(this.getParameterSubscription(), clone));
-        clone.setValueSet(cloneContainedThings ? new ContainerList<ParameterOverrideValueSet>(clone) : new ContainerList<ParameterOverrideValueSet>(this.getValueSet(), clone));
+        clone.setParameterSubscription(cloneContainedThings ? new ContainerList<ParameterSubscription>(clone) : new ContainerList<ParameterSubscription>(this.getParameterSubscription(), clone, false));
+        clone.setValueSet(cloneContainedThings ? new ContainerList<ParameterOverrideValueSet>(clone) : new ContainerList<ParameterOverrideValueSet>(this.getValueSet(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getParameterSubscription().addAll(this.getParameterSubscription().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getValueSet().addAll(this.getValueSet().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getParameterSubscription().addAll(this.getParameterSubscription().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getValueSet().addAll(this.getValueSet().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -337,7 +256,7 @@ public  class ParameterOverride extends ParameterOrOverrideBase implements Clone
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ParameterOverride}.
+     * Validates the cardinalities of the properties of this ParameterOverride}.
      *
      * @return A list of potential errors.
      */
@@ -346,7 +265,7 @@ public  class ParameterOverride extends ParameterOrOverrideBase implements Clone
 
         if (this.getParameter() == null || this.getParameter().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property parameter is null.");
-            this.setParameter(SentinelThingProvider.getSentinel<Parameter>());
+            this.setParameter(SentinelThingProvider.getSentinel(Parameter.class));
             this.sentinelResetMap.put("parameter", new ActionImpl(() -> this.setParameter(null)));
         }
 
@@ -374,8 +293,8 @@ public  class ParameterOverride extends ParameterOrOverrideBase implements Clone
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
-        this.setParameter(this.getCache().get<Parameter>(dto.getParameter(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Parameter>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
+        this.setParameter(this.getCache().get<Parameter>(dto.getParameter(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Parameter.class));
         this.getParameterSubscription().resolveList(dto.getParameterSubscription(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.getValueSet().resolveList(dto.getValueSet(), dto.getIterationContainerId(), this.getCache());
@@ -389,17 +308,17 @@ public  class ParameterOverride extends ParameterOrOverrideBase implements Clone
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.ParameterOverride dto = new cdp4common.dto.ParameterOverride(this.getIid(), this.getRevisionNumber());
 
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));
         dto.setParameter(this.getParameter() != null ? this.getParameter().getIid() : new UUID(0L, 0L));
-        dto.getParameterSubscription().add(this.getParameterSubscription().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getParameterSubscription().addAll(this.getParameterSubscription().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
-        dto.getValueSet().add(this.getValueSet().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getValueSet().addAll(this.getValueSet().stream().map(Thing::getIid).collect(Collectors.toList()));
 
         dto.setIterationContainerId(this.getCacheId().getRight());
         dto.registerSourceThing(this);

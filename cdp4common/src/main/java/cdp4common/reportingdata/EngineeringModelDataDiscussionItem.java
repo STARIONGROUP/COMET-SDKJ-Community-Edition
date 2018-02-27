@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractEngineeringModelDataDiscussionItem.java
+ * EngineeringModelDataDiscussionItem.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.reportingdata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = EngineeringModelDataAnnotation.class, propertyName = "discussion")
 @ToString
-@EqualsAndHashCode
-public  class EngineeringModelDataDiscussionItem extends DiscussionItem implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class EngineeringModelDataDiscussionItem extends DiscussionItem implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -65,6 +65,7 @@ public  class EngineeringModelDataDiscussionItem extends DiscussionItem implemen
      * @param iDalUri The {@link URI} of this thing
      */
     public EngineeringModelDataDiscussionItem(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -72,25 +73,9 @@ public  class EngineeringModelDataDiscussionItem extends DiscussionItem implemen
      * The participant that is the author of the DiscussionItem
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private Participant author;
-
-    /**
-     * Gets the author.
-     * The participant that is the author of the DiscussionItem
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public Participant getAuthor(){
-         return this.author;
-    }
-
-    /**
-     * Sets the author.
-     * The participant that is the author of the DiscussionItem
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setAuthor(Participant author){
-        this.author = author;
-    }
 
     /**
      * Creates and returns a copy of this {@link EngineeringModelDataDiscussionItem} for edit purpose.
@@ -135,7 +120,7 @@ public  class EngineeringModelDataDiscussionItem extends DiscussionItem implemen
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>EngineeringModelDataDiscussionItem}.
+     * Validates the cardinalities of the properties of this EngineeringModelDataDiscussionItem}.
      *
      * @return A list of potential errors.
      */
@@ -144,7 +129,7 @@ public  class EngineeringModelDataDiscussionItem extends DiscussionItem implemen
 
         if (this.getAuthor() == null || this.getAuthor().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property author is null.");
-            this.setAuthor(SentinelThingProvider.getSentinel<Participant>());
+            this.setAuthor(SentinelThingProvider.getSentinel(Participant.class));
             this.sentinelResetMap.put("author", new ActionImpl(() -> this.setAuthor(null)));
         }
 
@@ -164,7 +149,7 @@ public  class EngineeringModelDataDiscussionItem extends DiscussionItem implemen
 
         cdp4common.dto.EngineeringModelDataDiscussionItem dto = (cdp4common.dto.EngineeringModelDataDiscussionItem)dtoThing;
 
-        this.setAuthor(this.getCache().get<Participant>(dto.getAuthor(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Participant>());
+        this.setAuthor(this.getCache().get<Participant>(dto.getAuthor(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Participant.class));
         this.setContent(dto.getContent());
         this.setCreatedOn(dto.getCreatedOn());
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
@@ -183,14 +168,14 @@ public  class EngineeringModelDataDiscussionItem extends DiscussionItem implemen
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.EngineeringModelDataDiscussionItem dto = new cdp4common.dto.EngineeringModelDataDiscussionItem(this.getIid(), this.getRevisionNumber());
 
         dto.setAuthor(this.getAuthor() != null ? this.getAuthor().getIid() : new UUID(0L, 0L));
         dto.setContent(this.getContent());
         dto.setCreatedOn(this.getCreatedOn());
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setLanguageCode(this.getLanguageCode());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setReplyTo(this.getReplyTo() != null ? (UUID)this.getReplyTo().getIid() : null);

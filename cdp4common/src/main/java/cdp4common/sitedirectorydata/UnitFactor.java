@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractUnitFactor.java
+ * UnitFactor.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = DerivedUnit.class, propertyName = "unitFactor")
 @ToString
-@EqualsAndHashCode
-public  class UnitFactor extends Thing implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class UnitFactor extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -65,6 +65,7 @@ public  class UnitFactor extends Thing implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     public UnitFactor(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -72,6 +73,8 @@ public  class UnitFactor extends Thing implements Cloneable {
      * definition of the exponent value of this UnitFactor
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String exponent;
 
     /**
@@ -79,43 +82,9 @@ public  class UnitFactor extends Thing implements Cloneable {
      * reference to the MeasurementUnit of this UnitFactor
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private MeasurementUnit unit;
-
-    /**
-     * Gets the exponent.
-     * definition of the exponent value of this UnitFactor
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getExponent(){
-         return this.exponent;
-    }
-
-    /**
-     * Gets the unit.
-     * reference to the MeasurementUnit of this UnitFactor
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public MeasurementUnit getUnit(){
-         return this.unit;
-    }
-
-    /**
-     * Sets the exponent.
-     * definition of the exponent value of this UnitFactor
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setExponent(String exponent){
-        this.exponent = exponent;
-    }
-
-    /**
-     * Sets the unit.
-     * reference to the MeasurementUnit of this UnitFactor
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setUnit(MeasurementUnit unit){
-        this.unit = unit;
-    }
 
     /**
      * Creates and returns a copy of this {@link UnitFactor} for edit purpose.
@@ -160,7 +129,7 @@ public  class UnitFactor extends Thing implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>UnitFactor}.
+     * Validates the cardinalities of the properties of this UnitFactor}.
      *
      * @return A list of potential errors.
      */
@@ -173,7 +142,7 @@ public  class UnitFactor extends Thing implements Cloneable {
 
         if (this.getUnit() == null || this.getUnit().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property unit is null.");
-            this.setUnit(SentinelThingProvider.getSentinel<MeasurementUnit>());
+            this.setUnit(SentinelThingProvider.getSentinel(MeasurementUnit.class));
             this.sentinelResetMap.put("unit", new ActionImpl(() -> this.setUnit(null)));
         }
 
@@ -198,7 +167,7 @@ public  class UnitFactor extends Thing implements Cloneable {
         this.setExponent(dto.getExponent());
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setUnit(this.getCache().get<MeasurementUnit>(dto.getUnit(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<MeasurementUnit>());
+        this.setUnit(this.getCache().get<MeasurementUnit>(dto.getUnit(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(MeasurementUnit.class));
 
         this.resolveExtraProperties();
     }
@@ -209,11 +178,11 @@ public  class UnitFactor extends Thing implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.UnitFactor dto = new cdp4common.dto.UnitFactor(this.getIid(), this.getRevisionNumber());
 
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setExponent(this.getExponent());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());

@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractParameterGroup.java
+ * ParameterGroup.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ElementDefinition.class, propertyName = "parameterGroup")
 @ToString
-@EqualsAndHashCode
-public  class ParameterGroup extends Thing implements Cloneable, NamedThing {
+@EqualsAndHashCode(callSuper = true)
+public class ParameterGroup extends Thing implements Cloneable, NamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -65,6 +65,7 @@ public  class ParameterGroup extends Thing implements Cloneable, NamedThing {
      * @param iDalUri The {@link URI} of this thing
      */
     public ParameterGroup(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -74,6 +75,8 @@ public  class ParameterGroup extends Thing implements Cloneable, NamedThing {
      * Note 2: Leaving this property empty implies that the ParameterGroup is directly attached to the containing ElementDefinition.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ParameterGroup containingGroup;
 
     /**
@@ -82,49 +85,9 @@ public  class ParameterGroup extends Thing implements Cloneable, NamedThing {
      * Note: The implied LanguageCode of <i>name</i> is "en-GB".
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String name;
-
-    /**
-     * Gets the containingGroup.
-     * reference to a containing ParameterGroup for this ParameterGroup
-     * Note 1: This property allows creating an arbitrarily deeply nested grouping hierarchy for Parameters. The grouping must be acyclic.
-     * Note 2: Leaving this property empty implies that the ParameterGroup is directly attached to the containing ElementDefinition.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ParameterGroup getContainingGroup(){
-         return this.containingGroup;
-    }
-
-    /**
-     * Gets the name.
-     * human readable character string in English by which something can be       referred       to
-     * Note: The implied LanguageCode of <i>name</i> is "en-GB".
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getName(){
-         return this.name;
-    }
-
-    /**
-     * Sets the containingGroup.
-     * reference to a containing ParameterGroup for this ParameterGroup
-     * Note 1: This property allows creating an arbitrarily deeply nested grouping hierarchy for Parameters. The grouping must be acyclic.
-     * Note 2: Leaving this property empty implies that the ParameterGroup is directly attached to the containing ElementDefinition.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setContainingGroup(ParameterGroup containingGroup){
-        this.containingGroup = containingGroup;
-    }
-
-    /**
-     * Sets the name.
-     * human readable character string in English by which something can be       referred       to
-     * Note: The implied LanguageCode of <i>name</i> is "en-GB".
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setName(String name){
-        this.name = name;
-    }
 
     /**
      * Creates and returns a copy of this {@link ParameterGroup} for edit purpose.
@@ -169,7 +132,7 @@ public  class ParameterGroup extends Thing implements Cloneable, NamedThing {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ParameterGroup}.
+     * Validates the cardinalities of the properties of this ParameterGroup}.
      *
      * @return A list of potential errors.
      */
@@ -212,12 +175,12 @@ public  class ParameterGroup extends Thing implements Cloneable, NamedThing {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.ParameterGroup dto = new cdp4common.dto.ParameterGroup(this.getIid(), this.getRevisionNumber());
 
         dto.setContainingGroup(this.getContainingGroup() != null ? (UUID)this.getContainingGroup().getIid() : null);
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
         dto.setRevisionNumber(this.getRevisionNumber());

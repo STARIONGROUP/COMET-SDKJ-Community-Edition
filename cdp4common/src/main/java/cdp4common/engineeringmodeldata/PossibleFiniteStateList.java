@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractPossibleFiniteStateList.java
+ * PossibleFiniteStateList.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -43,8 +43,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = Iteration.class, propertyName = "possibleFiniteStateList")
 @ToString
-@EqualsAndHashCode
-public  class PossibleFiniteStateList extends DefinedThing implements Cloneable, CategorizableThing, OwnedThing {
+@EqualsAndHashCode(callSuper = true)
+public class PossibleFiniteStateList extends DefinedThing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -74,6 +74,7 @@ public  class PossibleFiniteStateList extends DefinedThing implements Cloneable,
      * @param iDalUri The {@link URI} of this thing
      */
     public PossibleFiniteStateList(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.category = new ArrayList<Category>();
         this.possibleState = new OrderedItemList<PossibleFiniteState>(this, true);
     }
@@ -83,6 +84,8 @@ public  class PossibleFiniteStateList extends DefinedThing implements Cloneable,
      * reference to zero or more Categories of which this CategorizableThing is a member
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<Category> category;
 
     /**
@@ -91,6 +94,8 @@ public  class PossibleFiniteStateList extends DefinedThing implements Cloneable,
      * Note: The referenced PossibleFiniteState must be one of the possibleState of this PossibleFiniteStateList.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private PossibleFiniteState defaultState;
 
     /**
@@ -99,6 +104,8 @@ public  class PossibleFiniteStateList extends DefinedThing implements Cloneable,
      * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private DomainOfExpertise owner;
 
     /**
@@ -106,6 +113,8 @@ public  class PossibleFiniteStateList extends DefinedThing implements Cloneable,
      * ordered collection of finite states for this PossibleFiniteStateList
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private OrderedItemList<PossibleFiniteState> possibleState;
 
     /**
@@ -114,87 +123,11 @@ public  class PossibleFiniteStateList extends DefinedThing implements Cloneable,
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<Category> getCategory(){
-         return this.category;
-    }
-
-    /**
-     * Gets the defaultState.
-     * reference to the PossibleFiniteState that is considered the default state for this PossibleFiniteStateList
-     * Note: The referenced PossibleFiniteState must be one of the possibleState of this PossibleFiniteStateList.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public PossibleFiniteState getDefaultState(){
-         return this.defaultState;
-    }
-
-    /**
-     * Gets the owner.
-     * reference to a DomainOfExpertise that is the owner of this OwnedThing
-     * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public DomainOfExpertise getOwner(){
-         return this.owner;
-    }
-
-    /**
-     * Gets a list of ordered contained PossibleFiniteState.
-     * ordered collection of finite states for this PossibleFiniteStateList
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-    public OrderedItemList<PossibleFiniteState> getPossibleState(){
-         return this.possibleState;
-    }
-
-    /**
-     * Sets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setCategory(ArrayList<Category> category){
-        this.category = category;
-    }
-
-    /**
-     * Sets the defaultState.
-     * reference to the PossibleFiniteState that is considered the default state for this PossibleFiniteStateList
-     * Note: The referenced PossibleFiniteState must be one of the possibleState of this PossibleFiniteStateList.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setDefaultState(PossibleFiniteState defaultState){
-        this.defaultState = defaultState;
-    }
-
-    /**
-     * Sets the owner.
-     * reference to a DomainOfExpertise that is the owner of this OwnedThing
-     * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setOwner(DomainOfExpertise owner){
-        this.owner = owner;
-    }
-
-    /**
-     * Sets a list of ordered contained PossibleFiniteState.
-     * ordered collection of finite states for this PossibleFiniteStateList
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-     protected void setPossibleState(OrderedItemList<PossibleFiniteState> possibleState){
-        this.possibleState = possibleState;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link PossibleFiniteStateList}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link PossibleFiniteStateList}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.possibleState);
         return containers;
     }
@@ -216,19 +149,19 @@ public  class PossibleFiniteStateList extends DefinedThing implements Cloneable,
             throw new IllegalAccessError("Somehow PossibleFiniteStateList cannot be cloned.");
         }
 
-        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
+        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
-        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
+        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
+        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
         clone.setPossibleState(cloneContainedThings ? new OrderedItemList<PossibleFiniteState>(clone, true) : new OrderedItemList<PossibleFiniteState>(this.getPossibleState(), clone));
 
         if (cloneContainedThings) {
-            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getPossibleState().addAll(this.getPossibleState().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getPossibleState().addAll(this.getPossibleState().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -251,7 +184,7 @@ public  class PossibleFiniteStateList extends DefinedThing implements Cloneable,
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>PossibleFiniteStateList}.
+     * Validates the cardinalities of the properties of this PossibleFiniteStateList}.
      *
      * @return A list of potential errors.
      */
@@ -260,7 +193,7 @@ public  class PossibleFiniteStateList extends DefinedThing implements Cloneable,
 
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property owner is null.");
-            this.setOwner(SentinelThingProvider.getSentinel<DomainOfExpertise>());
+            this.setOwner(SentinelThingProvider.getSentinel(DomainOfExpertise.class));
             this.sentinelResetMap.put("owner", new ActionImpl(() -> this.setOwner(null)));
         }
 
@@ -294,7 +227,7 @@ public  class PossibleFiniteStateList extends DefinedThing implements Cloneable,
         this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
         this.getPossibleState().resolveList(dto.getPossibleState(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
@@ -308,20 +241,20 @@ public  class PossibleFiniteStateList extends DefinedThing implements Cloneable,
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.PossibleFiniteStateList dto = new cdp4common.dto.PossibleFiniteStateList(this.getIid(), this.getRevisionNumber());
 
-        dto.getAlias().add(this.getAlias().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getCategory().add(this.getCategory().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setDefaultState(this.getDefaultState() != null ? (UUID)this.getDefaultState().getIid() : null);
-        dto.getDefinition().add(this.getDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getHyperLink().add(this.getHyperLink().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getDefinition().addAll(this.getDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));
-        dto.getPossibleState().add(this.getPossibleState().toDtoOrderedItemList());
+        dto.getPossibleState().addAll(this.getPossibleState().toDtoOrderedItemList());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
 

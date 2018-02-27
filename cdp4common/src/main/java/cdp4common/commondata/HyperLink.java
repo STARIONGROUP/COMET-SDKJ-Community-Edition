@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractHyperLink.java
+ * HyperLink.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.commondata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = DefinedThing.class, propertyName = "hyperLink")
 @ToString
-@EqualsAndHashCode
-public  class HyperLink extends Thing implements Cloneable, Annotation {
+@EqualsAndHashCode(callSuper = true)
+public class HyperLink extends Thing implements Cloneable, Annotation {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -64,6 +64,7 @@ public  class HyperLink extends Thing implements Cloneable, Annotation {
      * @param iDalUri The {@link URI} of this thing
      */
     public HyperLink(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -72,6 +73,8 @@ public  class HyperLink extends Thing implements Cloneable, Annotation {
      * specified in <i>languageCode</i>
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String content;
 
     /**
@@ -79,6 +82,8 @@ public  class HyperLink extends Thing implements Cloneable, Annotation {
      * code that defines the natural language in which the annotation is written
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String languageCode;
 
     /**
@@ -86,63 +91,9 @@ public  class HyperLink extends Thing implements Cloneable, Annotation {
      * value of the actual Universal Resource Identifier (URI)
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String uri;
-
-    /**
-     * Gets the content.
-     * textual content of the annotation expressed in the natural language as
-     * specified in <i>languageCode</i>
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getContent(){
-         return this.content;
-    }
-
-    /**
-     * Gets the languageCode.
-     * code that defines the natural language in which the annotation is written
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getLanguageCode(){
-         return this.languageCode;
-    }
-
-    /**
-     * Gets the uri.
-     * value of the actual Universal Resource Identifier (URI)
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getUri(){
-         return this.uri;
-    }
-
-    /**
-     * Sets the content.
-     * textual content of the annotation expressed in the natural language as
-     * specified in <i>languageCode</i>
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setContent(String content){
-        this.content = content;
-    }
-
-    /**
-     * Sets the languageCode.
-     * code that defines the natural language in which the annotation is written
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setLanguageCode(String languageCode){
-        this.languageCode = languageCode;
-    }
-
-    /**
-     * Sets the uri.
-     * value of the actual Universal Resource Identifier (URI)
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setUri(String uri){
-        this.uri = uri;
-    }
 
     /**
      * Creates and returns a copy of this {@link HyperLink} for edit purpose.
@@ -187,7 +138,7 @@ public  class HyperLink extends Thing implements Cloneable, Annotation {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>HyperLink}.
+     * Validates the cardinalities of the properties of this HyperLink}.
      *
      * @return A list of potential errors.
      */
@@ -239,12 +190,12 @@ public  class HyperLink extends Thing implements Cloneable, Annotation {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.HyperLink dto = new cdp4common.dto.HyperLink(this.getIid(), this.getRevisionNumber());
 
         dto.setContent(this.getContent());
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setLanguageCode(this.getLanguageCode());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());

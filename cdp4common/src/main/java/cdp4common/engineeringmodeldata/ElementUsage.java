@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractElementUsage.java
+ * ElementUsage.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -39,8 +39,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ElementDefinition.class, propertyName = "containedElement")
 @ToString
-@EqualsAndHashCode
-public  class ElementUsage extends ElementBase implements Cloneable, OptionDependentThing {
+@EqualsAndHashCode(callSuper = true)
+public class ElementUsage extends ElementBase implements Cloneable, OptionDependentThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -70,6 +70,7 @@ public  class ElementUsage extends ElementBase implements Cloneable, OptionDepen
      * @param iDalUri The {@link URI} of this thing
      */
     public ElementUsage(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.excludeOption = new ArrayList<Option>();
         this.parameterOverride = new ContainerList<ParameterOverride>(this);
     }
@@ -80,6 +81,8 @@ public  class ElementUsage extends ElementBase implements Cloneable, OptionDepen
      * Note: The <i>elementDefinition</i> of an ElementUsage could also be regarded as the <i>type</i> of the ElementUsage.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ElementDefinition elementDefinition;
 
     /**
@@ -88,6 +91,8 @@ public  class ElementUsage extends ElementBase implements Cloneable, OptionDepen
      * Note: By default all OptionDependentThings are included in all Options in an EngineeringModel. Only the exclusions are recorded in the data model because this is the most efficient way of storing and handling the option dependency. In client applications it may be more intuitive to show the included Options, but that is a simple transformation.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<Option> excludeOption;
 
     /**
@@ -103,6 +108,8 @@ public  class ElementUsage extends ElementBase implements Cloneable, OptionDepen
      * architectural elements that represent interface ends.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private InterfaceEndKind interfaceEnd;
 
     /**
@@ -111,6 +118,8 @@ public  class ElementUsage extends ElementBase implements Cloneable, OptionDepen
      * Note: The <i>parameter</i> of this ParameterOverride must be a Parameter of the <i>elementDefinition</i> of the containing ElementUsage.
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<ParameterOverride> parameterOverride;
 
     /**
@@ -119,105 +128,11 @@ public  class ElementUsage extends ElementBase implements Cloneable, OptionDepen
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets the elementDefinition.
-     * reference to the ElementDefinition that defines this ElementUsage
-     * Note: The <i>elementDefinition</i> of an ElementUsage could also be regarded as the <i>type</i> of the ElementUsage.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ElementDefinition getElementDefinition(){
-         return this.elementDefinition;
-    }
-
-    /**
-     * Gets a list of Option.
-     * reference to zero or more Options from which this OptionDependentThing is excluded
-     * Note: By default all OptionDependentThings are included in all Options in an EngineeringModel. Only the exclusions are recorded in the data model because this is the most efficient way of storing and handling the option dependency. In client applications it may be more intuitive to show the included Options, but that is a simple transformation.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<Option> getExcludeOption(){
-         return this.excludeOption;
-    }
-
-    /**
-     * Gets the interfaceEnd.
-     * indication whether this ElementUsage is a (potential) interface end
-     * Note 1: An interface end is one side of an interface, where the complete
-     * interface is defined as the connection plus two or more interface ends.
-     * Note 2: Interface definition is currently not explicitly modelled in
-     * this data model. However it is possible to define a Category e.g. named
-     * "InterfaceDefinitions", and then instantiate ElementDefinitions and
-     * ElementUsages that belong to this category for the interfaces to be
-     * defined, using the referencedElement property of ElementUsage to connect
-     * architectural elements that represent interface ends.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public InterfaceEndKind getInterfaceEnd(){
-         return this.interfaceEnd;
-    }
-
-    /**
-     * Gets a list of contained ParameterOverride.
-     * representation of zero or more ParameterOverrides to hold overridden values for a Parameter at this ElementUsage level
-     * Note: The <i>parameter</i> of this ParameterOverride must be a Parameter of the <i>elementDefinition</i> of the containing ElementUsage.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<ParameterOverride> getParameterOverride(){
-         return this.parameterOverride;
-    }
-
-    /**
-     * Sets the elementDefinition.
-     * reference to the ElementDefinition that defines this ElementUsage
-     * Note: The <i>elementDefinition</i> of an ElementUsage could also be regarded as the <i>type</i> of the ElementUsage.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setElementDefinition(ElementDefinition elementDefinition){
-        this.elementDefinition = elementDefinition;
-    }
-
-    /**
-     * Sets a list of Option.
-     * reference to zero or more Options from which this OptionDependentThing is excluded
-     * Note: By default all OptionDependentThings are included in all Options in an EngineeringModel. Only the exclusions are recorded in the data model because this is the most efficient way of storing and handling the option dependency. In client applications it may be more intuitive to show the included Options, but that is a simple transformation.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setExcludeOption(ArrayList<Option> excludeOption){
-        this.excludeOption = excludeOption;
-    }
-
-    /**
-     * Sets the interfaceEnd.
-     * indication whether this ElementUsage is a (potential) interface end
-     * Note 1: An interface end is one side of an interface, where the complete
-     * interface is defined as the connection plus two or more interface ends.
-     * Note 2: Interface definition is currently not explicitly modelled in
-     * this data model. However it is possible to define a Category e.g. named
-     * "InterfaceDefinitions", and then instantiate ElementDefinitions and
-     * ElementUsages that belong to this category for the interfaces to be
-     * defined, using the referencedElement property of ElementUsage to connect
-     * architectural elements that represent interface ends.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setInterfaceEnd(InterfaceEndKind interfaceEnd){
-        this.interfaceEnd = interfaceEnd;
-    }
-
-    /**
-     * Sets a list of contained ParameterOverride.
-     * representation of zero or more ParameterOverrides to hold overridden values for a Parameter at this ElementUsage level
-     * Note: The <i>parameter</i> of this ParameterOverride must be a Parameter of the <i>elementDefinition</i> of the containing ElementUsage.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setParameterOverride(ContainerList<ParameterOverride> parameterOverride){
-        this.parameterOverride = parameterOverride;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link ElementUsage}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link ElementUsage}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.parameterOverride);
         return containers;
     }
@@ -239,20 +154,20 @@ public  class ElementUsage extends ElementBase implements Cloneable, OptionDepen
             throw new IllegalAccessError("Somehow ElementUsage cannot be cloned.");
         }
 
-        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
+        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
-        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
+        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setExcludeOption(new ArrayList<Option>(this.getExcludeOption()));
-        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
-        clone.setParameterOverride(cloneContainedThings ? new ContainerList<ParameterOverride>(clone) : new ContainerList<ParameterOverride>(this.getParameterOverride(), clone));
+        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
+        clone.setParameterOverride(cloneContainedThings ? new ContainerList<ParameterOverride>(clone) : new ContainerList<ParameterOverride>(this.getParameterOverride(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getParameterOverride().addAll(this.getParameterOverride().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getParameterOverride().addAll(this.getParameterOverride().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -275,7 +190,7 @@ public  class ElementUsage extends ElementBase implements Cloneable, OptionDepen
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ElementUsage}.
+     * Validates the cardinalities of the properties of this ElementUsage}.
      *
      * @return A list of potential errors.
      */
@@ -284,7 +199,7 @@ public  class ElementUsage extends ElementBase implements Cloneable, OptionDepen
 
         if (this.getElementDefinition() == null || this.getElementDefinition().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property elementDefinition is null.");
-            this.setElementDefinition(SentinelThingProvider.getSentinel<ElementDefinition>());
+            this.setElementDefinition(SentinelThingProvider.getSentinel(ElementDefinition.class));
             this.sentinelResetMap.put("elementDefinition", new ActionImpl(() -> this.setElementDefinition(null)));
         }
 
@@ -307,7 +222,7 @@ public  class ElementUsage extends ElementBase implements Cloneable, OptionDepen
         this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
         this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
         this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.setElementDefinition(this.getCache().get<ElementDefinition>(dto.getElementDefinition(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ElementDefinition>());
+        this.setElementDefinition(this.getCache().get<ElementDefinition>(dto.getElementDefinition(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ElementDefinition.class));
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.getExcludeOption().resolveList(dto.getExcludeOption(), dto.getIterationContainerId(), this.getCache());
@@ -315,7 +230,7 @@ public  class ElementUsage extends ElementBase implements Cloneable, OptionDepen
         this.setInterfaceEnd(dto.getInterfaceEnd());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
         this.getParameterOverride().resolveList(dto.getParameterOverride(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
@@ -329,22 +244,22 @@ public  class ElementUsage extends ElementBase implements Cloneable, OptionDepen
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.ElementUsage dto = new cdp4common.dto.ElementUsage(this.getIid(), this.getRevisionNumber());
 
-        dto.getAlias().add(this.getAlias().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getCategory().add(this.getCategory().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getDefinition().add(this.getDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getDefinition().addAll(this.getDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setElementDefinition(this.getElementDefinition() != null ? this.getElementDefinition().getIid() : new UUID(0L, 0L));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludeOption().add(this.getExcludeOption().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getHyperLink().add(this.getHyperLink().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludeOption().addAll(this.getExcludeOption().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setInterfaceEnd(this.getInterfaceEnd());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));
-        dto.getParameterOverride().add(this.getParameterOverride().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getParameterOverride().addAll(this.getParameterOverride().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
 

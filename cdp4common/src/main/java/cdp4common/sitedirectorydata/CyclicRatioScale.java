@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractCyclicRatioScale.java
+ * CyclicRatioScale.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -37,8 +37,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
-@EqualsAndHashCode
-public  class CyclicRatioScale extends RatioScale implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class CyclicRatioScale extends RatioScale implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -66,6 +66,7 @@ public  class CyclicRatioScale extends RatioScale implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     public CyclicRatioScale(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -75,29 +76,9 @@ public  class CyclicRatioScale extends RatioScale implements Cloneable {
      * Example: For a plane angle scale in degree the modulus would be specified as 360 degree.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String modulus;
-
-    /**
-     * Gets the modulus.
-     * definition of the modulus of this CyclicRatioScale
-     * Note: The value is expressed in the <i>unit</i> of this CyclicRatioScale.
-     * Example: For a plane angle scale in degree the modulus would be specified as 360 degree.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getModulus(){
-         return this.modulus;
-    }
-
-    /**
-     * Sets the modulus.
-     * definition of the modulus of this CyclicRatioScale
-     * Note: The value is expressed in the <i>unit</i> of this CyclicRatioScale.
-     * Example: For a plane angle scale in degree the modulus would be specified as 360 degree.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setModulus(String modulus){
-        this.modulus = modulus;
-    }
 
     /**
      * Creates and returns a copy of this {@link CyclicRatioScale} for edit purpose.
@@ -116,20 +97,20 @@ public  class CyclicRatioScale extends RatioScale implements Cloneable {
             throw new IllegalAccessError("Somehow CyclicRatioScale cannot be cloned.");
         }
 
-        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
-        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
+        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
+        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
-        clone.setMappingToReferenceScale(cloneContainedThings ? new ContainerList<MappingToReferenceScale>(clone) : new ContainerList<MappingToReferenceScale>(this.getMappingToReferenceScale(), clone));
-        clone.setValueDefinition(cloneContainedThings ? new ContainerList<ScaleValueDefinition>(clone) : new ContainerList<ScaleValueDefinition>(this.getValueDefinition(), clone));
+        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
+        clone.setMappingToReferenceScale(cloneContainedThings ? new ContainerList<MappingToReferenceScale>(clone) : new ContainerList<MappingToReferenceScale>(this.getMappingToReferenceScale(), clone, false));
+        clone.setValueDefinition(cloneContainedThings ? new ContainerList<ScaleValueDefinition>(clone) : new ContainerList<ScaleValueDefinition>(this.getValueDefinition(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getMappingToReferenceScale().addAll(this.getMappingToReferenceScale().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getValueDefinition().addAll(this.getValueDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getMappingToReferenceScale().addAll(this.getMappingToReferenceScale().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getValueDefinition().addAll(this.getValueDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -152,7 +133,7 @@ public  class CyclicRatioScale extends RatioScale implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>CyclicRatioScale}.
+     * Validates the cardinalities of the properties of this CyclicRatioScale}.
      *
      * @return A list of potential errors.
      */
@@ -184,9 +165,9 @@ public  class CyclicRatioScale extends RatioScale implements Cloneable {
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
-        this.setDeprecated(dto.getDeprecated());
-        this.setMaximumInclusive(dto.getMaximumInclusive());
-        this.setMinimumInclusive(dto.getMinimumInclusive());
+        this.setDeprecated(dto.isDeprecated());
+        this.setMaximumInclusive(dto.isMaximumInclusive());
+        this.setMinimumInclusive(dto.isMinimumInclusive());
         this.getMappingToReferenceScale().resolveList(dto.getMappingToReferenceScale(), dto.getIterationContainerId(), this.getCache());
         this.setMaximumPermissibleValue(dto.getMaximumPermissibleValue());
         this.setMinimumPermissibleValue(dto.getMinimumPermissibleValue());
@@ -198,7 +179,7 @@ public  class CyclicRatioScale extends RatioScale implements Cloneable {
         this.setPositiveValueConnotation(dto.getPositiveValueConnotation());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
-        this.setUnit(this.getCache().get<MeasurementUnit>(dto.getUnit(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<MeasurementUnit>());
+        this.setUnit(this.getCache().get<MeasurementUnit>(dto.getUnit(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(MeasurementUnit.class));
         this.getValueDefinition().resolveList(dto.getValueDefinition(), dto.getIterationContainerId(), this.getCache());
 
         this.resolveExtraProperties();
@@ -210,18 +191,18 @@ public  class CyclicRatioScale extends RatioScale implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.CyclicRatioScale dto = new cdp4common.dto.CyclicRatioScale(this.getIid(), this.getRevisionNumber());
 
-        dto.getAlias().add(this.getAlias().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getDefinition().add(this.getDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getHyperLink().add(this.getHyperLink().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setDeprecated(this.getDeprecated());
-        dto.setMaximumInclusive(this.getMaximumInclusive());
-        dto.setMinimumInclusive(this.getMinimumInclusive());
-        dto.getMappingToReferenceScale().add(this.getMappingToReferenceScale().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getDefinition().addAll(this.getDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setDeprecated(this.isDeprecated());
+        dto.setMaximumInclusive(this.isMaximumInclusive());
+        dto.setMinimumInclusive(this.isMinimumInclusive());
+        dto.getMappingToReferenceScale().addAll(this.getMappingToReferenceScale().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setMaximumPermissibleValue(this.getMaximumPermissibleValue());
         dto.setMinimumPermissibleValue(this.getMinimumPermissibleValue());
         dto.setModifiedOn(this.getModifiedOn());
@@ -233,7 +214,7 @@ public  class CyclicRatioScale extends RatioScale implements Cloneable {
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
         dto.setUnit(this.getUnit() != null ? this.getUnit().getIid() : new UUID(0L, 0L));
-        dto.getValueDefinition().add(this.getValueDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getValueDefinition().addAll(this.getValueDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
 
         dto.setIterationContainerId(this.getCacheId().getRight());
         dto.registerSourceThing(this);

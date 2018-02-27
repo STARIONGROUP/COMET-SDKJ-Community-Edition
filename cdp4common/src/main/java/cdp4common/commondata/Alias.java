@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractAlias.java
+ * Alias.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.commondata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = DefinedThing.class, propertyName = "alias")
 @ToString
-@EqualsAndHashCode
-public  class Alias extends Thing implements Cloneable, Annotation {
+@EqualsAndHashCode(callSuper = true)
+public class Alias extends Thing implements Cloneable, Annotation {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -65,6 +65,7 @@ public  class Alias extends Thing implements Cloneable, Annotation {
      * @param iDalUri The {@link URI} of this thing
      */
     public Alias(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -73,6 +74,8 @@ public  class Alias extends Thing implements Cloneable, Annotation {
      * specified in <i>languageCode</i>
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String content;
 
     /**
@@ -81,6 +84,8 @@ public  class Alias extends Thing implements Cloneable, Annotation {
      * referring DefinedThing
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private boolean isSynonym;
 
     /**
@@ -88,65 +93,9 @@ public  class Alias extends Thing implements Cloneable, Annotation {
      * code that defines the natural language in which the annotation is written
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String languageCode;
-
-    /**
-     * Gets the content.
-     * textual content of the annotation expressed in the natural language as
-     * specified in <i>languageCode</i>
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getContent(){
-         return this.content;
-    }
-
-    /**
-     * Gets a value indicating whether isSynonym.
-     * assertion whether <i>content</i> of this Alias is a synonym for the
-     * referring DefinedThing
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public boolean getSynonym(){
-         return this.isSynonym;
-    }
-
-    /**
-     * Gets the languageCode.
-     * code that defines the natural language in which the annotation is written
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getLanguageCode(){
-         return this.languageCode;
-    }
-
-    /**
-     * Sets the content.
-     * textual content of the annotation expressed in the natural language as
-     * specified in <i>languageCode</i>
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setContent(String content){
-        this.content = content;
-    }
-
-    /**
-     *Sets a value indicating whether isSynonym.
-     * assertion whether <i>content</i> of this Alias is a synonym for the
-     * referring DefinedThing
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setSynonym(boolean isSynonym){
-        this.isSynonym = isSynonym;
-    }
-
-    /**
-     * Sets the languageCode.
-     * code that defines the natural language in which the annotation is written
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setLanguageCode(String languageCode){
-        this.languageCode = languageCode;
-    }
 
     /**
      * Creates and returns a copy of this {@link Alias} for edit purpose.
@@ -191,7 +140,7 @@ public  class Alias extends Thing implements Cloneable, Annotation {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>Alias}.
+     * Validates the cardinalities of the properties of this Alias}.
      *
      * @return A list of potential errors.
      */
@@ -225,7 +174,7 @@ public  class Alias extends Thing implements Cloneable, Annotation {
         this.setContent(dto.getContent());
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.setSynonym(dto.getSynonym());
+        this.setSynonym(dto.isSynonym());
         this.setLanguageCode(dto.getLanguageCode());
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
@@ -239,13 +188,13 @@ public  class Alias extends Thing implements Cloneable, Annotation {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.Alias dto = new cdp4common.dto.Alias(this.getIid(), this.getRevisionNumber());
 
         dto.setContent(this.getContent());
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setSynonym(this.getSynonym());
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setSynonym(this.isSynonym());
         dto.setLanguageCode(this.getLanguageCode());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());

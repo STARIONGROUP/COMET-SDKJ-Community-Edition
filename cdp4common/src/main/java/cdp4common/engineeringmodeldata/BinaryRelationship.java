@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractBinaryRelationship.java
+ * BinaryRelationship.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = Iteration.class, propertyName = "relationship")
 @ToString
-@EqualsAndHashCode
-public  class BinaryRelationship extends Relationship implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class BinaryRelationship extends Relationship implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -65,6 +65,7 @@ public  class BinaryRelationship extends Relationship implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     public BinaryRelationship(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -72,6 +73,8 @@ public  class BinaryRelationship extends Relationship implements Cloneable {
      * reference to the source Thing of this BinaryRelationship
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private Thing source;
 
     /**
@@ -79,43 +82,9 @@ public  class BinaryRelationship extends Relationship implements Cloneable {
      * reference to the target Thing of this BinaryRelationship
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private Thing target;
-
-    /**
-     * Gets the source.
-     * reference to the source Thing of this BinaryRelationship
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public Thing getSource(){
-         return this.source;
-    }
-
-    /**
-     * Gets the target.
-     * reference to the target Thing of this BinaryRelationship
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public Thing getTarget(){
-         return this.target;
-    }
-
-    /**
-     * Sets the source.
-     * reference to the source Thing of this BinaryRelationship
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setSource(Thing source){
-        this.source = source;
-    }
-
-    /**
-     * Sets the target.
-     * reference to the target Thing of this BinaryRelationship
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setTarget(Thing target){
-        this.target = target;
-    }
 
     /**
      * Creates and returns a copy of this {@link BinaryRelationship} for edit purpose.
@@ -137,10 +106,10 @@ public  class BinaryRelationship extends Relationship implements Cloneable {
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setParameterValue(cloneContainedThings ? new ContainerList<RelationshipParameterValue>(clone) : new ContainerList<RelationshipParameterValue>(this.getParameterValue(), clone));
+        clone.setParameterValue(cloneContainedThings ? new ContainerList<RelationshipParameterValue>(clone) : new ContainerList<RelationshipParameterValue>(this.getParameterValue(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getParameterValue().addAll(this.getParameterValue().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getParameterValue().addAll(this.getParameterValue().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -163,7 +132,7 @@ public  class BinaryRelationship extends Relationship implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>BinaryRelationship}.
+     * Validates the cardinalities of the properties of this BinaryRelationship}.
      *
      * @return A list of potential errors.
      */
@@ -172,13 +141,13 @@ public  class BinaryRelationship extends Relationship implements Cloneable {
 
         if (this.getSource() == null || this.getSource().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property source is null.");
-            this.setSource(SentinelThingProvider.getSentinel<Thing>());
+            this.setSource(SentinelThingProvider.getSentinel(Thing.class));
             this.sentinelResetMap.put("source", new ActionImpl(() -> this.setSource(null)));
         }
 
         if (this.getTarget() == null || this.getTarget().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property target is null.");
-            this.setTarget(SentinelThingProvider.getSentinel<Thing>());
+            this.setTarget(SentinelThingProvider.getSentinel(Thing.class));
             this.sentinelResetMap.put("target", new ActionImpl(() -> this.setTarget(null)));
         }
 
@@ -202,11 +171,11 @@ public  class BinaryRelationship extends Relationship implements Cloneable {
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
         this.getParameterValue().resolveList(dto.getParameterValue(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setSource(this.getCache().get<Thing>(dto.getSource(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Thing>());
-        this.setTarget(this.getCache().get<Thing>(dto.getTarget(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<Thing>());
+        this.setSource(this.getCache().get<Thing>(dto.getSource(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Thing.class));
+        this.setTarget(this.getCache().get<Thing>(dto.getTarget(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Thing.class));
 
         this.resolveExtraProperties();
     }
@@ -217,15 +186,15 @@ public  class BinaryRelationship extends Relationship implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.BinaryRelationship dto = new cdp4common.dto.BinaryRelationship(this.getIid(), this.getRevisionNumber());
 
-        dto.getCategory().add(this.getCategory().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));
-        dto.getParameterValue().add(this.getParameterValue().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getParameterValue().addAll(this.getParameterValue().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setSource(this.getSource() != null ? this.getSource().getIid() : new UUID(0L, 0L));
         dto.setTarget(this.getTarget() != null ? this.getTarget().getIid() : new UUID(0L, 0L));

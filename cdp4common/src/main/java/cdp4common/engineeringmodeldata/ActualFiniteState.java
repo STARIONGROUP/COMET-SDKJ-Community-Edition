@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractActualFiniteState.java
+ * ActualFiniteState.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ActualFiniteStateList.class, propertyName = "actualState")
 @ToString
-@EqualsAndHashCode
-public  class ActualFiniteState extends Thing implements Cloneable, NamedThing, OwnedThing, ShortNamedThing {
+@EqualsAndHashCode(callSuper = true)
+public class ActualFiniteState extends Thing implements Cloneable, NamedThing, OwnedThing, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -66,6 +66,7 @@ public  class ActualFiniteState extends Thing implements Cloneable, NamedThing, 
      * @param iDalUri The {@link URI} of this thing
      */
     public ActualFiniteState(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.possibleState = new ArrayList<PossibleFiniteState>();
     }
 
@@ -75,6 +76,8 @@ public  class ActualFiniteState extends Thing implements Cloneable, NamedThing, 
      * Note: See definitions for ActualFiniteStateKind.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ActualFiniteStateKind kind;
 
     /**
@@ -82,21 +85,25 @@ public  class ActualFiniteState extends Thing implements Cloneable, NamedThing, 
      * name derived from the <i>possibleState</i> by concatenation of the names of each referenced PossibleFiniteState
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private String name;
- 
+
     /**
      * Property owner.
      * reference to the DomainOfExpertise that owns (i.e. is responsible for) this ActualFiniteState
      * Note: This is a derived property. It is always the same DomainOfExpertise as the <i>owner</i> of the containing ActualFiniteStateList.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private DomainOfExpertise owner;
- 
+
     /**
      * List of PossibleFiniteState.
      * Note: The set must include one PossibleFiniteState from each of the PossibleFiniteStateLists that is referenced by the containing ActualFiniteStateList.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<PossibleFiniteState> possibleState;
 
     /**
@@ -104,68 +111,8 @@ public  class ActualFiniteState extends Thing implements Cloneable, NamedThing, 
      * short name derived from the <i>possibleState</i> by concatenation of the <i>shortName</i> of each referenced PossibleFiniteState
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private String shortName;
- 
-
-    /**
-     * Gets the kind.
-     * assertion of the kind of ActualFiniteState
-     * Note: See definitions for ActualFiniteStateKind.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ActualFiniteStateKind getKind(){
-         return this.kind;
-    }
-
-    /**
-     * Gets the name.
-     * name derived from the <i>possibleState</i> by concatenation of the names of each referenced PossibleFiniteState
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
-    public String getName(){
-        return this.GetDerivedName();
-    }
-
-    /**
-     * Gets the owner.
-     * reference to the DomainOfExpertise that owns (i.e. is responsible for) this ActualFiniteState
-     * Note: This is a derived property. It is always the same DomainOfExpertise as the <i>owner</i> of the containing ActualFiniteStateList.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
-    public DomainOfExpertise getOwner(){
-        return this.GetDerivedOwner();
-    }
-
-    /**
-     * Gets a list of PossibleFiniteState.
-     * Note: The set must include one PossibleFiniteState from each of the PossibleFiniteStateLists that is referenced by the containing ActualFiniteStateList.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<PossibleFiniteState> getPossibleState(){
-         return this.possibleState;
-    }
-
-    /**
-     * Gets the shortName.
-     * short name derived from the <i>possibleState</i> by concatenation of the <i>shortName</i> of each referenced PossibleFiniteState
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
-    public String getShortName(){
-        return this.GetDerivedShortName();
-    }
-
-    /**
-     * Sets the kind.
-     * assertion of the kind of ActualFiniteState
-     * Note: See definitions for ActualFiniteStateKind.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setKind(ActualFiniteStateKind kind){
-        this.kind = kind;
-    }
 
     /**
      * Sets the name.
@@ -176,7 +123,6 @@ public  class ActualFiniteState extends Thing implements Cloneable, NamedThing, 
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
     public void setName(String name){
         throw new IllegalStateException("Forbidden Set value for the derived property ActualFiniteState.name");
     }
@@ -191,18 +137,8 @@ public  class ActualFiniteState extends Thing implements Cloneable, NamedThing, 
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
     public void setOwner(DomainOfExpertise owner){
         throw new IllegalStateException("Forbidden Set value for the derived property ActualFiniteState.owner");
-    }
-
-    /**
-     * Sets a list of PossibleFiniteState.
-     * Note: The set must include one PossibleFiniteState from each of the PossibleFiniteStateLists that is referenced by the containing ActualFiniteStateList.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setPossibleState(ArrayList<PossibleFiniteState> possibleState){
-        this.possibleState = possibleState;
     }
 
     /**
@@ -214,7 +150,6 @@ public  class ActualFiniteState extends Thing implements Cloneable, NamedThing, 
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
     public void setShortName(String shortName){
         throw new IllegalStateException("Forbidden Set value for the derived property ActualFiniteState.shortName");
     }
@@ -263,7 +198,7 @@ public  class ActualFiniteState extends Thing implements Cloneable, NamedThing, 
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ActualFiniteState}.
+     * Validates the cardinalities of the properties of this ActualFiniteState}.
      *
      * @return A list of potential errors.
      */
@@ -307,14 +242,14 @@ public  class ActualFiniteState extends Thing implements Cloneable, NamedThing, 
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.ActualFiniteState dto = new cdp4common.dto.ActualFiniteState(this.getIid(), this.getRevisionNumber());
 
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setKind(this.getKind());
         dto.setModifiedOn(this.getModifiedOn());
-        dto.getPossibleState().add(this.getPossibleState().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getPossibleState().addAll(this.getPossibleState().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
 
         dto.setIterationContainerId(this.getCacheId().getRight());

@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractModelReferenceDataLibrary.java
+ * ModelReferenceDataLibrary.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = EngineeringModelSetup.class, propertyName = "requiredRdl")
 @ToString
-@EqualsAndHashCode
-public  class ModelReferenceDataLibrary extends ReferenceDataLibrary implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class ModelReferenceDataLibrary extends ReferenceDataLibrary implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -64,6 +64,7 @@ public  class ModelReferenceDataLibrary extends ReferenceDataLibrary implements 
      * @param iDalUri The {@link URI} of this thing
      */
     public ModelReferenceDataLibrary(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -83,38 +84,38 @@ public  class ModelReferenceDataLibrary extends ReferenceDataLibrary implements 
             throw new IllegalAccessError("Somehow ModelReferenceDataLibrary cannot be cloned.");
         }
 
-        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
+        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
         clone.setBaseQuantityKind(new OrderedItemList<QuantityKind>(this.getBaseQuantityKind(), this));
         clone.setBaseUnit(new ArrayList<MeasurementUnit>(this.getBaseUnit()));
-        clone.setConstant(cloneContainedThings ? new ContainerList<Constant>(clone) : new ContainerList<Constant>(this.getConstant(), clone));
-        clone.setDefinedCategory(cloneContainedThings ? new ContainerList<Category>(clone) : new ContainerList<Category>(this.getDefinedCategory(), clone));
-        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
+        clone.setConstant(cloneContainedThings ? new ContainerList<Constant>(clone) : new ContainerList<Constant>(this.getConstant(), clone, false));
+        clone.setDefinedCategory(cloneContainedThings ? new ContainerList<Category>(clone) : new ContainerList<Category>(this.getDefinedCategory(), clone, false));
+        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setFileType(cloneContainedThings ? new ContainerList<FileType>(clone) : new ContainerList<FileType>(this.getFileType(), clone));
-        clone.setGlossary(cloneContainedThings ? new ContainerList<Glossary>(clone) : new ContainerList<Glossary>(this.getGlossary(), clone));
-        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
-        clone.setParameterType(cloneContainedThings ? new ContainerList<ParameterType>(clone) : new ContainerList<ParameterType>(this.getParameterType(), clone));
-        clone.setReferenceSource(cloneContainedThings ? new ContainerList<ReferenceSource>(clone) : new ContainerList<ReferenceSource>(this.getReferenceSource(), clone));
-        clone.setRule(cloneContainedThings ? new ContainerList<Rule>(clone) : new ContainerList<Rule>(this.getRule(), clone));
-        clone.setScale(cloneContainedThings ? new ContainerList<MeasurementScale>(clone) : new ContainerList<MeasurementScale>(this.getScale(), clone));
-        clone.setUnit(cloneContainedThings ? new ContainerList<MeasurementUnit>(clone) : new ContainerList<MeasurementUnit>(this.getUnit(), clone));
-        clone.setUnitPrefix(cloneContainedThings ? new ContainerList<UnitPrefix>(clone) : new ContainerList<UnitPrefix>(this.getUnitPrefix(), clone));
+        clone.setFileType(cloneContainedThings ? new ContainerList<FileType>(clone) : new ContainerList<FileType>(this.getFileType(), clone, false));
+        clone.setGlossary(cloneContainedThings ? new ContainerList<Glossary>(clone) : new ContainerList<Glossary>(this.getGlossary(), clone, false));
+        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
+        clone.setParameterType(cloneContainedThings ? new ContainerList<ParameterType>(clone) : new ContainerList<ParameterType>(this.getParameterType(), clone, false));
+        clone.setReferenceSource(cloneContainedThings ? new ContainerList<ReferenceSource>(clone) : new ContainerList<ReferenceSource>(this.getReferenceSource(), clone, false));
+        clone.setRule(cloneContainedThings ? new ContainerList<Rule>(clone) : new ContainerList<Rule>(this.getRule(), clone, false));
+        clone.setScale(cloneContainedThings ? new ContainerList<MeasurementScale>(clone) : new ContainerList<MeasurementScale>(this.getScale(), clone, false));
+        clone.setUnit(cloneContainedThings ? new ContainerList<MeasurementUnit>(clone) : new ContainerList<MeasurementUnit>(this.getUnit(), clone, false));
+        clone.setUnitPrefix(cloneContainedThings ? new ContainerList<UnitPrefix>(clone) : new ContainerList<UnitPrefix>(this.getUnitPrefix(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getConstant().addAll(this.getConstant().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDefinedCategory().addAll(this.getDefinedCategory().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getFileType().addAll(this.getFileType().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getGlossary().addAll(this.getGlossary().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getParameterType().addAll(this.getParameterType().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getReferenceSource().addAll(this.getReferenceSource().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getRule().addAll(this.getRule().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getScale().addAll(this.getScale().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getUnit().addAll(this.getUnit().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getUnitPrefix().addAll(this.getUnitPrefix().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getConstant().addAll(this.getConstant().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDefinedCategory().addAll(this.getDefinedCategory().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getFileType().addAll(this.getFileType().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getGlossary().addAll(this.getGlossary().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getParameterType().addAll(this.getParameterType().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getReferenceSource().addAll(this.getReferenceSource().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getRule().addAll(this.getRule().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getScale().addAll(this.getScale().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getUnit().addAll(this.getUnit().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getUnitPrefix().addAll(this.getUnitPrefix().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -137,7 +138,7 @@ public  class ModelReferenceDataLibrary extends ReferenceDataLibrary implements 
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ModelReferenceDataLibrary}.
+     * Validates the cardinalities of the properties of this ModelReferenceDataLibrary}.
      *
      * @return A list of potential errors.
      */
@@ -192,31 +193,31 @@ public  class ModelReferenceDataLibrary extends ReferenceDataLibrary implements 
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.ModelReferenceDataLibrary dto = new cdp4common.dto.ModelReferenceDataLibrary(this.getIid(), this.getRevisionNumber());
 
-        dto.getAlias().add(this.getAlias().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getBaseQuantityKind().add(this.getBaseQuantityKind().toDtoOrderedItemList());
-        dto.getBaseUnit().add(this.getBaseUnit().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getConstant().add(this.getConstant().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getDefinedCategory().add(this.getDefinedCategory().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getDefinition().add(this.getDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getFileType().add(this.getFileType().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getGlossary().add(this.getGlossary().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getHyperLink().add(this.getHyperLink().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getBaseQuantityKind().addAll(this.getBaseQuantityKind().toDtoOrderedItemList());
+        dto.getBaseUnit().addAll(this.getBaseUnit().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getConstant().addAll(this.getConstant().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getDefinedCategory().addAll(this.getDefinedCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getDefinition().addAll(this.getDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getFileType().addAll(this.getFileType().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getGlossary().addAll(this.getGlossary().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
-        dto.getParameterType().add(this.getParameterType().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getReferenceSource().add(this.getReferenceSource().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getParameterType().addAll(this.getParameterType().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getReferenceSource().addAll(this.getReferenceSource().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRequiredRdl(this.getRequiredRdl() != null ? (UUID)this.getRequiredRdl().getIid() : null);
         dto.setRevisionNumber(this.getRevisionNumber());
-        dto.getRule().add(this.getRule().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getScale().add(this.getScale().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getRule().addAll(this.getRule().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getScale().addAll(this.getScale().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setShortName(this.getShortName());
-        dto.getUnit().add(this.getUnit().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getUnitPrefix().add(this.getUnitPrefix().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getUnit().addAll(this.getUnit().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getUnitPrefix().addAll(this.getUnitPrefix().stream().map(Thing::getIid).collect(Collectors.toList()));
 
         dto.setIterationContainerId(this.getCacheId().getRight());
         dto.registerSourceThing(this);

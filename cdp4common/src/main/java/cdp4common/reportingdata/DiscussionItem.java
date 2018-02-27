@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractDiscussionItem.java
+ * DiscussionItem.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.reportingdata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
  */
 @CDPVersion(version = "1.1.0")
 @ToString
-@EqualsAndHashCode
-public  abstract class DiscussionItem extends GenericAnnotation implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public abstract class DiscussionItem extends GenericAnnotation implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -64,6 +64,7 @@ public  abstract class DiscussionItem extends GenericAnnotation implements Clone
      * @param iDalUri The {@link URI} of this thing
      */
     protected DiscussionItem(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -71,25 +72,9 @@ public  abstract class DiscussionItem extends GenericAnnotation implements Clone
      * The DiscussionItem that this DiscussionItem is a reply to
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private DiscussionItem replyTo;
-
-    /**
-     * Gets the replyTo.
-     * The DiscussionItem that this DiscussionItem is a reply to
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public DiscussionItem getReplyTo(){
-         return this.replyTo;
-    }
-
-    /**
-     * Sets the replyTo.
-     * The DiscussionItem that this DiscussionItem is a reply to
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setReplyTo(DiscussionItem replyTo){
-        this.replyTo = replyTo;
-    }
 
     /**
      * Creates and returns a copy of this {@link DiscussionItem} for edit purpose.
@@ -105,7 +90,7 @@ public  abstract class DiscussionItem extends GenericAnnotation implements Clone
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>DiscussionItem}.
+     * Validates the cardinalities of the properties of this DiscussionItem}.
      *
      * @return A list of potential errors.
      */

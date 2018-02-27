@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractNestedParameter.java
+ * NestedParameter.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = NestedElement.class, propertyName = "nestedParameter")
 @ToString
-@EqualsAndHashCode
-public  class NestedParameter extends Thing implements Cloneable, OwnedThing, VolatileThing {
+@EqualsAndHashCode(callSuper = true)
+public class NestedParameter extends Thing implements Cloneable, OwnedThing, VolatileThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -65,6 +65,7 @@ public  class NestedParameter extends Thing implements Cloneable, OwnedThing, Vo
      * @param iDalUri The {@link URI} of this thing
      */
     public NestedParameter(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -72,6 +73,8 @@ public  class NestedParameter extends Thing implements Cloneable, OwnedThing, Vo
      * reference to the applicable ActualFiniteState for this NestedParameter if it references a state-dependent <i>associatedParameter</i>, otherwise null
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ActualFiniteState actualState;
 
     /**
@@ -79,6 +82,8 @@ public  class NestedParameter extends Thing implements Cloneable, OwnedThing, Vo
      * <i>actualValue</i> of the applicable ParameterValueSet, ParameterOverrideValueSet or ParameterSubscriptionValueSet
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String actualValue;
 
     /**
@@ -86,6 +91,8 @@ public  class NestedParameter extends Thing implements Cloneable, OwnedThing, Vo
      * reference to the Parameter, ParameterOverride or ParameterSubscription with which this NestedParameter is associated
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ParameterBase associatedParameter;
 
     /**
@@ -94,6 +101,8 @@ public  class NestedParameter extends Thing implements Cloneable, OwnedThing, Vo
      * Note: Property is TBC. Allowing formulas here is opening up a second level of inserting parameter values in a workbook. Perhaps just having read-only NestedParameters is good enough.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String formula;
 
     /**
@@ -101,6 +110,8 @@ public  class NestedParameter extends Thing implements Cloneable, OwnedThing, Vo
      * Note: When an instance is marked volatile it will not be persisted in the persistent data store. This meant to allow for runtime-only use of such instances in a client application.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private boolean isVolatile;
 
     /**
@@ -109,6 +120,8 @@ public  class NestedParameter extends Thing implements Cloneable, OwnedThing, Vo
      * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private DomainOfExpertise owner;
 
     /**
@@ -117,131 +130,8 @@ public  class NestedParameter extends Thing implements Cloneable, OwnedThing, Vo
      * Note: The path string consists of the following backslash separated parts: (1) path to the <i>nestedElement</i>, (2) path to the <i>associatedParameter</i>, (3) path for the <i>actualState</i> or empty string if that is null, (4) <i>shortName</i> of the <i>container</i> Option. Any nested parts of the path name are dot separated.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private String path;
- 
-
-    /**
-     * Gets the actualState.
-     * reference to the applicable ActualFiniteState for this NestedParameter if it references a state-dependent <i>associatedParameter</i>, otherwise null
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ActualFiniteState getActualState(){
-         return this.actualState;
-    }
-
-    /**
-     * Gets the actualValue.
-     * <i>actualValue</i> of the applicable ParameterValueSet, ParameterOverrideValueSet or ParameterSubscriptionValueSet
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getActualValue(){
-         return this.actualValue;
-    }
-
-    /**
-     * Gets the associatedParameter.
-     * reference to the Parameter, ParameterOverride or ParameterSubscription with which this NestedParameter is associated
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ParameterBase getAssociatedParameter(){
-         return this.associatedParameter;
-    }
-
-    /**
-     * Gets the formula.
-     * <i>formula</i> for the actualValue of this NestedParameter
-     * Note: Property is TBC. Allowing formulas here is opening up a second level of inserting parameter values in a workbook. Perhaps just having read-only NestedParameters is good enough.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getFormula(){
-         return this.formula;
-    }
-
-    /**
-     * Gets a value indicating whether isVolatile.
-     * Note: When an instance is marked volatile it will not be persisted in the persistent data store. This meant to allow for runtime-only use of such instances in a client application.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public boolean getVolatile(){
-         return this.isVolatile;
-    }
-
-    /**
-     * Gets the owner.
-     * reference to a DomainOfExpertise that is the owner of this OwnedThing
-     * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public DomainOfExpertise getOwner(){
-         return this.owner;
-    }
-
-    /**
-     * Gets the path.
-     * derived unique short name path to this NestedParameter
-     * Note: The path string consists of the following backslash separated parts: (1) path to the <i>nestedElement</i>, (2) path to the <i>associatedParameter</i>, (3) path for the <i>actualState</i> or empty string if that is null, (4) <i>shortName</i> of the <i>container</i> Option. Any nested parts of the path name are dot separated.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
-    public String getPath(){
-        return this.GetDerivedPath();
-    }
-
-    /**
-     * Sets the actualState.
-     * reference to the applicable ActualFiniteState for this NestedParameter if it references a state-dependent <i>associatedParameter</i>, otherwise null
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setActualState(ActualFiniteState actualState){
-        this.actualState = actualState;
-    }
-
-    /**
-     * Sets the actualValue.
-     * <i>actualValue</i> of the applicable ParameterValueSet, ParameterOverrideValueSet or ParameterSubscriptionValueSet
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setActualValue(String actualValue){
-        this.actualValue = actualValue;
-    }
-
-    /**
-     * Sets the associatedParameter.
-     * reference to the Parameter, ParameterOverride or ParameterSubscription with which this NestedParameter is associated
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setAssociatedParameter(ParameterBase associatedParameter){
-        this.associatedParameter = associatedParameter;
-    }
-
-    /**
-     * Sets the formula.
-     * <i>formula</i> for the actualValue of this NestedParameter
-     * Note: Property is TBC. Allowing formulas here is opening up a second level of inserting parameter values in a workbook. Perhaps just having read-only NestedParameters is good enough.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setFormula(String formula){
-        this.formula = formula;
-    }
-
-    /**
-     *Sets a value indicating whether isVolatile.
-     * Note: When an instance is marked volatile it will not be persisted in the persistent data store. This meant to allow for runtime-only use of such instances in a client application.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setVolatile(boolean isVolatile){
-        this.isVolatile = isVolatile;
-    }
-
-    /**
-     * Sets the owner.
-     * reference to a DomainOfExpertise that is the owner of this OwnedThing
-     * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setOwner(DomainOfExpertise owner){
-        this.owner = owner;
-    }
 
     /**
      * Sets the path.
@@ -253,7 +143,6 @@ public  class NestedParameter extends Thing implements Cloneable, OwnedThing, Vo
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    
     public void setPath(String path){
         throw new IllegalStateException("Forbidden Set value for the derived property NestedParameter.path");
     }
@@ -301,7 +190,7 @@ public  class NestedParameter extends Thing implements Cloneable, OwnedThing, Vo
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>NestedParameter}.
+     * Validates the cardinalities of the properties of this NestedParameter}.
      *
      * @return A list of potential errors.
      */
@@ -314,7 +203,7 @@ public  class NestedParameter extends Thing implements Cloneable, OwnedThing, Vo
 
         if (this.getAssociatedParameter() == null || this.getAssociatedParameter().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property associatedParameter is null.");
-            this.setAssociatedParameter(SentinelThingProvider.getSentinel<ParameterBase>());
+            this.setAssociatedParameter(SentinelThingProvider.getSentinel(ParameterBase.class));
             this.sentinelResetMap.put("associatedParameter", new ActionImpl(() -> this.setAssociatedParameter(null)));
         }
 
@@ -324,7 +213,7 @@ public  class NestedParameter extends Thing implements Cloneable, OwnedThing, Vo
 
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property owner is null.");
-            this.setOwner(SentinelThingProvider.getSentinel<DomainOfExpertise>());
+            this.setOwner(SentinelThingProvider.getSentinel(DomainOfExpertise.class));
             this.sentinelResetMap.put("owner", new ActionImpl(() -> this.setOwner(null)));
         }
 
@@ -346,13 +235,13 @@ public  class NestedParameter extends Thing implements Cloneable, OwnedThing, Vo
 
         this.setActualState((dto.getActualState() != null) ? this.getCache().get<ActualFiniteState>(dto.getActualState.getValue(), dto.getIterationContainerId()) : null);
         this.setActualValue(dto.getActualValue());
-        this.setAssociatedParameter(this.getCache().get<ParameterBase>(dto.getAssociatedParameter(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ParameterBase>());
+        this.setAssociatedParameter(this.getCache().get<ParameterBase>(dto.getAssociatedParameter(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ParameterBase.class));
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setFormula(dto.getFormula());
-        this.setVolatile(dto.getVolatile());
+        this.setVolatile(dto.isVolatile());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -364,16 +253,16 @@ public  class NestedParameter extends Thing implements Cloneable, OwnedThing, Vo
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.NestedParameter dto = new cdp4common.dto.NestedParameter(this.getIid(), this.getRevisionNumber());
 
         dto.setActualState(this.getActualState() != null ? (UUID)this.getActualState().getIid() : null);
         dto.setActualValue(this.getActualValue());
         dto.setAssociatedParameter(this.getAssociatedParameter() != null ? this.getAssociatedParameter().getIid() : new UUID(0L, 0L));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setFormula(this.getFormula());
-        dto.setVolatile(this.getVolatile());
+        dto.setVolatile(this.isVolatile());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));
         dto.setRevisionNumber(this.getRevisionNumber());

@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractParameterOverrideValueSet.java
+ * ParameterOverrideValueSet.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ParameterOverride.class, propertyName = "valueSet")
 @ToString
-@EqualsAndHashCode
-public  class ParameterOverrideValueSet extends ParameterValueSetBase implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class ParameterOverrideValueSet extends ParameterValueSetBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -64,6 +64,7 @@ public  class ParameterOverrideValueSet extends ParameterValueSetBase implements
      * @param iDalUri The {@link URI} of this thing
      */
     public ParameterOverrideValueSet(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -71,52 +72,26 @@ public  class ParameterOverrideValueSet extends ParameterValueSetBase implements
      * reference to the actual Option to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private Option actualOption;
- 
+
     /**
      * Property actualState.
      * reference to the ActualFiniteState to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    @Getter
     private ActualFiniteState actualState;
- 
+
     /**
      * Property parameterValueSet.
      * reference to the ParameterValueSet that this ParameterOverrideValueSet overrides
      * Note: The <i>parameter</i> must be the same as the <i>container</i> of the referenced ParameterValueSet.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ParameterValueSet parameterValueSet;
-
-    /**
-     * Gets the actualOption.
-     * reference to the actual Option to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
-    public Option getActualOption(){
-        return this.GetDerivedActualOption();
-    }
-
-    /**
-     * Gets the actualState.
-     * reference to the ActualFiniteState to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
-    public ActualFiniteState getActualState(){
-        return this.GetDerivedActualState();
-    }
-
-    /**
-     * Gets the parameterValueSet.
-     * reference to the ParameterValueSet that this ParameterOverrideValueSet overrides
-     * Note: The <i>parameter</i> must be the same as the <i>container</i> of the referenced ParameterValueSet.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ParameterValueSet getParameterValueSet(){
-         return this.parameterValueSet;
-    }
 
     /**
      * Sets the actualOption.
@@ -127,7 +102,6 @@ public  class ParameterOverrideValueSet extends ParameterValueSetBase implements
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
     public void setActualOption(Option actualOption){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterOverrideValueSet.actualOption");
     }
@@ -141,19 +115,8 @@ public  class ParameterOverrideValueSet extends ParameterValueSetBase implements
      * @see IllegalStateException
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Override
     public void setActualState(ActualFiniteState actualState){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterOverrideValueSet.actualState");
-    }
-
-    /**
-     * Sets the parameterValueSet.
-     * reference to the ParameterValueSet that this ParameterOverrideValueSet overrides
-     * Note: The <i>parameter</i> must be the same as the <i>container</i> of the referenced ParameterValueSet.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setParameterValueSet(ParameterValueSet parameterValueSet){
-        this.parameterValueSet = parameterValueSet;
     }
 
     /**
@@ -204,7 +167,7 @@ public  class ParameterOverrideValueSet extends ParameterValueSetBase implements
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ParameterOverrideValueSet}.
+     * Validates the cardinalities of the properties of this ParameterOverrideValueSet}.
      *
      * @return A list of potential errors.
      */
@@ -213,7 +176,7 @@ public  class ParameterOverrideValueSet extends ParameterValueSetBase implements
 
         if (this.getParameterValueSet() == null || this.getParameterValueSet().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property parameterValueSet is null.");
-            this.setParameterValueSet(SentinelThingProvider.getSentinel<ParameterValueSet>());
+            this.setParameterValueSet(SentinelThingProvider.getSentinel(ParameterValueSet.class));
             this.sentinelResetMap.put("parameterValueSet", new ActionImpl(() -> this.setParameterValueSet(null)));
         }
 
@@ -239,7 +202,7 @@ public  class ParameterOverrideValueSet extends ParameterValueSetBase implements
         this.setFormula(new ValueArray<String>(dto.getFormula(), this));
         this.setManual(new ValueArray<String>(dto.getManual(), this));
         this.setModifiedOn(dto.getModifiedOn());
-        this.setParameterValueSet(this.getCache().get<ParameterValueSet>(dto.getParameterValueSet(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ParameterValueSet>());
+        this.setParameterValueSet(this.getCache().get<ParameterValueSet>(dto.getParameterValueSet(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ParameterValueSet.class));
         this.setPublished(new ValueArray<String>(dto.getPublished(), this));
         this.setReference(new ValueArray<String>(dto.getReference(), this));
         this.setRevisionNumber(dto.getRevisionNumber());
@@ -254,12 +217,12 @@ public  class ParameterOverrideValueSet extends ParameterValueSetBase implements
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.ParameterOverrideValueSet dto = new cdp4common.dto.ParameterOverrideValueSet(this.getIid(), this.getRevisionNumber());
 
         dto.setComputed(new ValueArray<String>(this.getComputed(), this));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setFormula(new ValueArray<String>(this.getFormula(), this));
         dto.setManual(new ValueArray<String>(this.getManual(), this));
         dto.setModifiedOn(this.getModifiedOn());

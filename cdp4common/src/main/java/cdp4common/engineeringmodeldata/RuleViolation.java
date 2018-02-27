@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractRuleViolation.java
+ * RuleViolation.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = RuleVerification.class, propertyName = "violation")
 @ToString
-@EqualsAndHashCode
-public  class RuleViolation extends Thing implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class RuleViolation extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -65,6 +65,7 @@ public  class RuleViolation extends Thing implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     public RuleViolation(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.violatingThing = new ArrayList<UUID>();
     }
 
@@ -73,6 +74,8 @@ public  class RuleViolation extends Thing implements Cloneable {
      * textual explanation of the violation of the rule
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String description;
 
     /**
@@ -80,43 +83,9 @@ public  class RuleViolation extends Thing implements Cloneable {
      * optional weak references to Things in the EngineeringModel that are associated with the violation of the rule verified in the containing RuleVerification
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<UUID> violatingThing;
-
-    /**
-     * Gets the description.
-     * textual explanation of the violation of the rule
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getDescription(){
-         return this.description;
-    }
-
-    /**
-     * Gets a list of UUID.
-     * optional weak references to Things in the EngineeringModel that are associated with the violation of the rule verified in the containing RuleVerification
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<UUID> getViolatingThing(){
-         return this.violatingThing;
-    }
-
-    /**
-     * Sets the description.
-     * textual explanation of the violation of the rule
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setDescription(String description){
-        this.description = description;
-    }
-
-    /**
-     * Sets a list of UUID.
-     * optional weak references to Things in the EngineeringModel that are associated with the violation of the rule verified in the containing RuleVerification
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setViolatingThing(ArrayList<UUID> violatingThing){
-        this.violatingThing = violatingThing;
-    }
 
     /**
      * Creates and returns a copy of this {@link RuleViolation} for edit purpose.
@@ -162,7 +131,7 @@ public  class RuleViolation extends Thing implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>RuleViolation}.
+     * Validates the cardinalities of the properties of this RuleViolation}.
      *
      * @return A list of potential errors.
      */
@@ -205,12 +174,12 @@ public  class RuleViolation extends Thing implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.RuleViolation dto = new cdp4common.dto.RuleViolation(this.getIid(), this.getRevisionNumber());
 
         dto.setDescription(this.getDescription());
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.getViolatingThing().add(this.getViolatingThing());

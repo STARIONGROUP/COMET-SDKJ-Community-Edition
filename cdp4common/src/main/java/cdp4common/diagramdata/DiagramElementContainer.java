@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractDiagramElementContainer.java
+ * DiagramElementContainer.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.diagramdata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
  */
 @CDPVersion(version = "1.1.0")
 @ToString
-@EqualsAndHashCode
-public  abstract class DiagramElementContainer extends DiagramThingBase implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public abstract class DiagramElementContainer extends DiagramThingBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -66,6 +66,7 @@ public  abstract class DiagramElementContainer extends DiagramThingBase implemen
      * @param iDalUri The {@link URI} of this thing
      */
     protected DiagramElementContainer(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.bounds = new ContainerList<Bounds>(this);
         this.diagramElement = new ContainerList<DiagramElementThing>(this);
     }
@@ -75,6 +76,8 @@ public  abstract class DiagramElementContainer extends DiagramThingBase implemen
      * the optional bounds of the shape relative to the origin of its nesting plane
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<Bounds> bounds;
 
     /**
@@ -82,6 +85,8 @@ public  abstract class DiagramElementContainer extends DiagramThingBase implemen
      * The diagram elements that are part of this DiagramElementContainer
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<DiagramElementThing> diagramElement;
 
     /**
@@ -90,47 +95,11 @@ public  abstract class DiagramElementContainer extends DiagramThingBase implemen
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets a list of contained Bounds.
-     * the optional bounds of the shape relative to the origin of its nesting plane
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<Bounds> getBounds(){
-         return this.bounds;
-    }
-
-    /**
-     * Gets a list of contained DiagramElementThing.
-     * The diagram elements that are part of this DiagramElementContainer
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<DiagramElementThing> getDiagramElement(){
-         return this.diagramElement;
-    }
-
-    /**
-     * Sets a list of contained Bounds.
-     * the optional bounds of the shape relative to the origin of its nesting plane
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setBounds(ContainerList<Bounds> bounds){
-        this.bounds = bounds;
-    }
-
-    /**
-     * Sets a list of contained DiagramElementThing.
-     * The diagram elements that are part of this DiagramElementContainer
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setDiagramElement(ContainerList<DiagramElementThing> diagramElement){
-        this.diagramElement = diagramElement;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link DiagramElementContainer}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link DiagramElementContainer}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.bounds);
         containers.add(this.diagramElement);
         return containers;
@@ -150,7 +119,7 @@ public  abstract class DiagramElementContainer extends DiagramThingBase implemen
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>DiagramElementContainer}.
+     * Validates the cardinalities of the properties of this DiagramElementContainer}.
      *
      * @return A list of potential errors.
      */

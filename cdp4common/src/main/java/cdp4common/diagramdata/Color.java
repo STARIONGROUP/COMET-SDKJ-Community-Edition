@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractColor.java
+ * Color.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.diagramdata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = DiagrammingStyle.class, propertyName = "usedColor")
 @ToString
-@EqualsAndHashCode
-public  class Color extends DiagramThingBase implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class Color extends DiagramThingBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -64,6 +64,7 @@ public  class Color extends DiagramThingBase implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     public Color(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -71,6 +72,8 @@ public  class Color extends DiagramThingBase implements Cloneable {
      * The blue component of the color in the range 0..255
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private int blue;
 
     /**
@@ -78,6 +81,8 @@ public  class Color extends DiagramThingBase implements Cloneable {
      * The green component of the color in the range 0..255
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private int green;
 
     /**
@@ -85,61 +90,9 @@ public  class Color extends DiagramThingBase implements Cloneable {
      * The red component of the color in the range 0..255
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private int red;
-
-    /**
-     * Gets the blue.
-     * The blue component of the color in the range 0..255
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public int getBlue(){
-         return this.blue;
-    }
-
-    /**
-     * Gets the green.
-     * The green component of the color in the range 0..255
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public int getGreen(){
-         return this.green;
-    }
-
-    /**
-     * Gets the red.
-     * The red component of the color in the range 0..255
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public int getRed(){
-         return this.red;
-    }
-
-    /**
-     * Sets the blue.
-     * The blue component of the color in the range 0..255
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setBlue(int blue){
-        this.blue = blue;
-    }
-
-    /**
-     * Sets the green.
-     * The green component of the color in the range 0..255
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setGreen(int green){
-        this.green = green;
-    }
-
-    /**
-     * Sets the red.
-     * The red component of the color in the range 0..255
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setRed(int red){
-        this.red = red;
-    }
 
     /**
      * Creates and returns a copy of this {@link Color} for edit purpose.
@@ -184,7 +137,7 @@ public  class Color extends DiagramThingBase implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>Color}.
+     * Validates the cardinalities of the properties of this Color}.
      *
      * @return A list of potential errors.
      */
@@ -225,12 +178,12 @@ public  class Color extends DiagramThingBase implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.Color dto = new cdp4common.dto.Color(this.getIid(), this.getRevisionNumber());
 
         dto.setBlue(this.getBlue());
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setGreen(this.getGreen());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());

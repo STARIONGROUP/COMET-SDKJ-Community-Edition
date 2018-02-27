@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractLogarithmicScale.java
+ * LogarithmicScale.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -38,8 +38,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
-@EqualsAndHashCode
-public  class LogarithmicScale extends MeasurementScale implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class LogarithmicScale extends MeasurementScale implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -68,6 +68,7 @@ public  class LogarithmicScale extends MeasurementScale implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     public LogarithmicScale(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.referenceQuantityValue = new ContainerList<ScaleReferenceQuantityValue>(this);
     }
 
@@ -76,6 +77,8 @@ public  class LogarithmicScale extends MeasurementScale implements Cloneable {
      * exponent used in the definition formula for the quantity value for this LogarithmicScale
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String exponent;
 
     /**
@@ -83,6 +86,8 @@ public  class LogarithmicScale extends MeasurementScale implements Cloneable {
      * factor used in the definition formula for the quantity value for this LogarithmicScale
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String factor;
 
     /**
@@ -90,6 +95,8 @@ public  class LogarithmicScale extends MeasurementScale implements Cloneable {
      * base of the logarithmic function used on this LogarithmicScale
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private LogarithmBaseKind logarithmBase;
 
     /**
@@ -97,6 +104,8 @@ public  class LogarithmicScale extends MeasurementScale implements Cloneable {
      * reference to the applicable QuantityKind for the quotient of quantities in the definition formula of this LogarithmicScale
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private QuantityKind referenceQuantityKind;
 
     /**
@@ -106,6 +115,8 @@ public  class LogarithmicScale extends MeasurementScale implements Cloneable {
      * Example: The base 10 logarithmic scale for "sound pressure level" in decibel is defined with respect to a reference sound pressure <i>p<sub>0</sub></i> = 20 µPa. The sound pressure level value on such a scale for a corresponding sound pressure <i>p</i> would then be 10·log<sub>10</sub>((<i>p</i>/<i>p<sub>0</sub></i>)<sup>2</sup>) dB.
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<ScaleReferenceQuantityValue> referenceQuantityValue;
 
     /**
@@ -114,105 +125,11 @@ public  class LogarithmicScale extends MeasurementScale implements Cloneable {
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets the exponent.
-     * exponent used in the definition formula for the quantity value for this LogarithmicScale
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getExponent(){
-         return this.exponent;
-    }
-
-    /**
-     * Gets the factor.
-     * factor used in the definition formula for the quantity value for this LogarithmicScale
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getFactor(){
-         return this.factor;
-    }
-
-    /**
-     * Gets the logarithmBase.
-     * base of the logarithmic function used on this LogarithmicScale
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public LogarithmBaseKind getLogarithmBase(){
-         return this.logarithmBase;
-    }
-
-    /**
-     * Gets the referenceQuantityKind.
-     * reference to the applicable QuantityKind for the quotient of quantities in the definition formula of this LogarithmicScale
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public QuantityKind getReferenceQuantityKind(){
-         return this.referenceQuantityKind;
-    }
-
-    /**
-     * Gets a list of contained ScaleReferenceQuantityValue.
-     * optional value for the reference quantity in the definition formula for this LogarithmicScale
-     * Note: A logarithmic scale may define a fixed reference quantity. See also <a href="http://www.nist.gov/pml/pubs/sp811/index.cfm">NIST SP811</a> for many more details.
-     * Example: The base 10 logarithmic scale for "sound pressure level" in decibel is defined with respect to a reference sound pressure <i>p<sub>0</sub></i> = 20 µPa. The sound pressure level value on such a scale for a corresponding sound pressure <i>p</i> would then be 10·log<sub>10</sub>((<i>p</i>/<i>p<sub>0</sub></i>)<sup>2</sup>) dB.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<ScaleReferenceQuantityValue> getReferenceQuantityValue(){
-         return this.referenceQuantityValue;
-    }
-
-    /**
-     * Sets the exponent.
-     * exponent used in the definition formula for the quantity value for this LogarithmicScale
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setExponent(String exponent){
-        this.exponent = exponent;
-    }
-
-    /**
-     * Sets the factor.
-     * factor used in the definition formula for the quantity value for this LogarithmicScale
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setFactor(String factor){
-        this.factor = factor;
-    }
-
-    /**
-     * Sets the logarithmBase.
-     * base of the logarithmic function used on this LogarithmicScale
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setLogarithmBase(LogarithmBaseKind logarithmBase){
-        this.logarithmBase = logarithmBase;
-    }
-
-    /**
-     * Sets the referenceQuantityKind.
-     * reference to the applicable QuantityKind for the quotient of quantities in the definition formula of this LogarithmicScale
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setReferenceQuantityKind(QuantityKind referenceQuantityKind){
-        this.referenceQuantityKind = referenceQuantityKind;
-    }
-
-    /**
-     * Sets a list of contained ScaleReferenceQuantityValue.
-     * optional value for the reference quantity in the definition formula for this LogarithmicScale
-     * Note: A logarithmic scale may define a fixed reference quantity. See also <a href="http://www.nist.gov/pml/pubs/sp811/index.cfm">NIST SP811</a> for many more details.
-     * Example: The base 10 logarithmic scale for "sound pressure level" in decibel is defined with respect to a reference sound pressure <i>p<sub>0</sub></i> = 20 µPa. The sound pressure level value on such a scale for a corresponding sound pressure <i>p</i> would then be 10·log<sub>10</sub>((<i>p</i>/<i>p<sub>0</sub></i>)<sup>2</sup>) dB.
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setReferenceQuantityValue(ContainerList<ScaleReferenceQuantityValue> referenceQuantityValue){
-        this.referenceQuantityValue = referenceQuantityValue;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link LogarithmicScale}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link LogarithmicScale}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.referenceQuantityValue);
         return containers;
     }
@@ -234,22 +151,22 @@ public  class LogarithmicScale extends MeasurementScale implements Cloneable {
             throw new IllegalAccessError("Somehow LogarithmicScale cannot be cloned.");
         }
 
-        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
-        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
+        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
+        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
-        clone.setMappingToReferenceScale(cloneContainedThings ? new ContainerList<MappingToReferenceScale>(clone) : new ContainerList<MappingToReferenceScale>(this.getMappingToReferenceScale(), clone));
-        clone.setReferenceQuantityValue(cloneContainedThings ? new ContainerList<ScaleReferenceQuantityValue>(clone) : new ContainerList<ScaleReferenceQuantityValue>(this.getReferenceQuantityValue(), clone));
-        clone.setValueDefinition(cloneContainedThings ? new ContainerList<ScaleValueDefinition>(clone) : new ContainerList<ScaleValueDefinition>(this.getValueDefinition(), clone));
+        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
+        clone.setMappingToReferenceScale(cloneContainedThings ? new ContainerList<MappingToReferenceScale>(clone) : new ContainerList<MappingToReferenceScale>(this.getMappingToReferenceScale(), clone, false));
+        clone.setReferenceQuantityValue(cloneContainedThings ? new ContainerList<ScaleReferenceQuantityValue>(clone) : new ContainerList<ScaleReferenceQuantityValue>(this.getReferenceQuantityValue(), clone, false));
+        clone.setValueDefinition(cloneContainedThings ? new ContainerList<ScaleValueDefinition>(clone) : new ContainerList<ScaleValueDefinition>(this.getValueDefinition(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getMappingToReferenceScale().addAll(this.getMappingToReferenceScale().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getReferenceQuantityValue().addAll(this.getReferenceQuantityValue().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getValueDefinition().addAll(this.getValueDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getMappingToReferenceScale().addAll(this.getMappingToReferenceScale().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getReferenceQuantityValue().addAll(this.getReferenceQuantityValue().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getValueDefinition().addAll(this.getValueDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -272,7 +189,7 @@ public  class LogarithmicScale extends MeasurementScale implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>LogarithmicScale}.
+     * Validates the cardinalities of the properties of this LogarithmicScale}.
      *
      * @return A list of potential errors.
      */
@@ -289,7 +206,7 @@ public  class LogarithmicScale extends MeasurementScale implements Cloneable {
 
         if (this.getReferenceQuantityKind() == null || this.getReferenceQuantityKind().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property referenceQuantityKind is null.");
-            this.setReferenceQuantityKind(SentinelThingProvider.getSentinel<QuantityKind>());
+            this.setReferenceQuantityKind(SentinelThingProvider.getSentinel(QuantityKind.class));
             this.sentinelResetMap.put("referenceQuantityKind", new ActionImpl(() -> this.setReferenceQuantityKind(null)));
         }
 
@@ -316,9 +233,9 @@ public  class LogarithmicScale extends MeasurementScale implements Cloneable {
         this.setExponent(dto.getExponent());
         this.setFactor(dto.getFactor());
         this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
-        this.setDeprecated(dto.getDeprecated());
-        this.setMaximumInclusive(dto.getMaximumInclusive());
-        this.setMinimumInclusive(dto.getMinimumInclusive());
+        this.setDeprecated(dto.isDeprecated());
+        this.setMaximumInclusive(dto.isMaximumInclusive());
+        this.setMinimumInclusive(dto.isMinimumInclusive());
         this.setLogarithmBase(dto.getLogarithmBase());
         this.getMappingToReferenceScale().resolveList(dto.getMappingToReferenceScale(), dto.getIterationContainerId(), this.getCache());
         this.setMaximumPermissibleValue(dto.getMaximumPermissibleValue());
@@ -328,11 +245,11 @@ public  class LogarithmicScale extends MeasurementScale implements Cloneable {
         this.setNegativeValueConnotation(dto.getNegativeValueConnotation());
         this.setNumberSet(dto.getNumberSet());
         this.setPositiveValueConnotation(dto.getPositiveValueConnotation());
-        this.setReferenceQuantityKind(this.getCache().get<QuantityKind>(dto.getReferenceQuantityKind(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<QuantityKind>());
+        this.setReferenceQuantityKind(this.getCache().get<QuantityKind>(dto.getReferenceQuantityKind(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(QuantityKind.class));
         this.getReferenceQuantityValue().resolveList(dto.getReferenceQuantityValue(), dto.getIterationContainerId(), this.getCache());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
-        this.setUnit(this.getCache().get<MeasurementUnit>(dto.getUnit(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<MeasurementUnit>());
+        this.setUnit(this.getCache().get<MeasurementUnit>(dto.getUnit(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(MeasurementUnit.class));
         this.getValueDefinition().resolveList(dto.getValueDefinition(), dto.getIterationContainerId(), this.getCache());
 
         this.resolveExtraProperties();
@@ -344,21 +261,21 @@ public  class LogarithmicScale extends MeasurementScale implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.LogarithmicScale dto = new cdp4common.dto.LogarithmicScale(this.getIid(), this.getRevisionNumber());
 
-        dto.getAlias().add(this.getAlias().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getDefinition().add(this.getDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getDefinition().addAll(this.getDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setExponent(this.getExponent());
         dto.setFactor(this.getFactor());
-        dto.getHyperLink().add(this.getHyperLink().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setDeprecated(this.getDeprecated());
-        dto.setMaximumInclusive(this.getMaximumInclusive());
-        dto.setMinimumInclusive(this.getMinimumInclusive());
+        dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setDeprecated(this.isDeprecated());
+        dto.setMaximumInclusive(this.isMaximumInclusive());
+        dto.setMinimumInclusive(this.isMinimumInclusive());
         dto.setLogarithmBase(this.getLogarithmBase());
-        dto.getMappingToReferenceScale().add(this.getMappingToReferenceScale().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getMappingToReferenceScale().addAll(this.getMappingToReferenceScale().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setMaximumPermissibleValue(this.getMaximumPermissibleValue());
         dto.setMinimumPermissibleValue(this.getMinimumPermissibleValue());
         dto.setModifiedOn(this.getModifiedOn());
@@ -367,11 +284,11 @@ public  class LogarithmicScale extends MeasurementScale implements Cloneable {
         dto.setNumberSet(this.getNumberSet());
         dto.setPositiveValueConnotation(this.getPositiveValueConnotation());
         dto.setReferenceQuantityKind(this.getReferenceQuantityKind() != null ? this.getReferenceQuantityKind().getIid() : new UUID(0L, 0L));
-        dto.getReferenceQuantityValue().add(this.getReferenceQuantityValue().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getReferenceQuantityValue().addAll(this.getReferenceQuantityValue().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
         dto.setUnit(this.getUnit() != null ? this.getUnit().getIid() : new UUID(0L, 0L));
-        dto.getValueDefinition().add(this.getValueDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getValueDefinition().addAll(this.getValueDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
 
         dto.setIterationContainerId(this.getCacheId().getRight());
         dto.registerSourceThing(this);

@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractMeasurementUnit.java
+ * MeasurementUnit.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -44,8 +44,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "unit")
 @ToString
-@EqualsAndHashCode
-public  abstract class MeasurementUnit extends DefinedThing implements Cloneable, DeprecatableThing {
+@EqualsAndHashCode(callSuper = true)
+public abstract class MeasurementUnit extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -73,6 +73,7 @@ public  abstract class MeasurementUnit extends DefinedThing implements Cloneable
      * @param iDalUri The {@link URI} of this thing
      */
     protected MeasurementUnit(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -80,25 +81,9 @@ public  abstract class MeasurementUnit extends DefinedThing implements Cloneable
      * assertion whether a DeprecatableThing is deprecated or not
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private boolean isDeprecated;
-
-    /**
-     * Gets a value indicating whether isDeprecated.
-     * assertion whether a DeprecatableThing is deprecated or not
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public boolean getDeprecated(){
-         return this.isDeprecated;
-    }
-
-    /**
-     *Sets a value indicating whether isDeprecated.
-     * assertion whether a DeprecatableThing is deprecated or not
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setDeprecated(boolean isDeprecated){
-        this.isDeprecated = isDeprecated;
-    }
 
     /**
      * Creates and returns a copy of this {@link MeasurementUnit} for edit purpose.
@@ -114,7 +99,7 @@ public  abstract class MeasurementUnit extends DefinedThing implements Cloneable
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>MeasurementUnit}.
+     * Validates the cardinalities of the properties of this MeasurementUnit}.
      *
      * @return A list of potential errors.
      */

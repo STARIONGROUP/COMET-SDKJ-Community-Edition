@@ -13,9 +13,7 @@ import cdp4common.helpers.Utils;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.Person;
 import cdp4common.sitedirectorydata.ReferenceDataLibrary;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.apache.commons.lang3.tuple.Pair;
 import org.ehcache.Cache;
 
@@ -34,6 +32,8 @@ import java.util.logging.Logger;
  * - public virtual string UserFriendlyName{}
  * - public virtual string UserFriendlyShortName{}
  */
+@ToString
+@EqualsAndHashCode
 public abstract class Thing implements AutoCloseable, Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
@@ -158,14 +158,14 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false)
     @Getter
-    @Setter(AccessLevel.PACKAGE)
+    @Setter
     private int revisionNumber;
 
     /**
      * The data-source's {@link URI} this {@link Thing} comes from
      */
     @Getter
-    @Setter(AccessLevel.PACKAGE)
+    @Setter
     private URI iDalUri;
 
     /**
@@ -187,7 +187,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      * If the {@link Thing} is not a clone, this property returns null.
      */
     @Getter
-    @Setter(AccessLevel.PACKAGE)
+    @Setter
     private Thing original;
 
     /**
@@ -420,7 +420,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     /**
      * Generate a {@link cdp4common.dto.Thing} from the current {@link Thing}
      */
-    public abstract cdp4common.dto.Thing toDto();
+    public abstract cdp4common.dto.Thing toDto() throws ContainmentException;
 
     /**
      * Reset the cache Id
@@ -472,7 +472,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     /**
      * Get an {@link Iterable<Iterable>} that references the composite properties of the current {@link Thing}
      */
-    public List<List<Thing>> getContainerLists() {
+    public List<List> getContainerLists() {
         return new ArrayList<>();
     }
 
@@ -634,7 +634,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
         for (int i = partialRoutes.length - 4; i >= 0; i -= 2) {
             // partialRoute = <container property>/<UUID>
             String partialRoute = partialRoutes[i] + "/" + partialRoutes[i + 1];
-            dto.getPartialRoutes().add(partialRoute);
+            dto.PARTIAL_ROUTES.add(partialRoute);
         }
     }
 }

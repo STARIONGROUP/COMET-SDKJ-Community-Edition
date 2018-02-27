@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractParameterValue.java
+ * ParameterValue.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
  */
 @CDPVersion(version = "1.1.0")
 @ToString
-@EqualsAndHashCode
-public  abstract class ParameterValue extends Thing implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public abstract class ParameterValue extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -54,7 +54,7 @@ public  abstract class ParameterValue extends Thing implements Cloneable {
      * Initializes a new instance of the {@link ParameterValue} class.
      */
     protected ParameterValue() {
-        this.value = new ValueArray<String>(this);
+        this.value = new ValueArray<String>(this, false);
     }
 
     /**
@@ -66,7 +66,8 @@ public  abstract class ParameterValue extends Thing implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     protected ParameterValue(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
-        this.value = new ValueArray<String>(this);
+        super(iid, cache, iDalUri);
+        this.value = new ValueArray<String>(this, false);
     }
 
     /**
@@ -74,6 +75,8 @@ public  abstract class ParameterValue extends Thing implements Cloneable {
      * Reference to the applicable ParameterType
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ParameterType parameterType;
 
     /**
@@ -81,6 +84,8 @@ public  abstract class ParameterValue extends Thing implements Cloneable {
      * Reference to the applicable MeasurementScale if the ParameterType is a QuantityKind
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private MeasurementScale scale;
 
     /**
@@ -88,61 +93,9 @@ public  abstract class ParameterValue extends Thing implements Cloneable {
      * The value
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ValueArray<String> value;
-
-    /**
-     * Gets the parameterType.
-     * Reference to the applicable ParameterType
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ParameterType getParameterType(){
-         return this.parameterType;
-    }
-
-    /**
-     * Gets the scale.
-     * Reference to the applicable MeasurementScale if the ParameterType is a QuantityKind
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public MeasurementScale getScale(){
-         return this.scale;
-    }
-
-    /**
-     * Gets a list of ordered String.
-     * The value
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-    public ValueArray<String> getValue(){
-         return this.value;
-    }
-
-    /**
-     * Sets the parameterType.
-     * Reference to the applicable ParameterType
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setParameterType(ParameterType parameterType){
-        this.parameterType = parameterType;
-    }
-
-    /**
-     * Sets the scale.
-     * Reference to the applicable MeasurementScale if the ParameterType is a QuantityKind
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setScale(MeasurementScale scale){
-        this.scale = scale;
-    }
-
-    /**
-     * Sets a list of ordered String.
-     * The value
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-     public void setValue(ValueArray<String> value){
-        this.value = value;
-    }
 
     /**
      * Creates and returns a copy of this {@link ParameterValue} for edit purpose.
@@ -158,7 +111,7 @@ public  abstract class ParameterValue extends Thing implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ParameterValue}.
+     * Validates the cardinalities of the properties of this ParameterValue}.
      *
      * @return A list of potential errors.
      */
@@ -167,7 +120,7 @@ public  abstract class ParameterValue extends Thing implements Cloneable {
 
         if (this.getParameterType() == null || this.getParameterType().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property parameterType is null.");
-            this.setParameterType(SentinelThingProvider.getSentinel<ParameterType>());
+            this.setParameterType(SentinelThingProvider.getSentinel(ParameterType.class));
             this.sentinelResetMap.put("parameterType", new ActionImpl(() -> this.setParameterType(null)));
         }
 

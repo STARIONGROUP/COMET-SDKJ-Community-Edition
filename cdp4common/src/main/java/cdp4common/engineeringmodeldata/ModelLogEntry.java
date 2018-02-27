@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractModelLogEntry.java
+ * ModelLogEntry.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = EngineeringModel.class, propertyName = "logEntry")
 @ToString
-@EqualsAndHashCode
-public  class ModelLogEntry extends Thing implements Cloneable, Annotation, CategorizableThing, LogEntry, TimeStampedThing {
+@EqualsAndHashCode(callSuper = true)
+public class ModelLogEntry extends Thing implements Cloneable, Annotation, CategorizableThing, LogEntry, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -66,6 +66,7 @@ public  class ModelLogEntry extends Thing implements Cloneable, Annotation, Cate
      * @param iDalUri The {@link URI} of this thing
      */
     public ModelLogEntry(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.affectedItemIid = new ArrayList<UUID>();
         this.category = new ArrayList<Category>();
     }
@@ -76,6 +77,8 @@ public  class ModelLogEntry extends Thing implements Cloneable, Annotation, Cate
      * Note: Each reference should be an <i>iid</i> of a Thing that exists when the log entry is created. The references are of type Uuid in order to support retaining log entries even when the referenced Thing is later deleted. An implementation of E-TM-10-25 shall support a mechanism to dereference items by Uuid and report when items can not (no longer) be dereferenced.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<UUID> affectedItemIid;
 
     /**
@@ -83,6 +86,8 @@ public  class ModelLogEntry extends Thing implements Cloneable, Annotation, Cate
      * reference to the Person who logged this LogEntry
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private Person author;
 
     /**
@@ -90,6 +95,8 @@ public  class ModelLogEntry extends Thing implements Cloneable, Annotation, Cate
      * reference to zero or more Categories of which this CategorizableThing is a member
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<Category> category;
 
     /**
@@ -98,6 +105,8 @@ public  class ModelLogEntry extends Thing implements Cloneable, Annotation, Cate
      * specified in <i>languageCode</i>
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String content;
 
     /**
@@ -106,6 +115,8 @@ public  class ModelLogEntry extends Thing implements Cloneable, Annotation, Cate
      * Note 2: All persistent date-and-time-stamps in this model shall be stored in UTC. When local calendar dates and clock times in a specific timezone are needed they shall be converted on the fly from and to UTC by client applications.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private LocalDateTime createdOn;
 
     /**
@@ -113,6 +124,8 @@ public  class ModelLogEntry extends Thing implements Cloneable, Annotation, Cate
      * code that defines the natural language in which the annotation is written
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String languageCode;
 
     /**
@@ -121,141 +134,9 @@ public  class ModelLogEntry extends Thing implements Cloneable, Annotation, Cate
      * Note: The <i>level</i> can be used to filter log entries. Also applications may provide a setting that switches on or off logging log entries of a certain level.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private LogLevelKind level;
-
-    /**
-     * Gets a list of UUID.
-     * weak reference to zero or more items that are relevant to or affected by what is described in the content of this LogEntry
-     * Note: Each reference should be an <i>iid</i> of a Thing that exists when the log entry is created. The references are of type Uuid in order to support retaining log entries even when the referenced Thing is later deleted. An implementation of E-TM-10-25 shall support a mechanism to dereference items by Uuid and report when items can not (no longer) be dereferenced.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<UUID> getAffectedItemIid(){
-         return this.affectedItemIid;
-    }
-
-    /**
-     * Gets the author.
-     * reference to the Person who logged this LogEntry
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public Person getAuthor(){
-         return this.author;
-    }
-
-    /**
-     * Gets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<Category> getCategory(){
-         return this.category;
-    }
-
-    /**
-     * Gets the content.
-     * textual content of the annotation expressed in the natural language as
-     * specified in <i>languageCode</i>
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getContent(){
-         return this.content;
-    }
-
-    /**
-     * Gets the createdOn.
-     * Note 1: This implies that any value shall comply with the following (informative) ISO 8601 format "yyyy-mm-ddThh:mm:ss.sssZ".
-     * Note 2: All persistent date-and-time-stamps in this model shall be stored in UTC. When local calendar dates and clock times in a specific timezone are needed they shall be converted on the fly from and to UTC by client applications.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public LocalDateTime getCreatedOn(){
-         return this.createdOn;
-    }
-
-    /**
-     * Gets the languageCode.
-     * code that defines the natural language in which the annotation is written
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getLanguageCode(){
-         return this.languageCode;
-    }
-
-    /**
-     * Gets the level.
-     * level of this LogEntry
-     * Note: The <i>level</i> can be used to filter log entries. Also applications may provide a setting that switches on or off logging log entries of a certain level.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public LogLevelKind getLevel(){
-         return this.level;
-    }
-
-    /**
-     * Sets a list of UUID.
-     * weak reference to zero or more items that are relevant to or affected by what is described in the content of this LogEntry
-     * Note: Each reference should be an <i>iid</i> of a Thing that exists when the log entry is created. The references are of type Uuid in order to support retaining log entries even when the referenced Thing is later deleted. An implementation of E-TM-10-25 shall support a mechanism to dereference items by Uuid and report when items can not (no longer) be dereferenced.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setAffectedItemIid(ArrayList<UUID> affectedItemIid){
-        this.affectedItemIid = affectedItemIid;
-    }
-
-    /**
-     * Sets the author.
-     * reference to the Person who logged this LogEntry
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setAuthor(Person author){
-        this.author = author;
-    }
-
-    /**
-     * Sets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setCategory(ArrayList<Category> category){
-        this.category = category;
-    }
-
-    /**
-     * Sets the content.
-     * textual content of the annotation expressed in the natural language as
-     * specified in <i>languageCode</i>
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setContent(String content){
-        this.content = content;
-    }
-
-    /**
-     * Sets the createdOn.
-     * Note 1: This implies that any value shall comply with the following (informative) ISO 8601 format "yyyy-mm-ddThh:mm:ss.sssZ".
-     * Note 2: All persistent date-and-time-stamps in this model shall be stored in UTC. When local calendar dates and clock times in a specific timezone are needed they shall be converted on the fly from and to UTC by client applications.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setCreatedOn(LocalDateTime createdOn){
-        this.createdOn = createdOn;
-    }
-
-    /**
-     * Sets the languageCode.
-     * code that defines the natural language in which the annotation is written
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setLanguageCode(String languageCode){
-        this.languageCode = languageCode;
-    }
-
-    /**
-     * Sets the level.
-     * level of this LogEntry
-     * Note: The <i>level</i> can be used to filter log entries. Also applications may provide a setting that switches on or off logging log entries of a certain level.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setLevel(LogLevelKind level){
-        this.level = level;
-    }
 
     /**
      * Creates and returns a copy of this {@link ModelLogEntry} for edit purpose.
@@ -302,7 +183,7 @@ public  class ModelLogEntry extends Thing implements Cloneable, Annotation, Cate
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ModelLogEntry}.
+     * Validates the cardinalities of the properties of this ModelLogEntry}.
      *
      * @return A list of potential errors.
      */
@@ -354,16 +235,16 @@ public  class ModelLogEntry extends Thing implements Cloneable, Annotation, Cate
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.ModelLogEntry dto = new cdp4common.dto.ModelLogEntry(this.getIid(), this.getRevisionNumber());
 
         dto.getAffectedItemIid().add(this.getAffectedItemIid());
         dto.setAuthor(this.getAuthor() != null ? (UUID)this.getAuthor().getIid() : null);
-        dto.getCategory().add(this.getCategory().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setContent(this.getContent());
         dto.setCreatedOn(this.getCreatedOn());
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setLanguageCode(this.getLanguageCode());
         dto.setLevel(this.getLevel());
         dto.setModifiedOn(this.getModifiedOn());

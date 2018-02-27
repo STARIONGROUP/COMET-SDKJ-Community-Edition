@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractMappingToReferenceScale.java
+ * MappingToReferenceScale.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -39,8 +39,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = MeasurementScale.class, propertyName = "mappingToReferenceScale")
 @ToString
-@EqualsAndHashCode
-public  class MappingToReferenceScale extends Thing implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class MappingToReferenceScale extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -68,6 +68,7 @@ public  class MappingToReferenceScale extends Thing implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     public MappingToReferenceScale(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -75,6 +76,8 @@ public  class MappingToReferenceScale extends Thing implements Cloneable {
      * reference to the ScaleValueDefinition of the dependent MeasurementScale, i.e. the value on the dependent scale that represents the same quantity as the one defined by the given <i>referenceScaleValue</i>
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ScaleValueDefinition dependentScaleValue;
 
     /**
@@ -82,43 +85,9 @@ public  class MappingToReferenceScale extends Thing implements Cloneable {
      * reference to the ScaleValueDefinition of the reference MeasurementScale
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ScaleValueDefinition referenceScaleValue;
-
-    /**
-     * Gets the dependentScaleValue.
-     * reference to the ScaleValueDefinition of the dependent MeasurementScale, i.e. the value on the dependent scale that represents the same quantity as the one defined by the given <i>referenceScaleValue</i>
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ScaleValueDefinition getDependentScaleValue(){
-         return this.dependentScaleValue;
-    }
-
-    /**
-     * Gets the referenceScaleValue.
-     * reference to the ScaleValueDefinition of the reference MeasurementScale
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ScaleValueDefinition getReferenceScaleValue(){
-         return this.referenceScaleValue;
-    }
-
-    /**
-     * Sets the dependentScaleValue.
-     * reference to the ScaleValueDefinition of the dependent MeasurementScale, i.e. the value on the dependent scale that represents the same quantity as the one defined by the given <i>referenceScaleValue</i>
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setDependentScaleValue(ScaleValueDefinition dependentScaleValue){
-        this.dependentScaleValue = dependentScaleValue;
-    }
-
-    /**
-     * Sets the referenceScaleValue.
-     * reference to the ScaleValueDefinition of the reference MeasurementScale
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setReferenceScaleValue(ScaleValueDefinition referenceScaleValue){
-        this.referenceScaleValue = referenceScaleValue;
-    }
 
     /**
      * Creates and returns a copy of this {@link MappingToReferenceScale} for edit purpose.
@@ -163,7 +132,7 @@ public  class MappingToReferenceScale extends Thing implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>MappingToReferenceScale}.
+     * Validates the cardinalities of the properties of this MappingToReferenceScale}.
      *
      * @return A list of potential errors.
      */
@@ -172,13 +141,13 @@ public  class MappingToReferenceScale extends Thing implements Cloneable {
 
         if (this.getDependentScaleValue() == null || this.getDependentScaleValue().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property dependentScaleValue is null.");
-            this.setDependentScaleValue(SentinelThingProvider.getSentinel<ScaleValueDefinition>());
+            this.setDependentScaleValue(SentinelThingProvider.getSentinel(ScaleValueDefinition.class));
             this.sentinelResetMap.put("dependentScaleValue", new ActionImpl(() -> this.setDependentScaleValue(null)));
         }
 
         if (this.getReferenceScaleValue() == null || this.getReferenceScaleValue().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property referenceScaleValue is null.");
-            this.setReferenceScaleValue(SentinelThingProvider.getSentinel<ScaleValueDefinition>());
+            this.setReferenceScaleValue(SentinelThingProvider.getSentinel(ScaleValueDefinition.class));
             this.sentinelResetMap.put("referenceScaleValue", new ActionImpl(() -> this.setReferenceScaleValue(null)));
         }
 
@@ -198,11 +167,11 @@ public  class MappingToReferenceScale extends Thing implements Cloneable {
 
         cdp4common.dto.MappingToReferenceScale dto = (cdp4common.dto.MappingToReferenceScale)dtoThing;
 
-        this.setDependentScaleValue(this.getCache().get<ScaleValueDefinition>(dto.getDependentScaleValue(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ScaleValueDefinition>());
+        this.setDependentScaleValue(this.getCache().get<ScaleValueDefinition>(dto.getDependentScaleValue(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ScaleValueDefinition.class));
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setReferenceScaleValue(this.getCache().get<ScaleValueDefinition>(dto.getReferenceScaleValue(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<ScaleValueDefinition>());
+        this.setReferenceScaleValue(this.getCache().get<ScaleValueDefinition>(dto.getReferenceScaleValue(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ScaleValueDefinition.class));
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -214,12 +183,12 @@ public  class MappingToReferenceScale extends Thing implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.MappingToReferenceScale dto = new cdp4common.dto.MappingToReferenceScale(this.getIid(), this.getRevisionNumber());
 
         dto.setDependentScaleValue(this.getDependentScaleValue() != null ? this.getDependentScaleValue().getIid() : new UUID(0L, 0L));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setReferenceScaleValue(this.getReferenceScaleValue() != null ? this.getReferenceScaleValue().getIid() : new UUID(0L, 0L));
         dto.setRevisionNumber(this.getRevisionNumber());

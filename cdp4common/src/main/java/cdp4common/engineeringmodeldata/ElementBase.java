@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractElementBase.java
+ * ElementBase.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -34,8 +34,8 @@ import lombok.EqualsAndHashCode;
  * abstract superclass of ElementDefinition, ElementUsage and     NestedElement     that     captures     their     common     properties     and     allows     to     refer     to     either     of     them
  */
 @ToString
-@EqualsAndHashCode
-public  abstract class ElementBase extends DefinedThing implements Cloneable, CategorizableThing, OwnedThing {
+@EqualsAndHashCode(callSuper = true)
+public abstract class ElementBase extends DefinedThing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -64,6 +64,7 @@ public  abstract class ElementBase extends DefinedThing implements Cloneable, Ca
      * @param iDalUri The {@link URI} of this thing
      */
     protected ElementBase(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.category = new ArrayList<Category>();
     }
 
@@ -72,6 +73,8 @@ public  abstract class ElementBase extends DefinedThing implements Cloneable, Ca
      * reference to zero or more Categories of which this CategorizableThing is a member
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ArrayList<Category> category;
 
     /**
@@ -80,45 +83,9 @@ public  abstract class ElementBase extends DefinedThing implements Cloneable, Ca
      * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private DomainOfExpertise owner;
-
-    /**
-     * Gets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ArrayList<Category> getCategory(){
-         return this.category;
-    }
-
-    /**
-     * Gets the owner.
-     * reference to a DomainOfExpertise that is the owner of this OwnedThing
-     * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public DomainOfExpertise getOwner(){
-         return this.owner;
-    }
-
-    /**
-     * Sets a list of Category.
-     * reference to zero or more Categories of which this CategorizableThing is a member
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setCategory(ArrayList<Category> category){
-        this.category = category;
-    }
-
-    /**
-     * Sets the owner.
-     * reference to a DomainOfExpertise that is the owner of this OwnedThing
-     * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setOwner(DomainOfExpertise owner){
-        this.owner = owner;
-    }
 
     /**
      * Creates and returns a copy of this {@link ElementBase} for edit purpose.
@@ -134,7 +101,7 @@ public  abstract class ElementBase extends DefinedThing implements Cloneable, Ca
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ElementBase}.
+     * Validates the cardinalities of the properties of this ElementBase}.
      *
      * @return A list of potential errors.
      */
@@ -143,7 +110,7 @@ public  abstract class ElementBase extends DefinedThing implements Cloneable, Ca
 
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property owner is null.");
-            this.setOwner(SentinelThingProvider.getSentinel<DomainOfExpertise>());
+            this.setOwner(SentinelThingProvider.getSentinel(DomainOfExpertise.class));
             this.sentinelResetMap.put("owner", new ActionImpl(() -> this.setOwner(null)));
         }
 

@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractDerivedQuantityKind.java
+ * DerivedQuantityKind.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.sitedirectorydata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -38,8 +38,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
-@EqualsAndHashCode
-public  class DerivedQuantityKind extends QuantityKind implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class DerivedQuantityKind extends QuantityKind implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -68,6 +68,7 @@ public  class DerivedQuantityKind extends QuantityKind implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     public DerivedQuantityKind(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.quantityKindFactor = new OrderedItemList<QuantityKindFactor>(this, true);
     }
 
@@ -76,6 +77,8 @@ public  class DerivedQuantityKind extends QuantityKind implements Cloneable {
      * reference to one or more QuantityKindFactors that define the product of powers of other kind(s) of quantity that define this DerivedQuantityKind
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private OrderedItemList<QuantityKindFactor> quantityKindFactor;
 
     /**
@@ -84,29 +87,11 @@ public  class DerivedQuantityKind extends QuantityKind implements Cloneable {
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets a list of ordered contained QuantityKindFactor.
-     * reference to one or more QuantityKindFactors that define the product of powers of other kind(s) of quantity that define this DerivedQuantityKind
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-    public OrderedItemList<QuantityKindFactor> getQuantityKindFactor(){
-         return this.quantityKindFactor;
-    }
-
-    /**
-     * Sets a list of ordered contained QuantityKindFactor.
-     * reference to one or more QuantityKindFactors that define the product of powers of other kind(s) of quantity that define this DerivedQuantityKind
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
-     protected void setQuantityKindFactor(OrderedItemList<QuantityKindFactor> quantityKindFactor){
-        this.quantityKindFactor = quantityKindFactor;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link DerivedQuantityKind}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link DerivedQuantityKind}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.quantityKindFactor);
         return containers;
     }
@@ -128,20 +113,20 @@ public  class DerivedQuantityKind extends QuantityKind implements Cloneable {
             throw new IllegalAccessError("Somehow DerivedQuantityKind cannot be cloned.");
         }
 
-        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone));
+        clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
-        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone));
+        clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone));
+        clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
         clone.setPossibleScale(new ArrayList<MeasurementScale>(this.getPossibleScale()));
         clone.setQuantityKindFactor(cloneContainedThings ? new OrderedItemList<QuantityKindFactor>(clone, true) : new OrderedItemList<QuantityKindFactor>(this.getQuantityKindFactor(), clone));
 
         if (cloneContainedThings) {
-            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
-            clone.getQuantityKindFactor().addAll(this.getQuantityKindFactor().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getQuantityKindFactor().addAll(this.getQuantityKindFactor().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -164,7 +149,7 @@ public  class DerivedQuantityKind extends QuantityKind implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>DerivedQuantityKind}.
+     * Validates the cardinalities of the properties of this DerivedQuantityKind}.
      *
      * @return A list of potential errors.
      */
@@ -194,12 +179,12 @@ public  class DerivedQuantityKind extends QuantityKind implements Cloneable {
 
         this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
         this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
-        this.setDefaultScale(this.getCache().get<MeasurementScale>(dto.getDefaultScale(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<MeasurementScale>());
+        this.setDefaultScale(this.getCache().get<MeasurementScale>(dto.getDefaultScale(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(MeasurementScale.class));
         this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
         this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
         this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
-        this.setDeprecated(dto.getDeprecated());
+        this.setDeprecated(dto.isDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
         this.getPossibleScale().resolveList(dto.getPossibleScale(), dto.getIterationContainerId(), this.getCache());
@@ -218,22 +203,22 @@ public  class DerivedQuantityKind extends QuantityKind implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.DerivedQuantityKind dto = new cdp4common.dto.DerivedQuantityKind(this.getIid(), this.getRevisionNumber());
 
-        dto.getAlias().add(this.getAlias().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getCategory().add(this.getCategory().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setDefaultScale(this.getDefaultScale() != null ? this.getDefaultScale().getIid() : new UUID(0L, 0L));
-        dto.getDefinition().add(this.getDefinition().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getHyperLink().add(this.getHyperLink().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.setDeprecated(this.getDeprecated());
+        dto.getDefinition().addAll(this.getDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setDeprecated(this.isDeprecated());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
-        dto.getPossibleScale().add(this.getPossibleScale().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getPossibleScale().addAll(this.getPossibleScale().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setQuantityDimensionSymbol(this.getQuantityDimensionSymbol());
-        dto.getQuantityKindFactor().add(this.getQuantityKindFactor().toDtoOrderedItemList());
+        dto.getQuantityKindFactor().addAll(this.getQuantityKindFactor().toDtoOrderedItemList());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
         dto.setSymbol(this.getSymbol());

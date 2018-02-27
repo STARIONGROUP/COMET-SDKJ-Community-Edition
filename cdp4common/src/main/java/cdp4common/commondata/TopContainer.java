@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractTopContainer.java
+ * TopContainer.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.commondata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
  * Note 2: The <i>revisionNumber</i> of a TopContainer object is by definition equal to the highest <i>revisionNumber</i> in any of its directly or indirectly contained objects. See also Thing. This enables sending a request to a persistent data store to get all new and updated objects with a <i>revisionNumber</i> greater than a given <i>revisionNumber</i>. When a request with <i>revisionNumber</i> equal to zero is sent, all objects contained in a TopContainer will be returned.
  */
 @ToString
-@EqualsAndHashCode
-public  abstract class TopContainer extends Thing implements Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public abstract class TopContainer extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -65,6 +65,7 @@ public  abstract class TopContainer extends Thing implements Cloneable {
      * @param iDalUri The {@link URI} of this thing
      */
     protected TopContainer(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
     }
 
     /**
@@ -72,25 +73,9 @@ public  abstract class TopContainer extends Thing implements Cloneable {
      * date and time of the last modification to this TopContainer expressed in UTC (<a href="http://en.wikipedia.org/wiki/Coordinated_Universal_Time">Coordinated Universal Time</a>) with millisecond accuracy
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private LocalDateTime lastModifiedOn;
-
-    /**
-     * Gets the lastModifiedOn.
-     * date and time of the last modification to this TopContainer expressed in UTC (<a href="http://en.wikipedia.org/wiki/Coordinated_Universal_Time">Coordinated Universal Time</a>) with millisecond accuracy
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public LocalDateTime getLastModifiedOn(){
-         return this.lastModifiedOn;
-    }
-
-    /**
-     * Sets the lastModifiedOn.
-     * date and time of the last modification to this TopContainer expressed in UTC (<a href="http://en.wikipedia.org/wiki/Coordinated_Universal_Time">Coordinated Universal Time</a>) with millisecond accuracy
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setLastModifiedOn(LocalDateTime lastModifiedOn){
-        this.lastModifiedOn = lastModifiedOn;
-    }
 
     /**
      * Creates and returns a copy of this {@link TopContainer} for edit purpose.
@@ -106,7 +91,7 @@ public  abstract class TopContainer extends Thing implements Cloneable {
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>TopContainer}.
+     * Validates the cardinalities of the properties of this TopContainer}.
      *
      * @return A list of potential errors.
      */

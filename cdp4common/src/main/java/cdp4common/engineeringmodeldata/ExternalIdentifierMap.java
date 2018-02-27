@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------------------------------
- * AbstractExternalIdentifierMap.java
+ * ExternalIdentifierMap.java
  * Copyright (c) 2018 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
@@ -9,7 +9,6 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import cdp4common.*;
 import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -36,8 +36,8 @@ import lombok.EqualsAndHashCode;
  */
 @Container(clazz = Iteration.class, propertyName = "externalIdentifierMap")
 @ToString
-@EqualsAndHashCode
-public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThing, OwnedThing {
+@EqualsAndHashCode(callSuper = true)
+public class ExternalIdentifierMap extends Thing implements Cloneable, NamedThing, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -66,6 +66,7 @@ public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThi
      * @param iDalUri The {@link URI} of this thing
      */
     public ExternalIdentifierMap(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+        super(iid, cache, iDalUri);
         this.correspondence = new ContainerList<IdCorrespondence>(this);
     }
 
@@ -74,6 +75,8 @@ public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThi
      * set of internal Uuid to external identifier correspondence mappings
      */
     @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ContainerList<IdCorrespondence> correspondence;
 
     /**
@@ -81,6 +84,8 @@ public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThi
      * optional reference to a ReferenceSource that specifies the format of the external model
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private ReferenceSource externalFormat;
 
     /**
@@ -88,6 +93,8 @@ public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThi
      * name of the external model
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String externalModelName;
 
     /**
@@ -95,6 +102,8 @@ public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThi
      * name of the external tool
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String externalToolName;
 
     /**
@@ -102,6 +111,8 @@ public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThi
      * optional representation of the version of the external tool
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String externalToolVersion;
 
     /**
@@ -110,6 +121,8 @@ public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThi
      * Note: The implied LanguageCode of <i>name</i> is "en-GB".
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private String name;
 
     /**
@@ -118,6 +131,8 @@ public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThi
      * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
     private DomainOfExpertise owner;
 
     /**
@@ -126,141 +141,11 @@ public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThi
     public Iterable<Iterable> containerLists;
 
     /**
-     * Gets a list of contained IdCorrespondence.
-     * set of internal Uuid to external identifier correspondence mappings
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ContainerList<IdCorrespondence> getCorrespondence(){
-         return this.correspondence;
-    }
-
-    /**
-     * Gets the externalFormat.
-     * optional reference to a ReferenceSource that specifies the format of the external model
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public ReferenceSource getExternalFormat(){
-         return this.externalFormat;
-    }
-
-    /**
-     * Gets the externalModelName.
-     * name of the external model
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getExternalModelName(){
-         return this.externalModelName;
-    }
-
-    /**
-     * Gets the externalToolName.
-     * name of the external tool
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getExternalToolName(){
-         return this.externalToolName;
-    }
-
-    /**
-     * Gets the externalToolVersion.
-     * optional representation of the version of the external tool
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getExternalToolVersion(){
-         return this.externalToolVersion;
-    }
-
-    /**
-     * Gets the name.
-     * human readable character string in English by which something can be       referred       to
-     * Note: The implied LanguageCode of <i>name</i> is "en-GB".
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public String getName(){
-         return this.name;
-    }
-
-    /**
-     * Gets the owner.
-     * reference to a DomainOfExpertise that is the owner of this OwnedThing
-     * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-    public DomainOfExpertise getOwner(){
-         return this.owner;
-    }
-
-    /**
-     * Sets a list of contained IdCorrespondence.
-     * set of internal Uuid to external identifier correspondence mappings
-     */
-    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     protected void setCorrespondence(ContainerList<IdCorrespondence> correspondence){
-        this.correspondence = correspondence;
-    }
-
-    /**
-     * Sets the externalFormat.
-     * optional reference to a ReferenceSource that specifies the format of the external model
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setExternalFormat(ReferenceSource externalFormat){
-        this.externalFormat = externalFormat;
-    }
-
-    /**
-     * Sets the externalModelName.
-     * name of the external model
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setExternalModelName(String externalModelName){
-        this.externalModelName = externalModelName;
-    }
-
-    /**
-     * Sets the externalToolName.
-     * name of the external tool
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setExternalToolName(String externalToolName){
-        this.externalToolName = externalToolName;
-    }
-
-    /**
-     * Sets the externalToolVersion.
-     * optional representation of the version of the external tool
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setExternalToolVersion(String externalToolVersion){
-        this.externalToolVersion = externalToolVersion;
-    }
-
-    /**
-     * Sets the name.
-     * human readable character string in English by which something can be       referred       to
-     * Note: The implied LanguageCode of <i>name</i> is "en-GB".
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setName(String name){
-        this.name = name;
-    }
-
-    /**
-     * Sets the owner.
-     * reference to a DomainOfExpertise that is the owner of this OwnedThing
-     * Note: Ownership in this data model implies the responsibility for the presence and content of this OwnedThing. The owner is always a DomainOfExpertise. The Participant or Participants representing an owner DomainOfExpertise are thus responsible for (i.e. take ownership of) a coherent set of concerns in a concurrent engineering activity.
-     */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
-     public void setOwner(DomainOfExpertise owner){
-        this.owner = owner;
-    }
-
-    /**
-     * Gets an {@link List<List<Thing>>} that references the composite properties of the current {@link ExternalIdentifierMap}.
+     * Gets an {@link List<List>} that references the composite properties of the current {@link ExternalIdentifierMap}.
      */
     @Override
-    public List<List<Thing>> getContainerLists() {
-        List<List<Thing>> containers = new ArrayList<List<Thing>>(super.getContainerLists());
+    public List<List> getContainerLists() {
+        List<List> containers = new ArrayList<List>(super.getContainerLists());
         containers.add(this.correspondence);
         return containers;
     }
@@ -282,12 +167,12 @@ public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThi
             throw new IllegalAccessError("Somehow ExternalIdentifierMap cannot be cloned.");
         }
 
-        clone.setCorrespondence(cloneContainedThings ? new ContainerList<IdCorrespondence>(clone) : new ContainerList<IdCorrespondence>(this.getCorrespondence(), clone));
+        clone.setCorrespondence(cloneContainedThings ? new ContainerList<IdCorrespondence>(clone) : new ContainerList<IdCorrespondence>(this.getCorrespondence(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
 
         if (cloneContainedThings) {
-            clone.getCorrespondence().addAll(this.getCorrespondence().stream().map(x -> x.Clone(true)).collect(Collectors.toList());
+            clone.getCorrespondence().addAll(this.getCorrespondence().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -310,7 +195,7 @@ public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThi
     }
 
     /**
-     * Validates the cardinalities of the properties of this <clone>ExternalIdentifierMap}.
+     * Validates the cardinalities of the properties of this ExternalIdentifierMap}.
      *
      * @return A list of potential errors.
      */
@@ -331,7 +216,7 @@ public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThi
 
         if (this.getOwner() == null || this.getOwner().getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The property owner is null.");
-            this.setOwner(SentinelThingProvider.getSentinel<DomainOfExpertise>());
+            this.setOwner(SentinelThingProvider.getSentinel(DomainOfExpertise.class));
             this.sentinelResetMap.put("owner", new ActionImpl(() -> this.setOwner(null)));
         }
 
@@ -360,7 +245,7 @@ public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThi
         this.setExternalToolVersion(dto.getExternalToolVersion());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel<DomainOfExpertise>());
+        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -372,12 +257,12 @@ public  class ExternalIdentifierMap extends Thing implements Cloneable, NamedThi
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() {
+    public cdp4common.dto.Thing toDto() throws ContainmentException {
         cdp4common.dto.ExternalIdentifierMap dto = new cdp4common.dto.ExternalIdentifierMap(this.getIid(), this.getRevisionNumber());
 
-        dto.getCorrespondence().add(this.getCorrespondence().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedDomain().add(this.getExcludedDomain().stream().map(x -> x.getIid()).collect(Collectors.toList()));
-        dto.getExcludedPerson().add(this.getExcludedPerson().stream().map(x -> x.getIid()).collect(Collectors.toList()));
+        dto.getCorrespondence().addAll(this.getCorrespondence().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setExternalFormat(this.getExternalFormat() != null ? (UUID)this.getExternalFormat().getIid() : null);
         dto.setExternalModelName(this.getExternalModelName());
         dto.setExternalToolName(this.getExternalToolName());
