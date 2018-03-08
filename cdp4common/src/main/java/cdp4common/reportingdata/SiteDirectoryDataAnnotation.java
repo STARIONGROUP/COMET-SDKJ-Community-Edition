@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -110,14 +111,14 @@ public class SiteDirectoryDataAnnotation extends GenericAnnotation implements Cl
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link SiteDirectoryDataAnnotation}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link SiteDirectoryDataAnnotation}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link SiteDirectoryDataAnnotation}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.discussion);
         containers.add(this.relatedThing);
         return containers;
@@ -210,16 +211,16 @@ public class SiteDirectoryDataAnnotation extends GenericAnnotation implements Cl
 
         cdp4common.dto.SiteDirectoryDataAnnotation dto = (cdp4common.dto.SiteDirectoryDataAnnotation)dtoThing;
 
-        this.setAuthor(this.getCache().get<Person>(dto.getAuthor(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Person.class));
+        this.setAuthor(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getAuthor(), dto.getIterationContainerId(), Person.class), SentinelThingProvider.getSentinel(Person.class)));
         this.setContent(dto.getContent());
         this.setCreatedOn(dto.getCreatedOn());
-        this.getDiscussion().resolveList(dto.getDiscussion(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getDiscussion(), dto.getDiscussion(), dto.getIterationContainerId(), this.getCache(), SiteDirectoryDataDiscussionItem.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setLanguageCode(dto.getLanguageCode());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setPrimaryAnnotatedThing(this.getCache().get<SiteDirectoryThingReference>(dto.getPrimaryAnnotatedThing(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(SiteDirectoryThingReference.class));
-        this.getRelatedThing().resolveList(dto.getRelatedThing(), dto.getIterationContainerId(), this.getCache());
+        this.setPrimaryAnnotatedThing(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getPrimaryAnnotatedThing(), dto.getIterationContainerId(), SiteDirectoryThingReference.class), SentinelThingProvider.getSentinel(SiteDirectoryThingReference.class)));
+        PojoThingFactory.resolveList(this.getRelatedThing(), dto.getRelatedThing(), dto.getIterationContainerId(), this.getCache(), SiteDirectoryThingReference.class);
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -231,7 +232,7 @@ public class SiteDirectoryDataAnnotation extends GenericAnnotation implements Cl
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.SiteDirectoryDataAnnotation dto = new cdp4common.dto.SiteDirectoryDataAnnotation(this.getIid(), this.getRevisionNumber());
 
         dto.setAuthor(this.getAuthor() != null ? this.getAuthor().getIid() : new UUID(0L, 0L));

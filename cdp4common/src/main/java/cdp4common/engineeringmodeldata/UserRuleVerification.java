@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -72,7 +73,6 @@ public class UserRuleVerification extends RuleVerification implements Cloneable 
      * name derived from the <i>name</i> of the associated Rule
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String name;
 
     /**
@@ -83,6 +83,15 @@ public class UserRuleVerification extends RuleVerification implements Cloneable 
     @Getter
     @Setter
     private Rule rule;
+
+    /**
+     * Gets the name.
+     * name derived from the <i>name</i> of the associated Rule
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getName(){
+        return this.getDerivedName();
+    }
 
     /**
      * Sets the name.
@@ -169,15 +178,15 @@ public class UserRuleVerification extends RuleVerification implements Cloneable 
 
         cdp4common.dto.UserRuleVerification dto = (cdp4common.dto.UserRuleVerification)dtoThing;
 
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setExecutedOn(dto.getExecutedOn());
         this.setActive(dto.isActive());
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setRule(this.getCache().get<Rule>(dto.getRule(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Rule.class));
+        this.setRule(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getRule(), dto.getIterationContainerId(), Rule.class), SentinelThingProvider.getSentinel(Rule.class)));
         this.setStatus(dto.getStatus());
-        this.getViolation().resolveList(dto.getViolation(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getViolation(), dto.getViolation(), dto.getIterationContainerId(), this.getCache(), RuleViolation.class);
 
         this.resolveExtraProperties();
     }
@@ -188,7 +197,7 @@ public class UserRuleVerification extends RuleVerification implements Cloneable 
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.UserRuleVerification dto = new cdp4common.dto.UserRuleVerification(this.getIid(), this.getRevisionNumber());
 
         dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));

@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -55,7 +56,7 @@ public class FileRevision extends Thing implements Cloneable, NamedThing, TimeSt
      * Initializes a new instance of the {@link FileRevision} class.
      */
     public FileRevision() {
-        this.fileType = new OrderedItemList<FileType>(this, false);
+        this.fileType = new OrderedItemList<FileType>(this, FileType.class);
     }
 
     /**
@@ -68,7 +69,7 @@ public class FileRevision extends Thing implements Cloneable, NamedThing, TimeSt
      */
     public FileRevision(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
-        this.fileType = new OrderedItemList<FileType>(this, false);
+        this.fileType = new OrderedItemList<FileType>(this, FileType.class);
     }
 
     /**
@@ -136,8 +137,17 @@ public class FileRevision extends Thing implements Cloneable, NamedThing, TimeSt
      * Note: The path is derived to be the concatenation of the path of the containingFolder (if any) followed by a forward slash and the name of this FileRevision and then a dot separated concatenation of the extensions of the associated FileTypes. This yields a path that is similar to that of a "file://" URL starting from the containing FileStore.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String path;
+
+    /**
+     * Gets the path.
+     * full path name including folder path and type extension(s)
+     * Note: The path is derived to be the concatenation of the path of the containingFolder (if any) followed by a forward slash and the name of this FileRevision and then a dot separated concatenation of the extensions of the associated FileTypes. This yields a path that is similar to that of a "file://" URL starting from the containing FileStore.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getPath(){
+        return this.getDerivedPath();
+    }
 
     /**
      * Sets the path.
@@ -172,7 +182,7 @@ public class FileRevision extends Thing implements Cloneable, NamedThing, TimeSt
 
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setFileType(new OrderedItemList<FileType>(this.getFileType(), this));
+        clone.setFileType(new OrderedItemList<FileType>(this.getFileType(), this, FileType.class));
 
         if (cloneContainedThings) {
         }
@@ -239,13 +249,13 @@ public class FileRevision extends Thing implements Cloneable, NamedThing, TimeSt
 
         cdp4common.dto.FileRevision dto = (cdp4common.dto.FileRevision)dtoThing;
 
-        this.setContainingFolder((dto.getContainingFolder() != null) ? this.getCache().get<Folder>(dto.getContainingFolder.getValue(), dto.getIterationContainerId()) : null);
+        this.setContainingFolder((dto.getContainingFolder() != null) ? PojoThingFactory.get(this.getCache(), dto.getContainingFolder(), dto.getIterationContainerId(), Folder.class) : null);
         this.setContentHash(dto.getContentHash());
         this.setCreatedOn(dto.getCreatedOn());
-        this.setCreator(this.getCache().get<Participant>(dto.getCreator(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Participant.class));
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getFileType().resolveList(dto.getFileType(), dto.getIterationContainerId(), this.getCache());
+        this.setCreator(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getCreator(), dto.getIterationContainerId(), Participant.class), SentinelThingProvider.getSentinel(Participant.class)));
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getFileType(), dto.getFileType(), dto.getIterationContainerId(), this.getCache(), FileType.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
         this.setRevisionNumber(dto.getRevisionNumber());
@@ -259,7 +269,7 @@ public class FileRevision extends Thing implements Cloneable, NamedThing, TimeSt
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.FileRevision dto = new cdp4common.dto.FileRevision(this.getIid(), this.getRevisionNumber());
 
         dto.setContainingFolder(this.getContainingFolder() != null ? (UUID)this.getContainingFolder().getIid() : null);

@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -163,18 +164,18 @@ public class DiagramObject extends DiagramShape implements Cloneable {
 
         cdp4common.dto.DiagramObject dto = (cdp4common.dto.DiagramObject)dtoThing;
 
-        this.getBounds().resolveList(dto.getBounds(), dto.getIterationContainerId(), this.getCache());
-        this.setDepictedThing((dto.getDepictedThing() != null) ? this.getCache().get<Thing>(dto.getDepictedThing.getValue(), dto.getIterationContainerId()) : null);
-        this.getDiagramElement().resolveList(dto.getDiagramElement(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getBounds(), dto.getBounds(), dto.getIterationContainerId(), this.getCache(), Bounds.class);
+        this.setDepictedThing((dto.getDepictedThing() != null) ? PojoThingFactory.get(this.getCache(), dto.getDepictedThing(), dto.getIterationContainerId(), Thing.class) : null);
+        PojoThingFactory.resolveList(this.getDiagramElement(), dto.getDiagramElement(), dto.getIterationContainerId(), this.getCache(), DiagramElementThing.class);
         this.setDocumentation(dto.getDocumentation());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getLocalStyle().resolveList(dto.getLocalStyle(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getLocalStyle(), dto.getLocalStyle(), dto.getIterationContainerId(), this.getCache(), OwnedStyle.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
         this.setResolution(dto.getResolution());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setSharedStyle((dto.getSharedStyle() != null) ? this.getCache().get<SharedStyle>(dto.getSharedStyle.getValue(), dto.getIterationContainerId()) : null);
+        this.setSharedStyle((dto.getSharedStyle() != null) ? PojoThingFactory.get(this.getCache(), dto.getSharedStyle(), dto.getIterationContainerId(), SharedStyle.class) : null);
 
         this.resolveExtraProperties();
     }
@@ -185,7 +186,7 @@ public class DiagramObject extends DiagramShape implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.DiagramObject dto = new cdp4common.dto.DiagramObject(this.getIid(), this.getRevisionNumber());
 
         dto.getBounds().addAll(this.getBounds().stream().map(Thing::getIid).collect(Collectors.toList()));

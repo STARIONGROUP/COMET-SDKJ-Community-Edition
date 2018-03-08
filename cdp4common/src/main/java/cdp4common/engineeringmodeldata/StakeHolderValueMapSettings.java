@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -158,13 +159,13 @@ public class StakeHolderValueMapSettings extends Thing implements Cloneable {
 
         cdp4common.dto.StakeHolderValueMapSettings dto = (cdp4common.dto.StakeHolderValueMapSettings)dtoThing;
 
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.setGoalToValueGroupRelationship((dto.getGoalToValueGroupRelationship() != null) ? this.getCache().get<BinaryRelationshipRule>(dto.getGoalToValueGroupRelationship.getValue(), dto.getIterationContainerId()) : null);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        this.setGoalToValueGroupRelationship((dto.getGoalToValueGroupRelationship() != null) ? PojoThingFactory.get(this.getCache(), dto.getGoalToValueGroupRelationship(), dto.getIterationContainerId(), BinaryRelationshipRule.class) : null);
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setStakeholderValueToRequirementRelationship((dto.getStakeholderValueToRequirementRelationship() != null) ? this.getCache().get<BinaryRelationshipRule>(dto.getStakeholderValueToRequirementRelationship.getValue(), dto.getIterationContainerId()) : null);
-        this.setValueGroupToStakeholderValueRelationship((dto.getValueGroupToStakeholderValueRelationship() != null) ? this.getCache().get<BinaryRelationshipRule>(dto.getValueGroupToStakeholderValueRelationship.getValue(), dto.getIterationContainerId()) : null);
+        this.setStakeholderValueToRequirementRelationship((dto.getStakeholderValueToRequirementRelationship() != null) ? PojoThingFactory.get(this.getCache(), dto.getStakeholderValueToRequirementRelationship(), dto.getIterationContainerId(), BinaryRelationshipRule.class) : null);
+        this.setValueGroupToStakeholderValueRelationship((dto.getValueGroupToStakeholderValueRelationship() != null) ? PojoThingFactory.get(this.getCache(), dto.getValueGroupToStakeholderValueRelationship(), dto.getIterationContainerId(), BinaryRelationshipRule.class) : null);
 
         this.resolveExtraProperties();
     }
@@ -175,7 +176,7 @@ public class StakeHolderValueMapSettings extends Thing implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.StakeHolderValueMapSettings dto = new cdp4common.dto.StakeHolderValueMapSettings(this.getIid(), this.getRevisionNumber());
 
         dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));

@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -138,14 +139,14 @@ public class ExternalIdentifierMap extends Thing implements Cloneable, NamedThin
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link ExternalIdentifierMap}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link ExternalIdentifierMap}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ExternalIdentifierMap}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.correspondence);
         return containers;
     }
@@ -236,16 +237,16 @@ public class ExternalIdentifierMap extends Thing implements Cloneable, NamedThin
 
         cdp4common.dto.ExternalIdentifierMap dto = (cdp4common.dto.ExternalIdentifierMap)dtoThing;
 
-        this.getCorrespondence().resolveList(dto.getCorrespondence(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.setExternalFormat((dto.getExternalFormat() != null) ? this.getCache().get<ReferenceSource>(dto.getExternalFormat.getValue(), dto.getIterationContainerId()) : null);
+        PojoThingFactory.resolveList(this.getCorrespondence(), dto.getCorrespondence(), dto.getIterationContainerId(), this.getCache(), IdCorrespondence.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        this.setExternalFormat((dto.getExternalFormat() != null) ? PojoThingFactory.get(this.getCache(), dto.getExternalFormat(), dto.getIterationContainerId(), ReferenceSource.class) : null);
         this.setExternalModelName(dto.getExternalModelName());
         this.setExternalToolName(dto.getExternalToolName());
         this.setExternalToolVersion(dto.getExternalToolVersion());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
+        this.setOwner(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getOwner(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -257,7 +258,7 @@ public class ExternalIdentifierMap extends Thing implements Cloneable, NamedThin
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.ExternalIdentifierMap dto = new cdp4common.dto.ExternalIdentifierMap(this.getIid(), this.getRevisionNumber());
 
         dto.getCorrespondence().addAll(this.getCorrespondence().stream().map(Thing::getIid).collect(Collectors.toList()));

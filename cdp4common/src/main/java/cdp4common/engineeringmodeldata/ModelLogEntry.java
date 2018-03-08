@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -214,13 +215,13 @@ public class ModelLogEntry extends Thing implements Cloneable, Annotation, Categ
 
         cdp4common.dto.ModelLogEntry dto = (cdp4common.dto.ModelLogEntry)dtoThing;
 
-        this.getAffectedItemIid().clearAndAddRange(dto.getAffectedItemIid());
-        this.setAuthor((dto.getAuthor() != null) ? this.getCache().get<Person>(dto.getAuthor.getValue(), dto.getIterationContainerId()) : null);
-        this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.clearAndAddRange(this.getAffectedItemIid(), dto.getAffectedItemIid());
+        this.setAuthor((dto.getAuthor() != null) ? PojoThingFactory.get(this.getCache(), dto.getAuthor(), dto.getIterationContainerId(), Person.class) : null);
+        PojoThingFactory.resolveList(this.getCategory(), dto.getCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
         this.setContent(dto.getContent());
         this.setCreatedOn(dto.getCreatedOn());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setLanguageCode(dto.getLanguageCode());
         this.setLevel(dto.getLevel());
         this.setModifiedOn(dto.getModifiedOn());
@@ -235,10 +236,10 @@ public class ModelLogEntry extends Thing implements Cloneable, Annotation, Categ
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.ModelLogEntry dto = new cdp4common.dto.ModelLogEntry(this.getIid(), this.getRevisionNumber());
 
-        dto.getAffectedItemIid().add(this.getAffectedItemIid());
+        dto.getAffectedItemIid().addAll(this.getAffectedItemIid());
         dto.setAuthor(this.getAuthor() != null ? (UUID)this.getAuthor().getIid() : null);
         dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setContent(this.getContent());

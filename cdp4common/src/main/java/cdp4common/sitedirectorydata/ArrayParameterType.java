@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -53,7 +54,7 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * Initializes a new instance of the {@link ArrayParameterType} class.
      */
     public ArrayParameterType() {
-        this.dimension = new OrderedItemList<int>(this, false);
+        this.dimension = new OrderedItemList<Integer>(this, Integer.class);
     }
 
     /**
@@ -66,7 +67,7 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      */
     public ArrayParameterType(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
-        this.dimension = new OrderedItemList<int>(this, false);
+        this.dimension = new OrderedItemList<Integer>(this, Integer.class);
     }
 
     /**
@@ -80,7 +81,7 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
     @Getter
     @Setter
-    private OrderedItemList<int> dimension;
+    private OrderedItemList<Integer> dimension;
 
     /**
      * Value indicating whether hasSingleComponentType.
@@ -89,7 +90,6 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * Example: An example of an ArrayParameterType for which <i>hasSingleComponentType</i> is true, is a 3D Cartesian vector (with one <i>dimension </i>with value 3) where the <i>parameterType</i> of each <i>component</i> is the "length" SimpleQuantityKind and the <i>scale</i> is the "millimetre" RatioScale.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private boolean hasSingleComponentType;
 
     /**
@@ -112,8 +112,32 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * concept of tensor.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private int rank;
+
+    /**
+     *Gets a value indicating whether hasSingleComponentType.
+     * derived assertion that all components of an ArrayParameterType are of the same ParameterType, and, if the ParameterType is a QuantityKind, of the same MeasurementScale
+     * Note: In an implementation when creating an ArrayParameterType it is useful to provide the option to specify that all <i>component</i> ParameterTypeComponents will have the same ParameterType and where applicable the same MeasurementScale.
+     * Example: An example of an ArrayParameterType for which <i>hasSingleComponentType</i> is true, is a 3D Cartesian vector (with one <i>dimension </i>with value 3) where the <i>parameterType</i> of each <i>component</i> is the "length" SimpleQuantityKind and the <i>scale</i> is the "millimetre" RatioScale.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public boolean getHasSingleComponentType(){
+        return this.getDerivedHasSingleComponentType();
+    }
+
+    /**
+     * Gets the rank.
+     * specifies the rank
+     * Note: The rank of an array datatype is equal to the number of dimensions
+     * it has.
+     * Example: A vector has rank = 1, a matrix has rank = 2, a higher order
+     * tensor has rank > 2. Vector and matrix are special cases of the general
+     * concept of tensor.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public int getRank(){
+        return this.getDerivedRank();
+    }
 
     /**
      *Sets a value indicating whether hasSingleComponentType.
@@ -167,9 +191,9 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
 
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
-        clone.setComponent(cloneContainedThings ? new OrderedItemList<ParameterTypeComponent>(clone, true) : new OrderedItemList<ParameterTypeComponent>(this.getComponent(), clone));
+        clone.setComponent(cloneContainedThings ? new OrderedItemList<ParameterTypeComponent>(clone, true, ParameterTypeComponent.class) : new OrderedItemList<ParameterTypeComponent>(this.getComponent(), clone, ParameterTypeComponent.class));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
-        clone.setDimension(new OrderedItemList<int>(this.getDimension(), this));
+        clone.setDimension(new OrderedItemList<Integer>(this.getDimension(), this, Integer.class));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
@@ -224,14 +248,14 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
 
         cdp4common.dto.ArrayParameterType dto = (cdp4common.dto.ArrayParameterType)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
-        this.getComponent().resolveList(dto.getComponent(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getDimension().clearAndAddRange(dto.getDimension());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getCategory(), dto.getCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
+        PojoThingFactory.resolveList(this.getComponent(), dto.getComponent(), dto.getIterationContainerId(), this.getCache(), ParameterTypeComponent.class);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.clearAndAddRange(this.getDimension(), dto.getDimension());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setDeprecated(dto.isDeprecated());
         this.setFinalized(dto.isFinalized());
         this.setTensor(dto.isTensor());
@@ -250,7 +274,7 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.ArrayParameterType dto = new cdp4common.dto.ArrayParameterType(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));

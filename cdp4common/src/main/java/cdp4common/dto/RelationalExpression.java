@@ -25,7 +25,7 @@ import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -45,7 +45,7 @@ public class RelationalExpression extends BooleanExpression implements Cloneable
      */
     public RelationalExpression()
     {
-        this.value = new ValueArray<String>();
+        this.value = new ValueArray<String>(String.class);
     }
 
     /**
@@ -56,7 +56,7 @@ public class RelationalExpression extends BooleanExpression implements Cloneable
      */
     public RelationalExpression(UUID iid, int rev) {
         super(iid, rev);
-        this.value = new ValueArray<String>();
+        this.value = new ValueArray<String>(String.class);
     }
 
     /**

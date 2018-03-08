@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -84,13 +85,13 @@ public class ParameterValueSet extends ParameterValueSetBase implements Cloneabl
             throw new IllegalAccessError("Somehow ParameterValueSet cannot be cloned.");
         }
 
-        clone.setComputed(new ValueArray<String>(this.getComputed(), this));
+        clone.setComputed(new ValueArray<String>(this.getComputed(), this, String.class));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setFormula(new ValueArray<String>(this.getFormula(), this));
-        clone.setManual(new ValueArray<String>(this.getManual(), this));
-        clone.setPublished(new ValueArray<String>(this.getPublished(), this));
-        clone.setReference(new ValueArray<String>(this.getReference(), this));
+        clone.setFormula(new ValueArray<String>(this.getFormula(), this, String.class));
+        clone.setManual(new ValueArray<String>(this.getManual(), this, String.class));
+        clone.setPublished(new ValueArray<String>(this.getPublished(), this, String.class));
+        clone.setReference(new ValueArray<String>(this.getReference(), this, String.class));
 
         if (cloneContainedThings) {
         }
@@ -138,16 +139,16 @@ public class ParameterValueSet extends ParameterValueSetBase implements Cloneabl
 
         cdp4common.dto.ParameterValueSet dto = (cdp4common.dto.ParameterValueSet)dtoThing;
 
-        this.setActualOption((dto.getActualOption() != null) ? this.getCache().get<Option>(dto.getActualOption.getValue(), dto.getIterationContainerId()) : null);
-        this.setActualState((dto.getActualState() != null) ? this.getCache().get<ActualFiniteState>(dto.getActualState.getValue(), dto.getIterationContainerId()) : null);
-        this.setComputed(new ValueArray<String>(dto.getComputed(), this));
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.setFormula(new ValueArray<String>(dto.getFormula(), this));
-        this.setManual(new ValueArray<String>(dto.getManual(), this));
+        this.setActualOption((dto.getActualOption() != null) ? PojoThingFactory.get(this.getCache(), dto.getActualOption(), dto.getIterationContainerId(), Option.class) : null);
+        this.setActualState((dto.getActualState() != null) ? PojoThingFactory.get(this.getCache(), dto.getActualState(), dto.getIterationContainerId(), ActualFiniteState.class) : null);
+        this.setComputed(new ValueArray<String>(dto.getComputed(), this, String.class));
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        this.setFormula(new ValueArray<String>(dto.getFormula(), this, String.class));
+        this.setManual(new ValueArray<String>(dto.getManual(), this, String.class));
         this.setModifiedOn(dto.getModifiedOn());
-        this.setPublished(new ValueArray<String>(dto.getPublished(), this));
-        this.setReference(new ValueArray<String>(dto.getReference(), this));
+        this.setPublished(new ValueArray<String>(dto.getPublished(), this, String.class));
+        this.setReference(new ValueArray<String>(dto.getReference(), this, String.class));
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setValueSwitch(dto.getValueSwitch());
 
@@ -160,19 +161,19 @@ public class ParameterValueSet extends ParameterValueSetBase implements Cloneabl
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.ParameterValueSet dto = new cdp4common.dto.ParameterValueSet(this.getIid(), this.getRevisionNumber());
 
         dto.setActualOption(this.getActualOption() != null ? (UUID)this.getActualOption().getIid() : null);
         dto.setActualState(this.getActualState() != null ? (UUID)this.getActualState().getIid() : null);
-        dto.setComputed(new ValueArray<String>(this.getComputed(), this));
+        dto.setComputed(new ValueArray<String>(this.getComputed(), this, String.class));
         dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
-        dto.setFormula(new ValueArray<String>(this.getFormula(), this));
-        dto.setManual(new ValueArray<String>(this.getManual(), this));
+        dto.setFormula(new ValueArray<String>(this.getFormula(), this, String.class));
+        dto.setManual(new ValueArray<String>(this.getManual(), this, String.class));
         dto.setModifiedOn(this.getModifiedOn());
-        dto.setPublished(new ValueArray<String>(this.getPublished(), this));
-        dto.setReference(new ValueArray<String>(this.getReference(), this));
+        dto.setPublished(new ValueArray<String>(this.getPublished(), this, String.class));
+        dto.setReference(new ValueArray<String>(this.getReference(), this, String.class));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setValueSwitch(this.getValueSwitch());
 

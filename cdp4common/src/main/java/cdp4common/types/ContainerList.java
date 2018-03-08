@@ -9,7 +9,6 @@ import cdp4common.commondata.Thing;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
 
 /**
  * List Type used for the 10-25 model for classes which are part of a composition relationship
@@ -86,7 +85,9 @@ public class ContainerList<T extends Thing> extends ArrayList<T> {
      * @return The {@link Thing} with the specified index (only for get).
      */
     public T set(int index, T element) {
-        Objects.checkIndex(index, this.size());
+        if (index < 0 || index > this.size()){
+            throw new IndexOutOfBoundsException(String.format("index is %1$s, valid range is 0 to %2$s", index, this.size() - 1));
+        }
 
         if (element == null) {
             throw new IllegalArgumentException("value");

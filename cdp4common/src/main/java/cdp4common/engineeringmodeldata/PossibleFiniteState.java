@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -74,8 +75,17 @@ public class PossibleFiniteState extends DefinedThing implements Cloneable, Owne
      * Note: This is a derived property. It is always the same DomainOfExpertise as the <i>owner</i> of the containing PossibleFiniteStateList.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private DomainOfExpertise owner;
+
+    /**
+     * Gets the owner.
+     * reference to the DomainOfExpertise that owns (i.e. is responsible for) this PossibleFiniteState
+     * Note: This is a derived property. It is always the same DomainOfExpertise as the <i>owner</i> of the containing PossibleFiniteStateList.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public DomainOfExpertise getOwner(){
+        return this.getDerivedOwner();
+    }
 
     /**
      * Sets the owner.
@@ -163,11 +173,11 @@ public class PossibleFiniteState extends DefinedThing implements Cloneable, Owne
 
         cdp4common.dto.PossibleFiniteState dto = (cdp4common.dto.PossibleFiniteState)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
         this.setRevisionNumber(dto.getRevisionNumber());
@@ -182,7 +192,7 @@ public class PossibleFiniteState extends DefinedThing implements Cloneable, Owne
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.PossibleFiniteState dto = new cdp4common.dto.PossibleFiniteState(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
@@ -200,5 +210,32 @@ public class PossibleFiniteState extends DefinedThing implements Cloneable, Owne
         this.buildDtoPartialRoutes(dto);
 
         return dto;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /*
+    * Returns the derived {@link Owner} value
+    *
+    * @return The {@link Owner} value
+    */
+    private DomainOfExpertise getDerivedOwner() {
+        if (!(this.getContainer() instanceof PossibleFiniteStateList)) {
+            throw new NullPointerException("The container of PossibleFiniteState is null");
+        }
+
+        return ((PossibleFiniteStateList) this.getContainer()).getOwner();
+    }
+
+    /**
+    * Gets a value indicating whether this is the default {@link PossibleFiniteState} of a {@link PossibleFiniteStateList}
+    */
+    public boolean isDefault() {
+        if (!(this.getContainer() instanceof PossibleFiniteStateList)) {
+            throw new IllegalStateException("The Container of this PossibleFiniteState is not a PossibleFiniteStateList.");
+        }
+
+        return ((PossibleFiniteStateList) this.getContainer()).getDefaultState().equals(this);
     }
 }

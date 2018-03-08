@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -55,7 +56,7 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
     public ActualFiniteStateList() {
         this.actualState = new ContainerList<ActualFiniteState>(this);
         this.excludeOption = new ArrayList<Option>();
-        this.possibleFiniteStateList = new OrderedItemList<PossibleFiniteStateList>(this, false);
+        this.possibleFiniteStateList = new OrderedItemList<PossibleFiniteStateList>(this, PossibleFiniteStateList.class);
     }
 
     /**
@@ -70,7 +71,7 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
         super(iid, cache, iDalUri);
         this.actualState = new ContainerList<ActualFiniteState>(this);
         this.excludeOption = new ArrayList<Option>();
-        this.possibleFiniteStateList = new OrderedItemList<PossibleFiniteStateList>(this, false);
+        this.possibleFiniteStateList = new OrderedItemList<PossibleFiniteStateList>(this, PossibleFiniteStateList.class);
     }
 
     /**
@@ -99,7 +100,6 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
      * name derived from the <i>possibleFiniteStateList</i> by concatenation of the names of each referenced PossibleFiniteStateList
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String name;
 
     /**
@@ -127,13 +127,30 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
      * short name derived from the <i>possibleFiniteStateList</i> by concatenation of the short names of each referenced PossibleFiniteStateList
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String shortName;
 
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link ActualFiniteStateList}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
+
+    /**
+     * Gets the name.
+     * name derived from the <i>possibleFiniteStateList</i> by concatenation of the names of each referenced PossibleFiniteStateList
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getName(){
+        return this.getDerivedName();
+    }
+
+    /**
+     * Gets the shortName.
+     * short name derived from the <i>possibleFiniteStateList</i> by concatenation of the short names of each referenced PossibleFiniteStateList
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getShortName(){
+        return this.getDerivedShortName();
+    }
 
     /**
      * Sets the name.
@@ -162,11 +179,11 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
     }
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link ActualFiniteStateList}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ActualFiniteStateList}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.actualState);
         return containers;
     }
@@ -192,7 +209,7 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setExcludeOption(new ArrayList<Option>(this.getExcludeOption()));
-        clone.setPossibleFiniteStateList(new OrderedItemList<PossibleFiniteStateList>(this.getPossibleFiniteStateList(), this));
+        clone.setPossibleFiniteStateList(new OrderedItemList<PossibleFiniteStateList>(this.getPossibleFiniteStateList(), this, PossibleFiniteStateList.class));
 
         if (cloneContainedThings) {
             clone.getActualState().addAll(this.getActualState().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
@@ -252,13 +269,13 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
 
         cdp4common.dto.ActualFiniteStateList dto = (cdp4common.dto.ActualFiniteStateList)dtoThing;
 
-        this.getActualState().resolveList(dto.getActualState(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludeOption().resolveList(dto.getExcludeOption(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getActualState(), dto.getActualState(), dto.getIterationContainerId(), this.getCache(), ActualFiniteState.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getExcludeOption(), dto.getExcludeOption(), dto.getIterationContainerId(), this.getCache(), Option.class);
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
-        this.getPossibleFiniteStateList().resolveList(dto.getPossibleFiniteStateList(), dto.getIterationContainerId(), this.getCache());
+        this.setOwner(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getOwner(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
+        PojoThingFactory.resolveList(this.getPossibleFiniteStateList(), dto.getPossibleFiniteStateList(), dto.getIterationContainerId(), this.getCache(), PossibleFiniteStateList.class);
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -270,7 +287,7 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.ActualFiniteStateList dto = new cdp4common.dto.ActualFiniteStateList(this.getIid(), this.getRevisionNumber());
 
         dto.getActualState().addAll(this.getActualState().stream().map(Thing::getIid).collect(Collectors.toList()));

@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -56,7 +57,7 @@ public class Section extends Thing implements Cloneable, CategorizableThing, Nam
      */
     public Section() {
         this.category = new ArrayList<Category>();
-        this.page = new OrderedItemList<Page>(this, true);
+        this.page = new OrderedItemList<Page>(this, true, Page.class);
     }
 
     /**
@@ -70,7 +71,7 @@ public class Section extends Thing implements Cloneable, CategorizableThing, Nam
     public Section(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.category = new ArrayList<Category>();
-        this.page = new OrderedItemList<Page>(this, true);
+        this.page = new OrderedItemList<Page>(this, true, Page.class);
     }
 
     /**
@@ -136,14 +137,14 @@ public class Section extends Thing implements Cloneable, CategorizableThing, Nam
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link Section}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link Section}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Section}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.page);
         return containers;
     }
@@ -168,7 +169,7 @@ public class Section extends Thing implements Cloneable, CategorizableThing, Nam
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setPage(cloneContainedThings ? new OrderedItemList<Page>(clone, true) : new OrderedItemList<Page>(this.getPage(), clone));
+        clone.setPage(cloneContainedThings ? new OrderedItemList<Page>(clone, true, Page.class) : new OrderedItemList<Page>(this.getPage(), clone, Page.class));
 
         if (cloneContainedThings) {
             clone.getPage().addAll(this.getPage().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
@@ -231,14 +232,14 @@ public class Section extends Thing implements Cloneable, CategorizableThing, Nam
 
         cdp4common.dto.Section dto = (cdp4common.dto.Section)dtoThing;
 
-        this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getCategory(), dto.getCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
         this.setCreatedOn(dto.getCreatedOn());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
-        this.getPage().resolveList(dto.getPage(), dto.getIterationContainerId(), this.getCache());
+        this.setOwner(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getOwner(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
+        PojoThingFactory.resolveList(this.getPage(), dto.getPage(), dto.getIterationContainerId(), this.getCache(), Page.class);
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
 
@@ -251,7 +252,7 @@ public class Section extends Thing implements Cloneable, CategorizableThing, Nam
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.Section dto = new cdp4common.dto.Section(this.getIid(), this.getRevisionNumber());
 
         dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));

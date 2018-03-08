@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -54,7 +55,7 @@ public class EngineeringModel extends TopContainer implements Cloneable {
      * Initializes a new instance of the {@link EngineeringModel} class.
      */
     public EngineeringModel() {
-        this.book = new OrderedItemList<Book>(this, true);
+        this.book = new OrderedItemList<Book>(this, true, Book.class);
         this.commonFileStore = new ContainerList<CommonFileStore>(this);
         this.genericNote = new ContainerList<EngineeringModelDataNote>(this);
         this.iteration = new ContainerList<Iteration>(this);
@@ -72,7 +73,7 @@ public class EngineeringModel extends TopContainer implements Cloneable {
      */
     public EngineeringModel(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
-        this.book = new OrderedItemList<Book>(this, true);
+        this.book = new OrderedItemList<Book>(this, true, Book.class);
         this.commonFileStore = new ContainerList<CommonFileStore>(this);
         this.genericNote = new ContainerList<EngineeringModelDataNote>(this);
         this.iteration = new ContainerList<Iteration>(this);
@@ -153,14 +154,14 @@ public class EngineeringModel extends TopContainer implements Cloneable {
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link EngineeringModel}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link EngineeringModel}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link EngineeringModel}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.book);
         containers.add(this.commonFileStore);
         containers.add(this.genericNote);
@@ -187,7 +188,7 @@ public class EngineeringModel extends TopContainer implements Cloneable {
             throw new IllegalAccessError("Somehow EngineeringModel cannot be cloned.");
         }
 
-        clone.setBook(cloneContainedThings ? new OrderedItemList<Book>(clone, true) : new OrderedItemList<Book>(this.getBook(), clone));
+        clone.setBook(cloneContainedThings ? new OrderedItemList<Book>(clone, true, Book.class) : new OrderedItemList<Book>(this.getBook(), clone, Book.class));
         clone.setCommonFileStore(cloneContainedThings ? new ContainerList<CommonFileStore>(clone) : new ContainerList<CommonFileStore>(this.getCommonFileStore(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -259,16 +260,16 @@ public class EngineeringModel extends TopContainer implements Cloneable {
 
         cdp4common.dto.EngineeringModel dto = (cdp4common.dto.EngineeringModel)dtoThing;
 
-        this.getBook().resolveList(dto.getBook(), dto.getIterationContainerId(), this.getCache());
-        this.getCommonFileStore().resolveList(dto.getCommonFileStore(), dto.getIterationContainerId(), this.getCache());
-        this.setEngineeringModelSetup(this.getCache().get<EngineeringModelSetup>(dto.getEngineeringModelSetup(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(EngineeringModelSetup.class));
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getGenericNote().resolveList(dto.getGenericNote(), dto.getIterationContainerId(), this.getCache());
-        this.getIteration().resolveList(dto.getIteration(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getBook(), dto.getBook(), dto.getIterationContainerId(), this.getCache(), Book.class);
+        PojoThingFactory.resolveList(this.getCommonFileStore(), dto.getCommonFileStore(), dto.getIterationContainerId(), this.getCache(), CommonFileStore.class);
+        this.setEngineeringModelSetup(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getEngineeringModelSetup(), dto.getIterationContainerId(), EngineeringModelSetup.class), SentinelThingProvider.getSentinel(EngineeringModelSetup.class)));
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getGenericNote(), dto.getGenericNote(), dto.getIterationContainerId(), this.getCache(), EngineeringModelDataNote.class);
+        PojoThingFactory.resolveList(this.getIteration(), dto.getIteration(), dto.getIterationContainerId(), this.getCache(), Iteration.class);
         this.setLastModifiedOn(dto.getLastModifiedOn());
-        this.getLogEntry().resolveList(dto.getLogEntry(), dto.getIterationContainerId(), this.getCache());
-        this.getModellingAnnotation().resolveList(dto.getModellingAnnotation(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getLogEntry(), dto.getLogEntry(), dto.getIterationContainerId(), this.getCache(), ModelLogEntry.class);
+        PojoThingFactory.resolveList(this.getModellingAnnotation(), dto.getModellingAnnotation(), dto.getIterationContainerId(), this.getCache(), ModellingAnnotationItem.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
 
@@ -281,7 +282,7 @@ public class EngineeringModel extends TopContainer implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.EngineeringModel dto = new cdp4common.dto.EngineeringModel(this.getIid(), this.getRevisionNumber());
 
         dto.getBook().addAll(this.getBook().toDtoOrderedItemList());

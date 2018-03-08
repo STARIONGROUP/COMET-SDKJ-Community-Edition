@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -57,7 +58,7 @@ public class CompoundParameterType extends ParameterType implements Cloneable {
      * Initializes a new instance of the {@link CompoundParameterType} class.
      */
     public CompoundParameterType() {
-        this.component = new OrderedItemList<ParameterTypeComponent>(this, true);
+        this.component = new OrderedItemList<ParameterTypeComponent>(this, true, ParameterTypeComponent.class);
     }
 
     /**
@@ -70,7 +71,7 @@ public class CompoundParameterType extends ParameterType implements Cloneable {
      */
     public CompoundParameterType(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
-        this.component = new OrderedItemList<ParameterTypeComponent>(this, true);
+        this.component = new OrderedItemList<ParameterTypeComponent>(this, true, ParameterTypeComponent.class);
     }
 
     /**
@@ -95,14 +96,14 @@ public class CompoundParameterType extends ParameterType implements Cloneable {
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link CompoundParameterType}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link CompoundParameterType}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link CompoundParameterType}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.component);
         return containers;
     }
@@ -126,7 +127,7 @@ public class CompoundParameterType extends ParameterType implements Cloneable {
 
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
-        clone.setComponent(cloneContainedThings ? new OrderedItemList<ParameterTypeComponent>(clone, true) : new OrderedItemList<ParameterTypeComponent>(this.getComponent(), clone));
+        clone.setComponent(cloneContainedThings ? new OrderedItemList<ParameterTypeComponent>(clone, true, ParameterTypeComponent.class) : new OrderedItemList<ParameterTypeComponent>(this.getComponent(), clone, ParameterTypeComponent.class));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -187,13 +188,13 @@ public class CompoundParameterType extends ParameterType implements Cloneable {
 
         cdp4common.dto.CompoundParameterType dto = (cdp4common.dto.CompoundParameterType)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
-        this.getComponent().resolveList(dto.getComponent(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getCategory(), dto.getCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
+        PojoThingFactory.resolveList(this.getComponent(), dto.getComponent(), dto.getIterationContainerId(), this.getCache(), ParameterTypeComponent.class);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setDeprecated(dto.isDeprecated());
         this.setFinalized(dto.isFinalized());
         this.setModifiedOn(dto.getModifiedOn());
@@ -211,7 +212,7 @@ public class CompoundParameterType extends ParameterType implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.CompoundParameterType dto = new cdp4common.dto.CompoundParameterType(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));

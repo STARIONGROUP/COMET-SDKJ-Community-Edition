@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -159,9 +160,9 @@ public class ParameterGroup extends Thing implements Cloneable, NamedThing {
 
         cdp4common.dto.ParameterGroup dto = (cdp4common.dto.ParameterGroup)dtoThing;
 
-        this.setContainingGroup((dto.getContainingGroup() != null) ? this.getCache().get<ParameterGroup>(dto.getContainingGroup.getValue(), dto.getIterationContainerId()) : null);
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.setContainingGroup((dto.getContainingGroup() != null) ? PojoThingFactory.get(this.getCache(), dto.getContainingGroup(), dto.getIterationContainerId(), ParameterGroup.class) : null);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
         this.setRevisionNumber(dto.getRevisionNumber());
@@ -175,7 +176,7 @@ public class ParameterGroup extends Thing implements Cloneable, NamedThing {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.ParameterGroup dto = new cdp4common.dto.ParameterGroup(this.getIid(), this.getRevisionNumber());
 
         dto.setContainingGroup(this.getContainingGroup() != null ? (UUID)this.getContainingGroup().getIid() : null);

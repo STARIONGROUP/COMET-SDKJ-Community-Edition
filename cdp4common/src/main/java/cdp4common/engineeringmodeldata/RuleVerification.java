@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -103,7 +104,6 @@ public abstract class RuleVerification extends Thing implements Cloneable, Named
      * Note: The owner is the same as the <i>owner</i> of the containing RuleVerificationList.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private DomainOfExpertise owner;
 
     /**
@@ -128,7 +128,17 @@ public abstract class RuleVerification extends Thing implements Cloneable, Named
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link RuleVerification}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
+
+    /**
+     * Gets the owner.
+     * reference to the owner DomainOfExpertise of this RuleVerification
+     * Note: The owner is the same as the <i>owner</i> of the containing RuleVerificationList.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public DomainOfExpertise getOwner(){
+        return this.getDerivedOwner();
+    }
 
     /**
      * Sets the owner.
@@ -145,11 +155,11 @@ public abstract class RuleVerification extends Thing implements Cloneable, Named
     }
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link RuleVerification}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link RuleVerification}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.violation);
         return containers;
     }

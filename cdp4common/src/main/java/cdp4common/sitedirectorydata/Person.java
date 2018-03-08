@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -147,7 +148,6 @@ public class Person extends Thing implements Cloneable, DeprecatableThing, Named
      * Note: This property maps to 'cn' or 'commonName', as defined in LDAP (<a href="http://datatracker.ietf.org/doc/rfc4519/">IETF       RFC       4519</a>),       and       consists       of       the       concatenation       of       <i>givenName</i>,       a       space       and       <i>surname</i>.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String name;
 
     /**
@@ -235,7 +235,17 @@ public class Person extends Thing implements Cloneable, DeprecatableThing, Named
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link Person}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
+
+    /**
+     * Gets the name.
+     * derived full name of this Person
+     * Note: This property maps to 'cn' or 'commonName', as defined in LDAP (<a href="http://datatracker.ietf.org/doc/rfc4519/">IETF       RFC       4519</a>),       and       consists       of       the       concatenation       of       <i>givenName</i>,       a       space       and       <i>surname</i>.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getName(){
+        return this.getDerivedName();
+    }
 
     /**
      * Sets the name.
@@ -252,11 +262,11 @@ public class Person extends Thing implements Cloneable, DeprecatableThing, Named
     }
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link Person}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Person}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.emailAddress);
         containers.add(this.telephoneNumber);
         containers.add(this.userPreference);
@@ -347,25 +357,25 @@ public class Person extends Thing implements Cloneable, DeprecatableThing, Named
 
         cdp4common.dto.Person dto = (cdp4common.dto.Person)dtoThing;
 
-        this.setDefaultDomain((dto.getDefaultDomain() != null) ? this.getCache().get<DomainOfExpertise>(dto.getDefaultDomain.getValue(), dto.getIterationContainerId()) : null);
-        this.setDefaultEmailAddress((dto.getDefaultEmailAddress() != null) ? this.getCache().get<EmailAddress>(dto.getDefaultEmailAddress.getValue(), dto.getIterationContainerId()) : null);
-        this.setDefaultTelephoneNumber((dto.getDefaultTelephoneNumber() != null) ? this.getCache().get<TelephoneNumber>(dto.getDefaultTelephoneNumber.getValue(), dto.getIterationContainerId()) : null);
-        this.getEmailAddress().resolveList(dto.getEmailAddress(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.setDefaultDomain((dto.getDefaultDomain() != null) ? PojoThingFactory.get(this.getCache(), dto.getDefaultDomain(), dto.getIterationContainerId(), DomainOfExpertise.class) : null);
+        this.setDefaultEmailAddress((dto.getDefaultEmailAddress() != null) ? PojoThingFactory.get(this.getCache(), dto.getDefaultEmailAddress(), dto.getIterationContainerId(), EmailAddress.class) : null);
+        this.setDefaultTelephoneNumber((dto.getDefaultTelephoneNumber() != null) ? PojoThingFactory.get(this.getCache(), dto.getDefaultTelephoneNumber(), dto.getIterationContainerId(), TelephoneNumber.class) : null);
+        PojoThingFactory.resolveList(this.getEmailAddress(), dto.getEmailAddress(), dto.getIterationContainerId(), this.getCache(), EmailAddress.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setGivenName(dto.getGivenName());
         this.setActive(dto.isActive());
         this.setDeprecated(dto.isDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOrganization((dto.getOrganization() != null) ? this.getCache().get<Organization>(dto.getOrganization.getValue(), dto.getIterationContainerId()) : null);
+        this.setOrganization((dto.getOrganization() != null) ? PojoThingFactory.get(this.getCache(), dto.getOrganization(), dto.getIterationContainerId(), Organization.class) : null);
         this.setOrganizationalUnit(dto.getOrganizationalUnit());
         this.setPassword(dto.getPassword());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setRole((dto.getRole() != null) ? this.getCache().get<PersonRole>(dto.getRole.getValue(), dto.getIterationContainerId()) : null);
+        this.setRole((dto.getRole() != null) ? PojoThingFactory.get(this.getCache(), dto.getRole(), dto.getIterationContainerId(), PersonRole.class) : null);
         this.setShortName(dto.getShortName());
         this.setSurname(dto.getSurname());
-        this.getTelephoneNumber().resolveList(dto.getTelephoneNumber(), dto.getIterationContainerId(), this.getCache());
-        this.getUserPreference().resolveList(dto.getUserPreference(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getTelephoneNumber(), dto.getTelephoneNumber(), dto.getIterationContainerId(), this.getCache(), TelephoneNumber.class);
+        PojoThingFactory.resolveList(this.getUserPreference(), dto.getUserPreference(), dto.getIterationContainerId(), this.getCache(), UserPreference.class);
 
         this.resolveExtraProperties();
     }
@@ -376,7 +386,7 @@ public class Person extends Thing implements Cloneable, DeprecatableThing, Named
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.Person dto = new cdp4common.dto.Person(this.getIid(), this.getRevisionNumber());
 
         dto.setDefaultDomain(this.getDefaultDomain() != null ? (UUID)this.getDefaultDomain().getIid() : null);

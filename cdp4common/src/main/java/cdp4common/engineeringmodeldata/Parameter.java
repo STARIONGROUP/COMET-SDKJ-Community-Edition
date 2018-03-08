@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -111,14 +112,14 @@ public class Parameter extends ParameterOrOverrideBase implements Cloneable {
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link Parameter}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link Parameter}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Parameter}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.valueSet);
         return containers;
     }
@@ -198,21 +199,21 @@ public class Parameter extends ParameterOrOverrideBase implements Cloneable {
 
         cdp4common.dto.Parameter dto = (cdp4common.dto.Parameter)dtoThing;
 
-        this.setAllowDifferentOwnerOfOverride(dto.getAllowDifferentOwnerOfOverride());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.setExpectsOverride(dto.getExpectsOverride());
-        this.setGroup((dto.getGroup() != null) ? this.getCache().get<ParameterGroup>(dto.getGroup.getValue(), dto.getIterationContainerId()) : null);
+        this.setAllowDifferentOwnerOfOverride(dto.isAllowDifferentOwnerOfOverride());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        this.setExpectsOverride(dto.isExpectsOverride());
+        this.setGroup((dto.getGroup() != null) ? PojoThingFactory.get(this.getCache(), dto.getGroup(), dto.getIterationContainerId(), ParameterGroup.class) : null);
         this.setOptionDependent(dto.isOptionDependent());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
-        this.getParameterSubscription().resolveList(dto.getParameterSubscription(), dto.getIterationContainerId(), this.getCache());
-        this.setParameterType(this.getCache().get<ParameterType>(dto.getParameterType(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ParameterType.class));
-        this.setRequestedBy((dto.getRequestedBy() != null) ? this.getCache().get<DomainOfExpertise>(dto.getRequestedBy.getValue(), dto.getIterationContainerId()) : null);
+        this.setOwner(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getOwner(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
+        PojoThingFactory.resolveList(this.getParameterSubscription(), dto.getParameterSubscription(), dto.getIterationContainerId(), this.getCache(), ParameterSubscription.class);
+        this.setParameterType(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getParameterType(), dto.getIterationContainerId(), ParameterType.class), SentinelThingProvider.getSentinel(ParameterType.class)));
+        this.setRequestedBy((dto.getRequestedBy() != null) ? PojoThingFactory.get(this.getCache(), dto.getRequestedBy(), dto.getIterationContainerId(), DomainOfExpertise.class) : null);
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setScale((dto.getScale() != null) ? this.getCache().get<MeasurementScale>(dto.getScale.getValue(), dto.getIterationContainerId()) : null);
-        this.setStateDependence((dto.getStateDependence() != null) ? this.getCache().get<ActualFiniteStateList>(dto.getStateDependence.getValue(), dto.getIterationContainerId()) : null);
-        this.getValueSet().resolveList(dto.getValueSet(), dto.getIterationContainerId(), this.getCache());
+        this.setScale((dto.getScale() != null) ? PojoThingFactory.get(this.getCache(), dto.getScale(), dto.getIterationContainerId(), MeasurementScale.class) : null);
+        this.setStateDependence((dto.getStateDependence() != null) ? PojoThingFactory.get(this.getCache(), dto.getStateDependence(), dto.getIterationContainerId(), ActualFiniteStateList.class) : null);
+        PojoThingFactory.resolveList(this.getValueSet(), dto.getValueSet(), dto.getIterationContainerId(), this.getCache(), ParameterValueSet.class);
 
         this.resolveExtraProperties();
     }
@@ -223,13 +224,13 @@ public class Parameter extends ParameterOrOverrideBase implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.Parameter dto = new cdp4common.dto.Parameter(this.getIid(), this.getRevisionNumber());
 
-        dto.setAllowDifferentOwnerOfOverride(this.getAllowDifferentOwnerOfOverride());
+        dto.setAllowDifferentOwnerOfOverride(this.isAllowDifferentOwnerOfOverride());
         dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
-        dto.setExpectsOverride(this.getExpectsOverride());
+        dto.setExpectsOverride(this.isExpectsOverride());
         dto.setGroup(this.getGroup() != null ? (UUID)this.getGroup().getIid() : null);
         dto.setOptionDependent(this.isOptionDependent());
         dto.setModifiedOn(this.getModifiedOn());

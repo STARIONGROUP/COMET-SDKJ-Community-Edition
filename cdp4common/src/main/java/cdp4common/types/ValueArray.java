@@ -6,6 +6,7 @@
 package cdp4common.types;
 
 import cdp4common.commondata.Thing;
+import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,29 +35,41 @@ public class ValueArray<T> implements Iterable<T> {
     private Thing container;
 
     /**
-     * Initializes a new instance of the {@link ValueArray<T>} class.
+     * The type of the created {@link OrderedItemList<T>}
      */
-    public ValueArray() {
+    private final Class<T> clazz;
+
+    /**
+     * Initializes a new instance of the {@link ValueArray<T>} class.
+     *
+     * @param clazz The type of the contained elements
+     */
+    public ValueArray(Class<T> clazz) {
         this.items = new ArrayList<>();
+        this.clazz = clazz;
     }
 
     /**
      * Initializes a new instance of the {@link ValueArray<T>} class.
      *
      * @param container The container of this {@link ValueArray<T>}
+     * @param clazz     The type of the contained elements
      */
-    public ValueArray(Thing container) {
+    public ValueArray(Thing container, Class<T> clazz) {
         this.container = container;
         this.items = new ArrayList<>();
+        this.clazz = clazz;
     }
 
     /**
      * Initializes a new instance of the {@link ValueArray<T>} class.
      *
      * @param initializationCollection Collection to initialize this {@link Collection<T>}.
+     * @param clazz                    The type of the contained elements
      */
-    public ValueArray(Collection<T> initializationCollection) {
+    public ValueArray(Collection<T> initializationCollection, Class<T> clazz) {
         this.items = initializationCollection == null ? new ArrayList<>() : new ArrayList<>(initializationCollection);
+        this.clazz = clazz;
     }
 
     /**
@@ -64,10 +77,12 @@ public class ValueArray<T> implements Iterable<T> {
      *
      * @param initializationCollection Collection to initialize this {@link Collection<T>}.
      * @param container                The container of this {@link ValueArray<T>}
+     * @param clazz                    The type of the contained elements
      */
-    public ValueArray(Collection<T> initializationCollection, Thing container) {
-        this.items = initializationCollection == null ? new ArrayList<>() : new ArrayList<>(initializationCollection);
+    public ValueArray(Iterable<T> initializationCollection, Thing container, Class<T> clazz) {
+        this.items = initializationCollection == null ? new ArrayList<>() : Lists.newArrayList(initializationCollection);
         this.container = container;
+        this.clazz = clazz;
     }
 
     /**
@@ -136,5 +151,14 @@ public class ValueArray<T> implements Iterable<T> {
 
         sb.append("}");
         return sb.toString();
+    }
+
+    /**
+     * Returns the number of elements in this list.
+     *
+     * @return the number of elements in this list
+     */
+    public int size() {
+        return this.items.size();
     }
 }

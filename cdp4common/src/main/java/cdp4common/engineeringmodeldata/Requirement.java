@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -56,7 +57,7 @@ public class Requirement extends SimpleParameterizableThing implements Cloneable
      */
     public Requirement() {
         this.category = new ArrayList<Category>();
-        this.parametricConstraint = new OrderedItemList<ParametricConstraint>(this, true);
+        this.parametricConstraint = new OrderedItemList<ParametricConstraint>(this, true, ParametricConstraint.class);
     }
 
     /**
@@ -70,7 +71,7 @@ public class Requirement extends SimpleParameterizableThing implements Cloneable
     public Requirement(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.category = new ArrayList<Category>();
-        this.parametricConstraint = new OrderedItemList<ParametricConstraint>(this, true);
+        this.parametricConstraint = new OrderedItemList<ParametricConstraint>(this, true, ParametricConstraint.class);
     }
 
     /**
@@ -113,14 +114,14 @@ public class Requirement extends SimpleParameterizableThing implements Cloneable
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link Requirement}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link Requirement}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Requirement}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.parametricConstraint);
         return containers;
     }
@@ -149,7 +150,7 @@ public class Requirement extends SimpleParameterizableThing implements Cloneable
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
         clone.setParameterValue(cloneContainedThings ? new ContainerList<SimpleParameterValue>(clone) : new ContainerList<SimpleParameterValue>(this.getParameterValue(), clone, false));
-        clone.setParametricConstraint(cloneContainedThings ? new OrderedItemList<ParametricConstraint>(clone, true) : new OrderedItemList<ParametricConstraint>(this.getParametricConstraint(), clone));
+        clone.setParametricConstraint(cloneContainedThings ? new OrderedItemList<ParametricConstraint>(clone, true, ParametricConstraint.class) : new OrderedItemList<ParametricConstraint>(this.getParametricConstraint(), clone, ParametricConstraint.class));
 
         if (cloneContainedThings) {
             clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
@@ -202,19 +203,19 @@ public class Requirement extends SimpleParameterizableThing implements Cloneable
 
         cdp4common.dto.Requirement dto = (cdp4common.dto.Requirement)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.setGroup((dto.getGroup() != null) ? this.getCache().get<RequirementsGroup>(dto.getGroup.getValue(), dto.getIterationContainerId()) : null);
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getCategory(), dto.getCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        this.setGroup((dto.getGroup() != null) ? PojoThingFactory.get(this.getCache(), dto.getGroup(), dto.getIterationContainerId(), RequirementsGroup.class) : null);
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setDeprecated(dto.isDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
-        this.getParameterValue().resolveList(dto.getParameterValue(), dto.getIterationContainerId(), this.getCache());
-        this.getParametricConstraint().resolveList(dto.getParametricConstraint(), dto.getIterationContainerId(), this.getCache());
+        this.setOwner(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getOwner(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
+        PojoThingFactory.resolveList(this.getParameterValue(), dto.getParameterValue(), dto.getIterationContainerId(), this.getCache(), SimpleParameterValue.class);
+        PojoThingFactory.resolveList(this.getParametricConstraint(), dto.getParametricConstraint(), dto.getIterationContainerId(), this.getCache(), ParametricConstraint.class);
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
 
@@ -227,7 +228,7 @@ public class Requirement extends SimpleParameterizableThing implements Cloneable
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.Requirement dto = new cdp4common.dto.Requirement(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));

@@ -8,7 +8,7 @@ package cdp4common.exceptions;
 /**
  * The ValueArray parse exception.
  */
-public class ValueArrayParseException extends Exception {
+public class ValueArrayParseException extends RuntimeException {
     /**
      * Initializes a new instance of the {@link ValueArrayParseException} class.
      */

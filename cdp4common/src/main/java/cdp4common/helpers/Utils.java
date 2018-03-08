@@ -5,14 +5,16 @@
 
 package cdp4common.helpers;
 
+import com.google.common.base.CaseFormat;
+
 public class Utils {
     /**
-     * Capitalize the constant according to the Java naming convention
+     * Get constant notation from upper camel according to the Java naming convention
      *
      * @param input The subject input string
      * @return A string
      */
-    public static String getConstantNotation(String input) {
+    public static String getConstantNotationFromUpperCamel(String input) {
         if (input.trim().isEmpty()) {
             throw new IllegalArgumentException("String can't be empty!");
         }
@@ -29,5 +31,19 @@ public class Utils {
         }
 
         return constantName.toString().toUpperCase();
+    }
+
+    /**
+     * Get upper camel notation from constant according to the Java naming convention
+     *
+     * @param input The subject input string
+     * @return A string
+     */
+    public static String getUpperCamelNotationFromConstant(String input) {
+        if (input.trim().isEmpty()) {
+            throw new IllegalArgumentException("String can't be empty!");
+        }
+
+        return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, input);
     }
 }

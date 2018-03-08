@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -122,14 +123,14 @@ public class LogarithmicScale extends MeasurementScale implements Cloneable {
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link LogarithmicScale}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link LogarithmicScale}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link LogarithmicScale}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.referenceQuantityValue);
         return containers;
     }
@@ -226,18 +227,18 @@ public class LogarithmicScale extends MeasurementScale implements Cloneable {
 
         cdp4common.dto.LogarithmicScale dto = (cdp4common.dto.LogarithmicScale)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setExponent(dto.getExponent());
         this.setFactor(dto.getFactor());
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setDeprecated(dto.isDeprecated());
         this.setMaximumInclusive(dto.isMaximumInclusive());
         this.setMinimumInclusive(dto.isMinimumInclusive());
         this.setLogarithmBase(dto.getLogarithmBase());
-        this.getMappingToReferenceScale().resolveList(dto.getMappingToReferenceScale(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getMappingToReferenceScale(), dto.getMappingToReferenceScale(), dto.getIterationContainerId(), this.getCache(), MappingToReferenceScale.class);
         this.setMaximumPermissibleValue(dto.getMaximumPermissibleValue());
         this.setMinimumPermissibleValue(dto.getMinimumPermissibleValue());
         this.setModifiedOn(dto.getModifiedOn());
@@ -245,12 +246,12 @@ public class LogarithmicScale extends MeasurementScale implements Cloneable {
         this.setNegativeValueConnotation(dto.getNegativeValueConnotation());
         this.setNumberSet(dto.getNumberSet());
         this.setPositiveValueConnotation(dto.getPositiveValueConnotation());
-        this.setReferenceQuantityKind(this.getCache().get<QuantityKind>(dto.getReferenceQuantityKind(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(QuantityKind.class));
-        this.getReferenceQuantityValue().resolveList(dto.getReferenceQuantityValue(), dto.getIterationContainerId(), this.getCache());
+        this.setReferenceQuantityKind(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getReferenceQuantityKind(), dto.getIterationContainerId(), QuantityKind.class), SentinelThingProvider.getSentinel(QuantityKind.class)));
+        PojoThingFactory.resolveList(this.getReferenceQuantityValue(), dto.getReferenceQuantityValue(), dto.getIterationContainerId(), this.getCache(), ScaleReferenceQuantityValue.class);
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
-        this.setUnit(this.getCache().get<MeasurementUnit>(dto.getUnit(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(MeasurementUnit.class));
-        this.getValueDefinition().resolveList(dto.getValueDefinition(), dto.getIterationContainerId(), this.getCache());
+        this.setUnit(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getUnit(), dto.getIterationContainerId(), MeasurementUnit.class), SentinelThingProvider.getSentinel(MeasurementUnit.class)));
+        PojoThingFactory.resolveList(this.getValueDefinition(), dto.getValueDefinition(), dto.getIterationContainerId(), this.getCache(), ScaleValueDefinition.class);
 
         this.resolveExtraProperties();
     }
@@ -261,7 +262,7 @@ public class LogarithmicScale extends MeasurementScale implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.LogarithmicScale dto = new cdp4common.dto.LogarithmicScale(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));

@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -53,7 +54,7 @@ public class RelationalExpression extends BooleanExpression implements Cloneable
      * Initializes a new instance of the {@link RelationalExpression} class.
      */
     public RelationalExpression() {
-        this.value = new ValueArray<String>(this, false);
+        this.value = new ValueArray<String>(this, String.class);
     }
 
     /**
@@ -66,7 +67,7 @@ public class RelationalExpression extends BooleanExpression implements Cloneable
      */
     public RelationalExpression(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
-        this.value = new ValueArray<String>(this, false);
+        this.value = new ValueArray<String>(this, String.class);
     }
 
     /**
@@ -125,7 +126,7 @@ public class RelationalExpression extends BooleanExpression implements Cloneable
 
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setValue(new ValueArray<String>(this.getValue(), this));
+        clone.setValue(new ValueArray<String>(this.getValue(), this, String.class));
 
         if (cloneContainedThings) {
         }
@@ -184,14 +185,14 @@ public class RelationalExpression extends BooleanExpression implements Cloneable
 
         cdp4common.dto.RelationalExpression dto = (cdp4common.dto.RelationalExpression)dtoThing;
 
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setModifiedOn(dto.getModifiedOn());
-        this.setParameterType(this.getCache().get<ParameterType>(dto.getParameterType(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ParameterType.class));
+        this.setParameterType(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getParameterType(), dto.getIterationContainerId(), ParameterType.class), SentinelThingProvider.getSentinel(ParameterType.class)));
         this.setRelationalOperator(dto.getRelationalOperator());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setScale((dto.getScale() != null) ? this.getCache().get<MeasurementScale>(dto.getScale.getValue(), dto.getIterationContainerId()) : null);
-        this.setValue(new ValueArray<String>(dto.getValue(), this));
+        this.setScale((dto.getScale() != null) ? PojoThingFactory.get(this.getCache(), dto.getScale(), dto.getIterationContainerId(), MeasurementScale.class) : null);
+        this.setValue(new ValueArray<String>(dto.getValue(), this, String.class));
 
         this.resolveExtraProperties();
     }
@@ -202,7 +203,7 @@ public class RelationalExpression extends BooleanExpression implements Cloneable
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.RelationalExpression dto = new cdp4common.dto.RelationalExpression(this.getIid(), this.getRevisionNumber());
 
         dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
@@ -212,7 +213,7 @@ public class RelationalExpression extends BooleanExpression implements Cloneable
         dto.setRelationalOperator(this.getRelationalOperator());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setScale(this.getScale() != null ? (UUID)this.getScale().getIid() : null);
-        dto.setValue(new ValueArray<String>(this.getValue(), this));
+        dto.setValue(new ValueArray<String>(this.getValue(), this, String.class));
 
         dto.setIterationContainerId(this.getCacheId().getRight());
         dto.registerSourceThing(this);

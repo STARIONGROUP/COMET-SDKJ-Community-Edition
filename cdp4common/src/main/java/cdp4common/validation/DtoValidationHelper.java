@@ -49,7 +49,7 @@ public class DtoValidationHelper<T extends Thing> {
      * @param thing The thing on which to perform the validation.
      * @throws Cdp4ModelValidationException If the validation rule failed
      */
-    public void validate(T thing) throws Cdp4ModelValidationException {
+    public void validate(T thing) {
         if (!this.tryValidate(thing)) {
             throw new Cdp4ModelValidationException(this.getValidationError());
         }

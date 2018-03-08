@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -192,18 +193,18 @@ public class MultiRelationshipRule extends Rule implements Cloneable {
 
         cdp4common.dto.MultiRelationshipRule dto = (cdp4common.dto.MultiRelationshipRule)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setDeprecated(dto.isDeprecated());
         this.setMaxRelated(dto.getMaxRelated());
         this.setMinRelated(dto.getMinRelated());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.getRelatedCategory().resolveList(dto.getRelatedCategory(), dto.getIterationContainerId(), this.getCache());
-        this.setRelationshipCategory(this.getCache().get<Category>(dto.getRelationshipCategory(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Category.class));
+        PojoThingFactory.resolveList(this.getRelatedCategory(), dto.getRelatedCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
+        this.setRelationshipCategory(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getRelationshipCategory(), dto.getIterationContainerId(), Category.class), SentinelThingProvider.getSentinel(Category.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
 
@@ -216,7 +217,7 @@ public class MultiRelationshipRule extends Rule implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.MultiRelationshipRule dto = new cdp4common.dto.MultiRelationshipRule(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));

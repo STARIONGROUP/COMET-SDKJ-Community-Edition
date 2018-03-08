@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -151,11 +152,11 @@ public class AndExpression extends BooleanExpression implements Cloneable {
 
         cdp4common.dto.AndExpression dto = (cdp4common.dto.AndExpression)dtoThing;
 
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.getTerm().resolveList(dto.getTerm(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getTerm(), dto.getTerm(), dto.getIterationContainerId(), this.getCache(), BooleanExpression.class);
 
         this.resolveExtraProperties();
     }
@@ -166,7 +167,7 @@ public class AndExpression extends BooleanExpression implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.AndExpression dto = new cdp4common.dto.AndExpression(this.getIid(), this.getRevisionNumber());
 
         dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
@@ -181,4 +182,15 @@ public class AndExpression extends BooleanExpression implements Cloneable {
 
         return dto;
     }
+
+	// HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Representation of the <code>AndExpression</code> as a string
+     *
+     * @see AndExpression
+     */
+    @Getter
+    private String stringValue = "AND";
 }

@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -62,7 +63,7 @@ public class PossibleFiniteStateList extends DefinedThing implements Cloneable, 
      */
     public PossibleFiniteStateList() {
         this.category = new ArrayList<Category>();
-        this.possibleState = new OrderedItemList<PossibleFiniteState>(this, true);
+        this.possibleState = new OrderedItemList<PossibleFiniteState>(this, true, PossibleFiniteState.class);
     }
 
     /**
@@ -76,7 +77,7 @@ public class PossibleFiniteStateList extends DefinedThing implements Cloneable, 
     public PossibleFiniteStateList(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.category = new ArrayList<Category>();
-        this.possibleState = new OrderedItemList<PossibleFiniteState>(this, true);
+        this.possibleState = new OrderedItemList<PossibleFiniteState>(this, true, PossibleFiniteState.class);
     }
 
     /**
@@ -120,14 +121,14 @@ public class PossibleFiniteStateList extends DefinedThing implements Cloneable, 
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link PossibleFiniteStateList}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link PossibleFiniteStateList}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link PossibleFiniteStateList}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.possibleState);
         return containers;
     }
@@ -155,7 +156,7 @@ public class PossibleFiniteStateList extends DefinedThing implements Cloneable, 
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
-        clone.setPossibleState(cloneContainedThings ? new OrderedItemList<PossibleFiniteState>(clone, true) : new OrderedItemList<PossibleFiniteState>(this.getPossibleState(), clone));
+        clone.setPossibleState(cloneContainedThings ? new OrderedItemList<PossibleFiniteState>(clone, true, PossibleFiniteState.class) : new OrderedItemList<PossibleFiniteState>(this.getPossibleState(), clone, PossibleFiniteState.class));
 
         if (cloneContainedThings) {
             clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
@@ -218,17 +219,17 @@ public class PossibleFiniteStateList extends DefinedThing implements Cloneable, 
 
         cdp4common.dto.PossibleFiniteStateList dto = (cdp4common.dto.PossibleFiniteStateList)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
-        this.setDefaultState((dto.getDefaultState() != null) ? this.getCache().get<PossibleFiniteState>(dto.getDefaultState.getValue(), dto.getIterationContainerId()) : null);
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getCategory(), dto.getCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
+        this.setDefaultState((dto.getDefaultState() != null) ? PojoThingFactory.get(this.getCache(), dto.getDefaultState(), dto.getIterationContainerId(), PossibleFiniteState.class) : null);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
-        this.getPossibleState().resolveList(dto.getPossibleState(), dto.getIterationContainerId(), this.getCache());
+        this.setOwner(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getOwner(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
+        PojoThingFactory.resolveList(this.getPossibleState(), dto.getPossibleState(), dto.getIterationContainerId(), this.getCache(), PossibleFiniteState.class);
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
 
@@ -241,7 +242,7 @@ public class PossibleFiniteStateList extends DefinedThing implements Cloneable, 
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.PossibleFiniteStateList dto = new cdp4common.dto.PossibleFiniteStateList(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));

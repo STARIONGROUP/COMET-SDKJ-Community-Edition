@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -192,18 +193,18 @@ public class ReferencerRule extends Rule implements Cloneable {
 
         cdp4common.dto.ReferencerRule dto = (cdp4common.dto.ReferencerRule)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setDeprecated(dto.isDeprecated());
         this.setMaxReferenced(dto.getMaxReferenced());
         this.setMinReferenced(dto.getMinReferenced());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.getReferencedCategory().resolveList(dto.getReferencedCategory(), dto.getIterationContainerId(), this.getCache());
-        this.setReferencingCategory(this.getCache().get<Category>(dto.getReferencingCategory(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Category.class));
+        PojoThingFactory.resolveList(this.getReferencedCategory(), dto.getReferencedCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
+        this.setReferencingCategory(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getReferencingCategory(), dto.getIterationContainerId(), Category.class), SentinelThingProvider.getSentinel(Category.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
 
@@ -216,7 +217,7 @@ public class ReferencerRule extends Rule implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.ReferencerRule dto = new cdp4common.dto.ReferencerRule(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));

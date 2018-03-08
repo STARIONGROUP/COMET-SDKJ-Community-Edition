@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -209,15 +210,15 @@ public class IterationSetup extends Thing implements Cloneable, ParticipantAffec
 
         this.setCreatedOn(dto.getCreatedOn());
         this.setDescription(dto.getDescription());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setFrozenOn(dto.getFrozenOn());
         this.setDeleted(dto.isDeleted());
         this.setIterationIid(dto.getIterationIid());
         this.setIterationNumber(dto.getIterationNumber());
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setSourceIterationSetup((dto.getSourceIterationSetup() != null) ? this.getCache().get<IterationSetup>(dto.getSourceIterationSetup.getValue(), dto.getIterationContainerId()) : null);
+        this.setSourceIterationSetup((dto.getSourceIterationSetup() != null) ? PojoThingFactory.get(this.getCache(), dto.getSourceIterationSetup(), dto.getIterationContainerId(), IterationSetup.class) : null);
 
         this.resolveExtraProperties();
     }
@@ -228,7 +229,7 @@ public class IterationSetup extends Thing implements Cloneable, ParticipantAffec
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.IterationSetup dto = new cdp4common.dto.IterationSetup(this.getIid(), this.getRevisionNumber());
 
         dto.setCreatedOn(this.getCreatedOn());

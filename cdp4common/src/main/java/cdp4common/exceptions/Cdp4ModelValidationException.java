@@ -8,7 +8,7 @@ package cdp4common.exceptions;
 /**
  * The CDP4 model validation exception.
  */
-public class Cdp4ModelValidationException extends Exception {
+public class Cdp4ModelValidationException extends RuntimeException {
     /**
      * Initializes a new instance of the {@link Cdp4ModelValidationException} class.
      */

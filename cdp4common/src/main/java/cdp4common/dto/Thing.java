@@ -7,6 +7,7 @@ package cdp4common.dto;
 
 import cdp4common.*;
 import cdp4common.commondata.ClassKind;
+import cdp4common.helpers.ContainerPropertyHelper;
 import cdp4common.helpers.Utils;
 import cdp4common.types.OrderedItem;
 import com.google.common.collect.ImmutableMap;
@@ -19,7 +20,7 @@ import lombok.experimental.var;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 
 import javax.xml.bind.annotation.XmlTransient;
 import java.lang.reflect.Field;
@@ -36,7 +37,6 @@ import java.util.UUID;
  * The Data Transfer Object representing the abstract {@link Thing} class.
  */
 @ToString
-@EqualsAndHashCode
 public abstract class Thing {
     /**
      * A list of {@link cdp4common.commondata.ClassKind} representing the container that are added to compute the route
@@ -270,7 +270,7 @@ public abstract class Thing {
                 throw new UnsupportedOperationException("Cannot add another container, EngineeringModel is a top container");
             default: {
                 if (isAuthorizedRoute(lastRouteClassKind, classKind)) {
-                    var containerPropertyName = ContainerPropertyHelper.ContainerPropertyName(classKind);
+                    String containerPropertyName = ContainerPropertyHelper.getContainerPropertyName(classKind);
                     String partialRoute = String.format("%1$s/%2$s", containerPropertyName, iid);
                     this.PARTIAL_ROUTES.add(partialRoute);
                     this.PARTIAL_CLASS_KIND_ROUTE.add(classKind);
@@ -291,7 +291,7 @@ public abstract class Thing {
         List<String> temporaryList = Lists.reverse(new ArrayList<>(this.PARTIAL_ROUTES));
         String containerRoute = String.join("/", temporaryList);
 
-        String containerPropertyName = ContainerPropertyHelper.ContainerPropertyName(this.CLASS_KIND);
+        String containerPropertyName = ContainerPropertyHelper.getContainerPropertyName(this.CLASS_KIND);
         String partialRoute = String.format("%1$s/%2$s", containerPropertyName, getIid());
 
         if (StringUtils.isEmpty(containerRoute)) {
@@ -307,7 +307,7 @@ public abstract class Thing {
      * @return the {@link ClassKind} of the current object
      */
     protected ClassKind computeCurrentClassKind() {
-        String className = Utils.getConstantNotation(this.getClass().getSimpleName());
+        String className = Utils.getConstantNotationFromUpperCamel(this.getClass().getSimpleName());
 
         return ClassKind.valueOf(className); // unsuccessful call will throw an exception
     }
@@ -320,7 +320,7 @@ public abstract class Thing {
      * @return true if the new route is consistent with the existing one
      */
     private boolean isAuthorizedRoute(ClassKind lastRoute, ClassKind newRoute) {
-        String lastRouteContainerClass = ContainerPropertyHelper.ContainerClassName(lastRoute);
+        String lastRouteContainerClass = ContainerPropertyHelper.getContainerClassName(lastRoute);
         if (newRoute.toString().equals(lastRouteContainerClass)) {
             return true;
         }

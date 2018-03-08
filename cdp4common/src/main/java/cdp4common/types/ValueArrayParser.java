@@ -42,7 +42,7 @@ public class ValueArrayParser {
      * @param stringArray The {@link String} to parse
      * @return true if the parsing succeeded
      */
-    public static ValueArray<Integer> parseToIntValueArray(String stringArray) throws ValueArrayParseException {
+    public static ValueArray<Integer> parseToIntValueArray(String stringArray) {
         if (stringArray.trim().isEmpty()) {
             throw new ValueArrayParseException("The string is null or blank.");
         }
@@ -76,6 +76,6 @@ public class ValueArrayParser {
             }
         }
 
-        return new ValueArray<>(intResults);
+        return new ValueArray<>(intResults, Integer.class);
     }
 }

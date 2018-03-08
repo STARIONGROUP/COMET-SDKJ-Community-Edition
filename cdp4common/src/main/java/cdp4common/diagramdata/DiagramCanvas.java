@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -148,11 +149,11 @@ public class DiagramCanvas extends DiagramElementContainer implements Cloneable,
 
         cdp4common.dto.DiagramCanvas dto = (cdp4common.dto.DiagramCanvas)dtoThing;
 
-        this.getBounds().resolveList(dto.getBounds(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getBounds(), dto.getBounds(), dto.getIterationContainerId(), this.getCache(), Bounds.class);
         this.setCreatedOn(dto.getCreatedOn());
-        this.getDiagramElement().resolveList(dto.getDiagramElement(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getDiagramElement(), dto.getDiagramElement(), dto.getIterationContainerId(), this.getCache(), DiagramElementThing.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
         this.setRevisionNumber(dto.getRevisionNumber());
@@ -166,7 +167,7 @@ public class DiagramCanvas extends DiagramElementContainer implements Cloneable,
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.DiagramCanvas dto = new cdp4common.dto.DiagramCanvas(this.getIid(), this.getRevisionNumber());
 
         dto.getBounds().addAll(this.getBounds().stream().map(Thing::getIid).collect(Collectors.toList()));

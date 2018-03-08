@@ -9,12 +9,14 @@ import cdp4common.engineeringmodeldata.Parameter;
 import cdp4common.helpers.Constants;
 import cdp4common.sitedirectorydata.*;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,9 +48,10 @@ public class ValueValidator {
      * @param parameterType    A {@link BooleanParameterType}
      * @param value            The value that is to be validated
      * @param measurementScale The measurement Scale.
+     * @param format           The {@link NumberFormat} that used to validate, if set to null {@link Locale#getDefault()} will be used.
      * @return a {@link ValidationResult} that carries the {@link ValidationResultKind} and an optional message.
      */
-    public static ValidationResult validate(ParameterType parameterType, Object value, MeasurementScale measurementScale) {
+    public static ValidationResult validate(ParameterType parameterType, Object value, MeasurementScale measurementScale, NumberFormat format) {
         ValidationResult result = new ValidationResult();
 
         if (value instanceof String && value.equals(DEFAULT_VALUE)) {
@@ -58,31 +61,31 @@ public class ValueValidator {
         }
 
         if (parameterType instanceof BooleanParameterType) {
-            return validate(parameterType, value, null);
+            return validate((BooleanParameterType) parameterType, value);
         }
 
         if (parameterType instanceof DateParameterType) {
-            return validate(parameterType, value, null);
+            return validate((DateParameterType) parameterType, value);
         }
 
         if (parameterType instanceof DateTimeParameterType) {
-            return validate(parameterType, value, null);
+            return validate((DateTimeParameterType) parameterType, value);
         }
 
         if (parameterType instanceof EnumerationParameterType) {
-            return validate(parameterType, value, null);
+            return validate((EnumerationParameterType) parameterType, value);
         }
 
         if (parameterType instanceof QuantityKind) {
-            return validate((QuantityKind) parameterType, measurementScale, value);
+            return validate((QuantityKind) parameterType, measurementScale, value, format);
         }
 
         if (parameterType instanceof TextParameterType) {
-            return validate(parameterType, value, null);
+            return validate((TextParameterType) parameterType, value);
         }
 
         if (parameterType instanceof TimeOfDayParameterType) {
-            return validate(parameterType, value, null);
+            return validate((TimeOfDayParameterType) parameterType, value);
         }
 
         throw new UnsupportedOperationException(String.format("The validate method is not supported for parameterType: %1$s", parameterType));
@@ -248,7 +251,7 @@ public class ValueValidator {
 
             String[] values = ((String) value).split(Constants.MULTI_VALUE_ENUM_SEPARATOR);
 
-            if (!parameterType.getAllowMultiSelect() && values.length > 1) {
+            if (!parameterType.isAllowMultiSelect() && values.length > 1) {
                 result.setResultKind(ValidationResultKind.INVALID);
                 result.setMessage(String.format("The %1$s Enumeration ParameterType does not allow multi-selection, multiple values seem to be selected", parameterType.getName()));
                 return result;
@@ -289,9 +292,10 @@ public class ValueValidator {
      * @param quantityKind A {@link QuantityKind}
      * @param scale        The {@link MeasurementScale}
      * @param value        The value that is to be validated.
+     * @param format       The {@link NumberFormat} that used to validate, if set to null {@link Locale#getDefault()} will be used.
      * @return a {@link ValidationResult} that carries the {@link ValidationResultKind} and an optional message.
      */
-    public static ValidationResult validate(QuantityKind quantityKind, MeasurementScale scale, Object value) {
+    public static ValidationResult validate(QuantityKind quantityKind, MeasurementScale scale, Object value, NumberFormat format) {
         ValidationResult result = new ValidationResult();
 
         if (scale == null) {
@@ -307,7 +311,7 @@ public class ValueValidator {
             return result;
         }
 
-        result = validate(scale, value);
+        result = validate(scale, value, format);
         return result;
     }
 
@@ -378,9 +382,10 @@ public class ValueValidator {
      *
      * @param measurementScale The {@link MeasurementScale}
      * @param value            The value that is to be validated
+     * @param format           The {@link NumberFormat} that used to validate, if set to null {@link Locale#getDefault()} will be used.
      * @return a {@link ValidationResult} that carries the {@link ValidationResultKind} and an optional message.
      */
-    public static ValidationResult validate(MeasurementScale measurementScale, Object value) {
+    public static ValidationResult validate(MeasurementScale measurementScale, Object value, NumberFormat format) {
         ValidationResult result = new ValidationResult();
 
         switch (measurementScale.getNumberSet()) {
@@ -423,13 +428,13 @@ public class ValueValidator {
                 if (!measurementScale.getMaximumPermissibleValue().trim().isEmpty()) {
                     try {
                         int intMaximumPermissibleValue = Integer.parseInt(measurementScale.getMaximumPermissibleValue());
-                        if (measurementScale.getMaximumInclusive() && integer > intMaximumPermissibleValue) {
+                        if (measurementScale.isMaximumInclusive() && integer > intMaximumPermissibleValue) {
                             result.setResultKind(ValidationResultKind.OUT_OF_BOUNDS);
                             result.setMessage(String.format("The value \"%1$s\" is greater than the maximum permissible value of \"%2$s\"", integer, intMaximumPermissibleValue));
                             return result;
                         }
 
-                        if (!measurementScale.getMaximumInclusive() && integer >= intMaximumPermissibleValue) {
+                        if (!measurementScale.isMaximumInclusive() && integer >= intMaximumPermissibleValue) {
                             result.setResultKind(ValidationResultKind.OUT_OF_BOUNDS);
                             result.setMessage(String.format("The value \"%1$s\" is greater than or equal to the maximum permissible value of \"%2$s\"", integer, intMaximumPermissibleValue));
                             return result;
@@ -442,13 +447,13 @@ public class ValueValidator {
                 if (!measurementScale.getMinimumPermissibleValue().trim().isEmpty()) {
                     try {
                         int intMinimumPermissibleValue = Integer.parseInt(measurementScale.getMinimumPermissibleValue());
-                        if (measurementScale.getMinimumInclusive() && integer > intMinimumPermissibleValue) {
+                        if (measurementScale.isMinimumInclusive() && integer > intMinimumPermissibleValue) {
                             result.setResultKind(ValidationResultKind.OUT_OF_BOUNDS);
                             result.setMessage(String.format("The value \"%1$s\" is smaller than the minimum permissible value of \"%2$s\"", integer, intMinimumPermissibleValue));
                             return result;
                         }
 
-                        if (!measurementScale.getMinimumInclusive() && integer >= intMinimumPermissibleValue) {
+                        if (!measurementScale.isMinimumInclusive() && integer >= intMinimumPermissibleValue) {
                             result.setResultKind(ValidationResultKind.OUT_OF_BOUNDS);
                             result.setMessage(String.format("The value \"%1$s\" is smaller than or equal to the minimum permissible value of \"%2$s\"", integer, intMinimumPermissibleValue));
                             return result;
@@ -507,13 +512,13 @@ public class ValueValidator {
                 if (!measurementScale.getMaximumPermissibleValue().trim().isEmpty()) {
                     try {
                         int naturalMaximumPermissibleValue = Integer.parseInt(measurementScale.getMaximumPermissibleValue());
-                        if (measurementScale.getMaximumInclusive() && natural > naturalMaximumPermissibleValue) {
+                        if (measurementScale.isMaximumInclusive() && natural > naturalMaximumPermissibleValue) {
                             result.setResultKind(ValidationResultKind.OUT_OF_BOUNDS);
                             result.setMessage(String.format("The value \"%1$s\" is greater than the maximum permissible value of \"%2$s\"", natural, naturalMaximumPermissibleValue));
                             return result;
                         }
 
-                        if (!measurementScale.getMaximumInclusive() && natural >= naturalMaximumPermissibleValue) {
+                        if (!measurementScale.isMaximumInclusive() && natural >= naturalMaximumPermissibleValue) {
                             result.setResultKind(ValidationResultKind.OUT_OF_BOUNDS);
                             result.setMessage(String.format("The value \"%1$s\" is greater than or equal to the maximum permissible value of \"%2$s\"", natural, naturalMaximumPermissibleValue));
                             return result;
@@ -526,13 +531,13 @@ public class ValueValidator {
                 if (!measurementScale.getMinimumPermissibleValue().trim().isEmpty()) {
                     try {
                         int naturalMinimumPermissibleValue = Integer.parseInt(measurementScale.getMinimumPermissibleValue());
-                        if (measurementScale.getMinimumInclusive() && natural > naturalMinimumPermissibleValue) {
+                        if (measurementScale.isMinimumInclusive() && natural > naturalMinimumPermissibleValue) {
                             result.setResultKind(ValidationResultKind.OUT_OF_BOUNDS);
                             result.setMessage(String.format("The value \"%1$s\" is smaller than the minimum permissible value of \"%2$s\"", natural, naturalMinimumPermissibleValue));
                             return result;
                         }
 
-                        if (!measurementScale.getMinimumInclusive() && natural >= naturalMinimumPermissibleValue) {
+                        if (!measurementScale.isMinimumInclusive() && natural >= naturalMinimumPermissibleValue) {
                             result.setResultKind(ValidationResultKind.OUT_OF_BOUNDS);
                             result.setMessage(String.format("The value \"%1$s\" is smaller than or equal to the minimum permissible value of \"%2$s\"", natural, naturalMinimumPermissibleValue));
                             return result;
@@ -558,6 +563,10 @@ public class ValueValidator {
                 double real = 0;
                 boolean isReal = false;
 
+                if (format == null) {
+                    format = NumberFormat.getInstance(Locale.getDefault());
+                }
+
                 // the real numbers include all the integers
                 if (value instanceof Integer) {
                     isReal = true;
@@ -571,7 +580,7 @@ public class ValueValidator {
 
                 if (value instanceof String) {
                     try {
-                        real = Double.parseDouble(value.toString());
+                        real = format.parse(value.toString()).doubleValue();
                         isReal = true;
                     } catch (Exception ex) {
                         isReal = false;
@@ -588,13 +597,13 @@ public class ValueValidator {
                 if (!measurementScale.getMaximumPermissibleValue().trim().isEmpty()) {
                     try {
                         double realMaximumPermissibleValue = Double.parseDouble(measurementScale.getMaximumPermissibleValue());
-                        if (measurementScale.getMaximumInclusive() && real > realMaximumPermissibleValue) {
+                        if (measurementScale.isMaximumInclusive() && real > realMaximumPermissibleValue) {
                             result.setResultKind(ValidationResultKind.OUT_OF_BOUNDS);
                             result.setMessage(String.format("The value \"%1$s\" is greater than the maximum permissible value of \"%2$s\"", real, realMaximumPermissibleValue));
                             return result;
                         }
 
-                        if (!measurementScale.getMaximumInclusive() && real >= realMaximumPermissibleValue) {
+                        if (!measurementScale.isMaximumInclusive() && real >= realMaximumPermissibleValue) {
                             result.setResultKind(ValidationResultKind.OUT_OF_BOUNDS);
                             result.setMessage(String.format("The value \"%1$s\" is greater than or equal to the maximum permissible value of \"%2$s\"", real, realMaximumPermissibleValue));
                             return result;
@@ -607,13 +616,13 @@ public class ValueValidator {
                 if (!measurementScale.getMinimumPermissibleValue().trim().isEmpty()) {
                     try {
                         double realMinimumPermissibleValue = Double.parseDouble(measurementScale.getMinimumPermissibleValue());
-                        if (measurementScale.getMinimumInclusive() && real > realMinimumPermissibleValue) {
+                        if (measurementScale.isMinimumInclusive() && real > realMinimumPermissibleValue) {
                             result.setResultKind(ValidationResultKind.OUT_OF_BOUNDS);
                             result.setMessage(String.format("The value \"%1$s\" is smaller than the minimum permissible value of \"%2$s\"", real, realMinimumPermissibleValue));
                             return result;
                         }
 
-                        if (!measurementScale.getMinimumInclusive() && real >= realMinimumPermissibleValue) {
+                        if (!measurementScale.isMinimumInclusive() && real >= realMinimumPermissibleValue) {
                             result.setResultKind(ValidationResultKind.OUT_OF_BOUNDS);
                             result.setMessage(String.format("The value \"%1$s\" is smaller than or equal to the minimum permissible value of \"%2$s\"", real, realMinimumPermissibleValue));
                             return result;

@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -112,14 +113,14 @@ public class File extends Thing implements Cloneable, CategorizableThing, OwnedT
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link File}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link File}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link File}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.fileRevision);
         return containers;
     }
@@ -204,13 +205,13 @@ public class File extends Thing implements Cloneable, CategorizableThing, OwnedT
 
         cdp4common.dto.File dto = (cdp4common.dto.File)dtoThing;
 
-        this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getFileRevision().resolveList(dto.getFileRevision(), dto.getIterationContainerId(), this.getCache());
-        this.setLockedBy((dto.getLockedBy() != null) ? this.getCache().get<Person>(dto.getLockedBy.getValue(), dto.getIterationContainerId()) : null);
+        PojoThingFactory.resolveList(this.getCategory(), dto.getCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getFileRevision(), dto.getFileRevision(), dto.getIterationContainerId(), this.getCache(), FileRevision.class);
+        this.setLockedBy((dto.getLockedBy() != null) ? PojoThingFactory.get(this.getCache(), dto.getLockedBy(), dto.getIterationContainerId(), Person.class) : null);
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
+        this.setOwner(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getOwner(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -222,7 +223,7 @@ public class File extends Thing implements Cloneable, CategorizableThing, OwnedT
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.File dto = new cdp4common.dto.File(this.getIid(), this.getRevisionNumber());
 
         dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));

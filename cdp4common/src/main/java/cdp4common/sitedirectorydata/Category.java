@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -202,19 +203,19 @@ public class Category extends DefinedThing implements Cloneable, DeprecatableThi
 
         cdp4common.dto.Category dto = (cdp4common.dto.Category)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setAbstract(dto.isAbstract());
         this.setDeprecated(dto.isDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.getPermissibleClass().clearAndAddRange(dto.getPermissibleClass());
+        PojoThingFactory.clearAndAddRange(this.getPermissibleClass(), dto.getPermissibleClass());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
-        this.getSuperCategory().resolveList(dto.getSuperCategory(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getSuperCategory(), dto.getSuperCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
 
         this.resolveExtraProperties();
     }
@@ -225,7 +226,7 @@ public class Category extends DefinedThing implements Cloneable, DeprecatableThi
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.Category dto = new cdp4common.dto.Category(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
@@ -237,7 +238,7 @@ public class Category extends DefinedThing implements Cloneable, DeprecatableThi
         dto.setDeprecated(this.isDeprecated());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
-        dto.getPermissibleClass().add(this.getPermissibleClass());
+        dto.getPermissibleClass().addAll(this.getPermissibleClass());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
         dto.getSuperCategory().addAll(this.getSuperCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
@@ -247,5 +248,120 @@ public class Category extends DefinedThing implements Cloneable, DeprecatableThi
         this.buildDtoPartialRoutes(dto);
 
         return dto;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+    * Queries the full hierarchy of super categories of the current {@link Category}
+    * and returns those as an {@link Collection<Category>}
+    *
+    * @return an {@link Collection<Category>}
+    */
+    public Collection<Category> getAllSuperCategories() {
+        List<Category> superCategories = new ArrayList<>();
+
+        for (Category category : this.superCategory) {
+            Collection<Category> all = category.getAllSuperCategories();
+
+            superCategories.add(category);
+
+            superCategories.addAll(all);
+        }
+
+        return superCategories;
+    }
+
+    /**
+    * Queries the full hierarchy of categories that are derived categories of the current {@link Category}
+    * and returns those as an {@link Collection<Category>}
+    *
+    * @return
+    * an {@link Collection<Category>}
+    */
+    public Collection<Category> getAllDerivedCategories() {
+        List<Category> categories = new ArrayList<>();
+
+        for (Pair<UUID, UUID> key : getCache().asMap().keySet()){
+            if (getCache().getIfPresent(key).getClassKind().equals(ClassKind.CATEGORY)){
+                categories.add((Category)(getCache().getIfPresent(key)));
+            }
+        }
+
+        List<Category> derivedCategories = new ArrayList<>();
+
+        for (Category category : categories) {
+            if (category.getSuperCategory().contains(this)) {
+                derivedCategories.add(category);
+                derivedCategories.addAll(category.getAllDerivedCategories(categories));
+            }
+        }
+
+        return derivedCategories;
+    }
+
+    /**
+    * Queries the full hierarchy of categories that are derived categories of the current {@link Category}
+    * and returns those as an {@link Collection<Category>}
+    *
+    * @param categories The {@link List{Category}} that may contain derived {@link Category} instances
+    * @return an {@link Collection<Category>} that contains the {@link Category} instances that are derived from the current {@link Category}
+    */
+    private Collection<Category> getAllDerivedCategories(List<Category> categories)
+    {
+        List<Category> derivedCategories = new ArrayList<>();
+
+        for (Category category : categories.stream().filter(category -> category.getSuperCategory().contains(this)).collect(Collectors.toList())) {
+            derivedCategories.add(category);
+            derivedCategories.addAll(category.getAllDerivedCategories(categories));
+        }
+
+        return derivedCategories;
+    }
+
+    /**
+    * Gets an {@link Collection{ReferenceDataLibrary}} that contains
+    * the required {@link ReferenceDataLibrary} for the current {@link Thing}
+    */
+    @Override
+    public Collection<ReferenceDataLibrary> getRequiredRdls() {
+            return RequiredReferenceDataLibraryAbacus.computeRequiredRdls(this);
+    }
+
+     /**
+     * Queries all the {@link CategorizableThing}s that have been categorized with the current {@link Category}
+     *
+     *  * @return
+     * an {@link Collection{ICategorizableThing}}
+     */
+    public Collection<CategorizableThing> getCategorizedThings() {
+        List<CategorizableThing> categorizableThings = new ArrayList<>();
+
+        for (Pair<UUID, UUID> key : getCache().asMap().keySet()){
+            if (getCache().getIfPresent(key) instanceof CategorizableThing){
+                categorizableThings.add((CategorizableThing)(getCache().getIfPresent(key)));
+            }
+        }
+
+        if (categorizableThings.size() == 0) {
+            return categorizableThings;
+        }
+
+        Collection<Category> categories = getAllSuperCategories();
+        categories.add(this);
+
+        List<CategorizableThing> foundCategorizableThings = new ArrayList<>();
+
+        for(CategorizableThing categorizableThing : categorizableThings) {
+            for(Category category : categorizableThing.getCategory()) {
+                if (categorizableThing.getCategory().contains(category)) {
+                    foundCategorizableThings.add(categorizableThing);
+                    break;
+                }
+            }
+        }
+
+        return foundCategorizableThings;
     }
 }

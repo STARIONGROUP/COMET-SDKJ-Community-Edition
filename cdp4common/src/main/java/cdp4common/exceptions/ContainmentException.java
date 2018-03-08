@@ -5,11 +5,13 @@
 
 package cdp4common.exceptions;
 
+import cdp4common.commondata.Thing;
+
 /**
  * A {@link ContainmentException} is thrown the when Container of a {@link Thing} is not set and it is
  * requested in an operation.
  */
-public class ContainmentException extends Exception {
+public class ContainmentException extends RuntimeException {
     /**
      * Initializes a new instance of the {@link ContainmentException} class.
      */

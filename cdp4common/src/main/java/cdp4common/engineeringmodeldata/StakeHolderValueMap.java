@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -132,14 +133,14 @@ public class StakeHolderValueMap extends DefinedThing implements Cloneable, Cate
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link StakeHolderValueMap}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link StakeHolderValueMap}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link StakeHolderValueMap}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.settings);
         return containers;
     }
@@ -228,21 +229,21 @@ public class StakeHolderValueMap extends DefinedThing implements Cloneable, Cate
 
         cdp4common.dto.StakeHolderValueMap dto = (cdp4common.dto.StakeHolderValueMap)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getGoal().resolveList(dto.getGoal(), dto.getIterationContainerId(), this.getCache());
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getCategory(), dto.getCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getGoal(), dto.getGoal(), dto.getIterationContainerId(), this.getCache(), Goal.class);
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.getRequirement().resolveList(dto.getRequirement(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getRequirement(), dto.getRequirement(), dto.getIterationContainerId(), this.getCache(), Requirement.class);
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.getSettings().resolveList(dto.getSettings(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getSettings(), dto.getSettings(), dto.getIterationContainerId(), this.getCache(), StakeHolderValueMapSettings.class);
         this.setShortName(dto.getShortName());
-        this.getStakeholderValue().resolveList(dto.getStakeholderValue(), dto.getIterationContainerId(), this.getCache());
-        this.getValueGroup().resolveList(dto.getValueGroup(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getStakeholderValue(), dto.getStakeholderValue(), dto.getIterationContainerId(), this.getCache(), StakeholderValue.class);
+        PojoThingFactory.resolveList(this.getValueGroup(), dto.getValueGroup(), dto.getIterationContainerId(), this.getCache(), ValueGroup.class);
 
         this.resolveExtraProperties();
     }
@@ -253,7 +254,7 @@ public class StakeHolderValueMap extends DefinedThing implements Cloneable, Cate
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.StakeHolderValueMap dto = new cdp4common.dto.StakeHolderValueMap(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));

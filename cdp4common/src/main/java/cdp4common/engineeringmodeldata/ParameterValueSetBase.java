@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -52,11 +53,11 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * Initializes a new instance of the {@link ParameterValueSetBase} class.
      */
     protected ParameterValueSetBase() {
-        this.computed = new ValueArray<String>(this, false);
-        this.formula = new ValueArray<String>(this, false);
-        this.manual = new ValueArray<String>(this, false);
-        this.published = new ValueArray<String>(this, false);
-        this.reference = new ValueArray<String>(this, false);
+        this.computed = new ValueArray<String>(this, String.class);
+        this.formula = new ValueArray<String>(this, String.class);
+        this.manual = new ValueArray<String>(this, String.class);
+        this.published = new ValueArray<String>(this, String.class);
+        this.reference = new ValueArray<String>(this, String.class);
     }
 
     /**
@@ -69,11 +70,11 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      */
     protected ParameterValueSetBase(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
-        this.computed = new ValueArray<String>(this, false);
-        this.formula = new ValueArray<String>(this, false);
-        this.manual = new ValueArray<String>(this, false);
-        this.published = new ValueArray<String>(this, false);
-        this.reference = new ValueArray<String>(this, false);
+        this.computed = new ValueArray<String>(this, String.class);
+        this.formula = new ValueArray<String>(this, String.class);
+        this.manual = new ValueArray<String>(this, String.class);
+        this.published = new ValueArray<String>(this, String.class);
+        this.reference = new ValueArray<String>(this, String.class);
     }
 
     /**
@@ -105,7 +106,6 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * if <i>valueSwitch</i> is REFERENCE, then <i>actualValue</i> is <i>reference</i>.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
-    @Getter
     private ValueArray<String> actualValue;
 
     /**
@@ -143,7 +143,6 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * owner (DomainOfExpertise) derived from associated Parameter or ParameterOverride for convenience
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private DomainOfExpertise owner;
 
     /**
@@ -175,6 +174,28 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
     @Getter
     @Setter
     private ParameterSwitchKind valueSwitch;
+
+    /**
+     * Gets a list of ordered String.
+     * derived actual value depending on the <i>valueSwitch</i> setting
+     * Note: The <i>actualValue</i> is derived in the following way:
+     * if <i>valueSwitch</i> is COMPUTED then <i>actualValue</i> is <i>computed;</i>
+     * if <i>valueSwitch</i> is MANUAL, then <i>actualValue</i> is <i>manual;</i>
+     * if <i>valueSwitch</i> is REFERENCE, then <i>actualValue</i> is <i>reference</i>.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
+    public ValueArray<String> getActualValue(){
+        return this.getDerivedActualValue();
+    }
+
+    /**
+     * Gets the owner.
+     * owner (DomainOfExpertise) derived from associated Parameter or ParameterOverride for convenience
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public DomainOfExpertise getOwner(){
+        return this.getDerivedOwner();
+    }
 
     /**
      * Sets a list of ordered String.

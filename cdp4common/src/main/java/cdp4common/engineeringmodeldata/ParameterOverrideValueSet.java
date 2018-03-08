@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -72,7 +73,6 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * reference to the actual Option to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private Option actualOption;
 
     /**
@@ -80,7 +80,6 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * reference to the ActualFiniteState to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private ActualFiniteState actualState;
 
     /**
@@ -92,6 +91,24 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
     @Getter
     @Setter
     private ParameterValueSet parameterValueSet;
+
+    /**
+     * Gets the actualOption.
+     * reference to the actual Option to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public Option getActualOption(){
+        return this.getDerivedActualOption();
+    }
+
+    /**
+     * Gets the actualState.
+     * reference to the ActualFiniteState to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public ActualFiniteState getActualState(){
+        return this.getDerivedActualState();
+    }
 
     /**
      * Sets the actualOption.
@@ -136,13 +153,13 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
             throw new IllegalAccessError("Somehow ParameterOverrideValueSet cannot be cloned.");
         }
 
-        clone.setComputed(new ValueArray<String>(this.getComputed(), this));
+        clone.setComputed(new ValueArray<String>(this.getComputed(), this, String.class));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setFormula(new ValueArray<String>(this.getFormula(), this));
-        clone.setManual(new ValueArray<String>(this.getManual(), this));
-        clone.setPublished(new ValueArray<String>(this.getPublished(), this));
-        clone.setReference(new ValueArray<String>(this.getReference(), this));
+        clone.setFormula(new ValueArray<String>(this.getFormula(), this, String.class));
+        clone.setManual(new ValueArray<String>(this.getManual(), this, String.class));
+        clone.setPublished(new ValueArray<String>(this.getPublished(), this, String.class));
+        clone.setReference(new ValueArray<String>(this.getReference(), this, String.class));
 
         if (cloneContainedThings) {
         }
@@ -196,15 +213,15 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
 
         cdp4common.dto.ParameterOverrideValueSet dto = (cdp4common.dto.ParameterOverrideValueSet)dtoThing;
 
-        this.setComputed(new ValueArray<String>(dto.getComputed(), this));
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.setFormula(new ValueArray<String>(dto.getFormula(), this));
-        this.setManual(new ValueArray<String>(dto.getManual(), this));
+        this.setComputed(new ValueArray<String>(dto.getComputed(), this, String.class));
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        this.setFormula(new ValueArray<String>(dto.getFormula(), this, String.class));
+        this.setManual(new ValueArray<String>(dto.getManual(), this, String.class));
         this.setModifiedOn(dto.getModifiedOn());
-        this.setParameterValueSet(this.getCache().get<ParameterValueSet>(dto.getParameterValueSet(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ParameterValueSet.class));
-        this.setPublished(new ValueArray<String>(dto.getPublished(), this));
-        this.setReference(new ValueArray<String>(dto.getReference(), this));
+        this.setParameterValueSet(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getParameterValueSet(), dto.getIterationContainerId(), ParameterValueSet.class), SentinelThingProvider.getSentinel(ParameterValueSet.class)));
+        this.setPublished(new ValueArray<String>(dto.getPublished(), this, String.class));
+        this.setReference(new ValueArray<String>(dto.getReference(), this, String.class));
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setValueSwitch(dto.getValueSwitch());
 
@@ -217,18 +234,18 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.ParameterOverrideValueSet dto = new cdp4common.dto.ParameterOverrideValueSet(this.getIid(), this.getRevisionNumber());
 
-        dto.setComputed(new ValueArray<String>(this.getComputed(), this));
+        dto.setComputed(new ValueArray<String>(this.getComputed(), this, String.class));
         dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
-        dto.setFormula(new ValueArray<String>(this.getFormula(), this));
-        dto.setManual(new ValueArray<String>(this.getManual(), this));
+        dto.setFormula(new ValueArray<String>(this.getFormula(), this, String.class));
+        dto.setManual(new ValueArray<String>(this.getManual(), this, String.class));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setParameterValueSet(this.getParameterValueSet() != null ? this.getParameterValueSet().getIid() : new UUID(0L, 0L));
-        dto.setPublished(new ValueArray<String>(this.getPublished(), this));
-        dto.setReference(new ValueArray<String>(this.getReference(), this));
+        dto.setPublished(new ValueArray<String>(this.getPublished(), this, String.class));
+        dto.setReference(new ValueArray<String>(this.getReference(), this, String.class));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setValueSwitch(this.getValueSwitch());
 

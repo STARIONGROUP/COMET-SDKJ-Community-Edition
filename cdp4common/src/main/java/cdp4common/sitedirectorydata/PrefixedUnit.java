@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -75,7 +76,6 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * applicable conversion factor derived from <i>prefix</i>
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String conversionFactor;
 
     /**
@@ -84,7 +84,6 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * Note: The name is derived as the concatenation of name of the <i>prefix</i> and the name of the <i>referenceUnit</i>.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String name;
 
     /**
@@ -102,8 +101,36 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * Note: The symbol is derived as the concatenation of <i>shortName</i> of the <i>prefix</i> and the <i>shortName</i> of the <i>referenceUnit</i>.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String shortName;
+
+    /**
+     * Gets the conversionFactor.
+     * applicable conversion factor derived from <i>prefix</i>
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getConversionFactor(){
+        return this.getDerivedConversionFactor();
+    }
+
+    /**
+     * Gets the name.
+     * derived name of this PrefixUnit
+     * Note: The name is derived as the concatenation of name of the <i>prefix</i> and the name of the <i>referenceUnit</i>.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getName(){
+        return this.getDerivedName();
+    }
+
+    /**
+     * Gets the shortName.
+     * derived symbol of this PrefixUnit
+     * Note: The symbol is derived as the concatenation of <i>shortName</i> of the <i>prefix</i> and the <i>shortName</i> of the <i>referenceUnit</i>.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getShortName(){
+        return this.getDerivedShortName();
+    }
 
     /**
      * Sets the conversionFactor.
@@ -224,15 +251,15 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
 
         cdp4common.dto.PrefixedUnit dto = (cdp4common.dto.PrefixedUnit)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setDeprecated(dto.isDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setPrefix(this.getCache().get<UnitPrefix>(dto.getPrefix(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(UnitPrefix.class));
-        this.setReferenceUnit(this.getCache().get<MeasurementUnit>(dto.getReferenceUnit(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(MeasurementUnit.class));
+        this.setPrefix(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getPrefix(), dto.getIterationContainerId(), UnitPrefix.class), SentinelThingProvider.getSentinel(UnitPrefix.class)));
+        this.setReferenceUnit(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getReferenceUnit(), dto.getIterationContainerId(), MeasurementUnit.class), SentinelThingProvider.getSentinel(MeasurementUnit.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -244,7 +271,7 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.PrefixedUnit dto = new cdp4common.dto.PrefixedUnit(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));

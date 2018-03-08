@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -149,14 +150,14 @@ public class DomainFileStore extends FileStore implements Cloneable {
         cdp4common.dto.DomainFileStore dto = (cdp4common.dto.DomainFileStore)dtoThing;
 
         this.setCreatedOn(dto.getCreatedOn());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getFile().resolveList(dto.getFile(), dto.getIterationContainerId(), this.getCache());
-        this.getFolder().resolveList(dto.getFolder(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getFile(), dto.getFile(), dto.getIterationContainerId(), this.getCache(), File.class);
+        PojoThingFactory.resolveList(this.getFolder(), dto.getFolder(), dto.getIterationContainerId(), this.getCache(), Folder.class);
         this.setHidden(dto.isHidden());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
+        this.setOwner(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getOwner(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -168,7 +169,7 @@ public class DomainFileStore extends FileStore implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.DomainFileStore dto = new cdp4common.dto.DomainFileStore(this.getIid(), this.getRevisionNumber());
 
         dto.setCreatedOn(this.getCreatedOn());

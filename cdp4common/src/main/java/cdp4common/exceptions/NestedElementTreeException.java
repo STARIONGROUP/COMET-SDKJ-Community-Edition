@@ -5,11 +5,13 @@
 
 package cdp4common.exceptions;
 
+import cdp4common.engineeringmodeldata.NestedElement;
+
 /**
  * A {@link NestedElementTreeException} is thrown when a problem occurs while
  * generating the {@link NestedElement} Tree
  */
-public class NestedElementTreeException extends Exception {
+public class NestedElementTreeException extends RuntimeException {
     /**
      * Initializes a new instance of the {@link NestedElementTreeException} class.
      */

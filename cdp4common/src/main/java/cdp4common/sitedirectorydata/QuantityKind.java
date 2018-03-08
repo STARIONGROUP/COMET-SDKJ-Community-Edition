@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -77,7 +78,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Note: For a SimpleQuantityKind and a DerivedQuantityKind <i>allPossibleScale</i> contains the same MeasurementScales as <i>possibleScale</i>. For a SpecializedQuantityKind <i>allPossibleScale</i> contains the set of all <i>possibleScale</i> of the specific SpecializedQuantityKind and all of its <i>general</i> QuantityKind.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private ArrayList<MeasurementScale> allPossibleScale;
 
     /**
@@ -111,7 +111,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * where "F" is the symbol for "force," and "L," "M," and "T" are the symbols for the ISQ base quantities "length", "mass", and "time" respectively.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
-    @Getter
     private OrderedItemList<String> quantityDimensionExponent;
 
     /**
@@ -120,7 +119,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Note: This is the human readable version of product of powers formed by the <i>quantityDimensionSymbol</i> of each of the base QuantityKind and the corresponding <i>quantityDimensionExponent</i>.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String quantityDimensionExpression;
 
     /**
@@ -132,6 +130,41 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
     @Getter
     @Setter
     private String quantityDimensionSymbol;
+
+    /**
+     * Gets a list of MeasurementScale.
+     * derived collection of all possible MeasurementScales on which values for this QuantityKind can be expressed
+     * Note: For a SimpleQuantityKind and a DerivedQuantityKind <i>allPossibleScale</i> contains the same MeasurementScales as <i>possibleScale</i>. For a SpecializedQuantityKind <i>allPossibleScale</i> contains the set of all <i>possibleScale</i> of the specific SpecializedQuantityKind and all of its <i>general</i> QuantityKind.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public ArrayList<MeasurementScale> getAllPossibleScale(){
+        return this.getDerivedAllPossibleScale();
+    }
+
+    /**
+     * Gets a list of ordered String.
+     * derived list of exponents that together with the actual base QuantityKinds define the physical dimension of this QuantityKind
+     * Note 1: The <a href="http://www.bipm.org/en/publications/guides/vim.html">International Vocabulary of Metrology (VIM)</a> defines "quantity dimension" as "expression of the dependence of a quantity on the base quantities of a system of quantities as a product of powers of factors corresponding to the base quantities, omitting any numerical factor."
+     * Note 2: There must be as many exponents as there as <i>baseQuantityKind</i> QuantityKinds in the dataset. The exponents are given in the same order as the ordered collection of <i>baseQuantityKind</i> QuantityKinds, enumerated starting from the top <i>requiredRdl</i> down to the ReferenceDataLibrary that contains this QuantityKind. Typically only the top SiteReferenceDataLibrary will have a non-empty <i>baseQuantityKind</i> collection.
+     * Note 3: The physical dimension of any QuantityKind can be derived through the algorithm that is defined in Section C.5.2.20 of <a href="http://www.omgsysml.org">SysML v1.2</a>. The actual physical dimension for a given QuantityKind depends on the choice of base QuantityKinds specified in the relevant (set of) ReferenceDataLibrary (or SystemOfQuantities in SysML).
+     * Example: In the International System of Quantities (ISQ) the quantity dimension of "force" is denoted by
+     * dim F = L.M.T<sup>-2</sup>,
+     * where "F" is the symbol for "force," and "L," "M," and "T" are the symbols for the ISQ base quantities "length", "mass", and "time" respectively.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
+    public OrderedItemList<String> getQuantityDimensionExponent(){
+        return this.getDerivedQuantityDimensionExponent();
+    }
+
+    /**
+     * Gets the quantityDimensionExpression.
+     * derived symbolic expression of the physical dimension of this QuantityKind
+     * Note: This is the human readable version of product of powers formed by the <i>quantityDimensionSymbol</i> of each of the base QuantityKind and the corresponding <i>quantityDimensionExponent</i>.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getQuantityDimensionExpression(){
+        return this.getDerivedQuantityDimensionExpression();
+    }
 
     /**
      * Sets a list of MeasurementScale.

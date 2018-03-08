@@ -1,5 +1,5 @@
 /*
- * AbstractAlias.java
+ * NotThing.java
  * Copyright (c) 2018 RHEA System S.A.
  */
 
@@ -42,12 +42,12 @@ public class NotThing extends Thing {
     }
 
     /**
-     * The Nothing class does not support the ResolveProperties method. The method is not supported by this class.
+     * The NotThing class does not support the ResolveProperties method. The method is not supported by this class.
      *
      * @param dto A dto to resolve properties for
      * @see UnsupportedOperationException
      */
-    protected void resolveProperties(cdp4common.dto.Thing dto) {
+    public void resolveProperties(cdp4common.dto.Thing dto) {
         throw new UnsupportedOperationException();
     }
 

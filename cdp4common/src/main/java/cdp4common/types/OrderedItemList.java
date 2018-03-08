@@ -49,17 +49,34 @@ public class OrderedItemList<T> implements Collection<T> {
     private long highestKey = -defaultKeyInterval;
 
     /**
+     * The type of the created {@link OrderedItemList<T>}
+     */
+    private final Class<T> clazz;
+
+    /**
+     * Initializes a new instance of the {@link OrderedItemList<T>} class
+     *
+     * @param container The {@link Thing} that contains this {@link OrderedItemList<T>}
+     * @param clazz     The type of the contained elements
+     */
+    public OrderedItemList(Thing container, Class<T> clazz) {
+        this(container, false, clazz);
+    }
+
+    /**
      * Initializes a new instance of the {@link OrderedItemList<T>} class
      *
      * @param container   The {@link Thing} that contains this {@link OrderedItemList<T>}
      * @param isComposite Value indicating whether the {@link T} in this {@link OrderedItemList<T>} are part of
      *                    a composition relationship.
+     * @param clazz       The type of the contained elements
      */
-    public OrderedItemList(Thing container, boolean isComposite) {
+    public OrderedItemList(Thing container, boolean isComposite, Class<T> clazz) {
         this.container = container;
         this.sortedItems = new TreeMap<>();
         this.random = new RandomDataGenerator();
         this.isComposite = isComposite;
+        this.clazz = clazz;
     }
 
     /**
@@ -67,8 +84,9 @@ public class OrderedItemList<T> implements Collection<T> {
      *
      * @param orderedItemList The {@link OrderedItemList<T>} which values are copied
      * @param container       The owner of this {@link OrderedItemList<T>}
+     * @param clazz           The type of the contained elements
      */
-    public OrderedItemList(OrderedItemList<T> orderedItemList, Thing container) {
+    public OrderedItemList(OrderedItemList<T> orderedItemList, Thing container, Class<T> clazz) {
         this.container = container;
         this.sortedItems = new TreeMap<>(orderedItemList.sortedItems);
         this.random = new RandomDataGenerator();
@@ -77,6 +95,8 @@ public class OrderedItemList<T> implements Collection<T> {
         if (!this.sortedItems.isEmpty()) {
             this.highestKey = this.sortedItems.keySet().stream().mapToLong(i -> i).max().getAsLong();
         }
+
+        this.clazz = clazz;
     }
 
     /**
@@ -173,19 +193,18 @@ public class OrderedItemList<T> implements Collection<T> {
     }
 
     /**
-     * Add the {@link Collection} of {@link OrderedItem} keeping the same keys
+     * Add the {@link Iterable} of {@link OrderedItem} keeping the same keys
      *
      * @param itemsToAdd the items to add
-     * @param clazz      Class type of this {@link OrderedItemList<T>}
      */
-    public void addOrderedItems(Collection<OrderedItem> itemsToAdd, Class<T> clazz) {
+    public void addOrderedItems(Iterable<OrderedItem> itemsToAdd) {
         for (OrderedItem item : itemsToAdd) {
-            if (clazz.isInstance(item.getV())) {
-                this.add(item.getK(), clazz.cast(item.getV()));
+            if (this.clazz.isInstance(item.getV())) {
+                this.add(item.getK(), this.clazz.cast(item.getV()));
             } else {
                 // Try to convert
                 String value = item.getV().toString();
-                this.add(item.getK(), getConvertedValue(value, clazz));
+                this.add(item.getK(), getConvertedValue(value));
             }
         }
     }
@@ -395,7 +414,16 @@ public class OrderedItemList<T> implements Collection<T> {
      * {@inheritDoc}
      */
     @Override
-    public boolean addAll(@NotNull Collection<? extends T> itemsToAdd) {
+    public boolean addAll(@NotNull Collection<? extends T> c) {
+        throw new UnsupportedOperationException("addAll(Collection<? extends T> c) method is not supported.");
+    }
+
+    /*
+     * Adds the specified items to the end of this list.
+     *
+     * @param itemsToAdd The items to be added.
+     */
+    public boolean addRange(@NotNull Iterable<T> itemsToAdd) {
         for (T item : itemsToAdd) {
             this.add(item);
         }
@@ -477,12 +505,11 @@ public class OrderedItemList<T> implements Collection<T> {
      * Get the converted to a specified type value.
      *
      * @param value String value to convert
-     * @param clazz Class type to convert to.
      */
-    private T getConvertedValue(String value, Class<T> clazz) {
+    private T getConvertedValue(String value) {
         // Primitives
-        if (clazz.isPrimitive()) {
-            switch (clazz.getName()) {
+        if (this.clazz.isPrimitive()) {
+            switch (this.clazz.getName()) {
                 case "java.lang.Boolean": {
                     return (T) (Boolean) Boolean.parseBoolean(value);
                 }
@@ -507,11 +534,11 @@ public class OrderedItemList<T> implements Collection<T> {
             }
         }
 
-        if (clazz == UUID.class) {
+        if (this.clazz == UUID.class) {
             return (T) UUID.fromString(value);
         }
 
-        if (clazz == String.class) {
+        if (this.clazz == String.class) {
             return (T) value;
         }
 

@@ -25,7 +25,7 @@ import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -45,7 +45,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      */
     public ParameterSubscriptionValueSet()
     {
-        this.manual = new ValueArray<String>();
+        this.manual = new ValueArray<String>(String.class);
     }
 
     /**
@@ -56,7 +56,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      */
     public ParameterSubscriptionValueSet(UUID iid, int rev) {
         super(iid, rev);
-        this.manual = new ValueArray<String>();
+        this.manual = new ValueArray<String>(String.class);
     }
 
     /**

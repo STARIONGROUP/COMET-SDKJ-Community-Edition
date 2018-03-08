@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -123,8 +124,17 @@ public class Folder extends Thing implements Cloneable, NamedThing, OwnedThing, 
      * Note: The path is derived to be the concatenation of the folder names in the hierarchy specified through <i>containingFolder</i>. This yields a path that is similar to that of <i>"file://"</i> URL starting from the containing FileStore.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String path;
+
+    /**
+     * Gets the path.
+     * path to this Folder
+     * Note: The path is derived to be the concatenation of the folder names in the hierarchy specified through <i>containingFolder</i>. This yields a path that is similar to that of <i>"file://"</i> URL starting from the containing FileStore.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getPath(){
+        return this.getDerivedPath();
+    }
 
     /**
      * Sets the path.
@@ -222,14 +232,14 @@ public class Folder extends Thing implements Cloneable, NamedThing, OwnedThing, 
 
         cdp4common.dto.Folder dto = (cdp4common.dto.Folder)dtoThing;
 
-        this.setContainingFolder((dto.getContainingFolder() != null) ? this.getCache().get<Folder>(dto.getContainingFolder.getValue(), dto.getIterationContainerId()) : null);
+        this.setContainingFolder((dto.getContainingFolder() != null) ? PojoThingFactory.get(this.getCache(), dto.getContainingFolder(), dto.getIterationContainerId(), Folder.class) : null);
         this.setCreatedOn(dto.getCreatedOn());
-        this.setCreator(this.getCache().get<Participant>(dto.getCreator(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Participant.class));
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.setCreator(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getCreator(), dto.getIterationContainerId(), Participant.class), SentinelThingProvider.getSentinel(Participant.class)));
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
+        this.setOwner(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getOwner(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -241,7 +251,7 @@ public class Folder extends Thing implements Cloneable, NamedThing, OwnedThing, 
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.Folder dto = new cdp4common.dto.Folder(this.getIid(), this.getRevisionNumber());
 
         dto.setContainingFolder(this.getContainingFolder() != null ? (UUID)this.getContainingFolder().getIid() : null);

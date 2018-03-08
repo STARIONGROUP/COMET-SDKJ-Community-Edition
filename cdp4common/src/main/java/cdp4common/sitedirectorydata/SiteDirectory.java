@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -247,14 +248,14 @@ public class SiteDirectory extends TopContainer implements Cloneable, NamedThing
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link SiteDirectory}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link SiteDirectory}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link SiteDirectory}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.annotation);
         containers.add(this.domain);
         containers.add(this.domainGroup);
@@ -365,27 +366,27 @@ public class SiteDirectory extends TopContainer implements Cloneable, NamedThing
 
         cdp4common.dto.SiteDirectory dto = (cdp4common.dto.SiteDirectory)dtoThing;
 
-        this.getAnnotation().resolveList(dto.getAnnotation(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAnnotation(), dto.getAnnotation(), dto.getIterationContainerId(), this.getCache(), SiteDirectoryDataAnnotation.class);
         this.setCreatedOn(dto.getCreatedOn());
-        this.setDefaultParticipantRole((dto.getDefaultParticipantRole() != null) ? this.getCache().get<ParticipantRole>(dto.getDefaultParticipantRole.getValue(), dto.getIterationContainerId()) : null);
-        this.setDefaultPersonRole((dto.getDefaultPersonRole() != null) ? this.getCache().get<PersonRole>(dto.getDefaultPersonRole.getValue(), dto.getIterationContainerId()) : null);
-        this.getDomain().resolveList(dto.getDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getDomainGroup().resolveList(dto.getDomainGroup(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.setDefaultParticipantRole((dto.getDefaultParticipantRole() != null) ? PojoThingFactory.get(this.getCache(), dto.getDefaultParticipantRole(), dto.getIterationContainerId(), ParticipantRole.class) : null);
+        this.setDefaultPersonRole((dto.getDefaultPersonRole() != null) ? PojoThingFactory.get(this.getCache(), dto.getDefaultPersonRole(), dto.getIterationContainerId(), PersonRole.class) : null);
+        PojoThingFactory.resolveList(this.getDomain(), dto.getDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getDomainGroup(), dto.getDomainGroup(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertiseGroup.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setLastModifiedOn(dto.getLastModifiedOn());
-        this.getLogEntry().resolveList(dto.getLogEntry(), dto.getIterationContainerId(), this.getCache());
-        this.getModel().resolveList(dto.getModel(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getLogEntry(), dto.getLogEntry(), dto.getIterationContainerId(), this.getCache(), SiteLogEntry.class);
+        PojoThingFactory.resolveList(this.getModel(), dto.getModel(), dto.getIterationContainerId(), this.getCache(), EngineeringModelSetup.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.getNaturalLanguage().resolveList(dto.getNaturalLanguage(), dto.getIterationContainerId(), this.getCache());
-        this.getOrganization().resolveList(dto.getOrganization(), dto.getIterationContainerId(), this.getCache());
-        this.getParticipantRole().resolveList(dto.getParticipantRole(), dto.getIterationContainerId(), this.getCache());
-        this.getPerson().resolveList(dto.getPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getPersonRole().resolveList(dto.getPersonRole(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getNaturalLanguage(), dto.getNaturalLanguage(), dto.getIterationContainerId(), this.getCache(), NaturalLanguage.class);
+        PojoThingFactory.resolveList(this.getOrganization(), dto.getOrganization(), dto.getIterationContainerId(), this.getCache(), Organization.class);
+        PojoThingFactory.resolveList(this.getParticipantRole(), dto.getParticipantRole(), dto.getIterationContainerId(), this.getCache(), ParticipantRole.class);
+        PojoThingFactory.resolveList(this.getPerson(), dto.getPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getPersonRole(), dto.getPersonRole(), dto.getIterationContainerId(), this.getCache(), PersonRole.class);
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
-        this.getSiteReferenceDataLibrary().resolveList(dto.getSiteReferenceDataLibrary(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getSiteReferenceDataLibrary(), dto.getSiteReferenceDataLibrary(), dto.getIterationContainerId(), this.getCache(), SiteReferenceDataLibrary.class);
 
         this.resolveExtraProperties();
     }
@@ -396,7 +397,7 @@ public class SiteDirectory extends TopContainer implements Cloneable, NamedThing
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.SiteDirectory dto = new cdp4common.dto.SiteDirectory(this.getIid(), this.getRevisionNumber());
 
         dto.getAnnotation().addAll(this.getAnnotation().stream().map(Thing::getIid).collect(Collectors.toList()));

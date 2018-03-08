@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -61,7 +62,7 @@ public class DerivedUnit extends MeasurementUnit implements Cloneable {
      * Initializes a new instance of the {@link DerivedUnit} class.
      */
     public DerivedUnit() {
-        this.unitFactor = new OrderedItemList<UnitFactor>(this, true);
+        this.unitFactor = new OrderedItemList<UnitFactor>(this, true, UnitFactor.class);
     }
 
     /**
@@ -74,7 +75,7 @@ public class DerivedUnit extends MeasurementUnit implements Cloneable {
      */
     public DerivedUnit(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
-        this.unitFactor = new OrderedItemList<UnitFactor>(this, true);
+        this.unitFactor = new OrderedItemList<UnitFactor>(this, true, UnitFactor.class);
     }
 
     /**
@@ -89,14 +90,14 @@ public class DerivedUnit extends MeasurementUnit implements Cloneable {
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link DerivedUnit}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link DerivedUnit}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link DerivedUnit}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.unitFactor);
         return containers;
     }
@@ -123,7 +124,7 @@ public class DerivedUnit extends MeasurementUnit implements Cloneable {
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
-        clone.setUnitFactor(cloneContainedThings ? new OrderedItemList<UnitFactor>(clone, true) : new OrderedItemList<UnitFactor>(this.getUnitFactor(), clone));
+        clone.setUnitFactor(cloneContainedThings ? new OrderedItemList<UnitFactor>(clone, true, UnitFactor.class) : new OrderedItemList<UnitFactor>(this.getUnitFactor(), clone, UnitFactor.class));
 
         if (cloneContainedThings) {
             clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
@@ -180,17 +181,17 @@ public class DerivedUnit extends MeasurementUnit implements Cloneable {
 
         cdp4common.dto.DerivedUnit dto = (cdp4common.dto.DerivedUnit)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setDeprecated(dto.isDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
-        this.getUnitFactor().resolveList(dto.getUnitFactor(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getUnitFactor(), dto.getUnitFactor(), dto.getIterationContainerId(), this.getCache(), UnitFactor.class);
 
         this.resolveExtraProperties();
     }
@@ -201,7 +202,7 @@ public class DerivedUnit extends MeasurementUnit implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.DerivedUnit dto = new cdp4common.dto.DerivedUnit(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));

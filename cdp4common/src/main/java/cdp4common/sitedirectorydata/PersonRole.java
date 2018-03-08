@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -93,14 +94,14 @@ public class PersonRole extends DefinedThing implements Cloneable, DeprecatableT
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link PersonRole}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link PersonRole}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link PersonRole}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.personPermission);
         return containers;
     }
@@ -179,15 +180,15 @@ public class PersonRole extends DefinedThing implements Cloneable, DeprecatableT
 
         cdp4common.dto.PersonRole dto = (cdp4common.dto.PersonRole)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setDeprecated(dto.isDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.getPersonPermission().resolveList(dto.getPersonPermission(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getPersonPermission(), dto.getPersonPermission(), dto.getIterationContainerId(), this.getCache(), PersonPermission.class);
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
 
@@ -200,7 +201,7 @@ public class PersonRole extends DefinedThing implements Cloneable, DeprecatableT
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.PersonRole dto = new cdp4common.dto.PersonRole(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
@@ -220,5 +221,24 @@ public class PersonRole extends DefinedThing implements Cloneable, DeprecatableT
         this.buildDtoPartialRoutes(dto);
 
         return dto;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+    * Populate person permissions.
+    */
+    private void populatePersonPermissions() {
+        DefaultPermissionProvider provider = new DefaultPermissionProviderImpl();
+        provider.getDefaultPersonPermissions()
+                .filter(x -> !x.getValue().equals(PersonAccessRightKind.NOT_APPLICABLE))
+                .filter(x -> x.getValue().equals(PersonAccessRightKind.NONE))
+                .forEach(x -> {
+                    PersonPermission personPermission = new PersonPermission(UUID.randomUUID(), null, null);
+                    personPermission.setAccessRight(x.getValue());
+                    personPermission.setObjectClass(Enum.valueOf(ClassKind.class, Utils.getConstantNotationFromUpperCamel(x.getKey())));
+                    this.personPermission.add(personPermission);
+                });
     }
 }

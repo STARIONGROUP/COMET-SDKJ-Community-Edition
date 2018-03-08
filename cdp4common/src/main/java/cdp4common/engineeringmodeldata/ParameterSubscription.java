@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -75,7 +76,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * group derived from associated Parameter or ParameterOverride for convenience
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private ParameterGroup group;
 
     /**
@@ -83,7 +83,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * assertion, derived from the container Parameter or ParameterOverride, whether the values of this depend on the Options defined in the associated Iteration or not
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private boolean isOptionDependent;
 
     /**
@@ -91,7 +90,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * parameterType derived from associated Parameter or ParameterOverride for convenience
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private ParameterType parameterType;
 
     /**
@@ -99,7 +97,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * scale derived from associated Parameter or ParameterOverride for convenience
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private MeasurementScale scale;
 
     /**
@@ -107,7 +104,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * stateDependence derived from associated Parameter or ParameterOverride for convenience
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private ActualFiniteStateList stateDependence;
 
     /**
@@ -122,7 +118,52 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link ParameterSubscription}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
+
+    /**
+     * Gets the group.
+     * group derived from associated Parameter or ParameterOverride for convenience
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public ParameterGroup getGroup(){
+        return this.getDerivedGroup();
+    }
+
+    /**
+     *Gets a value indicating whether isOptionDependent.
+     * assertion, derived from the container Parameter or ParameterOverride, whether the values of this depend on the Options defined in the associated Iteration or not
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public boolean isOptionDependent(){
+        return this.getDerivedIsOptionDependent();
+    }
+
+    /**
+     * Gets the parameterType.
+     * parameterType derived from associated Parameter or ParameterOverride for convenience
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public ParameterType getParameterType(){
+        return this.getDerivedParameterType();
+    }
+
+    /**
+     * Gets the scale.
+     * scale derived from associated Parameter or ParameterOverride for convenience
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public MeasurementScale getScale(){
+        return this.getDerivedScale();
+    }
+
+    /**
+     * Gets the stateDependence.
+     * stateDependence derived from associated Parameter or ParameterOverride for convenience
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public ActualFiniteStateList getStateDependence(){
+        return this.getDerivedStateDependence();
+    }
 
     /**
      * Sets the group.
@@ -190,11 +231,11 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
     }
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link ParameterSubscription}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ParameterSubscription}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.valueSet);
         return containers;
     }
@@ -272,12 +313,12 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
 
         cdp4common.dto.ParameterSubscription dto = (cdp4common.dto.ParameterSubscription)dtoThing;
 
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
+        this.setOwner(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getOwner(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.getValueSet().resolveList(dto.getValueSet(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getValueSet(), dto.getValueSet(), dto.getIterationContainerId(), this.getCache(), ParameterSubscriptionValueSet.class);
 
         this.resolveExtraProperties();
     }
@@ -288,7 +329,7 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.ParameterSubscription dto = new cdp4common.dto.ParameterSubscription(this.getIid(), this.getRevisionNumber());
 
         dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));

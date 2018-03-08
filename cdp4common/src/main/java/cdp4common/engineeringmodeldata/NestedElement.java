@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -57,7 +58,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * Initializes a new instance of the {@link NestedElement} class.
      */
     public NestedElement() {
-        this.elementUsage = new OrderedItemList<ElementUsage>(this, false);
+        this.elementUsage = new OrderedItemList<ElementUsage>(this, ElementUsage.class);
         this.nestedParameter = new ContainerList<NestedParameter>(this);
     }
 
@@ -71,7 +72,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      */
     public NestedElement(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
-        this.elementUsage = new OrderedItemList<ElementUsage>(this, false);
+        this.elementUsage = new OrderedItemList<ElementUsage>(this, ElementUsage.class);
         this.nestedParameter = new ContainerList<NestedParameter>(this);
     }
 
@@ -99,7 +100,6 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * name derived from chain of the names of the <i>rootElement</i> and <i>elementUsage</i>
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String name;
 
     /**
@@ -118,7 +118,6 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * Note: The owner DomainOfExpertise of this NestedElement is the same as the owner of the last ElementUsage in the <i>elementUsage</i> path.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private DomainOfExpertise owner;
 
     /**
@@ -136,13 +135,40 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * short name derived from chain of the names of the <i>rootElement</i> and <i>elementUsage</i>
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String shortName;
 
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link NestedElement}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
+
+    /**
+     * Gets the name.
+     * name derived from chain of the names of the <i>rootElement</i> and <i>elementUsage</i>
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getName(){
+        return this.getDerivedName();
+    }
+
+    /**
+     * Gets the owner.
+     * reference to the owner DomainOfExpertise of this NestedElement
+     * Note: The owner DomainOfExpertise of this NestedElement is the same as the owner of the last ElementUsage in the <i>elementUsage</i> path.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public DomainOfExpertise getOwner(){
+        return this.getDerivedOwner();
+    }
+
+    /**
+     * Gets the shortName.
+     * short name derived from chain of the names of the <i>rootElement</i> and <i>elementUsage</i>
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getShortName(){
+        return this.getDerivedShortName();
+    }
 
     /**
      * Sets the name.
@@ -185,11 +211,11 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
     }
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link NestedElement}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link NestedElement}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.nestedParameter);
         return containers;
     }
@@ -211,7 +237,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
             throw new IllegalAccessError("Somehow NestedElement cannot be cloned.");
         }
 
-        clone.setElementUsage(new OrderedItemList<ElementUsage>(this.getElementUsage(), this));
+        clone.setElementUsage(new OrderedItemList<ElementUsage>(this.getElementUsage(), this, ElementUsage.class));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setNestedParameter(cloneContainedThings ? new ContainerList<NestedParameter>(clone) : new ContainerList<NestedParameter>(this.getNestedParameter(), clone, false));
@@ -274,14 +300,14 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
 
         cdp4common.dto.NestedElement dto = (cdp4common.dto.NestedElement)dtoThing;
 
-        this.getElementUsage().resolveList(dto.getElementUsage(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getElementUsage(), dto.getElementUsage(), dto.getIterationContainerId(), this.getCache(), ElementUsage.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setVolatile(dto.isVolatile());
         this.setModifiedOn(dto.getModifiedOn());
-        this.getNestedParameter().resolveList(dto.getNestedParameter(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getNestedParameter(), dto.getNestedParameter(), dto.getIterationContainerId(), this.getCache(), NestedParameter.class);
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setRootElement(this.getCache().get<ElementDefinition>(dto.getRootElement(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ElementDefinition.class));
+        this.setRootElement(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getRootElement(), dto.getIterationContainerId(), ElementDefinition.class), SentinelThingProvider.getSentinel(ElementDefinition.class)));
 
         this.resolveExtraProperties();
     }
@@ -292,7 +318,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.NestedElement dto = new cdp4common.dto.NestedElement(this.getIid(), this.getRevisionNumber());
 
         dto.getElementUsage().addAll(this.getElementUsage().toDtoOrderedItemList());

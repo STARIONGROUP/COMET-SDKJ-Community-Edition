@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -85,7 +86,7 @@ public class ModelReferenceDataLibrary extends ReferenceDataLibrary implements C
         }
 
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
-        clone.setBaseQuantityKind(new OrderedItemList<QuantityKind>(this.getBaseQuantityKind(), this));
+        clone.setBaseQuantityKind(new OrderedItemList<QuantityKind>(this.getBaseQuantityKind(), this, QuantityKind.class));
         clone.setBaseUnit(new ArrayList<MeasurementUnit>(this.getBaseUnit()));
         clone.setConstant(cloneContainedThings ? new ContainerList<Constant>(clone) : new ContainerList<Constant>(this.getConstant(), clone, false));
         clone.setDefinedCategory(cloneContainedThings ? new ContainerList<Category>(clone) : new ContainerList<Category>(this.getDefinedCategory(), clone, false));
@@ -161,28 +162,28 @@ public class ModelReferenceDataLibrary extends ReferenceDataLibrary implements C
 
         cdp4common.dto.ModelReferenceDataLibrary dto = (cdp4common.dto.ModelReferenceDataLibrary)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getBaseQuantityKind().resolveList(dto.getBaseQuantityKind(), dto.getIterationContainerId(), this.getCache());
-        this.getBaseUnit().resolveList(dto.getBaseUnit(), dto.getIterationContainerId(), this.getCache());
-        this.getConstant().resolveList(dto.getConstant(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinedCategory().resolveList(dto.getDefinedCategory(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getFileType().resolveList(dto.getFileType(), dto.getIterationContainerId(), this.getCache());
-        this.getGlossary().resolveList(dto.getGlossary(), dto.getIterationContainerId(), this.getCache());
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getBaseQuantityKind(), dto.getBaseQuantityKind(), dto.getIterationContainerId(), this.getCache(), QuantityKind.class);
+        PojoThingFactory.resolveList(this.getBaseUnit(), dto.getBaseUnit(), dto.getIterationContainerId(), this.getCache(), MeasurementUnit.class);
+        PojoThingFactory.resolveList(this.getConstant(), dto.getConstant(), dto.getIterationContainerId(), this.getCache(), Constant.class);
+        PojoThingFactory.resolveList(this.getDefinedCategory(), dto.getDefinedCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getFileType(), dto.getFileType(), dto.getIterationContainerId(), this.getCache(), FileType.class);
+        PojoThingFactory.resolveList(this.getGlossary(), dto.getGlossary(), dto.getIterationContainerId(), this.getCache(), Glossary.class);
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.getParameterType().resolveList(dto.getParameterType(), dto.getIterationContainerId(), this.getCache());
-        this.getReferenceSource().resolveList(dto.getReferenceSource(), dto.getIterationContainerId(), this.getCache());
-        this.setRequiredRdl((dto.getRequiredRdl() != null) ? this.getCache().get<SiteReferenceDataLibrary>(dto.getRequiredRdl.getValue(), dto.getIterationContainerId()) : null);
+        PojoThingFactory.resolveList(this.getParameterType(), dto.getParameterType(), dto.getIterationContainerId(), this.getCache(), ParameterType.class);
+        PojoThingFactory.resolveList(this.getReferenceSource(), dto.getReferenceSource(), dto.getIterationContainerId(), this.getCache(), ReferenceSource.class);
+        this.setRequiredRdl((dto.getRequiredRdl() != null) ? PojoThingFactory.get(this.getCache(), dto.getRequiredRdl(), dto.getIterationContainerId(), SiteReferenceDataLibrary.class) : null);
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.getRule().resolveList(dto.getRule(), dto.getIterationContainerId(), this.getCache());
-        this.getScale().resolveList(dto.getScale(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getRule(), dto.getRule(), dto.getIterationContainerId(), this.getCache(), Rule.class);
+        PojoThingFactory.resolveList(this.getScale(), dto.getScale(), dto.getIterationContainerId(), this.getCache(), MeasurementScale.class);
         this.setShortName(dto.getShortName());
-        this.getUnit().resolveList(dto.getUnit(), dto.getIterationContainerId(), this.getCache());
-        this.getUnitPrefix().resolveList(dto.getUnitPrefix(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getUnit(), dto.getUnit(), dto.getIterationContainerId(), this.getCache(), MeasurementUnit.class);
+        PojoThingFactory.resolveList(this.getUnitPrefix(), dto.getUnitPrefix(), dto.getIterationContainerId(), this.getCache(), UnitPrefix.class);
 
         this.resolveExtraProperties();
     }
@@ -193,7 +194,7 @@ public class ModelReferenceDataLibrary extends ReferenceDataLibrary implements C
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.ModelReferenceDataLibrary dto = new cdp4common.dto.ModelReferenceDataLibrary(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));

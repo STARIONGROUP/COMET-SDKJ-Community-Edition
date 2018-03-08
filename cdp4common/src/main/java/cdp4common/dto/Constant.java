@@ -25,7 +25,7 @@ import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -46,7 +46,7 @@ public class Constant extends DefinedThing implements Cloneable, CategorizableTh
     public Constant()
     {
         this.category = new ArrayList<UUID>();
-        this.value = new ValueArray<String>();
+        this.value = new ValueArray<String>(String.class);
     }
 
     /**
@@ -58,7 +58,7 @@ public class Constant extends DefinedThing implements Cloneable, CategorizableTh
     public Constant(UUID iid, int rev) {
         super(iid, rev);
         this.category = new ArrayList<UUID>();
-        this.value = new ValueArray<String>();
+        this.value = new ValueArray<String>(String.class);
     }
 
     /**

@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -85,7 +86,6 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
      * name derived from the <i>possibleState</i> by concatenation of the names of each referenced PossibleFiniteState
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String name;
 
     /**
@@ -94,7 +94,6 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
      * Note: This is a derived property. It is always the same DomainOfExpertise as the <i>owner</i> of the containing ActualFiniteStateList.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private DomainOfExpertise owner;
 
     /**
@@ -111,8 +110,35 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
      * short name derived from the <i>possibleState</i> by concatenation of the <i>shortName</i> of each referenced PossibleFiniteState
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String shortName;
+
+    /**
+     * Gets the name.
+     * name derived from the <i>possibleState</i> by concatenation of the names of each referenced PossibleFiniteState
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getName(){
+        return this.getDerivedName();
+    }
+
+    /**
+     * Gets the owner.
+     * reference to the DomainOfExpertise that owns (i.e. is responsible for) this ActualFiniteState
+     * Note: This is a derived property. It is always the same DomainOfExpertise as the <i>owner</i> of the containing ActualFiniteStateList.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public DomainOfExpertise getOwner(){
+        return this.getDerivedOwner();
+    }
+
+    /**
+     * Gets the shortName.
+     * short name derived from the <i>possibleState</i> by concatenation of the <i>shortName</i> of each referenced PossibleFiniteState
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getShortName(){
+        return this.getDerivedShortName();
+    }
 
     /**
      * Sets the name.
@@ -226,11 +252,11 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
 
         cdp4common.dto.ActualFiniteState dto = (cdp4common.dto.ActualFiniteState)dtoThing;
 
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setKind(dto.getKind());
         this.setModifiedOn(dto.getModifiedOn());
-        this.getPossibleState().resolveList(dto.getPossibleState(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getPossibleState(), dto.getPossibleState(), dto.getIterationContainerId(), this.getCache(), PossibleFiniteState.class);
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -242,7 +268,7 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.ActualFiniteState dto = new cdp4common.dto.ActualFiniteState(this.getIid(), this.getRevisionNumber());
 
         dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
@@ -257,5 +283,97 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
         this.buildDtoPartialRoutes(dto);
 
         return dto;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the user-friendly name
+     */
+    @Override
+    public String getUserFriendlyName() {
+        return this.getName();
+    }
+
+    /**
+     * Gets the user-friendly short name
+     */
+    @Override
+    public String getUserFriendlyShortName() {
+        return this.getShortName();
+    }
+
+    /**
+     * Returns the {@link #name} value
+     *
+     * @return The {@link #name} value
+     */
+    private String getDerivedName() {
+        if (!(this.getContainer() instanceof ActualFiniteStateList)) {
+            throw new NullPointerException("Container of ActualFiniteState is null");
+        }
+
+        // Get the names of the possible states in the same order as the possible state lists of the container actualFiniteStateList
+        List<UUID> possibleFiniteStateListIids = ((ActualFiniteStateList) this.getContainer())
+                .getPossibleFiniteStateList().stream().map(Thing::getIid).collect(Collectors.toList());
+        String [] sortedNames = new String[possibleFiniteStateListIids.size()];
+
+        for (PossibleFiniteState possibleFiniteState : this.getPossibleState()) {
+            int index = possibleFiniteStateListIids.indexOf(possibleFiniteState.getContainer().getIid());
+            if (index >= 0) {
+                sortedNames[index] = possibleFiniteState.getName();
+            }
+        }
+
+        return String.join(" → ", sortedNames);
+    }
+
+    /**
+     * Returns the {@link #shortName} value
+     *
+     * @return The {@link #shortName} value
+     */
+    private String getDerivedShortName() {
+        if (!(this.getContainer() instanceof ActualFiniteStateList)) {
+            throw new NullPointerException("Container of ActualFiniteState is null");
+        }
+
+        // Get the names of the possible states in the same order as the possible state lists of the container actualFiniteStateList
+        List<UUID> possibleFiniteStateListIids = ((ActualFiniteStateList) this.getContainer())
+                .getPossibleFiniteStateList().stream().map(Thing::getIid).collect(Collectors.toList());
+        String [] sortedNames = new String[possibleFiniteStateListIids.size()];
+
+        for (PossibleFiniteState possibleFiniteState : this.getPossibleState()) {
+            int index = possibleFiniteStateListIids.indexOf(possibleFiniteState.getContainer().getIid());
+            if (index >= 0) {
+                sortedNames[index] = possibleFiniteState.getShortName();
+            }
+        }
+
+        return String.join(".", sortedNames);
+    }
+
+    /**
+     * Returns the {@link #owner} value
+     *
+     * @return The {@link #owner} value
+     */
+    private DomainOfExpertise getDerivedOwner() {
+        if (!(this.getContainer() instanceof ActualFiniteStateList))
+        {
+            throw new NullPointerException("Container of ActualFiniteState is null");
+        }
+
+        return ((ActualFiniteStateList) this.getContainer()).getOwner();
+    }
+
+    /**
+     * Gets a value indicating whether this is the default {@link ActualFiniteState} of a {@link ActualFiniteStateList}
+     *
+     * The default {@link ActualFiniteState} is defined as the one which {@link PossibleFiniteState} are all the default value of their respective {@link PossibleFiniteStateList}
+     */
+    public boolean isDefault() {
+        return this.getPossibleState().stream().allMatch(PossibleFiniteState::isDefault);
     }
 }

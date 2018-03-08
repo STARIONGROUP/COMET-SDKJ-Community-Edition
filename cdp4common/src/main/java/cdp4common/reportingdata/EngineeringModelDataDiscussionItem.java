@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -149,14 +150,14 @@ public class EngineeringModelDataDiscussionItem extends DiscussionItem implement
 
         cdp4common.dto.EngineeringModelDataDiscussionItem dto = (cdp4common.dto.EngineeringModelDataDiscussionItem)dtoThing;
 
-        this.setAuthor(this.getCache().get<Participant>(dto.getAuthor(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Participant.class));
+        this.setAuthor(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getAuthor(), dto.getIterationContainerId(), Participant.class), SentinelThingProvider.getSentinel(Participant.class)));
         this.setContent(dto.getContent());
         this.setCreatedOn(dto.getCreatedOn());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setLanguageCode(dto.getLanguageCode());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setReplyTo((dto.getReplyTo() != null) ? this.getCache().get<DiscussionItem>(dto.getReplyTo.getValue(), dto.getIterationContainerId()) : null);
+        this.setReplyTo((dto.getReplyTo() != null) ? PojoThingFactory.get(this.getCache(), dto.getReplyTo(), dto.getIterationContainerId(), DiscussionItem.class) : null);
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -168,7 +169,7 @@ public class EngineeringModelDataDiscussionItem extends DiscussionItem implement
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.EngineeringModelDataDiscussionItem dto = new cdp4common.dto.EngineeringModelDataDiscussionItem(this.getIid(), this.getRevisionNumber());
 
         dto.setAuthor(this.getAuthor() != null ? this.getAuthor().getIid() : new UUID(0L, 0L));

@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -130,8 +131,17 @@ public class NestedParameter extends Thing implements Cloneable, OwnedThing, Vol
      * Note: The path string consists of the following backslash separated parts: (1) path to the <i>nestedElement</i>, (2) path to the <i>associatedParameter</i>, (3) path for the <i>actualState</i> or empty string if that is null, (4) <i>shortName</i> of the <i>container</i> Option. Any nested parts of the path name are dot separated.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private String path;
+
+    /**
+     * Gets the path.
+     * derived unique short name path to this NestedParameter
+     * Note: The path string consists of the following backslash separated parts: (1) path to the <i>nestedElement</i>, (2) path to the <i>associatedParameter</i>, (3) path for the <i>actualState</i> or empty string if that is null, (4) <i>shortName</i> of the <i>container</i> Option. Any nested parts of the path name are dot separated.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public String getPath(){
+        return this.getDerivedPath();
+    }
 
     /**
      * Sets the path.
@@ -233,15 +243,15 @@ public class NestedParameter extends Thing implements Cloneable, OwnedThing, Vol
 
         cdp4common.dto.NestedParameter dto = (cdp4common.dto.NestedParameter)dtoThing;
 
-        this.setActualState((dto.getActualState() != null) ? this.getCache().get<ActualFiniteState>(dto.getActualState.getValue(), dto.getIterationContainerId()) : null);
+        this.setActualState((dto.getActualState() != null) ? PojoThingFactory.get(this.getCache(), dto.getActualState(), dto.getIterationContainerId(), ActualFiniteState.class) : null);
         this.setActualValue(dto.getActualValue());
-        this.setAssociatedParameter(this.getCache().get<ParameterBase>(dto.getAssociatedParameter(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ParameterBase.class));
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        this.setAssociatedParameter(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getAssociatedParameter(), dto.getIterationContainerId(), ParameterBase.class), SentinelThingProvider.getSentinel(ParameterBase.class)));
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setFormula(dto.getFormula());
         this.setVolatile(dto.isVolatile());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
+        this.setOwner(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getOwner(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -253,7 +263,7 @@ public class NestedParameter extends Thing implements Cloneable, OwnedThing, Vol
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.NestedParameter dto = new cdp4common.dto.NestedParameter(this.getIid(), this.getRevisionNumber());
 
         dto.setActualState(this.getActualState() != null ? (UUID)this.getActualState().getIid() : null);

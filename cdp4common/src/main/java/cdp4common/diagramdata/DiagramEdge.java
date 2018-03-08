@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -55,7 +56,7 @@ public class DiagramEdge extends DiagramElementThing implements Cloneable {
      * Initializes a new instance of the {@link DiagramEdge} class.
      */
     public DiagramEdge() {
-        this.point = new OrderedItemList<Point>(this, true);
+        this.point = new OrderedItemList<Point>(this, true, Point.class);
     }
 
     /**
@@ -68,7 +69,7 @@ public class DiagramEdge extends DiagramElementThing implements Cloneable {
      */
     public DiagramEdge(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
-        this.point = new OrderedItemList<Point>(this, true);
+        this.point = new OrderedItemList<Point>(this, true, Point.class);
     }
 
     /**
@@ -101,14 +102,14 @@ public class DiagramEdge extends DiagramElementThing implements Cloneable {
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link DiagramEdge}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link DiagramEdge}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link DiagramEdge}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.point);
         return containers;
     }
@@ -135,7 +136,7 @@ public class DiagramEdge extends DiagramElementThing implements Cloneable {
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setLocalStyle(cloneContainedThings ? new ContainerList<OwnedStyle>(clone) : new ContainerList<OwnedStyle>(this.getLocalStyle(), clone, false));
-        clone.setPoint(cloneContainedThings ? new OrderedItemList<Point>(clone, true) : new OrderedItemList<Point>(this.getPoint(), clone));
+        clone.setPoint(cloneContainedThings ? new OrderedItemList<Point>(clone, true, Point.class) : new OrderedItemList<Point>(this.getPoint(), clone, Point.class));
 
         if (cloneContainedThings) {
             clone.getBounds().addAll(this.getBounds().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
@@ -199,19 +200,19 @@ public class DiagramEdge extends DiagramElementThing implements Cloneable {
 
         cdp4common.dto.DiagramEdge dto = (cdp4common.dto.DiagramEdge)dtoThing;
 
-        this.getBounds().resolveList(dto.getBounds(), dto.getIterationContainerId(), this.getCache());
-        this.setDepictedThing((dto.getDepictedThing() != null) ? this.getCache().get<Thing>(dto.getDepictedThing.getValue(), dto.getIterationContainerId()) : null);
-        this.getDiagramElement().resolveList(dto.getDiagramElement(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getLocalStyle().resolveList(dto.getLocalStyle(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getBounds(), dto.getBounds(), dto.getIterationContainerId(), this.getCache(), Bounds.class);
+        this.setDepictedThing((dto.getDepictedThing() != null) ? PojoThingFactory.get(this.getCache(), dto.getDepictedThing(), dto.getIterationContainerId(), Thing.class) : null);
+        PojoThingFactory.resolveList(this.getDiagramElement(), dto.getDiagramElement(), dto.getIterationContainerId(), this.getCache(), DiagramElementThing.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getLocalStyle(), dto.getLocalStyle(), dto.getIterationContainerId(), this.getCache(), OwnedStyle.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.getPoint().resolveList(dto.getPoint(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getPoint(), dto.getPoint(), dto.getIterationContainerId(), this.getCache(), Point.class);
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setSharedStyle((dto.getSharedStyle() != null) ? this.getCache().get<SharedStyle>(dto.getSharedStyle.getValue(), dto.getIterationContainerId()) : null);
-        this.setSource(this.getCache().get<DiagramElementThing>(dto.getSource(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DiagramElementThing.class));
-        this.setTarget(this.getCache().get<DiagramElementThing>(dto.getTarget(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DiagramElementThing.class));
+        this.setSharedStyle((dto.getSharedStyle() != null) ? PojoThingFactory.get(this.getCache(), dto.getSharedStyle(), dto.getIterationContainerId(), SharedStyle.class) : null);
+        this.setSource(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getSource(), dto.getIterationContainerId(), DiagramElementThing.class), SentinelThingProvider.getSentinel(DiagramElementThing.class)));
+        this.setTarget(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getTarget(), dto.getIterationContainerId(), DiagramElementThing.class), SentinelThingProvider.getSentinel(DiagramElementThing.class)));
 
         this.resolveExtraProperties();
     }
@@ -222,7 +223,7 @@ public class DiagramEdge extends DiagramElementThing implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.DiagramEdge dto = new cdp4common.dto.DiagramEdge(this.getIid(), this.getRevisionNumber());
 
         dto.getBounds().addAll(this.getBounds().stream().map(Thing::getIid).collect(Collectors.toList()));

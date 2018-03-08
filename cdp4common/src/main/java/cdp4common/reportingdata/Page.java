@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -55,7 +56,7 @@ public class Page extends Thing implements Cloneable, CategorizableThing, NamedT
      */
     public Page() {
         this.category = new ArrayList<Category>();
-        this.note = new OrderedItemList<Note>(this, true);
+        this.note = new OrderedItemList<Note>(this, true, Note.class);
     }
 
     /**
@@ -69,7 +70,7 @@ public class Page extends Thing implements Cloneable, CategorizableThing, NamedT
     public Page(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.category = new ArrayList<Category>();
-        this.note = new OrderedItemList<Note>(this, true);
+        this.note = new OrderedItemList<Note>(this, true, Note.class);
     }
 
     /**
@@ -135,14 +136,14 @@ public class Page extends Thing implements Cloneable, CategorizableThing, NamedT
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link Page}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link Page}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Page}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.note);
         return containers;
     }
@@ -167,7 +168,7 @@ public class Page extends Thing implements Cloneable, CategorizableThing, NamedT
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setNote(cloneContainedThings ? new OrderedItemList<Note>(clone, true) : new OrderedItemList<Note>(this.getNote(), clone));
+        clone.setNote(cloneContainedThings ? new OrderedItemList<Note>(clone, true, Note.class) : new OrderedItemList<Note>(this.getNote(), clone, Note.class));
 
         if (cloneContainedThings) {
             clone.getNote().addAll(this.getNote().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
@@ -230,14 +231,14 @@ public class Page extends Thing implements Cloneable, CategorizableThing, NamedT
 
         cdp4common.dto.Page dto = (cdp4common.dto.Page)dtoThing;
 
-        this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getCategory(), dto.getCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
         this.setCreatedOn(dto.getCreatedOn());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.getNote().resolveList(dto.getNote(), dto.getIterationContainerId(), this.getCache());
-        this.setOwner(this.getCache().get<DomainOfExpertise>(dto.getOwner(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
+        PojoThingFactory.resolveList(this.getNote(), dto.getNote(), dto.getIterationContainerId(), this.getCache(), Note.class);
+        this.setOwner(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getOwner(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
 
@@ -250,7 +251,7 @@ public class Page extends Thing implements Cloneable, CategorizableThing, NamedT
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.Page dto = new cdp4common.dto.Page(this.getIid(), this.getRevisionNumber());
 
         dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));

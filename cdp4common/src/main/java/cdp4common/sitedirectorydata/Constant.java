@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -54,7 +55,7 @@ public class Constant extends DefinedThing implements Cloneable, CategorizableTh
      */
     public Constant() {
         this.category = new ArrayList<Category>();
-        this.value = new ValueArray<String>(this, false);
+        this.value = new ValueArray<String>(this, String.class);
     }
 
     /**
@@ -68,7 +69,7 @@ public class Constant extends DefinedThing implements Cloneable, CategorizableTh
     public Constant(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.category = new ArrayList<Category>();
-        this.value = new ValueArray<String>(this, false);
+        this.value = new ValueArray<String>(this, String.class);
     }
 
     /**
@@ -140,7 +141,7 @@ public class Constant extends DefinedThing implements Cloneable, CategorizableTh
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
-        clone.setValue(new ValueArray<String>(this.getValue(), this));
+        clone.setValue(new ValueArray<String>(this.getValue(), this, String.class));
 
         if (cloneContainedThings) {
             clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
@@ -202,20 +203,20 @@ public class Constant extends DefinedThing implements Cloneable, CategorizableTh
 
         cdp4common.dto.Constant dto = (cdp4common.dto.Constant)dtoThing;
 
-        this.getAlias().resolveList(dto.getAlias(), dto.getIterationContainerId(), this.getCache());
-        this.getCategory().resolveList(dto.getCategory(), dto.getIterationContainerId(), this.getCache());
-        this.getDefinition().resolveList(dto.getDefinition(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getHyperLink().resolveList(dto.getHyperLink(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        PojoThingFactory.resolveList(this.getCategory(), dto.getCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
+        PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setDeprecated(dto.isDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
-        this.setParameterType(this.getCache().get<ParameterType>(dto.getParameterType(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ParameterType.class));
+        this.setParameterType(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getParameterType(), dto.getIterationContainerId(), ParameterType.class), SentinelThingProvider.getSentinel(ParameterType.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setScale((dto.getScale() != null) ? this.getCache().get<MeasurementScale>(dto.getScale.getValue(), dto.getIterationContainerId()) : null);
+        this.setScale((dto.getScale() != null) ? PojoThingFactory.get(this.getCache(), dto.getScale(), dto.getIterationContainerId(), MeasurementScale.class) : null);
         this.setShortName(dto.getShortName());
-        this.setValue(new ValueArray<String>(dto.getValue(), this));
+        this.setValue(new ValueArray<String>(dto.getValue(), this, String.class));
 
         this.resolveExtraProperties();
     }
@@ -226,7 +227,7 @@ public class Constant extends DefinedThing implements Cloneable, CategorizableTh
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.Constant dto = new cdp4common.dto.Constant(this.getIid(), this.getRevisionNumber());
 
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
@@ -242,7 +243,7 @@ public class Constant extends DefinedThing implements Cloneable, CategorizableTh
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setScale(this.getScale() != null ? (UUID)this.getScale().getIid() : null);
         dto.setShortName(this.getShortName());
-        dto.setValue(new ValueArray<String>(this.getValue(), this));
+        dto.setValue(new ValueArray<String>(this.getValue(), this, String.class));
 
         dto.setIterationContainerId(this.getCacheId().getRight());
         dto.registerSourceThing(this);

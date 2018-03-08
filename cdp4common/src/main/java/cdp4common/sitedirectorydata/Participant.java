@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -211,15 +212,15 @@ public class Participant extends Thing implements Cloneable, ParticipantAffected
 
         cdp4common.dto.Participant dto = (cdp4common.dto.Participant)dtoThing;
 
-        this.getDomain().resolveList(dto.getDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getDomain(), dto.getDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setActive(dto.isActive());
         this.setModifiedOn(dto.getModifiedOn());
-        this.setPerson(this.getCache().get<Person>(dto.getPerson(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(Person.class));
+        this.setPerson(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getPerson(), dto.getIterationContainerId(), Person.class), SentinelThingProvider.getSentinel(Person.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setRole(this.getCache().get<ParticipantRole>(dto.getRole(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(ParticipantRole.class));
-        this.setSelectedDomain(this.getCache().get<DomainOfExpertise>(dto.getSelectedDomain(), dto.getIterationContainerId()) ?? SentinelThingProvider.getSentinel(DomainOfExpertise.class));
+        this.setRole(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getRole(), dto.getIterationContainerId(), ParticipantRole.class), SentinelThingProvider.getSentinel(ParticipantRole.class)));
+        this.setSelectedDomain(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getSelectedDomain(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
 
         this.resolveExtraProperties();
     }
@@ -230,7 +231,7 @@ public class Participant extends Thing implements Cloneable, ParticipantAffected
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.Participant dto = new cdp4common.dto.Participant(this.getIid(), this.getRevisionNumber());
 
         dto.getDomain().addAll(this.getDomain().stream().map(Thing::getIid).collect(Collectors.toList()));

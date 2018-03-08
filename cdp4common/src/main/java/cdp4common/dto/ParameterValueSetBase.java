@@ -25,7 +25,7 @@ import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -44,11 +44,11 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      */
     protected ParameterValueSetBase()
     {
-        this.computed = new ValueArray<String>();
-        this.formula = new ValueArray<String>();
-        this.manual = new ValueArray<String>();
-        this.published = new ValueArray<String>();
-        this.reference = new ValueArray<String>();
+        this.computed = new ValueArray<String>(String.class);
+        this.formula = new ValueArray<String>(String.class);
+        this.manual = new ValueArray<String>(String.class);
+        this.published = new ValueArray<String>(String.class);
+        this.reference = new ValueArray<String>(String.class);
     }
 
     /**
@@ -59,11 +59,11 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      */
     protected ParameterValueSetBase(UUID iid, int rev) {
         super(iid, rev);
-        this.computed = new ValueArray<String>();
-        this.formula = new ValueArray<String>();
-        this.manual = new ValueArray<String>();
-        this.published = new ValueArray<String>();
-        this.reference = new ValueArray<String>();
+        this.computed = new ValueArray<String>(String.class);
+        this.formula = new ValueArray<String>(String.class);
+        this.manual = new ValueArray<String>(String.class);
+        this.published = new ValueArray<String>(String.class);
+        this.reference = new ValueArray<String>(String.class);
     }
 
     /**

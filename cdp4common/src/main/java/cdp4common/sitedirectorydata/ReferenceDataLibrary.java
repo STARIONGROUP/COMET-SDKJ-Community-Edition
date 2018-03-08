@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -56,7 +57,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
      * Initializes a new instance of the {@link ReferenceDataLibrary} class.
      */
     protected ReferenceDataLibrary() {
-        this.baseQuantityKind = new OrderedItemList<QuantityKind>(this, false);
+        this.baseQuantityKind = new OrderedItemList<QuantityKind>(this, QuantityKind.class);
         this.baseUnit = new ArrayList<MeasurementUnit>();
         this.constant = new ContainerList<Constant>(this);
         this.definedCategory = new ContainerList<Category>(this);
@@ -80,7 +81,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
      */
     protected ReferenceDataLibrary(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
-        this.baseQuantityKind = new OrderedItemList<QuantityKind>(this, false);
+        this.baseQuantityKind = new OrderedItemList<QuantityKind>(this, QuantityKind.class);
         this.baseUnit = new ArrayList<MeasurementUnit>();
         this.constant = new ContainerList<Constant>(this);
         this.definedCategory = new ContainerList<Category>(this);
@@ -222,14 +223,14 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link ReferenceDataLibrary}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link ReferenceDataLibrary}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ReferenceDataLibrary}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.constant);
         containers.add(this.definedCategory);
         containers.add(this.fileType);
@@ -265,5 +266,48 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
         return errorList;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the chain of required Rdl for this {@link ReferenceDataLibrary}
+     *
+     * @return A {@link Collection} of the chain of required Rdl
+     */
+    public Collection<ReferenceDataLibrary> getRequiredRdlsChain() {
+        ReferenceDataLibrary requiredRdl = this.getRequiredRdl();
+        Collection<ReferenceDataLibrary> requiredRdlsChain = new ArrayList<>();
+
+        while (requiredRdl != null) {
+            requiredRdlsChain.add(requiredRdl);
+            requiredRdl = requiredRdl.getRequiredRdl();
+        }
+
+        return requiredRdlsChain;
+    }
+
+    /**
+     * Gets an {@link Collection<ReferenceDataLibrary>} that contains
+     * the required {@link ReferenceDataLibrary} for the current {@link Thing}
+     */
+    @Override
+    public Collection<ReferenceDataLibrary> getRequiredRdls() {
+        Set<ReferenceDataLibrary> requiredRdls = new HashSet<>(super.getRequiredRdls());
+        requiredRdls.addAll(this.getRequiredRdlsChain());
+        return requiredRdls;
+    }
+
+    /**
+     * Gets the aggregation of all required {@link ReferenceDataLibrary} besides the current one
+     */
+    public Collection<ReferenceDataLibrary> getAggregatedReferenceDataLibrary() {
+        Collection<ReferenceDataLibrary> aggregatedReferenceDataLibrary = new ArrayList<>();
+        aggregatedReferenceDataLibrary.add(this);
+
+        aggregatedReferenceDataLibrary.addAll(this.getRequiredRdlsChain());
+
+        return aggregatedReferenceDataLibrary;
     }
 }

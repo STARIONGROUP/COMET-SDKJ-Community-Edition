@@ -15,7 +15,7 @@ import cdp4common.sitedirectorydata.Person;
 import cdp4common.sitedirectorydata.ReferenceDataLibrary;
 import lombok.*;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 
 import java.lang.annotation.Annotation;
 import java.net.URI;
@@ -33,7 +33,6 @@ import java.util.logging.Logger;
  * - public virtual string UserFriendlyShortName{}
  */
 @ToString
-@EqualsAndHashCode
 public abstract class Thing implements AutoCloseable, Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
@@ -246,7 +245,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      * @throws ContainmentException when the containment tree is broken due to the fact that the Container has not
      *                              been set on one of the {@link Thing} classes in the containment tree.
      */
-    public String getRoute() throws ContainmentException {
+    public String getRoute() {
         Class currentClass = this.getClass();
         String className = currentClass.getName();
 
@@ -320,7 +319,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      *
      * @throws ContainmentException when a top container cannot be computed.
      */
-    public TopContainer getTopContainer() throws ContainmentException {
+    public TopContainer getTopContainer() {
         if (this instanceof NotThing) {
             return null;
         }
@@ -343,14 +342,9 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     }
 
     /**
-     * An {@link Iterable<ReferenceDataLibrary>} that contains the required {@link ReferenceDataLibrary} for the current {@link Thing}
+     * Get an {@link Collection<ReferenceDataLibrary>} that contains the required {@link ReferenceDataLibrary} for the current {@link Thing}
      */
-    private Iterable<ReferenceDataLibrary> requiredRdls;
-
-    /**
-     * Get an {@link Iterable<ReferenceDataLibrary>} that contains the required {@link ReferenceDataLibrary} for the current {@link Thing}
-     */
-    public Iterable<ReferenceDataLibrary> getRequiredRdls() {
+    public Collection<ReferenceDataLibrary> getRequiredRdls() {
         return new HashSet<>();
     }
 
@@ -439,7 +433,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
 
         try {
             ClassKind classKind;
-            classKind = Enum.valueOf(ClassKind.class, Utils.getConstantNotation(type.getName()));
+            classKind = Enum.valueOf(ClassKind.class, Utils.getConstantNotationFromUpperCamel(type.getSimpleName()));
             return classKind;
         } catch (IllegalArgumentException ex) {
             throw new IllegalStateException(String.format("The current Thing %1$s does not have a corresponding ClassKind", type));
@@ -451,12 +445,12 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      *
      * @param dto The source {@link cdp4common.dto.Thing}.
      */
-    protected abstract void resolveProperties(cdp4common.dto.Thing dto);
+    public abstract void resolveProperties(cdp4common.dto.Thing dto);
 
     /**
      * Reset all properties that use a sentinel and clear the dictionary
      */
-    void resetSentinel() {
+    public void resetSentinel() {
         for (Action action : this.sentinelResetMap.values()) {
             action.invoke();
         }
@@ -470,9 +464,9 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     private Iterable<Iterable> containerLists;
 
     /**
-     * Get an {@link Iterable<Iterable>} that references the composite properties of the current {@link Thing}
+     * Get an {@link Collection<Collection>} that references the composite properties of the current {@link Thing}
      */
-    public List<List> getContainerLists() {
+    public Collection<Collection> getContainerLists() {
         return new ArrayList<>();
     }
 
@@ -619,15 +613,17 @@ public abstract class Thing implements AutoCloseable, Cloneable {
             return false;
         }
 
-        return this.getCache().containsKey(this.getCacheId());
+        return this.getCache().asMap().containsKey(this.getCacheId());
     }
 
     /**
      * Populate the partialRoutes in the DTOs
      *
      * @param dto the DTO to populate.
+     *            @throws ContainmentException when the containment tree is broken due to the fact that the Container has not
+     *                              been set on one of the {@link Thing} classes in the containment tree.
      */
-    protected void buildDtoPartialRoutes(cdp4common.dto.Thing dto) throws ContainmentException {
+    protected void buildDtoPartialRoutes(cdp4common.dto.Thing dto) {
         String[] partialRoutes = this.getRoute().split("/");
 
         // the last partial route doesn't need to be added directly as the Dto's route computes it directly

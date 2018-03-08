@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -136,24 +137,24 @@ public class OwnedStyle extends DiagrammingStyle implements Cloneable {
 
         cdp4common.dto.OwnedStyle dto = (cdp4common.dto.OwnedStyle)dtoThing;
 
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.setFillColor((dto.getFillColor() != null) ? this.getCache().get<Color>(dto.getFillColor.getValue(), dto.getIterationContainerId()) : null);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        this.setFillColor((dto.getFillColor() != null) ? PojoThingFactory.get(this.getCache(), dto.getFillColor(), dto.getIterationContainerId(), Color.class) : null);
         this.setFillOpacity(dto.getFillOpacity());
-        this.setFontBold(dto.getFontBold());
-        this.setFontColor((dto.getFontColor() != null) ? this.getCache().get<Color>(dto.getFontColor.getValue(), dto.getIterationContainerId()) : null);
-        this.setFontItalic(dto.getFontItalic());
+        this.setFontBold(dto.isFontBold());
+        this.setFontColor((dto.getFontColor() != null) ? PojoThingFactory.get(this.getCache(), dto.getFontColor(), dto.getIterationContainerId(), Color.class) : null);
+        this.setFontItalic(dto.isFontItalic());
         this.setFontName(dto.getFontName());
         this.setFontSize(dto.getFontSize());
-        this.setFontStrokeThrough(dto.getFontStrokeThrough());
-        this.setFontUnderline(dto.getFontUnderline());
+        this.setFontStrokeThrough(dto.isFontStrokeThrough());
+        this.setFontUnderline(dto.isFontUnderline());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setStrokeColor((dto.getStrokeColor() != null) ? this.getCache().get<Color>(dto.getStrokeColor.getValue(), dto.getIterationContainerId()) : null);
+        this.setStrokeColor((dto.getStrokeColor() != null) ? PojoThingFactory.get(this.getCache(), dto.getStrokeColor(), dto.getIterationContainerId(), Color.class) : null);
         this.setStrokeOpacity(dto.getStrokeOpacity());
         this.setStrokeWidth(dto.getStrokeWidth());
-        this.getUsedColor().resolveList(dto.getUsedColor(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getUsedColor(), dto.getUsedColor(), dto.getIterationContainerId(), this.getCache(), Color.class);
 
         this.resolveExtraProperties();
     }
@@ -164,7 +165,7 @@ public class OwnedStyle extends DiagrammingStyle implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.OwnedStyle dto = new cdp4common.dto.OwnedStyle(this.getIid(), this.getRevisionNumber());
 
         dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));

@@ -8,7 +8,7 @@ gen
 
 ### Java template
 # Compiled class file
-*.class
+cdp4common/target/**
 
 # Log file
 *.log
@@ -20,7 +20,6 @@ gen
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 *.zip

@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -83,7 +84,6 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
      * reference to the DomainOfExpertise that is the owner of this RequirementsGroup, which is derived to be the same as the owner of the next higher level RequirementsGroup or RequirementsSpecification
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    @Getter
     private DomainOfExpertise owner;
 
     /**
@@ -98,7 +98,16 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link ParametricConstraint}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
+
+    /**
+     * Gets the owner.
+     * reference to the DomainOfExpertise that is the owner of this RequirementsGroup, which is derived to be the same as the owner of the next higher level RequirementsGroup or RequirementsSpecification
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
+    public DomainOfExpertise getOwner(){
+        return this.getDerivedOwner();
+    }
 
     /**
      * Sets the owner.
@@ -114,11 +123,11 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
     }
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link ParametricConstraint}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ParametricConstraint}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.expression);
         return containers;
     }
@@ -196,12 +205,12 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
 
         cdp4common.dto.ParametricConstraint dto = (cdp4common.dto.ParametricConstraint)dtoThing;
 
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
-        this.getExpression().resolveList(dto.getExpression(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getExpression(), dto.getExpression(), dto.getIterationContainerId(), this.getCache(), BooleanExpression.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.setTopExpression((dto.getTopExpression() != null) ? this.getCache().get<BooleanExpression>(dto.getTopExpression.getValue(), dto.getIterationContainerId()) : null);
+        this.setTopExpression((dto.getTopExpression() != null) ? PojoThingFactory.get(this.getCache(), dto.getTopExpression(), dto.getIterationContainerId(), BooleanExpression.class) : null);
 
         this.resolveExtraProperties();
     }
@@ -212,7 +221,7 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.ParametricConstraint dto = new cdp4common.dto.ParametricConstraint(this.getIid(), this.getRevisionNumber());
 
         dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));

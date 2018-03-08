@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -55,8 +56,8 @@ public class Definition extends Thing implements Cloneable, Annotation {
      */
     public Definition() {
         this.citation = new ContainerList<Citation>(this);
-        this.example = new OrderedItemList<String>(this, false);
-        this.note = new OrderedItemList<String>(this, false);
+        this.example = new OrderedItemList<String>(this, String.class);
+        this.note = new OrderedItemList<String>(this, String.class);
     }
 
     /**
@@ -70,8 +71,8 @@ public class Definition extends Thing implements Cloneable, Annotation {
     public Definition(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.citation = new ContainerList<Citation>(this);
-        this.example = new OrderedItemList<String>(this, false);
-        this.note = new OrderedItemList<String>(this, false);
+        this.example = new OrderedItemList<String>(this, String.class);
+        this.note = new OrderedItemList<String>(this, String.class);
     }
 
     /**
@@ -124,14 +125,14 @@ public class Definition extends Thing implements Cloneable, Annotation {
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link Definition}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link Definition}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Definition}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.citation);
         return containers;
     }
@@ -154,10 +155,10 @@ public class Definition extends Thing implements Cloneable, Annotation {
         }
 
         clone.setCitation(cloneContainedThings ? new ContainerList<Citation>(clone) : new ContainerList<Citation>(this.getCitation(), clone, false));
-        clone.setExample(new OrderedItemList<String>(this.getExample(), this));
+        clone.setExample(new OrderedItemList<String>(this.getExample(), this, String.class));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setNote(new OrderedItemList<String>(this.getNote(), this));
+        clone.setNote(new OrderedItemList<String>(this.getNote(), this, String.class));
 
         if (cloneContainedThings) {
             clone.getCitation().addAll(this.getCitation().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
@@ -214,14 +215,14 @@ public class Definition extends Thing implements Cloneable, Annotation {
 
         cdp4common.dto.Definition dto = (cdp4common.dto.Definition)dtoThing;
 
-        this.getCitation().resolveList(dto.getCitation(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.resolveList(this.getCitation(), dto.getCitation(), dto.getIterationContainerId(), this.getCache(), Citation.class);
         this.setContent(dto.getContent());
-        this.getExample().clearAndAddRange(dto.getExample());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache());
+        PojoThingFactory.clearAndAddRange(this.getExample(), dto.getExample());
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setLanguageCode(dto.getLanguageCode());
         this.setModifiedOn(dto.getModifiedOn());
-        this.getNote().clearAndAddRange(dto.getNote());
+        PojoThingFactory.clearAndAddRange(this.getNote(), dto.getNote());
         this.setRevisionNumber(dto.getRevisionNumber());
 
         this.resolveExtraProperties();
@@ -233,7 +234,7 @@ public class Definition extends Thing implements Cloneable, Annotation {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.Definition dto = new cdp4common.dto.Definition(this.getIid(), this.getRevisionNumber());
 
         dto.getCitation().addAll(this.getCitation().stream().map(Thing::getIid).collect(Collectors.toList()));

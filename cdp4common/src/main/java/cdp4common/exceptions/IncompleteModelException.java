@@ -9,7 +9,7 @@ package cdp4common.exceptions;
  * An {@link IncompleteModelException} is thrown when the containment tree of any {@link Thing} is walked, either
  * up or down and the model is incomplete.
  */
-public class IncompleteModelException extends Exception {
+public class IncompleteModelException extends RuntimeException {
     /**
      * Initializes a new instance of the {@link IncompleteModelException} class.
      */

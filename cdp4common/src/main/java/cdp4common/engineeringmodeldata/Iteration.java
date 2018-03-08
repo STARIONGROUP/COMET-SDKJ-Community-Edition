@@ -23,8 +23,9 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ehcache.Cache;
+import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -61,7 +62,7 @@ public class Iteration extends Thing implements Cloneable {
         this.element = new ContainerList<ElementDefinition>(this);
         this.externalIdentifierMap = new ContainerList<ExternalIdentifierMap>(this);
         this.goal = new ContainerList<Goal>(this);
-        this.option = new OrderedItemList<Option>(this, true);
+        this.option = new OrderedItemList<Option>(this, true, Option.class);
         this.possibleFiniteStateList = new ContainerList<PossibleFiniteStateList>(this);
         this.publication = new ContainerList<Publication>(this);
         this.relationship = new ContainerList<Relationship>(this);
@@ -90,7 +91,7 @@ public class Iteration extends Thing implements Cloneable {
         this.element = new ContainerList<ElementDefinition>(this);
         this.externalIdentifierMap = new ContainerList<ExternalIdentifierMap>(this);
         this.goal = new ContainerList<Goal>(this);
-        this.option = new OrderedItemList<Option>(this, true);
+        this.option = new OrderedItemList<Option>(this, true, Option.class);
         this.possibleFiniteStateList = new ContainerList<PossibleFiniteStateList>(this);
         this.publication = new ContainerList<Publication>(this);
         this.relationship = new ContainerList<Relationship>(this);
@@ -301,14 +302,14 @@ public class Iteration extends Thing implements Cloneable {
     /**
      * {@link Iterable<Iterable>} that references the composite properties of the current {@link Iteration}.
      */
-    public Iterable<Iterable> containerLists;
+    private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link Iteration}.
+     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Iteration}.
      */
     @Override
-    public List<List> getContainerLists() {
-        List<List> containers = new ArrayList<List>(super.getContainerLists());
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.actualFiniteStateList);
         containers.add(this.diagramCanvas);
         containers.add(this.domainFileStore);
@@ -354,7 +355,7 @@ public class Iteration extends Thing implements Cloneable {
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setExternalIdentifierMap(cloneContainedThings ? new ContainerList<ExternalIdentifierMap>(clone) : new ContainerList<ExternalIdentifierMap>(this.getExternalIdentifierMap(), clone, false));
         clone.setGoal(cloneContainedThings ? new ContainerList<Goal>(clone) : new ContainerList<Goal>(this.getGoal(), clone, false));
-        clone.setOption(cloneContainedThings ? new OrderedItemList<Option>(clone, true) : new OrderedItemList<Option>(this.getOption(), clone));
+        clone.setOption(cloneContainedThings ? new OrderedItemList<Option>(clone, true, Option.class) : new OrderedItemList<Option>(this.getOption(), clone, Option.class));
         clone.setPossibleFiniteStateList(cloneContainedThings ? new ContainerList<PossibleFiniteStateList>(clone) : new ContainerList<PossibleFiniteStateList>(this.getPossibleFiniteStateList(), clone, false));
         clone.setPublication(cloneContainedThings ? new ContainerList<Publication>(clone) : new ContainerList<Publication>(this.getPublication(), clone, false));
         clone.setRelationship(cloneContainedThings ? new ContainerList<Relationship>(clone) : new ContainerList<Relationship>(this.getRelationship(), clone, false));
@@ -440,31 +441,31 @@ public class Iteration extends Thing implements Cloneable {
 
         cdp4common.dto.Iteration dto = (cdp4common.dto.Iteration)dtoThing;
 
-        this.getActualFiniteStateList().resolveList(dto.getActualFiniteStateList(), dto.getIid(), this.getCache());
-        this.setDefaultOption((dto.getDefaultOption() != null) ? this.getCache().get<Option>(dto.getDefaultOption.getValue(), dto.getIid()) : null);
-        this.getDiagramCanvas().resolveList(dto.getDiagramCanvas(), dto.getIid(), this.getCache());
-        this.getDomainFileStore().resolveList(dto.getDomainFileStore(), dto.getIid(), this.getCache());
-        this.getElement().resolveList(dto.getElement(), dto.getIid(), this.getCache());
-        this.getExcludedDomain().resolveList(dto.getExcludedDomain(), dto.getIid(), this.getCache());
-        this.getExcludedPerson().resolveList(dto.getExcludedPerson(), dto.getIid(), this.getCache());
-        this.getExternalIdentifierMap().resolveList(dto.getExternalIdentifierMap(), dto.getIid(), this.getCache());
-        this.getGoal().resolveList(dto.getGoal(), dto.getIid(), this.getCache());
-        this.setIterationSetup(this.getCache().get<IterationSetup>(dto.getIterationSetup(), dto.getIid()) ?? SentinelThingProvider.getSentinel(IterationSetup.class));
+        PojoThingFactory.resolveList(this.getActualFiniteStateList(), dto.getActualFiniteStateList(), dto.getIid(), this.getCache(), ActualFiniteStateList.class);
+        this.setDefaultOption((dto.getDefaultOption() != null) ? PojoThingFactory.get(this.getCache(), dto.getDefaultOption(), dto.getIid(), Option.class) : null);
+        PojoThingFactory.resolveList(this.getDiagramCanvas(), dto.getDiagramCanvas(), dto.getIid(), this.getCache(), DiagramCanvas.class);
+        PojoThingFactory.resolveList(this.getDomainFileStore(), dto.getDomainFileStore(), dto.getIid(), this.getCache(), DomainFileStore.class);
+        PojoThingFactory.resolveList(this.getElement(), dto.getElement(), dto.getIid(), this.getCache(), ElementDefinition.class);
+        PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIid(), this.getCache(), DomainOfExpertise.class);
+        PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIid(), this.getCache(), Person.class);
+        PojoThingFactory.resolveList(this.getExternalIdentifierMap(), dto.getExternalIdentifierMap(), dto.getIid(), this.getCache(), ExternalIdentifierMap.class);
+        PojoThingFactory.resolveList(this.getGoal(), dto.getGoal(), dto.getIid(), this.getCache(), Goal.class);
+        this.setIterationSetup(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getIterationSetup(), dto.getIid(), IterationSetup.class), SentinelThingProvider.getSentinel(IterationSetup.class)));
         this.setModifiedOn(dto.getModifiedOn());
-        this.getOption().resolveList(dto.getOption(), dto.getIid(), this.getCache());
-        this.getPossibleFiniteStateList().resolveList(dto.getPossibleFiniteStateList(), dto.getIid(), this.getCache());
-        this.getPublication().resolveList(dto.getPublication(), dto.getIid(), this.getCache());
-        this.getRelationship().resolveList(dto.getRelationship(), dto.getIid(), this.getCache());
-        this.getRequirementsSpecification().resolveList(dto.getRequirementsSpecification(), dto.getIid(), this.getCache());
+        PojoThingFactory.resolveList(this.getOption(), dto.getOption(), dto.getIid(), this.getCache(), Option.class);
+        PojoThingFactory.resolveList(this.getPossibleFiniteStateList(), dto.getPossibleFiniteStateList(), dto.getIid(), this.getCache(), PossibleFiniteStateList.class);
+        PojoThingFactory.resolveList(this.getPublication(), dto.getPublication(), dto.getIid(), this.getCache(), Publication.class);
+        PojoThingFactory.resolveList(this.getRelationship(), dto.getRelationship(), dto.getIid(), this.getCache(), Relationship.class);
+        PojoThingFactory.resolveList(this.getRequirementsSpecification(), dto.getRequirementsSpecification(), dto.getIid(), this.getCache(), RequirementsSpecification.class);
         this.setRevisionNumber(dto.getRevisionNumber());
-        this.getRuleVerificationList().resolveList(dto.getRuleVerificationList(), dto.getIid(), this.getCache());
-        this.getSharedDiagramStyle().resolveList(dto.getSharedDiagramStyle(), dto.getIid(), this.getCache());
+        PojoThingFactory.resolveList(this.getRuleVerificationList(), dto.getRuleVerificationList(), dto.getIid(), this.getCache(), RuleVerificationList.class);
+        PojoThingFactory.resolveList(this.getSharedDiagramStyle(), dto.getSharedDiagramStyle(), dto.getIid(), this.getCache(), SharedStyle.class);
         this.setSourceIterationIid(dto.getSourceIterationIid());
-        this.getStakeholder().resolveList(dto.getStakeholder(), dto.getIid(), this.getCache());
-        this.getStakeholderValue().resolveList(dto.getStakeholderValue(), dto.getIid(), this.getCache());
-        this.getStakeholderValueMap().resolveList(dto.getStakeholderValueMap(), dto.getIid(), this.getCache());
-        this.setTopElement((dto.getTopElement() != null) ? this.getCache().get<ElementDefinition>(dto.getTopElement.getValue(), dto.getIid()) : null);
-        this.getValueGroup().resolveList(dto.getValueGroup(), dto.getIid(), this.getCache());
+        PojoThingFactory.resolveList(this.getStakeholder(), dto.getStakeholder(), dto.getIid(), this.getCache(), Stakeholder.class);
+        PojoThingFactory.resolveList(this.getStakeholderValue(), dto.getStakeholderValue(), dto.getIid(), this.getCache(), StakeholderValue.class);
+        PojoThingFactory.resolveList(this.getStakeholderValueMap(), dto.getStakeholderValueMap(), dto.getIid(), this.getCache(), StakeHolderValueMap.class);
+        this.setTopElement((dto.getTopElement() != null) ? PojoThingFactory.get(this.getCache(), dto.getTopElement(), dto.getIid(), ElementDefinition.class) : null);
+        PojoThingFactory.resolveList(this.getValueGroup(), dto.getValueGroup(), dto.getIid(), this.getCache(), ValueGroup.class);
 
         this.resolveExtraProperties();
     }
@@ -475,7 +476,7 @@ public class Iteration extends Thing implements Cloneable {
      * @return Generated {@link cdp4common.dto.Thing}
      */
     @Override
-    public cdp4common.dto.Thing toDto() throws ContainmentException {
+    public cdp4common.dto.Thing toDto() {
         cdp4common.dto.Iteration dto = new cdp4common.dto.Iteration(this.getIid(), this.getRevisionNumber());
 
         dto.getActualFiniteStateList().addAll(this.getActualFiniteStateList().stream().map(Thing::getIid).collect(Collectors.toList()));
