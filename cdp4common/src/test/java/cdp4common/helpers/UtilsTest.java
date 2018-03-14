@@ -14,4 +14,11 @@ class UtilsTest {
     void getUpperCamelNotationFromConstantTest(){
         Assertions.assertEquals("ConstantNotationTest", Utils.getUpperCamelNotationFromConstant("CONSTANT_NOTATION_TEST"));
     }
+
+    @Test
+    void formatComponentShortNameTest(){
+        Assertions.assertEquals("", Utils.formatComponentShortName(null));
+        Assertions.assertEquals("4fgr_k0", Utils.formatComponentShortName("4fgr$%k0"));
+        Assertions.assertEquals("4fgr_k0", Utils.formatComponentShortName("=-!4fgr$%k0="));
+    }
 }
