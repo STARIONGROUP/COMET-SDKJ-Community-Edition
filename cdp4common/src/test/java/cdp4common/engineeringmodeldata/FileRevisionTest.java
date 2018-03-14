@@ -47,7 +47,7 @@ class FileRevisionTest {
         FileType fileType1 = new FileType(UUID.randomUUID(), null, null);
         fileType1.setExtension("ext1");
         this.filerev.getFileType().add(fileType1);
-        this.filerev.getFileType().add(new FileType(UUID.randomUUID(), null, null));
+
         FileType fileType2 = new FileType(UUID.randomUUID(), null, null);
         fileType2.setExtension("ext2");
         this.filerev.getFileType().add(fileType2);
@@ -56,7 +56,7 @@ class FileRevisionTest {
     }
 
     @Test
-    void VerifyPath() {
+    void verifyPath() {
         assertEquals("/path/filerev.ext1.ext2", this.filerev.getPath());
     }
 }

@@ -340,6 +340,6 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
      * @return The {@link #shortName} value
      */
     private String getDerivedShortName() {
-        return String.join(".", this.getPossibleFiniteStateList().stream().map(DefinedThing::getName).collect(Collectors.toList()));
+        return String.join(".", this.getPossibleFiniteStateList().stream().map(DefinedThing::getShortName).collect(Collectors.toList()));
     }
 }

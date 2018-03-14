@@ -311,7 +311,7 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
      */
     private String getDerivedName() {
         if (!(this.getContainer() instanceof ActualFiniteStateList)) {
-            throw new NullPointerException("Container of ActualFiniteState is null");
+            throw new ContainmentException("Container of ActualFiniteState is null");
         }
 
         // Get the names of the possible states in the same order as the possible state lists of the container actualFiniteStateList
@@ -336,7 +336,7 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
      */
     private String getDerivedShortName() {
         if (!(this.getContainer() instanceof ActualFiniteStateList)) {
-            throw new NullPointerException("Container of ActualFiniteState is null");
+            throw new ContainmentException("Container of ActualFiniteState is null");
         }
 
         // Get the names of the possible states in the same order as the possible state lists of the container actualFiniteStateList
@@ -362,7 +362,7 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
     private DomainOfExpertise getDerivedOwner() {
         if (!(this.getContainer() instanceof ActualFiniteStateList))
         {
-            throw new NullPointerException("Container of ActualFiniteState is null");
+            throw new ContainmentException("Container of ActualFiniteState is null");
         }
 
         return ((ActualFiniteStateList) this.getContainer()).getOwner();

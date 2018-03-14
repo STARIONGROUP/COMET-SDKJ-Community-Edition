@@ -35,6 +35,7 @@ class UserRuleVerificationTest {
         UserRuleVerification userRuleVerif = new UserRuleVerification();
         DecompositionRule decompositionRule = new DecompositionRule();
         decompositionRule.setName("rule");
+        userRuleVerif.setRule(decompositionRule);
 
         assertEquals("rule", userRuleVerif.getName());
     }

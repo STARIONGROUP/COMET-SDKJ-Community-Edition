@@ -40,8 +40,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
+import java.util.Locale;
 import java.util.UUID;
 
 class ValueValidatorTest {
@@ -57,9 +56,8 @@ class ValueValidatorTest {
     private TimeOfDayParameterType timeOfDayParameterType;
     private RatioScale ratioScale;
 
-        @BeforeEach
-     void setup()
-    {
+    @BeforeEach
+    void setup() {
         this.uri = URI.create("http://www.rheagroup.com");
         this.cache = CacheBuilder.newBuilder().build();
 
@@ -87,9 +85,8 @@ class ValueValidatorTest {
         this.timeOfDayParameterType = new TimeOfDayParameterType(UUID.randomUUID(), this.cache, this.uri);
     }
 
-        @Test
-     void verifyThatBooleanParameterTypeValidatesValue()
-    {
+    @Test
+    void verifyThatBooleanParameterTypeValidatesValue() {
         ValidationResult result;
 
         result = ValueValidator.validate(this.booleanParameterType, "-");
@@ -149,9 +146,8 @@ class ValueValidatorTest {
         Assertions.assertEquals("-1 is not a valid boolean, valid values are: -,true,false,True,False,1,0", result.getMessage());
     }
 
-        @Test
-     void verifyThatBooleanValidatesWithFrenchCulture()
-    {
+    @Test
+    void verifyThatBooleanValidatesWithFrenchCulture() {
         ValidationResult result;
 
         result = ValueValidator.validate(this.booleanParameterType, "-");
@@ -163,9 +159,8 @@ class ValueValidatorTest {
         Assertions.assertTrue(result.getMessage().isEmpty());
     }
 
-        @Test
-     void verifyThatDateParameterTypeValidatesValue()
-    {
+    @Test
+    void verifyThatDateParameterTypeValidatesValue() {
         ValidationResult result;
 
         result = ValueValidator.validate(this.dateParameterType, "-");
@@ -178,15 +173,15 @@ class ValueValidatorTest {
 
         result = ValueValidator.validate(this.dateParameterType, "1976-08-20Z");
         Assertions.assertEquals(ValidationResultKind.INVALID, result.getResultKind());
-        Assertions.assertEquals("1976-08-20Z is not a valid Date, valid dates are specified in  ISO 8601 YYYY-MM-DD", result.getMessage());
+        Assertions.assertEquals("1976-08-20Z is not a valid Date, valid dates are specified in ISO 8601 YYYY-MM-DD", result.getMessage());
 
         result = ValueValidator.validate(this.dateParameterType, "some text");
         Assertions.assertEquals(ValidationResultKind.INVALID, result.getResultKind());
-        Assertions.assertEquals("some text is not a valid Date, valid dates are specified in  ISO 8601 YYYY-MM-DD", result.getMessage());
+        Assertions.assertEquals("some text is not a valid Date, valid dates are specified in ISO 8601 YYYY-MM-DD", result.getMessage());
 
         result = ValueValidator.validate(this.dateParameterType, "2012-13-13");
         Assertions.assertEquals(ValidationResultKind.INVALID, result.getResultKind());
-        Assertions.assertEquals("2012-13-13 is not a valid Date, valid dates are specified in  ISO 8601 YYYY-MM-DD", result.getMessage());
+        Assertions.assertEquals("2012-13-13 is not a valid Date, valid dates are specified in ISO 8601 YYYY-MM-DD", result.getMessage());
 
         LocalDate date = LocalDate.of(2002, 12, 1);
         result = ValueValidator.validate(this.dateParameterType, date);
@@ -199,9 +194,8 @@ class ValueValidatorTest {
         Assertions.assertFalse(result.getMessage().isEmpty());
     }
 
-        @Test
-    void verifyThatDateTimeParameterTypeValidatesValue()
-    {
+    @Test
+    void verifyThatDateTimeParameterTypeValidatesValue() {
         ValidationResult result;
 
         result = ValueValidator.validate(this.dateTimeParameterType, "-");
@@ -225,9 +219,8 @@ class ValueValidatorTest {
         Assertions.assertTrue(result.getMessage().isEmpty());
     }
 
-        @Test
-     void verifyThatEnumerationParameterTypeValidatesValue()
-    {
+    @Test
+    void verifyThatEnumerationParameterTypeValidatesValue() {
         ValidationResult result;
 
         result = ValueValidator.validate(this.enumerationParameterType, "-");
@@ -244,7 +237,7 @@ class ValueValidatorTest {
 
         result = ValueValidator.validate(this.enumerationParameterType, "high");
         Assertions.assertEquals(ValidationResultKind.INVALID, result.getResultKind());
-        Assertions.assertEquals("The test Enumeration ParameterType does not contain the following value definition high, allowed valuse are: low, medium", result.getMessage());
+        Assertions.assertEquals("The test Enumeration ParameterType does not contain the following value definition high, allowed values are: low, medium", result.getMessage());
 
         this.enumerationParameterType.setAllowMultiSelect(true);
         result = ValueValidator.validate(this.enumerationParameterType, "low | medium");
@@ -252,9 +245,8 @@ class ValueValidatorTest {
         Assertions.assertTrue(result.getMessage().isEmpty());
     }
 
-        @Test
-    void verifyThatSimpleQuantityKindValidatesDefaultValue()
-    {
+    @Test
+    void verifyThatSimpleQuantityKindValidatesDefaultValue() {
         ValidationResult result;
 
         result = ValueValidator.validate(this.simpleQuantityKind, this.ratioScale, "-", null);
@@ -262,9 +254,8 @@ class ValueValidatorTest {
         Assertions.assertTrue(result.getMessage().isEmpty());
     }
 
-        @Test
-     void verifyThatSimpleQuantityKindValidatesNonDefaultValue()
-    {
+    @Test
+    void verifyThatSimpleQuantityKindValidatesNonDefaultValue() {
         ValidationResult result;
 
         result = ValueValidator.validate(this.simpleQuantityKind, this.ratioScale, "13", null);
@@ -272,9 +263,8 @@ class ValueValidatorTest {
         Assertions.assertTrue(result.getMessage().isEmpty());
     }
 
-        @Test
-     void verifyThatSimpleQuantityKindValidatesIntegerNumberSet()
-    {
+    @Test
+    void verifyThatSimpleQuantityKindValidatesIntegerNumberSet() {
         ValidationResult result;
         this.ratioScale.setNumberSet(NumberSetKind.INTEGER_NUMBER_SET);
 
@@ -299,9 +289,8 @@ class ValueValidatorTest {
         Assertions.assertFalse(result.getMessage().isEmpty());
     }
 
-        @Test
-     void verifyThatSimpleQuantityKindValidatesNaturalNumberSet()
-    {
+    @Test
+    void verifyThatSimpleQuantityKindValidatesNaturalNumberSet() {
         ValidationResult result;
         this.ratioScale.setNumberSet(NumberSetKind.NATURAL_NUMBER_SET);
 
@@ -341,9 +330,8 @@ class ValueValidatorTest {
         Assertions.assertFalse(result.getMessage().isEmpty());
     }
 
-        @Test
-     void verifyThatSimpleQuantityKindValidatesRealNumberSet()
-    {
+    @Test
+    void verifyThatSimpleQuantityKindValidatesRealNumberSet() {
         ValidationResult result;
         this.ratioScale.setNumberSet(NumberSetKind.REAL_NUMBER_SET);
 
@@ -363,19 +351,19 @@ class ValueValidatorTest {
         Assertions.assertTrue(result.getMessage().isEmpty());
     }
 
-        @Test
-     void verifyThatSimpleQuantityKindValidatesRealWithFrenchCulture()
-    {
+    @Test
+    void verifyThatSimpleQuantityKindValidatesRealWithFrenchCulture() {
+        Locale.setDefault(Locale.FRANCE);
         ValidationResult result;
+
         this.ratioScale.setNumberSet(NumberSetKind.REAL_NUMBER_SET);
         result = ValueValidator.validate(this.simpleQuantityKind, this.ratioScale, "13.1e1", null);
         Assertions.assertEquals(ValidationResultKind.VALID, result.getResultKind());
         Assertions.assertTrue(result.getMessage().isEmpty());
     }
 
-        @Test
-     void verifyThatSimpleQuantityKindInValidatesRealCommaSeparator()
-    {
+    @Test
+    void verifyThatSimpleQuantityKindInValidatesRealCommaSeparator() {
         ValidationResult result;
         this.ratioScale.setNumberSet(NumberSetKind.REAL_NUMBER_SET);
         result = ValueValidator.validate(this.simpleQuantityKind, this.ratioScale, "131,1", null);
@@ -383,9 +371,8 @@ class ValueValidatorTest {
         Assertions.assertFalse(result.getMessage().isEmpty());
     }
 
-        @Test
-    void verifyThatWithNumberFormatInfoSimpleQuantityKindValidatesRealCommaSeparator()
-    {
+    @Test
+    void verifyThatWithNumberFormatInfoSimpleQuantityKindValidatesRealCommaSeparator() {
         DecimalFormat format;
         format = (DecimalFormat) NumberFormat.getInstance();
         DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
@@ -400,9 +387,8 @@ class ValueValidatorTest {
         Assertions.assertTrue(result.getMessage().isEmpty());
     }
 
-        @Test
-     void verifyThatSimpleQuantityKindValidatesInvalidValue()
-    {
+    @Test
+    void verifyThatSimpleQuantityKindValidatesInvalidValue() {
         ValidationResult result;
 
         this.ratioScale.setNumberSet(NumberSetKind.REAL_NUMBER_SET);
@@ -412,9 +398,8 @@ class ValueValidatorTest {
         Assertions.assertEquals("String:\"a\" is not a member of the REAL NUMBER SET", result.getMessage());
     }
 
-        @Test
-     void verifyThatTextParameterTypeValidatesValue()
-    {
+    @Test
+    void verifyThatTextParameterTypeValidatesValue() {
         ValidationResult result;
 
         result = ValueValidator.validate(this.textParameterType, "-");
@@ -422,9 +407,8 @@ class ValueValidatorTest {
         Assertions.assertTrue(result.getMessage().isEmpty());
     }
 
-        @Test
-     void verifyThatTimeOfDayParameterTypeValidatesValue()
-    {
+    @Test
+    void verifyThatTimeOfDayParameterTypeValidatesValue() {
         ValidationResult result;
 
         result = ValueValidator.validate(this.timeOfDayParameterType, "-");

@@ -233,9 +233,10 @@ public class PossibleFiniteState extends DefinedThing implements Cloneable, Owne
     */
     public boolean isDefault() {
         if (!(this.getContainer() instanceof PossibleFiniteStateList)) {
-            throw new IllegalStateException("The Container of this PossibleFiniteState is not a PossibleFiniteStateList.");
+            throw new ContainmentException("The Container of this PossibleFiniteState is not a PossibleFiniteStateList.");
         }
 
-        return ((PossibleFiniteStateList) this.getContainer()).getDefaultState().equals(this);
+        return ((PossibleFiniteStateList) this.getContainer()).getDefaultState() != null
+                && ((PossibleFiniteStateList) this.getContainer()).getDefaultState().equals(this);
     }
 }

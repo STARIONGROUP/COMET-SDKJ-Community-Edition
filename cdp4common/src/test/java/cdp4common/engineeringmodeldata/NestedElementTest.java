@@ -48,12 +48,15 @@ class NestedElementTest {
         this.elementUsage = new ElementUsage(UUID.randomUUID(), null, null);
         elementUsage.setName("ElementUsage");
         elementUsage.setShortName("Use1");
+
         this.elementUsage2 = new ElementUsage(UUID.randomUUID(), null, null);
-        elementUsage.setName("ElementUsage2");
-        elementUsage.setShortName("Use2");
+        elementUsage2.setName("ElementUsage2");
+        elementUsage2.setShortName("Use2");
+
         this.elementDef = new ElementDefinition(UUID.randomUUID(), null, null);
         elementDef.setName("ElementDef");
         elementDef.setShortName("Def");
+
         this.domain = new DomainOfExpertise(UUID.randomUUID(), null, null);
         this.domain2 = new DomainOfExpertise(UUID.randomUUID(), null, null);
 
@@ -67,12 +70,12 @@ class NestedElementTest {
     }
 
     @Test
-    void verifyThatGetNAmeWorks() {
+    void verifyThatGetNameWorks() {
         assertEquals("ElementUsage2", this.nestedElement.getName());
     }
 
     @Test
-    void verifyThatGetNAmeWorks2() {
+    void verifyThatGetNameWorks2() {
         this.nestedElement.getElementUsage().clear();
         assertEquals("ElementDef", this.nestedElement.getName());
     }

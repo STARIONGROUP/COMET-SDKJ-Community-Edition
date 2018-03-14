@@ -8,7 +8,10 @@ package cdp4common.validation;
 import cdp4common.engineeringmodeldata.Parameter;
 import cdp4common.helpers.Constants;
 import cdp4common.sitedirectorydata.*;
+import com.google.common.base.Strings;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +22,7 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /**
  * The purpose of the {@link ValueValidator} is to validate the value of a {@link Parameter} with respect to
@@ -168,12 +172,10 @@ public class ValueValidator {
         }
 
         try {
-            LocalDateTime dateValue = (LocalDateTime) value;
-            if (dateValue.getHour() == 0 && dateValue.getMinute() == 0 && dateValue.getSecond() == 0 && dateValue.getNano() == 0) {
-                result.setResultKind(ValidationResultKind.VALID);
-                result.setMessage("");
-                return result;
-            }
+            LocalDate dateValue = (LocalDate) value;
+            result.setResultKind(ValidationResultKind.VALID);
+            result.setMessage("");
+            return result;
         } catch (Exception ex) {
             LOGGER.log(Level.INFO, ex.toString(), ex);
         }
@@ -201,7 +203,7 @@ public class ValueValidator {
             }
 
             try {
-                LocalDateTime dateTime = LocalDateTime.parse(value.toString(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                LocalDateTime dateTime = LocalDateTime.parse(value.toString(), DateTimeFormatter.ISO_INSTANT);
                 LOGGER.log(Level.FINE, String.format("DateTimeParameterType %1$s validated", dateTime));
 
                 result.setResultKind(ValidationResultKind.VALID);
@@ -249,7 +251,7 @@ public class ValueValidator {
                 return result;
             }
 
-            String[] values = ((String) value).split(Constants.MULTI_VALUE_ENUM_SEPARATOR);
+            String[] values = ((String) value).split(Pattern.quote(Constants.MULTI_VALUE_ENUM_SEPARATOR));
 
             if (!parameterType.isAllowMultiSelect() && values.length > 1) {
                 result.setResultKind(ValidationResultKind.INVALID);
@@ -421,11 +423,11 @@ public class ValueValidator {
 
                 if (!isInteger) {
                     result.setResultKind(ValidationResultKind.INVALID);
-                    result.setMessage(String.format("%1$s:\"%2$s\" is not a member of the INTEGER NUMBER SET", value.getClass().getName(), value));
+                    result.setMessage(String.format("%1$s:\"%2$s\" is not a member of the INTEGER NUMBER SET", value.getClass().getSimpleName(), value));
                     return result;
                 }
 
-                if (!measurementScale.getMaximumPermissibleValue().trim().isEmpty()) {
+                if (!Strings.isNullOrEmpty(measurementScale.getMaximumPermissibleValue())) {
                     try {
                         int intMaximumPermissibleValue = Integer.parseInt(measurementScale.getMaximumPermissibleValue());
                         if (measurementScale.isMaximumInclusive() && integer > intMaximumPermissibleValue) {
@@ -444,7 +446,7 @@ public class ValueValidator {
                     }
                 }
 
-                if (!measurementScale.getMinimumPermissibleValue().trim().isEmpty()) {
+                if (!Strings.isNullOrEmpty(measurementScale.getMinimumPermissibleValue())) {
                     try {
                         int intMinimumPermissibleValue = Integer.parseInt(measurementScale.getMinimumPermissibleValue());
                         if (measurementScale.isMinimumInclusive() && integer > intMinimumPermissibleValue) {
@@ -499,7 +501,7 @@ public class ValueValidator {
 
                 if (!isNatural) {
                     result.setResultKind(ValidationResultKind.INVALID);
-                    result.setMessage(String.format("%1$s:\"%2$s\" is not a member of the NATURAL NUMBER SET", value.getClass().getName(), value));
+                    result.setMessage(String.format("%1$s:\"%2$s\" is not a member of the NATURAL NUMBER SET", value.getClass().getSimpleName(), value));
                     return result;
                 }
 
@@ -509,7 +511,7 @@ public class ValueValidator {
                     return result;
                 }
 
-                if (!measurementScale.getMaximumPermissibleValue().trim().isEmpty()) {
+                if (!Strings.isNullOrEmpty(measurementScale.getMaximumPermissibleValue())) {
                     try {
                         int naturalMaximumPermissibleValue = Integer.parseInt(measurementScale.getMaximumPermissibleValue());
                         if (measurementScale.isMaximumInclusive() && natural > naturalMaximumPermissibleValue) {
@@ -528,7 +530,7 @@ public class ValueValidator {
                     }
                 }
 
-                if (!measurementScale.getMinimumPermissibleValue().trim().isEmpty()) {
+                if (!Strings.isNullOrEmpty(measurementScale.getMinimumPermissibleValue())) {
                     try {
                         int naturalMinimumPermissibleValue = Integer.parseInt(measurementScale.getMinimumPermissibleValue());
                         if (measurementScale.isMinimumInclusive() && natural > naturalMinimumPermissibleValue) {
@@ -570,7 +572,7 @@ public class ValueValidator {
                 // the real numbers include all the integers
                 if (value instanceof Integer) {
                     isReal = true;
-                    real = (double) value;
+                    real = (double)((int)value);
                 }
 
                 if (value instanceof Double) {
@@ -590,11 +592,11 @@ public class ValueValidator {
 
                 if (!isReal) {
                     result.setResultKind(ValidationResultKind.INVALID);
-                    result.setMessage(String.format("%1$s:\"%2$s\" is not a member of the REAL NUMBER SET", value.getClass().getName(), value));
+                    result.setMessage(String.format("%1$s:\"%2$s\" is not a member of the REAL NUMBER SET", value.getClass().getSimpleName(), value));
                     return result;
                 }
 
-                if (!measurementScale.getMaximumPermissibleValue().trim().isEmpty()) {
+                if (!Strings.isNullOrEmpty(measurementScale.getMaximumPermissibleValue())) {
                     try {
                         double realMaximumPermissibleValue = Double.parseDouble(measurementScale.getMaximumPermissibleValue());
                         if (measurementScale.isMaximumInclusive() && real > realMaximumPermissibleValue) {
@@ -613,7 +615,7 @@ public class ValueValidator {
                     }
                 }
 
-                if (!measurementScale.getMinimumPermissibleValue().trim().isEmpty()) {
+                if (!Strings.isNullOrEmpty(measurementScale.getMinimumPermissibleValue())) {
                     try {
                         double realMinimumPermissibleValue = Double.parseDouble(measurementScale.getMinimumPermissibleValue());
                         if (measurementScale.isMinimumInclusive() && real > realMinimumPermissibleValue) {

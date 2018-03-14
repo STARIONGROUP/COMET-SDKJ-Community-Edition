@@ -50,7 +50,7 @@ class ParameterBaseTest {
     }
 
     @Test
-    void VerifyThatParameterOverrideReturnsvalueSets() {
+    void verifyThatParameterOverrideReturnsValueSets() {
         ParameterOverride parameterOverride = new ParameterOverride(UUID.randomUUID(), 1);
         parameterOverride.setValueSet(this.valueSets);
 
@@ -58,7 +58,7 @@ class ParameterBaseTest {
     }
 
     @Test
-    void VerifyThatParameterSubscriptionReturnsvalueSets() {
+    void verifyThatParameterSubscriptionReturnsValueSets() {
         ParameterSubscription parameterSubscription = new ParameterSubscription(UUID.randomUUID(), 1);
         parameterSubscription.setValueSet(this.valueSets);
 
