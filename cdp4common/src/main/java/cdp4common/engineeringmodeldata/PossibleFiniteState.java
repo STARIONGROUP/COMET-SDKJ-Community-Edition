@@ -221,7 +221,7 @@ public class PossibleFiniteState extends DefinedThing implements Cloneable, Owne
     */
     private DomainOfExpertise getDerivedOwner() {
         if (!(this.getContainer() instanceof PossibleFiniteStateList)) {
-            throw new NullPointerException("The container of PossibleFiniteState is null");
+            throw new ContainmentException("The container of PossibleFiniteState is null");
         }
 
         return ((PossibleFiniteStateList) this.getContainer()).getOwner();
@@ -235,6 +235,7 @@ public class PossibleFiniteState extends DefinedThing implements Cloneable, Owne
             throw new IllegalStateException("The Container of this PossibleFiniteState is not a PossibleFiniteStateList.");
         }
 
-        return ((PossibleFiniteStateList) this.getContainer()).getDefaultState().equals(this);
+        return ((PossibleFiniteStateList) this.getContainer()).getDefaultState() != null
+                && ((PossibleFiniteStateList) this.getContainer()).getDefaultState().equals(this);
     }
 }

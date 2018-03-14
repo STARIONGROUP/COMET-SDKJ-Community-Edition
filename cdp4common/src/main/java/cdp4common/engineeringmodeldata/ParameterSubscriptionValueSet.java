@@ -36,7 +36,7 @@ import lombok.*;
 @Container(clazz = ParameterSubscription.class, propertyName = "valueSet")
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class ParameterSubscriptionValueSet extends Thing implements Cloneable, OwnedThing, ValueSet {
+public class ParameterSubscriptionValueSet extends Thing implements Cloneable, OwnedThing, ValueSet, ModelCode {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */

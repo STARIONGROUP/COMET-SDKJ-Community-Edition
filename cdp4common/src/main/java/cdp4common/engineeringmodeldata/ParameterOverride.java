@@ -38,7 +38,7 @@ import lombok.*;
 @Container(clazz = ElementUsage.class, propertyName = "parameterOverride")
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class ParameterOverride extends ParameterOrOverrideBase implements Cloneable {
+public class ParameterOverride extends ParameterOrOverrideBase implements Cloneable, ModelCode {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
