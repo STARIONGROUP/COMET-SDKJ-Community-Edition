@@ -25,11 +25,10 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * The objective of the request for waiver is to be the vehicle for requiring and agreeing to the use or the delivery of a product that does not conform to its approved product configuration baseline.

@@ -6,6 +6,7 @@
 package cdp4common.types;
 
 import cdp4common.exceptions.ValueArrayParseException;
+import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class ValueArrayParser {
      * @return true if the parsing succeeded
      */
     public static ValueArray<Integer> parseToIntValueArray(String stringArray) {
-        if (stringArray.trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(stringArray)) {
             throw new ValueArrayParseException("The string is null or blank.");
         }
 

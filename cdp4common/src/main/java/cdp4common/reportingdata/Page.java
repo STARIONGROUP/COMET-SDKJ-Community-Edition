@@ -25,11 +25,10 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * Represents a sheet on which content can be placed in the form of Notes
@@ -201,7 +200,7 @@ public class Page extends Thing implements Cloneable, CategorizableThing, NamedT
     protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
-        if (this.getName().trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(this.getName())) {
             errorList.add("The property name is null or empty.");
         }
 
@@ -211,7 +210,7 @@ public class Page extends Thing implements Cloneable, CategorizableThing, NamedT
             this.sentinelResetMap.put("owner", new ActionImpl(() -> this.setOwner(null)));
         }
 
-        if (this.getShortName().trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(this.getShortName())) {
             errorList.add("The property shortName is null or empty.");
         }
 

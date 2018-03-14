@@ -25,11 +25,10 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * representation of a mapping that relates E-TM-10-25 instance UUIDs to identifiers of corresponding items in an external tool / model
@@ -203,15 +202,15 @@ public class ExternalIdentifierMap extends Thing implements Cloneable, NamedThin
     protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
-        if (this.getExternalModelName().trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(this.getExternalModelName())) {
             errorList.add("The property externalModelName is null or empty.");
         }
 
-        if (this.getExternalToolName().trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(this.getExternalToolName())) {
             errorList.add("The property externalToolName is null or empty.");
         }
 
-        if (this.getName().trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(this.getName())) {
             errorList.add("The property name is null or empty.");
         }
 

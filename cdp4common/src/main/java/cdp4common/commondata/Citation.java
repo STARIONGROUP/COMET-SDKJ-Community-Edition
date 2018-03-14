@@ -25,11 +25,10 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * reference with cited location to a ReferenceSource
@@ -169,7 +168,7 @@ public class Citation extends Thing implements Cloneable, ShortNamedThing {
     protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
-        if (this.getShortName().trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(this.getShortName())) {
             errorList.add("The property shortName is null or empty.");
         }
 

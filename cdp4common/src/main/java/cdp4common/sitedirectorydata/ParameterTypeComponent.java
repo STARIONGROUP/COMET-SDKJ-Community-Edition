@@ -25,11 +25,10 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * representation of a component of a CompoundParameterType
@@ -159,7 +158,7 @@ public class ParameterTypeComponent extends Thing implements Cloneable, ShortNam
             this.sentinelResetMap.put("parameterType", new ActionImpl(() -> this.setParameterType(null)));
         }
 
-        if (this.getShortName().trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(this.getShortName())) {
             errorList.add("The property shortName is null or empty.");
         }
 

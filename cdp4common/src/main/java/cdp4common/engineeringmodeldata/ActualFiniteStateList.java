@@ -25,11 +25,10 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * representation of a set of actual finite states that can be used to define a finite state dependence for a Parameter
@@ -340,6 +339,6 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
      * @return The {@link #shortName} value
      */
     private String getDerivedShortName() {
-        return String.join(".", this.getPossibleFiniteStateList().stream().map(DefinedThing::getShortName).collect(Collectors.toList()));
+        return String.join(".", this.getPossibleFiniteStateList().stream().map(DefinedThing::getName).collect(Collectors.toList()));
     }
 }

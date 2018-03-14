@@ -25,11 +25,10 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * representation of built-in data model rule or user-defined Rule to be verified and its current verification result
@@ -185,7 +184,7 @@ public abstract class RuleVerification extends Thing implements Cloneable, Named
     protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
-        if (this.getName().trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(this.getName())) {
             errorList.add("The property name is null or empty.");
         }
 

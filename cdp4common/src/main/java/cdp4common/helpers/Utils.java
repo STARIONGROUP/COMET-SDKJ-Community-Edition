@@ -8,7 +8,7 @@ package cdp4common.helpers;
 import cdp4common.sitedirectorydata.ParameterTypeComponent;
 import cdp4common.types.OrderedItem;
 import com.google.common.base.CaseFormat;
-import lombok.experimental.var;
+import com.google.common.base.Strings;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +24,7 @@ public class Utils {
      * @return A string
      */
     public static String getConstantNotationFromUpperCamel(String input) {
-        if (input.trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(input)) {
             throw new IllegalArgumentException("String can't be empty!");
         }
 
@@ -49,7 +49,7 @@ public class Utils {
      * @return A string
      */
     public static String getUpperCamelNotationFromConstant(String input) {
-        if (input.trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(input)) {
             throw new IllegalArgumentException("String can't be empty!");
         }
 
@@ -75,7 +75,7 @@ public class Utils {
      * @return The formatted string
      */
     public static String formatComponentShortName(String shortName) {
-        if (shortName.trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(shortName)) {
             return "";
         }
 

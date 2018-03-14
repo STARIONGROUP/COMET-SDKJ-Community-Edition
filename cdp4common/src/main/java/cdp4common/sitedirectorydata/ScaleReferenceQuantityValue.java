@@ -25,11 +25,10 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * representation of a reference quantity with value for the definition of logarithmic MeasurementScales
@@ -143,7 +142,7 @@ public class ScaleReferenceQuantityValue extends Thing implements Cloneable {
             this.sentinelResetMap.put("scale", new ActionImpl(() -> this.setScale(null)));
         }
 
-        if (this.getValue().trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(this.getValue())) {
             errorList.add("The property value is null or empty.");
         }
 

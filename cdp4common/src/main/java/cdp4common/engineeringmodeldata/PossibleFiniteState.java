@@ -25,11 +25,10 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * representation of one of the finite states of a PossibleFiniteStateList
@@ -233,10 +232,9 @@ public class PossibleFiniteState extends DefinedThing implements Cloneable, Owne
     */
     public boolean isDefault() {
         if (!(this.getContainer() instanceof PossibleFiniteStateList)) {
-            throw new ContainmentException("The Container of this PossibleFiniteState is not a PossibleFiniteStateList.");
+            throw new IllegalStateException("The Container of this PossibleFiniteState is not a PossibleFiniteStateList.");
         }
 
-        return ((PossibleFiniteStateList) this.getContainer()).getDefaultState() != null
-                && ((PossibleFiniteStateList) this.getContainer()).getDefaultState().equals(this);
+        return ((PossibleFiniteStateList) this.getContainer()).getDefaultState().equals(this);
     }
 }

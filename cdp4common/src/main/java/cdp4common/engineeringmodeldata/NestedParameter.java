@@ -25,11 +25,10 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * representation of a parameter with a value of a NestedElement
@@ -207,7 +206,7 @@ public class NestedParameter extends Thing implements Cloneable, OwnedThing, Vol
     protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
-        if (this.getActualValue().trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(this.getActualValue())) {
             errorList.add("The property actualValue is null or empty.");
         }
 
@@ -217,7 +216,7 @@ public class NestedParameter extends Thing implements Cloneable, OwnedThing, Vol
             this.sentinelResetMap.put("associatedParameter", new ActionImpl(() -> this.setAssociatedParameter(null)));
         }
 
-        if (this.getFormula().trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(this.getFormula())) {
             errorList.add("The property formula is null or empty.");
         }
 

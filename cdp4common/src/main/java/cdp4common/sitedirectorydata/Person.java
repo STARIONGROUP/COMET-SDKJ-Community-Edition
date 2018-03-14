@@ -25,11 +25,10 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * representation of a physical person that is a potential Participant in a       concurrent       engineering       activity
@@ -329,15 +328,15 @@ public class Person extends Thing implements Cloneable, DeprecatableThing, Named
     protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<String>(super.validatePojoCardinality());
 
-        if (this.getGivenName().trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(this.getGivenName())) {
             errorList.add("The property givenName is null or empty.");
         }
 
-        if (this.getShortName().trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(this.getShortName())) {
             errorList.add("The property shortName is null or empty.");
         }
 
-        if (this.getSurname().trim().isEmpty()) {
+        if (Strings.isNullOrEmpty(this.getSurname())) {
             errorList.add("The property surname is null or empty.");
         }
 

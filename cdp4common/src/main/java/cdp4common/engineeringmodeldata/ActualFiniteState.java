@@ -25,11 +25,10 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * representation of an actual finite state in an ActualFiniteStateList
@@ -311,7 +310,7 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
      */
     private String getDerivedName() {
         if (!(this.getContainer() instanceof ActualFiniteStateList)) {
-            throw new ContainmentException("Container of ActualFiniteState is null");
+            throw new NullPointerException("Container of ActualFiniteState is null");
         }
 
         // Get the names of the possible states in the same order as the possible state lists of the container actualFiniteStateList
@@ -336,7 +335,7 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
      */
     private String getDerivedShortName() {
         if (!(this.getContainer() instanceof ActualFiniteStateList)) {
-            throw new ContainmentException("Container of ActualFiniteState is null");
+            throw new NullPointerException("Container of ActualFiniteState is null");
         }
 
         // Get the names of the possible states in the same order as the possible state lists of the container actualFiniteStateList
@@ -362,7 +361,7 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
     private DomainOfExpertise getDerivedOwner() {
         if (!(this.getContainer() instanceof ActualFiniteStateList))
         {
-            throw new ContainmentException("Container of ActualFiniteState is null");
+            throw new NullPointerException("Container of ActualFiniteState is null");
         }
 
         return ((ActualFiniteStateList) this.getContainer()).getOwner();
