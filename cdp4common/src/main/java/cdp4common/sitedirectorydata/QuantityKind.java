@@ -242,4 +242,43 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
 
         return errorList;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the derived {@link #allPossibleScale} value
+     *
+     * @return The {@link #allPossibleScale} value
+     */
+    private ArrayList<MeasurementScale> getDerivedAllPossibleScale() {
+        Set<MeasurementScale> allPossibleScale = new HashSet<>(this.getPossibleScale());
+
+        SpecializedQuantityKind specializedQuantityKind = this instanceof SpecializedQuantityKind ? (SpecializedQuantityKind)this : null;
+        while (specializedQuantityKind != null) {
+            QuantityKind generalQuantityKind = specializedQuantityKind.getGeneral();
+            allPossibleScale.addAll(generalQuantityKind.getPossibleScale());
+            specializedQuantityKind = generalQuantityKind instanceof SpecializedQuantityKind ? (SpecializedQuantityKind)generalQuantityKind : null;
+        }
+
+        return new ArrayList<MeasurementScale>(allPossibleScale);
+    }
+
+    /**
+     * Returns the derived {@link #quantityDimensionExponent} value
+     *
+     * @return The {@link #quantityDimensionExponent} value
+     */
+    private OrderedItemList<String> getDerivedQuantityDimensionExponent() {
+        throw new UnsupportedOperationException("The QuantityDimensionExponent computation is not supported ny the CDP");
+    }
+
+    /**
+     * Returns the derived {@link #quantityDimensionExpression} value
+     *
+     * @return The {@link #quantityDimensionExpression} value
+     */
+    private String getDerivedQuantityDimensionExpression() {
+        throw new UnsupportedOperationException("The QuantityDimensionExpression computation is not supported ny the CDP");
+    }
 }

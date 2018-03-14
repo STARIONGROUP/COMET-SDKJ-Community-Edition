@@ -300,4 +300,25 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the derived {@link #hasSingleComponentType} value
+     *
+     * @return The {@link #hasSingleComponentType} value
+     */
+    private boolean getDerivedHasSingleComponentType() {
+        return this.getComponent().stream().map(ParameterTypeComponent::getParameterType).distinct().count() == 1;
+    }
+
+    /**
+     * Returns the derived {@link #rank} value
+     *
+     * @return The {@link #rank} value
+     */
+    private int getDerivedRank() {
+        return this.getDimension().size();
+    }
 }

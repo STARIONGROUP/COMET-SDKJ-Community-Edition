@@ -291,4 +291,44 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the derived {@link #conversionFactor} value
+     *
+     * @return The {@link #conversionFactor} value
+     */
+    private String getDerivedConversionFactor() {
+        return this.getPrefix() == null ? "" : this.getPrefix().getConversionFactor();
+    }
+
+    /**
+     * Returns the derived {@link #name} value
+     *
+     * @return The {@link #name} value
+     */
+    private String getDerivedName() {
+        if (this.getPrefix() != null && this.getReferenceUnit() != null)
+        {
+            return this.getPrefix().getName() + this.getReferenceUnit().getName();
+        }
+
+        return "";
+    }
+
+    /**
+     * Returns the derived {@link #shortName} value
+     *
+     * @return The {@link #shortName} value
+     */
+    private String getDerivedShortName() {
+        if (this.getPrefix() != null && this.getReferenceUnit() != null)
+        {
+            return this.getPrefix().getShortName() + this.getReferenceUnit().getShortName();
+        }
+
+        return "";
+    }
 }

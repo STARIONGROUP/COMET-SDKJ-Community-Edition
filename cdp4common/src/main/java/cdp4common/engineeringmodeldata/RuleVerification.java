@@ -191,4 +191,21 @@ public abstract class RuleVerification extends Thing implements Cloneable, Named
 
         return errorList;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the {@link #owner} value
+     *
+     * @return The {@link #owner} value
+     */
+    private DomainOfExpertise getDerivedOwner() {
+        RuleVerificationList container = this.getContainer() instanceof RuleVerificationList ? (RuleVerificationList)this.getContainer() : null;
+        if (container == null) {
+            throw new ContainmentException("Container of ActualFiniteState is null");
+        }
+
+        return container.getOwner();
+    }
 }

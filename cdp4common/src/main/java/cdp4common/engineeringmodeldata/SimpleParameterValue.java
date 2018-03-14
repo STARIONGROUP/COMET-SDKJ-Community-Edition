@@ -243,4 +243,22 @@ public class SimpleParameterValue extends Thing implements Cloneable, OwnedThing
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the {@link #owner} value
+     *
+     * @return The {@link #owner} value
+     */
+    private DomainOfExpertise getDerivedOwner() {
+        SimpleParameterizableThing container = this.getContainer() instanceof SimpleParameterizableThing ? (SimpleParameterizableThing)this.getContainer() : null;
+
+        if (container == null) {
+            throw new ContainmentException("Container of SimpleParameterValue is null");
+        }
+
+        return container.getOwner();
+    }
 }

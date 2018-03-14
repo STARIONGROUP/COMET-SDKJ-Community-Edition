@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
  */
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public abstract class ParameterBase extends Thing implements Cloneable, OwnedThing {
+public abstract class ParameterBase extends Thing implements Cloneable, OwnedThing, ModelCode {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -160,4 +160,78 @@ public abstract class ParameterBase extends Thing implements Cloneable, OwnedThi
 
         return errorList;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the user-friendly name
+     */
+    @Override
+    public String getUserFriendlyName() {
+        return this.modelCode(null);
+    }
+
+    /**
+     * Gets the user-friendly shortName
+     */
+    @Override
+    public String getUserFriendlyShortName() {
+        return this.modelCode(null);
+    }
+
+    /**
+     * Queries the grouping level of the current {@link ParameterBase}.
+     * <p>
+     * The level of a {@link ParameterBase} that has no {@link #group} is zero.
+     *
+     * @return The level of the {@link ParameterBase} in it's virtual {@link ParameterGroup} containment hierarchy.
+     */
+    public int getLevel() {
+        if (this.getGroup() == null) {
+            return 0;
+        }
+
+        return this.getGroup().getLevel() + 1;
+    }
+
+    /**
+     * Gets an {@link List<ReferenceDataLibrary>} that contains the required {@link ReferenceDataLibrary}
+     * for the current {@link Thing}
+     */
+    @Override
+    public List<ReferenceDataLibrary> getRequiredRdls() {
+        Set<ReferenceDataLibrary> requiredRdls = new HashSet<>(super.getRequiredRdls());
+        requiredRdls.addAll(this.getParameterType().getRequiredRdls());
+
+        return new ArrayList<>(requiredRdls);
+    }
+
+    /**
+     * Gets the {@link ValueSet} for this {@link ParameterBase}
+     * This is a convenience property that simply returns the actual value-sets of the concrete {@link ParameterBase}
+     * ie, {@link Parameter#valueSet}, {@link ParameterOverride#valueSet} or {@link ParameterSubscription#valueSet}
+     */
+    public List<ValueSet> getValueSets() {
+        Parameter parameter = this instanceof Parameter ? (Parameter)this : null;
+        if (parameter != null) {
+            return parameter.getValueSet().stream().map(x -> (ValueSet)x).collect(Collectors.toList());
+        }
+
+        ParameterOverride parameterOverride = this instanceof ParameterOverride ? (ParameterOverride)this : null;
+        if (parameterOverride != null) {
+            return parameterOverride.getValueSet().stream().map(x -> (ValueSet)x).collect(Collectors.toList());
+        }
+
+        ParameterSubscription subscription = (ParameterSubscription)this;
+        return subscription.getValueSet().stream().map(x -> (ValueSet)x).collect(Collectors.toList());
+    }
+    
+    /**
+     * Computes the model code of the current object
+     *
+     * @param componentIndex The component Index.
+     * @return The {@link String} that represents the model code, valid separators are {@code .} and {@code /}
+     */
+    public abstract String modelCode(Integer componentIndex);
 }

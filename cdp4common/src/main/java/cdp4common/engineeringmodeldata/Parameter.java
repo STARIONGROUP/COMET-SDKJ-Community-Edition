@@ -23,6 +23,7 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import com.google.common.collect.Iterables;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
@@ -39,7 +40,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ElementDefinition.class, propertyName = "parameter")
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class Parameter extends ParameterOrOverrideBase implements Cloneable {
+public class Parameter extends ParameterOrOverrideBase implements Cloneable, ModelCode {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -248,5 +249,108 @@ public class Parameter extends ParameterOrOverrideBase implements Cloneable {
         this.buildDtoPartialRoutes(dto);
 
         return dto;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Computes the model code of the current {@link Parameter}
+     * <p>
+     * The model code is derived as follows:    
+     * {@code #ElementDefinition.ShortName#.#ParameterType.ShortName#}
+     * 
+     * @param componentIndex This parameter is ignored when computing the model code of a {@link Parameter}
+     * @return A string that represents the model code of the current {@link Parameter}
+     */
+    @Override
+    public String modelCode(Integer componentIndex) {
+        ElementDefinition elementDefinition = this.getContainer() instanceof ElementDefinition ? (ElementDefinition)this.getContainer() : null;
+
+        if (elementDefinition == null) {
+            throw new ContainmentException(String.format("The container ElementDefinition of Parameter with iid %s is null, the model code cannot be computed.", this.getIid()));
+        }
+
+        CompoundParameterType compoundParameterType = this.getParameterType() instanceof CompoundParameterType ? (CompoundParameterType)this.getParameterType() : null;
+        if (compoundParameterType == null && componentIndex > 0) {
+            throw new IllegalArgumentException("The value must be 0 if the ParameterType is not a CompoundParameterType (componentIndex)");
+        }
+
+        if (compoundParameterType != null && componentIndex != null) {
+            String component = Utils.formatComponentShortName(compoundParameterType.getComponent().get(componentIndex).getShortName());
+            return String.format("%s.%s.%s", elementDefinition.getShortName(), compoundParameterType.getShortName(), component);
+        }
+
+        return String.format("%s.%s", elementDefinition.getShortName(), this.getParameterType().getShortName());
+    }
+
+    /**
+     * Gets a value indicating whether the {@link Parameter} can be published.
+     */
+    @Override
+    public boolean canBePublished() {
+        return this.getValueSet().stream().anyMatch(vs -> !Iterables.elementsEqual(vs.getActualValue(),vs.getPublished()));
+    }
+
+    /**
+     * Validate this {@link Parameter} with custom rules
+     *
+     * @return A list of error messages
+     */
+    @Override
+    protected List<String> validatePojoProperties() {
+        List<String> errorList = new ArrayList<>(super.validatePojoProperties());
+
+        if (this.isOptionDependent()) {
+            Iteration iteration = this.getContainerOfType(Iteration.class);
+            if (this.getStateDependence() != null) {
+                for (Option option : iteration.getOption()) {
+                    for (ActualFiniteState actualState : this.getStateDependence().getActualState().stream().filter(x -> x.getKind() == ActualFiniteStateKind.MANDATORY).collect(Collectors.toList())) {
+                        List<ParameterValueSet> valueSets = this.getValueSet().stream().filter(x -> x.getActualOption().equals(option) && x.getActualState().equals(actualState)).collect(Collectors.toList());
+                        errorList.addAll(this.validateValueSets(valueSets, option, actualState));
+                    }
+                }
+            } else {
+                for (Option option : iteration.getOption()) {
+                    List<ParameterValueSet> valueSets = this.getValueSet().stream().filter(x -> x.getActualOption().equals(option)).collect(Collectors.toList());
+                    errorList.addAll(this.validateValueSets(valueSets, option, null));
+                }
+            }
+        } else {
+            if (this.getStateDependence() != null) {
+                for (ActualFiniteState actualState : this.getStateDependence().getActualState().stream().filter(x -> x.getKind() == ActualFiniteStateKind.MANDATORY).collect(Collectors.toList())) {
+                    List<ParameterValueSet> valueSets = this.getValueSet().stream().filter(x -> x.getActualState().equals(actualState)).collect(Collectors.toList());
+                    errorList.addAll(this.validateValueSets(valueSets, null, actualState));
+                }
+            } else {
+                List<ParameterValueSet> valueSets = this.getValueSet();
+                errorList.addAll(this.validateValueSets(valueSets, null, null));
+            }
+        }
+
+        return errorList;
+    }
+
+    /**
+     * Validate the value-sets of this {@link Parameter} for an option and state if applicable
+     *
+     * @param valueSets The {@link ParameterValueSet}s found for the corresponding option and state
+     * @param option The {@link Option}
+     * @param state The {@link ActualFiniteState}
+     * @return a list of error messages
+     */
+    private List<String> validateValueSets(List<ParameterValueSet> valueSets, Option option, ActualFiniteState state) {
+        List<String> errorList = new ArrayList<>();
+
+        if (valueSets.size() == 0) {
+            errorList.add(String.format("No value-set was found for the option %s and state %s", (option == null) ? "-" : option.getName(), (state == null) ? "-" : state.getName()));
+        }
+        else if (valueSets.size() > 1) {
+            errorList.add(String.format("Duplicated value-sets were found for the option %s and state %s", (option == null) ? "-" : option.getName(), (state == null) ? "-" : state.getName()));
+        } else {
+            errorList.addAll(valueSets.get(0).getValidationErrors());
+        }
+
+        return errorList;
     }
 }

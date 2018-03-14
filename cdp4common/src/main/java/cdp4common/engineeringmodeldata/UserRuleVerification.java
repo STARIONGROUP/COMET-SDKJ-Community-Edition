@@ -216,4 +216,16 @@ public class UserRuleVerification extends RuleVerification implements Cloneable 
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the {@link #name} value
+     *
+     * @return The {@link #name} value
+     */
+    private String getDerivedName() {
+        return this.getRule().getName();
+    }
 }

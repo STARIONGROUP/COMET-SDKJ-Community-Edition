@@ -158,4 +158,25 @@ public abstract class ParameterType extends DefinedThing implements Cloneable, C
 
         return errorList;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the derived {@link #numberOfValues} value
+     *
+     * @return The {@link #numberOfValues} value
+     */
+    private int getDerivedNumberOfValues() {
+        return 1;
+    }
+
+    /**
+     * Gets an {@link Collection} that contains
+     * the required {@link ReferenceDataLibrary} for the current {@link Thing}
+     */
+    @Override
+    public Collection<ReferenceDataLibrary> getRequiredRdls() {
+         return RequiredReferenceDataLibraryAbacus.computeRequiredRdls(this);
+    }
 }

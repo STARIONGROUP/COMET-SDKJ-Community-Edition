@@ -9,6 +9,8 @@ import cdp4common.commondata.Thing;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
 
 /**
  * List Type used for the 10-25 model for classes which are part of a composition relationship

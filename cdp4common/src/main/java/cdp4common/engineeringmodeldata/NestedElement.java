@@ -23,13 +23,11 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import com.google.common.collect.Iterables;
+import lombok.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
 
 /**
  * representation of an explicit element of a system-of-interest in a fully expanded architectural decomposition tree for one Option
@@ -336,4 +334,50 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the {@link #name} value
+     *
+     * @return The {@link #name} value
+     */
+    private String getDerivedName() {
+        ElementUsage lastElementUsage = this.getElementUsage().size() > 0 ? this.getElementUsage().get(this.getElementUsage().size() - 1) : null;
+        return lastElementUsage == null ? this.getRootElement().getName() : lastElementUsage.getName();
+    }
+
+    /**
+     * Returns the {@link #shortName} value
+     *
+     * @return The {@link #shortName} value
+     */
+     private String getDerivedShortName() {
+         List<String> shortNameComponents = new ArrayList<>();
+         shortNameComponents.add(this.getRootElement().getShortName());
+
+        for (ElementUsage usage : this.getElementUsage()) {
+            shortNameComponents.add(usage.getShortName());
+        }
+
+        return String.join(".", shortNameComponents);
+    }
+
+    /**
+     * Returns the {@link #owner} value
+     *
+     * @return The {@link #owner} value
+     */
+    private DomainOfExpertise getDerivedOwner() {
+        return this.getElementUsage().size() == 0 ? this.getRootElement().getOwner() : this.getElementUsage().get(this.getElementUsage().size() - 1).getOwner();
+    }
+
+    /**
+     * Gets a value indicating whether the current {@link NestedElement}
+     * is the root of the Nested tree.
+     */
+    @Getter
+    @Setter(AccessLevel.PACKAGE)
+    private Boolean isRootElement;
 }

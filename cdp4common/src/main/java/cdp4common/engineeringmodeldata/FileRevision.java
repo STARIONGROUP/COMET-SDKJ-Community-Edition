@@ -289,4 +289,32 @@ public class FileRevision extends Thing implements Cloneable, NamedThing, TimeSt
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the derived {@link #path} value
+     *
+     * @return The {@link #path} value
+     */
+    private String getDerivedPath() {
+        StringBuilder path = new StringBuilder();
+        Folder containingFolder = this.getContainingFolder();
+        if (containingFolder != null) {
+            path.append(containingFolder.getPath());
+            path.append("/");
+        }
+
+        path.append(this.getContainingFolder().getName());
+        path.append("/");
+        path.append(this.getName());
+
+        for (FileType fileType : this.getFileType()) {
+            path.append(".");
+            path.append(fileType.getExtension());
+        }
+
+        return path.toString();
+    }
 }

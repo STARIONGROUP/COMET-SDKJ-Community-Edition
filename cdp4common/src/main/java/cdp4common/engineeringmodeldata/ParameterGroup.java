@@ -23,6 +23,7 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import lombok.experimental.var;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
@@ -191,5 +192,162 @@ public class ParameterGroup extends Thing implements Cloneable, NamedThing {
         this.buildDtoPartialRoutes(dto);
 
         return dto;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Queries the container {@link ElementDefinition} of the current {@link ParameterGroup}
+     * for those {@link ParameterGroup}s that are "contained" by the current {@link ParameterGroup}.
+     *
+     * @param extendDeep If {@code extendDeep} is true, get all {@link ParameterGroup}s contained
+     * directly and indirectly by the current one
+     * 
+     * @return An {@link List{ParameterGroup}} that is "contained" by the current {@link ParameterGroup}
+     */
+    public List<ParameterGroup> getContainedGroup(boolean extendDeep) {
+        if (this.getContainer() == null) {
+            return new ArrayList<>();
+        }
+
+        ElementDefinition elementDefinition = (ElementDefinition)this.getContainer();
+        return this.getContainedGroup(elementDefinition.getParameterGroup(), extendDeep);
+    }
+
+    /**
+     * Queries the {@link ParameterGroup}s that are "contained" by the current {@link ParameterGroup}
+     * from the provided {@link List{ParameterGroup}}.
+     *
+     * @param parameterGroups
+     * An {@link List{ParameterGroup}} that may contain {@link ParameterGroup}s that are
+     * contained by the current {@link ParameterGroup}
+     * 
+     * @param extendDeep If {@code extendDeep} is true, get all {@link ParameterGroup}s contained
+     * directly and indirectly by the current one
+     * 
+     * @return 
+     * An {@link List{ParameterGroup}} that is "contained" by the current {@link ParameterGroup}
+     */
+    public List<ParameterGroup> getContainedGroup(List<ParameterGroup> parameterGroups, boolean extendDeep) {
+        List<ParameterGroup> containedGroup = new ArrayList<>();
+
+        for (ParameterGroup parameterGroup : parameterGroups) {
+            if (!extendDeep && parameterGroup.getContainingGroup() != null && parameterGroup.getContainingGroup().getIid().equals(this.getIid())) {
+                containedGroup.add(parameterGroup);
+            } else if (extendDeep && this.contains(parameterGroup)) {
+                containedGroup.add(parameterGroup);
+            }
+        }
+
+        return containedGroup;
+    }
+
+    /**
+     * Queries the {@link Parameter}s that are "contained" by the current {@link ParameterGroup}
+     *
+     * @return An {@link List{Parameter}} that is "contained" by the current {@link ParameterGroup}
+     */
+    public List<Parameter> getContainedParameter() {
+        if (this.getContainer() == null) {
+            return new ArrayList<>();
+        }
+
+        ElementDefinition elementDefinition = (ElementDefinition)this.getContainer();
+        return this.getContainedParameter(elementDefinition.getParameter());
+    }
+
+    /**
+     * Queries the {@link Parameter}s that are "contained" by the current {@link ParameterGroup}
+     *
+     * @param parameters An {@link List<Parameter>} that may contain {@link Parameter}s that are
+     * contained by the current {@link ParameterGroup}
+     * 
+     * @return An {@link List<Parameter>} that is "contained" by the current {@link ParameterGroup}
+     */
+    public List<Parameter> getContainedParameter(List<Parameter> parameters) {
+        List<Parameter> containedParameter = new ArrayList<>();
+
+        for (Parameter parameter : parameters) {
+            if (parameter.getGroup().equals(this)) {
+                containedParameter.add(parameter);
+            }
+        }
+
+        return containedParameter;
+    }
+
+    /**
+     * Queries the grouping level of the current {@link ParameterGroup}.
+     *
+     * @return 
+     * the level of the {@link ParameterGroup} in it's virtual group containment hierarchy.
+     * The level of a {@link ParameterGroup} that has no {@link #getContainingGroup} is zero.
+     * If the containing {@link ElementDefinition} of the group is null, the result is -1.
+     */
+    public int getLevel() {
+        if (this.getContainer() == null) {
+            return -1;
+        }
+
+        if (this.getContainingGroup() == null) {
+            return 0;
+        }
+
+        return this.getContainingGroup().getLevel() + 1;
+    }
+
+    /**
+     * Gets a value indicating whether this {@link ParameterGroup} can be published.
+     */
+    public boolean canBePublished() {
+        return this.getContainedParameter().stream().anyMatch(parameter -> parameter.canBePublished()) || this.getContainedGroup(false).stream().anyMatch(parameterGroup -> parameterGroup.canBePublished());
+
+    }
+
+    /**
+     * Gets a value indicating whether this {@link Publishable} is to be published in the next publication.
+     */
+    public boolean getToBePublished (){
+        if (!this.canBePublished()) {
+            return false;
+        }
+
+        boolean canAndToBePublished = this.getContainedParameter().stream().filter(ParameterOrOverrideBase::canBePublished).allMatch(ParameterOrOverrideBase::getToBePublished)
+                                          && this.getContainedGroup(false).stream().filter(ParameterGroup::canBePublished).allMatch(ParameterGroup::getToBePublished);
+        return canAndToBePublished;
+    }
+
+    /**
+     * Sets a value indicating whether this {@link Publishable} is to be published in the next publication.
+     *
+     * @param toBePublished a value to set
+     */
+    public void setToBePublished (boolean toBePublished){
+        for (Parameter parameterBase : this.getContainedParameter().stream().filter(ParameterOrOverrideBase::canBePublished).collect(Collectors.toList())) {
+            parameterBase.setToBePublished(toBePublished);
+        }
+
+        for (ParameterGroup parameterGroup : this.getContainedGroup(false).stream().filter(ParameterGroup::canBePublished).collect(Collectors.toList())) {
+            parameterGroup.setToBePublished(toBePublished);
+        }
+    }
+
+    /**
+     * Check whether the {@code group} is "contained" by the current {@link ParameterGroup} directly or indirectly
+     *
+     * @param group The {@link Parameter} to check
+     * @return True if the {@code group} is contained by the current {@link ParameterGroup}
+     */
+    private boolean contains(ParameterGroup group) {
+        if (group.getIid().equals(this.getIid())) {
+            return false;
+        }
+
+        if (group.getContainingGroup() == null) {
+            return false;
+        }
+
+        return group.getContainingGroup().getIid().equals(this.getIid()) || this.contains(group.getContainingGroup());
     }
 }

@@ -221,4 +221,21 @@ public class IdCorrespondence extends Thing implements Cloneable, OwnedThing {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the derived {@link #owner} value
+     *
+     * @return The derived {@link #owner} value
+     */
+    private DomainOfExpertise getDerivedOwner() {
+        ExternalIdentifierMap container = this.getContainer() instanceof ExternalIdentifierMap ? (ExternalIdentifierMap)this.getContainer() : null;
+        if (container == null) {
+            throw new ContainmentException("The container of IdCorrespondence is null");
+        }
+
+        return container.getOwner();
+    }
 }

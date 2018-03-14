@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
  */
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public abstract class ParameterOrOverrideBase extends ParameterBase implements Cloneable {
+public abstract class ParameterOrOverrideBase extends ParameterBase implements Cloneable, Publishable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -116,4 +116,28 @@ public abstract class ParameterOrOverrideBase extends ParameterBase implements C
 
         return errorList;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    private boolean toBePublished;
+
+    /**
+     * Gets a value indicating whether this {@link Publishable} is to be published in the next publication.
+     */
+    public boolean getToBePublished (){
+        return this.canBePublished() && this.toBePublished;
+    }
+
+    /**
+     * Sets a value indicating whether this {@link Publishable} is to be published in the next publication.
+     */
+    public void setToBePublished (boolean toBePublished){
+        this.toBePublished = toBePublished;
+    }
+
+    /**
+     * Gets a value indicating whether a {@link Publishable} can be published.
+     */
+    public abstract boolean canBePublished ();
 }

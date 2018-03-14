@@ -305,4 +305,41 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the user-friendly name
+     */
+    @Override
+    public String getUserFriendlyName() {
+        return this.getName();
+    }
+
+    /**
+     * Gets the user-friendly short name
+     */
+    @Override
+    public String getUserFriendlyShortName() {
+        return this.getShortName();
+    }
+
+    /**
+     * Returns the derived {@link #name} value
+     *
+     * @return The {@link #name} value
+     */
+    private String getDerivedName() {
+        return String.join(" → ", this.getPossibleFiniteStateList().stream().map(DefinedThing::getName).collect(Collectors.toList()));
+    }
+
+    /**
+     * Returns the derived {@link #shortName} value
+     *
+     * @return The {@link #shortName} value
+     */
+    private String getDerivedShortName() {
+        return String.join(".", this.getPossibleFiniteStateList().stream().map(DefinedThing::getName).collect(Collectors.toList()));
+    }
 }

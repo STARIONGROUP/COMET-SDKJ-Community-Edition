@@ -237,4 +237,21 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+    
+    /*
+     * Returns the derived {@link #owner} value
+     *
+     * @return The {@link #owner} value
+     */
+    private DomainOfExpertise getDerivedOwner() {
+        Requirement container = this.getContainer() instanceof Requirement ? (Requirement)this.getContainer() : null;
+        if (container == null) {
+            throw new ContainmentException("The container of ParametricConstraint is null");
+        }
+
+        return container.getOwner();
+    }
 }

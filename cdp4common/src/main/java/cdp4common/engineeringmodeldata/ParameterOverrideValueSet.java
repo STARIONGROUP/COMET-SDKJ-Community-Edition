@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ParameterOverride.class, propertyName = "valueSet")
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class ParameterOverrideValueSet extends ParameterValueSetBase implements Cloneable {
+public class ParameterOverrideValueSet extends ParameterValueSetBase implements Cloneable, ModelCode {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -254,5 +254,57 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
         this.buildDtoPartialRoutes(dto);
 
         return dto;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the derived {@link #actualState} value
+     *
+     * @return The {@link #actualState} value
+     */
+    private ActualFiniteState getDerivedActualState() {
+        return this.getParameterValueSet().getActualState();
+    }
+
+    /**
+     * Returns the derived {@link #actualOption} value
+     *
+     * @return The {@link #actualOption} value
+     */
+    private Option getDerivedActualOption() {
+        return this.getParameterValueSet().getActualOption();
+    }
+
+    /**
+     * Computes the model code of the current {@link ParameterValueSet}
+     * <p>
+     * The model code is derived as follows:
+     * {@code #ElementDefinition.ShortName#.#ParameterType.ShortName#.#Component.ParameterType.ShortName#\#Option.ShortName#\#ActualState.ShortName#}
+     * 
+     * @param componentIndex The component Index.
+     * @return A string that represents the model code of the current {@link ParameterOverrideValueSet}
+     */
+    public String modelCode(Integer componentIndex) {
+        ParameterOverride parameterOverride = this.getContainer() instanceof ParameterOverride ? (ParameterOverride)this.getContainer() : null;
+
+        if (parameterOverride == null) {
+            throw new ContainmentException(String.format("The container ParameterOverride of ParameterOverrideValueSet with iid %s is null, the model code cannot be computed.", this.getIid()));
+        }
+
+        if (!parameterOverride.isOptionDependent() && parameterOverride.getStateDependence() == null) {
+            return parameterOverride.modelCode(componentIndex);
+        }
+
+        if (parameterOverride.isOptionDependent() && parameterOverride.getStateDependence() == null) {
+            return String.format("%s\\%s", parameterOverride.modelCode(componentIndex), this.getActualOption().getShortName());
+        }
+
+        if (!parameterOverride.isOptionDependent() && parameterOverride.getStateDependence() != null) {
+            return String.format("%s\\%s", parameterOverride.modelCode(componentIndex), this.getActualState().getShortName());
+        }
+
+        return String.format("%s\\%s\\%s", parameterOverride.modelCode(componentIndex), this.getActualState().getShortName(), this.getActualState().getShortName());
     }
 }

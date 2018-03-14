@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
  */
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public abstract class ParameterValueSetBase extends Thing implements Cloneable, OwnedThing {
+public abstract class ParameterValueSetBase extends Thing implements Cloneable, OwnedThing, ValueSet {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -271,6 +271,83 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
         int referenceCount = this.getReference().size();
         if (referenceCount < 1) {
             errorList.add("The number of elements in the property reference is wrong. It should be at least 1.");
+        }
+
+        return errorList;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the derived {@link #actualValue} value
+     *
+     * @return The {@link #actualValue} value
+     */
+    private ValueArray<String> getDerivedActualValue() {
+        switch (this.getValueSwitch()) {
+            case COMPUTED:
+                return this.getComputed();
+
+            case MANUAL:
+                return this.getManual();
+
+            case REFERENCE:
+                return this.getReference();
+
+            default:
+                throw new IllegalStateException(String.format("Unknown ParameterKindSwitch: %s", this.getValueSwitch()));
+        }
+    }
+
+    /**
+     * Returns the derived {@link #owner} value
+     *
+     * @return The {@link #owner} value
+     */
+    private DomainOfExpertise getDerivedOwner() {
+        Parameter parameter = this.getContainer() instanceof Parameter ? (Parameter)this.getContainer() : null;
+        if (parameter != null) {
+            return parameter.getOwner();
+        }
+
+        ParameterOverride parameterOverride = this.getContainer() instanceof Parameter ? (ParameterOverride)this.getContainer() : null;
+        if (parameterOverride != null) {
+            return parameterOverride.getOwner();
+        }
+
+        throw new ContainmentException("The Container of ParameterValueSetBase is not the right type or is null");
+    }
+
+    /**
+     * Validate this {@link ParameterValueSetBase} with custom rules
+     *
+     * @return A list of error messages
+     */
+    @Override
+    protected List<String> validatePojoProperties() {
+        List<String> errorList = new ArrayList<>(super.validatePojoProperties());
+
+        ParameterOrOverrideBase container = this.getContainer() instanceof Parameter ? (ParameterOrOverrideBase)this.getContainer() : null;
+        if (container == null || container.getParameterType() == null) {
+            return errorList;
+        }
+
+        int numberOfComponent = container.getParameterType().getNumberOfValues();
+        if (this.getManual().size() != numberOfComponent) {
+            errorList.add(String.format("Wrong number of values in the Manual set for the option: %s, state: %s", (this.getActualOption() == null) ? "-" : this.getActualOption().getName(), (this.getActualState() == null) ? "-" : this.getActualState().getName()));
+        }
+
+        if (this.getComputed().size() != numberOfComponent) {
+            errorList.add(String.format("Wrong number of values in the Computed set for the option: %s, state: %s", (this.getActualOption() == null) ? "-" : this.getActualOption().getName(), (this.getActualState() == null) ? "-" : this.getActualState().getName()));
+        }
+
+        if (this.getReference().size() != numberOfComponent) {
+            errorList.add(String.format("Wrong number of values in the Reference set for the option: %s, state: %s", (this.getActualOption() == null) ? "-" : this.getActualOption().getName(), (this.getActualState() == null) ? "-" : this.getActualState().getName()));
+        }
+
+        if (this.getPublished().size() != numberOfComponent) {
+            errorList.add(String.format("Wrong number of values in the Published set for the option: %s, state: %s", (this.getActualOption() == null) ? "-" : this.getActualOption().getName(), (this.getActualState() == null) ? "-" : this.getActualState().getName()));
         }
 
         return errorList;

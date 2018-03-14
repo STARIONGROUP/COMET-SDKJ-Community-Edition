@@ -270,4 +270,28 @@ public class Folder extends Thing implements Cloneable, NamedThing, OwnedThing, 
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the derived {@link #path} value
+     *
+     * @return The {@link #path} value
+     */
+    private String getDerivedPath() {
+        StringBuilder path = new StringBuilder();
+        Folder containingFolder = this.getContainingFolder();
+
+        while (containingFolder != null) {
+            if (path.length() > 0) {
+                path.insert(0, "/");
+            }
+
+            path.insert(0, containingFolder.getName());
+            containingFolder = containingFolder.getContainingFolder();
+        }
+
+        return path.toString();
+    }
 }

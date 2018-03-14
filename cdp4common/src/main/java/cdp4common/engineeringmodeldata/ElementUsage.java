@@ -41,7 +41,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ElementDefinition.class, propertyName = "containedElement")
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class ElementUsage extends ElementBase implements Cloneable, OptionDependentThing {
+public class ElementUsage extends ElementBase implements Cloneable, OptionDependentThing, ModelCode {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -269,5 +269,59 @@ public class ElementUsage extends ElementBase implements Cloneable, OptionDepend
         this.buildDtoPartialRoutes(dto);
 
         return dto;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Computes the model code of the current {@link ElementUsage}
+     * <p>
+     * The model code is derived as follows:
+     * {@code #ElementDefinition.ShortName#.#ElementUsage.ShortName#}
+     * @param componentIndex This parameter is ignored when computing the model code of a {@link ElementDefinition}
+     * @return A string that represents the model code of the current {@link ElementUsage}
+     * @throws ContainmentException when the containment tree is incomplete
+     * @throws IllegalArgumentException when the component index for an {@link ElementUsage} in not null.
+     */
+    public String modelCode(Integer componentIndex) {
+        if (componentIndex != null) {
+            throw new IllegalArgumentException("The component index must be null");
+        }
+
+        ElementDefinition elementDefinition = this.getContainer() instanceof ElementDefinition ? (ElementDefinition)this.getContainer() : null;
+        if (elementDefinition == null) {
+            throw new ContainmentException(String.format("The container ElementDefinition of ElementUsage with iid %s is null, the model code cannot be computed.", this.getIid()));
+        }
+
+        return String.format("%s.%s", elementDefinition.modelCode(null), this.getShortName());
+    }
+
+    /**
+     * Gets a value indicating whether this {@link ElementUsage} can be published.
+     */
+    @Override
+    public boolean canBePublished() {
+        return this.getParameterOverride().stream().anyMatch(ParameterOverride::canBePublished);
+    }
+
+    /**
+     * Gets a value indicating whether this {@link ElementUsage} will be published in the next {@link Publication}.
+     */
+    @Override
+    public boolean getToBePublished() {
+        return this.canBePublished() && this.getParameterOverride().stream().filter(ParameterOverride::canBePublished).allMatch(ParameterOrOverrideBase::getToBePublished);
+    }
+
+    /**
+     * Sets a value indicating whether this {@link ElementUsage} will be published in the next {@link Publication}.
+     *
+     * @param toBePublished a value to set
+     */
+    @Override
+    public void setToBePublished(boolean toBePublished) {
+        for (ParameterOverride parameterOverride : this.getParameterOverride().stream().filter(ParameterOverride::canBePublished).collect(Collectors.toList())) {
+            parameterOverride.setToBePublished(toBePublished);
+        }
     }
 }

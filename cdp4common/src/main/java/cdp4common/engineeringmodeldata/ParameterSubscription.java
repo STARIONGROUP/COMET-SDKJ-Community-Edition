@@ -9,6 +9,7 @@
 package cdp4common.engineeringmodeldata;
 
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,7 +39,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ParameterOrOverrideBase.class, propertyName = "parameterSubscription")
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class ParameterSubscription extends ParameterBase implements Cloneable {
+public class ParameterSubscription extends ParameterBase implements Cloneable, ModelCode {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -344,5 +345,140 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
         this.buildDtoPartialRoutes(dto);
 
         return dto;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the derived {@link #parameterType} value
+     *
+     * @return The {@link #parameterType} value
+     */
+    private ParameterType getDerivedParameterType() {
+        Parameter parameter = this.getContainer() instanceof Parameter ? (Parameter)this.getContainer() : null;
+        if (parameter != null) {
+            return parameter.getParameterType();
+        }
+
+        ParameterOverride parameterOverride = this.getContainer() instanceof ParameterOverride ? (ParameterOverride)this.getContainer() : null;
+        if (parameterOverride != null) {
+            return parameterOverride.getParameterType();
+        }
+
+        throw new ContainmentException(
+                String.format("%s is not contained by a valid Parameter or ParameterOverride", this));
+    }
+
+    /**
+     * Returns the derived {@link #scale} value
+     *
+     * @return The {@link #scale} value
+     */
+    private MeasurementScale getDerivedScale() {
+        return ((ParameterBase)this.getContainer()).getScale();
+    }
+
+    /**
+     * Returns the derived {@link #stateDependence} value
+     *
+     * @return The {@link #stateDependence} value
+     */
+    private ActualFiniteStateList getDerivedStateDependence() {
+        return ((ParameterBase)this.getContainer()).getStateDependence();
+    }
+
+    /**
+     * Returns the derived {@link #isOptionDependent} value
+     *
+     * @return The {@link #isOptionDependent} value
+     */
+    private boolean getDerivedIsOptionDependent() {
+        return ((ParameterOrOverrideBase)this.getContainer()).isOptionDependent();
+    }
+
+    /**
+     * Returns the derived {@link #group} value
+     *
+     * @return The {@link #group} value
+     */
+    private ParameterGroup getDerivedGroup() {
+        return ((ParameterBase)this.getContainer()).getGroup();
+    }
+
+    /**
+     * Computes the model code of the current {@link ParameterSubscription}
+     * <p>
+     * The model code is derived as follows:
+     * {@code #ElementDefinition.ShortName#.#ParameterType.ShortName#}
+     *
+     * @param componentIndex This parameter is ignored when computing the model code of a {@link ParameterSubscription}
+     * @return A string that represents the model code of the current {@link Parameter}
+     */
+    @Override
+    public String modelCode(Integer componentIndex) {
+        ParameterOrOverrideBase parameterOrOverrideBase = (ParameterOrOverrideBase)this.getContainer();
+        return parameterOrOverrideBase.modelCode(componentIndex);
+    }
+
+    /**
+     * Validate this {@link ParameterSubscription} with custom rules
+     *
+     * @return A list of error messages
+     */
+    @Override
+    protected List<String> validatePojoProperties() {
+        List<String> errorList = new ArrayList<>(super.validatePojoProperties());
+        if (this.isOptionDependent()) {
+            Iteration iteration = this.getContainerOfType(Iteration.class);
+            if (this.getStateDependence() != null)
+            {
+                for (Option option : iteration.getOption()) {
+                    for (ActualFiniteState actualState : this.getStateDependence().getActualState().stream().filter(x -> x.getKind() == ActualFiniteStateKind.MANDATORY).collect(Collectors.toList())) {
+                        List<ParameterSubscriptionValueSet> valueSets = this.getValueSet().stream().filter(x -> x.getActualOption().equals(option) && x.getActualState().equals(actualState)).collect(Collectors.toList());
+                        errorList.addAll(this.validateValueSets(valueSets, option, actualState));
+                    }
+                }
+            } else {
+                for (Option option : iteration.getOption()) {
+                    List<ParameterSubscriptionValueSet> valueSets = this.getValueSet().stream().filter(x -> x.getActualOption().equals(option)).collect(Collectors.toList());
+                    errorList.addAll(this.validateValueSets(valueSets, option, null));
+                }
+            }
+        } else {
+            if (this.getStateDependence() != null) {
+                for (ActualFiniteState actualState : this.getStateDependence().getActualState().stream().filter(x -> x.getKind() == ActualFiniteStateKind.MANDATORY).collect(Collectors.toList())) {
+                    List<ParameterSubscriptionValueSet> valueSets = this.getValueSet().stream().filter(x -> x.getActualState().equals(actualState)).collect(Collectors.toList());
+                    errorList.addAll(this.validateValueSets(valueSets, null, actualState));
+                }
+            } else {
+                List<ParameterSubscriptionValueSet> valueSets = this.getValueSet();
+                errorList.addAll(this.validateValueSets(valueSets, null, null));
+            }
+        }
+
+        return errorList;
+    }
+
+    /**
+     * Validate the value-sets of this {@link ParameterSubscription} for an option and state if applicable
+     *
+     * @param valueSets The {@link ParameterSubscriptionValueSet}s found for the corresponding option and state
+     * @param option The {@link Option}
+     * @param state The {@link ActualFiniteState}
+     * @return a list of error messages
+     */
+    private Collection<String> validateValueSets(List<ParameterSubscriptionValueSet> valueSets, Option option, ActualFiniteState state) {
+        List<String> errorList = new ArrayList<>();
+        if (valueSets.size() == 0) {
+            errorList.add(String.format("No value-set was found for the option %s and state %s", (option == null) ? "-" : option.getName(), (state == null) ? "-" : state.getName()));
+        }
+        else if (valueSets.size() > 1) {
+            errorList.add(String.format("Duplicated value-sets were found for the option %s and state %s", (option == null) ? "-" : option.getName(), (state == null) ? "-" : state.getName()));
+        } else {
+            errorList.addAll(valueSets.get(0).getValidationErrors());
+        }
+
+        return errorList;
     }
 }

@@ -36,7 +36,7 @@ import lombok.EqualsAndHashCode;
  */
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public abstract class ElementBase extends DefinedThing implements Cloneable, CategorizableThing, OwnedThing {
+public abstract class ElementBase extends DefinedThing implements Cloneable, CategorizableThing, OwnedThing, Publishable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -116,5 +116,37 @@ public abstract class ElementBase extends DefinedThing implements Cloneable, Cat
         }
 
         return errorList;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets a value indicating whether this {@link Publishable} is to be published in the next publication.
+     */
+    public abstract boolean getToBePublished ();
+
+    /**
+     * Sets a value indicating whether this {@link Publishable} is to be published in the next publication.
+     */
+    public abstract void setToBePublished (boolean toBePublished);
+
+    /**
+     * Gets a value indicating whether a {@link Publishable} can be published.
+     */
+    public abstract boolean canBePublished ();
+
+    /**
+     * Gets an {@link List<ReferenceDataLibrary>} that contains the
+     * required {@link ReferenceDataLibrary} for the current {@link Thing}
+     */
+    @Override
+    public List<ReferenceDataLibrary> getRequiredRdls() {
+        Set<ReferenceDataLibrary> requiredRdl = new HashSet<>(super.getRequiredRdls());
+        for (Category category : this.getCategory()) {
+            requiredRdl.addAll(category.getRequiredRdls());
+        }
+
+        return new ArrayList<>(requiredRdl);
     }
 }

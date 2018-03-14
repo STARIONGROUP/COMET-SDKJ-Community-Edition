@@ -349,14 +349,14 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     }
 
     /**
-     * A {@link Iterable<String>} listing all the potential errors on this {@link Thing}
+     * A {@link Collection<String>} listing all the potential errors on this {@link Thing}
      */
-    private Iterable<String> validationErrors;
+    private Collection<String> validationErrors;
 
     /**
-     * Gets a {@link Iterable<String>} listing all the potential errors on this {@link Thing}
+     * Gets a {@link Collection<String>} listing all the potential errors on this {@link Thing}
      */
-    public Iterable<String> getValidationErrors() {
+    public Collection<String> getValidationErrors() {
         return this.validationErrorList;
     }
 
@@ -536,7 +536,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      * @param clazz The type of {@link Thing} the expected container has.
      * @return he containing {@link Thing}or null if no such exists.
      */
-    public Thing getContainerOfType(Class clazz) {
+    public <T> T getContainerOfType(Class<T> clazz) {
         if (this.getContainer() == null) {
             return null;
         }
@@ -546,7 +546,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
             return this.getContainer().getContainerOfType(clazz);
         }
 
-        return containerType.isInstance(this.getContainer()) ? this.getContainer() : null;
+        return containerType.isInstance(this.getContainer()) ? (T)this.getContainer() : null;
     }
 
     /**

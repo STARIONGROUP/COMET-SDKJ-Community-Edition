@@ -23,6 +23,7 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import lombok.experimental.var;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
@@ -42,7 +43,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = Iteration.class, propertyName = "element")
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class ElementDefinition extends ElementBase implements Cloneable {
+public class ElementDefinition extends ElementBase implements Cloneable, ModelCode {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -270,5 +271,166 @@ public class ElementDefinition extends ElementBase implements Cloneable {
         this.buildDtoPartialRoutes(dto);
 
         return dto;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Queries the {@link ParameterGroup}s that are "contained" directly by the current {@link ElementDefinition}.
+     *
+     * @return An {@link List<ParameterGroup>} that is "contained" by the current {@link ElementDefinition}
+     */
+    public List<ParameterGroup> getContainedGroup() {
+        return this.getContainedGroup(this.getParameterGroup());
+    }
+
+    /**
+     * Queries the {@link ParameterGroup}s that are "contained" directly by the current {@link ElementDefinition}.
+     *
+     * @param parameterGroups An {@link List<ParameterGroup>} that may contain {@link ParameterGroup}s that are
+     * contained by the current {@link ElementDefinition}
+     * @return An {@link List<ParameterGroup>} that is "contained" by the current {@link ElementDefinition}
+     */
+    private List<ParameterGroup> getContainedGroup(List<ParameterGroup> parameterGroups) {
+        List<ParameterGroup> containedGroup = new ArrayList<>();
+
+        for (ParameterGroup parameterGroup : parameterGroups) {
+            if (parameterGroup.getContainingGroup() == null) {
+                containedGroup.add(parameterGroup);
+            }
+        }
+
+        return containedGroup;
+    }
+
+    /**
+     * Queries the {@link Parameter}s that are "contained" by the current {@link ElementDefinition}
+     *
+     * @return 
+     * An {@link List<Parameter>} that is "contained" directly by the current {@link ElementDefinition}
+     */
+    public List<Parameter> ContainedParameter()
+    {
+        return this.getContainedParameter(this.getParameter());
+    }
+
+    /**
+     * Queries the {@link Parameter}s that are "contained" by the current {@link ElementDefinition}
+     *
+     * @param parameters An {@link List<Parameter>} that may contain {@link Parameter}s that are
+     * contained by the current {@link ElementDefinition}
+     * @return An {@link List<Parameter>} that is "contained" by the current {@link ElementDefinition}
+     */
+    public List<Parameter> getContainedParameter(List<Parameter> parameters) {
+        List<Parameter> containedParameter = new ArrayList<>();
+
+        for (Parameter parameter : parameters) {
+            if (parameter.getGroup() == null) {
+                containedParameter.add(parameter);
+            }
+        }
+
+        return containedParameter;
+    }
+
+    /**
+     * Assert whether this {@link ElementDefinition} contains in its usage tree a usage of the given {@link ElementDefinition}
+     *
+     * @param elementDefinition The given {@link ElementDefinition}
+     * @return True if it does or if the given {@link ElementDefinition} is the current one. False otherwise
+     */
+    public boolean hasUsageOf(ElementDefinition elementDefinition) {
+        if (elementDefinition == null) {
+            throw new IllegalArgumentException("elementDefinition");
+        }
+
+        if (this == elementDefinition) {
+            return true;
+        }
+
+        for (ElementUsage elementUsage : this.getContainedElement()) {
+            boolean result = (elementUsage.getElementDefinition().equals(elementDefinition))
+                    || elementUsage.getElementDefinition().hasUsageOf(elementDefinition);
+            if (result) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Queries the {@link ElementUsage}s that reference the current {@link ElementDefinition}
+     *
+     * @return An {@link List<ElementUsage>} that reference the current {@link ElementDefinition}
+     */
+    public List<ElementUsage> referencingElementUsages() {
+        Iteration iteration = this.getContainer() instanceof Iteration ? (Iteration)this.getContainer() : null;
+
+        if (iteration == null) {
+            throw new ContainmentException("The Container of ElementUsage is not the right type or is null");
+        }
+
+        return iteration.getElement().stream().flatMap(x -> x.getContainedElement().stream()).filter(x -> x.getElementDefinition().equals(this)).collect(Collectors.toList());
+    }
+
+    /**
+     * Computes the model code of the current {@link ElementDefinition}
+     * <p>
+     * The model code is derived as follows:
+     * {@code #ElementDefinition.ShortName#}
+     *
+     * @param componentIndex This parameter is ignored when computing the model code of a {@link ElementDefinition}
+     * @return A string that represents the model code of the current {@link ElementDefinition}
+     * @throws IllegalArgumentException The component index for an {@link ElementDefinition} must be 0.
+     */
+    public String modelCode(Integer componentIndex) {
+        if (componentIndex != null) {
+            throw new IllegalArgumentException("The component index must be null (componentIndex)");
+        }
+
+        return this.getShortName();
+    }
+
+    /**
+     * Gets a value indicating whether this {@link ElementDefinition} can be published.
+     */
+    @Override
+    public boolean canBePublished() {
+        return this.getContainedElement().stream().anyMatch(ElementUsage::canBePublished) || this.getParameter().stream().anyMatch(ParameterOrOverrideBase::canBePublished);
+    }
+
+    /**
+     * Gets a value indicating whether this {@link ElementUsage} will be published in the next {@link Publication}.
+     */
+    @Override
+    public boolean getToBePublished() {
+        if (!this.canBePublished()) {
+            return false;
+        }
+
+        boolean containsObjectsAllToBePublished =
+                this.getParameter().stream().filter(ParameterOrOverrideBase::canBePublished).allMatch(ParameterOrOverrideBase::getToBePublished)
+                    && this.getParameterGroup().stream().filter(parameterGroup -> parameterGroup.canBePublished()).allMatch(parameterGroup -> parameterGroup.getToBePublished())
+                    && this.getContainedElement().stream().filter(ElementUsage::canBePublished).allMatch(ElementUsage::getToBePublished);
+
+        return containsObjectsAllToBePublished;
+    }
+
+    /**
+     * Sets a value indicating whether this {@link ElementUsage} will be published in the next {@link Publication}.
+     *
+     * @param toBePublished a value to set
+     */
+    @Override
+    public void setToBePublished(boolean toBePublished) {
+        for (ElementUsage elementUsage : this.getContainedElement().stream().filter(ElementUsage::canBePublished).collect(Collectors.toList())) {
+            elementUsage.setToBePublished(toBePublished);
+        }
+
+        for (Parameter parameter : this.getParameter().stream().filter(ParameterOrOverrideBase::canBePublished).collect(Collectors.toList())) {
+            parameter.setToBePublished(toBePublished);
+        }
     }
 }

@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Container(clazz = ParameterSubscription.class, propertyName = "valueSet")
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class ParameterSubscriptionValueSet extends Thing implements Cloneable, OwnedThing {
+public class ParameterSubscriptionValueSet extends Thing implements Cloneable, OwnedThing, ValueSet {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
      */
@@ -393,5 +393,144 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
         this.buildDtoPartialRoutes(dto);
 
         return dto;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /** 
+     * Returns the derived {@link #computed} value
+     *
+     * @return The {@link #computed} value
+     */
+    private ValueArray<String> getDerivedComputed() {
+        return this.getSubscribedValueSet().getPublished();
+    }
+
+    /** 
+     * Returns the derived {@link #reference} value
+     *
+     * @return The {@link #reference} value
+     */
+    private ValueArray<String> getDerivedReference() {
+        return this.getSubscribedValueSet().getReference();
+    }
+
+    /** 
+     * Returns the derived {@link #actualValue} value
+     *
+     * @return The {@link #actualValue} value
+     */
+    private ValueArray<String> getDerivedActualValue() {
+        switch (this.getValueSwitch())
+        {
+            case COMPUTED:
+                return this.getComputed();
+
+            case MANUAL:
+                return this.getManual();
+
+            case REFERENCE:
+                return this.getReference();
+
+            default:
+                throw new IllegalStateException("Unknown ParameterKindSwitch");
+        }
+    }
+
+    /** 
+     * Returns the derived {@link #actualState} value
+     *
+     * @return The {@link #actualState} value
+     */
+    private ActualFiniteState getDerivedActualState() {
+        return this.getSubscribedValueSet().getActualState();
+    }
+
+    /** 
+     * Returns the derived {@link #actualOption} value
+     *
+     * @return The {@link #actualOption} value
+     */
+    private Option getDerivedActualOption() {
+        return this.getSubscribedValueSet().getActualOption();
+    }
+
+    /** 
+     * Returns the derived {@link #owner} value
+     *
+     * @return The {@link #owner} value
+     */
+    private DomainOfExpertise getDerivedOwner() {
+        ParameterSubscription container = this.getContainer() instanceof ParameterSubscription ? (ParameterSubscription)this.getContainer() : null;
+        if (container == null) {
+            throw new ContainmentException("The container of ParameterSubscriptionValueSet is null");
+        }
+
+        return container.getOwner();
+    }
+
+    /** 
+     * Computes the model code of the current {@link ParameterSubscriptionValueSet}
+     * <p>
+     * The model code is derived as follows:
+     * {@code #ElementDefinition.ShortName#.#ParameterType.ShortName#.#Component.ParameterType.ShortName#\#Option.ShortName#\#ActualState.ShortName#}
+     * @param componentIndex The component Index.
+     * @return A string that represents the model code of the current {@link Parameter}
+     */
+    public String modelCode(Integer componentIndex) {
+        ParameterValueSet parameterValueSet = this.getSubscribedValueSet() instanceof ParameterValueSet ? (ParameterValueSet)this.getSubscribedValueSet() : null;
+
+        if (parameterValueSet != null) {
+            return parameterValueSet.modelCode(componentIndex);
+        }
+
+        ParameterOverrideValueSet parameterOverrideValueSet = this.getSubscribedValueSet() instanceof ParameterOverrideValueSet ? (ParameterOverrideValueSet)this.getSubscribedValueSet() : null;
+        if (parameterOverrideValueSet != null) {
+            return parameterOverrideValueSet.modelCode(componentIndex);
+        }
+
+        throw new NullPointerException("The SubscribedValueSet is null");
+    }
+
+    /** 
+     * Validate this {@link ParameterSubscriptionValueSet} with custom rules
+     *
+     * @return A list of error messages
+     */
+    @Override
+    protected List<String> validatePojoProperties() {
+        List<String> errorList = new ArrayList<>(super.validatePojoProperties());
+
+        ParameterSubscription container = this.getContainer() instanceof ParameterSubscription ? (ParameterSubscription)this.getContainer() : null;
+        if (container == null || container.getParameterType() == null) {
+            return errorList;
+        }
+
+        int numberOfComponent = container.getParameterType().getNumberOfValues();
+        if (this.getManual().size() != numberOfComponent) {
+            errorList.add(String.format("Wrong number of values in the Manual set for the option: %s, state: %s", (this.getActualOption() == null) ? "-" : this.getActualOption().getName(), (this.getActualState() == null) ? "-" : this.getActualState().getName()));
+        }
+
+        if (this.getComputed().size() != numberOfComponent) {
+            errorList.add(String.format("Wrong number of values in the Computed set for the option: %s, state: %s", (this.getActualOption() == null) ? "-" : this.getActualOption().getName(), (this.getActualState() == null) ? "-" : this.getActualState().getName()));
+        }
+
+        if (this.getReference().size() != numberOfComponent) {
+            errorList.add(String.format("Wrong number of values in the Reference set for the option: %s, state: %s", (this.getActualOption() == null) ? "-" : this.getActualOption().getName(), (this.getActualState() == null) ? "-" : this.getActualState().getName()));
+        }
+
+        return errorList;
+    }
+
+    /** 
+     * Gets the formula assigned by the owner {@link DomainOfExpertise} of the associated {@link Parameter} or {@link ParameterOverride} 
+     *
+     * Member of the {@link ValueSet} interface added for convenience which will always return a {@link ValueArray<String>} where all the components are null
+     */
+    public ValueArray<String> getFormula() {
+        ParameterSubscription parameterSubscription = (ParameterSubscription)this.getContainer();
+        List<String> valueArray = new ArrayList<>(parameterSubscription.getParameterType().getNumberOfValues());
+        return new ValueArray<>(valueArray, this, String.class);
     }
 }

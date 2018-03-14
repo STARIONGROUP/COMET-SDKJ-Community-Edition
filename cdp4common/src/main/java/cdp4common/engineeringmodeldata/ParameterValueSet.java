@@ -183,4 +183,38 @@ public class ParameterValueSet extends ParameterValueSetBase implements Cloneabl
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+    
+    /*
+     * Queries the model code of the current {@link ParameterValueSet}
+     * <p>
+     * The model code is derived as follows:
+     * {@code #ElementDefinition.ShortName#.#ParameterType.ShortName#.#Component.ParameterType.ShortName#\#Option.ShortName#\#ActualState.ShortName#}
+     *
+     * @param componentIndex The component Index.
+     * @return A string that represents the model code of the current {@link ParameterValueSet}
+     */
+    public String modelCode(Integer componentIndex) {
+        Parameter parameter = this.getContainer() instanceof Parameter ? (Parameter)this.getContainer() : null;
+
+        if (parameter == null) {
+            throw new ContainmentException(String.format("The container Parameter of ParameterValueSet with iid %s is null, the model code cannot be computed.", this.getIid()));
+        }
+
+        if (!parameter.isOptionDependent() && parameter.getStateDependence() == null) {
+            return parameter.modelCode(componentIndex);
+        }
+
+        if (parameter.isOptionDependent() && parameter.getStateDependence() == null) {
+            return String.format("%s\\%s", parameter.modelCode(componentIndex), this.getActualOption().getShortName());
+        }
+
+        if (!parameter.isOptionDependent() && parameter.getStateDependence() != null) {
+            return String.format("%s\\%s", parameter.modelCode(componentIndex), this.getActualState().getShortName());
+        }
+
+        return String.format("%s\\%s\\%s", parameter.modelCode(componentIndex), this.getActualOption().getShortName(), this.getActualState().getShortName());
+    }
 }

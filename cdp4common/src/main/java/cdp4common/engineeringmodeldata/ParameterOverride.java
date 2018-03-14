@@ -23,6 +23,7 @@ import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import com.google.common.collect.Iterables;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
@@ -366,5 +367,152 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
         this.buildDtoPartialRoutes(dto);
 
         return dto;
+    }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the derived {@link ParameterType} value
+     *
+     * @return The {@link ParameterType} value
+     */
+    private ParameterType getDerivedParameterType() {
+        return this.getParameter().getParameterType();
+    }
+
+    /**
+     * Returns the derived {@link #isOptionDependent} value
+     *
+     * @return The {@link #isOptionDependent} value
+     */
+    private boolean getDerivedIsOptionDependent() {
+        return this.getParameter() != null && this.getParameter().isOptionDependent();
+    }
+
+    /**
+     * Returns the derived {@link #scale} value
+     *
+     * @return The {@link #scale} value
+     */
+    private MeasurementScale getDerivedScale() {
+        return this.getParameter().getScale();
+    }
+
+    /**
+     * Returns the derived {@link #stateDependence} value
+     *
+     * @return The {@link #stateDependence} value
+     */
+    private ActualFiniteStateList getDerivedStateDependence() {
+        return this.getParameter().getStateDependence();
+    }
+
+    /**
+     * Returns the derived {@link #group} value
+     *
+     * @return The {@link #group} value
+     */
+    private ParameterGroup getDerivedGroup() {
+        return this.getParameter().getGroup();
+    }
+
+    /**
+     * Computes the model code of the current {@link ParameterOverride}
+     * <p>
+     * The model code is derived as follows:
+     * {@code #ElementDefinition.ShortName#.#ElementUsage.ShortName#.#Component.ParameterType.ShortName#}
+     * @param componentIndex The component Index.
+     * @return A string that represents the model code of the current {@link ParameterOverride}
+     */
+    @Override
+    public String modelCode(Integer componentIndex) {
+        ElementUsage elementUsage = this.getContainer() instanceof ElementUsage ? (ElementUsage)this.getContainer() : null;
+
+        if (elementUsage == null) {
+            throw new ContainmentException(String.format("The container ElementUsage of ParameterOverride with iid %s is null, the model code cannot be computed.", this.getIid()));
+        }
+
+        CompoundParameterType compoundParameterType = this.getDerivedParameterType() instanceof CompoundParameterType ? (CompoundParameterType)this.getDerivedParameterType() : null;
+        if (compoundParameterType == null && componentIndex > 0) {
+            throw new IllegalArgumentException("The value must be 0 if the ParameterType is not a CompoundParameterType (componentIndex)");
+        }
+
+        if (compoundParameterType != null && componentIndex != null) {
+            String component = Utils.formatComponentShortName(compoundParameterType.getComponent().get(componentIndex).getShortName());
+            return String.format("%s.%s.%s", elementUsage.modelCode(null), compoundParameterType.getShortName(), component);
+        }
+
+        return String.format("%s.%s", elementUsage.modelCode(null), this.getDerivedParameterType().getShortName());
+    }
+
+    /**
+     * Gets a value indicating whether the {@link ParameterOverride} can be published.
+     */
+    @Override
+    public boolean canBePublished() {
+        return this.getValueSet().stream().anyMatch(vs -> !Iterables.elementsEqual(vs.getActualValue(), vs.getPublished()));
+    }
+
+    /**
+     * Validate this {@link ParameterOverride} with custom rules
+     *
+     * @return A list of error messages
+     */
+    @Override
+    protected List<String> validatePojoProperties() {
+        List<String> errorList = new ArrayList<>(super.validatePojoProperties());
+
+        if (this.isOptionDependent()) {
+            Iteration iteration = this.getContainerOfType(Iteration.class);
+            if (this.getStateDependence() != null) {
+                for (Option option : iteration.getOption()) {
+                    for (ActualFiniteState actualState : this.getStateDependence().getActualState().stream().filter(x -> x.getKind() == ActualFiniteStateKind.MANDATORY).collect(Collectors.toList())) {
+                        List<ParameterOverrideValueSet> valueSets = this.getValueSet().stream().filter(x -> x.getActualOption().equals(option) && x.getActualState().equals(actualState)).collect(Collectors.toList());
+                        errorList.addAll(this.validateValueSets(valueSets, option, actualState));
+                    }
+                }
+            } else {
+                for (Option option : iteration.getOption()) {
+                    List<ParameterOverrideValueSet> valueSets = this.getValueSet().stream().filter(x -> x.getActualOption().equals(option)).collect(Collectors.toList());
+                    errorList.addAll(this.validateValueSets(valueSets, option, null));
+                }
+            }
+        } else {
+            if (this.getStateDependence() != null) {
+                for (ActualFiniteState actualState : this.getStateDependence().getActualState().stream().filter(x -> x.getKind() == ActualFiniteStateKind.MANDATORY).collect(Collectors.toList())) {
+                    List<ParameterOverrideValueSet> valueSets = this.getValueSet().stream().filter(x -> x.getActualState().equals(actualState)).collect(Collectors.toList());
+                    errorList.addAll(this.validateValueSets(valueSets, null, actualState));
+                }
+            } else {
+                List<ParameterOverrideValueSet> valueSets = this.getValueSet();
+                errorList.addAll(this.validateValueSets(valueSets, null, null));
+            }
+        }
+
+        return errorList;
+    }
+
+    /**
+     * Validate the value-sets of this {@link ParameterOverride} for an option and state if applicable
+     *
+     * @param valueSets The {@link ParameterOverrideValueSet}s found for the corresponding option and state
+     * @param option The {@link Option}
+     * @param state The {@link ActualFiniteState}
+     * @return a list of error messages
+     */
+    private Collection<String> validateValueSets(List<ParameterOverrideValueSet> valueSets, Option option, ActualFiniteState state) {
+        List<String> errorList = new ArrayList<>();
+
+        if (valueSets.size() == 0) {
+            errorList.add(String.format("No value-set was found for the option %s and state %s", (option == null) ? "-" : option.getName(), (state == null) ? "-" : state.getName()));
+        }
+        else if (valueSets.size() > 1) {
+            errorList.add(String.format("Duplicated value-sets were found for the option %s and state %s", (option == null) ? "-" : option.getName(), (state == null) ? "-" : state.getName()));
+        } else {
+            errorList.addAll(valueSets.get(0).getValidationErrors());
+        }
+
+        return errorList;
     }
 }

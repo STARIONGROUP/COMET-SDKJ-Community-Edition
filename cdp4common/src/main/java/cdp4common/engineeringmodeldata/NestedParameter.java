@@ -283,4 +283,75 @@ public class NestedParameter extends Thing implements Cloneable, OwnedThing, Vol
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns the derived {@link #path} value
+     *
+     * The path is defined as the concatenation of:
+     * (1) path to the nestedElement,
+     * (2) short-name of {@link ParameterType}, and {@link ParameterTypeComponent} if applicable, of the associated {@link Parameter},
+     * (3) short name of the associated {@link Option}.
+     * (4) short-name of the associated {@link ActualFiniteState} or empty string if it is null
+     *
+     * @return The {@link #path} value
+     */
+    private String getDerivedPath() {
+        NestedElement nestedElement = (NestedElement)this.getContainer();
+        Option option = (Option)nestedElement.getContainer();
+
+        String nestedElementPath = nestedElement.getShortName();
+        String parameterShortName = this.queryParameterShortName();
+        String actualFiniteStateShortName = this.getActualState() == null ? "" : this.getActualState().getShortName();
+
+        String result = String.format("%s\\%s\\%s\\%s", nestedElementPath, parameterShortName, option.getShortName(), actualFiniteStateShortName);
+
+        return result;
+    }
+
+    /**
+     * Gets or sets the {@link ParameterTypeComponent} of the associated {@link ParameterType} that the current {@link NestedParameter}
+     * represents.
+     *
+     * In case the {@link ParameterType} is a {@link ScalarParameterType} then this property is null.
+     */
+    @Getter
+    @Setter
+    private ParameterTypeComponent component;
+
+    /**
+     * Queries the short-name of the {@link ParameterType} of the associated {@link Parameter}
+     *
+     * a string that represents the parameter short-name.
+     */
+    private String queryParameterShortName() {
+        String parameterShortName;
+        if (this.getAssociatedParameter().getParameterType() instanceof ScalarParameterType) {
+            parameterShortName = this.getAssociatedParameter().getParameterType().getShortName();
+        } else {
+            parameterShortName = String.format("%s.%s", this.getAssociatedParameter().getParameterType().getShortName(), this.getComponent().getShortName());
+        }
+
+        return parameterShortName;
+    }
+
+    /**
+     * Gets the user-friendly name
+     *
+     * this returns the same value as the {@link #getUserFriendlyShortName}
+     */
+    @Override
+    public String getUserFriendlyName() {
+        return this.queryParameterShortName();
+    }
+
+    /**
+     * Gets the user-friendly short name
+     */
+    @Override
+    public String getUserFriendlyShortName() {
+        return this.queryParameterShortName();
+    }
 }
