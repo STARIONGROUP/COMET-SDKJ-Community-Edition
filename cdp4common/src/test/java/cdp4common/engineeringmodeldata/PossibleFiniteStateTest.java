@@ -24,6 +24,7 @@
 
 package cdp4common.engineeringmodeldata;
 
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ class PossibleFiniteStateTest {
     void testGetOwnerThrowEx() {
         PossibleFiniteState thing = new PossibleFiniteState();
         Executable executable = thing::getOwner;
-        Assertions.assertThrows(NullPointerException.class, executable);
+        Assertions.assertThrows(ContainmentException.class, executable);
     }
 
     @Test

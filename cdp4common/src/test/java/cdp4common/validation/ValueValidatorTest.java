@@ -148,6 +148,7 @@ class ValueValidatorTest {
 
     @Test
     void verifyThatBooleanValidatesWithFrenchCulture() {
+        Locale.setDefault(Locale.FRANCE);
         ValidationResult result;
 
         result = ValueValidator.validate(this.booleanParameterType, "-");
@@ -213,7 +214,7 @@ class ValueValidatorTest {
         result = ValueValidator.validate(this.dateTimeParameterType, "2012-13-13T12:01:01+02");
         Assertions.assertEquals(ValidationResultKind.INVALID, result.getResultKind());
 
-        LocalDate date = LocalDate.of(2002, 12, 1);
+        LocalDateTime date = LocalDateTime.of(2002, 12, 1, 0, 0);
         result = ValueValidator.validate(this.dateTimeParameterType, date);
         Assertions.assertEquals(ValidationResultKind.VALID, result.getResultKind());
         Assertions.assertTrue(result.getMessage().isEmpty());
@@ -258,6 +259,7 @@ class ValueValidatorTest {
     void verifyThatSimpleQuantityKindValidatesNonDefaultValue() {
         ValidationResult result;
 
+        this.ratioScale.setNumberSet(NumberSetKind.NATURAL_NUMBER_SET);
         result = ValueValidator.validate(this.simpleQuantityKind, this.ratioScale, "13", null);
         Assertions.assertEquals(ValidationResultKind.VALID, result.getResultKind());
         Assertions.assertTrue(result.getMessage().isEmpty());
@@ -422,6 +424,18 @@ class ValueValidatorTest {
         result = ValueValidator.validate(this.timeOfDayParameterType, "17:49:30.453Z");
         Assertions.assertEquals(ValidationResultKind.VALID, result.getResultKind());
         Assertions.assertTrue(result.getMessage().isEmpty());
+
+        result = ValueValidator.validate(this.timeOfDayParameterType, "17:49:30+01:00");
+        Assertions.assertEquals(ValidationResultKind.VALID, result.getResultKind());
+        Assertions.assertTrue(result.getMessage().isEmpty());
+
+        result = ValueValidator.validate(this.timeOfDayParameterType, "17:49:30+01");
+        Assertions.assertEquals(ValidationResultKind.VALID, result.getResultKind());
+        Assertions.assertTrue(result.getMessage().isEmpty());
+
+        result = ValueValidator.validate(this.timeOfDayParameterType, "17:49:30Z+01:00");
+        Assertions.assertEquals(ValidationResultKind.INVALID, result.getResultKind());
+        Assertions.assertFalse(result.getMessage().isEmpty());
 
         result = ValueValidator.validate(this.timeOfDayParameterType, "25:23");
         Assertions.assertEquals(ValidationResultKind.INVALID, result.getResultKind());

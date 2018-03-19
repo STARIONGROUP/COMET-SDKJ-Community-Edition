@@ -10,19 +10,23 @@ import cdp4common.helpers.Constants;
 import cdp4common.sitedirectorydata.*;
 import com.google.common.base.Strings;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
+import java.text.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.ResolverStyle;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_TIME;
+import static java.time.temporal.ChronoField.*;
 
 /**
  * The purpose of the {@link ValueValidator} is to validate the value of a {@link Parameter} with respect to
@@ -161,7 +165,7 @@ public class ValueValidator {
             }
 
             try {
-                LocalDate.parse(value.toString(), DateTimeFormatter.ISO_LOCAL_DATE);
+                LocalDate.parse(value.toString(), ISO_LOCAL_DATE);
                 // If exception is not thrown than it is valid date
                 result.setResultKind(ValidationResultKind.VALID);
                 result.setMessage("");
@@ -203,7 +207,20 @@ public class ValueValidator {
             }
 
             try {
-                LocalDateTime dateTime = LocalDateTime.parse(value.toString(), DateTimeFormatter.ISO_INSTANT);
+                DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                        .parseCaseInsensitive()
+                        .append(ISO_LOCAL_DATE)
+                        .optionalStart()
+                        .appendLiteral('T')
+                        .append(ISO_LOCAL_TIME)
+                        .optionalStart()
+                        .appendFraction(MILLI_OF_SECOND, 0, 9, true)
+                        .optionalEnd()
+                        .optionalStart()
+                        .appendOffset("+HH:mm", "Z")
+                        .toFormatter();
+
+                LocalDateTime dateTime = LocalDateTime.parse(value.toString(), formatter);
                 LOGGER.log(Level.FINE, String.format("DateTimeParameterType %1$s validated", dateTime));
 
                 result.setResultKind(ValidationResultKind.VALID);
@@ -356,7 +373,20 @@ public class ValueValidator {
             }
 
             try {
-                LocalTime.parse(value.toString(), DateTimeFormatter.ISO_LOCAL_TIME);
+                DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                        .appendValue(HOUR_OF_DAY, 2)
+                        .appendLiteral(':')
+                        .appendValue(MINUTE_OF_HOUR, 2)
+                        .optionalStart()
+                        .appendLiteral(':')
+                        .appendValue(SECOND_OF_MINUTE, 2)
+                        .optionalStart()
+                        .appendFraction(MILLI_OF_SECOND, 0, 9, true)
+                        .optionalEnd()
+                        .optionalStart()
+                        .appendOffset("+HH:mm", "Z")
+                        .toFormatter();
+                LocalTime.parse(value.toString(), formatter);
                 result.setResultKind(ValidationResultKind.VALID);
                 result.setMessage("");
                 return result;
@@ -565,10 +595,6 @@ public class ValueValidator {
                 double real = 0;
                 boolean isReal = false;
 
-                if (format == null) {
-                    format = NumberFormat.getInstance(Locale.getDefault());
-                }
-
                 // the real numbers include all the integers
                 if (value instanceof Integer) {
                     isReal = true;
@@ -582,8 +608,29 @@ public class ValueValidator {
 
                 if (value instanceof String) {
                     try {
-                        real = format.parse(value.toString()).doubleValue();
-                        isReal = true;
+                        if (format == null) {
+                            // By default comma is not valid
+                            if (value.toString().contains(",")){
+                                throw new ParseException("String contains illegal symbol \",\"", value.toString().indexOf(","));
+                            }
+
+                            format = NumberFormat.getInstance(Locale.getDefault());
+                        }
+
+                        // Check for exponent notation
+                        if (value.toString().toLowerCase().contains("e")){
+                            // Try to parse without formatter
+                            real = Double.valueOf(value.toString().toLowerCase());
+                            isReal = true;
+                        } else {
+                            ParsePosition position = new ParsePosition(0);
+                            Number number = format.parse(value.toString(), position);
+                            if (position.getIndex() != value.toString().length()) {
+                                throw new ParseException("failed to parse entire string: " + value.toString(), position.getIndex());
+                            }
+                            real = number.doubleValue();
+                            isReal = true;
+                        }
                     } catch (Exception ex) {
                         isReal = false;
                         LOGGER.log(Level.FINE, ex.toString(), ex);
