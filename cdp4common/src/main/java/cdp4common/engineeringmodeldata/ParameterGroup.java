@@ -267,7 +267,7 @@ public class ParameterGroup extends Thing implements Cloneable, NamedThing {
         List<Parameter> containedParameter = new ArrayList<>();
 
         for (Parameter parameter : parameters) {
-            if (parameter.getGroup().equals(this)) {
+            if (parameter.getGroup() != null && parameter.getGroup().equals(this)) {
                 containedParameter.add(parameter);
             }
         }

@@ -365,7 +365,7 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
         }
 
         throw new ContainmentException(
-                String.format("%s is not contained by a valid Parameter or ParameterOverride", this));
+                String.format("%s is not contained by a valid Parameter or ParameterOverride", this.getClass().getSimpleName()));
     }
 
     /**

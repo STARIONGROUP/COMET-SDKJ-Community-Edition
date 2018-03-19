@@ -310,7 +310,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
             return parameter.getOwner();
         }
 
-        ParameterOverride parameterOverride = this.getContainer() instanceof Parameter ? (ParameterOverride)this.getContainer() : null;
+        ParameterOverride parameterOverride = this.getContainer() instanceof ParameterOverride ? (ParameterOverride)this.getContainer() : null;
         if (parameterOverride != null) {
             return parameterOverride.getOwner();
         }

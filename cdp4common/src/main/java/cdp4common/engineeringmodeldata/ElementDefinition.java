@@ -308,7 +308,7 @@ public class ElementDefinition extends ElementBase implements Cloneable, ModelCo
      * @return 
      * An {@link List<Parameter>} that is "contained" directly by the current {@link ElementDefinition}
      */
-    public List<Parameter> ContainedParameter()
+    public List<Parameter> getContainedParameter()
     {
         return this.getContainedParameter(this.getParameter());
     }
@@ -323,9 +323,11 @@ public class ElementDefinition extends ElementBase implements Cloneable, ModelCo
     public List<Parameter> getContainedParameter(List<Parameter> parameters) {
         List<Parameter> containedParameter = new ArrayList<>();
 
-        for (Parameter parameter : parameters) {
-            if (parameter.getGroup() == null) {
-                containedParameter.add(parameter);
+        if (parameters != null) {
+            for (Parameter parameter : parameters) {
+                if (parameter.getGroup() == null) {
+                    containedParameter.add(parameter);
+                }
             }
         }
 

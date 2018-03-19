@@ -1,0 +1,79 @@
+/* --------------------------------------------------------------------------------------------------------------------
+ *    ParameterValueSetBaseTest.java
+ *    Copyright (c) 2015-2018 RHEA System S.A.
+ *
+ *    Author: Sam Gerené, Merlin Bieze, Alex Vorobiev, Naron Phou
+ *
+ *    This file is part of CDP4-SDK Community Edition
+ *
+ *    The CDP4-SDK Community Edition is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation; either
+ *    version 3 of the License, or (at your option) any later version.
+ *
+ *    The CDP4-SDK Community Edition is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ *
+ *    You should have received a copy of the GNU Lesser General Public License
+ *    along with this program; if not, write to the Free Software Foundation,
+ *    Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *  --------------------------------------------------------------------------------------------------------------------
+ */
+
+package cdp4common.engineeringmodeldata;
+
+import cdp4common.exceptions.ContainmentException;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ParameterValueSetBaseTest {
+    private ParameterValueSetBase parameterValueSetBase;
+
+    @BeforeEach
+    void setup() {
+        this.parameterValueSetBase = new ParameterValueSet();
+    }
+
+    @Test
+    void testGetActualValue() {
+        this.parameterValueSetBase.setValueSwitch(ParameterSwitchKind.COMPUTED);
+        assertEquals(this.parameterValueSetBase.getComputed(), this.parameterValueSetBase.getActualValue());
+
+        this.parameterValueSetBase.setValueSwitch(ParameterSwitchKind.REFERENCE);
+        assertEquals(this.parameterValueSetBase.getReference(), this.parameterValueSetBase.getActualValue());
+
+        this.parameterValueSetBase.setValueSwitch(ParameterSwitchKind.MANUAL);
+        assertEquals(this.parameterValueSetBase.getManual(), this.parameterValueSetBase.getActualValue());
+    }
+
+    @Test
+    void testGetOwner1() {
+        Parameter container = new Parameter();
+        container.setOwner(new DomainOfExpertise());
+
+        container.getValueSet().add((ParameterValueSet) this.parameterValueSetBase);
+
+        assertTrue(container.getOwner() == this.parameterValueSetBase.getOwner());
+    }
+
+    @Test
+    void testGetOwner2() {
+        ParameterOverride container = new ParameterOverride();
+        container.setOwner(new DomainOfExpertise());
+        this.parameterValueSetBase = new ParameterOverrideValueSet();
+
+        container.getValueSet().add((ParameterOverrideValueSet) this.parameterValueSetBase);
+
+        assertTrue(container.getOwner() == this.parameterValueSetBase.getOwner());
+    }
+
+    @Test
+    void testGetOwnerThrowsEx() {
+        assertThrows(ContainmentException.class, () -> this.parameterValueSetBase.getOwner());
+    }
+}
