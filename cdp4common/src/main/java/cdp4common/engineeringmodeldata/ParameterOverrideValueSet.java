@@ -304,6 +304,6 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
             return String.format("%s\\%s", parameterOverride.modelCode(componentIndex), this.getActualState().getShortName());
         }
 
-        return String.format("%s\\%s\\%s", parameterOverride.modelCode(componentIndex), this.getActualState().getShortName(), this.getActualState().getShortName());
+        return String.format("%s\\%s\\%s", parameterOverride.modelCode(componentIndex), this.getActualOption().getShortName(), this.getActualState().getShortName());
     }
 }

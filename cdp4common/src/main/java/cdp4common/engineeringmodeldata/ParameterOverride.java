@@ -432,7 +432,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
         }
 
         CompoundParameterType compoundParameterType = this.getDerivedParameterType() instanceof CompoundParameterType ? (CompoundParameterType)this.getDerivedParameterType() : null;
-        if (compoundParameterType == null && componentIndex > 0) {
+        if (compoundParameterType == null && componentIndex != null && componentIndex > 0) {
             throw new IllegalArgumentException("The value must be 0 if the ParameterType is not a CompoundParameterType (componentIndex)");
         }
 

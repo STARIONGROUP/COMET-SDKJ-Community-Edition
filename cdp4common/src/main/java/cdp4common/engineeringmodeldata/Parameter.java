@@ -270,7 +270,7 @@ public class Parameter extends ParameterOrOverrideBase implements Cloneable, Mod
         }
 
         CompoundParameterType compoundParameterType = this.getParameterType() instanceof CompoundParameterType ? (CompoundParameterType)this.getParameterType() : null;
-        if (compoundParameterType == null && componentIndex > 0) {
+        if (compoundParameterType == null && componentIndex != null && componentIndex > 0) {
             throw new IllegalArgumentException("The value must be 0 if the ParameterType is not a CompoundParameterType (componentIndex)");
         }
 
