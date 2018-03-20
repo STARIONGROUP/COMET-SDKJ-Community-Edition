@@ -9,10 +9,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
 * The ordered item  contains the ordered key and  the value
 */
-public class OrderedItem {
+public class OrderedItem implements Serializable{
     /**
     * Initializes a new instance of the {@link OrderedItem} class.
     */

@@ -67,8 +67,8 @@ public class ValueArray<T> implements Iterable<T> {
      * @param initializationCollection Collection to initialize this {@link Collection<T>}.
      * @param clazz                    The type of the contained elements
      */
-    public ValueArray(Collection<T> initializationCollection, Class<T> clazz) {
-        this.items = initializationCollection == null ? new ArrayList<>() : new ArrayList<>(initializationCollection);
+    public ValueArray(Iterable<T> initializationCollection, Class<T> clazz) {
+        this.items = initializationCollection == null ? new ArrayList<>() : Lists.newArrayList(initializationCollection);
         this.clazz = clazz;
     }
 

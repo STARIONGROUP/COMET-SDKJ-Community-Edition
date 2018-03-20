@@ -10,21 +10,19 @@ import cdp4common.commondata.ClassKind;
 import cdp4common.helpers.ContainerPropertyHelper;
 import cdp4common.helpers.Utils;
 import cdp4common.types.OrderedItem;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.var;
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import com.google.common.cache.Cache;
 
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URI;
@@ -321,7 +319,7 @@ public abstract class Thing {
      */
     private boolean isAuthorizedRoute(ClassKind lastRoute, ClassKind newRoute) {
         String lastRouteContainerClass = ContainerPropertyHelper.getContainerClassName(lastRoute);
-        if (newRoute.toString().equals(lastRouteContainerClass)) {
+        if (Utils.getUpperCamelNotationFromConstant(newRoute.toString()).equals(lastRouteContainerClass)) {
             return true;
         }
 
@@ -329,7 +327,7 @@ public abstract class Thing {
         // Check if the parent of the added container is that abstract class
         Class type;
         try {
-            type = Class.forName("cdp4common.dto." + newRoute);
+            type = Class.forName("cdp4common.dto." + Utils.getUpperCamelNotationFromConstant(newRoute.toString()));
             Class parent = type.getSuperclass();
 
             while (parent != null) {
@@ -404,15 +402,16 @@ public abstract class Thing {
                 }
 
                 Object newValue;
-                Type fieldType = propertyInfo.getGenericType();
-                if (fieldType instanceof ParameterizedType && Iterable.class.isAssignableFrom(fieldType.getClass())) {
-                    Object oldValue = FieldUtils.readDeclaredField(this, propertyInfo.getName());
-                    newValue = fieldType.getClass().getConstructor(fieldType.getClass()).newInstance(oldValue);
+                Type fieldGenericType = propertyInfo.getGenericType();
+                Class fieldType = propertyInfo.getType();
+                if (fieldGenericType instanceof ParameterizedType && Iterable.class.isAssignableFrom(fieldType)) {
+                    Object oldValue = FieldUtils.readField(this, propertyInfo.getName(), true);
+                    newValue = SerializationUtils.clone((Serializable) oldValue);
                 } else {
                     continue;
                 }
 
-                FieldUtils.writeDeclaredField(clone, propertyInfo.getName(), newValue);
+                FieldUtils.writeField(clone, propertyInfo.getName(), newValue, true);
             }
 
             return clone;
