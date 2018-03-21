@@ -110,7 +110,7 @@ public class OrderedItem implements Serializable{
      */
     protected boolean equals(OrderedItem other)
     {
-        return this.v.equals(other.v);
+        return other != null && this.v.equals(other.v);
     }
 
     /**

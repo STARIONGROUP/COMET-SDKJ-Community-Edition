@@ -152,7 +152,7 @@ public class OrderedItemList<T> implements Collection<T> {
             throw new IndexOutOfBoundsException(String.format("index is %1$s, valid range is 0 to %2$s", index, this.sortedItems.size() - 1));
         }
 
-        return (T) this.sortedItems.values().toArray()[index];
+        return this.clazz.cast(this.sortedItems.values().toArray()[index]);
     }
 
     /**
@@ -180,7 +180,7 @@ public class OrderedItemList<T> implements Collection<T> {
         }
 
         long sortKey = 0;
-        T oldValue = (T) (this.sortedItems.values().toArray()[index]);
+        T oldValue = this.clazz.cast(this.sortedItems.values().toArray()[index]);
 
         for (Map.Entry<Long, T> item : this.sortedItems.entrySet()) {
             if (item.getValue().equals(oldValue)) {
@@ -415,7 +415,7 @@ public class OrderedItemList<T> implements Collection<T> {
      */
     @Override
     public boolean addAll(@NotNull Collection<? extends T> c) {
-        throw new UnsupportedOperationException("addAll(Collection<? extends T> c) method is not supported.");
+        return addRange((Iterable<T>) c);
     }
 
     /*
@@ -507,42 +507,40 @@ public class OrderedItemList<T> implements Collection<T> {
      * @param value String value to convert
      */
     private T getConvertedValue(String value) {
-        // Primitives
-        if (this.clazz.isPrimitive()) {
-            switch (this.clazz.getName()) {
-                case "java.lang.Boolean": {
-                    return (T) (Boolean) Boolean.parseBoolean(value);
-                }
-                case "java.lang.Byte": {
-                    return (T) (Byte) Byte.parseByte(value);
-                }
-                case "java.lang.Short": {
-                    return (T) (Short) Short.parseShort(value);
-                }
-                case "java.lang.Integer": {
-                    return (T) (Integer) Integer.parseInt(value);
-                }
-                case "java.lang.Long": {
-                    return (T) (Long) Long.parseLong(value);
-                }
-                case "java.lang.Float": {
-                    return (T) (Float) Float.parseFloat(value);
-                }
-                case "java.lang.Double": {
-                    return (T) (Double) Double.parseDouble(value);
-                }
+        // Boxed primitives
+        switch (this.clazz.getName()) {
+            case "java.lang.Boolean": {
+                return this.clazz.cast(Boolean.parseBoolean(value));
+            }
+            case "java.lang.Byte": {
+                return this.clazz.cast(Byte.parseByte(value));
+            }
+            case "java.lang.Short": {
+                return this.clazz.cast(Short.parseShort(value));
+            }
+            case "java.lang.Integer": {
+                return this.clazz.cast(Integer.parseInt(value));
+            }
+            case "java.lang.Long": {
+                return this.clazz.cast(Long.parseLong(value));
+            }
+            case "java.lang.Float": {
+                return this.clazz.cast(Float.parseFloat(value));
+            }
+            case "java.lang.Double": {
+                return this.clazz.cast(Double.parseDouble(value));
             }
         }
 
         if (this.clazz == UUID.class) {
-            return (T) UUID.fromString(value);
+            return this.clazz.cast(UUID.fromString(value));
         }
 
         if (this.clazz == String.class) {
-            return (T) value;
+            return this.clazz.cast(value);
         }
 
         // Default attempt to cast
-        return (T) value;
+        return this.clazz.cast(value);
     }
 }

@@ -53,7 +53,7 @@ public class ValueArrayParser {
         List<String> matches = new ArrayList<>();
 
         while (matcher.find()) {
-            matches.add(matcher.group());
+            matches.add(matcher.group(1));
         }
 
         if (matches.size() != 1) {
