@@ -212,4 +212,22 @@ public class ParameterTypeComponent extends Thing implements Cloneable, ShortNam
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the 0-based index of the {@link ParameterTypeComponent} that it has in the Component {@link OrderedItemList{T}}
+     * @return -1 if the {@link ParameterTypeComponent} does not have a container set
+     */
+    public int getIndex()
+    {
+        CompoundParameterType compoundParameterType = this.getContainer() instanceof CompoundParameterType ? (CompoundParameterType)(this.getContainer()) : null;
+        if (compoundParameterType != null)
+        {
+            return compoundParameterType.getComponent().indexOf(this);
+        }
+
+        return -1;
+    }
 }

@@ -379,6 +379,6 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * is the root of the Nested tree.
      */
     @Getter
-    @Setter(AccessLevel.PACKAGE)
+    @Setter
     private Boolean isRootElement;
 }

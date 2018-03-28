@@ -21,6 +21,7 @@
         <commons.lang3.version>3.7</commons.lang3.version>
         <commons.math3.version>3.6.1</commons.math3.version>
         <guava.version>23.6-jre</guava.version>
+        <reflections.version>0.9.11</reflections.version>
     </properties>
 
     <modules>
@@ -137,6 +138,11 @@
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>${reflections.version}</version>
         </dependency>
     </dependencies>
     </dependencyManagement>
