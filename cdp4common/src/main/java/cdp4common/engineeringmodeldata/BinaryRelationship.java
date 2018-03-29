@@ -205,4 +205,50 @@ public class BinaryRelationship extends Relationship implements Cloneable {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the user-friendly name
+     */
+    @Override
+    public String getUserFriendlyName() {
+        return String.format("%s -> %s", this.getSource().getUserFriendlyName(), this.getTarget().getUserFriendlyName());
+    }
+
+    /**
+     * Gets the user-friendly short name
+     */
+    @Override
+    public String getUserFriendlyShortName() {
+        return String.format("%s.%s", this.getSource().getUserFriendlyShortName(), this.getTarget().getUserFriendlyShortName());
+    }
+
+    /**
+     * Gets the list of {@link BinaryRelationshipRule} applied to this {@link BinaryRelationship}
+     */
+    public List<BinaryRelationshipRule> getAppliedBinaryRelationshipRules() {
+        if (this.getCategory() == null) {
+            return new ArrayList<>();
+        }
+
+        EngineeringModel model = this.getContainerOfType(EngineeringModel.class);
+        if (model == null) {
+            throw new ContainmentException("The Engineering Model container is null.");
+        }
+
+        ReferenceDataLibrary mrdl = Iterables.getOnlyElement(model.getEngineeringModelSetup().getRequiredRdl());
+
+        List<BinaryRelationshipRule> appliedRules = mrdl.getRule().stream().filter(x -> x instanceof BinaryRelationshipRule).map(x -> (BinaryRelationshipRule)x).filter(c -> this.getCategory().contains(c.getRelationshipCategory())).collect(Collectors.toList());
+        appliedRules.addAll(mrdl.getRequiredRdls()
+                .stream()
+                .flatMap(rdl -> rdl.getRule().stream())
+                .filter(x -> x instanceof BinaryRelationshipRule)
+                .map(x -> (BinaryRelationshipRule) x)
+                .filter(c -> this.getCategory().contains(c.getRelationshipCategory()))
+                .collect(Collectors.toList()));
+
+        return appliedRules;
+    }
 }

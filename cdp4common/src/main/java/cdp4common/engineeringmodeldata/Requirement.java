@@ -252,4 +252,34 @@ public class Requirement extends SimpleParameterizableThing implements Cloneable
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the shortname path of the current {@link Requirement} delimited
+     * by the {@code delimeter} character. The shortname path is computed along
+     * the virtual containment of the "container" groups
+     *
+     * @param delimeter The delimeter that is used to separate the parts of the path
+     * @return A string that concatenates the shortnames of all the {@link RequirementsContainer} of the
+     * current {@link RequirementsContainer}
+     */
+    public String getGroupPath(Character delimeter) {
+        if (this.getContainer() == null) {
+            throw new IllegalStateException("The GroupPath can only be computed when the container property is not null");
+        }
+
+        if (delimeter == null){
+            delimeter = '.';
+        }
+
+        if (this.getGroup() == null) {
+            RequirementsSpecification requirementsSpecification = (RequirementsSpecification)this.getContainer();
+            return String.format("%s%s%s", requirementsSpecification.getShortName(), delimeter, this.getShortName());
+        }
+
+        String groupPath = this.getGroup().getPath(delimeter);
+        return String.format("%s%s%s", groupPath, delimeter, this.getShortName());
+    }
 }

@@ -223,4 +223,15 @@ public class Option extends DefinedThing implements Cloneable, CategorizableThin
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /*
+     * Gets a value indicating whether this <see cref="Option"/> is the default in the current <see cref="Iteration"/>
+     */
+    public boolean isDefault() {
+        Iteration iteration = (Iteration)this.getContainer();
+        return iteration.getDefaultOption().equals(this);
+    }
 }

@@ -264,4 +264,121 @@ public class BinaryRelationshipRule extends Rule implements Cloneable {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Verify an {@link Iteration} with respect to the {@link BinaryRelationshipRule} 
+     *
+     * @param iteration The {@link Iteration} that is to be verified.
+     * @return an {@link List}, this may be empty of no {@link RuleViolation}s have been found.
+     */
+    public List<RuleViolation> verify(Iteration iteration) {
+        if (iteration == null) {
+            throw new NullPointerException("The iteration may not be null");
+        }
+
+        List<BinaryRelationship> binaryRelationShips = iteration.getRelationship().stream().filter(x -> x instanceof BinaryRelationship).map(x -> (BinaryRelationship)x).collect(Collectors.toList());
+        if (binaryRelationShips.size() == 0) {
+            return new ArrayList<>();
+        }
+
+        if (this.getRelationshipCategory() == null) {
+            return new ArrayList<>();
+        }
+
+        Collection<Category> applicableRelationshipCategories = this.getRelationshipCategory().getAllDerivedCategories();
+        applicableRelationshipCategories.add(this.getRelationshipCategory());
+
+        List<RuleViolation> violations = new ArrayList<>();
+
+        for(BinaryRelationship binaryRelationship : binaryRelationShips) {
+            Iterable<Category> allCategories = CategorizableThingExtensions.getAllCategories(binaryRelationship);
+
+            boolean relationshipIsCategorizedWithRuleRelationshipCategory = false;
+            for (Category category : allCategories) {
+                if (applicableRelationshipCategories.contains(category)) {
+                    relationshipIsCategorizedWithRuleRelationshipCategory = true;
+                }
+            }
+
+            if (!relationshipIsCategorizedWithRuleRelationshipCategory) {
+                continue;
+            }
+
+            RuleViolation sourceViolation = this.verifySource(binaryRelationship);
+            if (sourceViolation != null) {
+                violations.add(sourceViolation);
+            }
+
+            RuleViolation targetViolation = this.verifyTarget(binaryRelationship);
+            if (targetViolation != null) {
+                violations.add(targetViolation);
+            }
+        }
+
+        return violations;
+    }
+
+    /**
+     * Verifies that the source of the {@link BinaryRelationship} violates the {@link BinaryRelationshipRule}
+     *
+     * @param binaryRelationship The {@link BinaryRelationship} to verify
+     * @return An instance of {@link RuleViolation} if the {@link BinaryRelationshipRule} has been violated, null otherwise
+     */
+    private RuleViolation verifySource(BinaryRelationship binaryRelationship)
+    {
+        CategorizableThing sourceCategorizableThing = binaryRelationship.getSource() instanceof CategorizableThing ? (CategorizableThing)binaryRelationship.getSource() : null;
+        if (sourceCategorizableThing == null) {
+            RuleViolation violation = new RuleViolation(UUID.randomUUID(), this.getCache(), this.getIDalUri());
+            violation.getViolatingThing().add(binaryRelationship.getIid());
+            violation.getViolatingThing().add(binaryRelationship.getSource().getIid());
+            violation.setDescription(String.format("The Source [%s:%s] of the BinaryRelationShip is not a CategorizableThing", binaryRelationship.getSource().getClassKind(), binaryRelationship.getSource().getIid()));
+
+            return violation;
+        }
+
+        boolean isMemberOfCategory = CategorizableThingExtensions.isMemberOfCategory(sourceCategorizableThing, this.getSourceCategory());
+        if (!isMemberOfCategory) {
+            RuleViolation violation = new RuleViolation(UUID.randomUUID(), this.getCache(), this.getIDalUri());
+            violation.getViolatingThing().add(binaryRelationship.getIid());
+            violation.getViolatingThing().add(binaryRelationship.getSource().getIid());
+            violation.setDescription(String.format("The Source [%s:%s] of the BinaryRelationShip %s is not a member of Category %s with shortname %s or any of it's super categories", binaryRelationship.getSource().getClassKind(), binaryRelationship.getSource().getIid(), binaryRelationship.getIid(), this.getSourceCategory().getIid(), this.getSourceCategory().getShortName()));
+
+            return violation;
+        }
+
+        return null;
+    }
+
+    /**
+     * Verifies that the target of the {@link BinaryRelationship} violates the {@link BinaryRelationshipRule}
+     *
+     * @param binaryRelationship The {@link BinaryRelationship} to verify
+     * @return An instance of {@link RuleViolation} if the {@link BinaryRelationshipRule} has been violated, null otherwise
+     */
+    private RuleViolation verifyTarget(BinaryRelationship binaryRelationship) {
+        CategorizableThing targetCategorizableThing = binaryRelationship.getTarget() instanceof CategorizableThing ? (CategorizableThing)binaryRelationship.getTarget() : null;
+        if (targetCategorizableThing == null) {
+            RuleViolation violation = new RuleViolation(UUID.randomUUID(), this.getCache(), this.getIDalUri());
+            violation.getViolatingThing().add(binaryRelationship.getIid());
+            violation.getViolatingThing().add(binaryRelationship.getTarget().getIid());
+            violation.setDescription(String.format("The Target [%s:%s] of the BinaryRelationShip is not a CategorizableThing", binaryRelationship.getTarget().getClassKind(), binaryRelationship.getTarget().getIid()));
+
+            return violation;
+        }
+
+        boolean isMemberOfCategory = CategorizableThingExtensions.isMemberOfCategory(targetCategorizableThing, this.getTargetCategory());
+        if (!isMemberOfCategory) {
+            RuleViolation violation = new RuleViolation(UUID.randomUUID(), this.getCache(), this.getIDalUri());
+            violation.getViolatingThing().add(binaryRelationship.getIid());
+            violation.getViolatingThing().add(binaryRelationship.getTarget().getIid());
+            violation.setDescription(String.format("The Target [%s:%s] of the BinaryRelationShip %s is not a member of Category %s with shortname %s or any of it's super categories", binaryRelationship.getTarget().getClassKind(), binaryRelationship.getTarget().getIid(), binaryRelationship.getIid(), this.getTargetCategory().getIid(), this.getTargetCategory().getShortName()));
+
+            return violation;
+        }
+
+        return null;
+    }
 }

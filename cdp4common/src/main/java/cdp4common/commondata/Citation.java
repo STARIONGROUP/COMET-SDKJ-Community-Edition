@@ -232,4 +232,18 @@ public class Citation extends Thing implements Cloneable, ShortNamedThing {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets an {@link Collection} that contains
+     * the required {@link ReferenceDataLibrary} for the current {@link Thing}
+     */
+    @Override
+    public Collection<ReferenceDataLibrary> getRequiredRdls() {
+        Set<ReferenceDataLibrary> requiredRdls = new HashSet<>(super.getRequiredRdls());
+        requiredRdls.addAll(this.getSource().getRequiredRdls());
+        return requiredRdls;
+    }
 }

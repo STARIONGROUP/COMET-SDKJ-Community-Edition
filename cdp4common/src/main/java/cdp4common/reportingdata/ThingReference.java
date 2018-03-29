@@ -113,4 +113,17 @@ public abstract class ThingReference extends Thing implements Cloneable {
 
         return errorList;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Initializes a new instance of the {@link ModellingThingReference} class.
+     * This is used in the context of a "Create" operation when a new {@link ThingReference}
+     * @param thing The {@link Thing} that this instance references.
+     */
+    public ThingReference(Thing thing) {
+        this.setReferencedThing(thing);
+        this.setReferencedRevisionNumber(thing.getRevisionNumber());
+    }
 }

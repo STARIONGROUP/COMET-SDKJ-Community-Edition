@@ -232,4 +232,16 @@ public class Glossary extends DefinedThing implements Cloneable, CategorizableTh
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets an {@link Collection} that contains
+     * the required {@link ReferenceDataLibrary} for the current {@link Thing}
+     */
+    @Override
+    public Collection<ReferenceDataLibrary> getRequiredRdls() {
+        return RequiredReferenceDataLibraryAbacus.computeRequiredRdls(this);
+    }
 }

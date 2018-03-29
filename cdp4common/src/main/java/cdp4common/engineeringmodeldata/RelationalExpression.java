@@ -220,4 +220,20 @@ public class RelationalExpression extends BooleanExpression implements Cloneable
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the representation of the {@link RelationalExpression} as a string
+     */
+    @Override
+    public String getStringValue() {
+        return String.format(
+                "%s %s %s %s",
+                this.getParameterType().getShortName(),
+                this.getRelationalOperator(),
+                String.join(", ", this.getValue()),
+                (this.getScale() != null) ? this.getScale().getShortName() : "");
+    }
 }

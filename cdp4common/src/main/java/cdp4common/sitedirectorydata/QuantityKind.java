@@ -269,7 +269,7 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * @return The {@link #quantityDimensionExponent} value
      */
     private OrderedItemList<String> getDerivedQuantityDimensionExponent() {
-        throw new UnsupportedOperationException("The QuantityDimensionExponent computation is not supported ny the CDP");
+        throw new UnsupportedOperationException("The QuantityDimensionExponent computation is not supported by the CDP");
     }
 
     /**
@@ -278,6 +278,38 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * @return The {@link #quantityDimensionExpression} value
      */
     private String getDerivedQuantityDimensionExpression() {
-        throw new UnsupportedOperationException("The QuantityDimensionExpression computation is not supported ny the CDP");
+        throw new UnsupportedOperationException("The QuantityDimensionExpression computation is not supported by the CDP");
+    }
+
+    /**
+     * Indicates whether some other object is "equal to" this one.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof QuantityKind)) return false;
+        if (!super.equals(o)) return false;
+        QuantityKind that = (QuantityKind) o;
+        return getDefaultPersonAccess() == that.getDefaultPersonAccess() &&
+                getDefaultParticipantAccess() == that.getDefaultParticipantAccess() &&
+                Objects.equals(getAllPossibleScale(), that.getAllPossibleScale()) &&
+                Objects.equals(getDefaultScale(), that.getDefaultScale()) &&
+                Objects.equals(getPossibleScale(), that.getPossibleScale()) &&
+                Objects.equals(getQuantityDimensionSymbol(), that.getQuantityDimensionSymbol());
+    }
+
+    /**
+     * Returns a hash code value for the object. This method is
+     * supported for the benefit of hash tables
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(),
+                getDefaultPersonAccess(),
+                getDefaultParticipantAccess(),
+                getAllPossibleScale(),
+                getDefaultScale(),
+                getPossibleScale(),
+                getQuantityDimensionSymbol());
     }
 }

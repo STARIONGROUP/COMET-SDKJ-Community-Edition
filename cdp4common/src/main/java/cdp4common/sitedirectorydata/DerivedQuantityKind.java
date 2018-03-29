@@ -229,4 +229,22 @@ public class DerivedQuantityKind extends QuantityKind implements Cloneable {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+    
+    /**
+     * Validate this {@link DerivedQuantityKind} with custom rules
+     *
+     * @return A list of error messages
+     */
+    @Override
+    protected  List<String> validatePojoProperties() {
+        List<String> errorList = new ArrayList<>(super.validatePojoProperties());
+        if (this.getPossibleScale().size() == 0) {
+            errorList.add("The PossibleScale property is empty.");
+        }
+
+        return errorList;
+    }
 }

@@ -427,4 +427,28 @@ public class SiteDirectory extends TopContainer implements Cloneable, NamedThing
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the available {@link ReferenceDataLibrary} that are contained by the current {@link SiteDirectory} either
+     * directly as {@link SiteReferenceDataLibrary} or as {@link ModelReferenceDataLibrary} through the
+     * {@link EngineeringModelSetup} the {@link SiteDirectory} contains.
+     *
+     * @return an {@link List}
+     */
+    public List<ReferenceDataLibrary> getAvailableReferenceDataLibraries() {
+        List<ReferenceDataLibrary> availableReferenceDataLibraries = new ArrayList<>();
+        availableReferenceDataLibraries.addAll(this.getSiteReferenceDataLibrary());
+
+        for (EngineeringModelSetup engineeringModelSetup : this.getModel()) {
+            ReferenceDataLibrary rdl = Iterables.getOnlyElement(engineeringModelSetup.getRequiredRdl(), null);
+            if (rdl != null) {
+                availableReferenceDataLibraries.add(rdl);
+            }
+        }
+
+        return availableReferenceDataLibraries;
+    }
 }

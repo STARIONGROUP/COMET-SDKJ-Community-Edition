@@ -250,7 +250,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
         String className = currentClass.getName();
 
         if (this instanceof TopContainer) {
-            if (className.equals("SiteDirectory") && this.getIid().equals(new UUID(0L, 0L))) {
+            if (className.equals("SiteDirectory") && (this.getIid() == null || this.getIid().equals(new UUID(0L, 0L)))) {
                 return "/SiteDirectory/*";
             }
 
@@ -581,7 +581,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      */
     protected List<String> validatePojoCardinality() {
         List<String> errorList = new ArrayList<>();
-        if (this.getIid().equals(new UUID(0L, 0L))) {
+        if (this.getIid() == null || this.getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The Id for this thing is null.");
         }
 
@@ -595,7 +595,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      */
     protected List<String> validatePojoProperties() {
         List<String> errorList = new ArrayList<>();
-        if (this.getIid().equals(new UUID(0L, 0L))) {
+        if (this.getIid() == null || this.getIid().equals(new UUID(0L, 0L))) {
             errorList.add("The Id for this thing is null.");
         }
 
@@ -609,7 +609,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      * @return True if the {@link Thing} is cached.
      */
     public boolean isCached() {
-        if (this.getCache() == null || this.getIid().equals(new UUID(0L, 0L))) {
+        if (this.getCache() == null || this.getIid() == null || this.getIid().equals(new UUID(0L, 0L))) {
             return false;
         }
 

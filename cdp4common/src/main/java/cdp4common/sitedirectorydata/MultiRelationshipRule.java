@@ -240,4 +240,81 @@ public class MultiRelationshipRule extends Rule implements Cloneable {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Verify an {@link Iteration} with respect to the {@link MultiRelationshipRule}
+     *
+     * @param iteration The {@link Iteration} that is to be verified.
+     * @return {@link List}, this may be empty of no {@link RuleViolation}s have been found.
+     */
+    public List<RuleViolation> verify(Iteration iteration) {
+        if (iteration == null) {
+            throw new NullPointerException("The iteration may not be null");
+        }
+
+        List<MultiRelationship> multiRelationships = iteration.getRelationship().stream().filter(x -> x instanceof MultiRelationship).map(x -> (MultiRelationship)x).collect(Collectors.toList());
+        if (multiRelationships.size() == 0) {
+            return new ArrayList<>();
+        }
+
+        if (this.getRelationshipCategory() == null) {
+            return new ArrayList<>();
+        }
+
+        Collection<Category> applicableRelationshipCategories = this.getRelationshipCategory().getAllDerivedCategories();
+        applicableRelationshipCategories.add(this.getRelationshipCategory());
+
+        List<RuleViolation> violations = new ArrayList<>();
+
+        for (MultiRelationship multiReplationship : multiRelationships) {
+            Iterable<Category> allCategories = CategorizableThingExtensions.getAllCategories(multiReplationship);
+
+            boolean relationshipIsCategorizedWithRuleRelationshipCategory = false;
+            for (Category category : allCategories) {
+                if (applicableRelationshipCategories.contains(category)) {
+                    relationshipIsCategorizedWithRuleRelationshipCategory = true;
+                    continue;
+                }
+            }
+
+            if (!relationshipIsCategorizedWithRuleRelationshipCategory) {
+                continue;
+            }
+
+            for (Thing relatedThing : multiReplationship.getRelatedThing()) {
+                CategorizableThing relatedCategorizableThing = relatedThing instanceof CategorizableThing ? (CategorizableThing)relatedThing : null;
+                if (relatedCategorizableThing == null) {
+                    RuleViolation violation = new RuleViolation(UUID.randomUUID(), this.getCache(), this.getIDalUri());
+                    violation.getViolatingThing().add(multiReplationship.getIid());
+                    violation.getViolatingThing().add(relatedThing.getIid());
+                    violation.setDescription(String.format("The related Thing [%s:%s] of the MultiRelationship %s is not a CategorizableThing", relatedThing.getClassKind(), relatedThing.getIid(), multiReplationship.getIid()));
+
+                    violations.add(violation);
+                } else {
+                    boolean isMemberOfCategory = false;
+
+                    for (Category category : this.getRelatedCategory()) {
+                        if (CategorizableThingExtensions.isMemberOfCategory(relatedCategorizableThing, category)) {
+                            isMemberOfCategory = true;
+                            continue;
+                        }
+                    }
+
+                    if (!isMemberOfCategory) {
+                        RuleViolation violation = new RuleViolation(UUID.randomUUID(), this.getCache(), this.getIDalUri());
+                        violation.getViolatingThing().add(multiReplationship.getIid());
+                        violation.getViolatingThing().add(relatedThing.getIid());
+                        violation.setDescription(String.format("The related Thing [%s:%s] is not a member of any of the required categories", relatedThing.getClassKind(), relatedThing.getIid()));
+
+                        violations.add(violation);
+                    }
+                }
+            }
+        }
+
+        return violations;
+    }
 }

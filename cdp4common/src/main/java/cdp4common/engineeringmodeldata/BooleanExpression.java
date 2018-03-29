@@ -91,4 +91,12 @@ public abstract class BooleanExpression extends Thing implements Cloneable {
 
         return errorList;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the representation of the {@link BooleanExpression} as a string
+     */
+    public abstract String getStringValue();
 }

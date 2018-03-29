@@ -235,4 +235,17 @@ public class CompoundParameterType extends ParameterType implements Cloneable {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the number of values for this {@link CompoundParameterType}
+     * 
+     * @return The Number of Values of this {@link CompoundParameterType}
+     */
+    @Override
+    public int getDerivedNumberOfValues() {
+        return this.getComponent().stream().mapToInt(x -> x.getParameterType().getNumberOfValues()).sum();
+    }
 }

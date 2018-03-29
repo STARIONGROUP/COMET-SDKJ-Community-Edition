@@ -242,4 +242,96 @@ public class DecompositionRule extends Rule implements Cloneable {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Verify an {@link Iteration} with respect to the {@link DecompositionRule} 
+     *
+     * @param iteration The {@link Iteration} that is to be verified.
+     * @return an {@link List}, this may be empty of no {@link RuleViolation}s have been found.
+     */
+    public List<RuleViolation> verify(Iteration iteration) {
+        if (iteration == null) {
+            throw new NullPointerException("The iteration may not be null");
+        }
+
+        ContainerList<ElementDefinition> elementDefinitions = iteration.getElement();
+        if (elementDefinitions.size() == 0) {
+            return new ArrayList<>();
+        }
+
+        List<RuleViolation> violations = new ArrayList<>();
+
+        for (ElementDefinition elementDefinition : elementDefinitions) {
+            if (CategorizableThingExtensions.isMemberOfCategory(elementDefinition, this.getContainingCategory()) && elementDefinition.getContainedElement().size() != 0) {
+                List<ElementUsage> validUsages = new ArrayList<>();
+
+                violations.addAll(this.verifyValidUsages(elementDefinition, validUsages));
+
+                if (validUsages.size() < this.getMinContained()) {
+                    RuleViolation violation = new RuleViolation(UUID.randomUUID(), this.getCache(), this.getIDalUri());
+                    violation.getViolatingThing().add(elementDefinition.getIid());
+                    violation.setDescription(String.format("The Element Definition %s does not contain the minimum of %s Element Usages specified", elementDefinition.getIid(), this.getMinContained()));
+
+                    violations.add(violation);
+                }
+
+                if (this.getMaxContained() != null && validUsages.size() > this.getMaxContained())
+                {
+                    RuleViolation violation = new RuleViolation(UUID.randomUUID(), this.getCache(), this.getIDalUri());
+                    violation.getViolatingThing().add(elementDefinition.getIid());
+                    violation.setDescription(String.format("The Element Definition %s contains more Element Usages than the maximum of %s specified", elementDefinition.getIid(), this.getMaxContained()));
+
+                    violations.add(violation);
+                }
+            }
+        }
+
+        return violations;
+    }
+
+    /**
+     * Verifies that the contained {@link ElementUsage}s of the  {@code elementDefinition} are a member of the allowed categories
+     *
+     * @param elementDefinition The {@link ElementDefinition} that is to be verified.
+     * @param validElementUsages The valid {@link ElementUsage} that are contained by the {@code elementDefinition}.
+     * @return An {@link List} that may contains {@link RuleViolation} if any of the contained {@link ElementUsage}s
+     * is not of the correct type.
+     */
+    private List<RuleViolation> verifyValidUsages(ElementDefinition elementDefinition, List<ElementUsage> validElementUsages) {
+        List<RuleViolation> violations = new ArrayList<>();
+
+        for (ElementUsage elementUsage : elementDefinition.getContainedElement()) {
+            boolean isValidUsage = false;
+
+            for (Category category : this.getContainedCategory()) {
+                boolean isElementUsageAMember = CategorizableThingExtensions.isMemberOfCategory(elementUsage, category);
+                if (isElementUsageAMember) {
+                    isValidUsage = true;
+                    continue;
+                }
+
+                boolean isElementDefinitionAMember = CategorizableThingExtensions.isMemberOfCategory(elementUsage.getElementDefinition(), category);
+                if (isElementDefinitionAMember) {
+                    isValidUsage = true;
+                    continue;
+                }
+            }
+
+            if (!isValidUsage) {
+                RuleViolation violation = new RuleViolation(UUID.randomUUID(), this.getCache(), this.getIDalUri());
+                violation.getViolatingThing().add(elementDefinition.getIid());
+                violation.getViolatingThing().add(elementUsage.getIid());
+                violation.setDescription(String.format("The Element Definition %s contains an Element Usage %s of an incorrect type", elementDefinition.getIid(), elementUsage.getIid()));
+
+                violations.add(violation);
+            } else {
+                validElementUsages.add(elementUsage);
+            }
+        }
+
+        return violations;
+    }
 }

@@ -204,4 +204,54 @@ public class DomainOfExpertise extends DefinedThing implements Cloneable, Catego
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets or sets a value indicating whether this {@link DomainOfExpertise} can be published based on the
+     * provided {@link Iteration}.
+     *
+     * @param iteration The iteration to perform the check on.
+     * @return True if this {@link DomainOfExpertise} has {@link ParameterOrOverrideBase}s that can be published.
+     */
+    public boolean canBePublished(Iteration iteration) {
+        return this.getOwnedParameters(iteration).stream().anyMatch(ParameterOrOverrideBase::canBePublished);
+    }
+
+    /**
+     * Gets the list of {@link ParameterOrOverrideBase} owned by this {@link DomainOfExpertise} based on {@link Iteration}.
+     *
+     * @param iteration The {@link Iteration} to perform the check on.
+     * @return All {@link Parameter}s and {@link ParameterOverride}s that this {@link DomainOfExpertise} owns.
+     */
+    public List<ParameterOrOverrideBase> getOwnedParameters(Iteration iteration) {
+        List<Parameter> parameters = iteration.getElement().stream().flatMap(element -> element.getParameter().stream()).filter(parameter -> parameter.getOwner().equals(this)).collect(Collectors.toList());
+        List<ParameterOverride> parameterOverrides = iteration.getElement().stream().flatMap(ele -> ele.getContainedElement().stream()).flatMap(usage -> usage.getParameterOverride().stream()).filter(parameterOverride -> parameterOverride.getOwner().equals(this)).collect(Collectors.toList());
+
+        List<ParameterOrOverrideBase> ownedParameters = new ArrayList<>();
+        ownedParameters.addAll(parameters);
+        ownedParameters.addAll(parameterOverrides);
+        return ownedParameters;
+    }
+
+    /**
+     * Gets the list of {@link ParameterOrOverrideBase} owned by this {@link DomainOfExpertise} based on {@link Iteration} that can be published.
+     *
+     * @param iteration The {@link Iteration} to perform the check on.
+     * @return All {@link Parameter}s and {@link ParameterOverride}s that this {@link DomainOfExpertise} owns that can be published.
+     */
+    public List<ParameterOrOverrideBase> getOwnedParametersThatCanBePublished(Iteration iteration) {
+        return this.getOwnedParameters(iteration).stream().filter(ParameterOrOverrideBase::canBePublished).collect(Collectors.toList());
+    }
+
+    /**
+     * Gets the list of {@link ParameterOrOverrideBase} owned by this {@link DomainOfExpertise} based on {@link Iteration} to be published.
+     *
+     * @param iteration The {@link Iteration} to perform the check on.
+     * @return All {@link Parameter}s and {@link ParameterOverride}s that this {@link DomainOfExpertise} owns that can be published.
+     */
+    public List<ParameterOrOverrideBase> getOwnedParametersToBePublished(Iteration iteration) {
+        return this.getOwnedParameters(iteration).stream().filter(p -> p.canBePublished() && p.getToBePublished()).collect(Collectors.toList());
+    }
 }

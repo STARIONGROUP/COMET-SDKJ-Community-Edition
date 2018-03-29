@@ -171,4 +171,23 @@ public abstract class DefinedThing extends Thing implements Cloneable, NamedThin
 
         return errorList;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the {@link #name}
+     */
+    @Override
+    public String getUserFriendlyName() {
+        return this.getName();
+    }
+
+    /**
+     * Gets the {@link #shortName}
+     */
+    @Override
+    public String getUserFriendlyShortName() {
+        return this.getShortName();
+    }
 }

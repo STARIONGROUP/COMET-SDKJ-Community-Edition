@@ -166,7 +166,7 @@ public abstract class ParameterType extends DefinedThing implements Cloneable, C
      *
      * @return The {@link #numberOfValues} value
      */
-    private int getDerivedNumberOfValues() {
+    public int getDerivedNumberOfValues() {
         return 1;
     }
 

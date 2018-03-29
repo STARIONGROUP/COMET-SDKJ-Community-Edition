@@ -215,4 +215,205 @@ public class ParameterizedCategoryRule extends Rule implements Cloneable {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Verify an {@link Iteration} with respect to the {@link ParameterizedCategoryRule} 
+     *
+     * @param iteration The {@link Iteration} that is to be verified.
+     * @return an {@link List}, this may be empty of no {@link RuleViolation}s have been found.
+     */
+    public List<RuleViolation> verify(Iteration iteration) {
+        if (iteration == null) {
+            throw new NullPointerException("The iteration may not be null");
+        }
+
+        if (this.getCategory() == null) {
+            throw new IllegalArgumentException("The Category of the Rule is null. The Rule cannot be verified.");
+        }
+
+        if (iteration.getElement().size() == 0) {
+            return new ArrayList<>();
+        }
+
+        if (this.getParameterType().size() == 0) {
+            return new ArrayList<>();
+        }
+
+        List<RuleViolation> violations = new ArrayList<>();
+
+        this.verifyRelationship(iteration, violations);
+        this.verifySpecification(iteration, violations);
+        this.verifyElementDefinition(iteration, violations);
+
+        return violations;
+    }
+
+    /**
+     * Verify the {@link ElementDefinition} against this {@link ParameterizedCategoryRule}
+     *
+     * @param iteration The {@link Iteration} to check
+     * @param violations The collection of {@link RuleViolation} to update
+     */
+    private void verifyElementDefinition(Iteration iteration, List<RuleViolation> violations) {
+        for (ElementDefinition elementDefinition : iteration.getElement()) {
+            if (CategorizableThingExtensions.isMemberOfCategory(elementDefinition, this.getCategory())) {
+                List<ParameterType> missingParameterTypes = new ArrayList<>();
+                for (ParameterType parameterType : this.getParameterType()) {
+                    Parameter parameter = Iterables.getOnlyElement(elementDefinition.getParameter().stream().filter(p -> p.getParameterType().equals(parameterType)).collect(Collectors.toList()), null);
+                    if (parameter == null) {
+                        missingParameterTypes.add(parameterType);
+                    }
+                }
+
+                if (missingParameterTypes.size() > 0) {
+                    String iids = String.join(",", missingParameterTypes.stream().map(x -> x.getIid().toString()).collect(Collectors.toList()));
+                    String shortnames = String.join(",", missingParameterTypes.stream().map(DefinedThing::getShortName).collect(Collectors.toList()));
+
+                    RuleViolation violation = new RuleViolation(UUID.randomUUID(), this.getCache(), this.getIDalUri());
+                    violation.getRuleViolatedClassKind().add(elementDefinition.getClassKind());
+                    violation.getViolatingThing().add(elementDefinition.getIid());
+                    violation.setDescription(String.format("The Element Definition %s does not contain parameters that reference the following parameter types %s with shortnames: %s", elementDefinition.getName(), iids, shortnames));
+
+                    violations.add(violation);
+                }
+            }
+        }
+    }
+
+    /**
+     * Verify the {@link Relationship} against this {@link ParameterizedCategoryRule}
+     *
+     * @param iteration The {@link Iteration} to check
+     * @param violations The collection of {@link RuleViolation} to update
+     */
+    private void verifyRelationship(Iteration iteration, List<RuleViolation> violations) {
+        for (Relationship relationship : iteration.getRelationship()) {
+            if (CategorizableThingExtensions.isMemberOfCategory(relationship, this.getCategory())) {
+                List<ParameterType> missingParameterTypes = new ArrayList<>();
+                for (ParameterType parameterType : this.getParameterType()) {
+                    RelationshipParameterValue parameter = Iterables.getOnlyElement(relationship.getParameterValue().stream().filter(p -> p.getParameterType().equals(parameterType)).collect(Collectors.toList()), null);
+                    if (parameter == null) {
+                        missingParameterTypes.add(parameterType);
+                    }
+                }
+
+                if (missingParameterTypes.size() > 0) {
+                    String iids = String.join(",", missingParameterTypes.stream().map(x -> x.getIid().toString()).collect(Collectors.toList()));
+                    String shortnames = String.join(",", missingParameterTypes.stream().map(DefinedThing::getShortName).collect(Collectors.toList()));
+
+                    RuleViolation violation = new RuleViolation(UUID.randomUUID(), this.getCache(), this.getIDalUri());
+                    violation.getRuleViolatedClassKind().add(relationship.getClassKind());
+                    violation.getViolatingThing().add(relationship.getIid());
+                    violation.setDescription(String.format("The Relationship %s does not contain parameters that reference the following parameter types %s with shortnames: %s", relationship.getIid(), iids, shortnames));
+
+                    violations.add(violation);
+                }
+            }
+        }
+    }
+
+    /**
+     * Verify the {@link Relationship} against this {@link ParameterizedCategoryRule}
+     *
+     * @param iteration The {@link Iteration} to check
+     * @param violations The collection of {@link RuleViolation} to update
+     */
+    private void verifySpecification(Iteration iteration, List<RuleViolation> violations) {
+        for (RequirementsSpecification specification : iteration.getRequirementsSpecification()) {
+            if (CategorizableThingExtensions.isMemberOfCategory(specification, this.getCategory())) {
+                List<ParameterType> missingParameterTypes = new ArrayList<>();
+                for (ParameterType parameterType : this.getParameterType()) {
+                    RequirementsContainerParameterValue parameter = Iterables.getOnlyElement(specification.getParameterValue().stream().filter(p -> p.getParameterType().equals(parameterType)).collect(Collectors.toList()), null);
+                    if (parameter == null) {
+                        missingParameterTypes.add(parameterType);
+                    }
+                }
+
+                if (missingParameterTypes.size() > 0) {
+                    String iids = String.join(",", missingParameterTypes.stream().map(x -> x.getIid().toString()).collect(Collectors.toList()));
+                    String shortnames = String.join(",", missingParameterTypes.stream().map(DefinedThing::getShortName).collect(Collectors.toList()));
+
+                    RuleViolation violation = new RuleViolation(UUID.randomUUID(), this.getCache(), this.getIDalUri());
+                    violation.getRuleViolatedClassKind().add(specification.getClassKind());
+                    violation.getViolatingThing().add(specification.getIid());
+                    violation.setDescription(String.format("The RequirementsSpecification %s does not contain parameters that reference the following parameter types %s with shortnames: %s", specification.getName(), iids, shortnames));
+
+                    violations.add(violation);
+                }
+            }
+
+            this.verifyGroup(specification, violations);
+            this.verifyRequirement(specification, violations);
+        }
+    }
+
+    /**
+     * Verify the {@link RequirementsGroup} against this {@link ParameterizedCategoryRule}
+     *
+     * @param requirementsContainer The {@link RequirementsContainer} container to check
+     * @param violations The collection of {@link RuleViolation} to update
+     */
+    private void verifyGroup(RequirementsContainer requirementsContainer, List<RuleViolation> violations) {
+        for (RequirementsGroup group : requirementsContainer.getGroup()) {
+            if (CategorizableThingExtensions.isMemberOfCategory(group, this.getCategory())) {
+                List<ParameterType> missingParameterTypes = new ArrayList<>();
+                for (ParameterType parameterType : this.getParameterType()) {
+                    RequirementsContainerParameterValue parameter = Iterables.getOnlyElement(group.getParameterValue().stream().filter(p -> p.getParameterType().equals(parameterType)).collect(Collectors.toList()), null);
+                    if (parameter == null) {
+                        missingParameterTypes.add(parameterType);
+                    }
+                }
+
+                if (missingParameterTypes.size() > 0) {
+                    String iids = String.join(",", missingParameterTypes.stream().map(x -> x.getIid().toString()).collect(Collectors.toList()));
+                    String shortnames = String.join(",", missingParameterTypes.stream().map(DefinedThing::getShortName).collect(Collectors.toList()));
+
+                    RuleViolation violation = new RuleViolation(UUID.randomUUID(), this.getCache(), this.getIDalUri());
+                    violation.getRuleViolatedClassKind().add(group.getClassKind());
+                    violation.getViolatingThing().add(group.getIid());
+                    violation.setDescription(String.format("The RequirementsGroup %s does not contain parameters that reference the following parameter types %s with shortnames: %s", group.getName(), iids, shortnames));
+
+                    violations.add(violation);
+                }
+            }
+
+            this.verifyGroup(group, violations);
+        }
+    }
+
+    /**
+     * Verify the {@link RequirementsGroup} against this {@link ParameterizedCategoryRule}
+     *
+     * @param specification The {@link RequirementsSpecification} container to check
+     * @param violations The collection of {@link RuleViolation} to update
+     */
+    private void verifyRequirement(RequirementsSpecification specification, List<RuleViolation> violations) {
+        for (Requirement requirement : specification.getRequirement()) {
+            if (CategorizableThingExtensions.isMemberOfCategory(requirement, this.getCategory())) {
+                List<ParameterType> missingParameterTypes = new ArrayList<>();
+                for (ParameterType parameterType : this.getParameterType()) {
+                    SimpleParameterValue parameter = Iterables.getOnlyElement(requirement.getParameterValue().stream().filter(p -> p.getParameterType().equals(parameterType)).collect(Collectors.toList()), null);
+                    if (parameter == null) {
+                        missingParameterTypes.add(parameterType);
+                    }
+                }
+
+                if (missingParameterTypes.size() > 0)
+                {
+                    String iids = String.join(",", missingParameterTypes.stream().map(x -> x.getIid().toString()).collect(Collectors.toList()));
+                    String shortnames = String.join(",", missingParameterTypes.stream().map(DefinedThing::getShortName).collect(Collectors.toList()));
+
+                    RuleViolation violation = new RuleViolation(UUID.randomUUID(), this.getCache(), this.getIDalUri());
+                    violation.getRuleViolatedClassKind().add(requirement.getClassKind());
+                    violation.getViolatingThing().add(requirement.getIid());
+                    violation.setDescription(String.format("The Requirement %s does not contain parameters that reference the following parameter types %s with shortnames: %s", requirement.getName(), iids, shortnames));
+
+                    violations.add(violation);
+                }
+            }
+        }
+    }
 }

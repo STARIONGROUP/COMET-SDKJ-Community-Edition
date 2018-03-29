@@ -157,4 +157,47 @@ public abstract class RequirementsContainer extends DefinedThing implements Clon
 
         return errorList;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Returns all the {@link RequirementsGroup} that are contained
+     * by the current {@link RequirementsContainer}
+     * @return A {@link List}
+     */
+    public List<RequirementsGroup> getAllContainedGroups() {
+        List<RequirementsGroup> foundContainedGroups = new ArrayList<>();
+
+        for (RequirementsGroup group : this.getGroup()) {
+            List<RequirementsGroup> containedGroups = group.getAllContainedGroups();
+            foundContainedGroups.addAll(containedGroups);
+
+            foundContainedGroups.add(group);
+        }
+
+        return foundContainedGroups;
+    }
+
+    /**
+     * Gets the shortname path of the current {@link RequirementsGroup} delimited
+     * by the {@code delimeter} character
+     *
+     * @param delimeter The delimeter that is used to separate the parts of the path
+     * @return A string that concatenates the shortnames of all the {@link RequirementsContainer} of the
+     * current {@link RequirementsContainer}
+     */
+    public String getPath(Character delimeter) {
+        RequirementsContainer container = this.getContainer() instanceof RequirementsContainer ? (RequirementsContainer)this.getContainer() : null;
+
+        if (delimeter == null){
+            delimeter = '.';
+        }
+
+        if (container != null) {
+            return String.format("%s%s%s", container.getPath(delimeter), delimeter, this.getShortName());
+        }
+
+        return this.getShortName();
+    }
 }

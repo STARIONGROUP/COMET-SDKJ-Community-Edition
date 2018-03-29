@@ -303,4 +303,38 @@ public class EngineeringModel extends TopContainer implements Cloneable {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the active {@link Participant}
+     *
+     * @param person The {@link Person} who is logged
+     * @return The active {@link Participant}
+     * @throws NoSuchElementException if a unique Participant is not found
+     * @throws NullPointerException if supplied {@code person} is {@code null}
+     */
+    public Participant getActiveParticipant(Person person) {
+        if (person == null) {
+            throw new NullPointerException("person");
+        }
+
+        return Iterables.getOnlyElement(this.getEngineeringModelSetup().getParticipant().stream().filter(x -> x.getPerson().equals(person)).collect(Collectors.toList()));
+    }
+
+    /**
+     * Gets the required {@link ReferenceDataLibrary}
+     */
+    @Override
+    public List<ReferenceDataLibrary> getRequiredRdls() {
+        List<ReferenceDataLibrary> rdls = new ArrayList<>();
+        ReferenceDataLibrary mrdl = this.getEngineeringModelSetup().getRequiredRdl().stream().findFirst().orElse(null);
+        if (mrdl != null) {
+            rdls.add(mrdl);
+            rdls.addAll(mrdl.getRequiredRdls());
+        }
+
+        return rdls;
+    }
 }

@@ -510,4 +510,21 @@ public class Iteration extends Thing implements Cloneable {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets an {@link Collection} that contains
+     * the required {@link ReferenceDataLibrary} for the current {@link Thing}
+     */
+    @Override
+    public Collection<ReferenceDataLibrary> getRequiredRdls() {
+        EngineeringModelSetup engineeringModelSetup = (EngineeringModelSetup)this.getIterationSetup().getContainer();
+        ReferenceDataLibrary requiredModelReferenceDataLibrary = Iterables.getOnlyElement(engineeringModelSetup.getRequiredRdl());
+        Set<ReferenceDataLibrary> requiredRdls = new HashSet<>(super.getRequiredRdls());
+        requiredRdls.add(requiredModelReferenceDataLibrary);
+        requiredRdls.addAll(requiredModelReferenceDataLibrary.getRequiredRdls());
+        return requiredRdls;
+    }
 }

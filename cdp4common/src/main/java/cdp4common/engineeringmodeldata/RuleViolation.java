@@ -190,4 +190,19 @@ public class RuleViolation extends Thing implements Cloneable {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * The collection of {@link ClassKind} that violates a Rule
+     */
+    public final HashSet<ClassKind> ruleViolatedClassKind = new HashSet<ClassKind>();
+
+    /**
+     * The collection of {@link ClassKind} that violates a Rule
+     */
+    public HashSet<ClassKind> getRuleViolatedClassKind(){
+        return this.ruleViolatedClassKind;
+    }
 }

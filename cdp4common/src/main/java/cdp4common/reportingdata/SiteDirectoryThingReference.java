@@ -166,4 +166,16 @@ public class SiteDirectoryThingReference extends ThingReference implements Clone
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Initializes a new instance of the {@link SiteDirectoryThingReference} class
+     * This is used in the context of a "Create" operation when a new {@link ThingReference}
+     * @param thing The {@link Thing} that this instance references
+     */
+    public SiteDirectoryThingReference(Thing thing) {
+         super(thing);
+    }
 }

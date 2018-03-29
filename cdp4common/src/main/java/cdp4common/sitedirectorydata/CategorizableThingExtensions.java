@@ -10,6 +10,7 @@ import cdp4common.engineeringmodeldata.ElementUsage;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,9 +53,9 @@ public class CategorizableThingExtensions {
      *
      * @param categorizableThing The {@link CategorizableThing} that is to be queried for all its categories
      *                           and its super categories.
-     * @return an {@link Iterable<Category>} that contains all the categories
+     * @return an {@link Collection<Category>} that contains all the categories
      */
-    public static Iterable<Category> getAllCategories(CategorizableThing categorizableThing) {
+    public static Collection<Category> getAllCategories(CategorizableThing categorizableThing) {
         List<Category> allCategories = new ArrayList<>();
 
         if (categorizableThing instanceof ElementUsage) {
@@ -69,6 +70,7 @@ public class CategorizableThingExtensions {
                 .flatMap(c -> c.getAllSuperCategories().stream())
                 .collect(Collectors.toList());
 
+        foundCategories.addAll(allCategories);
         return foundCategories;
     }
 

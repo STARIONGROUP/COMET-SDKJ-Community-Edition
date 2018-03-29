@@ -179,4 +179,15 @@ public class NotExpression extends BooleanExpression implements Cloneable {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the representation of the {@link NotExpression} as a string
+     */
+    @Override
+    public String getStringValue() {
+        return "NOT";
+    }
 }

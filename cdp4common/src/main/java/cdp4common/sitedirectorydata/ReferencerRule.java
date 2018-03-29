@@ -240,4 +240,17 @@ public class ReferencerRule extends Rule implements Cloneable {
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Verify an {@link Iteration} with respect to the {@link BinaryRelationshipRule}
+     *
+     * @param iteration The {@link Iteration} that is to be verified.
+     * @return an {@link List}, this may be empty of no {@link RuleViolation}s have been found.
+     */
+    public List<RuleViolation> verify(Iteration iteration) {
+        throw new UnsupportedOperationException("The Verify method of the ReferencerRule is currently not supported.");
+    }
 }

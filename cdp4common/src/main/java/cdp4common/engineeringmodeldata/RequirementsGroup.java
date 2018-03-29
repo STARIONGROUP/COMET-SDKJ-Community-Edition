@@ -190,4 +190,23 @@ public class RequirementsGroup extends RequirementsContainer implements Cloneabl
 
         return dto;
     }
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets an {@link List} with all the {@link RequirementsGroup} contained by
+     * this {@link RequirementsGroup} and its children {@link RequirementsGroup}s
+     *
+     * @return An {@link List} that is "contained" by the current {@link RequirementsGroup}
+     */
+    public List<RequirementsGroup> getContainedGroup() {
+        List<RequirementsGroup> groups = new ArrayList<>();
+        for (RequirementsGroup group : this.getGroup()) {
+            groups.add(group);
+            groups.addAll(group.getContainedGroup());
+        }
+
+        return groups;
+    }
 }
