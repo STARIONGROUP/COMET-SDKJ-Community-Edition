@@ -41,6 +41,7 @@ public class ContainerList<T extends Thing> extends ArrayList<T> {
      * @ param container The owner of this {@link ContainerList}.
      */
     public ContainerList(ContainerList<T> containerList, Thing container, boolean updateContaineeContainer) {
+        super(containerList);
         this.container = container;
 
         if (updateContaineeContainer) {

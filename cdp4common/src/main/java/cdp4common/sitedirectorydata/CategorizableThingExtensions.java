@@ -70,6 +70,7 @@ public class CategorizableThingExtensions {
                 .flatMap(c -> c.getAllSuperCategories().stream())
                 .collect(Collectors.toList());
 
+
         foundCategories.addAll(allCategories);
         return foundCategories;
     }

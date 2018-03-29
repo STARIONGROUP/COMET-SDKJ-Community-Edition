@@ -13,9 +13,12 @@ import cdp4common.helpers.Utils;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.Person;
 import cdp4common.sitedirectorydata.ReferenceDataLibrary;
-import lombok.*;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.lang.annotation.Annotation;
 import java.net.URI;
@@ -247,14 +250,14 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      */
     public String getRoute() {
         Class currentClass = this.getClass();
-        String className = currentClass.getName();
+        String className = currentClass.getSimpleName();
 
         if (this instanceof TopContainer) {
             if (className.equals("SiteDirectory") && (this.getIid() == null || this.getIid().equals(new UUID(0L, 0L)))) {
                 return "/SiteDirectory/*";
             }
 
-            return String.format("/%1$s/%2$s", className, this.getIid());
+            return String.format("/%1$s/%2$s", className, this.getIid() != null ? this.getIid() : new UUID(0L, 0L));
         }
 
         if (this instanceof NotThing) {
@@ -277,7 +280,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
 
         String containerRoute = container.getRoute();
 
-        return String.format("%1$s/%2$s/%3$s", containerRoute, containerPropertyName, this.getIid());
+        return String.format("%1$s/%2$s/%3$s", containerRoute, containerPropertyName, this.getIid() != null ? this.getIid() : new UUID(0L, 0L));
     }
 
     /**
@@ -546,7 +549,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
             return this.getContainer().getContainerOfType(clazz);
         }
 
-        return containerType.isInstance(this.getContainer()) ? (T)this.getContainer() : null;
+        return containerType.isInstance(this.getContainer()) ? (T) this.getContainer() : null;
     }
 
     /**
@@ -620,7 +623,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      * Populate the partialRoutes in the DTOs
      *
      * @param dto the DTO to populate.
-     *            @throws ContainmentException when the containment tree is broken due to the fact that the Container has not
+     * @throws ContainmentException when the containment tree is broken due to the fact that the Container has not
      *                              been set on one of the {@link Thing} classes in the containment tree.
      */
     protected void buildDtoPartialRoutes(cdp4common.dto.Thing dto) {
