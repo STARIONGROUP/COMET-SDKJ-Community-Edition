@@ -1,5 +1,4 @@
 # specify language
 language: java
 jdk:
-- 9
-script: ./mvnw clean verify
+- oraclejdk9
