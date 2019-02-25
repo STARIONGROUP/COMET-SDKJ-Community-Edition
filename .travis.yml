@@ -2,5 +2,4 @@
 language: java
 jdk:
 - 9
-sudo: false
-script: mvn clean verify
+script: ./mvnw clean verify
