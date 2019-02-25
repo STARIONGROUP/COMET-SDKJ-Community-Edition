@@ -3,6 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <!--<dependencies>-->
+        <!--<dependency>-->
+            <!--<groupId>com.rheagroup</groupId>-->
+            <!--<artifactId>cdp4-sdk4j</artifactId>-->
+            <!--<version>1.0</version>-->
+        <!--</dependency>-->
+    <!--</dependencies>-->
     <parent>
         <groupId>com.rheagroup</groupId>
         <artifactId>cdp4-sdk4j</artifactId>
@@ -12,6 +19,19 @@
     <packaging>jar</packaging>
 
     <name>CDP4Common</name>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.9</java.version>
+        <junit.version>4.12</junit.version>
+        <junit.jupiter.version>5.0.3</junit.jupiter.version>
+        <junit.vintage.version>${junit.version}.3</junit.vintage.version>
+        <junit.platform.version>1.0.3</junit.platform.version>
+        <lombok.version>1.16.20</lombok.version>
+        <commons.lang3.version>3.7</commons.lang3.version>
+        <commons.math3.version>3.6.1</commons.math3.version>
+        <guava.version>23.6-jre</guava.version>
+        <reflections.version>0.9.11</reflections.version>
+    </properties>
 
     <build>
         <pluginManagement>
@@ -50,6 +70,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
+                <version>${commons.lang3.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
             <dependency>
@@ -60,6 +81,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-math3</artifactId>
+                <version>${commons.math3.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.intellij/annotations -->
             <dependency>
