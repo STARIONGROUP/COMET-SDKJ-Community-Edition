@@ -29,7 +29,7 @@
     </modules>
 
     <build>
-        <pluginManagement>
+        <sourceDirectory>cdp4common/src/main/java</sourceDirectory>
             <plugins>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -87,7 +87,6 @@
                     </executions>
                 </plugin>
             </plugins>
-        </pluginManagement>
     </build>
 
     <dependencies>

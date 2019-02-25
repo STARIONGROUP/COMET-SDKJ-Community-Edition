@@ -34,7 +34,7 @@
     </properties>
 
     <build>
-        <pluginManagement>
+        <sourceDirectory>src/main/java</sourceDirectory>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -63,7 +63,6 @@
                     </executions>
                 </plugin>
             </plugins>
-        </pluginManagement>
     </build>
     <dependencyManagement>
         <dependencies>
