@@ -8,7 +8,7 @@
     <artifactId>cdp4-sdk4j</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
-    <name>CDP4 SDK Java implementation project</name>
+    <name>CDP4 SDK Java Implementation Project</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
