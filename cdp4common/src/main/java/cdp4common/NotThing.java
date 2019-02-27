@@ -20,7 +20,7 @@ public class NotThing extends Thing {
      * @param name The Name
      */
     public NotThing(String name) {
-        this.name = name;
+        this.setName(name);
         this.setContainer(null);
     }
 

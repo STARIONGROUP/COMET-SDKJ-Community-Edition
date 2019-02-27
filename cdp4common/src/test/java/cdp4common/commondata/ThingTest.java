@@ -304,6 +304,19 @@ class ThingTest {
     }
 
     @Test
+    void verifyThatNameOfNothingReturnsExpectedString() {
+        NotThing nothing = new NotThing("nothing");
+        assertEquals("nothing", nothing.getName());
+    }
+
+    @Test
+    void verifyThatUnsupportedOperationsOfNothingThrow() {
+        NotThing nothing = new NotThing("nothing");
+        assertThrows(UnsupportedOperationException.class, () -> nothing.resolveProperties(null));
+        assertThrows(UnsupportedOperationException.class, () -> nothing.toDto());
+    }
+
+    @Test
     void verifyThatTopContainerOfNotThingIsNull() {
         NotThing nothing = new NotThing("nothing");
         assertNull(nothing.getTopContainer());
