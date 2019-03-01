@@ -1,6 +1,8 @@
 # specify language
 language: java
 jdk:
+- openjdk8
+- oraclejdk8
 - openjdk11
 - oraclejdk11
 install:
