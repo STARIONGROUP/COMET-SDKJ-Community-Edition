@@ -1,7 +1,8 @@
 # specify language
 language: java
 jdk:
-- oraclejdk9
+- openjdk11
+- oraclejdk11
 install:
 - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script:
