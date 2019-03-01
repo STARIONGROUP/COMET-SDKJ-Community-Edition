@@ -4,163 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.rheagroup</groupId>
-    <artifactId>cdp4-sdk4j</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0</version>
-    <name>CDP4 SDK Java Implementation Project</name>
+    <parent>
+        <groupId>com.rheagroup</groupId>
+        <artifactId>cdp4-sdk4j-parent</artifactId>
+        <version>1.0</version>
+        <relativePath>./parent/pom.xml</relativePath>
+    </parent>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.9</java.version>
-        <junit.version>4.12</junit.version>
-        <junit.jupiter.version>5.0.3</junit.jupiter.version>
-        <junit.vintage.version>${junit.version}.3</junit.vintage.version>
-        <junit.platform.version>1.0.3</junit.platform.version>
-        <lombok.version>1.16.20</lombok.version>
-        <commons.lang3.version>3.7</commons.lang3.version>
-        <commons.math3.version>3.6.1</commons.math3.version>
-        <guava.version>23.6-jre</guava.version>
-        <reflections.version>0.9.11</reflections.version>
-    </properties>
+    <artifactId>cdp4-sdk4j</artifactId>
+    <name>CDP4 SDK Java Implementation Project</name>
+    <packaging>pom</packaging>
 
     <modules>
         <module>cdp4common</module>
+        <module>parent</module>
     </modules>
-
-    <build>
-        <sourceDirectory>cdp4common/src/main/java</sourceDirectory>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.7.0</version>
-                    <configuration>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.19.1</version>
-                    <configuration>
-                        <includes>
-                            <include>**/Test*.java</include>
-                            <include>**/*Test.java</include>
-                            <include>**/*Tests.java</include>
-                            <include>**/*TestCase.java</include>
-                        </includes>
-                        <properties>
-                            <!-- <includeTags>fast</includeTags> -->
-                            <excludeTags>slow</excludeTags>
-                        </properties>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.junit.platform</groupId>
-                            <artifactId>junit-platform-surefire-provider</artifactId>
-                            <version>${junit.platform.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.junit.jupiter</groupId>
-                            <artifactId>junit-jupiter-engine</artifactId>
-                            <version>${junit.jupiter.version}</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.2</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>report</id>
-                            <phase>test</phase>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-    </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>${junit.vintage.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- To avoid compiler warnings about @API cdp4common.annotations in JUnit code -->
-        <dependency>
-            <groupId>org.apiguardian</groupId>
-            <artifactId>apiguardian-api</artifactId>
-            <version>1.0.0</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons.lang3.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math3</artifactId>
-            <version>${commons.math3.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.intellij/annotations -->
-        <dependency>
-            <groupId>com.intellij</groupId>
-            <artifactId>annotations</artifactId>
-            <version>12.0</version>
-        </dependency>
-        <!-- Java 6 = JAX-B Version 2.0   -->
-        <!-- Java 7 = JAX-B Version 2.2.3 -->
-        <!-- Java 8 = JAX-B Version 2.2.8 -->
-        <!-- Java 9 requires side implementation -->
-        <!--See https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception-in-j/43574427#43574427-->
-        <!--and https://stackoverflow.com/questions/48204141/replacements-for-deprecated-jpms-modules-with-java-ee-apis/48204154#48204154-->
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>${reflections.version}</version>
-        </dependency>
-    </dependencies>
 </project>
