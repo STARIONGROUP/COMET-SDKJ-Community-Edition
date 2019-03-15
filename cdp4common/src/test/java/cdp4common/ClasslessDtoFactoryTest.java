@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,13 +23,25 @@ class ClasslessDtoFactoryTest {
         var siteDirectory = new SiteDirectory(UUID.randomUUID(), 2);
         siteDirectory.setDefaultParticipantRole(UUID.randomUUID());
 
-        var properties = Arrays.asList("defaultPersonRole", "iid");
+        var properties = Arrays.asList("defaultPersonRole", "iid", "CLASS_KIND", "defaultParticipantRole", "createdOn");
 
         var classlessDTO = ClasslessDtoFactory.fromThing(siteDirectory, properties);
 
-        assertEquals(3, classlessDTO.size());
+        assertEquals(5, classlessDTO.size());
         UUID uuid = (UUID) classlessDTO.get("defaultPersonRole");
         assertEquals(siteDirectory.getDefaultPersonRole(), uuid);
+        assertEquals(siteDirectory.getDefaultParticipantRole(), classlessDTO.get("defaultParticipantRole"));
+        assertEquals("", classlessDTO.get("createdOn"));
+    }
+
+    @Test
+    void testFromThingThrowsExceptionForUnknownProperty() {
+        var siteDirectory = new SiteDirectory(UUID.randomUUID(), 2);
+        siteDirectory.setDefaultParticipantRole(UUID.randomUUID());
+
+        var properties = Arrays.asList("defaultPersonRole", "iid", "CLASS_KIND", "unknownProperty");
+
+        assertThrows(NoSuchElementException.class, () -> ClasslessDtoFactory.fromThing(siteDirectory, properties));
     }
 
     @Test
@@ -70,14 +83,12 @@ class ClasslessDtoFactoryTest {
 
     @Test
     void testNullThingInFromThing() {
-        Thing thing = null;
-        assertThrows(NullPointerException.class, () -> ClasslessDtoFactory.fromThing(thing, null));
+        assertThrows(NullPointerException.class, () -> ClasslessDtoFactory.fromThing(null, null));
     }
 
     @Test
     void testNullThingInFullFromThing() {
-        Thing thing = null;
-        assertThrows(NullPointerException.class, () -> ClasslessDtoFactory.fullFromThing(thing));
+        assertThrows(NullPointerException.class, () -> ClasslessDtoFactory.fullFromThing(null));
     }
 
     @Test
