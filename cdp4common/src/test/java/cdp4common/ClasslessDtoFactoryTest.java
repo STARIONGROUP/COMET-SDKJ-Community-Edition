@@ -4,6 +4,7 @@
  */
 package cdp4common;
 
+import cdp4common.commondata.ClassKind;
 import cdp4common.dto.ParameterGroup;
 import cdp4common.dto.SiteDirectory;
 import cdp4common.dto.Thing;
@@ -11,6 +12,7 @@ import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -32,6 +34,20 @@ class ClasslessDtoFactoryTest {
         assertEquals(siteDirectory.getDefaultPersonRole(), uuid);
         assertEquals(siteDirectory.getDefaultParticipantRole(), classlessDTO.get("defaultParticipantRole"));
         assertEquals("", classlessDTO.get("createdOn"));
+    }
+
+    @Test
+    void testFromThingWithNullProperties() {
+        var siteDirectory = new SiteDirectory(UUID.randomUUID(), 2);
+        siteDirectory.setDefaultParticipantRole(UUID.randomUUID());
+
+        List<String> properties = null;
+
+        var classlessDTO = ClasslessDtoFactory.fromThing(siteDirectory, properties);
+
+        assertEquals(2, classlessDTO.size());
+        assertEquals(ClassKind.SITE_DIRECTORY, classlessDTO.get("CLASS_KIND"));
+        assertTrue(classlessDTO.get("iid") instanceof UUID);
     }
 
     @Test
