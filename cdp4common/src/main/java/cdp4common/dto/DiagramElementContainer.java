@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * DiagramElementContainer.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,8 +42,7 @@ public abstract class DiagramElementContainer extends DiagramThingBase implement
     /**
      * Initializes a new instance of the {@link "DiagramElementContainer"} class.
      */
-    protected DiagramElementContainer()
-    {
+    protected DiagramElementContainer() {
         this.bounds = new ArrayList<UUID>();
         this.diagramElement = new ArrayList<UUID>();
     }

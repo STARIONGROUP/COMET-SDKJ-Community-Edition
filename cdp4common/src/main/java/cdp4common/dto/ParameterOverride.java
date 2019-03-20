@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ParameterOverride.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,8 +42,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
     /**
      * Initializes a new instance of the {@link "ParameterOverride"} class.
      */
-    public ParameterOverride()
-    {
+    public ParameterOverride() {
         this.valueSet = new ArrayList<UUID>();
     }
 
@@ -81,7 +79,6 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Gets the unique identifier of the referenced group.
      * @throws UnsupportedOperationException The group property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public UUID getGroup() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterOverride.group");
@@ -91,7 +88,6 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Gets a value indicating whether isOptionDependent.
      * @throws UnsupportedOperationException The isOptionDependent property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public boolean isOptionDependent() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterOverride.isOptionDependent");
@@ -101,7 +97,6 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Gets the unique identifier of the referenced parameterType.
      * @throws UnsupportedOperationException The parameterType property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public UUID getParameterType() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterOverride.parameterType");
@@ -111,7 +106,6 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Gets the unique identifier of the referenced scale.
      * @throws UnsupportedOperationException The scale property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public UUID getScale() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterOverride.scale");
@@ -121,7 +115,6 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Gets the unique identifier of the referenced stateDependence.
      * @throws UnsupportedOperationException The stateDependence property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public UUID getStateDependence() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterOverride.stateDependence");
@@ -131,7 +124,6 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Sets the unique identifier of the referenced group.
      * @throws UnsupportedOperationException The group property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public void setGroup(UUID group) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterOverride.group");
@@ -141,7 +133,6 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Sets a value indicating whether isOptionDependent.
      * @throws UnsupportedOperationException The isOptionDependent property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setOptionDependent(boolean isOptionDependent) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterOverride.isOptionDependent");
@@ -151,7 +142,6 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Sets the unique identifier of the referenced parameterType.
      * @throws UnsupportedOperationException The parameterType property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setParameterType(UUID parameterType) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterOverride.parameterType");
@@ -161,7 +151,6 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Sets the unique identifier of the referenced scale.
      * @throws UnsupportedOperationException The scale property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public void setScale(UUID scale) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterOverride.scale");
@@ -171,7 +160,6 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Sets the unique identifier of the referenced stateDependence.
      * @throws UnsupportedOperationException The stateDependence property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public void setStateDependence(UUID stateDependence) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterOverride.stateDependence");
@@ -203,8 +191,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * @return A new {@link cdp4common.commondata.Thing}
      */
     @Override
-    public cdp4common.commondata.Thing instantiatePojo(Cache<Pair<UUID, UUID>, cdp4common.commondata.Thing> cache, URI uri)
-    {
+    public cdp4common.commondata.Thing instantiatePojo(Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
         return new cdp4common.engineeringmodeldata.ParameterOverride(this.getIid(), cache, uri);
     }
 }

@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ParameterValueSetBase.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,8 +41,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
     /**
      * Initializes a new instance of the {@link "ParameterValueSetBase"} class.
      */
-    protected ParameterValueSetBase()
-    {
+    protected ParameterValueSetBase() {
         this.computed = new ValueArray<String>(String.class);
         this.formula = new ValueArray<String>(String.class);
         this.manual = new ValueArray<String>(String.class);
@@ -142,7 +140,6 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * Gets a list of ordered String.
      * @throws UnsupportedOperationException The actualValue property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     @XmlTransient
     public ValueArray<String> getActualValue() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterValueSetBase.actualValue");
@@ -152,7 +149,6 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * Gets the unique identifier of the referenced owner.
      * @throws UnsupportedOperationException The owner property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public UUID getOwner() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterValueSetBase.owner");
@@ -162,7 +158,6 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * Sets a list of ordered String.
      * @throws UnsupportedOperationException The actualValue property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setActualValue(ValueArray<String> actualValue) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterValueSetBase.actualValue");
@@ -172,7 +167,6 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * Sets the unique identifier of the referenced owner.
      * @throws UnsupportedOperationException The owner property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setOwner(UUID owner) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterValueSetBase.owner");

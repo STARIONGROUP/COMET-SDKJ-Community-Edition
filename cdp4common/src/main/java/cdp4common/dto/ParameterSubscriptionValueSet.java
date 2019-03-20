@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ParameterSubscriptionValueSet.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,8 +42,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
     /**
      * Initializes a new instance of the {@link "ParameterSubscriptionValueSet"} class.
      */
-    public ParameterSubscriptionValueSet()
-    {
+    public ParameterSubscriptionValueSet() {
         this.manual = new ValueArray<String>(String.class);
     }
 
@@ -90,7 +88,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets the unique identifier of the referenced actualOption.
      * @throws UnsupportedOperationException The actualOption property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public UUID getActualOption() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscriptionValueSet.actualOption");
@@ -100,7 +97,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets the unique identifier of the referenced actualState.
      * @throws UnsupportedOperationException The actualState property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public UUID getActualState() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscriptionValueSet.actualState");
@@ -110,7 +106,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets a list of ordered String.
      * @throws UnsupportedOperationException The actualValue property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     @XmlTransient
     public ValueArray<String> getActualValue() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscriptionValueSet.actualValue");
@@ -120,7 +115,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets a list of ordered String.
      * @throws UnsupportedOperationException The computed property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     @XmlTransient
     public ValueArray<String> getComputed() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscriptionValueSet.computed");
@@ -130,7 +124,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets the unique identifier of the referenced owner.
      * @throws UnsupportedOperationException The owner property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public UUID getOwner() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscriptionValueSet.owner");
@@ -140,7 +133,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets a list of ordered String.
      * @throws UnsupportedOperationException The reference property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     @XmlTransient
     public ValueArray<String> getReference() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscriptionValueSet.reference");
@@ -150,7 +142,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Sets the unique identifier of the referenced actualOption.
      * @throws UnsupportedOperationException The actualOption property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public void setActualOption(UUID actualOption) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.actualOption");
@@ -160,7 +151,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Sets the unique identifier of the referenced actualState.
      * @throws UnsupportedOperationException The actualState property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public void setActualState(UUID actualState) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.actualState");
@@ -170,7 +160,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Sets a list of ordered String.
      * @throws UnsupportedOperationException The actualValue property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setActualValue(ValueArray<String> actualValue) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.actualValue");
@@ -180,7 +169,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Sets a list of ordered String.
      * @throws UnsupportedOperationException The computed property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setComputed(ValueArray<String> computed) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.computed");
@@ -190,7 +178,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Sets the unique identifier of the referenced owner.
      * @throws UnsupportedOperationException The owner property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setOwner(UUID owner) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.owner");
@@ -200,7 +187,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Sets a list of ordered String.
      * @throws UnsupportedOperationException The reference property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setReference(ValueArray<String> reference) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.reference");
@@ -222,8 +208,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * @return A new {@link cdp4common.commondata.Thing}
      */
     @Override
-    public cdp4common.commondata.Thing instantiatePojo(Cache<Pair<UUID, UUID>, cdp4common.commondata.Thing> cache, URI uri)
-    {
+    public cdp4common.commondata.Thing instantiatePojo(Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
         return new cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet(this.getIid(), cache, uri);
     }
 }

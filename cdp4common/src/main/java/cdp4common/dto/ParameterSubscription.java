@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ParameterSubscription.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,8 +42,7 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ParameterSubscription"} class.
      */
-    public ParameterSubscription()
-    {
+    public ParameterSubscription() {
         this.valueSet = new ArrayList<UUID>();
     }
 
@@ -72,7 +70,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * Gets the unique identifier of the referenced group.
      * @throws UnsupportedOperationException The group property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public UUID getGroup() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscription.group");
@@ -82,7 +79,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * Gets a value indicating whether isOptionDependent.
      * @throws UnsupportedOperationException The isOptionDependent property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public boolean isOptionDependent() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscription.isOptionDependent");
@@ -92,7 +88,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * Gets the unique identifier of the referenced parameterType.
      * @throws UnsupportedOperationException The parameterType property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public UUID getParameterType() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscription.parameterType");
@@ -102,7 +97,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * Gets the unique identifier of the referenced scale.
      * @throws UnsupportedOperationException The scale property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public UUID getScale() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscription.scale");
@@ -112,7 +106,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * Gets the unique identifier of the referenced stateDependence.
      * @throws UnsupportedOperationException The stateDependence property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public UUID getStateDependence() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscription.stateDependence");
@@ -122,7 +115,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * Sets the unique identifier of the referenced group.
      * @throws UnsupportedOperationException The group property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public void setGroup(UUID group) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscription.group");
@@ -132,7 +124,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * Sets a value indicating whether isOptionDependent.
      * @throws UnsupportedOperationException The isOptionDependent property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setOptionDependent(boolean isOptionDependent) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscription.isOptionDependent");
@@ -142,7 +133,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * Sets the unique identifier of the referenced parameterType.
      * @throws UnsupportedOperationException The parameterType property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setParameterType(UUID parameterType) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscription.parameterType");
@@ -152,7 +142,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * Sets the unique identifier of the referenced scale.
      * @throws UnsupportedOperationException The scale property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public void setScale(UUID scale) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscription.scale");
@@ -162,7 +151,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * Sets the unique identifier of the referenced stateDependence.
      * @throws UnsupportedOperationException The stateDependence property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public void setStateDependence(UUID stateDependence) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscription.stateDependence");
@@ -194,8 +182,7 @@ public class ParameterSubscription extends ParameterBase implements Cloneable {
      * @return A new {@link cdp4common.commondata.Thing}
      */
     @Override
-    public cdp4common.commondata.Thing instantiatePojo(Cache<Pair<UUID, UUID>, cdp4common.commondata.Thing> cache, URI uri)
-    {
+    public cdp4common.commondata.Thing instantiatePojo(Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
         return new cdp4common.engineeringmodeldata.ParameterSubscription(this.getIid(), cache, uri);
     }
 }

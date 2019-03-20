@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * EngineeringModelSetup.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,8 +42,7 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
     /**
      * Initializes a new instance of the {@link "EngineeringModelSetup"} class.
      */
-    public EngineeringModelSetup()
-    {
+    public EngineeringModelSetup() {
         this.activeDomain = new ArrayList<UUID>();
         this.iterationSetup = new ArrayList<UUID>();
         this.participant = new ArrayList<UUID>();
@@ -165,8 +163,7 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
      * @return A new {@link cdp4common.commondata.Thing}
      */
     @Override
-    public cdp4common.commondata.Thing instantiatePojo(Cache<Pair<UUID, UUID>, cdp4common.commondata.Thing> cache, URI uri)
-    {
+    public cdp4common.commondata.Thing instantiatePojo(Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
         return new cdp4common.sitedirectorydata.EngineeringModelSetup(this.getIid(), cache, uri);
     }
 }

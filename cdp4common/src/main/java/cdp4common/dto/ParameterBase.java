@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ParameterBase.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,8 +41,7 @@ public abstract class ParameterBase extends Thing implements Cloneable, OwnedThi
     /**
      * Initializes a new instance of the {@link "ParameterBase"} class.
      */
-    protected ParameterBase()
-    {
+    protected ParameterBase() {
     }
 
     /**
@@ -109,25 +107,4 @@ public abstract class ParameterBase extends Thing implements Cloneable, OwnedThi
     @Getter
     @Setter
     private UUID stateDependence;
-
-    // HAND-WRITTEN CODE GOES BELOW.
-    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
-
-    /**
-    * Gets the {@link UUID} of the value-sets of this {@link ParameterBase}
-    * <p>
-    * This is a convenience method to retrieve {@link Parameter#getValueSet()},
-    * {@link ParameterOverride#getValueSet()} or {@link ParameterSubscription#getValueSet()}
-    */
-    public Collection<UUID> getValueSets() {
-        if (this instanceof Parameter){
-            return ((Parameter) this).getValueSet();
-        }
-
-        if (this instanceof ParameterOverride) {
-            return ((ParameterOverride) this).getValueSet();
-        }
-
-        return ((ParameterSubscription) this).getValueSet();
-    }
 }

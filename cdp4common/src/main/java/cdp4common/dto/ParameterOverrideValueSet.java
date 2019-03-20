@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ParameterOverrideValueSet.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,8 +42,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
     /**
      * Initializes a new instance of the {@link "ParameterOverrideValueSet"} class.
      */
-    public ParameterOverrideValueSet()
-    {
+    public ParameterOverrideValueSet() {
     }
 
     /**
@@ -70,7 +68,6 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * Gets the unique identifier of the referenced actualOption.
      * @throws UnsupportedOperationException The actualOption property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public UUID getActualOption() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterOverrideValueSet.actualOption");
@@ -80,7 +77,6 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * Gets the unique identifier of the referenced actualState.
      * @throws UnsupportedOperationException The actualState property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public UUID getActualState() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterOverrideValueSet.actualState");
@@ -90,7 +86,6 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * Sets the unique identifier of the referenced actualOption.
      * @throws UnsupportedOperationException The actualOption property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public void setActualOption(UUID actualOption) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterOverrideValueSet.actualOption");
@@ -100,7 +95,6 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * Sets the unique identifier of the referenced actualState.
      * @throws UnsupportedOperationException The actualState property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = true, isPersistent = false)
     @XmlTransient
     public void setActualState(UUID actualState) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterOverrideValueSet.actualState");
@@ -122,8 +116,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * @return A new {@link cdp4common.commondata.Thing}
      */
     @Override
-    public cdp4common.commondata.Thing instantiatePojo(Cache<Pair<UUID, UUID>, cdp4common.commondata.Thing> cache, URI uri)
-    {
+    public cdp4common.commondata.Thing instantiatePojo(Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
         return new cdp4common.engineeringmodeldata.ParameterOverrideValueSet(this.getIid(), cache, uri);
     }
 }

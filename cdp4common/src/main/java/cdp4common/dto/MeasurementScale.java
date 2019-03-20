@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * MeasurementScale.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,8 +42,7 @@ public abstract class MeasurementScale extends DefinedThing implements Cloneable
     /**
      * Initializes a new instance of the {@link "MeasurementScale"} class.
      */
-    protected MeasurementScale()
-    {
+    protected MeasurementScale() {
         this.mappingToReferenceScale = new ArrayList<UUID>();
         this.valueDefinition = new ArrayList<UUID>();
     }

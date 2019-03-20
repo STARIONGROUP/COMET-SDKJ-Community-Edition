@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ActualFiniteStateList.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,8 +42,7 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
     /**
      * Initializes a new instance of the {@link "ActualFiniteStateList"} class.
      */
-    public ActualFiniteStateList()
-    {
+    public ActualFiniteStateList() {
         this.actualState = new ArrayList<UUID>();
         this.excludeOption = new ArrayList<UUID>();
         this.possibleFiniteStateList = new ArrayList<OrderedItem>();
@@ -103,7 +101,6 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
      * Gets the name.
      * @throws UnsupportedOperationException The name property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public String getName() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ActualFiniteStateList.name");
@@ -113,7 +110,6 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
      * Gets the shortName.
      * @throws UnsupportedOperationException The shortName property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public String getShortName() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ActualFiniteStateList.shortName");
@@ -123,7 +119,6 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
      * Sets the name.
      * @throws UnsupportedOperationException The name property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setName(String name) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ActualFiniteStateList.name");
@@ -133,7 +128,6 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
      * Sets the shortName.
      * @throws UnsupportedOperationException The shortName property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setShortName(String shortName) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ActualFiniteStateList.shortName");
@@ -165,8 +159,7 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
      * @return A new {@link cdp4common.commondata.Thing}
      */
     @Override
-    public cdp4common.commondata.Thing instantiatePojo(Cache<Pair<UUID, UUID>, cdp4common.commondata.Thing> cache, URI uri)
-    {
+    public cdp4common.commondata.Thing instantiatePojo(Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
         return new cdp4common.engineeringmodeldata.ActualFiniteStateList(this.getIid(), cache, uri);
     }
 }

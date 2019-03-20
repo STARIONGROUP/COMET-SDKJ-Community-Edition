@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * QuantityKind.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,8 +42,7 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
     /**
      * Initializes a new instance of the {@link "QuantityKind"} class.
      */
-    protected QuantityKind()
-    {
+    protected QuantityKind() {
         this.possibleScale = new ArrayList<UUID>();
     }
 
@@ -90,7 +88,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Gets the list of unique identifiers of the referenced AllPossibleScale instances.
      * @throws UnsupportedOperationException The allPossibleScale property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public ArrayList<UUID> getAllPossibleScale() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property QuantityKind.allPossibleScale");
@@ -100,7 +97,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Gets a list of ordered String.
      * @throws UnsupportedOperationException The quantityDimensionExponent property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     @XmlTransient
     public ArrayList<OrderedItem> getQuantityDimensionExponent() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property QuantityKind.quantityDimensionExponent");
@@ -110,7 +106,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Gets the quantityDimensionExpression.
      * @throws UnsupportedOperationException The quantityDimensionExpression property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public String getQuantityDimensionExpression() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property QuantityKind.quantityDimensionExpression");
@@ -120,7 +115,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Sets the list of unique identifiers of the referenced AllPossibleScale instances.
      * @throws UnsupportedOperationException The allPossibleScale property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setAllPossibleScale(ArrayList<UUID> allPossibleScale) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property QuantityKind.allPossibleScale");
@@ -130,7 +124,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Sets a list of ordered String.
      * @throws UnsupportedOperationException The quantityDimensionExponent property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setQuantityDimensionExponent(ArrayList<OrderedItem> quantityDimensionExponent) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property QuantityKind.quantityDimensionExponent");
@@ -140,7 +133,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Sets the quantityDimensionExpression.
      * @throws UnsupportedOperationException The quantityDimensionExpression property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setQuantityDimensionExpression(String quantityDimensionExpression) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property QuantityKind.quantityDimensionExpression");

@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * SimpleParameterValue.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,8 +42,7 @@ public class SimpleParameterValue extends Thing implements Cloneable, OwnedThing
     /**
      * Initializes a new instance of the {@link "SimpleParameterValue"} class.
      */
-    public SimpleParameterValue()
-    {
+    public SimpleParameterValue() {
         this.value = new ValueArray<String>(String.class);
     }
 
@@ -90,7 +88,6 @@ public class SimpleParameterValue extends Thing implements Cloneable, OwnedThing
      * Gets the unique identifier of the referenced owner.
      * @throws UnsupportedOperationException The owner property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public UUID getOwner() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property SimpleParameterValue.owner");
@@ -100,7 +97,6 @@ public class SimpleParameterValue extends Thing implements Cloneable, OwnedThing
      * Sets the unique identifier of the referenced owner.
      * @throws UnsupportedOperationException The owner property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setOwner(UUID owner) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property SimpleParameterValue.owner");
@@ -122,8 +118,7 @@ public class SimpleParameterValue extends Thing implements Cloneable, OwnedThing
      * @return A new {@link cdp4common.commondata.Thing}
      */
     @Override
-    public cdp4common.commondata.Thing instantiatePojo(Cache<Pair<UUID, UUID>, cdp4common.commondata.Thing> cache, URI uri)
-    {
+    public cdp4common.commondata.Thing instantiatePojo(Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
         return new cdp4common.engineeringmodeldata.SimpleParameterValue(this.getIid(), cache, uri);
     }
 }
