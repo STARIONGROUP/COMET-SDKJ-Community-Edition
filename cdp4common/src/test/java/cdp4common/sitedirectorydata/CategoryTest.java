@@ -29,6 +29,7 @@ import cdp4common.commondata.DefinedThing;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.tuple.Pair;
@@ -45,7 +46,7 @@ import java.util.UUID;
  */
 class CategoryTest {
     private URI uri;
-    private Cache<Pair<UUID, UUID>, Thing> cache;
+    private Cache<CacheKey, Thing> cache;
 
     @BeforeEach
     void beforeEach() {
@@ -101,10 +102,10 @@ class CategoryTest {
         aaa.getSuperCategory().add(aa);
         aa.getSuperCategory().add(a);
 
-        this.cache.put(Pair.of(a.getIid(), null), a);
-        this.cache.put(Pair.of(aa.getIid(), null), aa);
-        this.cache.put(Pair.of(aaa.getIid(), null), aaa);
-        this.cache.put(Pair.of(aaaa.getIid(), null), aaaa);
+        this.cache.put(new CacheKey(a.getIid(), null), a);
+        this.cache.put(new CacheKey(aa.getIid(), null), aa);
+        this.cache.put(new CacheKey(aaa.getIid(), null), aaa);
+        this.cache.put(new CacheKey(aaaa.getIid(), null), aaaa);
 
         Category b = new Category(UUID.randomUUID(), this.cache, this.uri);
         b.setShortName("B");
@@ -115,10 +116,10 @@ class CategoryTest {
         Category bbbb = new Category(UUID.randomUUID(), this.cache, this.uri);
         bbbb.setShortName("BBBB");
 
-        this.cache.put(Pair.of(b.getIid(), null), b);
-        this.cache.put(Pair.of(bb.getIid(), null), bb);
-        this.cache.put(Pair.of(bbb.getIid(), null), bbb);
-        this.cache.put(Pair.of(bbbb.getIid(), null), bbbb);
+        this.cache.put(new CacheKey(b.getIid(), null), b);
+        this.cache.put(new CacheKey(bb.getIid(), null), bb);
+        this.cache.put(new CacheKey(bbb.getIid(), null), bbb);
+        this.cache.put(new CacheKey(bbbb.getIid(), null), bbbb);
 
         bbbb.getSuperCategory().add(bbb);
         bbb.getSuperCategory().add(bb);
@@ -162,17 +163,17 @@ class CategoryTest {
         Category categorya1 = new Category(UUID.randomUUID(), this.cache, this.uri);
         categorya1.setShortName("A1");
         categorya1.getPermissibleClass().add(ClassKind.ELEMENT_DEFINITION);
-        this.cache.put(Pair.of(categorya1.getIid(), null), categorya1);
+        this.cache.put(new CacheKey(categorya1.getIid(), null), categorya1);
 
         Category categorya11 = new Category(UUID.randomUUID(), this.cache, this.uri);
         categorya11.setShortName("A11");
         categorya11.getPermissibleClass().add(ClassKind.ELEMENT_DEFINITION);
-        this.cache.put(Pair.of(categorya11.getIid(), null), categorya11);
+        this.cache.put(new CacheKey(categorya11.getIid(), null), categorya11);
 
         Category categorya111 = new Category(UUID.randomUUID(), this.cache, this.uri);
         categorya111.setShortName("A111");
         categorya111.getPermissibleClass().add(ClassKind.ELEMENT_DEFINITION);
-        this.cache.put(Pair.of(categorya111.getIid(), null), categorya111);
+        this.cache.put(new CacheKey(categorya111.getIid(), null), categorya111);
 
         categorya111.getSuperCategory().add(categorya11);
         categorya11.getSuperCategory().add(categorya1);
@@ -180,31 +181,31 @@ class CategoryTest {
         Category categoryb1 = new Category(UUID.randomUUID(), this.cache, this.uri);
         categoryb1.setShortName("B1");
         categoryb1.getPermissibleClass().add(ClassKind.ELEMENT_DEFINITION);
-        this.cache.put(Pair.of(categoryb1.getIid(), null), categoryb1);
+        this.cache.put(new CacheKey(categoryb1.getIid(), null), categoryb1);
 
         Category categoryb11 = new Category(UUID.randomUUID(), this.cache, this.uri);
         categoryb11.setShortName("B11");
         categoryb11.getPermissibleClass().add(ClassKind.ELEMENT_DEFINITION);
-        this.cache.put(Pair.of(categoryb11.getIid(), null), categoryb11);
+        this.cache.put(new CacheKey(categoryb11.getIid(), null), categoryb11);
 
         Category categoryb111 = new Category(UUID.randomUUID(), this.cache, this.uri);
         categoryb111.setShortName("B111");
         categoryb111.getPermissibleClass().add(ClassKind.ELEMENT_DEFINITION);
-        this.cache.put(Pair.of(categoryb111.getIid(), null), categoryb111);
+        this.cache.put(new CacheKey(categoryb111.getIid(), null), categoryb111);
 
         categoryb111.getSuperCategory().add(categoryb11);
         categoryb11.getSuperCategory().add(categoryb1);
 
         Iteration iteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-        this.cache.put(Pair.of(iteration.getIid(), null), iteration);
+        this.cache.put(new CacheKey(iteration.getIid(), null), iteration);
 
         ElementDefinition elementDefinitionA = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
         elementDefinitionA.setShortName("A");
-        this.cache.put(Pair.of(elementDefinitionA.getIid(), null), elementDefinitionA);
+        this.cache.put(new CacheKey(elementDefinitionA.getIid(), null), elementDefinitionA);
 
         ElementDefinition elementDefinitionB = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
         elementDefinitionB.setShortName("B");
-        this.cache.put(Pair.of(elementDefinitionB.getIid(), null), elementDefinitionB);
+        this.cache.put(new CacheKey(elementDefinitionB.getIid(), null), elementDefinitionB);
 
         iteration.getElement().add(elementDefinitionA);
         iteration.getElement().add(elementDefinitionB);
@@ -225,7 +226,7 @@ class CategoryTest {
         Category categorya1 = new Category(UUID.randomUUID(), this.cache, this.uri);
         categorya1.setShortName("A1");
         categorya1.getPermissibleClass().add(ClassKind.ELEMENT_DEFINITION);
-        this.cache.put(Pair.of(categorya1.getIid(), null), categorya1);
+        this.cache.put(new CacheKey(categorya1.getIid(), null), categorya1);
 
         Assertions.assertTrue(categorya1.getCategorizedThings().isEmpty());
     }

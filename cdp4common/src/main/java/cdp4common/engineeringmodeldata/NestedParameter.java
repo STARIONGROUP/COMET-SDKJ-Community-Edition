@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * NestedParameter.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Iterables;
@@ -60,11 +59,11 @@ public class NestedParameter extends Thing implements Cloneable, OwnedThing, Vol
      * Initializes a new instance of the {@link NestedParameter} class.
      * @param iid The unique identifier.
      * @param cache The {@link Cache} where the current thing is stored.
-     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
      * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
-    public NestedParameter(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+    public NestedParameter(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
     }
 
@@ -137,7 +136,6 @@ public class NestedParameter extends Thing implements Cloneable, OwnedThing, Vol
      * derived unique short name path to this NestedParameter
      * Note: The path string consists of the following backslash separated parts: (1) path to the <i>nestedElement</i>, (2) path to the <i>associatedParameter</i>, (3) path for the <i>actualState</i> or empty string if that is null, (4) <i>shortName</i> of the <i>container</i> Option. Any nested parts of the path name are dot separated.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public String getPath(){
         return this.getDerivedPath();
     }
@@ -151,7 +149,6 @@ public class NestedParameter extends Thing implements Cloneable, OwnedThing, Vol
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setPath(String path){
         throw new IllegalStateException("Forbidden Set value for the derived property NestedParameter.path");
     }
@@ -276,7 +273,7 @@ public class NestedParameter extends Thing implements Cloneable, OwnedThing, Vol
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));
         dto.setRevisionNumber(this.getRevisionNumber());
 
-        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);
         this.buildDtoPartialRoutes(dto);
 

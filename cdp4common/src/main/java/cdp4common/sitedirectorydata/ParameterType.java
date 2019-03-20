@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ParameterType.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Iterables;
@@ -61,11 +60,11 @@ public abstract class ParameterType extends DefinedThing implements Cloneable, C
      * Initializes a new instance of the {@link ParameterType} class.
      * @param iid The unique identifier.
      * @param cache The {@link Cache} where the current thing is stored.
-     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
      * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
-    protected ParameterType(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+    protected ParameterType(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.category = new ArrayList<Category>();
     }
@@ -111,7 +110,6 @@ public abstract class ParameterType extends DefinedThing implements Cloneable, C
      * number of individual values in each of the parameter value properties of a ParameterValueSet, a ParameterSubscriptionValueSet or a SimpleParameterValue for this ParameterType
      * Note: For a ScalarParameterType this will be one, while for a CompoundParameterType this will amount to the (possibly recursive) summation of the <i>numberOfValues</i> in the ParameterTypes of all <i>component</i> ParameterTypeComponents.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public int getNumberOfValues(){
         return this.getDerivedNumberOfValues();
     }
@@ -125,7 +123,6 @@ public abstract class ParameterType extends DefinedThing implements Cloneable, C
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setNumberOfValues(int numberOfValues){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterType.numberOfValues");
     }

@@ -107,4 +107,25 @@ public abstract class ParameterBase extends Thing implements Cloneable, OwnedThi
     @Getter
     @Setter
     private UUID stateDependence;
+
+    // HAND-WRITTEN CODE GOES BELOW.
+    // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+
+    /**
+     * Gets the {@link UUID} of the value-sets of this {@link ParameterBase}
+     * <p>
+     * This is a convenience method to retrieve {@link Parameter#getValueSet()},
+     * {@link ParameterOverride#getValueSet()} or {@link ParameterSubscription#getValueSet()}
+     */
+    public Collection<UUID> getValueSets() {
+        if (this instanceof Parameter){
+            return ((Parameter) this).getValueSet();
+        }
+
+        if (this instanceof ParameterOverride) {
+            return ((ParameterOverride) this).getValueSet();
+        }
+
+        return ((ParameterSubscription) this).getValueSet();
+    }
 }

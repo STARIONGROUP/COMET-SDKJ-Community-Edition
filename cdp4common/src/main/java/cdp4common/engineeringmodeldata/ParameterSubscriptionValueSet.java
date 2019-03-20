@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ParameterSubscriptionValueSet.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Iterables;
@@ -60,11 +59,11 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Initializes a new instance of the {@link ParameterSubscriptionValueSet} class.
      * @param iid The unique identifier.
      * @param cache The {@link Cache} where the current thing is stored.
-     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
      * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
-    public ParameterSubscriptionValueSet(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+    public ParameterSubscriptionValueSet(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.manual = new ValueArray<String>(this, String.class);
     }
@@ -147,7 +146,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets the actualOption.
      * convenience property that derives the <i>actualOption</i> from the <i>subscribedValueSet</i>
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public Option getActualOption(){
         return this.getDerivedActualOption();
     }
@@ -156,7 +154,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets the actualState.
      * convenience property that derives the <i>actualState</i> from the <i>subscribedValueSet</i>
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public ActualFiniteState getActualState(){
         return this.getDerivedActualState();
     }
@@ -166,7 +163,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * derived actual value of this ParameterSubscriptionValueSet depending on the <i>valueSwitch</i> setting
      * Note: The <i>actualValue</i> is derived in the following (obvious) way:
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     public ValueArray<String> getActualValue(){
         return this.getDerivedActualValue();
     }
@@ -176,7 +172,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * parameter value derived from the subscribed Parameter or ParameterOverride
      * Note: This value is derived from the <i>published</i> value of ParameterValueSet that is referenced through <i>subscribedValueSet</i>. In other words, it is the value as set by the owner (DomainOfExpertise) of the subscribed Parameter or  ParameterOverride.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     public ValueArray<String> getComputed(){
         return this.getDerivedComputed();
     }
@@ -185,7 +180,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets the owner.
      * owner (DomainOfExpertise) derived from the containing ParameterSubscription
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public DomainOfExpertise getOwner(){
         return this.getDerivedOwner();
     }
@@ -195,7 +189,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * reference parameter value that is derived to be identical to the <i>reference</i> property of the <i>subscribedValueSet</i>
      * Note: The reference value is typically a value originating from outside the current EngineeringModel to be used as a reference to be compared with the (newly) computed value. However the reference values may be used for any purpose that a modelling activity deems useful.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     public ValueArray<String> getReference(){
         return this.getDerivedReference();
     }
@@ -208,7 +201,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setActualOption(Option actualOption){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.actualOption");
     }
@@ -221,7 +213,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setActualState(ActualFiniteState actualState){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.actualState");
     }
@@ -235,7 +226,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     public void setActualValue(ValueArray<String> actualValue){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.actualValue");
     }
@@ -249,7 +239,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     public void setComputed(ValueArray<String> computed){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.computed");
     }
@@ -262,7 +251,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setOwner(DomainOfExpertise owner){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.owner");
     }
@@ -276,7 +264,6 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     public void setReference(ValueArray<String> reference){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.reference");
     }
@@ -387,7 +374,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
         dto.setSubscribedValueSet(this.getSubscribedValueSet() != null ? this.getSubscribedValueSet().getIid() : new UUID(0L, 0L));
         dto.setValueSwitch(this.getValueSwitch());
 
-        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);
         this.buildDtoPartialRoutes(dto);
 

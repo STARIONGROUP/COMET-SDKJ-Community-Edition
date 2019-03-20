@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * SimpleParameterValue.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Iterables;
@@ -61,11 +60,11 @@ public class SimpleParameterValue extends Thing implements Cloneable, OwnedThing
      * Initializes a new instance of the {@link SimpleParameterValue} class.
      * @param iid The unique identifier.
      * @param cache The {@link Cache} where the current thing is stored.
-     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
      * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
-    public SimpleParameterValue(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+    public SimpleParameterValue(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.value = new ValueArray<String>(this, String.class);
     }
@@ -111,7 +110,6 @@ public class SimpleParameterValue extends Thing implements Cloneable, OwnedThing
      * reference to a DomainOfExpertise that is the owner of this SimpleParameterValue
      * Note: The <i>owner</i> is the same as the <i>owner</i> of the SimpleParameterizableThing that contains this SimpleParameterValue.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public DomainOfExpertise getOwner(){
         return this.getDerivedOwner();
     }
@@ -125,7 +123,6 @@ public class SimpleParameterValue extends Thing implements Cloneable, OwnedThing
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setOwner(DomainOfExpertise owner){
         throw new IllegalStateException("Forbidden Set value for the derived property SimpleParameterValue.owner");
     }
@@ -236,7 +233,7 @@ public class SimpleParameterValue extends Thing implements Cloneable, OwnedThing
         dto.setScale(this.getScale() != null ? (UUID)this.getScale().getIid() : null);
         dto.setValue(new ValueArray<String>(this.getValue(), this, String.class));
 
-        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);
         this.buildDtoPartialRoutes(dto);
 

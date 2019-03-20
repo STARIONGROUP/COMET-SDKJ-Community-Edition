@@ -26,6 +26,7 @@ package cdp4common.sitedirectorydata;
 
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.tuple.Pair;
@@ -39,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ReferencerRuleTest {
     private URI uri;
-    private Cache<Pair<UUID, UUID>, Thing> cache;
+    private Cache<CacheKey, Thing> cache;
     private Iteration iteration;
 
     @BeforeEach

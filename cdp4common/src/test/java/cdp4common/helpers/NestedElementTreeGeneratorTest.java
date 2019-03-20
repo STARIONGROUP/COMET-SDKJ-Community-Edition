@@ -27,6 +27,7 @@ package cdp4common.helpers;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Iterables;
@@ -45,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class NestedElementTreeGeneratorTest {
     private NestedElementTreeGenerator nestedElementTreeGenerator;
     private URI uri;
-    private Cache<Pair<UUID, UUID>, Thing> cache;
+    private Cache<CacheKey, Thing> cache;
     private Iteration iteration;
     private DomainOfExpertise domainOfExpertise;
 

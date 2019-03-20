@@ -26,6 +26,7 @@ package cdp4common.commondata;
 
 import cdp4common.sitedirectorydata.ReferenceSource;
 import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
+import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.tuple.Pair;
@@ -40,7 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CitationTest {
     private URI uri;
-    private Cache<Pair<UUID, UUID>, Thing> cache;
+    private Cache<CacheKey, Thing> cache;
 
     @BeforeEach
     void setup() {

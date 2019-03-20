@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ParametricConstraint.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Iterables;
@@ -60,11 +59,11 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
      * Initializes a new instance of the {@link ParametricConstraint} class.
      * @param iid The unique identifier.
      * @param cache The {@link Cache} where the current thing is stored.
-     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
      * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
-    public ParametricConstraint(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+    public ParametricConstraint(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.expression = new ContainerList<BooleanExpression>(this);
     }
@@ -103,7 +102,6 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
      * Gets the owner.
      * reference to the DomainOfExpertise that is the owner of this RequirementsGroup, which is derived to be the same as the owner of the next higher level RequirementsGroup or RequirementsSpecification
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public DomainOfExpertise getOwner(){
         return this.getDerivedOwner();
     }
@@ -116,7 +114,6 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setOwner(DomainOfExpertise owner){
         throw new IllegalStateException("Forbidden Set value for the derived property ParametricConstraint.owner");
     }
@@ -230,7 +227,7 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setTopExpression(this.getTopExpression() != null ? (UUID)this.getTopExpression().getIid() : null);
 
-        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);
         this.buildDtoPartialRoutes(dto);
 

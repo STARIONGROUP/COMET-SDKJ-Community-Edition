@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * NestedElement.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Iterables;
@@ -65,11 +64,11 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * Initializes a new instance of the {@link NestedElement} class.
      * @param iid The unique identifier.
      * @param cache The {@link Cache} where the current thing is stored.
-     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
      * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
-    public NestedElement(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+    public NestedElement(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.elementUsage = new OrderedItemList<ElementUsage>(this, ElementUsage.class);
         this.nestedParameter = new ContainerList<NestedParameter>(this);
@@ -145,7 +144,6 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * Gets the name.
      * name derived from chain of the names of the <i>rootElement</i> and <i>elementUsage</i>
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public String getName(){
         return this.getDerivedName();
     }
@@ -155,7 +153,6 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * reference to the owner DomainOfExpertise of this NestedElement
      * Note: The owner DomainOfExpertise of this NestedElement is the same as the owner of the last ElementUsage in the <i>elementUsage</i> path.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public DomainOfExpertise getOwner(){
         return this.getDerivedOwner();
     }
@@ -164,7 +161,6 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * Gets the shortName.
      * short name derived from chain of the names of the <i>rootElement</i> and <i>elementUsage</i>
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public String getShortName(){
         return this.getDerivedShortName();
     }
@@ -177,7 +173,6 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setName(String name){
         throw new IllegalStateException("Forbidden Set value for the derived property NestedElement.name");
     }
@@ -191,7 +186,6 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setOwner(DomainOfExpertise owner){
         throw new IllegalStateException("Forbidden Set value for the derived property NestedElement.owner");
     }
@@ -204,7 +198,6 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setShortName(String shortName){
         throw new IllegalStateException("Forbidden Set value for the derived property NestedElement.shortName");
     }
@@ -329,7 +322,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setRootElement(this.getRootElement() != null ? this.getRootElement().getIid() : new UUID(0L, 0L));
 
-        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);
         this.buildDtoPartialRoutes(dto);
 

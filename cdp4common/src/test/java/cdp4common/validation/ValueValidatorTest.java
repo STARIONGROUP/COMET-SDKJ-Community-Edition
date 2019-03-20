@@ -26,6 +26,7 @@ package cdp4common.validation;
 
 import cdp4common.commondata.Thing;
 import cdp4common.sitedirectorydata.*;
+import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.tuple.Pair;
@@ -45,7 +46,7 @@ import java.util.UUID;
 
 class ValueValidatorTest {
     private URI uri;
-    private Cache<Pair<UUID, UUID>, Thing> cache;
+    private Cache<CacheKey, Thing> cache;
 
     private BooleanParameterType booleanParameterType;
     private DateParameterType dateParameterType;
@@ -161,6 +162,14 @@ class ValueValidatorTest {
     }
 
     @Test
+    void VerifyThatDateParameterTypeValidatesValue_with_Z()
+    {
+        ValidationResult result = ValueValidator.validate(this.dateParameterType, "1976-08-20Z");
+        Assertions.assertEquals(ValidationResultKind.INVALID, result.getResultKind());
+        Assertions.assertEquals("1976-08-20Z is not a valid Date, valid dates are specified in ISO 8601 YYYY-MM-DD", result.getMessage());
+    }
+
+    @Test
     void verifyThatDateParameterTypeValidatesValue() {
         ValidationResult result;
 
@@ -171,10 +180,6 @@ class ValueValidatorTest {
         result = ValueValidator.validate(this.dateParameterType, "1976-08-20");
         Assertions.assertEquals(ValidationResultKind.VALID, result.getResultKind());
         Assertions.assertTrue(result.getMessage().isEmpty());
-
-        result = ValueValidator.validate(this.dateParameterType, "1976-08-20Z");
-        Assertions.assertEquals(ValidationResultKind.INVALID, result.getResultKind());
-        Assertions.assertEquals("1976-08-20Z is not a valid Date, valid dates are specified in ISO 8601 YYYY-MM-DD", result.getMessage());
 
         result = ValueValidator.validate(this.dateParameterType, "some text");
         Assertions.assertEquals(ValidationResultKind.INVALID, result.getResultKind());
@@ -424,6 +429,18 @@ class ValueValidatorTest {
         result = ValueValidator.validate(this.timeOfDayParameterType, "17:49:30.453Z");
         Assertions.assertEquals(ValidationResultKind.VALID, result.getResultKind());
         Assertions.assertTrue(result.getMessage().isEmpty());
+
+        result = ValueValidator.validate(this.timeOfDayParameterType, "17:49:30.453+01:00");
+        Assertions.assertEquals(ValidationResultKind.VALID, result.getResultKind());
+        Assertions.assertTrue(result.getMessage().isEmpty());
+
+        result = ValueValidator.validate(this.timeOfDayParameterType, "17:49:30.453+01");
+        Assertions.assertEquals(ValidationResultKind.VALID, result.getResultKind());
+        Assertions.assertTrue(result.getMessage().isEmpty());
+
+        result = ValueValidator.validate(this.timeOfDayParameterType, "17:49:30.453Z+01:00");
+        Assertions.assertEquals(ValidationResultKind.INVALID, result.getResultKind());
+        Assertions.assertFalse(result.getMessage().isEmpty());
 
         result = ValueValidator.validate(this.timeOfDayParameterType, "17:49:30+01:00");
         Assertions.assertEquals(ValidationResultKind.VALID, result.getResultKind());

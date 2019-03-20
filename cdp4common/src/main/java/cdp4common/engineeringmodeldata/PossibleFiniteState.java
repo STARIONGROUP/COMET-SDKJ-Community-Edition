@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * PossibleFiniteState.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Iterables;
@@ -60,11 +59,11 @@ public class PossibleFiniteState extends DefinedThing implements Cloneable, Owne
      * Initializes a new instance of the {@link PossibleFiniteState} class.
      * @param iid The unique identifier.
      * @param cache The {@link Cache} where the current thing is stored.
-     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
      * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
-    public PossibleFiniteState(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+    public PossibleFiniteState(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
     }
 
@@ -81,7 +80,6 @@ public class PossibleFiniteState extends DefinedThing implements Cloneable, Owne
      * reference to the DomainOfExpertise that owns (i.e. is responsible for) this PossibleFiniteState
      * Note: This is a derived property. It is always the same DomainOfExpertise as the <i>owner</i> of the containing PossibleFiniteStateList.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public DomainOfExpertise getOwner(){
         return this.getDerivedOwner();
     }
@@ -95,7 +93,6 @@ public class PossibleFiniteState extends DefinedThing implements Cloneable, Owne
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setOwner(DomainOfExpertise owner){
         throw new IllegalStateException("Forbidden Set value for the derived property PossibleFiniteState.owner");
     }
@@ -204,7 +201,7 @@ public class PossibleFiniteState extends DefinedThing implements Cloneable, Owne
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
 
-        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);
         this.buildDtoPartialRoutes(dto);
 

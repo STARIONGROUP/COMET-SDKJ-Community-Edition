@@ -29,6 +29,7 @@ import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.engineeringmodeldata.Parameter;
 import cdp4common.engineeringmodeldata.RuleViolation;
+import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Iterables;
@@ -44,7 +45,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ParameterizedCategoryRuleTest {
     private URI uri;
-    private Cache<Pair<UUID, UUID>, Thing> cache;
+    private Cache<CacheKey, Thing> cache;
     private Iteration iteration;
 
     private Category productCategory;
@@ -94,13 +95,13 @@ class ParameterizedCategoryRuleTest {
         this.batteryCategory.getSuperCategory().add(this.equipmentCategory);
         this.equipmentCategory.getSuperCategory().add(this.productCategory);
 
-        this.cache.put(Pair.of(this.productCategory.getIid(), null), this.productCategory);
+        this.cache.put(new CacheKey(this.productCategory.getIid(), null), this.productCategory);
 
-        this.cache.put(Pair.of(this.equipmentCategory.getIid(), null), this.equipmentCategory);
+        this.cache.put(new CacheKey(this.equipmentCategory.getIid(), null), this.equipmentCategory);
 
-        this.cache.put(Pair.of(this.batteryCategory.getIid(), null), this.batteryCategory);
+        this.cache.put(new CacheKey(this.batteryCategory.getIid(), null), this.batteryCategory);
 
-        this.cache.put(Pair.of(this.lithiumBatteryCategory.getIid(), null), this.lithiumBatteryCategory);
+        this.cache.put(new CacheKey(this.lithiumBatteryCategory.getIid(), null), this.lithiumBatteryCategory);
     }
 
     @Test

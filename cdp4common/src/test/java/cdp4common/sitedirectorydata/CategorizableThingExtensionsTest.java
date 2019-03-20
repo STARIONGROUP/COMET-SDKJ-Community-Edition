@@ -27,6 +27,7 @@ package cdp4common.sitedirectorydata;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.ElementUsage;
+import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.tuple.Pair;
@@ -41,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CategorizableThingExtensionsTest {
     private URI uri;
-    private Cache<Pair<UUID, UUID>, Thing> cache;
+    private Cache<CacheKey, Thing> cache;
 
     private Category productCategory;
     private Category equipmentCategory;
@@ -81,15 +82,15 @@ class CategorizableThingExtensionsTest {
         this.transmitterCategory.getSuperCategory().add(this.equipmentCategory);
         this.equipmentCategory.getSuperCategory().add(this.productCategory);
 
-        this.cache.put(Pair.of(this.productCategory.getIid(), null), this.productCategory);
+        this.cache.put(new CacheKey(this.productCategory.getIid(), null), this.productCategory);
 
-        this.cache.put(Pair.of(this.equipmentCategory.getIid(), null), this.equipmentCategory);
+        this.cache.put(new CacheKey(this.equipmentCategory.getIid(), null), this.equipmentCategory);
 
-        this.cache.put(Pair.of(this.batteryCategory.getIid(), null), this.batteryCategory);
+        this.cache.put(new CacheKey(this.batteryCategory.getIid(), null), this.batteryCategory);
 
-        this.cache.put(Pair.of(this.lithiumBatteryCategory.getIid(), null), this.lithiumBatteryCategory);
+        this.cache.put(new CacheKey(this.lithiumBatteryCategory.getIid(), null), this.lithiumBatteryCategory);
 
-        this.cache.put(Pair.of(this.transmitterCategory.getIid(), null), this.transmitterCategory);
+        this.cache.put(new CacheKey(this.transmitterCategory.getIid(), null), this.transmitterCategory);
 
         this.elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
     }

@@ -25,6 +25,7 @@
 package cdp4common.dto;
 
 import cdp4common.commondata.ClassKind;
+import cdp4common.types.CacheKey;
 import cdp4common.types.OrderedItem;
 import cdp4common.types.ValueArray;
 import com.google.common.cache.Cache;
@@ -261,7 +262,7 @@ class ThingTest {
      */
     private class TestDto extends cdp4common.dto.Thing {
         @Override
-        public cdp4common.commondata.Thing instantiatePojo(Cache<Pair<UUID, UUID>, cdp4common.commondata.Thing> cache, URI uri) {
+        public cdp4common.commondata.Thing instantiatePojo(Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
             throw new NotImplementedException("Not implemented.");
         }
 

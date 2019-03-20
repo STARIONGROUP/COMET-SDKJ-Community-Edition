@@ -28,6 +28,7 @@ import cdp4common.commondata.Thing;
 import cdp4common.exceptions.ContainmentException;
 import cdp4common.sitedirectorydata.Category;
 import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
+import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.tuple.Pair;
@@ -42,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ElementDefinitionTest {
     private UUID iterationIid;
     private Iteration iteration;
-    private Cache<Pair<UUID, UUID>, Thing> cache;
+    private Cache<CacheKey, Thing> cache;
     private URI uri;
 
     @BeforeEach
@@ -52,7 +53,7 @@ class ElementDefinitionTest {
 
         this.iterationIid = UUID.randomUUID();
         this.iteration = new Iteration(this.iterationIid, this.cache, this.uri);
-        this.cache.put(Pair.of(this.iterationIid, null), this.iteration);
+        this.cache.put(new CacheKey(this.iterationIid, null), this.iteration);
     }
 
     @Test

@@ -26,6 +26,7 @@ package cdp4common.sitedirectorydata;
 
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Iterables;
@@ -41,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DecompositionRuleTest {
     private URI uri;
-    private Cache<Pair<UUID, UUID>, Thing> cache;
+    private Cache<CacheKey, Thing> cache;
     private Iteration iteration;
 
     private Category systemCategory;
@@ -101,19 +102,19 @@ class DecompositionRuleTest {
         this.powerStorageCategory.getSuperCategory().add(this.functionCategory);
         this.functionCategory.getSuperCategory().add(this.systemCategory);
 
-        this.cache.put(Pair.of(this.productCategory.getIid(), null), this.productCategory);
+        this.cache.put(new CacheKey(this.productCategory.getIid(), null), this.productCategory);
 
-        this.cache.put(Pair.of(this.equipmentCategory.getIid(), null), this.equipmentCategory);
+        this.cache.put(new CacheKey(this.equipmentCategory.getIid(), null), this.equipmentCategory);
 
-        this.cache.put(Pair.of(this.batteryCategory.getIid(), null), this.batteryCategory);
+        this.cache.put(new CacheKey(this.batteryCategory.getIid(), null), this.batteryCategory);
 
-        this.cache.put(Pair.of(this.lithiumBatteryCategory.getIid(), null), this.lithiumBatteryCategory);
+        this.cache.put(new CacheKey(this.lithiumBatteryCategory.getIid(), null), this.lithiumBatteryCategory);
 
-        this.cache.put(Pair.of(this.functionCategory.getIid(), null), this.functionCategory);
+        this.cache.put(new CacheKey(this.functionCategory.getIid(), null), this.functionCategory);
 
-        this.cache.put(Pair.of(this.powerStorageCategory.getIid(), null), this.powerStorageCategory);
+        this.cache.put(new CacheKey(this.powerStorageCategory.getIid(), null), this.powerStorageCategory);
 
-        this.cache.put(Pair.of(this.electricalPowerStorageCategory.getIid(), null), this.electricalPowerStorageCategory);
+        this.cache.put(new CacheKey(this.electricalPowerStorageCategory.getIid(), null), this.electricalPowerStorageCategory);
     }
 
     @Test

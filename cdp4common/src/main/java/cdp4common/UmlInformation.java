@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  * @see UmlInformation
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD})
+@Target({ElementType.FIELD})
 public @interface UmlInformation {
     /**
      * Gets the <code>cdp4common.AggregationKind</code> of the decorated property

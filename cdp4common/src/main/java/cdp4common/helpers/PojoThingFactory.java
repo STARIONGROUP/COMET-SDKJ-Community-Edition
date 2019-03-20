@@ -1,6 +1,6 @@
 /*
  * PojoThingFactory.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  */
 
 package cdp4common.helpers;
@@ -8,6 +8,7 @@ package cdp4common.helpers;
 import cdp4common.ChangeKind;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.types.CacheKey;
 import cdp4common.types.ContainerList;
 import cdp4common.types.OrderedItem;
 import cdp4common.types.OrderedItemList;
@@ -37,9 +38,9 @@ public class PojoThingFactory {
      * @param dtoThings the associated DTO {@link Thing}s with the data
      * @param cache     the cache containing the {@link Thing}s
      */
-    public static void resolveDependencies(Iterable<cdp4common.dto.Thing> dtoThings, Cache<Pair<UUID, UUID>, Thing> cache) {
+    public static void resolveDependencies(Iterable<cdp4common.dto.Thing> dtoThings, Cache<CacheKey, Thing> cache) {
         for (cdp4common.dto.Thing dtoThing : dtoThings) {
-            Pair<UUID, UUID> cacheKey = Pair.of(dtoThing.getIid(), dtoThing.getIterationContainerId());
+            CacheKey cacheKey = new CacheKey(dtoThing.getIid(), dtoThing.getIterationContainerId());
             Thing associatedPojo = cache.getIfPresent(cacheKey);
             if (associatedPojo != null) {
                 associatedPojo.resetSentinel();
@@ -58,7 +59,7 @@ public class PojoThingFactory {
      * @param cache       The cache that stores the {@link Thing}s
      * @param clazz       The expected type of {@link Thing}
      */
-    public static <T extends Thing> void resolveList(ContainerList<T> list, Iterable<UUID> UUIDList, UUID iterationId, Cache<Pair<UUID, UUID>, Thing> cache, Class<T> clazz) {
+    public static <T extends Thing> void resolveList(ContainerList<T> list, Iterable<UUID> UUIDList, UUID iterationId, Cache<CacheKey, Thing> cache, Class<T> clazz) {
         list.clear();
         for (UUID uuid : UUIDList) {
             T thing = tryGet(cache, uuid, iterationId, clazz);
@@ -79,7 +80,7 @@ public class PojoThingFactory {
      * @param cache           The cache that stores the {@link Thing}s
      * @param clazz           The expected type of {@link Thing}
      */
-    public static <T extends Thing> void resolveList(OrderedItemList<T> list, Iterable<OrderedItem> orderedItemList, UUID iterationId, Cache<Pair<UUID, UUID>, Thing> cache, Class<T> clazz) {
+    public static <T extends Thing> void resolveList(OrderedItemList<T> list, Iterable<OrderedItem> orderedItemList, UUID iterationId, Cache<CacheKey, Thing> cache, Class<T> clazz) {
         list.clear();
         List<OrderedItem> orderedList = new ArrayList<>();
 
@@ -141,7 +142,7 @@ public class PojoThingFactory {
      * @param cache       The cache that stores the {@link Thing}s
      * @param clazz       The expected type of {@link Thing}
      */
-    public static <T extends Thing> void resolveList(List<T> list, Iterable<UUID> UUIDList, UUID iterationId, Cache<Pair<UUID, UUID>, Thing> cache, Class<T> clazz) {
+    public static <T extends Thing> void resolveList(List<T> list, Iterable<UUID> UUIDList, UUID iterationId, Cache<CacheKey, Thing> cache, Class<T> clazz) {
         list.clear();
         for (UUID uuid : UUIDList) {
             T thing = tryGet(cache, uuid, iterationId, clazz);
@@ -161,7 +162,7 @@ public class PojoThingFactory {
      * @param clazz       The expected type of {@link Thing}
      * @return True if an item is present in the cache
      */
-    public static <T extends Thing> T tryGet(Cache<Pair<UUID, UUID>, Thing> cache, UUID itemIid, UUID iterationId, Class<T> clazz) {
+    public static <T extends Thing> T tryGet(Cache<CacheKey, Thing> cache, UUID itemIid, UUID iterationId, Class<T> clazz) {
         return get(cache, itemIid, iterationId, clazz);
     }
 
@@ -177,18 +178,18 @@ public class PojoThingFactory {
      * @param clazz       The expected type of {@link Thing}
      * @return The {@link Thing} of type {@link T}
      */
-    public static <T extends Thing> T get(Cache<Pair<UUID, UUID>, Thing> cache, UUID itemIid, UUID iterationId, Class<T> clazz) {
+    public static <T extends Thing> T get(Cache<CacheKey, Thing> cache, UUID itemIid, UUID iterationId, Class<T> clazz) {
         // try with the iteration id
-        Pair<UUID, UUID> key = Pair.of(itemIid, iterationId);
+        CacheKey key = new CacheKey(itemIid, iterationId);
         T thing = get(cache, key, clazz);
 
         if (thing != null) {
             return thing;
         }
 
-        // try with iteration id
+        // try without iteration id
         if (iterationId != null) {
-            key = Pair.of(itemIid, null);
+            key = new CacheKey(itemIid, null);
             thing = get(cache, key, clazz);
             if (thing != null) {
                 return thing;
@@ -196,19 +197,19 @@ public class PojoThingFactory {
         }
 
         // Get the first one if any whatever the iterationId might be
-        Pair<UUID, UUID> firstKey = null;
-        for (Pair<UUID, UUID> cacheKey : cache.asMap().keySet()) {
-            if (cacheKey.getLeft().equals(itemIid)) {
+        CacheKey firstKey = null;
+        for (CacheKey cacheKey : cache.asMap().keySet()) {
+            if (cacheKey.getThing().equals(itemIid)) {
                 firstKey = cacheKey;
                 break;
             }
         }
 
-        if (firstKey != null) {
+        if (!firstKey.getThing().equals(new UUID(0L, 0L)) && firstKey.getIteration() != null) {
             return get(cache, firstKey, clazz);
         }
 
-        LOGGER.log(Level.SEVERE, String.format("The %1$s was not found in the cache: %2$s", clazz.getSimpleName(), key.getLeft()));
+        LOGGER.log(Level.FINE, String.format("The %1$s was not found in the cache: %2$s", clazz.getSimpleName(), key.getThing()));
         return null;
     }
 
@@ -221,14 +222,14 @@ public class PojoThingFactory {
      * @param clazz The expected type of {@link Thing}
      * @return The casted {@link Thing}
      */
-    private static <T extends Thing> T get(Cache<Pair<UUID, UUID>, Thing> cache, Pair<UUID, UUID> key, Class<T> clazz) {
+    private static <T extends Thing> T get(Cache<CacheKey, Thing> cache, CacheKey key, Class<T> clazz) {
         Thing result = cache.getIfPresent(key);
         if (result == null) {
             return null;
         }
 
         if (!clazz.isInstance(result)) {
-            LOGGER.log(Level.SEVERE, String.format("The thing found in the cache with the key is not of the right type, cached id: %1$s, %2$s", result.getCacheId().getLeft(), result.getCacheId().getRight()));
+            LOGGER.log(Level.SEVERE, String.format("The thing found in the cache with the key is not of the right type, cached id: %1$s, %2$s", result.getCacheKey().getThing(), result.getCacheKey().getIteration()));
             return null;
         }
 

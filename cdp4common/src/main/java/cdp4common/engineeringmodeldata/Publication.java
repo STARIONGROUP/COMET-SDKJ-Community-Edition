@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * Publication.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,6 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Iterables;
@@ -62,11 +61,11 @@ public class Publication extends Thing implements Cloneable, TimeStampedThing {
      * Initializes a new instance of the {@link Publication} class.
      * @param iid The unique identifier.
      * @param cache The {@link Cache} where the current thing is stored.
-     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
      * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
-    public Publication(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+    public Publication(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.domain = new ArrayList<DomainOfExpertise>();
         this.publishedParameter = new ArrayList<ParameterOrOverrideBase>();
@@ -201,7 +200,7 @@ public class Publication extends Thing implements Cloneable, TimeStampedThing {
         dto.getPublishedParameter().addAll(this.getPublishedParameter().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
 
-        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);
         this.buildDtoPartialRoutes(dto);
 

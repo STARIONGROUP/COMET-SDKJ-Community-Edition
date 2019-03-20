@@ -9,6 +9,7 @@ import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.NestedElementTreeException;
 import cdp4common.sitedirectorydata.*;
+import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.collect.MoreCollectors;
 import org.apache.commons.lang3.tuple.Pair;
@@ -123,7 +124,7 @@ public class NestedElementTreeGenerator {
      * @return The {@link Collection} that have been created.
      */
     private Collection<NestedElement> recursivelyCreateNestedElements(ElementDefinition elementDefinition, ElementDefinition rootElement, DomainOfExpertise domainOfExpertise, List<ElementUsage> elementUsages, Option option) {
-        Cache<Pair<UUID, UUID>, Thing> cache = elementDefinition.getCache();
+        Cache<CacheKey, Thing> cache = elementDefinition.getCache();
         URI uri = elementDefinition.getIDalUri();
         Collection<NestedElement> nestedElementsFormed = new ArrayList<>();
 

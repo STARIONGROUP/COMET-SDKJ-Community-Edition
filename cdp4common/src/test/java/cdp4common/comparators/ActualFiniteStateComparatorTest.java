@@ -9,6 +9,7 @@ import cdp4common.engineeringmodeldata.ActualFiniteState;
 import cdp4common.engineeringmodeldata.ActualFiniteStateList;
 import cdp4common.engineeringmodeldata.PossibleFiniteState;
 import cdp4common.engineeringmodeldata.PossibleFiniteStateList;
+import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.tuple.Pair;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ActualFiniteStateComparatorTest {
     private final URI uri = URI.create("http://sdk.cdp4.org");
-    private Cache<Pair<UUID, UUID>, Thing> cache;
+    private Cache<CacheKey, Thing> cache;
 
     private ActualFiniteStateComparator comparator;
 
