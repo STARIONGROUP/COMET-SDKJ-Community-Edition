@@ -320,7 +320,7 @@ public abstract class Thing {
      */
     private boolean isAuthorizedRoute(ClassKind lastRoute, ClassKind newRoute) {
         String lastRouteContainerClass = ContainerPropertyHelper.getContainerClassName(lastRoute);
-        if (Utils.getUpperCamelNotationFromConstant(newRoute.toString()).equals(lastRouteContainerClass)) {
+        if (newRoute.toString().equals(lastRouteContainerClass)) {
             return true;
         }
 
@@ -328,7 +328,7 @@ public abstract class Thing {
         // Check if the parent of the added container is that abstract class
         Class type;
         try {
-            type = Class.forName("cdp4common.dto." + Utils.getUpperCamelNotationFromConstant(newRoute.toString()));
+            type = Class.forName("cdp4common.dto." + newRoute.toString());
             Class parent = type.getSuperclass();
 
             while (parent != null) {

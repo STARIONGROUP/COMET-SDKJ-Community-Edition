@@ -207,7 +207,7 @@ public class ContainerPropertyHelper {
      * @return The name of the container property
      */
     public static String getContainerPropertyName(ClassKind classKind) {
-        return getContainerPropertyName(Utils.getUpperCamelNotationFromConstant(classKind.toString()));
+        return getContainerPropertyName(classKind.toString());
     }
 
     /**
@@ -231,7 +231,7 @@ public class ContainerPropertyHelper {
      * @return The name of the container class
      */
     public static String getContainerClassName(ClassKind classKind) {
-        return getContainerClassName(Utils.getUpperCamelNotationFromConstant(classKind.toString()));
+        return getContainerClassName(classKind.toString());
     }
 
     /**

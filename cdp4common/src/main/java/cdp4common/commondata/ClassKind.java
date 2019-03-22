@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ClassKind.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  *
  * This is an auto-generated Enumeration. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
@@ -18,880 +18,891 @@ public enum ClassKind {
     /**
      * Assertion that the Class is an instance of ActionItem
      */
-    ACTION_ITEM,
+    ACTION_ITEM("ActionItem"),
 
     /**
      * Assertion that the Class is an instance of ActualFiniteState
      */
-    ACTUAL_FINITE_STATE,
+    ACTUAL_FINITE_STATE("ActualFiniteState"),
 
     /**
      * Assertion that the Class is an instance of ActualFiniteStateList
      */
-    ACTUAL_FINITE_STATE_LIST,
+    ACTUAL_FINITE_STATE_LIST("ActualFiniteStateList"),
 
     /**
      * Assertion that the Class is an instance of Alias
      */
-    ALIAS,
+    ALIAS("Alias"),
 
     /**
      * Assertion that the Class is an instance of AndExpression
      */
-    AND_EXPRESSION,
+    AND_EXPRESSION("AndExpression"),
 
     /**
      * Assertion that the Class is an instance of Approval
      */
-    APPROVAL,
+    APPROVAL("Approval"),
 
     /**
      * Assertion that the Class is an instance of ArrayParameterType
      */
-    ARRAY_PARAMETER_TYPE,
+    ARRAY_PARAMETER_TYPE("ArrayParameterType"),
 
     /**
      * Assertion that the Class is an instance of BinaryNote
      */
-    BINARY_NOTE,
+    BINARY_NOTE("BinaryNote"),
 
     /**
      * Assertion that the Class is an instance of BinaryRelationship
      */
-    BINARY_RELATIONSHIP,
+    BINARY_RELATIONSHIP("BinaryRelationship"),
 
     /**
      * Assertion that the Class is an instance of BinaryRelationshipRule
      */
-    BINARY_RELATIONSHIP_RULE,
+    BINARY_RELATIONSHIP_RULE("BinaryRelationshipRule"),
 
     /**
      * Assertion that the Class is an instance of Book
      */
-    BOOK,
+    BOOK("Book"),
 
     /**
      * Assertion that the Class is an instance of BooleanExpression
      */
-    BOOLEAN_EXPRESSION,
+    BOOLEAN_EXPRESSION("BooleanExpression"),
 
     /**
      * Assertion that the Class is an instance of BooleanParameterType
      */
-    BOOLEAN_PARAMETER_TYPE,
+    BOOLEAN_PARAMETER_TYPE("BooleanParameterType"),
 
     /**
      * Assertion that the Class is an instance of Bounds
      */
-    BOUNDS,
+    BOUNDS("Bounds"),
 
     /**
      * Assertion that the Class is an instance of BuiltInRuleVerification
      */
-    BUILT_IN_RULE_VERIFICATION,
+    BUILT_IN_RULE_VERIFICATION("BuiltInRuleVerification"),
 
     /**
      * Assertion that the Class is an instance of Category
      */
-    CATEGORY,
+    CATEGORY("Category"),
 
     /**
      * Assertion that the Class is an instance of ChangeProposal
      */
-    CHANGE_PROPOSAL,
+    CHANGE_PROPOSAL("ChangeProposal"),
 
     /**
      * Assertion that the Class is an instance of ChangeRequest
      */
-    CHANGE_REQUEST,
+    CHANGE_REQUEST("ChangeRequest"),
 
     /**
      * Assertion that the Class is an instance of Citation
      */
-    CITATION,
+    CITATION("Citation"),
 
     /**
      * Assertion that the Class is an instance of Color
      */
-    COLOR,
+    COLOR("Color"),
 
     /**
      * Assertion that the Class is an instance of CommonFileStore
      */
-    COMMON_FILE_STORE,
+    COMMON_FILE_STORE("CommonFileStore"),
 
     /**
      * Assertion that the Class is an instance of CompoundParameterType
      */
-    COMPOUND_PARAMETER_TYPE,
+    COMPOUND_PARAMETER_TYPE("CompoundParameterType"),
 
     /**
      * Assertion that the Class is an instance of Constant
      */
-    CONSTANT,
+    CONSTANT("Constant"),
 
     /**
      * Assertion that the Class is an instance of ContractChangeNotice
      */
-    CONTRACT_CHANGE_NOTICE,
+    CONTRACT_CHANGE_NOTICE("ContractChangeNotice"),
 
     /**
      * Assertion that the Class is an instance of ContractDeviation
      */
-    CONTRACT_DEVIATION,
+    CONTRACT_DEVIATION("ContractDeviation"),
 
     /**
      * Assertion that the Class is an instance of ConversionBasedUnit
      */
-    CONVERSION_BASED_UNIT,
+    CONVERSION_BASED_UNIT("ConversionBasedUnit"),
 
     /**
      * Assertion that the Class is an instance of CyclicRatioScale
      */
-    CYCLIC_RATIO_SCALE,
+    CYCLIC_RATIO_SCALE("CyclicRatioScale"),
 
     /**
      * Assertion that the Class is an instance of DateParameterType
      */
-    DATE_PARAMETER_TYPE,
+    DATE_PARAMETER_TYPE("DateParameterType"),
 
     /**
      * Assertion that the Class is an instance of DateTimeParameterType
      */
-    DATE_TIME_PARAMETER_TYPE,
+    DATE_TIME_PARAMETER_TYPE("DateTimeParameterType"),
 
     /**
      * Assertion that the Class is an instance of DecompositionRule
      */
-    DECOMPOSITION_RULE,
+    DECOMPOSITION_RULE("DecompositionRule"),
 
     /**
      * Assertion that the Class is an instance of DefinedThing
      */
-    DEFINED_THING,
+    DEFINED_THING("DefinedThing"),
 
     /**
      * Assertion that the Class is an instance of Definition
      */
-    DEFINITION,
+    DEFINITION("Definition"),
 
     /**
      * Assertion that the Class is an instance of DerivedQuantityKind
      */
-    DERIVED_QUANTITY_KIND,
+    DERIVED_QUANTITY_KIND("DerivedQuantityKind"),
 
     /**
      * Assertion that the Class is an instance of DerivedUnit
      */
-    DERIVED_UNIT,
+    DERIVED_UNIT("DerivedUnit"),
 
     /**
      * Assertion that the Class is an instance of DiagramCanvas
      */
-    DIAGRAM_CANVAS,
+    DIAGRAM_CANVAS("DiagramCanvas"),
 
     /**
      * Assertion that the Class is an instance of DiagramEdge
      */
-    DIAGRAM_EDGE,
+    DIAGRAM_EDGE("DiagramEdge"),
 
     /**
      * Assertion that the Class is an instance of DiagramElementContainer
      */
-    DIAGRAM_ELEMENT_CONTAINER,
+    DIAGRAM_ELEMENT_CONTAINER("DiagramElementContainer"),
 
     /**
      * Assertion that the Class is an instance of DiagramElementThing
      */
-    DIAGRAM_ELEMENT_THING,
+    DIAGRAM_ELEMENT_THING("DiagramElementThing"),
 
     /**
      * Assertion that the Class is an instance of DiagrammingStyle
      */
-    DIAGRAMMING_STYLE,
+    DIAGRAMMING_STYLE("DiagrammingStyle"),
 
     /**
      * Assertion that the Class is an instance of DiagramObject
      */
-    DIAGRAM_OBJECT,
+    DIAGRAM_OBJECT("DiagramObject"),
 
     /**
      * Assertion that the Class is an instance of DiagramShape
      */
-    DIAGRAM_SHAPE,
+    DIAGRAM_SHAPE("DiagramShape"),
 
     /**
      * Assertion that the Class is an instance of DiagramThingBase
      */
-    DIAGRAM_THING_BASE,
+    DIAGRAM_THING_BASE("DiagramThingBase"),
 
     /**
      * Assertion that the Class is an instance of DiscussionItem
      */
-    DISCUSSION_ITEM,
+    DISCUSSION_ITEM("DiscussionItem"),
 
     /**
      * Assertion that the Class is an instance of DomainFileStore
      */
-    DOMAIN_FILE_STORE,
+    DOMAIN_FILE_STORE("DomainFileStore"),
 
     /**
      * Assertion that the Class is an instance of DomainOfExpertise
      */
-    DOMAIN_OF_EXPERTISE,
+    DOMAIN_OF_EXPERTISE("DomainOfExpertise"),
 
     /**
      * Assertion that the Class is an instance of DomainOfExpertiseGroup
      */
-    DOMAIN_OF_EXPERTISE_GROUP,
+    DOMAIN_OF_EXPERTISE_GROUP("DomainOfExpertiseGroup"),
 
     /**
      * Assertion that the Class is an instance of ElementBase
      */
-    ELEMENT_BASE,
+    ELEMENT_BASE("ElementBase"),
 
     /**
      * Assertion that the Class is an instance of ElementDefinition
      */
-    ELEMENT_DEFINITION,
+    ELEMENT_DEFINITION("ElementDefinition"),
 
     /**
      * Assertion that the Class is an instance of ElementUsage
      */
-    ELEMENT_USAGE,
+    ELEMENT_USAGE("ElementUsage"),
 
     /**
      * Assertion that the Class is an instance of EmailAddress
      */
-    EMAIL_ADDRESS,
+    EMAIL_ADDRESS("EmailAddress"),
 
     /**
      * Assertion that the Class is an instance of EngineeringModel
      */
-    ENGINEERING_MODEL,
+    ENGINEERING_MODEL("EngineeringModel"),
 
     /**
      * Assertion that the Class is an instance of EngineeringModelDataAnnotation
      */
-    ENGINEERING_MODEL_DATA_ANNOTATION,
+    ENGINEERING_MODEL_DATA_ANNOTATION("EngineeringModelDataAnnotation"),
 
     /**
      * Assertion that the Class is an instance of EngineeringModelDataDiscussionItem
      */
-    ENGINEERING_MODEL_DATA_DISCUSSION_ITEM,
+    ENGINEERING_MODEL_DATA_DISCUSSION_ITEM("EngineeringModelDataDiscussionItem"),
 
     /**
      * Assertion that the Class is an instance of EngineeringModelDataNote
      */
-    ENGINEERING_MODEL_DATA_NOTE,
+    ENGINEERING_MODEL_DATA_NOTE("EngineeringModelDataNote"),
 
     /**
      * Assertion that the Class is an instance of EngineeringModelSetup
      */
-    ENGINEERING_MODEL_SETUP,
+    ENGINEERING_MODEL_SETUP("EngineeringModelSetup"),
 
     /**
      * Assertion that the Class is an instance of EnumerationParameterType
      */
-    ENUMERATION_PARAMETER_TYPE,
+    ENUMERATION_PARAMETER_TYPE("EnumerationParameterType"),
 
     /**
      * Assertion that the Class is an instance of EnumerationValueDefinition
      */
-    ENUMERATION_VALUE_DEFINITION,
+    ENUMERATION_VALUE_DEFINITION("EnumerationValueDefinition"),
 
     /**
      * Assertion that the Class is an instance of ExclusiveOrExpression
      */
-    EXCLUSIVE_OR_EXPRESSION,
+    EXCLUSIVE_OR_EXPRESSION("ExclusiveOrExpression"),
 
     /**
      * Assertion that the Class is an instance of ExternalIdentifierMap
      */
-    EXTERNAL_IDENTIFIER_MAP,
+    EXTERNAL_IDENTIFIER_MAP("ExternalIdentifierMap"),
 
     /**
      * Assertion that the Class is an instance of File
      */
-    FILE,
+    FILE("File"),
 
     /**
      * Assertion that the Class is an instance of FileRevision
      */
-    FILE_REVISION,
+    FILE_REVISION("FileRevision"),
 
     /**
      * Assertion that the Class is an instance of FileStore
      */
-    FILE_STORE,
+    FILE_STORE("FileStore"),
 
     /**
      * Assertion that the Class is an instance of FileType
      */
-    FILE_TYPE,
+    FILE_TYPE("FileType"),
 
     /**
      * Assertion that the Class is an instance of Folder
      */
-    FOLDER,
+    FOLDER("Folder"),
 
     /**
      * Assertion that the Class is an instance of GenericAnnotation
      */
-    GENERIC_ANNOTATION,
+    GENERIC_ANNOTATION("GenericAnnotation"),
 
     /**
      * Assertion that the Class is an instance of Glossary
      */
-    GLOSSARY,
+    GLOSSARY("Glossary"),
 
     /**
      * Assertion that the Class is an instance of Goal
      */
-    GOAL,
+    GOAL("Goal"),
 
     /**
      * Assertion that the Class is an instance of HyperLink
      */
-    HYPER_LINK,
+    HYPER_LINK("HyperLink"),
 
     /**
      * Assertion that the Class is an instance of IdCorrespondence
      */
-    ID_CORRESPONDENCE,
+    ID_CORRESPONDENCE("IdCorrespondence"),
 
     /**
      * Assertion that the Class is an instance of IntervalScale
      */
-    INTERVAL_SCALE,
+    INTERVAL_SCALE("IntervalScale"),
 
     /**
      * Assertion that the Class is an instance of Iteration
      */
-    ITERATION,
+    ITERATION("Iteration"),
 
     /**
      * Assertion that the Class is an instance of IterationSetup
      */
-    ITERATION_SETUP,
+    ITERATION_SETUP("IterationSetup"),
 
     /**
      * Assertion that the Class is an instance of LinearConversionUnit
      */
-    LINEAR_CONVERSION_UNIT,
+    LINEAR_CONVERSION_UNIT("LinearConversionUnit"),
 
     /**
      * Assertion that the Class is an instance of LogarithmicScale
      */
-    LOGARITHMIC_SCALE,
+    LOGARITHMIC_SCALE("LogarithmicScale"),
 
     /**
      * Assertion that the Class is an instance of MappingToReferenceScale
      */
-    MAPPING_TO_REFERENCE_SCALE,
+    MAPPING_TO_REFERENCE_SCALE("MappingToReferenceScale"),
 
     /**
      * Assertion that the Class is an instance of MeasurementScale
      */
-    MEASUREMENT_SCALE,
+    MEASUREMENT_SCALE("MeasurementScale"),
 
     /**
      * Assertion that the Class is an instance of MeasurementUnit
      */
-    MEASUREMENT_UNIT,
+    MEASUREMENT_UNIT("MeasurementUnit"),
 
     /**
      * Assertion that the Class is an instance of ModellingAnnotationItem
      */
-    MODELLING_ANNOTATION_ITEM,
+    MODELLING_ANNOTATION_ITEM("ModellingAnnotationItem"),
 
     /**
      * Assertion that the Class is an instance of ModellingThingReference
      */
-    MODELLING_THING_REFERENCE,
+    MODELLING_THING_REFERENCE("ModellingThingReference"),
 
     /**
      * Assertion that the Class is an instance of ModelLogEntry
      */
-    MODEL_LOG_ENTRY,
+    MODEL_LOG_ENTRY("ModelLogEntry"),
 
     /**
      * Assertion that the Class is an instance of ModelReferenceDataLibrary
      */
-    MODEL_REFERENCE_DATA_LIBRARY,
+    MODEL_REFERENCE_DATA_LIBRARY("ModelReferenceDataLibrary"),
 
     /**
      * Assertion that the Class is an instance of MultiRelationship
      */
-    MULTI_RELATIONSHIP,
+    MULTI_RELATIONSHIP("MultiRelationship"),
 
     /**
      * Assertion that the Class is an instance of MultiRelationshipRule
      */
-    MULTI_RELATIONSHIP_RULE,
+    MULTI_RELATIONSHIP_RULE("MultiRelationshipRule"),
 
     /**
      * Assertion that the Class is an instance of NaturalLanguage
      */
-    NATURAL_LANGUAGE,
+    NATURAL_LANGUAGE("NaturalLanguage"),
 
     /**
      * Assertion that the Class is an instance of NestedElement
      */
-    NESTED_ELEMENT,
+    NESTED_ELEMENT("NestedElement"),
 
     /**
      * Assertion that the Class is an instance of NestedParameter
      */
-    NESTED_PARAMETER,
+    NESTED_PARAMETER("NestedParameter"),
 
     /**
      * Assertion that the Class is an instance of Note
      */
-    NOTE,
+    NOTE("Note"),
 
     /**
      * Assertion that the Class is an instance of NotExpression
      */
-    NOT_EXPRESSION,
+    NOT_EXPRESSION("NotExpression"),
 
     /**
      * Assertion that the Class is an instance of NotThing
      */
-    NOT_THING,
+    NOT_THING("NotThing"),
 
     /**
      * Assertion that the Class is an instance of Option
      */
-    OPTION,
+    OPTION("Option"),
 
     /**
      * Assertion that the Class is an instance of OrdinalScale
      */
-    ORDINAL_SCALE,
+    ORDINAL_SCALE("OrdinalScale"),
 
     /**
      * Assertion that the Class is an instance of OrExpression
      */
-    OR_EXPRESSION,
+    OR_EXPRESSION("OrExpression"),
 
     /**
      * Assertion that the Class is an instance of Organization
      */
-    ORGANIZATION,
+    ORGANIZATION("Organization"),
 
     /**
      * Assertion that the Class is an instance of OwnedStyle
      */
-    OWNED_STYLE,
+    OWNED_STYLE("OwnedStyle"),
 
     /**
      * Assertion that the Class is an instance of Page
      */
-    PAGE,
+    PAGE("Page"),
 
     /**
      * Assertion that the Class is an instance of Parameter
      */
-    PARAMETER,
+    PARAMETER("Parameter"),
 
     /**
      * Assertion that the Class is an instance of ParameterBase
      */
-    PARAMETER_BASE,
+    PARAMETER_BASE("ParameterBase"),
 
     /**
      * Assertion that the Class is an instance of ParameterGroup
      */
-    PARAMETER_GROUP,
+    PARAMETER_GROUP("ParameterGroup"),
 
     /**
      * Assertion that the Class is an instance of ParameterizedCategoryRule
      */
-    PARAMETERIZED_CATEGORY_RULE,
+    PARAMETERIZED_CATEGORY_RULE("ParameterizedCategoryRule"),
 
     /**
      * Assertion that the Class is an instance of ParameterOrOverrideBase
      */
-    PARAMETER_OR_OVERRIDE_BASE,
+    PARAMETER_OR_OVERRIDE_BASE("ParameterOrOverrideBase"),
 
     /**
      * Assertion that the Class is an instance of ParameterOverride
      */
-    PARAMETER_OVERRIDE,
+    PARAMETER_OVERRIDE("ParameterOverride"),
 
     /**
      * Assertion that the Class is an instance of ParameterOverrideValueSet
      */
-    PARAMETER_OVERRIDE_VALUE_SET,
+    PARAMETER_OVERRIDE_VALUE_SET("ParameterOverrideValueSet"),
 
     /**
      * Assertion that the Class is an instance of ParameterSubscription
      */
-    PARAMETER_SUBSCRIPTION,
+    PARAMETER_SUBSCRIPTION("ParameterSubscription"),
 
     /**
      * Assertion that the Class is an instance of ParameterSubscriptionValueSet
      */
-    PARAMETER_SUBSCRIPTION_VALUE_SET,
+    PARAMETER_SUBSCRIPTION_VALUE_SET("ParameterSubscriptionValueSet"),
 
     /**
      * Assertion that the Class is an instance of ParameterType
      */
-    PARAMETER_TYPE,
+    PARAMETER_TYPE("ParameterType"),
 
     /**
      * Assertion that the Class is an instance of ParameterTypeComponent
      */
-    PARAMETER_TYPE_COMPONENT,
+    PARAMETER_TYPE_COMPONENT("ParameterTypeComponent"),
 
     /**
      * Assertion that the Class is an instance of ParameterValue
      */
-    PARAMETER_VALUE,
+    PARAMETER_VALUE("ParameterValue"),
 
     /**
      * Assertion that the Class is an instance of ParameterValueSet
      */
-    PARAMETER_VALUE_SET,
+    PARAMETER_VALUE_SET("ParameterValueSet"),
 
     /**
      * Assertion that the Class is an instance of ParameterValueSetBase
      */
-    PARAMETER_VALUE_SET_BASE,
+    PARAMETER_VALUE_SET_BASE("ParameterValueSetBase"),
 
     /**
      * Assertion that the Class is an instance of ParametricConstraint
      */
-    PARAMETRIC_CONSTRAINT,
+    PARAMETRIC_CONSTRAINT("ParametricConstraint"),
 
     /**
      * Assertion that the Class is an instance of Participant
      */
-    PARTICIPANT,
+    PARTICIPANT("Participant"),
 
     /**
      * Assertion that the Class is an instance of ParticipantPermission
      */
-    PARTICIPANT_PERMISSION,
+    PARTICIPANT_PERMISSION("ParticipantPermission"),
 
     /**
      * Assertion that the Class is an instance of ParticipantRole
      */
-    PARTICIPANT_ROLE,
+    PARTICIPANT_ROLE("ParticipantRole"),
 
     /**
      * Assertion that the Class is an instance of Person
      */
-    PERSON,
+    PERSON("Person"),
 
     /**
      * Assertion that the Class is an instance of PersonPermission
      */
-    PERSON_PERMISSION,
+    PERSON_PERMISSION("PersonPermission"),
 
     /**
      * Assertion that the Class is an instance of PersonRole
      */
-    PERSON_ROLE,
+    PERSON_ROLE("PersonRole"),
 
     /**
      * Assertion that the Class is an instance of Point
      */
-    POINT,
+    POINT("Point"),
 
     /**
      * Assertion that the Class is an instance of PossibleFiniteState
      */
-    POSSIBLE_FINITE_STATE,
+    POSSIBLE_FINITE_STATE("PossibleFiniteState"),
 
     /**
      * Assertion that the Class is an instance of PossibleFiniteStateList
      */
-    POSSIBLE_FINITE_STATE_LIST,
+    POSSIBLE_FINITE_STATE_LIST("PossibleFiniteStateList"),
 
     /**
      * Assertion that the Class is an instance of PrefixedUnit
      */
-    PREFIXED_UNIT,
+    PREFIXED_UNIT("PrefixedUnit"),
 
     /**
      * Assertion that the Class is an instance of Publication
      */
-    PUBLICATION,
+    PUBLICATION("Publication"),
 
     /**
      * Assertion that the Class is an instance of QuantityKind
      */
-    QUANTITY_KIND,
+    QUANTITY_KIND("QuantityKind"),
 
     /**
      * Assertion that the Class is an instance of QuantityKindFactor
      */
-    QUANTITY_KIND_FACTOR,
+    QUANTITY_KIND_FACTOR("QuantityKindFactor"),
 
     /**
      * Assertion that the Class is an instance of RatioScale
      */
-    RATIO_SCALE,
+    RATIO_SCALE("RatioScale"),
 
     /**
      * Assertion that the Class is an instance of ReferenceDataLibrary
      */
-    REFERENCE_DATA_LIBRARY,
+    REFERENCE_DATA_LIBRARY("ReferenceDataLibrary"),
 
     /**
      * Assertion that the Class is an instance of ReferencerRule
      */
-    REFERENCER_RULE,
+    REFERENCER_RULE("ReferencerRule"),
 
     /**
      * Assertion that the Class is an instance of ReferenceSource
      */
-    REFERENCE_SOURCE,
+    REFERENCE_SOURCE("ReferenceSource"),
 
     /**
      * Assertion that the Class is an instance of RelationalExpression
      */
-    RELATIONAL_EXPRESSION,
+    RELATIONAL_EXPRESSION("RelationalExpression"),
 
     /**
      * Assertion that the Class is an instance of Relationship
      */
-    RELATIONSHIP,
+    RELATIONSHIP("Relationship"),
 
     /**
      * Assertion that the Class is an instance of RelationshipParameterValue
      */
-    RELATIONSHIP_PARAMETER_VALUE,
+    RELATIONSHIP_PARAMETER_VALUE("RelationshipParameterValue"),
 
     /**
      * Assertion that the Class is an instance of RequestForDeviation
      */
-    REQUEST_FOR_DEVIATION,
+    REQUEST_FOR_DEVIATION("RequestForDeviation"),
 
     /**
      * Assertion that the Class is an instance of RequestForWaiver
      */
-    REQUEST_FOR_WAIVER,
+    REQUEST_FOR_WAIVER("RequestForWaiver"),
 
     /**
      * Assertion that the Class is an instance of Requirement
      */
-    REQUIREMENT,
+    REQUIREMENT("Requirement"),
 
     /**
      * Assertion that the Class is an instance of RequirementsContainer
      */
-    REQUIREMENTS_CONTAINER,
+    REQUIREMENTS_CONTAINER("RequirementsContainer"),
 
     /**
      * Assertion that the Class is an instance of RequirementsContainerParameterValue
      */
-    REQUIREMENTS_CONTAINER_PARAMETER_VALUE,
+    REQUIREMENTS_CONTAINER_PARAMETER_VALUE("RequirementsContainerParameterValue"),
 
     /**
      * Assertion that the Class is an instance of RequirementsGroup
      */
-    REQUIREMENTS_GROUP,
+    REQUIREMENTS_GROUP("RequirementsGroup"),
 
     /**
      * Assertion that the Class is an instance of RequirementsSpecification
      */
-    REQUIREMENTS_SPECIFICATION,
+    REQUIREMENTS_SPECIFICATION("RequirementsSpecification"),
 
     /**
      * Assertion that the Class is an instance of ReviewItemDiscrepancy
      */
-    REVIEW_ITEM_DISCREPANCY,
+    REVIEW_ITEM_DISCREPANCY("ReviewItemDiscrepancy"),
 
     /**
      * Assertion that the Class is an instance of Rule
      */
-    RULE,
+    RULE("Rule"),
 
     /**
      * Assertion that the Class is an instance of RuleVerification
      */
-    RULE_VERIFICATION,
+    RULE_VERIFICATION("RuleVerification"),
 
     /**
      * Assertion that the Class is an instance of RuleVerificationList
      */
-    RULE_VERIFICATION_LIST,
+    RULE_VERIFICATION_LIST("RuleVerificationList"),
 
     /**
      * Assertion that the Class is an instance of RuleViolation
      */
-    RULE_VIOLATION,
+    RULE_VIOLATION("RuleViolation"),
 
     /**
      * Assertion that the Class is an instance of ScalarParameterType
      */
-    SCALAR_PARAMETER_TYPE,
+    SCALAR_PARAMETER_TYPE("ScalarParameterType"),
 
     /**
      * Assertion that the Class is an instance of ScaleReferenceQuantityValue
      */
-    SCALE_REFERENCE_QUANTITY_VALUE,
+    SCALE_REFERENCE_QUANTITY_VALUE("ScaleReferenceQuantityValue"),
 
     /**
      * Assertion that the Class is an instance of ScaleValueDefinition
      */
-    SCALE_VALUE_DEFINITION,
+    SCALE_VALUE_DEFINITION("ScaleValueDefinition"),
 
     /**
      * Assertion that the Class is an instance of Section
      */
-    SECTION,
+    SECTION("Section"),
 
     /**
      * Assertion that the Class is an instance of SharedStyle
      */
-    SHARED_STYLE,
+    SHARED_STYLE("SharedStyle"),
 
     /**
      * Assertion that the Class is an instance of SimpleParameterizableThing
      */
-    SIMPLE_PARAMETERIZABLE_THING,
+    SIMPLE_PARAMETERIZABLE_THING("SimpleParameterizableThing"),
 
     /**
      * Assertion that the Class is an instance of SimpleParameterValue
      */
-    SIMPLE_PARAMETER_VALUE,
+    SIMPLE_PARAMETER_VALUE("SimpleParameterValue"),
 
     /**
      * Assertion that the Class is an instance of SimpleQuantityKind
      */
-    SIMPLE_QUANTITY_KIND,
+    SIMPLE_QUANTITY_KIND("SimpleQuantityKind"),
 
     /**
      * Assertion that the Class is an instance of SimpleUnit
      */
-    SIMPLE_UNIT,
+    SIMPLE_UNIT("SimpleUnit"),
 
     /**
      * Assertion that the Class is an instance of SiteDirectory
      */
-    SITE_DIRECTORY,
+    SITE_DIRECTORY("SiteDirectory"),
 
     /**
      * Assertion that the Class is an instance of SiteDirectoryDataAnnotation
      */
-    SITE_DIRECTORY_DATA_ANNOTATION,
+    SITE_DIRECTORY_DATA_ANNOTATION("SiteDirectoryDataAnnotation"),
 
     /**
      * Assertion that the Class is an instance of SiteDirectoryDataDiscussionItem
      */
-    SITE_DIRECTORY_DATA_DISCUSSION_ITEM,
+    SITE_DIRECTORY_DATA_DISCUSSION_ITEM("SiteDirectoryDataDiscussionItem"),
 
     /**
      * Assertion that the Class is an instance of SiteDirectoryThingReference
      */
-    SITE_DIRECTORY_THING_REFERENCE,
+    SITE_DIRECTORY_THING_REFERENCE("SiteDirectoryThingReference"),
 
     /**
      * Assertion that the Class is an instance of SiteLogEntry
      */
-    SITE_LOG_ENTRY,
+    SITE_LOG_ENTRY("SiteLogEntry"),
 
     /**
      * Assertion that the Class is an instance of SiteReferenceDataLibrary
      */
-    SITE_REFERENCE_DATA_LIBRARY,
+    SITE_REFERENCE_DATA_LIBRARY("SiteReferenceDataLibrary"),
 
     /**
      * Assertion that the Class is an instance of Solution
      */
-    SOLUTION,
+    SOLUTION("Solution"),
 
     /**
      * Assertion that the Class is an instance of SpecializedQuantityKind
      */
-    SPECIALIZED_QUANTITY_KIND,
+    SPECIALIZED_QUANTITY_KIND("SpecializedQuantityKind"),
 
     /**
      * Assertion that the Class is an instance of Stakeholder
      */
-    STAKEHOLDER,
+    STAKEHOLDER("Stakeholder"),
 
     /**
      * Assertion that the Class is an instance of StakeholderValue
      */
-    STAKEHOLDER_VALUE,
+    STAKEHOLDER_VALUE("StakeholderValue"),
 
     /**
      * Assertion that the Class is an instance of StakeHolderValueMap
      */
-    STAKE_HOLDER_VALUE_MAP,
+    STAKE_HOLDER_VALUE_MAP("StakeHolderValueMap"),
 
     /**
      * Assertion that the Class is an instance of StakeHolderValueMapSettings
      */
-    STAKE_HOLDER_VALUE_MAP_SETTINGS,
+    STAKE_HOLDER_VALUE_MAP_SETTINGS("StakeHolderValueMapSettings"),
 
     /**
      * Assertion that the Class is an instance of TelephoneNumber
      */
-    TELEPHONE_NUMBER,
+    TELEPHONE_NUMBER("TelephoneNumber"),
 
     /**
      * Assertion that the Class is an instance of Term
      */
-    TERM,
+    TERM("Term"),
 
     /**
      * Assertion that the Class is an instance of TextParameterType
      */
-    TEXT_PARAMETER_TYPE,
+    TEXT_PARAMETER_TYPE("TextParameterType"),
 
     /**
      * Assertion that the Class is an instance of TextualNote
      */
-    TEXTUAL_NOTE,
+    TEXTUAL_NOTE("TextualNote"),
 
     /**
      * Assertion that the Class is an instance of Thing
      */
-    THING,
+    THING("Thing"),
 
     /**
      * Assertion that the Class is an instance of ThingReference
      */
-    THING_REFERENCE,
+    THING_REFERENCE("ThingReference"),
 
     /**
      * Assertion that the Class is an instance of TimeOfDayParameterType
      */
-    TIME_OF_DAY_PARAMETER_TYPE,
+    TIME_OF_DAY_PARAMETER_TYPE("TimeOfDayParameterType"),
 
     /**
      * Assertion that the Class is an instance of TopContainer
      */
-    TOP_CONTAINER,
+    TOP_CONTAINER("TopContainer"),
 
     /**
      * Assertion that the Class is an instance of UnitFactor
      */
-    UNIT_FACTOR,
+    UNIT_FACTOR("UnitFactor"),
 
     /**
      * Assertion that the Class is an instance of UnitPrefix
      */
-    UNIT_PREFIX,
+    UNIT_PREFIX("UnitPrefix"),
 
     /**
      * Assertion that the Class is an instance of UserPreference
      */
-    USER_PREFERENCE,
+    USER_PREFERENCE("UserPreference"),
 
     /**
      * Assertion that the Class is an instance of UserRuleVerification
      */
-    USER_RULE_VERIFICATION,
+    USER_RULE_VERIFICATION("UserRuleVerification"),
 
     /**
      * Assertion that the Class is an instance of ValueGroup
      */
-    VALUE_GROUP
+    VALUE_GROUP("ValueGroup");
+
+    private String classKindName;
+
+    ClassKind(String classKindName){
+        this.classKindName = classKindName;
+    }
+
+    @Override
+    public String toString() {
+        return this.classKindName;
+    }
 }
