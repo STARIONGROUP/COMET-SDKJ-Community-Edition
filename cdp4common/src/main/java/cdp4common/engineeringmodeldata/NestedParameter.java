@@ -288,9 +288,9 @@ public class NestedParameter extends Thing implements Cloneable, OwnedThing, Vol
      *
      * The path is defined as the concatenation of:
      * (1) path to the nestedElement,
-     * (2) short-name of {@link ParameterType}, and {@link ParameterTypeComponent} if applicable, of the associated {@link Parameter},
-     * (3) short name of the associated {@link Option}.
-     * (4) short-name of the associated {@link ActualFiniteState} or empty string if it is null
+     * (2) short name of {@link ParameterType}, and {@link ParameterTypeComponent} if applicable, of the associated {@link Parameter},
+     * (3) short name of the associated {@link ActualFiniteState} or empty string if it is null
+     * (4) short name of the associated {@link Option}.
      *
      * @return The {@link #path} value
      */
@@ -316,6 +316,20 @@ public class NestedParameter extends Thing implements Cloneable, OwnedThing, Vol
     @Getter
     @Setter
     private ParameterTypeComponent component;
+
+    /**
+     * Gets or sets the {@link Option} the {@link NestedParameter} is valid for
+     */
+    @Getter
+    @Setter
+    public Option option;
+
+    /**
+     * Gets or sets the associated {@link ValueSet}
+     */
+    @Getter
+    @Setter
+    public ValueSet valueSet;
 
     /**
      * Queries the short-name of the {@link ParameterType} of the associated {@link Parameter}

@@ -1,6 +1,6 @@
 /*
  * NestedElementTreeGenerator.java
- * Copyright (c) 2018 RHEA System S.A.
+ * Copyright (c) 2019 RHEA System S.A.
  */
 
 package cdp4common.helpers;
@@ -12,7 +12,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -37,16 +36,50 @@ public class NestedElementTreeGenerator {
     private static java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(NestedElementTreeGenerator.class.getName());
 
     /**
+     * Creates the {@link NestedParameter}s in a flat list from {@link NestedElement}s list for the of {@link NestedElement}s.
+     *
+     * @param option            The {@link Option} for which the {@link NestedParameter}s flat list is created. When the {@link Option}
+     *                          is null then none of the {@link ElementUsage}s are filtered.
+     * @param domainOfExpertise The {@link DomainOfExpertise} for which the {@link NestedParameter}s flat list needs to be generated. Only the {@link Parameter}s, {@link ParameterOverride}s and
+     *                          {@link ParameterSubscription}s that are owned by the {@link DomainOfExpertise} will be taken into account.
+     * @param updateOption      Value indicating whether the {@link Option} shall be updated with the created {@link NestedElement}s or not.
+     * @return An {@link List} that contains the generated <{@link NestedParameter}s
+     * @throws NullPointerException thrown when the {@code domainOfExpertise} is null or thrown when the {@code option} is null
+     */
+    public List<NestedParameter> getNestedParameters(Option option, DomainOfExpertise domainOfExpertise, boolean updateOption) {
+        if (option == null) {
+            throw new NullPointerException("The option may not be null");
+        }
+
+        if (domainOfExpertise == null) {
+            throw new NullPointerException("The domainOfExpertise may not be null");
+        }
+
+        var iteration = (Iteration) option.getContainer();
+
+//        Logger.Debug($"Generating NestedElement for Iteration {iteration.Iid}, Option: {option.ShortName}, DomainOfExpertise {domainOfExpertise.ShortName}");
+
+        var nestedElements = this.generate(option, domainOfExpertise, updateOption);
+
+//        Logger.Debug($"Crearing NestedParameters Iteration: {iteration.Iid}, Option: {option.ShortName}, DomainOfExpertise {domainOfExpertise.ShortName}");
+
+        var flatNestedParameters = nestedElements.stream().flatMap(nestedElement -> nestedElement.getNestedParameter().stream());
+
+        return flatNestedParameters.collect(Collectors.toList());
+    }
+
+    /**
      * Generates the {@link NestedElement}s and {@link NestedParameter}s for the specified {@link Option}
      *
      * @param option            The {@link Option} for which the {@link NestedElement} tree needs to be generated.
      * @param domainOfExpertise The {@link DomainOfExpertise} for which the {@link NestedElement} tree needs to be generated.
      *                          Only the {@link Parameter}s, {@link ParameterOverride}s and {@link ParameterSubscription}s that are owned by
      *                          the {@link DomainOfExpertise} will be taken into account when generating {@link NestedParameter}s
+     * @param updateOption      Value indicating whether the {@link Option} shall be updated with the created {@link NestedElement}s or not.
      * @return An {@link Collection} that contains the generated {@link NestedElement}s filtered based on the provided {@link Option}
      * @throws NullPointerException thrown when the {@code domainOfExpertise} is null thrown when the {@code option} is null
      */
-    public Collection<NestedElement> generate(Option option, DomainOfExpertise domainOfExpertise) {
+    public Collection<NestedElement> generate(Option option, DomainOfExpertise domainOfExpertise, boolean updateOption) {
         if (option == null) {
             throw new NullPointerException("The option may not be null");
         }
@@ -64,7 +97,7 @@ public class NestedElementTreeGenerator {
 
         LOGGER.log(Level.FINE, "Generating NestedElement for Iteration {iteration.Iid}, Option: {option.ShortName}, DomainOfExpertise {domainOfExpertise.ShortName}");
 
-        Collection<NestedElement> createNestedElements = this.generateNestedElements(option, domainOfExpertise, rootElement);
+        Collection<NestedElement> createNestedElements = this.generateNestedElements(option, domainOfExpertise, rootElement, updateOption);
 
         return createNestedElements;
     }
@@ -78,13 +111,14 @@ public class NestedElementTreeGenerator {
      *                          Only the {@link Parameter}s, {@link ParameterOverride}s and
      *                          {@link ParameterSubscription}s that are owned by the {@link DomainOfExpertise}
      *                          will be taken into account when generating {@link NestedParameter}s
+     * @param updateOption      Value indicating whether the {@link Option} shall be updated with the created {@link NestedElement}s or not.
      * @param rootElement       The {@link ElementDefinition} that serves as the root of the generated {@link NestedElement} tree.
      * @return An {@link Collection} that contains the generated {@link NestedElement}s
      * @throws NullPointerException thrown when the {@code domainOfExpertise} is null
      *                              thrown when the {@code option} is null
      *                              thrown when the {@code rootElement} is null
      */
-    public Collection<NestedElement> generateNestedElements(Option option, DomainOfExpertise domainOfExpertise, ElementDefinition rootElement) {
+    public Collection<NestedElement> generateNestedElements(Option option, DomainOfExpertise domainOfExpertise, ElementDefinition rootElement, boolean updateOption) {
         if (option == null) {
             throw new NullPointerException("The option may not be null");
         }
@@ -99,11 +133,11 @@ public class NestedElementTreeGenerator {
 
         List<NestedElement> nestedElements = new ArrayList<>();
 
-        NestedElement rootNestedElement = this.createNestedElementAndNestedParametersForRootElement(rootElement, domainOfExpertise, option);
+        NestedElement rootNestedElement = this.createNestedElementAndNestedParametersForRootElement(rootElement, domainOfExpertise, option, updateOption);
         nestedElements.add(rootNestedElement);
 
         List<ElementUsage> elementUsages = new ArrayList<>();
-        Collection<NestedElement> recursedNestedElements = this.recursivelyCreateNestedElements(rootElement, rootElement, domainOfExpertise, elementUsages, option);
+        Collection<NestedElement> recursedNestedElements = this.recursivelyCreateNestedElements(rootElement, rootElement, domainOfExpertise, elementUsages, option, updateOption);
         nestedElements.addAll(recursedNestedElements);
 
         return nestedElements;
@@ -121,9 +155,10 @@ public class NestedElementTreeGenerator {
      *                          for the {@link NestedElement}s at the level of the {@code elementDefinition}.
      * @param option            The {@link Option} for which the {@link NestedElement} tree is created. When the {@link Option}
      *                          is null then none of the {@link ElementUsage}s are filtered.
+     * @param updateOption      Value indicating whether the {@link Option} shall be updated with the created {@link NestedElement}s or not.
      * @return The {@link Collection} that have been created.
      */
-    private Collection<NestedElement> recursivelyCreateNestedElements(ElementDefinition elementDefinition, ElementDefinition rootElement, DomainOfExpertise domainOfExpertise, List<ElementUsage> elementUsages, Option option) {
+    private Collection<NestedElement> recursivelyCreateNestedElements(ElementDefinition elementDefinition, ElementDefinition rootElement, DomainOfExpertise domainOfExpertise, List<ElementUsage> elementUsages, Option option, boolean updateOption) {
         Cache<CacheKey, Thing> cache = elementDefinition.getCache();
         URI uri = elementDefinition.getIDalUri();
         Collection<NestedElement> nestedElementsFormed = new ArrayList<>();
@@ -139,7 +174,11 @@ public class NestedElementTreeGenerator {
             nestedElement.setRootElement(rootElement);
             nestedElement.setVolatile(true);
 
-            option.getNestedElement().add(nestedElement);
+            if (updateOption) {
+                option.getNestedElement().add(nestedElement);
+            } else {
+                nestedElement.setContainer(option);
+            }
 
             Collection<NestedParameter> nestedParameters = this.createNestedParameters(elementUsage, domainOfExpertise, option);
             for (NestedParameter nestedParameter : nestedParameters) {
@@ -157,7 +196,7 @@ public class NestedElementTreeGenerator {
 
             ElementDefinition referencedElementDefinition = elementUsage.getElementDefinition();
 
-            Collection<NestedElement> nestedElements = this.recursivelyCreateNestedElements(referencedElementDefinition, rootElement, domainOfExpertise, containmentUsages, option);
+            Collection<NestedElement> nestedElements = this.recursivelyCreateNestedElements(referencedElementDefinition, rootElement, domainOfExpertise, containmentUsages, option, updateOption);
             nestedElementsFormed.addAll(nestedElements);
 
             nestedElementsFormed.add(nestedElement);
@@ -174,15 +213,20 @@ public class NestedElementTreeGenerator {
      *                          {@link ParameterSubscription}s that are owned by the {@link DomainOfExpertise} will be taken into account when generating {@link NestedParameter}s
      * @param option            The {@link Option} for which the {@link NestedElement} tree is created. When the {@link Option}
      *                          is null then none of the {@link ElementUsage}s are filtered.
+     * @param updateOption      Value indicating whether the {@link Option} shall be updated with the created {@link NestedElement}s or not.
      * @return The {@link NestedElement} that have been created.
      */
-    private NestedElement createNestedElementAndNestedParametersForRootElement(ElementDefinition rootElement, DomainOfExpertise domainOfExpertise, Option option) {
+    private NestedElement createNestedElementAndNestedParametersForRootElement(ElementDefinition rootElement, DomainOfExpertise domainOfExpertise, Option option, boolean updateOption) {
         NestedElement nestedElement = new NestedElement(UUID.randomUUID(), rootElement.getCache(), rootElement.getIDalUri());
         nestedElement.setRootElement(rootElement);
         nestedElement.setVolatile(true);
         nestedElement.setIsRootElement(true);
 
-        option.getNestedElement().add(nestedElement);
+        if (updateOption) {
+            option.getNestedElement().add(nestedElement);
+        } else {
+            nestedElement.setContainer(option);
+        }
 
         for (Parameter parameter : rootElement.getParameter()) {
             CompoundParameterType compoundParameterType = parameter.getParameterType() instanceof CompoundParameterType ? (CompoundParameterType) (parameter.getParameterType()) : null;
@@ -193,11 +237,11 @@ public class NestedElementTreeGenerator {
 
                 for (ParameterValueSet parameterValueSet : valueSets) {
                     if (compoundParameterType == null) {
-                        NestedParameter nestedParameter = this.createdNestedParameter(parameter, null, parameterValueSet);
+                        NestedParameter nestedParameter = this.createdNestedParameter(parameter, null, parameterValueSet, option);
                         nestedElement.getNestedParameter().add(nestedParameter);
                     } else {
                         for (ParameterTypeComponent component : compoundParameterType.getComponent()) {
-                            NestedParameter nestedParameter = this.createdNestedParameter(parameter, component, parameterValueSet);
+                            NestedParameter nestedParameter = this.createdNestedParameter(parameter, component, parameterValueSet, option);
                             nestedElement.getNestedParameter().add(nestedParameter);
                         }
                     }
@@ -241,11 +285,11 @@ public class NestedElementTreeGenerator {
 
                     for (ParameterValueSet parameterValueSet : valueSets) {
                         if (compoundParameterType == null) {
-                            NestedParameter nestedParameter = this.createdNestedParameter(parameter, null, parameterValueSet);
+                            NestedParameter nestedParameter = this.createdNestedParameter(parameter, null, parameterValueSet, option);
                             nestedParameters.add(nestedParameter);
                         } else {
                             for (ParameterTypeComponent component : compoundParameterType.getComponent()) {
-                                NestedParameter nestedParameter = this.createdNestedParameter(parameter, component, parameterValueSet);
+                                NestedParameter nestedParameter = this.createdNestedParameter(parameter, component, parameterValueSet, option);
 
                                 nestedParameters.add(nestedParameter);
                             }
@@ -263,11 +307,11 @@ public class NestedElementTreeGenerator {
                     Collection<ParameterOverrideValueSet> valueSets = parameterOverride.isOptionDependent() ? parameterOverride.getValueSet().stream().filter(vs -> vs.getActualOption().equals(option)).collect(Collectors.toList()) : parameterOverride.getValueSet();
                     for (ParameterOverrideValueSet parameterOverrideValueSet : valueSets) {
                         if (compoundParameterType == null) {
-                            NestedParameter nestedParameter = this.createdNestedParameter(parameter, null, parameterOverrideValueSet);
+                            NestedParameter nestedParameter = this.createdNestedParameter(parameter, null, parameterOverrideValueSet, option);
                             nestedParameters.add(nestedParameter);
                         } else {
                             for (ParameterTypeComponent component : compoundParameterType.getComponent()) {
-                                NestedParameter nestedParameter = this.createdNestedParameter(parameter, component, parameterOverrideValueSet);
+                                NestedParameter nestedParameter = this.createdNestedParameter(parameter, component, parameterOverrideValueSet, option);
                                 nestedParameters.add(nestedParameter);
                             }
                         }
@@ -301,11 +345,11 @@ public class NestedElementTreeGenerator {
 
         for (ParameterSubscriptionValueSet parameterSubscriptionValueSet : valueSets) {
             if (compoundParameterType == null) {
-                NestedParameter nestedParameter = this.createNestedParameter(subscription, null, parameterSubscriptionValueSet);
+                NestedParameter nestedParameter = this.createNestedParameter(subscription, null, parameterSubscriptionValueSet, option);
                 nestedParameters.add(nestedParameter);
             } else {
                 for (ParameterTypeComponent component : compoundParameterType.getComponent()) {
-                    NestedParameter nestedParameter = this.createNestedParameter(subscription, component, parameterSubscriptionValueSet);
+                    NestedParameter nestedParameter = this.createNestedParameter(subscription, component, parameterSubscriptionValueSet, option);
                     nestedParameters.add(nestedParameter);
                 }
             }
@@ -323,9 +367,10 @@ public class NestedElementTreeGenerator {
      *                  of the associated {@link Parameter} is a {@link ScalarParameterType}.
      * @param valueSet  The {@link ParameterValueSetBase} that provides the reference to the {@link ActualFiniteState} and values
      *                  to create the {@link NestedParameter}
+     * @param option    The {@link Option} that this {@link NestedParameter} is associated to
      * @return An instance of a non-volatile {@link NestedParameter}
      */
-    private NestedParameter createdNestedParameter(ParameterOrOverrideBase parameter, ParameterTypeComponent component, ParameterValueSetBase valueSet) {
+    private NestedParameter createdNestedParameter(ParameterOrOverrideBase parameter, ParameterTypeComponent component, ParameterValueSetBase valueSet, Option option) {
         int componentIndex = component == null ? 0 : component.getIndex();
         String actualValue = valueSet.getActualValue().get(componentIndex);
         String formula = valueSet.getFormula().get(componentIndex);
@@ -338,6 +383,8 @@ public class NestedElementTreeGenerator {
         nestedParameter.setActualState(valueSet.getActualState());
         nestedParameter.setActualValue(actualValue);
         nestedParameter.setFormula(formula);
+        nestedParameter.setValueSet(valueSet);
+        nestedParameter.setOption(option);
 
         return nestedParameter;
     }
@@ -351,9 +398,10 @@ public class NestedElementTreeGenerator {
      *                     of the associated {@link Parameter} is a {@link ScalarParameterType}.
      * @param valueSet     The {@link ParameterSubscriptionValueSet} that provides the reference to the {@link ActualFiniteState} and values
      *                     to create the {@link NestedParameter}
+     * @param option       The {@link Option} that this {@link NestedParameter} is associated to
      * @return An instance of a non-volatile {@link NestedParameter}
      */
-    private NestedParameter createNestedParameter(ParameterSubscription subscription, ParameterTypeComponent component, ParameterSubscriptionValueSet valueSet) {
+    private NestedParameter createNestedParameter(ParameterSubscription subscription, ParameterTypeComponent component, ParameterSubscriptionValueSet valueSet, Option option) {
         int componentIndex = component == null ? 0 : component.getIndex();
         String actualValue = valueSet.getActualValue().get(componentIndex);
 
@@ -364,6 +412,8 @@ public class NestedElementTreeGenerator {
         nestedParameter.setComponent(component);
         nestedParameter.setActualState(valueSet.getActualState());
         nestedParameter.setActualValue(actualValue);
+        nestedParameter.setValueSet(valueSet);
+        nestedParameter.setOption(option);
 
         return nestedParameter;
     }
