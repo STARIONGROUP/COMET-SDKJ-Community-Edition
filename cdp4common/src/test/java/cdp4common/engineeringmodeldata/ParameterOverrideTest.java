@@ -1,25 +1,6 @@
-/* --------------------------------------------------------------------------------------------------------------------
- *    ParameterOverrideTest.java
- *    Copyright (c) 2015-2018 RHEA System S.A.
- *
- *    Author: Sam Gerené, Merlin Bieze, Alex Vorobiev, Naron Phou
- *
- *    This file is part of CDP4-SDK Community Edition
- *
- *    The CDP4-SDK Community Edition is free software; you can redistribute it and/or
- *    modify it under the terms of the GNU Lesser General Public
- *    License as published by the Free Software Foundation; either
- *    version 3 of the License, or (at your option) any later version.
- *
- *    The CDP4-SDK Community Edition is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *    Lesser General Public License for more details.
- *
- *    You should have received a copy of the GNU Lesser General Public License
- *    along with this program; if not, write to the Free Software Foundation,
- *    Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *  --------------------------------------------------------------------------------------------------------------------
+/*
+ * ParameterOverrideTest.java
+ * Copyright (c) 2015 - 2019 RHEA System S.A.
  */
 
 package cdp4common.engineeringmodeldata;
@@ -30,6 +11,7 @@ import cdp4common.types.ValueArray;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -323,5 +305,68 @@ class ParameterOverrideTest {
         valueset.setManual(new ValueArray<>(updatedData, String.class));
 
         assertTrue(this.parameterOverride.getToBePublished());
+    }
+
+    @Test
+    void verify_that_when_QueryParameterType_throws_exception_when_container_not_set() {
+        var parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
+
+        assertThrows(ContainmentException.class, () -> parameterOverrideValueSet.queryParameterType());
+    }
+
+    @Test
+    void verify_that_Manual_Value_can_be_reset() {
+        var defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
+
+        var parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
+        parameterOverride.getValueSet().add(parameterOverrideValueSet);
+
+        parameterOverrideValueSet.resetManual();
+        assertIterableEquals(defaultValueArray, parameterOverrideValueSet.getManual());
+
+        parameterOverrideValueSet.resetManual();
+        assertIterableEquals(defaultValueArray, parameterOverrideValueSet.getManual());
+    }
+
+    @Test
+    void verify_that_Computed_Value_can_be_reset() {
+        var defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
+
+        var parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
+        parameterOverride.getValueSet().add(parameterOverrideValueSet);
+
+        parameterOverrideValueSet.resetComputed();
+        assertIterableEquals(defaultValueArray, parameterOverrideValueSet.getComputed());
+
+        parameterOverrideValueSet.resetComputed();
+        assertIterableEquals(defaultValueArray, parameterOverrideValueSet.getComputed());
+    }
+
+    @Test
+    void verify_that_Formula_Value_can_be_reset() {
+        var defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
+
+        var parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
+        parameterOverride.getValueSet().add(parameterOverrideValueSet);
+
+        parameterOverrideValueSet.resetFormula();
+        assertIterableEquals(defaultValueArray, parameterOverrideValueSet.getFormula());
+
+        parameterOverrideValueSet.resetFormula();
+        assertIterableEquals(defaultValueArray, parameterOverrideValueSet.getFormula());
+    }
+
+    @Test
+    void verify_that_Reference_Value_can_be_reset() {
+        var defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
+
+        var parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
+        parameterOverride.getValueSet().add(parameterOverrideValueSet);
+
+        parameterOverrideValueSet.resetReference();
+        assertIterableEquals(defaultValueArray, parameterOverrideValueSet.getReference());
+
+        parameterOverrideValueSet.resetReference();
+        assertIterableEquals(defaultValueArray, parameterOverrideValueSet.getReference());
     }
 }

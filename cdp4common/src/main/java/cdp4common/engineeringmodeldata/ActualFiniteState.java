@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ActualFiniteState.java
- * Copyright (c) 2019 RHEA System S.A.
+ * Copyright (c) 2015 - 2019 RHEA System S.A.
  *
  * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------

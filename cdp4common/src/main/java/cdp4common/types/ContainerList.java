@@ -68,7 +68,7 @@ public class ContainerList<T extends Thing> extends ArrayList<T> {
     }
 
     /**
-     * Adds a {@link Collection} of {@link Thing} in the {@link ArrayList} and sets their {@link Thing#container} property
+     * Adds a {@link Collection} of {@link Thing} in the {@link ArrayList} and sets their {@link Thing#getContainer()} property
      *
      * @param things The new {@link Thing}s to add.
      */
