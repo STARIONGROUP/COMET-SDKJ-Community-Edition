@@ -6,7 +6,6 @@
 package cdp4common.commondata;
 
 import cdp4common.*;
-import cdp4common.Container;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.engineeringmodeldata.Relationship;
 import cdp4common.exceptions.ContainmentException;
@@ -24,14 +23,11 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.awt.*;
 import java.lang.annotation.Annotation;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.List;
 import java.util.function.Predicate;
-import java.util.logging.Logger;
 
 /**
  * Top level abstract superclass from which all domain concept classes in the model inherit.
@@ -71,19 +67,14 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     private final ArrayList<String> validationErrorList = new ArrayList<>();
 
     /**
-     * The logger
-     */
-    protected static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
-    /**
      * The {@link Map} that contains reset method for properties that were replaced by sentinels
      */
     protected Map<String, Action> sentinelResetMap = new HashMap<>();
 
     /**
-    * Gets the revisions of the current {@link Thing} that have been returned by the data-source of the {@link Thing}
-    * during it's lifetime. This may the complete history, but may be partial history as well.
-    */
+     * Gets the revisions of the current {@link Thing} that have been returned by the data-source of the {@link Thing}
+     * during it's lifetime. This may the complete history, but may be partial history as well.
+     */
     @Getter
     private final Map<Integer, Thing> revisions = new HashMap<>();
 
@@ -117,22 +108,22 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     }
 
     /**
-    * Gets a value indicating whether the current {@link Thing} is referenced by a {@link Relationship}
-    */
-    public boolean hasRelationship(){
+     * Gets a value indicating whether the current {@link Thing} is referenced by a {@link Relationship}
+     */
+    public boolean hasRelationship() {
         return this.relationships.size() > 0;
     }
 
     /**
-    * Gets the list of relationship that references the current {@link Thing}
-    */
-    public ImmutableList<Relationship> queryRelationships(){
+     * Gets the list of relationship that references the current {@link Thing}
+     */
+    public ImmutableList<Relationship> queryRelationships() {
         return new ImmutableList.Builder<Relationship>().addAll(this.relationships).build();
     }
 
     /**
-    * Gets the list of relationship that references the current {@link Thing}
-    */
+     * Gets the list of relationship that references the current {@link Thing}
+     */
     @Getter
     protected List<Relationship> relationships;
 

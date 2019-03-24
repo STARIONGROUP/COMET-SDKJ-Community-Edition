@@ -12,26 +12,20 @@ import cdp4common.types.CacheKey;
 import cdp4common.types.ContainerList;
 import cdp4common.types.OrderedItem;
 import cdp4common.types.OrderedItemList;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Provides static method to instantiate and resolve the properties of all {@link Thing}s stored in a cache.
  * Provides internal static helper methods to resolve the properties of a thing.
  */
+@Log4j2
 public class PojoThingFactory {
-    /**
-     * The logger
-     */
-    private static Logger LOGGER = Logger.getLogger(PojoThingFactory.class.getName());
-
     /**
      * Call ResolvedReferencedProperties for the POJO {@link Thing}s
      *
@@ -89,7 +83,7 @@ public class PojoThingFactory {
             try {
                 uuid = java.util.UUID.fromString(item.getV().toString());
             } catch (Exception ex) {
-                LOGGER.log(Level.SEVERE, "The ordered item does not represent a Thing.", ex);
+                log.error("The ordered item does not represent a Thing.", ex.toString());
                 continue;
             }
 
@@ -209,7 +203,7 @@ public class PojoThingFactory {
             return get(cache, firstKey, clazz);
         }
 
-        LOGGER.log(Level.FINE, String.format("The %1$s was not found in the cache: %2$s", clazz.getSimpleName(), key.getThing()));
+        log.debug(String.format("The %1$s was not found in the cache: %2$s", clazz.getSimpleName(), key.getThing()));
         return null;
     }
 
@@ -229,7 +223,7 @@ public class PojoThingFactory {
         }
 
         if (!clazz.isInstance(result)) {
-            LOGGER.log(Level.SEVERE, String.format("The thing found in the cache with the key is not of the right type, cached id: %1$s, %2$s", result.getCacheKey().getThing(), result.getCacheKey().getIteration()));
+            log.error(String.format("The thing found in the cache with the key is not of the right type, cached id: %1$s, %2$s", result.getCacheKey().getThing(), result.getCacheKey().getIteration()));
             return null;
         }
 

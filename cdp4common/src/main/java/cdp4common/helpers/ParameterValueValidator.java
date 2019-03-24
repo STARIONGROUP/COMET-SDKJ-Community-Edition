@@ -13,19 +13,13 @@ import cdp4common.sitedirectorydata.QuantityKind;
 import cdp4common.validation.ValidationResult;
 import cdp4common.validation.ValidationResultKind;
 import cdp4common.validation.ValueValidator;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * A utility class that validates a parameter value using the {@link ValueValidator}
  */
+@Log4j2
 public class ParameterValueValidator {
-    /**
-     * The logger
-     */
-    private static Logger LOGGER = Logger.getLogger(ParameterValueValidator.class.getName());
-
     /**
      * Validates the new value of a {@link ParameterValueSetBase} or {@link ParameterSubscriptionValueSet} and return an error if any
      *
@@ -36,7 +30,7 @@ public class ParameterValueValidator {
      */
     public static String validate(Object newValue, ParameterType parameterType, MeasurementScale scale) {
         if (parameterType == null) {
-            LOGGER.log(Level.SEVERE, "The parameter type is null.");
+            log.error("The parameter type is null.");
             return "Error: The parameter type is null.";
         }
 

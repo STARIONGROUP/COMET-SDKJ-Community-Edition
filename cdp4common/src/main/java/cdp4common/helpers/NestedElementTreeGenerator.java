@@ -12,13 +12,13 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.collect.MoreCollectors;
+import lombok.extern.log4j.Log4j2;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 /**
@@ -29,12 +29,8 @@ import java.util.stream.Collectors;
  * and {@link ParameterSubscription}s. Each {@link ParameterTypeComponent} of a {@link CompoundParameterType} is
  * represented by a unique {@link NestedParameter}.
  */
+@Log4j2
 public class NestedElementTreeGenerator {
-    /**
-     * The logger
-     */
-    private static java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(NestedElementTreeGenerator.class.getName());
-
     /**
      * Creates the {@link NestedParameter}s in a flat list from {@link NestedElement}s list for the of {@link NestedElement}s.
      *
@@ -57,11 +53,11 @@ public class NestedElementTreeGenerator {
 
         var iteration = (Iteration) option.getContainer();
 
-//        Logger.Debug($"Generating NestedElement for Iteration {iteration.Iid}, Option: {option.ShortName}, DomainOfExpertise {domainOfExpertise.ShortName}");
+        log.debug(String.format("Generating NestedElement for Iteration %s, Option: %s, DomainOfExpertise %s", iteration.getIid(), option.getShortName(), domainOfExpertise.getShortName()));
 
         var nestedElements = this.generate(option, domainOfExpertise, updateOption);
 
-//        Logger.Debug($"Crearing NestedParameters Iteration: {iteration.Iid}, Option: {option.ShortName}, DomainOfExpertise {domainOfExpertise.ShortName}");
+        log.debug(String.format("Creating NestedParameters Iteration: %s, Option: %s, DomainOfExpertise %s", iteration.getIid(), option.getShortName(), domainOfExpertise.getShortName()));
 
         var flatNestedParameters = nestedElements.stream().flatMap(nestedElement -> nestedElement.getNestedParameter().stream());
 
@@ -95,7 +91,7 @@ public class NestedElementTreeGenerator {
             throw new NestedElementTreeException(String.format("The container Iteration of Option %s does not have a TopElement specified", option.getShortName()));
         }
 
-        LOGGER.log(Level.FINE, "Generating NestedElement for Iteration {iteration.Iid}, Option: {option.ShortName}, DomainOfExpertise {domainOfExpertise.ShortName}");
+        log.debug(String.format("Generating NestedElement for Iteration %s, Option: %s, DomainOfExpertise %s", iteration.getIid(), option.getShortName(), domainOfExpertise.getShortName()));
 
         Collection<NestedElement> createNestedElements = this.generateNestedElements(option, domainOfExpertise, rootElement, updateOption);
 
@@ -166,7 +162,7 @@ public class NestedElementTreeGenerator {
         for (ElementUsage elementUsage : elementDefinition.getContainedElement()) {
             // comparison is done based on unique identifiers, not on object level. The provided option may be a clone
             if (elementUsage.getExcludeOption().stream().anyMatch(x -> x.getIid() == option.getIid())) {
-                LOGGER.log(Level.FINE, "ElementUsage {elementUsage.Iid}:{elementUsage.ShortName} is excluded from the Nested Elements.");
+                log.debug(String.format("ElementUsage %s:%s is excluded from the Nested Elements.", elementUsage.getIid(), elementUsage.getShortName()));
                 continue;
             }
 
