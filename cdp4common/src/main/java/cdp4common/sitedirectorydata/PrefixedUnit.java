@@ -1,8 +1,32 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * PrefixedUnit.java
- * Copyright (c) 2018 RHEA System S.A.
  *
- * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
+ * Copyright (c) 2015-2019 RHEA System S.A.
+ *
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ *
+ * This file is part of CDP4-SDKJ Community Edition
+ *
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * This is an auto-generated POJO Class. Any manual changes to this file before a special comment
+ *
+ * // HAND-WRITTEN CODE GOES BELOW.
+ * // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+ *
+ * will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
  */
 
@@ -24,7 +48,6 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Iterables;
@@ -62,11 +85,11 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * Initializes a new instance of the {@link PrefixedUnit} class.
      * @param iid The unique identifier.
      * @param cache The {@link Cache} where the current thing is stored.
-     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
      * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
-    public PrefixedUnit(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+    public PrefixedUnit(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
     }
 
@@ -106,7 +129,6 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * Gets the conversionFactor.
      * applicable conversion factor derived from <i>prefix</i>
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public String getConversionFactor(){
         return this.getDerivedConversionFactor();
     }
@@ -116,7 +138,6 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * derived name of this PrefixUnit
      * Note: The name is derived as the concatenation of name of the <i>prefix</i> and the name of the <i>referenceUnit</i>.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public String getName(){
         return this.getDerivedName();
     }
@@ -126,7 +147,6 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * derived symbol of this PrefixUnit
      * Note: The symbol is derived as the concatenation of <i>shortName</i> of the <i>prefix</i> and the <i>shortName</i> of the <i>referenceUnit</i>.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public String getShortName(){
         return this.getDerivedShortName();
     }
@@ -139,7 +159,6 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setConversionFactor(String conversionFactor){
         throw new IllegalStateException("Forbidden Set value for the derived property PrefixedUnit.conversionFactor");
     }
@@ -153,7 +172,6 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setName(String name){
         throw new IllegalStateException("Forbidden Set value for the derived property PrefixedUnit.name");
     }
@@ -167,7 +185,6 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setShortName(String shortName){
         throw new IllegalStateException("Forbidden Set value for the derived property PrefixedUnit.shortName");
     }
@@ -284,7 +301,7 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
         dto.setReferenceUnit(this.getReferenceUnit() != null ? this.getReferenceUnit().getIid() : new UUID(0L, 0L));
         dto.setRevisionNumber(this.getRevisionNumber());
 
-        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);
         this.buildDtoPartialRoutes(dto);
 

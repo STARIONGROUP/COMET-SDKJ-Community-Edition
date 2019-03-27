@@ -1,19 +1,41 @@
 /*
  * Thing.java
- * Copyright (c) 2018 RHEA System S.A.
+ *
+ * Copyright (c) 2015-2019 RHEA System S.A.
+ *
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ *
+ * This file is part of CDP4-SDKJ Community Edition
+ *
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 package cdp4common.commondata;
 
 import cdp4common.*;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.engineeringmodeldata.Relationship;
 import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.Action;
 import cdp4common.helpers.Utils;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.Person;
 import cdp4common.sitedirectorydata.ReferenceDataLibrary;
+import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableList;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +47,6 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.logging.Logger;
 
 /**
  * Top level abstract superclass from which all domain concept classes in the model inherit.
@@ -52,7 +73,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     /**
      * Backing field for {@link #cacheId} property.
      */
-    private Pair<UUID, UUID> cacheIdBack;
+    private CacheKey cacheKey;
 
     /**
      * A value indicating whether the instance is disposed
@@ -65,14 +86,16 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     private final ArrayList<String> validationErrorList = new ArrayList<>();
 
     /**
-     * The logger
-     */
-    protected static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
-    /**
      * The {@link Map} that contains reset method for properties that were replaced by sentinels
      */
     protected Map<String, Action> sentinelResetMap = new HashMap<>();
+
+    /**
+     * Gets the revisions of the current {@link Thing} that have been returned by the data-source of the {@link Thing}
+     * during it's lifetime. This may the complete history, but may be partial history as well.
+     */
+    @Getter
+    private final Map<Integer, Thing> revisions = new HashMap<>();
 
     /**
      * Initializes a new instance of the {@link Thing} class.
@@ -81,6 +104,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
         this.classKind = this.computeCurrentClassKind();
         this.excludedDomain = new ArrayList<>();
         this.excludedPerson = new ArrayList<>();
+        this.relationships = new ArrayList<>();
     }
 
     /**
@@ -92,14 +116,35 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      *                combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
-    protected Thing(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+    protected Thing(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         this.iid = iid;
         this.iDalUri = iDalUri;
         this.cache = cache;
         this.classKind = this.computeCurrentClassKind();
         this.excludedDomain = new ArrayList<>();
         this.excludedPerson = new ArrayList<>();
+        this.relationships = new ArrayList<>();
     }
+
+    /**
+     * Gets a value indicating whether the current {@link Thing} is referenced by a {@link Relationship}
+     */
+    public boolean hasRelationship() {
+        return this.relationships.size() > 0;
+    }
+
+    /**
+     * Gets the list of relationship that references the current {@link Thing}
+     */
+    public ImmutableList<Relationship> queryRelationships() {
+        return new ImmutableList.Builder<Relationship>().addAll(this.relationships).build();
+    }
+
+    /**
+     * Gets the list of relationship that references the current {@link Thing}
+     */
+    @Getter
+    protected List<Relationship> relationships;
 
     /**
      * Assertion of the classKind of this Thing, denoting its actual class
@@ -175,7 +220,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      */
     @Getter
     @Setter
-    private Cache<Pair<UUID, UUID>, Thing> cache;
+    private Cache<CacheKey, Thing> cache;
 
     /**
      * The Container of the current Thing
@@ -214,19 +259,19 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     /**
      * Gets the key with which the current {@link Thing} is stored in the cache
      */
-    public Pair<UUID, UUID> getCacheId() {
-        if (this.cacheIdBack != null) {
-            return this.cacheIdBack;
+    public CacheKey getCacheKey() {
+        if (this.cacheKey != null && !this.cacheKey.getThing().equals(new UUID(0L, 0L))) {
+            return this.cacheKey;
         }
 
-        Iteration iterationContainer = (Iteration) this.getContainerOfType(Iteration.class);
+        Iteration iterationContainer = this.getContainerOfType(Iteration.class);
         UUID iterationId = null;
         if (iterationContainer != null && this.classKind != ClassKind.ITERATION) {
             iterationId = iterationContainer.getIid();
         }
 
-        this.cacheIdBack = Pair.of(this.getIid(), iterationId);
-        return this.cacheIdBack;
+        this.cacheKey = new CacheKey(this.getIid(), iterationId);
+        return this.cacheKey;
     }
 
     /**
@@ -381,6 +426,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
                 // Clear all property values that maybe have been set
                 // when the class was instantiated
                 this.setCache(null);
+                this.revisions.clear();
             }
 
             // Indicate that the instance has been disposed.
@@ -423,7 +469,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      * Reset the cache Id
      */
     protected void resetCacheId() {
-        this.cacheIdBack = null;
+        this.cacheKey = new CacheKey(new UUID(0L, 0L), null);
     }
 
     /**
@@ -480,9 +526,8 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      * @return True if this thing is contained within the container. False if not.
      */
     public boolean isContainedBy(Thing container) {
-        // If the specified container is null throw exception
         if (container == null) {
-            throw new IllegalArgumentException("container");
+            throw new IllegalArgumentException("The container may not be null");
         }
 
         // If this thing is not contained i.e. top container, return false immediately
@@ -505,7 +550,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      */
     public boolean isContainedBy(Predicate<Thing> matchPredicate) {
         if (matchPredicate == null) {
-            throw new IllegalArgumentException("matchPredicate");
+            throw new IllegalArgumentException("The matchPredicate may not be null");
         }
 
         if (this instanceof TopContainer) {
@@ -523,7 +568,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      */
     public boolean isContainedBy(UUID iid) {
         if (iid == null || iid.equals(new UUID(0L, 0L))) {
-            throw new NullPointerException("iid");
+            throw new NullPointerException("The iid may not be null");
         }
 
         if (this instanceof TopContainer) {
@@ -616,7 +661,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
             return false;
         }
 
-        return this.getCache().asMap().containsKey(this.getCacheId());
+        return this.getCache().asMap().containsKey(this.getCacheKey());
     }
 
     /**

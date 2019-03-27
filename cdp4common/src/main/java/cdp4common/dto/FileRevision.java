@@ -1,8 +1,32 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * FileRevision.java
- * Copyright (c) 2018 RHEA System S.A.
  *
- * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
+ * Copyright (c) 2015-2019 RHEA System S.A.
+ *
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ *
+ * This file is part of CDP4-SDKJ Community Edition
+ *
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * This is an auto-generated DTO Class. Any manual changes to this file before a special comment
+ *
+ * // HAND-WRITTEN CODE GOES BELOW.
+ * // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+ *
+ * will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
  */
 
@@ -24,7 +48,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,8 +66,7 @@ public class FileRevision extends Thing implements Cloneable, NamedThing, TimeSt
     /**
      * Initializes a new instance of the {@link "FileRevision"} class.
      */
-    public FileRevision()
-    {
+    public FileRevision() {
         this.fileType = new ArrayList<OrderedItem>();
     }
 
@@ -117,7 +139,6 @@ public class FileRevision extends Thing implements Cloneable, NamedThing, TimeSt
      * Gets the path.
      * @throws UnsupportedOperationException The path property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public String getPath() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property FileRevision.path");
@@ -127,7 +148,6 @@ public class FileRevision extends Thing implements Cloneable, NamedThing, TimeSt
      * Sets the path.
      * @throws UnsupportedOperationException The path property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setPath(String path) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property FileRevision.path");
@@ -149,8 +169,7 @@ public class FileRevision extends Thing implements Cloneable, NamedThing, TimeSt
      * @return A new {@link cdp4common.commondata.Thing}
      */
     @Override
-    public cdp4common.commondata.Thing instantiatePojo(Cache<Pair<UUID, UUID>, cdp4common.commondata.Thing> cache, URI uri)
-    {
+    public cdp4common.commondata.Thing instantiatePojo(Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
         return new cdp4common.engineeringmodeldata.FileRevision(this.getIid(), cache, uri);
     }
 }

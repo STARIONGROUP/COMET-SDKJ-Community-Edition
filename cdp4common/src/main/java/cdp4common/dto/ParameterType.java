@@ -1,8 +1,32 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ParameterType.java
- * Copyright (c) 2018 RHEA System S.A.
  *
- * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
+ * Copyright (c) 2015-2019 RHEA System S.A.
+ *
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ *
+ * This file is part of CDP4-SDKJ Community Edition
+ *
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * This is an auto-generated DTO Class. Any manual changes to this file before a special comment
+ *
+ * // HAND-WRITTEN CODE GOES BELOW.
+ * // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+ *
+ * will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
  */
 
@@ -24,7 +48,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,8 +66,7 @@ public abstract class ParameterType extends DefinedThing implements Cloneable, C
     /**
      * Initializes a new instance of the {@link "ParameterType"} class.
      */
-    protected ParameterType()
-    {
+    protected ParameterType() {
         this.category = new ArrayList<UUID>();
     }
 
@@ -90,7 +112,6 @@ public abstract class ParameterType extends DefinedThing implements Cloneable, C
      * Gets the numberOfValues.
      * @throws UnsupportedOperationException The numberOfValues property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public int getNumberOfValues() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterType.numberOfValues");
@@ -100,7 +121,6 @@ public abstract class ParameterType extends DefinedThing implements Cloneable, C
      * Sets the numberOfValues.
      * @throws UnsupportedOperationException The numberOfValues property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setNumberOfValues(int numberOfValues) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterType.numberOfValues");

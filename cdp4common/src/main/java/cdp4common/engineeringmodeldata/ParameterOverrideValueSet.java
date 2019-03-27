@@ -1,34 +1,61 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ParameterOverrideValueSet.java
- * Copyright (c) 2018 RHEA System S.A.
  *
- * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
+ * Copyright (c) 2015-2019 RHEA System S.A.
+ *
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ *
+ * This file is part of CDP4-SDKJ Community Edition
+ *
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * This is an auto-generated POJO Class. Any manual changes to this file before a special comment
+ *
+ * // HAND-WRITTEN CODE GOES BELOW.
+ * // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+ *
+ * will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
  */
 
 package cdp4common.engineeringmodeldata;
 
-import java.util.*;
-import java.util.stream.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.io.*;
-import java.net.URI;
 import cdp4common.*;
-import cdp4common.commondata.*;
-import cdp4common.diagramdata.*;
-import cdp4common.engineeringmodeldata.*;
+import cdp4common.commondata.ParticipantAccessRightKind;
+import cdp4common.commondata.PersonAccessRightKind;
+import cdp4common.commondata.Thing;
 import cdp4common.exceptions.ContainmentException;
-import cdp4common.helpers.*;
-import cdp4common.reportingdata.*;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.*;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.tuple.Pair;
-import com.google.common.base.Strings;
+import cdp4common.helpers.ActionImpl;
+import cdp4common.helpers.PojoThingFactory;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.ParameterType;
+import cdp4common.sitedirectorydata.Person;
+import cdp4common.types.CacheKey;
+import cdp4common.types.ValueArray;
 import com.google.common.cache.Cache;
-import com.google.common.collect.Iterables;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.lang3.ObjectUtils;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * representation of the switch setting and all values for a ParameterOverride
@@ -57,13 +84,14 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
 
     /**
      * Initializes a new instance of the {@link ParameterOverrideValueSet} class.
-     * @param iid The unique identifier.
-     * @param cache The {@link Cache} where the current thing is stored.
-     * The {@link Pair} of {@link UUID} is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     *
+     * @param iid     The unique identifier.
+     * @param cache   The {@link Cache} where the current thing is stored.
+     *                The {@link CacheKey} of {@link UUID} is the key used to store this thing.
+     *                The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
-    public ParameterOverrideValueSet(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+    public ParameterOverrideValueSet(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
     }
 
@@ -95,8 +123,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * Gets the actualOption.
      * reference to the actual Option to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    public Option getActualOption(){
+    public Option getActualOption() {
         return this.getDerivedActualOption();
     }
 
@@ -104,8 +131,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * Gets the actualState.
      * reference to the ActualFiniteState to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    public ActualFiniteState getActualState(){
+    public ActualFiniteState getActualState() {
         return this.getDerivedActualState();
     }
 
@@ -114,11 +140,9 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * reference to the actual Option to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
      *
      * @throws IllegalStateException The actualOption property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
-     *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    public void setActualOption(Option actualOption){
+    public void setActualOption(Option actualOption) {
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterOverrideValueSet.actualOption");
     }
 
@@ -127,11 +151,9 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * reference to the ActualFiniteState to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
      *
      * @throws IllegalStateException The actualState property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
-     *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    public void setActualState(ActualFiniteState actualState){
+    public void setActualState(ActualFiniteState actualState) {
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterOverrideValueSet.actualState");
     }
 
@@ -139,14 +161,13 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * Creates and returns a copy of this {@link ParameterOverrideValueSet} for edit purpose.
      *
      * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
-     *
      * @return A cloned instance of {@link ParameterOverrideValueSet}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) {
         ParameterOverrideValueSet clone;
         try {
-            clone = (ParameterOverrideValueSet)this.clone();
+            clone = (ParameterOverrideValueSet) this.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             throw new IllegalAccessError("Somehow ParameterOverrideValueSet cannot be cloned.");
@@ -171,15 +192,15 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
 
     /**
      * Creates and returns a copy of this {@link ParameterOverrideValueSet} for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      * @return A cloned instance of {@link ParameterOverrideValueSet}.
      */
     @Override
     public ParameterOverrideValueSet clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
-        return (ParameterOverrideValueSet)this.genericClone(cloneContainedThings);
+        return (ParameterOverrideValueSet) this.genericClone(cloneContainedThings);
     }
 
     /**
@@ -210,7 +231,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
             throw new IllegalArgumentException("dtoThing");
         }
 
-        cdp4common.dto.ParameterOverrideValueSet dto = (cdp4common.dto.ParameterOverrideValueSet)dtoThing;
+        cdp4common.dto.ParameterOverrideValueSet dto = (cdp4common.dto.ParameterOverrideValueSet) dtoThing;
 
         this.setComputed(new ValueArray<String>(dto.getComputed(), this, String.class));
         PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
@@ -248,7 +269,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setValueSwitch(this.getValueSwitch());
 
-        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);
         this.buildDtoPartialRoutes(dto);
 
@@ -281,12 +302,12 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * <p>
      * The model code is derived as follows:
      * {@code #ElementDefinition.ShortName#.#ParameterType.ShortName#.#Component.ParameterType.ShortName#\#Option.ShortName#\#ActualState.ShortName#}
-     * 
+     *
      * @param componentIndex The component Index.
      * @return A string that represents the model code of the current {@link ParameterOverrideValueSet}
      */
     public String modelCode(Integer componentIndex) {
-        ParameterOverride parameterOverride = this.getContainer() instanceof ParameterOverride ? (ParameterOverride)this.getContainer() : null;
+        ParameterOverride parameterOverride = this.getContainer() instanceof ParameterOverride ? (ParameterOverride) this.getContainer() : null;
 
         if (parameterOverride == null) {
             throw new ContainmentException(String.format("The container ParameterOverride of ParameterOverrideValueSet with iid %s is null, the model code cannot be computed.", this.getIid()));
@@ -305,5 +326,19 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
         }
 
         return String.format("%s\\%s\\%s", parameterOverride.modelCode(componentIndex), this.getActualOption().getShortName(), this.getActualState().getShortName());
+    }
+
+    /**
+     * Queries the {@link ParameterType} of the container {@link ParameterOverride}
+     */
+    @Override
+    public ParameterType queryParameterType() {
+        var parameterOverride = (ParameterOverride) this.getContainer();
+
+        if (parameterOverride == null) {
+            throw new ContainmentException(String.format("The container ParameterOverride of ParameterOverrideValueSet with iid %s is null, the ParameterTye cannot be queried.", this.getIid()));
+        }
+
+        return parameterOverride.getParameterType();
     }
 }

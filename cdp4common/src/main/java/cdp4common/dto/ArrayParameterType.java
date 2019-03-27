@@ -1,8 +1,32 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ArrayParameterType.java
- * Copyright (c) 2018 RHEA System S.A.
  *
- * This is an auto-generated DTO Class. Any manual changes to this file will be overwritten!
+ * Copyright (c) 2015-2019 RHEA System S.A.
+ *
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ *
+ * This file is part of CDP4-SDKJ Community Edition
+ *
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * This is an auto-generated DTO Class. Any manual changes to this file before a special comment
+ *
+ * // HAND-WRITTEN CODE GOES BELOW.
+ * // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+ *
+ * will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
  */
 
@@ -24,7 +48,6 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.cache.Cache;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,8 +66,7 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
     /**
      * Initializes a new instance of the {@link "ArrayParameterType"} class.
      */
-    public ArrayParameterType()
-    {
+    public ArrayParameterType() {
         this.dimension = new ArrayList<OrderedItem>();
     }
 
@@ -81,7 +103,6 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * Gets a value indicating whether hasSingleComponentType.
      * @throws UnsupportedOperationException The hasSingleComponentType property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public boolean getHasSingleComponentType() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ArrayParameterType.hasSingleComponentType");
@@ -91,7 +112,6 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * Gets the rank.
      * @throws UnsupportedOperationException The rank property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public int getRank() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ArrayParameterType.rank");
@@ -101,7 +121,6 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * Sets a value indicating whether hasSingleComponentType.
      * @throws UnsupportedOperationException The hasSingleComponentType property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setHasSingleComponentType(boolean hasSingleComponentType) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ArrayParameterType.hasSingleComponentType");
@@ -111,7 +130,6 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * Sets the rank.
      * @throws UnsupportedOperationException The rank property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     @XmlTransient
     public void setRank(int rank) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ArrayParameterType.rank");
@@ -133,8 +151,7 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * @return A new {@link cdp4common.commondata.Thing}
      */
     @Override
-    public cdp4common.commondata.Thing instantiatePojo(Cache<Pair<UUID, UUID>, cdp4common.commondata.Thing> cache, URI uri)
-    {
+    public cdp4common.commondata.Thing instantiatePojo(Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
         return new cdp4common.sitedirectorydata.ArrayParameterType(this.getIid(), cache, uri);
     }
 }

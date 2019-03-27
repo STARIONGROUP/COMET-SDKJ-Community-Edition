@@ -1,6 +1,25 @@
 /*
  * Thing.java
- * Copyright (c) 2018 RHEA System S.A.
+ *
+ * Copyright (c) 2015-2019 RHEA System S.A.
+ *
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ *
+ * This file is part of CDP4-SDKJ Community Edition
+ *
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 package cdp4common.dto;
@@ -9,6 +28,7 @@ import cdp4common.*;
 import cdp4common.commondata.ClassKind;
 import cdp4common.helpers.ContainerPropertyHelper;
 import cdp4common.helpers.Utils;
+import cdp4common.types.CacheKey;
 import cdp4common.types.OrderedItem;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
@@ -217,7 +237,7 @@ public abstract class Thing {
      * @param uri   The {@link URI} of the {@link cdp4common.commondata.Thing}
      * @return A new {@link cdp4common.commondata.Thing}
      */
-    public abstract cdp4common.commondata.Thing instantiatePojo(Cache<Pair<UUID, UUID>, cdp4common.commondata.Thing> cache, URI uri);
+    public abstract cdp4common.commondata.Thing instantiatePojo(Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri);
 
     /**
      * Check if the current {@link Thing} contains the {@code thing}
@@ -319,7 +339,7 @@ public abstract class Thing {
      */
     private boolean isAuthorizedRoute(ClassKind lastRoute, ClassKind newRoute) {
         String lastRouteContainerClass = ContainerPropertyHelper.getContainerClassName(lastRoute);
-        if (Utils.getUpperCamelNotationFromConstant(newRoute.toString()).equals(lastRouteContainerClass)) {
+        if (newRoute.toString().equals(lastRouteContainerClass)) {
             return true;
         }
 
@@ -327,7 +347,7 @@ public abstract class Thing {
         // Check if the parent of the added container is that abstract class
         Class type;
         try {
-            type = Class.forName("cdp4common.dto." + Utils.getUpperCamelNotationFromConstant(newRoute.toString()));
+            type = Class.forName("cdp4common.dto." + newRoute.toString());
             Class parent = type.getSuperclass();
 
             while (parent != null) {

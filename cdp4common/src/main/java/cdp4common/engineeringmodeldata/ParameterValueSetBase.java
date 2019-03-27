@@ -1,34 +1,59 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ParameterValueSetBase.java
- * Copyright (c) 2018 RHEA System S.A.
  *
- * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
+ * Copyright (c) 2015-2019 RHEA System S.A.
+ *
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ *
+ * This file is part of CDP4-SDKJ Community Edition
+ *
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * This is an auto-generated POJO Class. Any manual changes to this file before a special comment
+ *
+ * // HAND-WRITTEN CODE GOES BELOW.
+ * // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+ *
+ * will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
  */
 
 package cdp4common.engineeringmodeldata;
 
-import java.util.*;
-import java.util.stream.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.io.*;
-import java.net.URI;
-import cdp4common.*;
-import cdp4common.commondata.*;
-import cdp4common.diagramdata.*;
-import cdp4common.engineeringmodeldata.*;
+import cdp4common.AggregationKind;
+import cdp4common.ChangeKind;
+import cdp4common.UmlInformation;
+import cdp4common.commondata.ParticipantAccessRightKind;
+import cdp4common.commondata.PersonAccessRightKind;
+import cdp4common.commondata.Thing;
 import cdp4common.exceptions.ContainmentException;
-import cdp4common.helpers.*;
-import cdp4common.reportingdata.*;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.*;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.tuple.Pair;
-import com.google.common.base.Strings;
+import cdp4common.helpers.ValueArrayUtils;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.ParameterType;
+import cdp4common.types.CacheKey;
+import cdp4common.types.ValueArray;
 import com.google.common.cache.Cache;
-import com.google.common.collect.Iterables;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * abstract superclass representing the switch setting and values of a Parameter or ParameterOverride and serves as a common reference type for ParameterValueSet and ParameterOverrideValueSet
@@ -61,13 +86,14 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
 
     /**
      * Initializes a new instance of the {@link ParameterValueSetBase} class.
-     * @param iid The unique identifier.
-     * @param cache The {@link Cache} where the current thing is stored.
-     * The {@link Pair} of {@link UUID} is the key used to store this thing.
-     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     *
+     * @param iid     The unique identifier.
+     * @param cache   The {@link Cache} where the current thing is stored.
+     *                The {@link CacheKey} of {@link UUID} is the key used to store this thing.
+     *                The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
-    protected ParameterValueSetBase(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+    protected ParameterValueSetBase(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.computed = new ValueArray<String>(this, String.class);
         this.formula = new ValueArray<String>(this, String.class);
@@ -182,8 +208,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * if <i>valueSwitch</i> is MANUAL, then <i>actualValue</i> is <i>manual;</i>
      * if <i>valueSwitch</i> is REFERENCE, then <i>actualValue</i> is <i>reference</i>.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
-    public ValueArray<String> getActualValue(){
+    public ValueArray<String> getActualValue() {
         return this.getDerivedActualValue();
     }
 
@@ -191,8 +216,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * Gets the owner.
      * owner (DomainOfExpertise) derived from associated Parameter or ParameterOverride for convenience
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    public DomainOfExpertise getOwner(){
+    public DomainOfExpertise getOwner() {
         return this.getDerivedOwner();
     }
 
@@ -205,11 +229,9 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * if <i>valueSwitch</i> is REFERENCE, then <i>actualValue</i> is <i>reference</i>.
      *
      * @throws IllegalStateException The actualValue property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
-     *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
-    public void setActualValue(ValueArray<String> actualValue){
+    public void setActualValue(ValueArray<String> actualValue) {
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterValueSetBase.actualValue");
     }
 
@@ -218,25 +240,23 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * owner (DomainOfExpertise) derived from associated Parameter or ParameterOverride for convenience
      *
      * @throws IllegalStateException The owner property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
-     *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
-    public void setOwner(DomainOfExpertise owner){
+    public void setOwner(DomainOfExpertise owner) {
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterValueSetBase.owner");
     }
 
     /**
      * Creates and returns a copy of this {@link ParameterValueSetBase} for edit purpose.
-     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      *
+     * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
      * @return A cloned instance of {@link ParameterValueSetBase}.
      */
     @Override
     public ParameterValueSetBase clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
-        return (ParameterValueSetBase)this.genericClone(cloneContainedThings);
+        return (ParameterValueSetBase) this.genericClone(cloneContainedThings);
     }
 
     /**
@@ -305,12 +325,12 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * @return The {@link #owner} value
      */
     private DomainOfExpertise getDerivedOwner() {
-        Parameter parameter = this.getContainer() instanceof Parameter ? (Parameter)this.getContainer() : null;
+        Parameter parameter = this.getContainer() instanceof Parameter ? (Parameter) this.getContainer() : null;
         if (parameter != null) {
             return parameter.getOwner();
         }
 
-        ParameterOverride parameterOverride = this.getContainer() instanceof ParameterOverride ? (ParameterOverride)this.getContainer() : null;
+        ParameterOverride parameterOverride = this.getContainer() instanceof ParameterOverride ? (ParameterOverride) this.getContainer() : null;
         if (parameterOverride != null) {
             return parameterOverride.getOwner();
         }
@@ -327,7 +347,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
     protected List<String> validatePojoProperties() {
         List<String> errorList = new ArrayList<>(super.validatePojoProperties());
 
-        ParameterOrOverrideBase container = this.getContainer() instanceof Parameter ? (ParameterOrOverrideBase)this.getContainer() : null;
+        ParameterOrOverrideBase container = this.getContainer() instanceof Parameter ? (ParameterOrOverrideBase) this.getContainer() : null;
         if (container == null || container.getParameterType() == null) {
             return errorList;
         }
@@ -351,4 +371,72 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
 
         return errorList;
     }
+
+    /**
+     * The size of the {@link ValueArray} that is determined by the numberOfValues of the referenced {@link ParameterType}
+     */
+    private int valueArraySize = 0;
+
+    /**
+     * Queries the {@link ParameterType} of the container {@link Parameter} or {@link ParameterOverride}
+     */
+    public abstract ParameterType queryParameterType();
+
+    /**
+     * Resets the {@link ValueArray{T}} of the {@link #getManual()} to proper amount of slots and default value of "-"
+     */
+    public void resetManual() {
+        if (this.valueArraySize == 0) {
+            var parameterType = this.queryParameterType();
+            this.valueArraySize = parameterType.getNumberOfValues();
+        }
+
+        this.setManual(ValueArrayUtils.createDefaultValueArray(this.valueArraySize));
+    }
+
+    /**
+     * Resets the {@link ValueArray{T}} of the {@link #getComputed()} to proper amount of slots and default value of "-"
+     */
+    public void resetComputed() {
+        if (this.valueArraySize == 0) {
+            var parameterType = this.queryParameterType();
+            this.valueArraySize = parameterType.getNumberOfValues();
+        }
+
+        this.setComputed(ValueArrayUtils.createDefaultValueArray(this.valueArraySize));
+    }
+
+    /**
+     * Resets the {@link ValueArray{T}} of the {@link #getReference()} to proper amount of slots and default value of "-"
+     */
+    public void resetReference() {
+        if (this.valueArraySize == 0) {
+            var parameterType = this.queryParameterType();
+            this.valueArraySize = parameterType.getNumberOfValues();
+        }
+
+        this.setReference(ValueArrayUtils.createDefaultValueArray(this.valueArraySize));
+    }
+
+    /**
+     * Resets the {@link ValueArray{T}} of the {@link #getFormula()} to proper amount of slots and default value of "-"
+     */
+    public void resetFormula() {
+        if (this.valueArraySize == 0) {
+            var parameterType = this.queryParameterType();
+            this.valueArraySize = parameterType.getNumberOfValues();
+        }
+
+        this.setFormula(ValueArrayUtils.createDefaultValueArray(this.valueArraySize));
+    }
+
+    /**
+     * Queries the model code of the current {@link ParameterValueSetBase}
+     * The model code is derived as follows:
+     * #ElementDefinition.ShortName#.#ParameterType.ShortName#.#Component.ParameterType.ShortName#\#Option.ShortName#\#ActualState.ShortName#
+     *
+     * @param componentIndex The component Index.
+     * @return A string that represents the model code of the current {@link ParameterValueSetBase}
+     */
+    public abstract String modelCode(Integer componentIndex);
 }
