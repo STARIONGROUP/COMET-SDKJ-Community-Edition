@@ -1,8 +1,32 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * ParameterSubscription.java
- * Copyright (c) 2018 RHEA System S.A.
  *
- * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
+ * Copyright (c) 2015-2019 RHEA System S.A.
+ *
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ *
+ * This file is part of CDP4-SDKJ Community Edition
+ *
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * This is an auto-generated POJO Class. Any manual changes to this file before a special comment
+ *
+ * // HAND-WRITTEN CODE GOES BELOW.
+ * // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+ *
+ * will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
  */
 
@@ -24,7 +48,6 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Iterables;
@@ -61,11 +84,11 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
      * Initializes a new instance of the {@link ParameterSubscription} class.
      * @param iid The unique identifier.
      * @param cache The {@link Cache} where the current thing is stored.
-     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
      * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
-    public ParameterSubscription(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+    public ParameterSubscription(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.valueSet = new ContainerList<ParameterSubscriptionValueSet>(this);
     }
@@ -123,7 +146,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
      * Gets the group.
      * group derived from associated Parameter or ParameterOverride for convenience
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public ParameterGroup getGroup(){
         return this.getDerivedGroup();
     }
@@ -132,7 +154,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
      *Gets a value indicating whether isOptionDependent.
      * assertion, derived from the container Parameter or ParameterOverride, whether the values of this depend on the Options defined in the associated Iteration or not
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public boolean isOptionDependent(){
         return this.getDerivedIsOptionDependent();
     }
@@ -141,7 +162,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
      * Gets the parameterType.
      * parameterType derived from associated Parameter or ParameterOverride for convenience
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public ParameterType getParameterType(){
         return this.getDerivedParameterType();
     }
@@ -150,7 +170,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
      * Gets the scale.
      * scale derived from associated Parameter or ParameterOverride for convenience
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public MeasurementScale getScale(){
         return this.getDerivedScale();
     }
@@ -159,7 +178,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
      * Gets the stateDependence.
      * stateDependence derived from associated Parameter or ParameterOverride for convenience
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public ActualFiniteStateList getStateDependence(){
         return this.getDerivedStateDependence();
     }
@@ -172,7 +190,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setGroup(ParameterGroup group){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscription.group");
     }
@@ -185,7 +202,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setOptionDependent(boolean isOptionDependent){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscription.isOptionDependent");
     }
@@ -198,7 +214,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setParameterType(ParameterType parameterType){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscription.parameterType");
     }
@@ -211,7 +226,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setScale(MeasurementScale scale){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscription.scale");
     }
@@ -224,7 +238,6 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setStateDependence(ActualFiniteStateList stateDependence){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscription.stateDependence");
     }
@@ -338,7 +351,7 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.getValueSet().addAll(this.getValueSet().stream().map(Thing::getIid).collect(Collectors.toList()));
 
-        dto.setIterationContainerId(this.getCacheId().getRight());
+        dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);
         this.buildDtoPartialRoutes(dto);
 

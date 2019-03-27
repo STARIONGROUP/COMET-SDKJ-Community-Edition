@@ -1,30 +1,31 @@
-/* --------------------------------------------------------------------------------------------------------------------
- *    ThingTest.java
- *    Copyright (c) 2015-2018 RHEA System S.A.
+/*
+ * ThingTest.java
  *
- *    Author: Sam Gerené, Merlin Bieze, Alex Vorobiev, Naron Phou
+ * Copyright (c) 2015-2019 RHEA System S.A.
  *
- *    This file is part of CDP4-SDK Community Edition
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
  *
- *    The CDP4-SDK Community Edition is free software; you can redistribute it and/or
- *    modify it under the terms of the GNU Lesser General Public
- *    License as published by the Free Software Foundation; either
- *    version 3 of the License, or (at your option) any later version.
+ * This file is part of CDP4-SDKJ Community Edition
  *
- *    The CDP4-SDK Community Edition is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *    Lesser General Public License for more details.
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
  *
- *    You should have received a copy of the GNU Lesser General Public License
- *    along with this program; if not, write to the Free Software Foundation,
- *    Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *  --------------------------------------------------------------------------------------------------------------------
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 package cdp4common.dto;
 
 import cdp4common.commondata.ClassKind;
+import cdp4common.types.CacheKey;
 import cdp4common.types.OrderedItem;
 import cdp4common.types.ValueArray;
 import com.google.common.cache.Cache;
@@ -261,7 +262,7 @@ class ThingTest {
      */
     private class TestDto extends cdp4common.dto.Thing {
         @Override
-        public cdp4common.commondata.Thing instantiatePojo(Cache<Pair<UUID, UUID>, cdp4common.commondata.Thing> cache, URI uri) {
+        public cdp4common.commondata.Thing instantiatePojo(Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
             throw new NotImplementedException("Not implemented.");
         }
 

@@ -1,6 +1,25 @@
 /*
  * ValueValidator.java
- * Copyright (c) 2018 RHEA System S.A.
+ *
+ * Copyright (c) 2015-2019 RHEA System S.A.
+ *
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ *
+ * This file is part of CDP4-SDKJ Community Edition
+ *
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 package cdp4common.validation;
@@ -9,19 +28,19 @@ import cdp4common.engineeringmodeldata.Parameter;
 import cdp4common.helpers.Constants;
 import cdp4common.sitedirectorydata.*;
 import com.google.common.base.Strings;
+import lombok.extern.log4j.Log4j2;
 
-import java.text.*;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.ParsePosition;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.ResolverStyle;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
@@ -34,12 +53,8 @@ import static java.time.temporal.ChronoField.*;
  * <p>
  * The {@link ValueValidator} uses the {@link java.util.Locale#ROOT}.
  */
+@Log4j2
 public class ValueValidator {
-    /**
-     * The NLog logger
-     */
-    private static Logger LOGGER = Logger.getLogger(ValueValidator.class.getName());
-
     /**
      * The default value that is valid for all {@link ParameterType}s
      */
@@ -171,7 +186,7 @@ public class ValueValidator {
                 result.setMessage("");
                 return result;
             } catch (Exception ex) {
-                LOGGER.log(Level.FINE, ex.toString(), ex);
+                log.trace(ex.toString());
             }
         }
 
@@ -181,7 +196,7 @@ public class ValueValidator {
             result.setMessage("");
             return result;
         } catch (Exception ex) {
-            LOGGER.log(Level.INFO, ex.toString(), ex);
+            log.trace(ex.toString());
         }
 
         result.setResultKind(ValidationResultKind.INVALID);
@@ -221,13 +236,13 @@ public class ValueValidator {
                         .toFormatter();
 
                 LocalDateTime dateTime = LocalDateTime.parse(value.toString(), formatter);
-                LOGGER.log(Level.FINE, String.format("DateTimeParameterType %1$s validated", dateTime));
+                log.debug(String.format("DateTimeParameterType %1$s validated", dateTime));
 
                 result.setResultKind(ValidationResultKind.VALID);
                 result.setMessage("");
                 return result;
             } catch (Exception ex) {
-                LOGGER.log(Level.FINE, ex.toString(), ex);
+                log.debug(ex.toString());
 
                 result.setResultKind(ValidationResultKind.INVALID);
                 result.setMessage(String.format("%1$s is not a valid DateTime, valid date-times are specified in ISO 8601, see http://www.w3.org/TR/xmlschema-2/#dateTime.", value));
@@ -237,13 +252,13 @@ public class ValueValidator {
 
         try {
             LocalDateTime dateTimeValue = (LocalDateTime) value;
-            LOGGER.log(Level.FINE, String.format("DateTimeParameterType %1$s validated", dateTimeValue));
+            log.debug(String.format("DateTimeParameterType %1$s validated", dateTimeValue));
 
             result.setResultKind(ValidationResultKind.VALID);
             result.setMessage("");
             return result;
         } catch (Exception ex) {
-            LOGGER.log(Level.INFO, ex.toString(), ex);
+            log.trace(ex.toString());
         }
 
         result.setResultKind(ValidationResultKind.INVALID);
@@ -318,7 +333,7 @@ public class ValueValidator {
         ValidationResult result = new ValidationResult();
 
         if (scale == null) {
-            LOGGER.log(Level.SEVERE, "The scale is null with a quantity kind as the parameter type.");
+            log.error("The scale is null with a quantity kind as the parameter type.");
             result.setResultKind(ValidationResultKind.INVALID);
             result.setMessage("The scale is null with a quantity kind as the parameter type.");
             return result;
@@ -391,7 +406,7 @@ public class ValueValidator {
                 result.setMessage("");
                 return result;
             } catch (Exception ex) {
-                LOGGER.log(Level.INFO, ex.toString(), ex);
+                log.trace(ex.toString());
             }
         }
 
@@ -401,7 +416,7 @@ public class ValueValidator {
             result.setMessage("");
             return result;
         } catch (Exception ex) {
-            LOGGER.log(Level.INFO, ex.toString(), ex);
+            log.trace(ex.toString());
         }
 
         result.setResultKind(ValidationResultKind.INVALID);
@@ -447,7 +462,7 @@ public class ValueValidator {
                         isInteger = true;
                     } catch (Exception ex) {
                         isInteger = false;
-                        LOGGER.log(Level.FINE, ex.toString(), ex);
+                        log.debug(ex.toString());
                     }
                 }
 
@@ -472,7 +487,7 @@ public class ValueValidator {
                             return result;
                         }
                     } catch (Exception ex) {
-                        LOGGER.log(Level.WARNING, String.format("The MaximumPermissibleValue \"%1$s\" of MeasurementScale \"%2$s\" is not a member of the INTEGER NUMBER SET", measurementScale.getMaximumPermissibleValue(), measurementScale.getIid()), ex);
+                        log.warn(String.format("The MaximumPermissibleValue \"%1$s\" of MeasurementScale \"%2$s\" is not a member of the INTEGER NUMBER SET", measurementScale.getMaximumPermissibleValue(), measurementScale.getIid()), ex);
                     }
                 }
 
@@ -491,7 +506,7 @@ public class ValueValidator {
                             return result;
                         }
                     } catch (Exception ex) {
-                        LOGGER.log(Level.WARNING, String.format("The MinimumPermissibleValue \"%1$s\" of MeasurementScale \"%2$s\" is not a member of the INTEGER NUMBER SET", measurementScale.getMinimumPermissibleValue(), measurementScale.getIid()), ex);
+                        log.warn(String.format("The MinimumPermissibleValue \"%1$s\" of MeasurementScale \"%2$s\" is not a member of the INTEGER NUMBER SET", measurementScale.getMinimumPermissibleValue(), measurementScale.getIid()), ex);
                     }
                 }
 
@@ -525,7 +540,7 @@ public class ValueValidator {
                         isNatural = true;
                     } catch (Exception ex) {
                         isNatural = false;
-                        LOGGER.log(Level.FINE, ex.toString(), ex);
+                        log.debug(ex.toString());
                     }
                 }
 
@@ -556,7 +571,7 @@ public class ValueValidator {
                             return result;
                         }
                     } catch (Exception ex) {
-                        LOGGER.log(Level.WARNING, String.format("The MaximumPermissibleValue \"%1$s\" of MeasurementScale \"%2$s\" is not a member of the NATURAL NUMBER SET", measurementScale.getMaximumPermissibleValue(), measurementScale.getIid()), ex);
+                        log.warn(String.format("The MaximumPermissibleValue \"%1$s\" of MeasurementScale \"%2$s\" is not a member of the NATURAL NUMBER SET", measurementScale.getMaximumPermissibleValue(), measurementScale.getIid()), ex);
                     }
                 }
 
@@ -575,7 +590,7 @@ public class ValueValidator {
                             return result;
                         }
                     } catch (Exception ex) {
-                        LOGGER.log(Level.WARNING, String.format("The MinimumPermissibleValue \"%1$s\" of MeasurementScale \"%2$s\" is not a member of the NATURAL NUMBER SET", measurementScale.getMinimumPermissibleValue(), measurementScale.getIid()), ex);
+                        log.warn(String.format("The MinimumPermissibleValue \"%1$s\" of MeasurementScale \"%2$s\" is not a member of the NATURAL NUMBER SET", measurementScale.getMinimumPermissibleValue(), measurementScale.getIid()), ex);
                     }
                 }
 
@@ -584,7 +599,7 @@ public class ValueValidator {
                 return result;
             }
             case RATIONAL_NUMBER_SET: {
-                LOGGER.log(Level.WARNING, "RATIONAL NUMBER SET currently not validated and always returns ValidationResultKind.VALID");
+                log.warn("RATIONAL NUMBER SET currently not validated and always returns ValidationResultKind.VALID");
 
                 result.setResultKind(ValidationResultKind.VALID);
                 result.setMessage("RATIONAL NUMBER SET are not validated");
@@ -598,7 +613,7 @@ public class ValueValidator {
                 // the real numbers include all the integers
                 if (value instanceof Integer) {
                     isReal = true;
-                    real = (double)((int)value);
+                    real = (double) ((int) value);
                 }
 
                 if (value instanceof Double) {
@@ -610,7 +625,7 @@ public class ValueValidator {
                     try {
                         if (format == null) {
                             // By default comma is not valid
-                            if (value.toString().contains(",")){
+                            if (value.toString().contains(",")) {
                                 throw new ParseException("String contains illegal symbol \",\"", value.toString().indexOf(","));
                             }
 
@@ -618,7 +633,7 @@ public class ValueValidator {
                         }
 
                         // Check for exponent notation
-                        if (value.toString().toLowerCase().contains("e")){
+                        if (value.toString().toLowerCase().contains("e")) {
                             // Try to parse without formatter
                             real = Double.valueOf(value.toString().toLowerCase());
                             isReal = true;
@@ -633,7 +648,7 @@ public class ValueValidator {
                         }
                     } catch (Exception ex) {
                         isReal = false;
-                        LOGGER.log(Level.FINE, ex.toString(), ex);
+                        log.debug(ex.toString());
                     }
                 }
 
@@ -658,7 +673,7 @@ public class ValueValidator {
                             return result;
                         }
                     } catch (Exception ex) {
-                        LOGGER.log(Level.WARNING, String.format("The MaximumPermissibleValue \"%1$s\" of MeasurementScale \"%2$s\" is not a member of the REAL NUMBER SET", measurementScale.getMaximumPermissibleValue(), measurementScale.getIid()), ex);
+                        log.warn(String.format("The MaximumPermissibleValue \"%1$s\" of MeasurementScale \"%2$s\" is not a member of the REAL NUMBER SET", measurementScale.getMaximumPermissibleValue(), measurementScale.getIid()), ex);
                     }
                 }
 
@@ -677,7 +692,7 @@ public class ValueValidator {
                             return result;
                         }
                     } catch (Exception ex) {
-                        LOGGER.log(Level.WARNING, String.format("The MinimumPermissibleValue \"%1$s\" of MeasurementScale \"%2$s\" is not a member of the REAL NUMBER SET", measurementScale.getMinimumPermissibleValue(), measurementScale.getIid()), ex);
+                        log.warn(String.format("The MinimumPermissibleValue \"%1$s\" of MeasurementScale \"%2$s\" is not a member of the REAL NUMBER SET", measurementScale.getMinimumPermissibleValue(), measurementScale.getIid()), ex);
                     }
                 }
 

@@ -1,25 +1,25 @@
-/* --------------------------------------------------------------------------------------------------------------------
- *    CategorizableThingExtensionsTest.java
- *    Copyright (c) 2015-2018 RHEA System S.A.
+/*
+ * CategorizableThingExtensionsTest.java
  *
- *    Author: Sam Gerené, Merlin Bieze, Alex Vorobiev, Naron Phou
+ * Copyright (c) 2015-2019 RHEA System S.A.
  *
- *    This file is part of CDP4-SDK Community Edition
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
  *
- *    The CDP4-SDK Community Edition is free software; you can redistribute it and/or
- *    modify it under the terms of the GNU Lesser General
- *    License as published by the Free Software Foundation; either
- *    version 3 of the License, or (at your option) any later version.
+ * This file is part of CDP4-SDKJ Community Edition
  *
- *    The CDP4-SDK Community Edition is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *    Lesser General  License for more details.
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
  *
- *    You should have received a copy of the GNU Lesser General  License
- *    along with this program; if not, write to the Free Software Foundation,
- *    Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *  --------------------------------------------------------------------------------------------------------------------
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 package cdp4common.sitedirectorydata;
@@ -27,6 +27,7 @@ package cdp4common.sitedirectorydata;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.ElementUsage;
+import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.tuple.Pair;
@@ -41,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CategorizableThingExtensionsTest {
     private URI uri;
-    private Cache<Pair<UUID, UUID>, Thing> cache;
+    private Cache<CacheKey, Thing> cache;
 
     private Category productCategory;
     private Category equipmentCategory;
@@ -81,15 +82,15 @@ class CategorizableThingExtensionsTest {
         this.transmitterCategory.getSuperCategory().add(this.equipmentCategory);
         this.equipmentCategory.getSuperCategory().add(this.productCategory);
 
-        this.cache.put(Pair.of(this.productCategory.getIid(), null), this.productCategory);
+        this.cache.put(new CacheKey(this.productCategory.getIid(), null), this.productCategory);
 
-        this.cache.put(Pair.of(this.equipmentCategory.getIid(), null), this.equipmentCategory);
+        this.cache.put(new CacheKey(this.equipmentCategory.getIid(), null), this.equipmentCategory);
 
-        this.cache.put(Pair.of(this.batteryCategory.getIid(), null), this.batteryCategory);
+        this.cache.put(new CacheKey(this.batteryCategory.getIid(), null), this.batteryCategory);
 
-        this.cache.put(Pair.of(this.lithiumBatteryCategory.getIid(), null), this.lithiumBatteryCategory);
+        this.cache.put(new CacheKey(this.lithiumBatteryCategory.getIid(), null), this.lithiumBatteryCategory);
 
-        this.cache.put(Pair.of(this.transmitterCategory.getIid(), null), this.transmitterCategory);
+        this.cache.put(new CacheKey(this.transmitterCategory.getIid(), null), this.transmitterCategory);
 
         this.elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
     }

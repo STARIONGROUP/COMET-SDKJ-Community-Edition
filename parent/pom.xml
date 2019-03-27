@@ -31,6 +31,7 @@
         <mvn.jacoco.version>0.8.3</mvn.jacoco.version>
         <mvn.checkstyle.version>3.0.0</mvn.checkstyle.version>
         <puppycrawl.version>8.17</puppycrawl.version>
+        <logging.version>2.11.2</logging.version>
     </properties>
 
     <dependencyManagement>
@@ -106,6 +107,21 @@
                 <groupId>org.reflections</groupId>
                 <artifactId>reflections</artifactId>
                 <version>${reflections.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${logging.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${logging.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${logging.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

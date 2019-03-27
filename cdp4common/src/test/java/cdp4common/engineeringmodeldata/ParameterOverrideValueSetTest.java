@@ -1,29 +1,30 @@
-/* --------------------------------------------------------------------------------------------------------------------
- *    ParameterOverrideValueSetTest.java
- *    Copyright (c) 2015-2018 RHEA System S.A.
+/*
+ * ParameterOverrideValueSetTest.java
  *
- *    Author: Sam Gerené, Merlin Bieze, Alex Vorobiev, Naron Phou
+ * Copyright (c) 2015-2019 RHEA System S.A.
  *
- *    This file is part of CDP4-SDK Community Edition
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
  *
- *    The CDP4-SDK Community Edition is free software; you can redistribute it and/or
- *    modify it under the terms of the GNU Lesser General Public
- *    License as published by the Free Software Foundation; either
- *    version 3 of the License, or (at your option) any later version.
+ * This file is part of CDP4-SDKJ Community Edition
  *
- *    The CDP4-SDK Community Edition is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *    Lesser General Public License for more details.
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
  *
- *    You should have received a copy of the GNU Lesser General Public License
- *    along with this program; if not, write to the Free Software Foundation,
- *    Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *  --------------------------------------------------------------------------------------------------------------------
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 package cdp4common.engineeringmodeldata;
 
+import cdp4common.exceptions.ContainmentException;
 import cdp4common.sitedirectorydata.CompoundParameterType;
 import cdp4common.sitedirectorydata.ParameterTypeComponent;
 import cdp4common.sitedirectorydata.SimpleQuantityKind;
@@ -35,8 +36,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ParameterOverrideValueSetTest {
     private ElementDefinition elementDefinition1;
@@ -232,5 +232,12 @@ class ParameterOverrideValueSetTest {
 
         assertEquals(newComputedValue, clone.getComputed().get(0));
         assertEquals(computedValue, parameterOverrideValueSet.getComputed().get(0));
+    }
+
+    @Test
+    void verify_that_when_QueryParameterType_throws_exception_when_container_not_set() {
+        var parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
+
+        assertThrows(ContainmentException.class, () -> parameterOverrideValueSet.queryParameterType());
     }
 }

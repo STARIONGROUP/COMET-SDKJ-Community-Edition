@@ -1,8 +1,32 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * QuantityKind.java
- * Copyright (c) 2018 RHEA System S.A.
  *
- * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
+ * Copyright (c) 2015-2019 RHEA System S.A.
+ *
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ *
+ * This file is part of CDP4-SDKJ Community Edition
+ *
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * This is an auto-generated POJO Class. Any manual changes to this file before a special comment
+ *
+ * // HAND-WRITTEN CODE GOES BELOW.
+ * // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+ *
+ * will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
  */
 
@@ -24,7 +48,6 @@ import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Iterables;
@@ -62,11 +85,11 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Initializes a new instance of the {@link QuantityKind} class.
      * @param iid The unique identifier.
      * @param cache The {@link Cache} where the current thing is stored.
-     * The {@link Pair} of {@link UUID} is the key used to store this thing.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
      * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
-    protected QuantityKind(UUID iid, Cache<Pair<UUID, UUID>, Thing> cache, URI iDalUri) {
+    protected QuantityKind(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.possibleScale = new ArrayList<MeasurementScale>();
     }
@@ -135,7 +158,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * derived collection of all possible MeasurementScales on which values for this QuantityKind can be expressed
      * Note: For a SimpleQuantityKind and a DerivedQuantityKind <i>allPossibleScale</i> contains the same MeasurementScales as <i>possibleScale</i>. For a SpecializedQuantityKind <i>allPossibleScale</i> contains the set of all <i>possibleScale</i> of the specific SpecializedQuantityKind and all of its <i>general</i> QuantityKind.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public ArrayList<MeasurementScale> getAllPossibleScale(){
         return this.getDerivedAllPossibleScale();
     }
@@ -150,7 +172,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * dim F = L.M.T<sup>-2</sup>,
      * where "F" is the symbol for "force," and "L," "M," and "T" are the symbols for the ISQ base quantities "length", "mass", and "time" respectively.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     public OrderedItemList<String> getQuantityDimensionExponent(){
         return this.getDerivedQuantityDimensionExponent();
     }
@@ -160,7 +181,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * derived symbolic expression of the physical dimension of this QuantityKind
      * Note: This is the human readable version of product of powers formed by the <i>quantityDimensionSymbol</i> of each of the base QuantityKind and the corresponding <i>quantityDimensionExponent</i>.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public String getQuantityDimensionExpression(){
         return this.getDerivedQuantityDimensionExpression();
     }
@@ -174,7 +194,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setAllPossibleScale(ArrayList<MeasurementScale> allPossibleScale){
         throw new IllegalStateException("Forbidden Set value for the derived property QuantityKind.allPossibleScale");
     }
@@ -193,7 +212,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = true, isNullable = false, isPersistent = false)
     public void setQuantityDimensionExponent(OrderedItemList<String> quantityDimensionExponent){
         throw new IllegalStateException("Forbidden Set value for the derived property QuantityKind.quantityDimensionExponent");
     }
@@ -207,7 +225,6 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      *
      * @see IllegalStateException
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = true, isOrdered = false, isNullable = false, isPersistent = false)
     public void setQuantityDimensionExpression(String quantityDimensionExpression){
         throw new IllegalStateException("Forbidden Set value for the derived property QuantityKind.quantityDimensionExpression");
     }

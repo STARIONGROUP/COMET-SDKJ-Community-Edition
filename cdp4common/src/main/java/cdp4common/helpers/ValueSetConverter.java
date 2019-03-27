@@ -1,6 +1,25 @@
 /*
  * ValueSetConverter.java
- * Copyright (c) 2018 RHEA System S.A.
+ *
+ * Copyright (c) 2015-2019 RHEA System S.A.
+ *
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ *
+ * This file is part of CDP4-SDKJ Community Edition
+ *
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 package cdp4common.helpers;
@@ -12,6 +31,7 @@ import cdp4common.sitedirectorydata.ParameterType;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MoreCollectors;
+import lombok.extern.log4j.Log4j2;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -23,19 +43,13 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
  * Converter used to associate a string value in the ValueArray to an object which type depend on the Parameter-type
  */
+@Log4j2
 public class ValueSetConverter {
-    /**
-     * The logger
-     */
-    private static Logger LOGGER = Logger.getLogger(ValueSetConverter.class.getName());
-
     /**
      * Convert an object to a string to post to the data-source
      *
@@ -81,7 +95,7 @@ public class ValueSetConverter {
                 Double doubleValue = Double.parseDouble(value.toString());
                 return doubleValue.toString();
             } catch (Exception ex) {
-                LOGGER.log(Level.FINE, ex.toString(), ex);
+                log.debug(ex.toString());
             }
 
             try {
@@ -94,14 +108,14 @@ public class ValueSetConverter {
                 Double doubleValue = format.parse(value.toString()).doubleValue();
                 return doubleValue.toString();
             } catch (Exception ex) {
-                LOGGER.log(Level.FINE, ex.toString(), ex);
+                log.debug(ex.toString());
             }
 
             try {
                 Boolean booleanValue = Boolean.parseBoolean(stringValue);
                 return booleanValue ? "true" : "false";
             } catch (Exception ex) {
-                LOGGER.log(Level.FINE, ex.toString(), ex);
+                log.debug(ex.toString());
             }
 
             return Strings.isNullOrEmpty(value.toString()) ? "-" : value.toString();
@@ -120,7 +134,7 @@ public class ValueSetConverter {
                 Collection<EnumerationValueDefinition> enumList = (Collection<EnumerationValueDefinition>) objects;
                 return enumList.size() == 0 ? "-" : String.join(Constants.PADDED_MULTI_ENUM_SEPARATOR, enumList.stream().map(DefinedThing::getShortName).collect(Collectors.toList()));
             } catch (Exception ex) {
-                LOGGER.log(Level.FINE, ex.toString(), ex);
+                log.debug(ex.toString());
             }
         }
 
@@ -176,28 +190,28 @@ public class ValueSetConverter {
                 try {
                     return Boolean.parseBoolean(value);
                 } catch (Exception ex) {
-                    LOGGER.log(Level.FINE, ex.toString(), ex);
+                    log.debug(ex.toString());
                     return null;
                 }
             case DATE_TIME_PARAMETER_TYPE:
                 try {
                     return LocalDateTime.parse(value);
                 } catch (Exception ex) {
-                    LOGGER.log(Level.FINE, ex.toString(), ex);
+                    log.debug(ex.toString());
                     return null;
                 }
             case DATE_PARAMETER_TYPE:
                 try {
                     return LocalDate.parse(value, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 } catch (Exception ex) {
-                    LOGGER.log(Level.FINE, ex.toString(), ex);
+                    log.debug(ex.toString());
                     return null;
                 }
             case TIME_OF_DAY_PARAMETER_TYPE:
                 try {
                     return LocalTime.parse(value);
                 } catch (Exception ex) {
-                    LOGGER.log(Level.FINE, ex.toString(), ex);
+                    log.debug(ex.toString());
                     return null;
                 }
         }
