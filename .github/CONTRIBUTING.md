@@ -50,4 +50,18 @@ And remember; **A pull-request with tests is a pull-request that's likely to be 
 
 ## Style Guidelines
 
-> More information coming soon
+It is strongly encouraged to follow [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
+Code style is checked with a maven plugin during validate phase and might trigger build error if some rules are not followed.
+
+To get some help from your favourite IDE in following the code style please clone [google style guide](https://github.com/google/styleguide) repository to your computer.
+Import an appropriate file from the project that you just cloned to your IDE.
+
+#### IntelliJ IDEA
+
+Open up the File -> Settings and navigate to Editor -> Code Style -> Java and press on the cogwheel and select Import Scheme -> IntelliJ IDEA code style XML and import the file intellij-java-google-style.xml.
+
+#### Eclipse
+
+Open up the preferences and navigate to Java -> Code Style -> Formatter and press on Import and select the file eclipse-java-google-style.xml.
+
+Now it will be much easier to follow code style and you always can see the result of code style check in your console.

@@ -18,5 +18,6 @@
     <modules>
         <module>cdp4common</module>
         <module>parent</module>
+        <module>cdp4dal</module>
     </modules>
 </project>
