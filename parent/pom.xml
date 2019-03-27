@@ -29,6 +29,8 @@
         <mvn.surefire.version>2.22.1</mvn.surefire.version>
         <mvn.failsafe.version>2.22.1</mvn.failsafe.version>
         <mvn.jacoco.version>0.8.3</mvn.jacoco.version>
+        <mvn.checkstyle.version>3.0.0</mvn.checkstyle.version>
+        <puppycrawl.version>8.17</puppycrawl.version>
         <logging.version>2.11.2</logging.version>
     </properties>
 
@@ -181,6 +183,33 @@
                         <phase>test</phase>
                         <goals>
                             <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${mvn.checkstyle.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${puppycrawl.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <configLocation>google_checks.xml</configLocation>
+                            <encoding>UTF-8</encoding>
+                            <consoleOutput>false</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                        </configuration>
+                        <goals>
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
