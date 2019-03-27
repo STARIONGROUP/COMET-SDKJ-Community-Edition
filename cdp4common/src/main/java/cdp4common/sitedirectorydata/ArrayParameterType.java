@@ -2,7 +2,12 @@
  * ArrayParameterType.java
  * Copyright (c) 2015 - 2019 RHEA System S.A.
  *
- * This is an auto-generated POJO Class. Any manual changes to this file will be overwritten!
+ * This is an auto-generated POJO Class. Any manual changes to this file before a special comment
+ *
+ * // HAND-WRITTEN CODE GOES BELOW.
+ * // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
+ *
+ * will be overwritten!
  * --------------------------------------------------------------------------------------------------------------------
  */
 
