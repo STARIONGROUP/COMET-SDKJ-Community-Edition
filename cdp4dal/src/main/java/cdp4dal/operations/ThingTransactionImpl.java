@@ -107,7 +107,8 @@ public class ThingTransactionImpl implements ThingTransaction {
    *
    * In the context of sub-transactions, this constructor shall be used for the root-transaction.
    */
-  public ThingTransactionImpl(TransactionContext transactionContext, Thing clone) {
+  public ThingTransactionImpl(TransactionContext transactionContext, Thing clone)
+      throws TransactionException {
     if (transactionContext == null) {
       throw new NullPointerException("The transactionContext may not be null");
     }
@@ -141,7 +142,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @param containerClone The container {@link Thing} for the current added or updated operation.
    */
   public ThingTransactionImpl(Thing clone, ThingTransactionImpl parentTransaction,
-      Thing containerClone) {
+      Thing containerClone) throws TransactionException {
     if (clone == null) {
       throw new NullPointerException("The clone may not be null.");
     }
@@ -184,7 +185,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @throws IllegalArgumentException Thrown if a {@link TopContainer} or {@link Iteration} is
    * registered.
    */
-  public void create(Thing clone, Thing containerClone) {
+  public void create(Thing clone, Thing containerClone) throws TransactionException {
     if (clone == null) {
       throw new NullPointerException("The clone may not be null");
     }
@@ -229,7 +230,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @throws IllegalArgumentException Thrown if a {@link TopContainer} or {@link Iteration} is
    * registered.
    */
-  public void createDeep(Thing clone, Thing containerClone) {
+  public void createDeep(Thing clone, Thing containerClone) throws TransactionException {
     this.create(clone, containerClone);
     this.registerContainedThings(clone, false);
   }
@@ -240,7 +241,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @param deepClone The {@link Thing} to copy.
    * @param containerClone The container.
    */
-  public void copyDeep(Thing deepClone, Thing containerClone) {
+  public void copyDeep(Thing deepClone, Thing containerClone) throws TransactionException {
     this.create(deepClone, containerClone);
     this.registerContainedThings(deepClone, true);
   }
@@ -250,7 +251,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    *
    * @param clone The clone of the {@link Thing} to update.
    */
-  public void createOrUpdate(Thing clone) {
+  public void createOrUpdate(Thing clone) throws TransactionException {
     if (clone == null) {
       throw new NullPointerException("The clone may not be null");
     }
@@ -284,7 +285,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @param clone The clone of the {@link Thing} to delete.
    * @param containerClone The clone of the container (mandatory in dialogs).
    */
-  public void delete(Thing clone, Thing containerClone) {
+  public void delete(Thing clone, Thing containerClone) throws TransactionException {
     if (clone == null) {
       throw new NullPointerException("The clone may not be null.");
     }
@@ -335,7 +336,8 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @param containerDestinationClone The new container.
    * @param operationKind The {@link OperationKind} that specify the kind of copy operation.
    */
-  public void copy(Thing clone, Thing containerDestinationClone, OperationKind operationKind) {
+  public void copy(Thing clone, Thing containerDestinationClone, OperationKind operationKind)
+      throws TransactionException {
     if (!OperationUtils.isCopyOperation(operationKind)) {
       throw new IllegalArgumentException(
           "The copy operation may only be performed with Copy or CopyDefaultValuesChangeOwner or CopyKeepValues or CopyKeepValuesChangeOwner");
@@ -450,7 +452,8 @@ public class ThingTransactionImpl implements ThingTransaction {
    * {@link Thing} is created if {@code nextThing} is null, the {@code clone} is appended to the
    * list.
    */
-  public void finalizeSubTransaction(Thing clone, Thing containerClone, Thing nextThing) {
+  public void finalizeSubTransaction(Thing clone, Thing containerClone, Thing nextThing)
+      throws TransactionException {
     if (this.parentTransaction == null) {
       throw new IllegalArgumentException("This method shall only be called on a sub-transaction.");
     }
@@ -660,7 +663,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @param containerList The {@link ContainerList}.
    */
   private void updateContainerList(Thing thing, Thing containerClone,
-      ContainerList<Thing> containerList) {
+      ContainerList<Thing> containerList) throws TransactionException {
     if (thing.getContainer() != null && thing.getContainer().getIid()
         .equals(containerClone.getIid())) {
       // replace the reference in the container list
@@ -691,7 +694,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @param orderedItemList The {@link OrderedItemList}.
    */
   private void updateOrderedItemList(Thing thing, Thing containerClone, Thing nextThing,
-      OrderedItemList<Thing> orderedItemList) {
+      OrderedItemList<Thing> orderedItemList) throws TransactionException {
     if (thing.getContainer() != null && thing.getContainer().getIid()
         .equals(containerClone.getIid())) {
       // replace the reference in the container list as another reference of the thing to add is already in the list
@@ -830,7 +833,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    *
    * @param clone The {@link Thing} being updated outside the current chain
    */
-  private void addChainOfContainers(Thing clone) {
+  private void addChainOfContainers(Thing clone) throws TransactionException {
     var topOperationClone = this.getOperationRootClone();
     if (!clone.isContainedBy(topOperationClone.getIid())) {
       return;
@@ -906,7 +909,8 @@ public class ThingTransactionImpl implements ThingTransaction {
    * new {@link Thing} is created if {@code nextThing} is null, the {@code clone} is appended to the
    * list.
    */
-  private void updateContainer(Thing clone, Thing containerClone, Thing nextThing) {
+  private void updateContainer(Thing clone, Thing containerClone, Thing nextThing)
+      throws TransactionException {
     var containerInformation = clone.getContainerInformation();
     if (!containerInformation.getLeft().isAssignableFrom(containerClone.getClass())) {
       throw new IllegalArgumentException("The containerClone does not have the right type");
@@ -931,7 +935,8 @@ public class ThingTransactionImpl implements ThingTransaction {
    * {@link Thing} is created if {@code nextThing} is null, the {@code clone} is appended to the
    * list.
    */
-  private void addCloneToContainer(Thing clone, Thing containerClone, Thing nextThing) {
+  private void addCloneToContainer(Thing clone, Thing containerClone, Thing nextThing)
+      throws TransactionException {
     var containerInformation = clone.getContainerInformation();
     if (!containerInformation.getLeft().isAssignableFrom(containerClone.getClass())) {
       throw new IllegalArgumentException("The containerClone does not have the right type");
@@ -1017,7 +1022,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @param newId Indicates whether the contained {@link Thing}s to be created should have a new
    * ID.
    */
-  private void registerContainedThings(Thing thing, boolean newId) {
+  private void registerContainedThings(Thing thing, boolean newId) throws TransactionException {
     for (var containerList : thing.getContainerLists()) {
       for (var containedThing : containerList) {
         if (newId) {

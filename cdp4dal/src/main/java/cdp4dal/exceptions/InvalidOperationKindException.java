@@ -32,7 +32,7 @@ import cdp4dal.operations.OperationContainer;
  * A InvalidOperationKindException is thrown whenever an {@link OperationContainer} contains {@link
  * Operation} that are not supported by the implementation of an {@link Dal}.
  */
-public class InvalidOperationKindException extends RuntimeException {
+public class InvalidOperationKindException extends Exception {
 
   /**
    * Initializes a new instance of the {@link InvalidOperationKindException} class.

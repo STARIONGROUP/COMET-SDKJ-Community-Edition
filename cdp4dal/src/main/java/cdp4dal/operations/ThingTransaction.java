@@ -28,6 +28,7 @@ import cdp4common.commondata.Thing;
 import cdp4common.commondata.TopContainer;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.types.OrderedItemList;
+import cdp4dal.exceptions.TransactionException;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
@@ -83,7 +84,7 @@ public interface ThingTransaction {
    * @throws IllegalArgumentException Thrown if a {@link TopContainer} or {@link Iteration} is
    * registered.
    */
-  void createDeep(Thing clone, Thing containerClone);
+  void createDeep(Thing clone, Thing containerClone) throws TransactionException;
 
   /**
    * Register a deep copy operations for the {@link Thing}.
@@ -91,7 +92,7 @@ public interface ThingTransaction {
    * @param deepClone The {@link Thing} to copy.
    * @param containerClone The container.
    */
-  void copyDeep(Thing deepClone, Thing containerClone);
+  void copyDeep(Thing deepClone, Thing containerClone) throws TransactionException;
 
   /**
    * Registers the provided {@link Thing} to be created in the current transaction.
@@ -103,14 +104,14 @@ public interface ThingTransaction {
    * @throws IllegalArgumentException Thrown if a {@link TopContainer} or {@link Iteration} is
    * registered.
    */
-  void create(Thing clone, Thing containerClone);
+  void create(Thing clone, Thing containerClone) throws TransactionException;
 
   /**
    * Registers the provided {@link Thing} to be created or updated in the current transaction.
    *
    * @param clone The clone of the {@link Thing}.
    */
-  void createOrUpdate(Thing clone);
+  void createOrUpdate(Thing clone) throws TransactionException;
 
   /**
    * Creates a {@link Thing} deletion operation.
@@ -118,7 +119,7 @@ public interface ThingTransaction {
    * @param thing The clone of the {@link Thing} to delete.
    * @param containerClone The clone of the container (mandatory in dialogs).
    */
-  void delete(Thing thing, Thing containerClone);
+  void delete(Thing thing, Thing containerClone) throws TransactionException;
 
   /**
    * Registers the provided clone of a {@link Thing} as a copy with its destination.
@@ -127,7 +128,8 @@ public interface ThingTransaction {
    * @param containerDestinationClone The new container.
    * @param operationKind The {@link OperationKind} that specify the kind of copy operation.
    */
-  void copy(Thing clone, Thing containerDestinationClone, OperationKind operationKind);
+  void copy(Thing clone, Thing containerDestinationClone, OperationKind operationKind)
+      throws TransactionException;
 
   /**
    * Registers the provided clone of a {@link Thing} as a copy.
@@ -146,7 +148,8 @@ public interface ThingTransaction {
    * {@link Thing} is created if {@code nextThing} is null, the {@code clone} is appended to the
    * list.
    */
-  void finalizeSubTransaction(Thing clone, Thing containerClone, Thing nextThing);
+  void finalizeSubTransaction(Thing clone, Thing containerClone, Thing nextThing)
+      throws TransactionException;
 
   /**
    * Get the clone of the {@link Thing} used in the current {@link ThingTransaction}.

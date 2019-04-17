@@ -30,7 +30,7 @@ import cdp4dal.operations.ThingTransaction;
  * A {@link TransactionException} is thrown by the {@link ThingTransaction} whenever the transaction
  * is in an inconsistent state.
  */
-public class TransactionException extends RuntimeException {
+public class TransactionException extends Exception {
 
   /**
    * Initializes a new instance of the {@link TransactionException} class.

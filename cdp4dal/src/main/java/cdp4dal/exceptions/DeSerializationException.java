@@ -28,7 +28,7 @@ package cdp4dal.exceptions;
  * A {@link DeSerializationException} is thrown the when a deserialization exception is
  * encountered.
  */
-public class DeSerializationException extends RuntimeException {
+public class DeSerializationException extends Exception {
 
   /**
    * Initializes a new instance of the {@link DeSerializationException} class.

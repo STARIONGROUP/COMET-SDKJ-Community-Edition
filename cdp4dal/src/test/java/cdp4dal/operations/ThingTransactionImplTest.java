@@ -51,6 +51,7 @@ import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
 import cdp4common.sitedirectorydata.TelephoneNumber;
 import cdp4common.sitedirectorydata.UnitFactor;
 import cdp4common.types.CacheKey;
+import cdp4dal.exceptions.TransactionException;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.MoreCollectors;
@@ -91,7 +92,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatCanOnlyUseThingTransactionOnOneTopContainer() {
+  void verifyThatCanOnlyUseThingTransactionOnOneTopContainer() throws TransactionException {
     var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
 
     var person = new Person(UUID.randomUUID(), this.cache, this.uri);
@@ -110,7 +111,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatCreateThingWorks() {
+  void verifyThatCreateThingWorks() throws TransactionException {
     var person = new Person(UUID.randomUUID(), this.cache, this.uri);
     person.setContainer(this.siteDirectory);
     this.cache.put(new CacheKey(person.getIid(), null), person);
@@ -128,7 +129,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatCreateThingWorksWithAbstractContainer() {
+  void verifyThatCreateThingWorksWithAbstractContainer() throws TransactionException {
     var siteRdl = new SiteReferenceDataLibrary(UUID.randomUUID(), this.cache, this.uri);
     siteRdl.setContainer(this.siteDirectory);
     this.cache.put(new CacheKey(siteRdl.getIid(), null), siteRdl);
@@ -177,7 +178,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatCreateThingTwiceDoesntThrowException() {
+  void verifyThatCreateThingTwiceDoesntThrowException() throws TransactionException {
     var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
     var transaction = new ThingTransactionImpl(transactionContext, this.siteDirectory.clone(false));
     var phone = new TelephoneNumber(UUID.randomUUID(), this.cache, this.uri);
@@ -186,7 +187,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatUpdateThingWorks() {
+  void verifyThatUpdateThingWorks() throws TransactionException {
     var phone = new TelephoneNumber(UUID.randomUUID(), this.cache, this.uri);
     this.cache.put(new CacheKey(phone.getIid(), null), phone);
 
@@ -200,7 +201,8 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatUpdateThingThrowsExceptionUponUpdatingExistingCloneWithAnotherClone() {
+  void verifyThatUpdateThingThrowsExceptionUponUpdatingExistingCloneWithAnotherClone()
+      throws TransactionException {
     var phone = new TelephoneNumber(UUID.randomUUID(), this.cache, this.uri);
     this.cache.put(new CacheKey(phone.getIid(), null), phone);
 
@@ -218,7 +220,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatDeleteThingAlreadyDeletedWorks() {
+  void verifyThatDeleteThingAlreadyDeletedWorks() throws TransactionException {
     var person = new Person(UUID.randomUUID(), this.cache, this.uri);
     var email = new EmailAddress(UUID.randomUUID(), this.cache, this.uri);
     this.siteDirectory.getPerson().add(person);
@@ -236,7 +238,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatUpdateContainerWorks() {
+  void verifyThatUpdateContainerWorks() throws TransactionException {
 
     var iterationClone = this.iteration.clone(false);
     var option1 = new Option(UUID.randomUUID(), this.cache, this.uri);
@@ -268,7 +270,7 @@ class ThingTransactionImplTest {
    * create a containment tree under site directory and update
    */
   @Test
-  void functionalTestCase1() {
+  void functionalTestCase1() throws TransactionException {
     var person1 = new Person();
     var phone = new TelephoneNumber();
     var cloneSiteDir = this.siteDirectory.clone(false);
@@ -423,7 +425,7 @@ class ThingTransactionImplTest {
    * Updating existing things
    */
   @Test
-  void functionalTestCase2() {
+  void functionalTestCase2() throws TransactionException {
     var siterdl = new SiteReferenceDataLibrary(UUID.randomUUID(), this.cache, this.uri);
     this.siteDirectory.getSiteReferenceDataLibrary().add(siterdl);
 
@@ -551,7 +553,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatNewThingWithCacheDoesNotCrash() {
+  void verifyThatNewThingWithCacheDoesNotCrash() throws TransactionException {
     var person = new Person(UUID.randomUUID(), this.cache, this.uri);
 
     var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
@@ -560,7 +562,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatCreateDeepWorks() {
+  void verifyThatCreateDeepWorks() throws TransactionException {
     var enumPt = new EnumerationParameterType();
     var enumPtDef = new Definition();
 
@@ -579,7 +581,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatCopyDeepWorks() {
+  void verifyThatCopyDeepWorks() throws TransactionException {
     var enumPt = new EnumerationParameterType();
     var enumPtDef = new Definition();
 
@@ -608,7 +610,7 @@ class ThingTransactionImplTest {
    * create email in person and directly delete it
    */
   @Test
-  void verifyThatDeleteAddedThingWorksWithinSameSubTransaction() {
+  void verifyThatDeleteAddedThingWorksWithinSameSubTransaction() throws TransactionException {
     var sitedir1 = this.siteDirectory.clone(false);
 
     var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
@@ -640,7 +642,7 @@ class ThingTransactionImplTest {
    * create email in person, validate person, edit it again to delete email
    */
   @Test
-  void verifyThatDeleteAddedThingWorksWithinDifferentSubTransaction() {
+  void verifyThatDeleteAddedThingWorksWithinDifferentSubTransaction() throws TransactionException {
     var sitedir1 = this.siteDirectory.clone(false);
 
     var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
@@ -678,7 +680,7 @@ class ThingTransactionImplTest {
    * delete email in sub-transaction context
    */
   @Test
-  void verifyThatDeleteExistingThingWorks() {
+  void verifyThatDeleteExistingThingWorks() throws TransactionException {
     var person = new Person(UUID.randomUUID(), this.cache, this.uri);
     var email = new EmailAddress(UUID.randomUUID(), this.cache, this.uri);
     this.siteDirectory.getPerson().add(person);
@@ -712,7 +714,7 @@ class ThingTransactionImplTest {
    * update email, then delete
    */
   @Test
-  void verifyThatDeleteUpdatedThingWorksWithinSameSubTransaction() {
+  void verifyThatDeleteUpdatedThingWorksWithinSameSubTransaction() throws TransactionException {
     var person = new Person(UUID.randomUUID(), this.cache, this.uri);
     var email = new EmailAddress(UUID.randomUUID(), this.cache, this.uri);
     this.siteDirectory.getPerson().add(person);
@@ -752,7 +754,7 @@ class ThingTransactionImplTest {
    * update email and person, update person then delete email
    */
   @Test
-  void verifyThatDeleteUpdatedThingWorksInDifferentTransaction() {
+  void verifyThatDeleteUpdatedThingWorksInDifferentTransaction() throws TransactionException {
     var person = new Person(UUID.randomUUID(), this.cache, this.uri);
     var email = new EmailAddress(UUID.randomUUID(), this.cache, this.uri);
     this.siteDirectory.getPerson().add(person);
@@ -798,7 +800,7 @@ class ThingTransactionImplTest {
    * getOperations()
    */
   @Test
-  void verifyThatCascadeDeleteWorksOnAddedThing() {
+  void verifyThatCascadeDeleteWorksOnAddedThing() throws TransactionException {
     var sitedir1 = this.siteDirectory.clone(false);
 
     var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
@@ -822,7 +824,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatDryCopyWorks() {
+  void verifyThatDryCopyWorks() throws TransactionException {
     var sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
     var sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
     var targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
@@ -860,7 +862,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatCtrlCopyWorks() {
+  void verifyThatCtrlCopyWorks() throws TransactionException {
     var sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
     var sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
     var targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
@@ -897,7 +899,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatShiftCopyWorks() {
+  void verifyThatShiftCopyWorks() throws TransactionException {
     var sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
     var sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
     var targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
@@ -933,7 +935,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatCtrlShiftCopyWorks() {
+  void verifyThatCtrlShiftCopyWorks() throws TransactionException {
     var sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
     var sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
     var targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
@@ -969,7 +971,8 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatWhenCopyOperationIsInvokedWithNonCopyOperationExceptionIsThrown() {
+  void verifyThatWhenCopyOperationIsInvokedWithNonCopyOperationExceptionIsThrown()
+      throws TransactionException {
     var sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
     var sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
     var targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
@@ -996,7 +999,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatCopyThrowsExceptionCloneThatIsToBeCopiedIsNull() {
+  void verifyThatCopyThrowsExceptionCloneThatIsToBeCopiedIsNull() throws TransactionException {
     var sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
     var sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
     var targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
@@ -1020,7 +1023,7 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatCopyThrowsExceptionWhenDestinationIsNull() {
+  void verifyThatCopyThrowsExceptionWhenDestinationIsNull() throws TransactionException {
     var sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
     var sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
     var targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
@@ -1046,7 +1049,8 @@ class ThingTransactionImplTest {
   }
 
   @Test
-  void verifyThatGetLastCloneCreatedThrowsExceptionWhenThingIsNullOrGuidIsEmptyGuid() {
+  void verifyThatGetLastCloneCreatedThrowsExceptionWhenThingIsNullOrGuidIsEmptyGuid()
+      throws TransactionException {
     var model = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
     var iteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
 

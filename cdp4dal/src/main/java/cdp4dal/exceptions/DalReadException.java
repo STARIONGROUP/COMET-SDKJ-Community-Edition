@@ -28,7 +28,7 @@ package cdp4dal.exceptions;
  * A {@link DalReadException} is thrown the when a during a Read operation the data-source returns
  * an exception
  */
-public class DalReadException extends RuntimeException {
+public class DalReadException extends Exception {
 
   /**
    * Initializes a new instance of the {@link DalReadException} class.

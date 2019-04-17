@@ -28,7 +28,7 @@ package cdp4dal.exceptions;
  * A {@link DalWriteException} is thrown the when a during a Write operation the data-source returns
  * an exception
  */
-public class DalWriteException extends RuntimeException {
+public class DalWriteException extends Exception {
 
   /**
    * Initializes a new instance of the {@link DalWriteException} class.
