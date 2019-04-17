@@ -1,5 +1,5 @@
 /*
- * Utils.java
+ * UriUtils.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -24,22 +24,35 @@
 
 package cdp4dal;
 
+import java.net.URI;
+
 /**
- * The static helper class that provides utilities to assist the Data Access Layer.
+ * The static helper class that provides utilities to validate {@link URI}.
  */
-public class Utils {
+public class UriUtils {
+  /**
+   * Asserts that the uri is following the http or https schema.
+   *
+   * @param uri The uri.
+   * @throws IllegalArgumentException If the {@link URI} is not either a HTTP or a HTTPS schema,
+   * this exception is thrown.
+   */
+  public static void assertUriIsHttpOrHttpsSchema(URI uri) {
+    if (!(uri.getScheme().equals("http") || uri.getScheme().equals("https"))) {
+      throw new IllegalArgumentException(String.format("Invalid URI scheme for: %s", uri));
+    }
+  }
 
   /**
-   * Asserts that the supplied {@link Object} is not null and throws a {@link NullPointerException}
-   * if it is.
+   * Asserts that the uri is following the file schema.
    *
-   * @param thing The object which should not be null.
-   * @param message The error message that will be used as error message on the thrown {@link
-   * NullPointerException}.
+   * @param uri The uri.
+   * @throws IllegalArgumentException If the {@link URI} is not File schema, this exception is
+   * thrown.
    */
-  public static void assertNotNull(Object thing, String message) {
-    if (thing == null) {
-      throw new NullPointerException(message);
+  public static void assertUriIsFileSchema(URI uri) {
+    if (!uri.getScheme().equals("file")) {
+      throw new IllegalArgumentException(String.format("Invalid URI scheme for: %s", uri));
     }
   }
 }

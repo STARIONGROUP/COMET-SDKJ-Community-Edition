@@ -1,5 +1,5 @@
 /*
- * UtilsTest.java
+ * StringUtilsTest.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -29,17 +29,29 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-class UtilsTest {
+class StringUtilsTest {
 
   @Test
-  void assertThatNullObjectThrowsException() {
-    Throwable ex = assertThrows(NullPointerException.class,
-        () -> Utils.assertNotNull(null, "Null object"));
-    assertEquals("Null object", ex.getMessage());
+  void verifyCapitalizeFirstLetterFunction() {
+    assertEquals("A", StringUtils.capitalizeFirstLetter("a"));
+    assertEquals("Abcd", StringUtils.capitalizeFirstLetter("abcd"));
   }
 
   @Test
-  void assertThatNotNullObjectDoesNotThrowException() {
-    Utils.assertNotNull("Thing", "Non null object");
+  void verifyLowerCaseFirstLetterFunction() {
+    assertEquals("a", StringUtils.lowerCaseFirstLetter("A"));
+    assertEquals("aBCD", StringUtils.lowerCaseFirstLetter("ABCD"));
+  }
+
+  @Test
+  void verifyCapitalizeFirstLetterThatExceptionIsThrownWhenArgumentIsNull() {
+    assertThrows(IllegalArgumentException.class, () -> StringUtils.capitalizeFirstLetter(null));
+    assertThrows(IllegalArgumentException.class, () -> StringUtils.capitalizeFirstLetter(""));
+  }
+
+  @Test
+  void verifyLowerCaseFirstLetterThatExceptionIsThrownWhenArgumentIsNull() {
+    assertThrows(IllegalArgumentException.class, () -> StringUtils.lowerCaseFirstLetter(null));
+    assertThrows(IllegalArgumentException.class, () -> StringUtils.lowerCaseFirstLetter(""));
   }
 }

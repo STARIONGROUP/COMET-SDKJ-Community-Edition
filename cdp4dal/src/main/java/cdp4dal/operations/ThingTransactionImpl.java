@@ -32,7 +32,7 @@ import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.sitedirectorydata.SiteDirectory;
 import cdp4common.types.ContainerList;
 import cdp4common.types.OrderedItemList;
-import cdp4dal.Utils;
+import cdp4dal.StringUtils;
 import cdp4dal.exceptions.TransactionException;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MoreCollectors;
@@ -336,7 +336,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @param operationKind The {@link OperationKind} that specify the kind of copy operation.
    */
   public void copy(Thing clone, Thing containerDestinationClone, OperationKind operationKind) {
-    if (!Utils.isCopyOperation(operationKind)) {
+    if (!OperationUtils.isCopyOperation(operationKind)) {
       throw new IllegalArgumentException(
           "The copy operation may only be performed with Copy or CopyDefaultValuesChangeOwner or CopyKeepValues or CopyKeepValuesChangeOwner");
     }
@@ -361,7 +361,7 @@ public class ThingTransactionImpl implements ThingTransaction {
       throw new NullPointerException("The clone may not be null");
     }
 
-    if (!Utils.isCopyOperation(operationKind)) {
+    if (!OperationUtils.isCopyOperation(operationKind)) {
       throw new IllegalArgumentException(
           "The copy operation may only be performed with Copy or CopyDefaultValuesChangeOwner or CopyKeepValues or CopyKeepValuesChangeOwner");
     }
@@ -940,7 +940,7 @@ public class ThingTransactionImpl implements ThingTransaction {
     // add/replace the clone to its container and add the container in the list of updated object
     var containerType = containerClone.getClass();
     var containerPropertyGetter = MethodUtils.getAccessibleMethod(containerType,
-        "get" + Utils.capitalizeFirstLetter(containerInformation.getRight()));
+        "get" + StringUtils.capitalizeFirstLetter(containerInformation.getRight()));
 
     if (containerPropertyGetter == null) {
       throw new TransactionException(
@@ -1111,7 +1111,7 @@ public class ThingTransactionImpl implements ThingTransaction {
       var copy = originalCopy.getRight().toDto();
       var copyOperationKind = pair.getValue();
 
-      if (Utils.isCopyOperation(copyOperationKind)) {
+      if (OperationUtils.isCopyOperation(copyOperationKind)) {
         operationContainer.addOperation(new Operation(original, copy, copyOperationKind));
       }
     }
