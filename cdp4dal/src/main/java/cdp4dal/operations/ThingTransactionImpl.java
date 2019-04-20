@@ -34,6 +34,8 @@ import cdp4common.types.ContainerList;
 import cdp4common.types.OrderedItemList;
 import cdp4dal.StringUtils;
 import cdp4dal.exceptions.TransactionException;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MoreCollectors;
 import java.lang.reflect.Field;
@@ -43,7 +45,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -52,6 +53,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -63,37 +65,25 @@ import org.apache.commons.lang3.tuple.Pair;
  */
 @Log4j2
 @Getter
-public class ThingTransactionImpl implements ThingTransaction {
+public class ThingTransactionImpl extends Transaction {
 
   /**
-   * The parent {@link ThingTransaction}.
+   * The parent {@link Transaction}.
    */
-  private final ThingTransaction parentTransaction;
+  @Getter(AccessLevel.PROTECTED)
+  private final Transaction parentTransaction;
 
   /**
    * The clone of the {@link Thing} associated with the current {@link ThingTransaction}.
    */
+  @Getter(AccessLevel.PROTECTED)
   private final Thing associatedClone;
 
   /**
-   * The added {@link Thing}s.
+   * Gets the {@link TransactionContext}.
    */
-  private final List<Thing> addedThing;
-
-  /**
-   * The updated {@link Thing}s.
-   */
-  private final Map<Thing, Thing> updatedThing;
-
-  /**
-   * The deleted {@link Thing}s.
-   */
-  private final List<Thing> deletedThing;
-
-  /**
-   * The list of copied {@link Thing}.
-   */
-  private final Map<Pair<Thing, Thing>, OperationKind> copiedThing;
+  @Getter(AccessLevel.PROTECTED)
+  private TransactionContext transactionContext;
 
   /**
    * Initializes a new instance of the {@link ThingTransaction} class.
@@ -109,16 +99,12 @@ public class ThingTransactionImpl implements ThingTransaction {
    */
   public ThingTransactionImpl(TransactionContext transactionContext, Thing clone)
       throws TransactionException {
+    super();
     if (transactionContext == null) {
       throw new NullPointerException("The transactionContext may not be null");
     }
 
     this.transactionContext = transactionContext;
-
-    this.addedThing = new ArrayList<>();
-    this.updatedThing = new HashMap<>();
-    this.deletedThing = new ArrayList<>();
-    this.copiedThing = new HashMap<>();
     this.parentTransaction = null;
 
     if (clone != null) {
@@ -130,7 +116,7 @@ public class ThingTransactionImpl implements ThingTransaction {
   }
 
   /**
-   * Initializes a new instance of the {@link ThingTransaction} class. In the context of
+   * Initializes a new instance of the {@link ThingTransactionImpl} class. In the context of
    * sub-transactions: This constructor shall be used for sub-transactions. The {@code clone} is the
    * associated clone for the current transaction. The {@code parentTransaction} shall not be null.
    * The {@code containerClone} may be null. In the context of a single-transaction: The {@code
@@ -138,19 +124,16 @@ public class ThingTransactionImpl implements ThingTransaction {
    * {@code containerClone} shall not be null as it is added as well and updated with the clone.
    *
    * @param clone The clone of the {@link Thing} to add or update.
-   * @param parentTransaction The parent {@link ThingTransaction}.
+   * @param parentTransaction The parent {@link Transaction}.
    * @param containerClone The container {@link Thing} for the current added or updated operation.
    */
-  public ThingTransactionImpl(Thing clone, ThingTransactionImpl parentTransaction,
+  public ThingTransactionImpl(Thing clone, Transaction parentTransaction,
       Thing containerClone) throws TransactionException {
+    super();
     if (clone == null) {
       throw new NullPointerException("The clone may not be null.");
     }
 
-    this.addedThing = new ArrayList<>();
-    this.updatedThing = new HashMap<>();
-    this.deletedThing = new ArrayList<>();
-    this.copiedThing = new HashMap<>();
     this.associatedClone = clone;
 
     this.parentTransaction = parentTransaction;
@@ -170,9 +153,33 @@ public class ThingTransactionImpl implements ThingTransaction {
   }
 
   /**
-   * Gets the {@link TransactionContext}.
+   * Gets the added {@link Thing}s.
    */
-  private TransactionContext transactionContext;
+  public ImmutableList<Thing> getAddedThing() {
+    return ImmutableList.copyOf(this.getAddedThings());
+  }
+
+  /**
+   * Gets the deleted {@link Thing}s.
+   */
+  public ImmutableList<Thing> getDeletedThing() {
+    return ImmutableList.copyOf(this.getDeletedThings());
+  }
+
+  /**
+   * Gets the Updated {@link Thing}s where the Key is the original {@link Thing} and the value the
+   * cloned {@link Thing}.
+   */
+  public ImmutableMap<Thing, Thing> getUpdatedThing() {
+    return ImmutableMap.copyOf(this.getUpdatedThings());
+  }
+
+  /**
+   * Gets the copied {@link Thing}s.
+   */
+  public ImmutableMap<Pair<Thing, Thing>, OperationKind> getCopiedThing() {
+    return ImmutableMap.copyOf(this.getCopiedThings());
+  }
 
   /**
    * Registers the provided {@link Thing} to be created in the current transaction.
@@ -202,7 +209,7 @@ public class ThingTransactionImpl implements ThingTransaction {
       }
     }
 
-    if (this.addedThing.contains(clone)) {
+    if (this.getAddedThings().contains(clone)) {
       return;
     }
 
@@ -212,7 +219,7 @@ public class ThingTransactionImpl implements ThingTransaction {
 
     clone.setChangeKind(ChangeKind.CREATE);
 
-    this.addedThing.add(clone);
+    this.getAddedThings().add(clone);
 
     if (this.parentTransaction == null && containerClone != null) {
       this.updateContainer(clone, containerClone, null);
@@ -256,13 +263,14 @@ public class ThingTransactionImpl implements ThingTransaction {
       throw new NullPointerException("The clone may not be null");
     }
 
-    if (this.updatedThing.values().stream().anyMatch(x -> x == clone) || this.addedThing.stream()
+    if (this.getUpdatedThings().values().stream().anyMatch(x -> x == clone) || this.getAddedThings()
+        .stream()
         .anyMatch(x -> x == clone)) {
       return;
     }
 
-    if (this.updatedThing.values().stream().anyMatch(x -> x.getIid().equals(clone.getIid()))
-        || this.addedThing.stream().anyMatch(x -> x.getIid().equals(clone.getIid()))) {
+    if (this.getUpdatedThings().values().stream().anyMatch(x -> x.getIid().equals(clone.getIid()))
+        || this.getAddedThings().stream().anyMatch(x -> x.getIid().equals(clone.getIid()))) {
       return;
     }
 
@@ -273,7 +281,7 @@ public class ThingTransactionImpl implements ThingTransaction {
       }
 
       clone.setChangeKind(ChangeKind.UPDATE);
-      this.updatedThing.put(updatedThing, clone);
+      this.getUpdatedThings().put(updatedThing, clone);
     } else {
       this.create(clone, null);
     }
@@ -290,7 +298,7 @@ public class ThingTransactionImpl implements ThingTransaction {
       throw new NullPointerException("The clone may not be null.");
     }
 
-    if (this.deletedThing.stream().anyMatch(x -> x.getIid().equals(clone.getIid()))) {
+    if (this.getDeletedThings().stream().anyMatch(x -> x.getIid().equals(clone.getIid()))) {
       return;
     }
 
@@ -309,24 +317,24 @@ public class ThingTransactionImpl implements ThingTransaction {
 
       if (previousUpdatedReference != null) {
         // remove potential reference from the list of updated thing in the current transaction
-        var updatedThingKey = this.updatedThing.keySet().stream()
+        var updatedThingKey = this.getUpdatedThings().keySet().stream()
             .filter(x -> x.getIid().equals(clone.getIid())).collect(MoreCollectors.toOptional());
-        updatedThingKey.ifPresent(this.updatedThing::remove);
+        updatedThingKey.ifPresent(this.getUpdatedThings()::remove);
 
         // replace references
         this.updateContainer(clone, containerClone, null);
       } else {
         // remove from the list of added thing
-        var thingInAddedList = this.addedThing.stream()
+        var thingInAddedList = this.getAddedThings().stream()
             .filter(x -> x.getIid().equals(clone.getIid())).collect(MoreCollectors.toOptional());
-        thingInAddedList.ifPresent(this.addedThing::remove);
+        thingInAddedList.ifPresent(this.getAddedThings()::remove);
 
         this.removeThingFromContainer(clone);
       }
     }
 
     clone.setChangeKind(ChangeKind.DELETE);
-    this.deletedThing.add(clone);
+    this.getDeletedThings().add(clone);
   }
 
   /**
@@ -374,13 +382,13 @@ public class ThingTransactionImpl implements ThingTransaction {
     clone.setIid(UUID.randomUUID());
     var originalCopyPair = Pair.of(original, clone);
 
-    if (this.copiedThing.containsKey(originalCopyPair)) {
+    if (this.getCopiedThings().containsKey(originalCopyPair)) {
       return;
     }
 
     // setting a new iid for the copy
     clone.setIid(UUID.randomUUID());
-    this.copiedThing.put(originalCopyPair, operationKind);
+    this.getCopiedThings().put(originalCopyPair, operationKind);
   }
 
   /**
@@ -399,14 +407,15 @@ public class ThingTransactionImpl implements ThingTransaction {
       throw new IllegalArgumentException("The Iid of thing may not be the empty UUID.");
     }
 
-    var clone = this.updatedThing.values().stream().filter(x -> x.getIid().equals(thing.getIid()))
+    var clone = this.getUpdatedThings().values().stream()
+        .filter(x -> x.getIid().equals(thing.getIid()))
         .collect(MoreCollectors.toOptional());
 
     if (clone.isPresent()) {
       return clone.get();
     }
 
-    clone = this.addedThing.stream().filter(x -> x.getIid().equals(thing.getIid()))
+    clone = this.getAddedThings().stream().filter(x -> x.getIid().equals(thing.getIid()))
         .collect(MoreCollectors.toOptional());
     return clone.orElse(null);
 
@@ -475,7 +484,7 @@ public class ThingTransactionImpl implements ThingTransaction {
     var rootClone = getOperationRootClone();
     var cloneTypeToUpdate = this.associatedClone.getContainerInformation().getLeft();
 
-    for (var addedthing : this.addedThing.stream().filter(x -> x != this.associatedClone
+    for (var addedthing : this.getAddedThings().stream().filter(x -> x != this.associatedClone
         && x.getContainerInformation().getLeft() == cloneTypeToUpdate).collect(
         Collectors.toList())) {
       if (!addedthing.isContainedBy(rootClone.getIid())) {
@@ -495,7 +504,7 @@ public class ThingTransactionImpl implements ThingTransaction {
 
     for (
         var updatedThing :
-        this.updatedThing.values().stream().filter(x -> x != this.associatedClone
+        this.getUpdatedThings().values().stream().filter(x -> x != this.associatedClone
             && x.getContainerInformation().getLeft() == cloneTypeToUpdate).collect(
             Collectors.toList())) {
       if (!updatedThing.isContainedBy(rootClone.getIid())) {
@@ -600,7 +609,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @return A list of all the added things.
    */
   private List<Thing> getAllAddedThings() {
-    var allAddedThing = new ArrayList<>(this.addedThing);
+    var allAddedThing = new ArrayList<>(this.getAddedThings());
     if (this.parentTransaction != null) {
       this.populateAllAddedThingsList(this.parentTransaction, allAddedThing);
     }
@@ -611,10 +620,10 @@ public class ThingTransactionImpl implements ThingTransaction {
   /**
    * Populates the list of all the added things in a specified transaction.
    *
-   * @param transaction The {@link ThingTransaction}.
+   * @param transaction The {@link Transaction}.
    * @param allAddedThing The list containing all the added things.
    */
-  private void populateAllAddedThingsList(ThingTransaction transaction, List<Thing> allAddedThing) {
+  private void populateAllAddedThingsList(Transaction transaction, List<Thing> allAddedThing) {
     var thingsToAdd = transaction.getAddedThing().stream()
         .filter(x -> allAddedThing.stream().noneMatch(y -> y.getIid().equals(x.getIid())))
         .collect(Collectors.toList());
@@ -630,7 +639,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @return A list of all the updated things.
    */
   private List<Thing> getAllUpdatedThings() {
-    var allUpdatedThings = Lists.newArrayList(this.updatedThing.values());
+    var allUpdatedThings = Lists.newArrayList(this.getUpdatedThings().values());
     if (this.parentTransaction != null) {
       this.populateAllUpdatedThingsList(this.parentTransaction, allUpdatedThings);
     }
@@ -641,10 +650,10 @@ public class ThingTransactionImpl implements ThingTransaction {
   /**
    * Populates the list of all the updated things in a specified transaction.
    *
-   * @param transaction The specified {@link ThingTransaction}.
+   * @param transaction The specified {@link Transaction}.
    * @param allUpdatedThing The list of all the updated things to populate.
    */
-  private void populateAllUpdatedThingsList(ThingTransaction transaction,
+  private void populateAllUpdatedThingsList(Transaction transaction,
       List<Thing> allUpdatedThing) {
     var thingsToAdd = transaction.getUpdatedThing().values().stream()
         .filter(x -> allUpdatedThing.stream().noneMatch(y -> y.getIid().equals(x.getIid())))
@@ -727,8 +736,8 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @param thing The {@link Thing} to be remove from the containers.
    */
   private void removeThingFromContainer(Thing thing) {
-    var containers = new ArrayList<>(this.addedThing);
-    containers.addAll(this.updatedThing.values());
+    var containers = new ArrayList<>(this.getAddedThings());
+    containers.addAll(this.getUpdatedThings().values());
 
     Thing originalThing = null;
     if (thing.getCache() != null) {
@@ -884,13 +893,13 @@ public class ThingTransactionImpl implements ThingTransaction {
   }
 
   /**
-   * Gets the chain of {@link ThingTransaction} for the current one
+   * Gets the chain of {@link Transaction} for the current one
    *
-   * @return The chain of {@link ThingTransaction}
+   * @return The chain of {@link Transaction}
    */
-  private List<ThingTransaction> getChainOfSubTransactions() {
+  private List<Transaction> getChainOfSubTransactions() {
     var parent = this.parentTransaction;
-    var listOfSubTransactions = new ArrayList<ThingTransaction>();
+    var listOfSubTransactions = new ArrayList<Transaction>();
 
     while (parent != null) {
       listOfSubTransactions.add(parent);
@@ -968,31 +977,33 @@ public class ThingTransactionImpl implements ThingTransaction {
   }
 
   /**
-   * Merge the sub-transaction into the current {@link ThingTransaction}
+   * Merge the sub-transaction into the current {@link Transaction}
    *
-   * @param subTransaction The sub-{@link ThingTransaction}
+   * @param subTransaction The sub-{@link Transaction}
    */
-  public void merge(ThingTransaction subTransaction) {
+  @Override
+  public void merge(Transaction subTransaction) {
     // replace or add all element in addedThing
     for (var thing : subTransaction.getAddedThing()) {
-      if (this.addedThing.contains(thing)) {
+      if (this.getAddedThings().contains(thing)) {
         continue;
       }
 
-      var existingThing = this.addedThing.stream().filter(x -> x.getIid().equals(thing.getIid()))
+      var existingThing = this.getAddedThings().stream()
+          .filter(x -> x.getIid().equals(thing.getIid()))
           .collect(MoreCollectors.toOptional()).orElse(null);
       if (existingThing != null) {
         // replace the current thing with the one from the sub-transaction
-        var index = this.addedThing.indexOf(existingThing);
-        this.addedThing.set(index, thing);
+        var index = this.getAddedThings().indexOf(existingThing);
+        this.getAddedThings().set(index, thing);
       } else {
-        this.addedThing.add(thing);
+        this.getAddedThings().add(thing);
       }
     }
 
     for (var keyValuePair : subTransaction.getUpdatedThing().entrySet()) {
-      if (this.updatedThing.containsKey(keyValuePair.getKey())) {
-        var parentKeyValue = this.updatedThing.entrySet().stream()
+      if (this.getUpdatedThings().containsKey(keyValuePair.getKey())) {
+        var parentKeyValue = this.getUpdatedThings().entrySet().stream()
             .filter(x -> x.getKey().equals(keyValuePair.getKey()))
             .collect(MoreCollectors.onlyElement());
         if (parentKeyValue.getValue() != keyValuePair.getValue()) {
@@ -1005,14 +1016,15 @@ public class ThingTransactionImpl implements ThingTransaction {
 
       // check if the key in a sub-transaction correspond to a value in the current one
       var existingKeyValue =
-          this.updatedThing.entrySet().stream()
+          this.getUpdatedThings().entrySet().stream()
               .filter(x -> x.getValue().equals(keyValuePair.getKey()))
               .collect(MoreCollectors.toOptional()).orElse(null);
-      this.updatedThing.put(Objects.requireNonNullElse(existingKeyValue, keyValuePair).getKey(),
-          keyValuePair.getValue());
+      this.getUpdatedThings()
+          .put(Objects.requireNonNullElse(existingKeyValue, keyValuePair).getKey(),
+              keyValuePair.getValue());
     }
 
-    this.deletedThing.addAll(subTransaction.getDeletedThing());
+    this.getDeletedThings().addAll(subTransaction.getDeletedThing());
   }
 
   /**
@@ -1041,7 +1053,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @param operationContainer The returned {@link OperationContainer}.
    */
   private void createNewThingOperation(OperationContainer operationContainer) {
-    for (var thing : this.addedThing) {
+    for (var thing : this.getAddedThings()) {
       operationContainer.addOperation(new Operation(null, thing.toDto(), OperationKind.CREATE));
     }
   }
@@ -1057,7 +1069,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @param operationContainer The returned {@link OperationContainer}
    */
   private void createUpdatedThingOperation(OperationContainer operationContainer) {
-    for (var keyValue : this.updatedThing.entrySet()) {
+    for (var keyValue : this.getUpdatedThings().entrySet()) {
       Thing originalThing;
 
       // keyValue.getValue() - the clone that has been updated in the context of the transaction
@@ -1098,7 +1110,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @param operationContainer The returned {@link OperationContainer}.
    */
   private void createDeletedThingOperation(OperationContainer operationContainer) {
-    for (var thing : this.deletedThing) {
+    for (var thing : this.getDeletedThings()) {
       var dto = thing.toDto();
       operationContainer.addOperation(new Operation(dto, dto, OperationKind.DELETE));
     }
@@ -1110,7 +1122,7 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @param operationContainer The returned {@link OperationContainer}.
    */
   private void createCopyThingOperation(OperationContainer operationContainer) {
-    for (var pair : this.copiedThing.entrySet()) {
+    for (var pair : this.getCopiedThings().entrySet()) {
       var originalCopy = pair.getKey();
       var original = originalCopy.getLeft().toDto();
       var copy = originalCopy.getRight().toDto();
@@ -1137,9 +1149,9 @@ public class ThingTransactionImpl implements ThingTransaction {
    * @return The {@link TopContainer#getRevisionNumber()}.
    */
   private int getTopContainerRevisionNumber() {
-    var things = new ArrayList<>(this.addedThing);
-    things.addAll(this.updatedThing.keySet());
-    things.addAll(this.deletedThing);
+    var things = new ArrayList<>(this.getAddedThings());
+    things.addAll(this.getUpdatedThings().keySet());
+    things.addAll(this.getDeletedThings());
 
     var distinctTopContainer = things.stream().map(Thing::getTopContainer)
         .filter(distinctByKey(Thing::getIid))
@@ -1172,7 +1184,7 @@ public class ThingTransactionImpl implements ThingTransaction {
   private void filterOperationCausedByDelete() {
     // filter out the added thing or updated thing that have been marked as deleted
     // filter out the contained thing of a deleted thing
-    var deletedThing = new ArrayList<>(this.deletedThing);
+    var deletedThing = new ArrayList<>(this.getDeletedThings());
     for (var thing : deletedThing) {
       var cloneType = thing.getClass();
       List<Field> fields = Lists.newArrayList(cloneType.getDeclaredFields());
@@ -1204,23 +1216,23 @@ public class ThingTransactionImpl implements ThingTransaction {
    */
   private void removeThingFromOperationLists(Thing thingToRemove) {
     // remove it from the list of updated thing in the current transaction
-    var updatedThingKey = this.updatedThing.keySet().stream()
+    var updatedThingKey = this.getUpdatedThings().keySet().stream()
         .filter(x -> x.getIid().equals(thingToRemove.getIid()))
         .collect(MoreCollectors.toOptional());
-    updatedThingKey.ifPresent(this.updatedThing::remove);
+    updatedThingKey.ifPresent(this.getUpdatedThings()::remove);
 
     // remove from the list of added thing
-    var thingInAddedList = this.addedThing.stream()
+    var thingInAddedList = this.getAddedThings().stream()
         .filter(x -> x.getIid().equals(thingToRemove.getIid()))
         .collect(MoreCollectors.toOptional());
-    thingInAddedList.ifPresent(this.addedThing::remove);
+    thingInAddedList.ifPresent(this.getAddedThings()::remove);
 
     // remove the thing as deleted if it is not cached
     if (!thingToRemove.isCached()) {
-      var thingInDeletedList = this.deletedThing.stream()
+      var thingInDeletedList = this.getDeletedThings().stream()
           .filter(x -> x.getIid().equals(thingToRemove.getIid()))
           .collect(MoreCollectors.toOptional());
-      thingInDeletedList.ifPresent(this.deletedThing::remove);
+      thingInDeletedList.ifPresent(this.getDeletedThings()::remove);
     }
   }
 }

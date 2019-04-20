@@ -49,9 +49,9 @@ public class DalWriteException extends Exception {
    * Initializes a new instance of the {@link DalWriteException} class.
    *
    * @param message The exception message
-   * @param innerException A reference to the inner {@link Exception}
+   * @param cause A reference to the cause {@link Throwable}
    */
-  public DalWriteException(String message, Exception innerException) {
-    super(message, innerException);
+  public DalWriteException(String message, Throwable cause) {
+    super(message, cause);
   }
 }

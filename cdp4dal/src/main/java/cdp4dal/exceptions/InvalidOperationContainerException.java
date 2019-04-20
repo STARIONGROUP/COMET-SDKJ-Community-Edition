@@ -52,9 +52,9 @@ public class InvalidOperationContainerException extends Exception {
    * Initializes a new instance of the {@link InvalidOperationContainerException} class.
    *
    * @param message The exception message
-   * @param innerException A reference to the inner {@link Exception}
+   * @param cause A reference to the cause {@link Throwable}
    */
-  public InvalidOperationContainerException(String message, Exception innerException) {
-    super(message, innerException);
+  public InvalidOperationContainerException(String message, Throwable cause) {
+    super(message, cause);
   }
 }

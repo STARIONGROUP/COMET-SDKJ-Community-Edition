@@ -29,8 +29,8 @@ import cdp4common.commondata.TopContainer;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.types.OrderedItemList;
 import cdp4dal.exceptions.TransactionException;
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
@@ -39,40 +39,25 @@ import org.apache.commons.lang3.tuple.Pair;
 public interface ThingTransaction {
 
   /**
-   * Gets the parent {@link ThingTransaction}.
+   * Gets the added {@link Thing}s as an {@link ImmutableList}.
    */
-  ThingTransaction getParentTransaction();
+  ImmutableList<Thing> getAddedThing();
 
   /**
-   * Gets the {@link TransactionContext}.
+   * Gets the deleted {@link Thing}s as an {@link ImmutableList}.
    */
-  TransactionContext getTransactionContext();
+  ImmutableList<Thing> getDeletedThing();
 
   /**
-   * Gets the added {@link Thing}s.
+   * Gets the Updated {@link Thing}s as an {@link ImmutableMap} where the Key is the original {@link
+   * Thing} and the value the cloned {@link Thing}.
    */
-  List<Thing> getAddedThing();
+  ImmutableMap<Thing, Thing> getUpdatedThing();
 
   /**
-   * Gets the deleted {@link Thing}s.
+   * Gets the copied {@link Thing}s as an {@link ImmutableMap}.
    */
-  List<Thing> getDeletedThing();
-
-  /**
-   * Gets the Updated {@link Thing}s where the Key is the original {@link Thing} and the value the
-   * cloned {@link Thing}.
-   */
-  Map<Thing, Thing> getUpdatedThing();
-
-  /**
-   * Gets the copied {@link Thing}s.
-   */
-  Map<Pair<Thing, Thing>, OperationKind> getCopiedThing();
-
-  /**
-   * Gets the clone of the {@link Thing} associated with the current {@link ThingTransaction}.
-   */
-  Thing getAssociatedClone();
+  ImmutableMap<Pair<Thing, Thing>, OperationKind> getCopiedThing();
 
   /**
    * Registers the provided {@link Thing} to be created in the current transaction along with all
@@ -174,12 +159,4 @@ public interface ThingTransaction {
    * @return The {@link OperationContainer}.
    */
   OperationContainer finalizeTransaction();
-
-  /**
-   * Merge the sub-transaction into the current {@link ThingTransaction}
-   *
-   * @param subTransaction The sub-{@link ThingTransaction}
-   */
-  void merge(ThingTransaction subTransaction);
-
 }

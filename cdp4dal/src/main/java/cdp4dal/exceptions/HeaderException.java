@@ -49,9 +49,9 @@ public class HeaderException extends Exception {
    * Initializes a new instance of the {@link HeaderException} class.
    *
    * @param message The exception message
-   * @param innerException A reference to the inner {@link Exception}
+   * @param cause A reference to the cause {@link Throwable}
    */
-  public HeaderException(String message, Exception innerException) {
-    super(message, innerException);
+  public HeaderException(String message, Throwable cause) {
+    super(message, cause);
   }
 }

@@ -49,9 +49,9 @@ public class DeSerializationException extends Exception {
    * Initializes a new instance of the {@link DeSerializationException} class.
    *
    * @param message The exception message
-   * @param innerException A reference to the inner {@link Exception}
+   * @param cause A reference to the cause {@link Throwable}
    */
-  public DeSerializationException(String message, Exception innerException) {
-    super(message, innerException);
+  public DeSerializationException(String message, Throwable cause) {
+    super(message, cause);
   }
 }
