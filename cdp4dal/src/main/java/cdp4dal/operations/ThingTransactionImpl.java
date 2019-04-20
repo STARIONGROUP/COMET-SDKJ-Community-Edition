@@ -155,6 +155,7 @@ public class ThingTransactionImpl extends Transaction {
   /**
    * Gets the added {@link Thing}s.
    */
+  @Override
   public ImmutableList<Thing> getAddedThing() {
     return ImmutableList.copyOf(this.getAddedThings());
   }
@@ -162,6 +163,7 @@ public class ThingTransactionImpl extends Transaction {
   /**
    * Gets the deleted {@link Thing}s.
    */
+  @Override
   public ImmutableList<Thing> getDeletedThing() {
     return ImmutableList.copyOf(this.getDeletedThings());
   }
@@ -170,6 +172,7 @@ public class ThingTransactionImpl extends Transaction {
    * Gets the Updated {@link Thing}s where the Key is the original {@link Thing} and the value the
    * cloned {@link Thing}.
    */
+  @Override
   public ImmutableMap<Thing, Thing> getUpdatedThing() {
     return ImmutableMap.copyOf(this.getUpdatedThings());
   }
@@ -177,6 +180,7 @@ public class ThingTransactionImpl extends Transaction {
   /**
    * Gets the copied {@link Thing}s.
    */
+  @Override
   public ImmutableMap<Pair<Thing, Thing>, OperationKind> getCopiedThing() {
     return ImmutableMap.copyOf(this.getCopiedThings());
   }
@@ -192,6 +196,7 @@ public class ThingTransactionImpl extends Transaction {
    * @throws IllegalArgumentException Thrown if a {@link TopContainer} or {@link Iteration} is
    * registered.
    */
+  @Override
   public void create(Thing clone, Thing containerClone) throws TransactionException {
     if (clone == null) {
       throw new NullPointerException("The clone may not be null");
@@ -237,6 +242,7 @@ public class ThingTransactionImpl extends Transaction {
    * @throws IllegalArgumentException Thrown if a {@link TopContainer} or {@link Iteration} is
    * registered.
    */
+  @Override
   public void createDeep(Thing clone, Thing containerClone) throws TransactionException {
     this.create(clone, containerClone);
     this.registerContainedThings(clone, false);
@@ -248,6 +254,7 @@ public class ThingTransactionImpl extends Transaction {
    * @param deepClone The {@link Thing} to copy.
    * @param containerClone The container.
    */
+  @Override
   public void copyDeep(Thing deepClone, Thing containerClone) throws TransactionException {
     this.create(deepClone, containerClone);
     this.registerContainedThings(deepClone, true);
@@ -258,6 +265,7 @@ public class ThingTransactionImpl extends Transaction {
    *
    * @param clone The clone of the {@link Thing} to update.
    */
+  @Override
   public void createOrUpdate(Thing clone) throws TransactionException {
     if (clone == null) {
       throw new NullPointerException("The clone may not be null");
@@ -293,6 +301,7 @@ public class ThingTransactionImpl extends Transaction {
    * @param clone The clone of the {@link Thing} to delete.
    * @param containerClone The clone of the container (mandatory in dialogs).
    */
+  @Override
   public void delete(Thing clone, Thing containerClone) throws TransactionException {
     if (clone == null) {
       throw new NullPointerException("The clone may not be null.");
@@ -344,6 +353,7 @@ public class ThingTransactionImpl extends Transaction {
    * @param containerDestinationClone The new container.
    * @param operationKind The {@link OperationKind} that specify the kind of copy operation.
    */
+  @Override
   public void copy(Thing clone, Thing containerDestinationClone, OperationKind operationKind)
       throws TransactionException {
     if (!OperationUtils.isCopyOperation(operationKind)) {
@@ -366,6 +376,7 @@ public class ThingTransactionImpl extends Transaction {
    * @param clone The {@link Thing} to copy.
    * @param operationKind The {@link OperationKind} that specify the kind of copy operation.
    */
+  @Override
   public void copy(Thing clone, OperationKind operationKind) {
     if (clone == null) {
       throw new NullPointerException("The clone may not be null");
@@ -398,6 +409,7 @@ public class ThingTransactionImpl extends Transaction {
    * @return The clone of the {@link Thing} used in the current transaction if it exists. Null
    * otherwise.
    */
+  @Override
   public Thing getClone(Thing thing) {
     if (thing == null) {
       throw new NullPointerException("The thing may not be null.");
@@ -428,6 +440,7 @@ public class ThingTransactionImpl extends Transaction {
    * @param thing The {@link Thing}.
    * @return The last clone created if any, null otherwise.
    */
+  @Override
   public Thing getLastCloneCreated(Thing thing) {
     if (thing == null) {
       throw new NullPointerException("The thing may not be null");
@@ -461,6 +474,7 @@ public class ThingTransactionImpl extends Transaction {
    * {@link Thing} is created if {@code nextThing} is null, the {@code clone} is appended to the
    * list.
    */
+  @Override
   public void finalizeSubTransaction(Thing clone, Thing containerClone, Thing nextThing)
       throws TransactionException {
     if (this.parentTransaction == null) {
@@ -530,6 +544,7 @@ public class ThingTransactionImpl extends Transaction {
    *
    * @return The {@link OperationContainer}.
    */
+  @Override
   public OperationContainer finalizeTransaction() {
     if (this.parentTransaction != null) {
       throw new IllegalArgumentException("This shall only be possible for a root transaction.");
@@ -624,7 +639,7 @@ public class ThingTransactionImpl extends Transaction {
    * @param allAddedThing The list containing all the added things.
    */
   private void populateAllAddedThingsList(Transaction transaction, List<Thing> allAddedThing) {
-    var thingsToAdd = transaction.getAddedThing().stream()
+    var thingsToAdd = transaction.getAddedThings().stream()
         .filter(x -> allAddedThing.stream().noneMatch(y -> y.getIid().equals(x.getIid())))
         .collect(Collectors.toList());
     allAddedThing.addAll(thingsToAdd);
@@ -655,7 +670,7 @@ public class ThingTransactionImpl extends Transaction {
    */
   private void populateAllUpdatedThingsList(Transaction transaction,
       List<Thing> allUpdatedThing) {
-    var thingsToAdd = transaction.getUpdatedThing().values().stream()
+    var thingsToAdd = transaction.getUpdatedThings().values().stream()
         .filter(x -> allUpdatedThing.stream().noneMatch(y -> y.getIid().equals(x.getIid())))
         .collect(Collectors.toList());
     allUpdatedThing.addAll(thingsToAdd);
@@ -808,11 +823,11 @@ public class ThingTransactionImpl extends Transaction {
   /**
    * Initialize a {@link ThingTransaction} from its parent transaction
    *
-   * @param subTransaction The {@link ThingTransaction} to initialize
+   * @param subTransaction The {@link Transaction} to initialize
    * @param containerClone The {@link Thing} that is supposed to contain the {@code
    * associatedClone}. May be null at initialization
    */
-  private void initializeSubTransaction(ThingTransaction subTransaction, Thing containerClone) {
+  private void initializeSubTransaction(Transaction subTransaction, Thing containerClone) {
     var containerType = this.associatedClone.getContainerInformation().getLeft();
 
     if (containerClone != null) {
@@ -822,13 +837,13 @@ public class ThingTransactionImpl extends Transaction {
             "The specified container is not allowed as a container.");
       }
 
-      if (this.parentTransaction.getAddedThing().contains(containerClone)) {
-        subTransaction.getAddedThing().add(containerClone);
-      } else if (this.parentTransaction.getUpdatedThing().values().contains(containerClone)) {
+      if (this.parentTransaction.getAddedThings().contains(containerClone)) {
+        subTransaction.getAddedThings().add(containerClone);
+      } else if (this.parentTransaction.getUpdatedThings().values().contains(containerClone)) {
         var entry =
-            this.parentTransaction.getUpdatedThing().entrySet().stream()
+            this.parentTransaction.getUpdatedThings().entrySet().stream()
                 .filter(x -> x.getValue() == containerClone).collect(MoreCollectors.onlyElement());
-        subTransaction.getUpdatedThing().put(entry.getKey(), entry.getValue());
+        subTransaction.getUpdatedThings().put(entry.getKey(), entry.getValue());
       } else {
         throw new IllegalArgumentException(
             "The clone of the container is not in the parent transaction.");
@@ -982,9 +997,9 @@ public class ThingTransactionImpl extends Transaction {
    * @param subTransaction The sub-{@link Transaction}
    */
   @Override
-  public void merge(Transaction subTransaction) {
+  protected void merge(Transaction subTransaction) {
     // replace or add all element in addedThing
-    for (var thing : subTransaction.getAddedThing()) {
+    for (var thing : subTransaction.getAddedThings()) {
       if (this.getAddedThings().contains(thing)) {
         continue;
       }
@@ -1001,7 +1016,7 @@ public class ThingTransactionImpl extends Transaction {
       }
     }
 
-    for (var keyValuePair : subTransaction.getUpdatedThing().entrySet()) {
+    for (var keyValuePair : subTransaction.getUpdatedThings().entrySet()) {
       if (this.getUpdatedThings().containsKey(keyValuePair.getKey())) {
         var parentKeyValue = this.getUpdatedThings().entrySet().stream()
             .filter(x -> x.getKey().equals(keyValuePair.getKey()))
