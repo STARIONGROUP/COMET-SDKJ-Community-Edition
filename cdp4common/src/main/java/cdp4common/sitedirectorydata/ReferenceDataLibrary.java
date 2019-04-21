@@ -32,26 +32,28 @@
 
 package cdp4common.sitedirectorydata;
 
-import java.util.*;
-import java.util.stream.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.io.*;
-import java.net.URI;
-import cdp4common.*;
-import cdp4common.commondata.*;
-import cdp4common.diagramdata.*;
-import cdp4common.engineeringmodeldata.*;
-import cdp4common.exceptions.ContainmentException;
-import cdp4common.helpers.*;
-import cdp4common.reportingdata.*;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.*;
-import org.apache.commons.lang3.ObjectUtils;
-import com.google.common.base.Strings;
+import cdp4common.AggregationKind;
+import cdp4common.ChangeKind;
+import cdp4common.UmlInformation;
+import cdp4common.commondata.DefinedThing;
+import cdp4common.commondata.ParticipantAccessRightKind;
+import cdp4common.commondata.PersonAccessRightKind;
+import cdp4common.commondata.Thing;
+import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.types.CacheKey;
+import cdp4common.types.ContainerList;
+import cdp4common.types.OrderedItemList;
 import com.google.common.cache.Cache;
-import com.google.common.collect.Iterables;
-import lombok.*;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * named library that holds a set of (predefined) reference data that can be loaded at runtime and used in an EngineeringModel
@@ -316,13 +318,11 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
      */
     @Override
     public Collection<ReferenceDataLibrary> getRequiredRdls() {
-        Set<ReferenceDataLibrary> requiredRdls = new HashSet<>(super.getRequiredRdls());
-        requiredRdls.addAll(this.getRequiredRdlsChain());
-        return requiredRdls;
+        return this.getRequiredRdlsChain();
     }
 
     /**
-     * Gets the aggregation of all required {@link ReferenceDataLibrary} besides the current one
+     * Gets the aggregation of all required {@link ReferenceDataLibrary} including the current one
      */
     public Collection<ReferenceDataLibrary> getAggregatedReferenceDataLibrary() {
         Collection<ReferenceDataLibrary> aggregatedReferenceDataLibrary = new ArrayList<>();
@@ -331,5 +331,135 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
         aggregatedReferenceDataLibrary.addAll(this.getRequiredRdlsChain());
 
         return aggregatedReferenceDataLibrary;
+    }
+
+    /**
+     * Queries the {@link Category} from the chain of {@link ReferenceDataLibrary} including the
+     * current {@link ReferenceDataLibrary}
+     *
+     * @return A {@link Collection<Category>}
+     */
+    public Collection<Category> queryCategoriesFromChainOfRdls() {
+        return this.getAggregatedReferenceDataLibrary()
+            .stream()
+            .flatMap(x -> x.getDefinedCategory().stream())
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Queries the {@link Category} from the chain of {@link ReferenceDataLibrary} including the
+     * current {@link ReferenceDataLibrary}
+     *
+     * @return A {@link Collection<Category>}
+     */
+    public Collection<ParameterType> queryParameterTypesFromChainOfRdls() {
+        return this.getAggregatedReferenceDataLibrary()
+            .stream()
+            .flatMap(x -> x.getParameterType().stream())
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Queries the {@link MeasurementScale} from the chain of {@link ReferenceDataLibrary} including the
+     * current {@link ReferenceDataLibrary}
+     *
+     * @return A {@link Collection<MeasurementScale>}
+     */
+    public Collection<MeasurementScale> queryMeasurementScalesFromChainOfRdls() {
+        return this.getAggregatedReferenceDataLibrary()
+            .stream()
+            .flatMap(x -> x.getScale().stream())
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Queries the {@link UnitPrefix} from the chain of {@link ReferenceDataLibrary} including the
+     * current {@link ReferenceDataLibrary}
+     *
+     * @return A {@link Collection<UnitPrefix>}
+     */
+    public Collection<UnitPrefix> queryUnitPrefixesFromChainOfRdls() {
+        return this.getAggregatedReferenceDataLibrary()
+            .stream()
+            .flatMap(x -> x.getUnitPrefix().stream())
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Queries the {@link MeasurementUnit} from the chain of {@link ReferenceDataLibrary} including the
+     * current {@link ReferenceDataLibrary}
+     *
+     * @return A {@link Collection<MeasurementUnit>}
+     */
+    public Collection<MeasurementUnit> queryMeasurementUnitsFromChainOfRdls() {
+        return this.getAggregatedReferenceDataLibrary()
+            .stream()
+            .flatMap(x -> x.getUnit().stream())
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Queries the {@link FileType} from the chain of {@link ReferenceDataLibrary} including the
+     * current {@link ReferenceDataLibrary}
+     *
+     * @return A {@link Collection<FileType>}
+     */
+    public Collection<FileType> queryFileTypesFromChainOfRdls() {
+        return this.getAggregatedReferenceDataLibrary()
+            .stream()
+            .flatMap(x -> x.getFileType().stream())
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Queries the {@link Glossary} from the chain of {@link ReferenceDataLibrary} including the
+     * current {@link ReferenceDataLibrary}
+     *
+     * @return A {@link Collection<Glossary>}
+     */
+    public Collection<Glossary> queryGlossariesFromChainOfRdls() {
+        return this.getAggregatedReferenceDataLibrary()
+            .stream()
+            .flatMap(x -> x.getGlossary().stream())
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Queries the {@link ReferenceSource} from the chain of {@link ReferenceDataLibrary} including the
+     * current {@link ReferenceDataLibrary}
+     *
+     * @return A {@link Collection<ReferenceSource>}
+     */
+    public Collection<ReferenceSource> queryReferenceSourcesFromChainOfRdls() {
+        return this.getAggregatedReferenceDataLibrary()
+            .stream()
+            .flatMap(x -> x.getReferenceSource().stream())
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Queries the {@link Rule} from the chain of {@link ReferenceDataLibrary} including the
+     * current {@link ReferenceDataLibrary}
+     *
+     * @return A {@link Collection<Rule>}
+     */
+    public Collection<Rule> queryRulesFromChainOfRdls() {
+        return this.getAggregatedReferenceDataLibrary()
+            .stream()
+            .flatMap(x -> x.getRule().stream())
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Queries the {@link Constant} from the chain of {@link ReferenceDataLibrary} including the
+     * current {@link ReferenceDataLibrary}
+     *
+     * @return A {@link Collection<Constant>}
+     */
+    public Collection<Constant> queryConstantsFromChainOfRdls() {
+        return this.getAggregatedReferenceDataLibrary()
+            .stream()
+            .flatMap(x -> x.getConstant().stream())
+            .collect(Collectors.toList());
     }
 }

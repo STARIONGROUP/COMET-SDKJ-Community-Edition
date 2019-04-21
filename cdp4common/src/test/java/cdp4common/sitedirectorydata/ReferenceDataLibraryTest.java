@@ -24,32 +24,206 @@
 
 package cdp4common.sitedirectorydata;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ReferenceDataLibraryTest {
-    @Test
-    void VerifyThatGetRequiresRdlWorks() {
-        ModelReferenceDataLibrary mRdl = new ModelReferenceDataLibrary();
-        SiteReferenceDataLibrary sRdl1 = new SiteReferenceDataLibrary();
-        SiteReferenceDataLibrary srdl11 = new SiteReferenceDataLibrary();
-        SiteReferenceDataLibrary sRdl2 = new SiteReferenceDataLibrary();
 
-        mRdl.setRequiredRdl(srdl11);
-        srdl11.setRequiredRdl(sRdl1);
+  private ModelReferenceDataLibrary mRdl;
+  private SiteReferenceDataLibrary sRdl1;
+  private SiteReferenceDataLibrary sRdl11;
+  private SiteReferenceDataLibrary sRdl2;
 
-        int i = 0;
-        for (ReferenceDataLibrary rdl : mRdl.getRequiredRdlsChain()) {
-            i++;
-        }
+  @BeforeEach
+  void setUp() {
+    this.mRdl = new ModelReferenceDataLibrary();
+    this.sRdl1 = new SiteReferenceDataLibrary();
+    this.sRdl11 = new SiteReferenceDataLibrary();
+    this.sRdl2 = new SiteReferenceDataLibrary();
 
-        Assertions.assertEquals(2, i);
+    this.mRdl.setRequiredRdl(this.sRdl11);
+    this.sRdl11.setRequiredRdl(this.sRdl1);
+  }
 
-        i = 0;
-        for (ReferenceDataLibrary rdl : sRdl2.getRequiredRdlsChain()) {
-            i++;
-        }
-
-        Assertions.assertEquals(0, i);
+  @Test
+  void verifyThatGetRequiresRdlWorks() {
+    int i = 0;
+    for (ReferenceDataLibrary rdl : mRdl.getRequiredRdlsChain()) {
+      i++;
     }
+
+    Assertions.assertEquals(2, i);
+
+    i = 0;
+    for (ReferenceDataLibrary rdl : sRdl2.getRequiredRdlsChain()) {
+      i++;
+    }
+
+    Assertions.assertEquals(0, i);
+  }
+
+  @Test
+  void verify_that_RequiredRdls_returns_expected_result() {
+    List<ReferenceDataLibrary> expectedRdls = List.of(this.sRdl1, this.sRdl11);
+
+    assertThat(this.mRdl.getRequiredRdls()).containsExactlyInAnyOrderElementsOf(expectedRdls);
+  }
+
+  @Test
+  void verify_that_AggregateRdls_Returns_expected_result() {
+    var expectedRdls = List.of(this.mRdl, this.sRdl1, this.sRdl11);
+
+    var rdls = this.mRdl.getAggregatedReferenceDataLibrary();
+
+    assertThat(rdls).containsExactlyInAnyOrderElementsOf(expectedRdls);
+  }
+
+  @Test
+  void verify_that_QueryCategoriesFromChainOfRdls_returns_expected_result() {
+    var mRdl_category = new Category(UUID.randomUUID(), null, null);
+    var sRdl1_category = new Category(UUID.randomUUID(), null, null);
+    var sRdl11_category = new Category(UUID.randomUUID(), null, null);
+
+    this.mRdl.getDefinedCategory().add(mRdl_category);
+    this.sRdl1.getDefinedCategory().add(sRdl1_category);
+    this.sRdl11.getDefinedCategory().add(sRdl11_category);
+
+    assertThat(this.mRdl.queryCategoriesFromChainOfRdls()).containsExactlyInAnyOrderElementsOf(
+        List.of(mRdl_category, sRdl1_category, sRdl11_category));
+  }
+
+  @Test
+  void verify_that_QueryParameterTypesFromChainOfRdls_returns_expected_result() {
+    var mRdl_TextParameterType = new TextParameterType(UUID.randomUUID(), null, null);
+    var sRdl1_TextParameterType = new TextParameterType(UUID.randomUUID(), null, null);
+    var sRdl11_TextParameterType = new TextParameterType(UUID.randomUUID(), null, null);
+
+    this.mRdl.getParameterType().add(mRdl_TextParameterType);
+    this.sRdl1.getParameterType().add(sRdl1_TextParameterType);
+    this.sRdl11.getParameterType().add(sRdl11_TextParameterType);
+
+    assertThat(this.mRdl.queryParameterTypesFromChainOfRdls()).containsExactlyInAnyOrderElementsOf(
+        List.of(mRdl_TextParameterType, sRdl1_TextParameterType, sRdl11_TextParameterType));
+  }
+
+  @Test
+  void verify_that_QueryMeasurementScalesFromChainOfRdls_returns_expected_result() {
+    var mRdl_RatioScale = new RatioScale(UUID.randomUUID(), null, null);
+    var sRdl1_RatioScale = new RatioScale(UUID.randomUUID(), null, null);
+    var sRdl11_RatioScale = new RatioScale(UUID.randomUUID(), null, null);
+
+    this.mRdl.getScale().add(mRdl_RatioScale);
+    this.sRdl1.getScale().add(sRdl1_RatioScale);
+    this.sRdl11.getScale().add(sRdl11_RatioScale);
+
+    assertThat(this.mRdl.queryMeasurementScalesFromChainOfRdls())
+        .containsExactlyInAnyOrderElementsOf(
+            List.of(mRdl_RatioScale, sRdl1_RatioScale, sRdl11_RatioScale));
+  }
+
+  @Test
+  void verify_that_QueryUnitPrefixesFromChainOfRdls_returns_expected_result() {
+    var mRdl_UnitPrefix = new UnitPrefix(UUID.randomUUID(), null, null);
+    var sRdl1_UnitPrefix = new UnitPrefix(UUID.randomUUID(), null, null);
+    var sRdl11_UnitPrefix = new UnitPrefix(UUID.randomUUID(), null, null);
+
+    this.mRdl.getUnitPrefix().add(mRdl_UnitPrefix);
+    this.sRdl1.getUnitPrefix().add(sRdl1_UnitPrefix);
+    this.sRdl11.getUnitPrefix().add(sRdl11_UnitPrefix);
+
+    assertThat(this.mRdl.queryUnitPrefixesFromChainOfRdls()).containsExactlyInAnyOrderElementsOf(
+        List.of(mRdl_UnitPrefix, sRdl1_UnitPrefix, sRdl11_UnitPrefix));
+  }
+
+  @Test
+  void verify_that_QueryMeasurementUnitsFromChainOfRdls_returns_expected_result() {
+    var mRdl_MeasurementUnit = new SimpleUnit(UUID.randomUUID(), null, null);
+    var sRdl1_MeasurementUnit = new SimpleUnit(UUID.randomUUID(), null, null);
+    var sRdl11_MeasurementUnit = new SimpleUnit(UUID.randomUUID(), null, null);
+
+    this.mRdl.getUnit().add(mRdl_MeasurementUnit);
+    this.sRdl1.getUnit().add(sRdl1_MeasurementUnit);
+    this.sRdl11.getUnit().add(sRdl11_MeasurementUnit);
+
+    assertThat(this.mRdl.queryMeasurementUnitsFromChainOfRdls())
+        .containsExactlyInAnyOrderElementsOf(
+            List.of(mRdl_MeasurementUnit, sRdl1_MeasurementUnit, sRdl11_MeasurementUnit));
+  }
+
+  @Test
+  void verify_that_QueryFileTypesFromChainOfRdls_returns_expected_result() {
+    var mRdl_FileType = new FileType(UUID.randomUUID(), null, null);
+    var sRdl1_FileType = new FileType(UUID.randomUUID(), null, null);
+    var sRdl11_FileType = new FileType(UUID.randomUUID(), null, null);
+
+    this.mRdl.getFileType().add(mRdl_FileType);
+    this.sRdl1.getFileType().add(sRdl1_FileType);
+    this.sRdl11.getFileType().add(sRdl11_FileType);
+
+    assertThat(this.mRdl.queryFileTypesFromChainOfRdls()).containsExactlyInAnyOrderElementsOf(
+        List.of(mRdl_FileType, sRdl1_FileType, sRdl11_FileType));
+  }
+
+  @Test
+  void verify_that_QueryGlossariesFromChainOfRdls_returns_expected_result() {
+    var mRdl_Glossary = new Glossary(UUID.randomUUID(), null, null);
+    var sRdl1_Glossary = new Glossary(UUID.randomUUID(), null, null);
+    var sRdl11_Glossary = new Glossary(UUID.randomUUID(), null, null);
+
+    this.mRdl.getGlossary().add(mRdl_Glossary);
+    this.sRdl1.getGlossary().add(sRdl1_Glossary);
+    this.sRdl11.getGlossary().add(sRdl11_Glossary);
+
+    assertThat(this.mRdl.queryGlossariesFromChainOfRdls()).containsExactlyInAnyOrderElementsOf(
+        List.of(mRdl_Glossary, sRdl1_Glossary, sRdl11_Glossary));
+  }
+
+  @Test
+  void verify_that_QueryReferenceSourcesFromChainOfRdls_returns_expected_result() {
+    var mRdl_ReferenceSource = new ReferenceSource(UUID.randomUUID(), null, null);
+    var sRdl1_ReferenceSource = new ReferenceSource(UUID.randomUUID(), null, null);
+    var sRdl11_ReferenceSource = new ReferenceSource(UUID.randomUUID(), null, null);
+
+    this.mRdl.getReferenceSource().add(mRdl_ReferenceSource);
+    this.sRdl1.getReferenceSource().add(sRdl1_ReferenceSource);
+    this.sRdl11.getReferenceSource().add(sRdl11_ReferenceSource);
+
+    assertThat(this.mRdl.queryReferenceSourcesFromChainOfRdls())
+        .containsExactlyInAnyOrderElementsOf(
+            List.of(mRdl_ReferenceSource, sRdl1_ReferenceSource, sRdl11_ReferenceSource));
+    ;
+  }
+
+  @Test
+  void verify_that_QueryRulesFromChainOfRdls_returns_expected_result() {
+    var mRdl_Rule = new BinaryRelationshipRule(UUID.randomUUID(), null, null);
+    var sRdl1_Rule = new BinaryRelationshipRule(UUID.randomUUID(), null, null);
+    var sRdl11_Rule = new BinaryRelationshipRule(UUID.randomUUID(), null, null);
+
+    this.mRdl.getRule().add(mRdl_Rule);
+    this.sRdl1.getRule().add(sRdl1_Rule);
+    this.sRdl11.getRule().add(sRdl11_Rule);
+
+    assertThat(this.mRdl.queryRulesFromChainOfRdls()).containsExactlyInAnyOrderElementsOf(
+        List.of(mRdl_Rule, sRdl1_Rule, sRdl11_Rule));
+  }
+
+  @Test
+  void verify_that_QueryConstantsFromChainOfRdls_returns_expected_result() {
+    var mRdl_Constant = new Constant(UUID.randomUUID(), null, null);
+    var sRdl1_Constant = new Constant(UUID.randomUUID(), null, null);
+    var sRdl11_Constant = new Constant(UUID.randomUUID(), null, null);
+
+    this.mRdl.getConstant().add(mRdl_Constant);
+    this.sRdl1.getConstant().add(sRdl1_Constant);
+    this.sRdl11.getConstant().add(sRdl11_Constant);
+
+    assertThat(this.mRdl.queryConstantsFromChainOfRdls()).containsExactlyInAnyOrderElementsOf(
+        List.of(mRdl_Constant, sRdl1_Constant, sRdl11_Constant));
+  }
 }
