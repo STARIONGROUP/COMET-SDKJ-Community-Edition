@@ -34,10 +34,18 @@
         <mvn.versions.plugin.version>2.7</mvn.versions.plugin.version>
         <puppycrawl.version>8.17</puppycrawl.version>
         <logging.version>2.11.2</logging.version>
+        <apachehttpclient.version>4.5.8</apachehttpclient.version>
+        <mockito.version>2.27.0</mockito.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${apachehttpclient.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
@@ -60,6 +68,12 @@
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
                 <version>${assertj.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
             <!-- To avoid compiler warnings about @API cdp4common.annotations in JUnit code -->

@@ -24,6 +24,7 @@
 
 package cdp4common.helpers;
 
+import cdp4common.commondata.ClassKind;
 import cdp4common.sitedirectorydata.ParameterTypeComponent;
 import cdp4common.types.OrderedItem;
 import com.google.common.base.CaseFormat;
@@ -106,6 +107,64 @@ public class Utils {
   }
 
   /**
+   * Extracts only class name without packages.
+   *
+   * @param className The class name such as "java.util.String".
+   * @return The only class name without packages such as "String".
+   * @throws IllegalArgumentException if a supplied {@code className} in {@code null} or empty.
+   */
+  public static String getOnlyClassName(String className) {
+    if (Strings.isNullOrEmpty(className)) {
+      throw new IllegalArgumentException("Class name can't be empty!");
+    }
+
+    // If class name includes packages then extract only the direct class name from the end
+    if (className.contains(".")) {
+      className = className.substring(className.lastIndexOf(".") + 1);
+    }
+
+    return className;
+  }
+
+  /**
+   * Parses a supplied {@link Class} to a {@link ClassKind} if it is possible.
+   *
+   * @param clazz The {@link Class} to convert to {@link ClassKind}.
+   * @return {@link ClassKind} if parsing was successful, otherwise {@code null}.
+   */
+  public static ClassKind parseClassToClassKind(Class clazz) {
+    if (clazz == null) {
+      throw new IllegalArgumentException("Class can't be null!");
+    }
+
+    String className = clazz.getName();
+
+    try {
+      return ClassKind.valueOf(getConstantNotationFromUpperCamel(getOnlyClassName(className)));
+    } catch (IllegalArgumentException ex) {
+      return null;
+    }
+  }
+
+  /**
+   * Parses a supplied {@link String} to a {@link ClassKind} if it is possible.
+   *
+   * @param typeName The type name to convert to {@link ClassKind}.
+   * @return {@link ClassKind} if parsing was successful, otherwise {@code null}.
+   */
+  public static ClassKind parseTypeNameToClassKind(String typeName) {
+    if (typeName == null) {
+      throw new IllegalArgumentException("Type name can't be null!");
+    }
+
+    try {
+      return ClassKind.valueOf(getConstantNotationFromUpperCamel(typeName));
+    } catch (IllegalArgumentException ex) {
+      return null;
+    }
+  }
+
+  /**
    * Mimic a c# {@code as} keyword functionality to have a less verbose expressions.
    *
    * @param o The object to be checked for a specific type.
@@ -115,5 +174,43 @@ public class Utils {
    */
   public static <T> T as(Object o, Class<T> clazz) {
     return clazz.isInstance(o) ? clazz.cast(o) : null;
+  }
+
+  /**
+   * Gets a super class name for a supplied type name. It attempts to load a class from the
+   * following packages: commondata, diagramdata, engineeringmodeldata, reportingdata,
+   * sitedirectorydata and find a super type name.
+   *
+   * @param typeName The type name to find a super class name for in cdp4 data classes.
+   * @return The name of a super type if found or an empty string if it is Object.
+   * @throws IllegalArgumentException if a class is not found in the above mentioned packages.
+   */
+  public static String getSuperClassNameForClassName(String typeName) {
+    List<String> packages = List
+        .of("cdp4common.commondata.", "cdp4common.diagramdata.", "cdp4common.engineeringmodeldata.",
+            "cdp4common.reportingdata.", "cdp4common.sitedirectorydata.");
+
+    Class clazz = null;
+    for (var pkg : packages) {
+      try {
+        clazz = Class.forName(pkg + typeName);
+      } catch (ClassNotFoundException e) {
+        // not found, just swallow this exception and continue
+        continue;
+      }
+
+      if (clazz != null) {
+        break;
+      }
+    }
+
+    // Check whether we found anything
+    if (clazz == null) {
+      throw new IllegalArgumentException("Supplied type name is not found among data classes");
+    }
+
+    String superTypeName = clazz.getSuperclass().getSimpleName();
+
+    return superTypeName.equals("Object") ? "" : superTypeName;
   }
 }
