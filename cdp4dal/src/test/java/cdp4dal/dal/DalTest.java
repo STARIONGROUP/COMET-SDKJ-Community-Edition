@@ -164,7 +164,7 @@ class DalTest {
     when(operationContainer.getOperations()).thenReturn(List.of(operation));
 
     dalStub.operationContainerFileVerification(operationContainer,
-        List.of("src\\test\\java\\cdp4dal\\dal\\files\\test.json"));
+        List.of("src/test/java/cdp4dal/dal/files/test.json"));
   }
 
   @Test
@@ -179,6 +179,6 @@ class DalTest {
 
     assertThrows(InvalidOperationContainerException.class,
         () -> dalStub.operationContainerFileVerification(operationContainer,
-            List.of("src\\test\\java\\cdp4dal\\dal\\files\\test.json")));
+            List.of("src/test/java/cdp4dal/dal/files/test.json")));
   }
 }
