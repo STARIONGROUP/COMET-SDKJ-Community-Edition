@@ -1,5 +1,5 @@
 /*
- * DalExportAttribute.java
+ * DalExport.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -25,48 +25,35 @@
 package cdp4dal.composition;
 
 import cdp4dal.dal.Dal;
-import lombok.Getter;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * The purpose of the {@link DalExportAttribute} is to decorate {@link Dal} implementations
+ * The purpose of the {@link DalExport} is to decorate {@link Dal} implementations.
  */
-@Getter
-public class DalExportAttribute implements DalMetaData {
-
-  /**
-   * Initializes a new instance of the {@link DalExportAttribute} class.
-   *
-   * @param name The human readable name of the {@link Dal} implementation that is being decorated
-   * @param description The human readable description of the {@link Dal} implementation that is
-   * being decorated
-   * @param modelVersion The max version of the CDP Model that is supported by the {@link Dal}
-   * implementation that is being decorated
-   * @param type The type of {@link Dal} based on {@link DalType} this export defines.
-   */
-  public DalExportAttribute(String name, String description, String modelVersion, DalType type) {
-    this.name = name;
-    this.description = description;
-    this.cdpVersion = modelVersion;
-    this.dalType = type;
-  }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface DalExport {
 
   /**
    * Human readable name of the exported {@link Dal}
    */
-  private String name;
+  String name() default "";
 
   /**
    * Human readable description of the exported {@link Dal}
    */
-  private String description;
+  String description() default "";
 
   /**
    * The maximum CDP Model version of the exported {@link Dal}
    */
-  private String cdpVersion;
+  String cdpVersion() default "";
 
   /**
    * The type of {@link Dal} this export defines.
    */
-  private DalType dalType;
+  DalType dalType() default DalType.WEB;
 }

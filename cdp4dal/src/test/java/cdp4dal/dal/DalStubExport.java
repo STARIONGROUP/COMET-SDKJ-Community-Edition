@@ -1,5 +1,5 @@
 /*
- * Dal.java
+ * DalStubExport.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -21,6 +21,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 package cdp4dal.dal;
 
 import cdp4common.dto.EngineeringModel;
@@ -28,38 +29,31 @@ import cdp4common.dto.Iteration;
 import cdp4common.dto.SiteDirectory;
 import cdp4common.dto.Thing;
 import cdp4dal.Session;
-import cdp4dal.Version;
+import cdp4dal.composition.DalExport;
+import cdp4dal.composition.DalType;
 import cdp4dal.operations.Operation;
 import cdp4dal.operations.OperationContainer;
 import java.net.URI;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.apache.commons.lang3.NotImplementedException;
 
-/**
- * The Data Access Layer interface.
- */
-public interface Dal {
-
-  /**
-   * Gets the supported version of the data-model.
-   */
-  Version getDalVersion();
-
-  /**
-   * Gets the {@link Session} that uses this {@link Dal}.
-   */
-  Session getSession();
+@DalExport(name = "CDP4", description = "CDP4 Webservices", cdpVersion = "1.1.0", dalType = DalType.WEB)
+public class DalStubExport extends DalBase {
 
   /**
    * Sets the {@link Session} that uses this {@link Dal}.
    */
-  Session setSession();
+  @Override
+  public Session setSession() {
+    throw new NotImplementedException("A stub.");
+  }
 
-  /**
-   * Gets the value indicating whether this {@link Dal} is read only.
-   */
-  boolean isReadOnly();
+  @Override
+  public boolean isReadOnly() {
+    return false;
+  }
 
   /**
    * Write all the {@link Operation}s from all the {@link OperationContainer}s asynchronously.
@@ -70,8 +64,11 @@ public interface Dal {
    * @return A list of {@link Thing}s that has been created or updated since the last Read or Write
    * operation.
    */
-  CompletableFuture<List<Thing>> write(List<OperationContainer> operationContainers,
-      List<String> files);
+  @Override
+  public CompletableFuture<List<Thing>> write(List<OperationContainer> operationContainers,
+      List<String> files) {
+    throw new NotImplementedException("A stub.");
+  }
 
   /**
    * Write all the {@link Operation}s from an {@link OperationContainer} asynchronously.
@@ -82,7 +79,11 @@ public interface Dal {
    * @return A list of {@link Thing}s that has been created or updated since the last Read or Write
    * operation.
    */
-  CompletableFuture<List<Thing>> write(OperationContainer operationContainer, List<String> files);
+  @Override
+  public CompletableFuture<List<Thing>> write(OperationContainer operationContainer,
+      List<String> files) {
+    throw new NotImplementedException("A stub.");
+  }
 
   /**
    * Reads the data related to the provided {@link Thing} from the data-source.
@@ -94,8 +95,11 @@ public interface Dal {
    * @return A list of {@link Thing} that are contained by the provided {@link Thing} including the
    * {@link Thing}.
    */
-  <T extends Thing> CompletableFuture<List<Thing>> read(T thing, AtomicBoolean cancelled,
-      QueryAttributes attributes);
+  @Override
+  public <T extends Thing> CompletableFuture<List<Thing>> read(T thing, AtomicBoolean cancelled,
+      QueryAttributes attributes) {
+    throw new NotImplementedException("A stub.");
+  }
 
   /**
    * Reads the data related to the provided {@link Iteration} from the data-source.
@@ -107,8 +111,11 @@ public interface Dal {
    * including the Reference-Data. All the {@link Thing}s that have been updated since the last read
    * will be returned.
    */
-  CompletableFuture<List<Thing>> read(Iteration iteration, AtomicBoolean cancelled,
-      QueryAttributes attributes);
+  @Override
+  public CompletableFuture<List<Thing>> read(Iteration iteration, AtomicBoolean cancelled,
+      QueryAttributes attributes) {
+    throw new NotImplementedException("A stub.");
+  }
 
   /**
    * Creates the specified {@link Thing} on the data-source.
@@ -117,7 +124,10 @@ public interface Dal {
    * @param <T> The type of {@link Thing}.
    * @return A list of {@link Thing} that have been created.
    */
-  <T extends Thing> List<Thing> create(T thing);
+  @Override
+  public <T extends Thing> List<Thing> create(T thing) {
+    throw new NotImplementedException("A stub.");
+  }
 
   /**
    * Performs an update to the {@link Thing} on the data-source.
@@ -126,7 +136,10 @@ public interface Dal {
    * @param <T> a type of {@link Thing}.
    * @return A list of {@link Thing} that have been updated.
    */
-  <T extends Thing> List<Thing> update(T thing);
+  @Override
+  public <T extends Thing> List<Thing> update(T thing) {
+    throw new NotImplementedException("A stub.");
+  }
 
   /**
    * Deletes the specified {@link Thing} from the data-source.
@@ -135,7 +148,10 @@ public interface Dal {
    * @param <T> a type of {@link Thing}.
    * @return A list of {@link Thing} that have been updated since the last Read has been performed.
    */
-  <T extends Thing> List<Thing> delete(T thing);
+  @Override
+  public <T extends Thing> List<Thing> delete(T thing) {
+    throw new NotImplementedException("A stub.");
+  }
 
   /**
    * Opens a connection to a data-source {@link URI}.
@@ -143,15 +159,21 @@ public interface Dal {
    * @param credentials The {@link Credentials} that are used to connect to the data source such as
    * username, password and {@link URI}.
    * @param cancelled a flag that signals whether the thread should be cancelled or not.
-   * @return The {@link List{T}} that the services return when connecting to the {@link
+   * @return The {@link List {T}} that the services return when connecting to the {@link
    * SiteDirectory}.
    */
-  CompletableFuture<List<Thing>> open(Credentials credentials, AtomicBoolean cancelled);
+  @Override
+  public CompletableFuture<List<Thing>> open(Credentials credentials, AtomicBoolean cancelled) {
+    throw new NotImplementedException("A stub.");
+  }
 
   /**
    * Closes the connection to the data-source.
    */
-  void close();
+  @Override
+  public void close() {
+    throw new NotImplementedException("A stub.");
+  }
 
   /**
    * Assertion that the provided String is a valid {@link URI} to connect to a data-source with the
@@ -160,5 +182,8 @@ public interface Dal {
    * @param uri a String representing a {@link URI }
    * @return true when valid, false when invalid
    */
-  boolean isValidURI(String uri);
+  @Override
+  public boolean isValidURI(String uri) {
+    throw new NotImplementedException("A stub.");
+  }
 }

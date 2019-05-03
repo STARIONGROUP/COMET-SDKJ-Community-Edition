@@ -25,7 +25,7 @@ package cdp4dal.composition;
 
 /**
  * The purpose of the {@link DalMetaData} interface is to define a Name property to be used in
- * conjunction with a custom {@link DalExportAttribute}. This interface also carries the type of Dal
+ * conjunction with a custom {@link DalExport}. This interface also carries the type of Dal
  * it is used with.
  */
 public interface DalMetaData extends NameMetaData {

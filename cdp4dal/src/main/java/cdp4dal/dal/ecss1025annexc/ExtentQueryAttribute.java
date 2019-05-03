@@ -1,5 +1,5 @@
 /*
- * QueryAttributes.java
+ * ExtentQueryAttribute.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -22,38 +22,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package cdp4dal.dal.protocol;
+package cdp4dal.dal.ecss1025annexc;
 
 /**
- * The QueryAttributes interface.
+ * The extent query attribute.
  */
-public interface QueryAttributes {
+public enum ExtentQueryAttribute {
+  /**
+   * Forces the return of the queried object only
+   */
+  SHALLOW,
 
   /**
-   * Converts all values of this {@link QueryAttributes} class to a uri attributes String.
-   *
-   * @return The {@link String} in the form ?param1=value1 separated by an ampersand.
+   * Forces the return of the object and all objects it contains
    */
-  String toString();
-
-  /**
-   * Joins the attributes into a single String.
-   *
-   * @return The {@link String} with all the attributes separated by a ampersand.
-   */
-  String joinAttributes();
-
-  /**
-   * Gets the revision number.
-   *
-   * @return A revision number from this {@link QueryAttributes}.
-   */
-  Integer getRevisionNumber();
-
-  /**
-   * Sets the revision number.
-   *
-   * @param revisionNumber A revision number to set as a parameter.
-   */
-  Integer setRevisionNumber(Integer revisionNumber);
+  DEEP
 }

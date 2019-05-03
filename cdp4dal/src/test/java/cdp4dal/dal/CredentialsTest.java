@@ -1,5 +1,5 @@
 /*
- * DalExportAttributeTest.java
+ * CredentialsTest.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -22,28 +22,31 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package cdp4dal.composition;
+package cdp4dal.dal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import cdp4dal.dal.DalStubExport;
+import java.net.URI;
 import org.junit.jupiter.api.Test;
 
-class DalExportAttributeTest {
+class CredentialsTest {
 
   @Test
-  void verifyThatThePropertiesAreSet() {
-    // Values that DalStubExport should have in its DalExport annotation
-    var name = "CDP4";
-    var description = "CDP4 Webservices";
-    var cdpVersion = "1.1.0";
-    var type = DalType.WEB;
-    var dalStub = new DalStubExport();
-    var dalExportAttribute = dalStub.getClass().getAnnotationsByType(DalExport.class);
+  void verifyThatPasswordThatIsProvidedIsEqualToTheRetrievedPassword() {
+    var password = "this is a password";
+    var credentials = new Credentials("John", password, URI.create("file://someuri"), null);
 
-    assertEquals(name, dalExportAttribute[0].name());
-    assertEquals(description, dalExportAttribute[0].description());
-    assertEquals(cdpVersion, dalExportAttribute[0].cdpVersion());
-    assertEquals(type, dalExportAttribute[0].dalType());
+    assertEquals(password, credentials.getPassword());
+  }
+
+  @Test
+  void verifyThatNullPointerExceptionsAreThrown() {
+    assertThrows(NullPointerException.class, () -> new Credentials(null, null, null, null));
+    assertThrows(NullPointerException.class, () -> new Credentials("", null, null, null));
+    assertThrows(NullPointerException.class, () -> new Credentials("John", null, null, null));
+    assertThrows(NullPointerException.class, () -> new Credentials("John", "", null, null));
+    assertThrows(NullPointerException.class,
+        () -> new Credentials("John", "a password", null, null));
   }
 }

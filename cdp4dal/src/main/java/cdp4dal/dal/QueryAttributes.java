@@ -1,5 +1,5 @@
 /*
- * DalExportAttributeTest.java
+ * QueryAttributes.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -22,28 +22,38 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package cdp4dal.composition;
+package cdp4dal.dal;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+/**
+ * The QueryAttributes interface.
+ */
+public interface QueryAttributes {
 
-import cdp4dal.dal.DalStubExport;
-import org.junit.jupiter.api.Test;
+  /**
+   * Converts all values of this {@link QueryAttributes} class to a uri attributes String.
+   *
+   * @return The {@link String} in the form ?param1=value1 separated by an ampersand.
+   */
+  String toString();
 
-class DalExportAttributeTest {
+  /**
+   * Joins the attributes into a single String.
+   *
+   * @return The {@link String} with all the attributes separated by a ampersand.
+   */
+  String joinAttributes();
 
-  @Test
-  void verifyThatThePropertiesAreSet() {
-    // Values that DalStubExport should have in its DalExport annotation
-    var name = "CDP4";
-    var description = "CDP4 Webservices";
-    var cdpVersion = "1.1.0";
-    var type = DalType.WEB;
-    var dalStub = new DalStubExport();
-    var dalExportAttribute = dalStub.getClass().getAnnotationsByType(DalExport.class);
+  /**
+   * Gets the revision number.
+   *
+   * @return A revision number from this {@link QueryAttributes}.
+   */
+  Integer getRevisionNumber();
 
-    assertEquals(name, dalExportAttribute[0].name());
-    assertEquals(description, dalExportAttribute[0].description());
-    assertEquals(cdpVersion, dalExportAttribute[0].cdpVersion());
-    assertEquals(type, dalExportAttribute[0].dalType());
-  }
+  /**
+   * Sets the revision number.
+   *
+   * @param revisionNumber A revision number to set as a parameter.
+   */
+  void setRevisionNumber(Integer revisionNumber);
 }

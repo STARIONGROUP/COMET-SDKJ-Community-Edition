@@ -1,5 +1,5 @@
 /*
- * DalExportAttributeTest.java
+ * ProxySettingsTest.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -22,28 +22,31 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package cdp4dal.composition;
+package cdp4dal.dal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import cdp4dal.dal.DalStubExport;
+import java.net.URI;
 import org.junit.jupiter.api.Test;
 
-class DalExportAttributeTest {
+class ProxySettingsTest {
 
   @Test
-  void verifyThatThePropertiesAreSet() {
-    // Values that DalStubExport should have in its DalExport annotation
-    var name = "CDP4";
-    var description = "CDP4 Webservices";
-    var cdpVersion = "1.1.0";
-    var type = DalType.WEB;
-    var dalStub = new DalStubExport();
-    var dalExportAttribute = dalStub.getClass().getAnnotationsByType(DalExport.class);
+  void verify_that_null_Address_throws_exception() {
+    assertThrows(NullPointerException.class, () -> new ProxySettings(null, "", ""));
+  }
 
-    assertEquals(name, dalExportAttribute[0].name());
-    assertEquals(description, dalExportAttribute[0].description());
-    assertEquals(cdpVersion, dalExportAttribute[0].cdpVersion());
-    assertEquals(type, dalExportAttribute[0].dalType());
+  @Test
+  void verify_that_properties_are_set() {
+    var address = URI.create("http://proxy.cdp4.org");
+    var userName = "John";
+    var password = "Doe";
+
+    var proxySettings = new ProxySettings(address, userName, password);
+
+    assertEquals(address, proxySettings.getAddress());
+    assertEquals(userName, proxySettings.getUserName());
+    assertEquals(password, proxySettings.getPassword());
   }
 }
