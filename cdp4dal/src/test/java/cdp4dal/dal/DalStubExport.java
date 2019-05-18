@@ -46,7 +46,7 @@ public class DalStubExport extends DalBase {
    * Sets the {@link Session} that uses this {@link Dal}.
    */
   @Override
-  public Session setSession() {
+  public void setSession(Session session) {
     throw new NotImplementedException("A stub.");
   }
 

@@ -36,10 +36,17 @@
         <logging.version>2.11.2</logging.version>
         <apachehttpclient.version>4.5.8</apachehttpclient.version>
         <mockito.version>2.27.0</mockito.version>
+        <rxjava.version>2.2.8</rxjava.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava -->
+            <dependency>
+                <groupId>io.reactivex.rxjava2</groupId>
+                <artifactId>rxjava</artifactId>
+                <version>${rxjava.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>

@@ -21,6 +21,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 package cdp4dal.dal;
 
 import cdp4common.dto.EngineeringModel;
@@ -54,7 +55,7 @@ public interface Dal {
   /**
    * Sets the {@link Session} that uses this {@link Dal}.
    */
-  Session setSession();
+  void setSession(Session session);
 
   /**
    * Gets the value indicating whether this {@link Dal} is read only.

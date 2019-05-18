@@ -927,7 +927,7 @@ public class ThingTransactionImpl extends Transaction {
   /**
    * Updates the container of the specified {@link Thing}.
    *
-   * @param clone The {@link Thing} to ass or remove.
+   * @param clone The {@link Thing} to add or remove.
    * @param containerClone The container to update.
    * @param nextThing The next (following) {@link Thing} in an {@link OrderedItemList{T}} where the
    * new {@link Thing} is created if {@code nextThing} is null, the {@code clone} is appended to the

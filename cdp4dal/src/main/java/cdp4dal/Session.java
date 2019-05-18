@@ -171,7 +171,7 @@ public interface Session {
    *
    * @return The {@link CompletableFuture}.
    */
-  CompletableFuture open();
+  CompletableFuture<Void> open();
 
   /**
    * Read an {@link Iteration} from the underlying {@link Dal} and set the active {@link
@@ -183,7 +183,7 @@ public interface Session {
    * @param domain The active {@link DomainOfExpertise} for the {@link Iteration}.
    * @return The {@link CompletableFuture}.
    */
-  CompletableFuture read(Iteration iteration, DomainOfExpertise domain);
+  CompletableFuture<Void> read(Iteration iteration, DomainOfExpertise domain);
 
   /**
    * Read a {@link ReferenceDataLibrary} from the underlying {@link Dal}. The Cache is updated with
@@ -193,7 +193,7 @@ public interface Session {
    * @param rdl The {@link ReferenceDataLibrary} to read.
    * @return The {@link CompletableFuture}.
    */
-  CompletableFuture read(ReferenceDataLibrary rdl);
+  CompletableFuture<Void> read(ReferenceDataLibrary rdl);
 
   /**
    * Read a {@link Thing} in the associated {@link Dal}.
@@ -201,7 +201,7 @@ public interface Session {
    * @param thing The {@link Thing} to read.
    * @return The {@link CompletableFuture}.
    */
-  CompletableFuture read(Thing thing);
+  CompletableFuture<Void> read(Thing thing);
 
   /**
    * Write all the {@link Operation}s from an {@link OperationContainer} asynchronously.
@@ -209,28 +209,28 @@ public interface Session {
    * @param operationContainer The provided {@link OperationContainer} to write.
    * @return The {@link CompletableFuture}.
    */
-  CompletableFuture write(OperationContainer operationContainer);
+  CompletableFuture<Void> write(OperationContainer operationContainer);
 
   /**
    * Refreshes all the {@link TopContainer}s in the cache.
    *
    * @return The {@link CompletableFuture}.
    */
-  CompletableFuture refresh();
+  CompletableFuture<Void> refresh();
 
   /**
    * Reloads all the {@link TopContainer}s the in cache.
    *
    * @return The {@link CompletableFuture}.
    */
-  CompletableFuture reload();
+  CompletableFuture<Void> reload();
 
   /**
    * Close the underlying {@link Dal} and clears the encapsulated {@link Assembler}.
    *
    * @return The {@link CompletableFuture}.
    */
-  CompletableFuture close();
+  CompletableFuture<Void> close();
 
   /**
    * Cancel any Read or Open operation.
@@ -243,7 +243,7 @@ public interface Session {
    * @param sRdl The {@link SiteReferenceDataLibrary} to close.
    * @return The {@link CompletableFuture}.
    */
-  CompletableFuture closeRdl(SiteReferenceDataLibrary sRdl);
+  CompletableFuture<Void> closeRdl(SiteReferenceDataLibrary sRdl);
 
   /**
    * Close a {@link IterationSetup} and its {@link ModelReferenceDataLibrary}.
@@ -251,7 +251,7 @@ public interface Session {
    * @param iterationSetup The iteration setup.
    * @return The {@link CompletableFuture}.
    */
-  CompletableFuture closeIterationSetup(IterationSetup iterationSetup);
+  CompletableFuture<Void> closeIterationSetup(IterationSetup iterationSetup);
 
   /**
    * Close a {@link ModelReferenceDataLibrary}
@@ -259,5 +259,5 @@ public interface Session {
    * @param modelRdl The model RDL.
    * @return The {@link CompletableFuture}.
    */
-  CompletableFuture closeModelRdl(ModelReferenceDataLibrary modelRdl);
+  CompletableFuture<Void> closeModelRdl(ModelReferenceDataLibrary modelRdl);
 }

@@ -74,14 +74,14 @@ public abstract class DalBase implements Dal {
   /**
    * Gets the supported version of the data-model.
    */
-  @Getter
+  @Getter(onMethod = @__({@Override}))
   @Setter(AccessLevel.PRIVATE)
   private Version dalVersion;
 
   /**
    * Gets or sets the {@link Session} that uses this {@link Dal}.
    */
-  @Getter
+  @Getter(onMethod = @__({@Override}))
   @Setter
   private Session session;
 

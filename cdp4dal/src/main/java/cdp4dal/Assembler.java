@@ -1,746 +1,749 @@
+/*
+ * Assembler.java
+ *
+ * Copyright (c) 2015-2019 RHEA System S.A.
+ *
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ *
+ * This file is part of CDP4-SDKJ Community Edition
+ *
+ * The CDP4-SDKJ Community Edition is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * The CDP4-SDKJ Community Edition is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
 package cdp4dal;
+
+import static cdp4common.helpers.Utils.as;
 
 import cdp4common.AggregationKind;
 import cdp4common.ChangeKind;
+import cdp4common.UmlInformation;
 import cdp4common.commondata.ClassKind;
-//import cdp4common.types.CacheKey;
+import cdp4common.commondata.Thing;
+import cdp4common.dto.IterationSetup;
+import cdp4common.engineeringmodeldata.EngineeringModel;
+import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.engineeringmodeldata.Relationship;
+import cdp4common.helpers.PojoThingFactory;
+import cdp4common.sitedirectorydata.EngineeringModelSetup;
+import cdp4common.sitedirectorydata.ReferenceDataLibrary;
+import cdp4common.sitedirectorydata.SiteDirectory;
+import cdp4common.types.CacheKey;
+import cdp4common.types.OrderedItem;
 import cdp4dal.events.EventKind;
+import cdp4dal.events.ObjectChangedEvent;
 import com.google.common.base.Stopwatch;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.Lists;
+import com.google.common.collect.MoreCollectors;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
-* The Assembler orchestrates the interaction with the DAL and the related Cache
-*/
+ * The Assembler orchestrates the interaction with the DAL and the related Cache
+ */
+@Log4j2
 public class Assembler {
-//  /**
-//  * The {@link Uri} associated with this assembler
-//  */
-//  public readonly Uri IDalUri;
-//
-//  /**
-//  * The current logger
-//  */
-//  private static Logger logger = LogManager.GetCurrentClassLogger();
-//
-//  /**
-//  * The lock object
-//  */
-//  private SemaphoreSlim threadLock = new SemaphoreSlim(1);
-//
-//  /**
-//  * The unique {@link SiteDirectory}
-//  */
-//  private SiteDirectory siteDirectory;
-//
-//  /**
-//  * The list of {@link Thing} marked for deletion
-//  */
-//  private List<Thing> thingsMarkedForDeletion;
-//
-//  /**
-//  * The {@link List{Dto}} not completely resolved that are in the cache
-//  */
-//  private List<Dto> unresolvedDtos;
-//
-//  /**
-//  * Initializes a new instance of the {@link Assembler} class.
-//  *
-//  * @param urithe {@link Uri} associated with this {@link Assembler}
-//   */
-//  public Assembler(Uri uri)
-//  {
-//    Utils.AssertNotNull(uri, "The Uri may not be mull");
-//
-//    this.Cache = new ConcurrentDictionary<CacheKey, Lazy<Thing>>();
-//    this.unresolvedDtos = new List<Dto>();
-//    this.IDalUri = uri;
-//  }
-//
-//  /**
-//  * Gets the Cache that contains all the {@link Thing}s
-//  */
-//  public ConcurrentDictionary<CacheKey, Lazy<Thing>> Cache { get; private set; }
-//
-//  /**
-//  * Gets or sets the list of {@link CDP4Common.DTO.Thing} to update
-//  */
-//  private List<CDP4Common.DTO.Thing> DtoThingToUpdate { get; set; }
-//
-//  /**
-//  * Synchronize the Cache give an IEnumerable of DTO {@link Thing}
-//  *
-//  * @param dtoThings
-//  * the DTOs
-//  *
-//  * @param activeMessageBus
-//  * An optional value indicating whether the {@link CDPMessageBus} should publish {@link ObjectChangedEvent} or not.
-//  * The default value is true
-//  *
-//  * @return
-//  * The {@link Task} that can be awaited.
-//  */
-//  public async Task Synchronize(IEnumerable<CDP4Common.DTO.Thing> dtoThings, bool activeMessageBus = true)
-//  {
-//    if (dtoThings == null)
-//    {
-//      throw new ArgumentNullException(nameof(dtoThings), $"The {nameof(dtoThings)} may not be null");
-//    }
-//
-//    await this.threadLock.WaitAsync().ConfigureAwait(false);
-//    try
-//    {
-//      var synchronizeStopWatch = Stopwatch.StartNew();
-//
-//      logger.Info("Start Synchronization of {0}", this.IDalUri);
-//
-//      this.UpdateThingRevisions(dtoThings);
-//
-//      this.thingsMarkedForDeletion = new List<Thing>();
-//
-//      logger.Trace("Starting Clean-up Unused references");
-//      var startwatch = Stopwatch.StartNew();
-//
-//      var existentUUID =
-//          this.Cache.Select(
-//              x => new Tuple<CacheKey, int>(x.Value.Value.CacheKey, x.Value.Value.RevisionNumber))
-//                        .ToList();
-//
-//      this.DtoThingToUpdate = dtoThings.ToList();
-//
-//      // Add the unresolved thing to the things to resolved in case it is possible to fully resolve them with the current update
-//      // an example would be Citation contained by SiteDirectory where its Source is contained by a Rdl that is not loaded yet
-//      var unresolvedThingToUpdate = this.unresolvedDtos.Where(x => !this.DtoThingToUpdate.Select(y => y.Iid).Contains(x.Iid));
-//      this.DtoThingToUpdate.AddRange(unresolvedThingToUpdate);
-//      this.unresolvedDtos.Clear();
-//
-//      if (!this.Cache.IsEmpty)
-//      {
-//        // marks things for deletion
-//        this.ComputeThingsToRemoveInUpdatedThings();
-//        startwatch.Stop();
-//        logger.Trace("Clean up Unused references took {0} [ms]", startwatch.ElapsedMilliseconds);
-//      }
-//
-//      logger.Trace("Start Updating cache");
-//      startwatch = Stopwatch.StartNew();
-//      this.AddOrUpdateTheCache(this.DtoThingToUpdate);
-//      startwatch.Stop();
-//      logger.Trace("Updating cache took {0} [ms]", startwatch.ElapsedMilliseconds);
-//
-//      logger.Trace("Start Resolving properties");
-//      startwatch = Stopwatch.StartNew();
-//      PocoThingFactory.ResolveDependencies(this.DtoThingToUpdate, this.Cache);
-//      startwatch.Stop();
-//      logger.Trace("Resolving properties took {0} [ms]", startwatch.ElapsedMilliseconds);
-//
-//      // validate POCO's
-//      logger.Trace("Start validating Things");
-//      startwatch = Stopwatch.StartNew();
-//      foreach (var dtoThing in this.DtoThingToUpdate)
-//      {
-//        Lazy<Thing> updatedLazyThing;
-//        var cacheKey = new CacheKey(dtoThing.Iid, dtoThing.IterationContainerId);
-//        var succeed = this.Cache.TryGetValue(cacheKey, out updatedLazyThing);
-//
-//        if (succeed)
-//        {
-//          var thingObject = updatedLazyThing.Value;
-//          thingObject.ValidatePoco();
-//
-//          // add to the list of unresolved dtos if there is an error
-//          if (thingObject.ValidationErrors.Any())
-//          {
-//            this.unresolvedDtos.Add(dtoThing);
-//          }
-//        }
-//      }
-//      startwatch.Stop();
-//      logger.Trace("Validating {0} Things took {1} [ms]", this.DtoThingToUpdate.Count, startwatch.ElapsedMilliseconds);
-//
-//      // message added and updated POCO's
-//      if (activeMessageBus)
-//      {
-//        logger.Trace("Start Messaging");
-//        startwatch = Stopwatch.StartNew();
-//
-//        var messageCounter = 0;
-//
-//        foreach (var dtoThing in this.DtoThingToUpdate)
-//        {
-//          Lazy<Thing> updatedLazyThing;
-//          var cacheKey = new CacheKey(dtoThing.Iid, dtoThing.IterationContainerId);
-//          var succeed = this.Cache.TryGetValue(cacheKey, out updatedLazyThing);
-//
-//          if (succeed)
-//          {
-//            var thingObject = updatedLazyThing.Value;
-//            var cacheId = new CacheKey(dtoThing.Iid, dtoThing.IterationContainerId);
-//            if (!existentUUID.Select(x => x.Item1).Contains(cacheId))
-//            {
-//              CDPMessageBus.Current.SendObjectChangeEvent(thingObject, EventKind.Added);
-//              messageCounter++;
-//            }
-//                            else if (dtoThing.RevisionNumber > existentUUID.Single(x => x.Item1.Equals(cacheId)).Item2)
-//            {
-//              // send event only if revision number has increased from the old cached version
-//              CDPMessageBus.Current.SendObjectChangeEvent(thingObject, EventKind.Updated);
-//              messageCounter++;
-//            }
-//          }
-//        }
-//
-//        startwatch.Stop();
-//        logger.Trace("Messaging {0} Things took {1} [ms]", messageCounter, startwatch.ElapsedMilliseconds);
-//      }
-//
-//      logger.Trace("Start Deleting things");
-//      startwatch = Stopwatch.StartNew();
-//      foreach (var markedThing in this.thingsMarkedForDeletion.Where(x => x.ChangeKind == ChangeKind.Delete))
-//      {
-//        this.RemoveThingFromCache(markedThing);
-//      }
-//
-//      var deletedIterationSetups = this.DtoThingToUpdate.OfType<CDP4Common.DTO.IterationSetup>().Where(x => x.IsDeleted).ToList();
-//      var deletedModelSetups = this.thingsMarkedForDeletion.OfType<EngineeringModelSetup>().ToList();
-//      this.thingsMarkedForDeletion.Clear();
-//
-//      if (deletedIterationSetups.Any())
-//      {
-//        foreach (var deletedIterationSetup in deletedIterationSetups)
-//        {
-//          this.MarkAndDelete(deletedIterationSetup.IterationIid);
-//        }
-//      }
-//
-//      if (deletedModelSetups.Any())
-//      {
-//        foreach (var deletedModelSetup in deletedModelSetups)
-//        {
-//          this.MarkAndDelete(deletedModelSetup.EngineeringModelIid);
-//        }
-//      }
-//
-//      startwatch.Stop();
-//      logger.Trace("Deleting things took {0} [ms]", startwatch.ElapsedMilliseconds);
-//
-//      this.DtoThingToUpdate.Clear();
-//
-//      if (this.siteDirectory == null)
-//      {
-//        var keyvaluepair = this.Cache.Single(item => item.Value.Value.ClassKind == ClassKind.SiteDirectory);
-//        this.siteDirectory = (SiteDirectory)keyvaluepair.Value.Value;
-//      }
-//
-//      logger.Info("Finish Synchronization of {0} in {1} [ms]", this.IDalUri, synchronizeStopWatch.ElapsedMilliseconds);
-//    }
-//    catch (Exception e)
-//    {
-//      logger.Error(e.Message);
-//    }
-//    finally
-//    {
-//      this.threadLock.Release();
-//      logger.Trace("Assembler thread released");
-//    }
-//  }
-//
-//  /**
-//  * For each DTO that is coming from the data-source, create a clone of the associated cached POCO
-//  * and store this clone in the {@link Thing.Revisions} dictionary
-//  *
-//  * @param dtoThings
-//  * the DTO's coming from the data-source
-//  *
-//  *
-//  * If the revision of the DTO is smaller that the revision of the the cached POCO, it is a DTO that represents
-//  * the state of a DTO from the past.
-//  */
-//  private void UpdateThingRevisions(IEnumerable<CDP4Common.DTO.Thing> dtoThings)
-//  {
-//    // create and store a shallow clone of the a current cached Thing
-//    var revisionCloneWatch = Stopwatch.StartNew();
-//
-//    foreach (var dto in dtoThings)
-//    {
-//      var cacheKey = new CacheKey(dto.Iid, dto.IterationContainerId);
-//
-//      if (this.Cache.TryGetValue(cacheKey, out var currentCachedThing))
-//      {
-//        var currentThing = currentCachedThing.Value;
-//
-//        if (dto.RevisionNumber > currentThing.RevisionNumber)
-//        {
-//          if (!currentThing.Revisions.ContainsKey(currentThing.RevisionNumber))
-//          {
-//            currentThing.Revisions.Add(currentThing.RevisionNumber, currentThing.Clone(false));
-//            logger.Trace("Revision {0} added to Revisions of {1}:{2}", currentThing.RevisionNumber, currentThing.ClassKind, currentThing.Iid);
-//          }
-//          else
-//          {
-//            logger.Trace("Revision {0} of Thing {1}:{2} already exists in the Thing.Revisions cache", currentThing.RevisionNumber, currentThing.ClassKind, currentThing.Iid);
-//          }
-//
-//          continue;
-//        }
-//
-//        if (dto.RevisionNumber == currentThing.RevisionNumber)
-//        {
-//          logger.Trace("A DTO with revision {0} equal to the revision of the existing POCO {1}:{2}:{3} has been identified; The data-source has sent a revision of an object that is already present in the cache",
-//              dto.RevisionNumber, currentThing.ClassKind, currentThing.CacheKey.Thing, currentThing.CacheKey.Iteration);
-//
-//          continue;
-//        }
-//
-//        if (dto.RevisionNumber < currentThing.RevisionNumber)
-//        {
-//          logger.Trace("A DTO with revision {0} smaller than the revision {1} of the existing POCO {2}:{3} has been identified, the data; The data-source has sent a revision from the past",
-//              dto.RevisionNumber, currentThing.RevisionNumber, currentThing.CacheKey.Thing, currentThing.CacheKey.Iteration);
-//        }
-//      }
-//    }
-//
-//    logger.Info("Updating Thing.Revisions took {0} [ms]", revisionCloneWatch.ElapsedMilliseconds);
-//  }
-//
-//  /**
-//  * Clears the cache and sends removed event for the following classes:
-//  * {@link EngineeringModel}, {@link EngineeringModelSetup}, {@link Iteration}, {@link IterationSetup}
-//  *
-//  * @returnThe {@link Task}
-//   */
-//  public async Task Clear()
-//  {
-//    await this.threadLock.WaitAsync().ConfigureAwait(false);
-//    try
-//    {
-//      var iterations =
-//          this.Cache.Select(x => x.Value)
-//                        .Where(lazy => lazy.Value.ClassKind == ClassKind.Iteration)
-//                        .Select(lazy => lazy.Value)
-//                        .Cast<Iteration>();
-//
-//      foreach (var iteration in iterations)
-//      {
-//        if (iteration.IterationSetup != null)
-//        {
-//          CDPMessageBus.Current.SendObjectChangeEvent(iteration.IterationSetup, EventKind.Removed);
-//          logger.Trace("IterationSetup with iid {0} removed", iteration.IterationSetup.Iid);
-//        }
-//
-//        CDPMessageBus.Current.SendObjectChangeEvent(iteration, EventKind.Removed);
-//        logger.Trace("Iteration with iid {0} removed", iteration.Iid);
-//      }
-//
-//      var models =
-//          this.Cache.Select(x => x.Value)
-//                        .Where(lazy => lazy.Value.ClassKind == ClassKind.EngineeringModel)
-//                        .Select(lazy => lazy.Value)
-//                        .Cast<EngineeringModel>();
-//
-//      foreach (var model in models)
-//      {
-//        if (model.EngineeringModelSetup != null)
-//        {
-//          CDPMessageBus.Current.SendObjectChangeEvent(model.EngineeringModelSetup, EventKind.Removed);
-//          logger.Trace("EngineeringModelSetup with iid {0} removed", model.EngineeringModelSetup.Iid);
-//        }
-//
-//        CDPMessageBus.Current.SendObjectChangeEvent(model, EventKind.Removed);
-//        logger.Trace("Model with iid {0} removed", model.Iid);
-//      }
-//
-//      this.siteDirectory = null;
-//      this.Cache.Clear();
-//    }
-//    catch (Exception e)
-//    {
-//      logger.Error(e.Message);
-//    }
-//    finally
-//    {
-//      this.threadLock.Release();
-//    }
-//  }
-//
-//  /**
-//  * Close a {@link ReferenceDataLibrary} by clearing all its contained elements
-//  *
-//  * @param rdlThe {@link ReferenceDataLibrary} to close
-//  * @returnThe async {@link Task}
-//   */
-//  public async Task CloseRdl(ReferenceDataLibrary rdl)
-//  {
-//    await this.threadLock.WaitAsync().ConfigureAwait(false);
-//    try
-//    {
-//      var startwatch = Stopwatch.StartNew();
-//      this.thingsMarkedForDeletion = new List<Thing>();
-//      foreach (var category in rdl.DefinedCategory)
-//      {
-//        this.RecursivelyMarksForRemoval(category);
-//      }
-//
-//      foreach (var parameterType in rdl.ParameterType)
-//      {
-//        this.RecursivelyMarksForRemoval(parameterType);
-//      }
-//
-//      foreach (var measurementScale in rdl.Scale)
-//      {
-//        this.RecursivelyMarksForRemoval(measurementScale);
-//      }
-//
-//      foreach (var unitPrefix in rdl.UnitPrefix)
-//      {
-//        this.RecursivelyMarksForRemoval(unitPrefix);
-//      }
-//
-//      foreach (var measurementUnit in rdl.Unit)
-//      {
-//        this.RecursivelyMarksForRemoval(measurementUnit);
-//      }
-//
-//      foreach (var filetype in rdl.FileType)
-//      {
-//        this.RecursivelyMarksForRemoval(filetype);
-//      }
-//
-//      foreach (var glossary in rdl.Glossary)
-//      {
-//        this.RecursivelyMarksForRemoval(glossary);
-//      }
-//
-//      foreach (var referenceSource in rdl.ReferenceSource)
-//      {
-//        this.RecursivelyMarksForRemoval(referenceSource);
-//      }
-//
-//      foreach (var rule in rdl.Rule)
-//      {
-//        this.RecursivelyMarksForRemoval(rule);
-//      }
-//
-//      foreach (var constant in rdl.Constant)
-//      {
-//        this.RecursivelyMarksForRemoval(constant);
-//      }
-//
-//      rdl.DefinedCategory.Clear();
-//      rdl.ParameterType.Clear();
-//      rdl.Scale.Clear();
-//      rdl.UnitPrefix.Clear();
-//      rdl.Unit.Clear();
-//      rdl.FileType.Clear();
-//      rdl.Glossary.Clear();
-//      rdl.ReferenceSource.Clear();
-//      rdl.Rule.Clear();
-//      rdl.Constant.Clear();
-//      rdl.BaseQuantityKind.Clear();
-//      rdl.BaseUnit.Clear();
-//
-//      foreach (var thing in this.thingsMarkedForDeletion)
-//      {
-//        this.RemoveThingFromCache(thing);
-//      }
-//
-//      CDPMessageBus.Current.SendObjectChangeEvent(rdl, EventKind.Updated);
-//
-//      this.thingsMarkedForDeletion.Clear();
-//      logger.Trace("Finish closing of {0} ({1}) in {2} [ms]", rdl.Name, this.IDalUri, startwatch.ElapsedMilliseconds);
-//    }
-//    catch (Exception e)
-//    {
-//      logger.Error(e.Message);
-//    }
-//    finally
-//    {
-//      this.threadLock.Release();
-//    }
-//  }
-//
-//  /**
-//  * Close a {@link ReferenceDataLibrary} by clearing all its contained elements
-//  *
-//  * @param iterationSetup
-//  * The {@link IterationSetup} to close
-//  *
-//  * @return
-//  * The {@link Task}.
-//  */
-//  public async Task CloseIterationSetup(IterationSetup iterationSetup)
-//  {
-//    await this.threadLock.WaitAsync().ConfigureAwait(false);
-//    try
-//    {
-//      Lazy<Thing> lazyIteration;
-//      var cacheKey = new CacheKey(iterationSetup.IterationIid, null);
-//
-//      if (!this.Cache.TryGetValue(cacheKey, out lazyIteration))
-//      {
-//        this.threadLock.Release();
-//        return;
-//      }
-//
-//      var iteration = lazyIteration.Value as Iteration;
-//      if (iteration == null)
-//      {
-//        this.threadLock.Release();
-//        return;
-//      }
-//
-//      // Delete from the cache all things contained by the iteration without blocking the UI
-//      await this.ClearFromCacheThingsContainedByIteration(iteration);
-//    }
-//    catch (Exception e)
-//    {
-//      logger.Error(e.Message);
-//    }
-//    finally
-//    {
-//      this.threadLock.Release();
-//    }
-//  }
-//
-//  /**
-//  * Clear from cache things contained by iteration.
-//  *
-//  * @param iteration
-//  * The iteration.
-//  *
-//  * @return
-//  * The {@link Task}.
-//  */
-//  private async Task ClearFromCacheThingsContainedByIteration(Iteration iteration)
-//  {
-//    var startwatch = Stopwatch.StartNew();
-//
-//    this.thingsMarkedForDeletion = new List<Thing>();
-//    this.RecursivelyMarksForRemoval(iteration);
-//    foreach (var thing in this.thingsMarkedForDeletion)
-//    {
-//      this.RemoveThingFromCache(thing);
-//    }
-//
-//    this.thingsMarkedForDeletion.Clear();
-//    logger.Trace("Finish closing iteration {0} ({1}) in {2} [ms]", iteration.Iid, this.IDalUri, startwatch.ElapsedMilliseconds);
-//  }
-//
-//  /**
-//  * Retrieves the single {@link SiteDirectory} of this {@link Assembler}
-//  *
-//  * @returnThe {@link SiteDirectory}
-//   */
-//  public SiteDirectory RetrieveSiteDirectory()
-//  {
-//    return this.siteDirectory;
-//  }
-//
-//  /**
-//  * Checks the status of the updated {@link Dto}s in the Cache
-//  */
-//  private void ComputeThingsToRemoveInUpdatedThings()
-//  {
-//    foreach (var dtoThing in this.DtoThingToUpdate)
-//    {
-//      this.ComputeThingsToRemove(dtoThing);
-//    }
-//  }
-//
-//  /**
-//  * Removes {@link Thing}s part of a composition with the {@link Thing} associated to the {@link CDP4Common.DTO.Thing} if the references are no longer in the updated {@link CDP4Common.DTO.Thing}
-//  *
-//  * @param dtoThingthe {@link CDP4Common.DTO.Thing} to check
-//   */
-//  private void ComputeThingsToRemove(Dto dtoThing)
-//  {
-//    Lazy<Thing> cachedLazyThing;
-//    var cacheKey = new CacheKey(dtoThing.Iid, dtoThing.IterationContainerId);
-//    if (!this.Cache.TryGetValue(cacheKey, out cachedLazyThing))
-//    {
-//      return;
-//    }
-//
-//    var dtoContainedUUID = this.ComputeContainedUUID(dtoThing);
-//    var pocoContainedThing = this.ComputeContainedThing(cachedLazyThing.Value);
-//
-//    var thingsToRemove = pocoContainedThing.Where(poco => !dtoContainedUUID.Contains(poco.Iid)).ToList();
-//    foreach (var thing in thingsToRemove)
-//    {
-//      // isPersistent
-//      this.RecursivelyMarksForRemoval(thing);
-//    }
-//  }
-//
-//  /**
-//  * Get the non-persistent property type in a {@link Thing}
-//  *
-//  * @param thingThe {@link Thing}
-//  * @returnAn {@link List{Type}} containing the type of {@link Thing}s that are not persistent in the <paramref name="thing"/>
-//   */
-//  private List<Type> ComputeNonPersistentPropertyType(Thing thing)
-//  {
-//    var nonPersistentType = new List<Type>();
-//
-//    var propInfos = thing.GetType().GetProperties();
-//    foreach (var propertyInfo in propInfos)
-//    {
-//      if(!propertyInfo.IsDefined(typeof(UmlInformationAttribute)))
-//      {
-//        continue;
-//      }
-//
-//      var metadata = propertyInfo.GetCustomAttribute<UmlInformationAttribute>();
-//      if (metadata.Aggregation == AggregationKind.Composite && !metadata.IsPersistent)
-//      {
-//        nonPersistentType.Add(propertyInfo.PropertyType.GetGenericArguments().Single());
-//      }
-//    }
-//
-//    return nonPersistentType;
-//  }
-//
-//  /**
-//  * Compute the contained {@link UUID} for a {@link Dto}
-//  *
-//  * @param dtoThe {@link Dto} to compute
-//  * @returnAn {@link List{UUID}} containing all the contained {@link UUID}
-//   */
-//  private List<UUID> ComputeContainedUUID(Dto dto)
-//  {
-//    var containedUUID = new List<UUID>();
-//    foreach (var container in dto.ContainerLists)
-//    {
-//      foreach (var obj in container)
-//      {
-//        var orderedItem = obj as OrderedItem;
-//        if (orderedItem != null)
-//        {
-//          containedUUID.Add(new UUID(orderedItem.V.ToString()));
-//        }
-//        else
-//        {
-//          containedUUID.Add((UUID)obj);
-//        }
-//      }
-//    }
-//
-//    return containedUUID;
-//  }
-//
-//  /**
-//  * Compute the contained {@link Thing} for a {@link Thing}
-//  *
-//  * @param thingThe {@link Thing} to compute
-//  * @returnAn {@link List{Thing}} containing all the contained {@link Thing}
-//   */
-//  private List<Thing> ComputeContainedThing(Thing thing)
-//  {
-//    var containedUUID = new List<Thing>();
-//    var nonPersistentType = this.ComputeNonPersistentPropertyType(thing);
-//
-//    foreach (var container in thing.ContainerLists)
-//    {
-//      var type = container.GetType();
-//      var genericType = type.GetGenericArguments().Single();
-//      if (nonPersistentType.Contains(genericType))
-//      {
-//        // non-persistent things are not added
-//        continue;
-//      }
-//
-//      containedUUID.AddRange(from Thing containedThing in container select containedThing);
-//    }
-//
-//    return containedUUID;
-//  }
-//
-//  /**
-//  * Recursively marks a {@link Thing} for removal and all its contained {@link Thing}
-//  *
-//  * @param thingToRemovethe {@link Thing} to remove
-//   */
-//  private void RecursivelyMarksForRemoval(Thing thingToRemove)
-//  {
-//    foreach (var containerList in thingToRemove.ContainerLists)
-//    {
-//      foreach (Thing thing in containerList)
-//      {
-//        this.RecursivelyMarksForRemoval(thing);
-//      }
-//    }
-//
-//    // marks thing for deletion
-//    thingToRemove.ChangeKind = ChangeKind.Delete;
-//    this.thingsMarkedForDeletion.Add(thingToRemove);
-//  }
-//
-//  /**
-//  * Remove a {@link Thing} from the cache
-//  *
-//  * @param thingToRemoveThe {@link Thing} to remove
-//  * @returnTrue if the operation succeeded
-//   */
-//  private bool RemoveThingFromCache(Thing thingToRemove)
-//  {
-//    Lazy<Thing> outLazy;
-//    var succeed = this.Cache.TryRemove(thingToRemove.CacheKey, out outLazy);
-//    if (succeed)
-//    {
-//      if (outLazy.Value is Relationship relationship)
-//      {
-//        relationship.CleanReferencedThingRelationship();
-//      }
-//
-//      CDPMessageBus.Current.SendObjectChangeEvent(outLazy.Value, EventKind.Removed);
-//    }
-//
-//    logger.Trace("Remove of thing with Iid {0} succeeded : {1}", thingToRemove, succeed);
-//    return succeed;
-//  }
-//
-//  /**
-//  * Add/Update a set of {key, value} in the cache with POCO which referenced properties have not been resolved yet
-//  *
-//  * @param dtoThingsthe DTO {@link Thing} with data
-//   */
-//  private void AddOrUpdateTheCache(IEnumerable<CDP4Common.DTO.Thing> dtoThings)
-//  {
-//    var dtolist = dtoThings.ToList();
-//
-//    foreach (var dto in dtolist)
-//    {
-//      if (dto.Iid == UUID.Empty)
-//      {
-//        throw new ArgumentException($"Cannot add DTO with a UUID.Empty reference to the Cache: {dto.ClassKind}");
-//      }
-//
-//      var cacheKey = new CacheKey(dto.Iid, dto.IterationContainerId);
-//      this.Cache.AddOrUpdate(cacheKey, new Lazy<Thing>(() => dto.InstantiatePoco(this.Cache, this.IDalUri)), (key, oldValue) => oldValue);
-//    }
-//  }
-//
-//  /**
-//  * Delete all {@link Thing}s contained the {@link Thing} with the given {@link UUID}
-//  *
-//  * @param guidThe {@link UUID}
-//  *
-//  * This is used to delete {@link Iteration} and {@link EngineeringModel} when thei respective setup was deleted
-//  */
-//  private void MarkAndDelete(UUID guid)
-//  {
-//    Lazy<Thing> lazy;
-//    if (this.Cache.TryGetValue(new CacheKey(guid, null), out lazy))
-//    {
-//      this.thingsMarkedForDeletion.Clear();
-//      this.RecursivelyMarksForRemoval(lazy.Value);
-//      foreach (var markedThing in this.thingsMarkedForDeletion)
-//      {
-//        this.RemoveThingFromCache(markedThing);
-//      }
-//
-//      this.thingsMarkedForDeletion.Clear();
-//    }
-//  }
+
+  /**
+   * The {@link URI} associated with this assembler
+   */
+  @Getter
+  private final URI dalUri;
+
+  /**
+   * The lock object
+   */
+  private Semaphore threadLock = new Semaphore(1);
+
+  /**
+   * The unique {@link SiteDirectory}
+   */
+  private SiteDirectory siteDirectory;
+
+  /**
+   * The list of {@link Thing} marked for deletion
+   */
+  private List<Thing> thingsMarkedForDeletion;
+
+  /**
+   * The {@link List} not completely resolved that are in the cache.
+   */
+  private List<cdp4common.dto.Thing> unresolvedDtos;
+
+  /**
+   * Initializes a new instance of the {@link Assembler} class.
+   *
+   * @param uri The {@link URI} associated with this {@link Assembler}.
+   */
+  public Assembler(URI uri) {
+    Utils.assertNotNull(uri, "The URI may not be null");
+
+    this.cache = CacheBuilder.newBuilder().build();
+    this.unresolvedDtos = new ArrayList<>();
+    this.dalUri = uri;
+  }
+
+  /**
+   * Gets the Cache that contains all the {@link Thing}s
+   */
+  @Getter
+  private Cache<CacheKey, Thing> cache;
+
+  /**
+   * Gets or sets the list of {@link cdp4common.dto.Thing} to update
+   */
+  @Getter
+  @Setter
+  private List<cdp4common.dto.Thing> dtoThingToUpdate;
+
+  /**
+   * Synchronize the Cache give a {@link List} of DTO {@link Thing}.
+   *
+   * @param dtoThings The DTOs.
+   * @param activeMessageBus An optional value indicating whether the {@link CDPMessageBus} should
+   * publish {@link ObjectChangedEvent} or not.
+   * @return The {@link CompletableFuture} that can be awaited.
+   */
+  public CompletableFuture<Void> synchronize(List<cdp4common.dto.Thing> dtoThings,
+      boolean activeMessageBus) {
+    if (dtoThings == null) {
+      throw new NullPointerException("The dtoThings may not be null.");
+    }
+
+    return CompletableFuture.runAsync(() -> {
+      try {
+        this.threadLock.acquire();
+        var synchronizeStopWatch = Stopwatch.createStarted();
+
+        log.info("Start Synchronization of {}", this.dalUri);
+
+        this.updateThingRevisions(dtoThings);
+
+        this.thingsMarkedForDeletion = new ArrayList<>();
+
+        log.trace("Starting Clean-up Unused references");
+        var startWatch = Stopwatch.createStarted();
+
+        var existentUUID =
+            this.cache
+                .asMap()
+                .entrySet()
+                .stream()
+                .map(x -> Pair.of(x.getKey(), x.getValue().getRevisionNumber()))
+                .collect(Collectors.toList());
+
+        this.dtoThingToUpdate = Lists.newArrayList(dtoThings);
+
+        // Add the unresolved thing to the things to resolved in case it is possible to fully resolve
+        // them with the current update. An example would be Citation contained by SiteDirectory
+        // where its Source is contained by a Rdl that is not loaded yet
+        var unresolvedThingToUpdate = this.unresolvedDtos
+            .stream()
+            .filter(x -> !this.dtoThingToUpdate.stream().map(cdp4common.dto.Thing::getIid)
+                .collect(Collectors.toList()).contains(x.getIid()))
+            .collect(Collectors.toList());
+
+        this.dtoThingToUpdate.addAll(unresolvedThingToUpdate);
+        this.unresolvedDtos.clear();
+
+        if (this.cache.size() != 0) {
+          // marks things for deletion
+          this.computeThingsToRemoveInUpdatedThings();
+          startWatch.stop();
+          log.trace("Clean up Unused references took {} [ms]",
+              startWatch.elapsed(TimeUnit.MILLISECONDS));
+        }
+
+        log.trace("Start Updating cache");
+        startWatch = Stopwatch.createStarted();
+        this.addOrUpdateTheCache(this.dtoThingToUpdate);
+        startWatch.stop();
+        log.trace("Updating cache took {} [ms]", startWatch.elapsed(TimeUnit.MILLISECONDS));
+
+        log.trace("Start Resolving properties");
+        startWatch = Stopwatch.createStarted();
+        PojoThingFactory.resolveDependencies(this.dtoThingToUpdate, this.cache);
+        startWatch.stop();
+        log.trace("Resolving properties took {} [ms]", startWatch.elapsed(TimeUnit.MILLISECONDS));
+
+        // validate POJO's
+        log.trace("Start validating Things");
+        startWatch = Stopwatch.createStarted();
+        for (var dtoThing : this.dtoThingToUpdate) {
+          var cacheKey = new CacheKey(dtoThing.getIid(), dtoThing.getIterationContainerId());
+          var updatedThing = this.cache.getIfPresent(cacheKey);
+
+          if (updatedThing != null) {
+            updatedThing.validatePojo();
+
+            // add to the list of unresolved dtos if there is an error
+            if (!updatedThing.getValidationErrors().isEmpty()) {
+              this.unresolvedDtos.add(dtoThing);
+            }
+          }
+        }
+        startWatch.stop();
+        log.trace("Validating {} Things took {} [ms]", this.dtoThingToUpdate.size(),
+            startWatch.elapsed(TimeUnit.MILLISECONDS));
+
+        // message added and updated POJO's
+        if (activeMessageBus) {
+          log.trace("Start Messaging");
+          startWatch = Stopwatch.createStarted();
+
+          var messageCounter = 0;
+
+          for (var dtoThing : this.dtoThingToUpdate) {
+            var cacheKey = new CacheKey(dtoThing.getIid(), dtoThing.getIterationContainerId());
+            var updatedThing = this.cache.getIfPresent(cacheKey);
+
+            if (updatedThing != null) {
+              var cacheId = new CacheKey(dtoThing.getIid(), dtoThing.getIterationContainerId());
+              if (!existentUUID.stream().map(Pair::getLeft).collect(Collectors.toList())
+                  .contains(cacheId)) {
+                CDPMessageBus.getCurrent().sendObjectChangeEvent(updatedThing, EventKind.ADDED);
+                messageCounter++;
+              } else if (dtoThing.getRevisionNumber() > existentUUID.stream()
+                  .filter(x -> x.getLeft().equals(cacheId)).collect(
+                      MoreCollectors.onlyElement()).getRight()) {
+                // send event only if revision number has increased from the old cached version
+                CDPMessageBus.getCurrent().sendObjectChangeEvent(updatedThing, EventKind.UPDATED);
+                messageCounter++;
+              }
+            }
+          }
+
+          startWatch.stop();
+          log.trace("Messaging {} Things took {} [ms]", messageCounter,
+              startWatch.elapsed(TimeUnit.MILLISECONDS));
+        }
+
+        log.trace("Start Deleting things");
+        startWatch = Stopwatch.createStarted();
+        for (var markedThing : this.thingsMarkedForDeletion.stream()
+            .filter(x -> x.getChangeKind() == ChangeKind.DELETE).collect(Collectors.toList())) {
+          this.removeThingFromCache(markedThing);
+        }
+
+        List<IterationSetup> deletedIterationSetups = this.dtoThingToUpdate
+            .stream()
+            .filter(x -> x instanceof cdp4common.dto.IterationSetup)
+            .map(x -> (IterationSetup) x)
+            .filter(IterationSetup::isDeleted)
+            .collect(Collectors.toList());
+
+        var deletedModelSetups = this.thingsMarkedForDeletion
+            .stream()
+            .filter(x -> x instanceof EngineeringModelSetup)
+            .map(x -> (EngineeringModelSetup) x)
+            .collect(Collectors.toList());
+
+        this.thingsMarkedForDeletion.clear();
+
+        if (deletedIterationSetups.size() > 0) {
+          for (var deletedIterationSetup : deletedIterationSetups) {
+            this.markAndDelete(deletedIterationSetup.getIterationIid());
+          }
+        }
+
+        if (deletedModelSetups.size() > 0) {
+          for (var deletedModelSetup : deletedModelSetups) {
+            this.markAndDelete(deletedModelSetup.getEngineeringModelIid());
+          }
+        }
+
+        startWatch.stop();
+        log.trace("Deleting things took {} [ms]", startWatch.elapsed(TimeUnit.MILLISECONDS));
+
+        this.dtoThingToUpdate.clear();
+
+        if (this.siteDirectory == null) {
+          var keyValuePair =
+              this.cache.asMap().entrySet()
+                  .stream()
+                  .filter(item -> item.getValue().getClassKind() == ClassKind.SITE_DIRECTORY)
+                  .collect(
+                      MoreCollectors.onlyElement());
+
+          this.siteDirectory = (SiteDirectory) keyValuePair.getValue();
+        }
+
+        log.info("Finish Synchronization of {} in {} [ms]", this.dalUri,
+            synchronizeStopWatch.elapsed(TimeUnit.MILLISECONDS));
+      } catch (InterruptedException e) {
+        log.error("Unexpectedly synchronization thread was interrupted with message: {}",
+            e.getMessage());
+      } catch (Exception e) {
+        log.error(e.getMessage());
+      } finally {
+        this.threadLock.release();
+        log.trace("Assembler thread released");
+      }
+    });
+  }
+
+  /**
+   * For each DTO that is coming from the data-source, create a clone of the associated cached POJO
+   * and store this clone in the {@link Thing#getRevisions()} dictionary. If the revision of the DTO
+   * is smaller that the revision of the the cached POJO, it is a DTO that represents the state of a
+   * DTO from the past.
+   *
+   * @param dtoThings the DTO's coming from the data-source.
+   */
+  private void updateThingRevisions(List<cdp4common.dto.Thing> dtoThings) {
+    // create and store a shallow clone of the a current cached Thing
+    var revisionCloneWatch = Stopwatch.createStarted();
+
+    for (var dto : dtoThings) {
+      var cacheKey = new CacheKey(dto.getIid(), dto.getIterationContainerId());
+
+      var currentThing = this.cache.getIfPresent(cacheKey);
+      if (currentThing != null) {
+        if (dto.getRevisionNumber() > currentThing.getRevisionNumber()) {
+          if (!currentThing.getRevisions().containsKey(currentThing.getRevisionNumber())) {
+            currentThing.getRevisions()
+                .put(currentThing.getRevisionNumber(), currentThing.clone(false));
+            log.trace("Revision {} added to Revisions of {}:{}", currentThing.getRevisionNumber(),
+                currentThing.getClassKind(), currentThing.getIid());
+          } else {
+            log.trace("Revision {} of Thing {}:{} already exists in the Thing.Revisions cache",
+                currentThing.getRevisionNumber(), currentThing.getClassKind(),
+                currentThing.getIid());
+          }
+
+          continue;
+        }
+
+        if (dto.getRevisionNumber() == currentThing.getRevisionNumber()) {
+          log.trace(
+              "A DTO with revision {} equal to the revision of the existing POJO {}:{}:{} has been identified; The data-source has sent a revision of an object that is already present in the cache",
+              dto.getRevisionNumber(), currentThing.getClassKind(),
+              currentThing.getCacheKey().getThing(), currentThing.getCacheKey().getIteration());
+
+          continue;
+        }
+
+        if (dto.getRevisionNumber() < currentThing.getRevisionNumber()) {
+          log.trace(
+              "A DTO with revision {} smaller than the revision {} of the existing POJO {}:{} has been identified, the data; The data-source has sent a revision from the past",
+              dto.getRevisionNumber(), currentThing.getRevisionNumber(),
+              currentThing.getCacheKey().getThing(), currentThing.getCacheKey().getIteration());
+        }
+      }
+    }
+
+    log.info("Updating Thing.Revisions took {} [ms]",
+        revisionCloneWatch.elapsed(TimeUnit.MILLISECONDS));
+  }
+
+  /**
+   * Clears the cache and sends removed event for the following classes: {@link EngineeringModel},
+   * {@link EngineeringModelSetup}, {@link Iteration}, {@link IterationSetup}
+   *
+   * @return The {@link CompletableFuture}.
+   */
+  public CompletableFuture<Void> clear() {
+    return CompletableFuture.runAsync(() -> {
+      try {
+        this.threadLock.acquire();
+        var iterations =
+            this.cache
+                .asMap()
+                .values()
+                .stream()
+                .filter(x -> x.getClassKind() == ClassKind.ITERATION)
+                .map(x -> (Iteration) x)
+                .collect(Collectors.toList());
+
+        for (var iteration : iterations) {
+          if (iteration.getIterationSetup() != null) {
+            CDPMessageBus.getCurrent()
+                .sendObjectChangeEvent(iteration.getIterationSetup(), EventKind.REMOVED);
+            log.trace("IterationSetup with iid {} removed", iteration.getIterationSetup().getIid());
+          }
+
+          CDPMessageBus.getCurrent().sendObjectChangeEvent(iteration, EventKind.REMOVED);
+          log.trace("Iteration with iid {} removed", iteration.getIid());
+        }
+
+        var models =
+            this.cache
+                .asMap()
+                .values()
+                .stream()
+                .filter(x -> x.getClassKind() == ClassKind.ENGINEERING_MODEL)
+                .map(x -> (EngineeringModel) x)
+                .collect(Collectors.toList());
+
+        for (var model : models) {
+          if (model.getEngineeringModelSetup() != null) {
+            CDPMessageBus.getCurrent()
+                .sendObjectChangeEvent(model.getEngineeringModelSetup(), EventKind.REMOVED);
+            log.trace("EngineeringModelSetup with iid {} removed",
+                model.getEngineeringModelSetup().getIid());
+          }
+
+          CDPMessageBus.getCurrent().sendObjectChangeEvent(model, EventKind.REMOVED);
+          log.trace("Model with iid {} removed", model.getIid());
+        }
+
+        this.siteDirectory = null;
+        this.cache.invalidateAll();
+      } catch (InterruptedException e) {
+        log.error("Unexpectedly clear thread was interrupted with message: {}", e.getMessage());
+      } catch (Exception e) {
+        log.error(e.getMessage());
+      } finally {
+        this.threadLock.release();
+      }
+    });
+  }
+
+  /**
+   * Close a {@link ReferenceDataLibrary} by clearing all its contained elements.
+   *
+   * @param rdl The {@link ReferenceDataLibrary} to close.
+   * @return The {@link CompletableFuture}.
+   */
+  public CompletableFuture<Void> closeRdl(ReferenceDataLibrary rdl) {
+    return CompletableFuture.runAsync(() -> {
+      try {
+        this.threadLock.acquire();
+        var startWatch = Stopwatch.createStarted();
+        this.thingsMarkedForDeletion = new ArrayList<>();
+
+        rdl.getDefinedCategory().forEach(this::recursivelyMarksForRemoval);
+        rdl.getParameterType().forEach(this::recursivelyMarksForRemoval);
+        rdl.getScale().forEach(this::recursivelyMarksForRemoval);
+        rdl.getUnitPrefix().forEach(this::recursivelyMarksForRemoval);
+        rdl.getUnit().forEach(this::recursivelyMarksForRemoval);
+        rdl.getFileType().forEach(this::recursivelyMarksForRemoval);
+        rdl.getGlossary().forEach(this::recursivelyMarksForRemoval);
+        rdl.getReferenceSource().forEach(this::recursivelyMarksForRemoval);
+        rdl.getRule().forEach(this::recursivelyMarksForRemoval);
+        rdl.getConstant().forEach(this::recursivelyMarksForRemoval);
+
+        rdl.getDefinedCategory().clear();
+        rdl.getParameterType().clear();
+        rdl.getScale().clear();
+        rdl.getUnitPrefix().clear();
+        rdl.getUnit().clear();
+        rdl.getFileType().clear();
+        rdl.getGlossary().clear();
+        rdl.getReferenceSource().clear();
+        rdl.getRule().clear();
+        rdl.getConstant().clear();
+        rdl.getBaseQuantityKind().clear();
+        rdl.getBaseUnit().clear();
+
+        for (var thing : this.thingsMarkedForDeletion) {
+          this.removeThingFromCache(thing);
+        }
+
+        CDPMessageBus.getCurrent().sendObjectChangeEvent(rdl, EventKind.UPDATED);
+
+        this.thingsMarkedForDeletion.clear();
+        log.trace("Finish closing of {} ({}) in {} [ms]", rdl.getName(), this.dalUri,
+            startWatch.elapsed(TimeUnit.MILLISECONDS));
+      } catch (InterruptedException e) {
+        log.error("Unexpectedly close RDL thread was interrupted with message: {}", e.getMessage());
+      } catch (Exception e) {
+        log.error(e.getMessage());
+      } finally {
+        this.threadLock.release();
+      }
+    });
+  }
+
+  /**
+   * Close a {@link ReferenceDataLibrary} by clearing all its contained elements.
+   *
+   * @param iterationSetup The {@link IterationSetup} to close.
+   * @return The {@link CompletableFuture}.
+   */
+  public CompletableFuture<Void> closeIterationSetup(
+      cdp4common.sitedirectorydata.IterationSetup iterationSetup) {
+    return CompletableFuture.runAsync(() -> {
+      try {
+        this.threadLock.acquire();
+        var cacheKey = new CacheKey(iterationSetup.getIterationIid(), null);
+        var iterationFromCache = this.cache.getIfPresent(cacheKey);
+
+        if (iterationFromCache == null) {
+          this.threadLock.release();
+          return;
+        }
+
+        var iteration = as(iterationFromCache, Iteration.class);
+        if (iteration == null) {
+          this.threadLock.release();
+          return;
+        }
+
+        // Delete from the cache all things contained by the iteration without blocking the UI
+        this.clearFromCacheThingsContainedByIteration(iteration);
+      } catch (InterruptedException e) {
+        log.error("Unexpectedly close RDL thread was interrupted with message: {}", e.getMessage());
+      } catch (Exception e) {
+        log.error(e.getMessage());
+      } finally {
+        this.threadLock.release();
+      }
+    });
+  }
+
+  /**
+   * Clear from cache things contained by iteration.
+   *
+   * @param iteration The iteration.
+   */
+  private void clearFromCacheThingsContainedByIteration(Iteration iteration) {
+    var startWatch = Stopwatch.createStarted();
+
+    this.thingsMarkedForDeletion = new ArrayList<>();
+    this.recursivelyMarksForRemoval(iteration);
+    this.thingsMarkedForDeletion.forEach(this::removeThingFromCache);
+    this.thingsMarkedForDeletion.clear();
+    log.trace("Finish closing iteration {} ({}) in {} [ms]", iteration.getIid(), this.dalUri,
+        startWatch.elapsed(TimeUnit.MILLISECONDS));
+  }
+
+  /**
+   * Retrieves the single {@link SiteDirectory} of this {@link Assembler}.
+   *
+   * @return The {@link SiteDirectory}.
+   */
+  public SiteDirectory retrieveSiteDirectory() {
+    return this.siteDirectory;
+  }
+
+  /**
+   * Checks the status of the updated {@code DTO}s in the Cache.
+   */
+  private void computeThingsToRemoveInUpdatedThings() {
+    for (var dtoThing : this.dtoThingToUpdate) {
+      this.computeThingsToRemove(dtoThing);
+    }
+  }
+
+  /**
+   * Removes {@link Thing}s part of a composition with the {@link Thing} associated to the {@link
+   * cdp4common.dto.Thing} if the references are no longer in the updated {@link
+   * cdp4common.dto.Thing}
+   *
+   * @param dtoThing The {@link cdp4common.dto.Thing} to check.
+   */
+  private void computeThingsToRemove(cdp4common.dto.Thing dtoThing) {
+    var cacheKey = new CacheKey(dtoThing.getIid(), dtoThing.getIterationContainerId());
+    var cachedThing = this.cache.getIfPresent(cacheKey);
+    if (cachedThing == null) {
+      return;
+    }
+
+    var dtoContainedUUID = this.computeContainedUUID(dtoThing);
+    var pojoContainedThing = this.computeContainedThing(cachedThing);
+
+    var thingsToRemove = pojoContainedThing
+        .stream()
+        .filter(pojo -> !dtoContainedUUID.contains(pojo.getIid()))
+        .collect(Collectors.toList());
+    for (var thing : thingsToRemove) {
+      // isPersistent
+      this.recursivelyMarksForRemoval(thing);
+    }
+  }
+
+  /**
+   * Get the non-persistent property type in a {@link Thing}.
+   *
+   * @param thing The {@link Thing}.
+   * @return An {@link List<Class>} containing the type of {@link Thing}s that are not persistent in
+   * the {@code thing}.
+   */
+  private List<Class> computeNonPersistentPropertyType(Thing thing) {
+    var nonPersistentType = new ArrayList<Class>();
+
+    var fields = FieldUtils.getFieldsWithAnnotation(thing.getClass(), UmlInformation.class);
+    for (var field : fields) {
+      var metadata = field.getAnnotation(UmlInformation.class);
+      if (metadata.aggregation() == AggregationKind.COMPOSITE && !metadata.isPersistent()) {
+        Type genericFieldType = field.getGenericType();
+        if (genericFieldType instanceof ParameterizedType) {
+          ParameterizedType aType = (ParameterizedType) genericFieldType;
+          Type[] fieldArgTypes = aType.getActualTypeArguments();
+          if (fieldArgTypes.length > 1) {
+            throw new IllegalArgumentException(
+                "Non persistent property type must not contain more than 1 generic type.");
+          }
+
+          Class fieldArgClass = (Class) fieldArgTypes[0];
+          nonPersistentType.add(fieldArgClass);
+        }
+      }
+    }
+
+    return nonPersistentType;
+  }
+
+  /**
+   * Compute the contained {@link UUID} for a {@link cdp4common.dto.Thing}.
+   *
+   * @param dto The {@link cdp4common.dto.Thing} to compute.
+   * @return A {@link List<UUID>} containing all the contained {@link UUID}.
+   */
+  private List<UUID> computeContainedUUID(cdp4common.dto.Thing dto) {
+    var containedUUID = new ArrayList<UUID>();
+    for (var container : dto.getContainerLists()) {
+      for (var obj : container) {
+        var orderedItem = as(obj, OrderedItem.class);
+        if (orderedItem != null) {
+          containedUUID.add(UUID.fromString(orderedItem.getV().toString()));
+        } else {
+          containedUUID.add((UUID) obj);
+        }
+      }
+    }
+
+    return containedUUID;
+  }
+
+  /**
+   * Compute the contained {@link Thing} for a {@link Thing}.
+   *
+   * @param thing The {@link Thing} to compute.
+   * @return A {@link List<Thing>} containing all the contained {@link Thing}.
+   */
+  private List<Thing> computeContainedThing(Thing thing) {
+    var containedUUID = new ArrayList<Thing>();
+    var nonPersistentType = this.computeNonPersistentPropertyType(thing);
+
+    for (var container : thing.getContainerLists()) {
+      if (container == null || container.isEmpty()) {
+        continue;
+      }
+
+      var type = ((List) container).get(0).getClass();
+      if (nonPersistentType.contains(type)) {
+        // non-persistent things are not added
+        continue;
+      }
+
+      containedUUID.addAll(container);
+    }
+
+    return containedUUID;
+  }
+
+  /**
+   * Recursively marks a {@link Thing} for removal and all its contained {@link Thing}.
+   *
+   * @param thingToRemove The {@link Thing} to remove.
+   */
+  private void recursivelyMarksForRemoval(Thing thingToRemove) {
+    for (var containerList : thingToRemove.getContainerLists()) {
+      for (var thing : containerList) {
+        this.recursivelyMarksForRemoval((Thing) thing);
+      }
+    }
+
+    // marks thing for deletion
+    thingToRemove.setChangeKind(ChangeKind.DELETE);
+    this.thingsMarkedForDeletion.add(thingToRemove);
+  }
+
+  /**
+   * Remove a {@link Thing} from the cache.
+   *
+   * @param thingToRemove The {@link Thing} to remove.
+   * @return True if the operation succeeded, otherwise false.
+   */
+  private boolean removeThingFromCache(Thing thingToRemove) {
+    var thing = this.cache.getIfPresent(thingToRemove.getCacheKey());
+    var succeed = thing != null;
+    if (succeed) {
+      this.cache.invalidate(thingToRemove.getCacheKey());
+      if (thing instanceof Relationship) {
+        ((Relationship) thing).cleanReferencedThingRelationship();
+      }
+
+      CDPMessageBus.getCurrent().sendObjectChangeEvent(thing, EventKind.REMOVED);
+    } else {
+      log.trace("Remove of thing with getIid() {} succeeded : {}", thingToRemove, succeed);
+    }
+    return succeed;
+  }
+
+  /**
+   * Add/Update a set of {key, value} in the cache with POJO which referenced properties have not
+   * been resolved yet.
+   *
+   * @param dtoThings The DTO {@link Thing} with data.
+   */
+  private void addOrUpdateTheCache(List<cdp4common.dto.Thing> dtoThings) {
+    var dtoList = Lists.newArrayList(dtoThings);
+
+    for (var dto : dtoList) {
+      if (dto.getIid() == null || dto.getIid().equals(new UUID(0L, 0L))) {
+        throw new IllegalArgumentException(
+            "Cannot add DTO with a null UUID or UUID(0L, 0L) reference to the Cache:"
+                + dto.CLASS_KIND);
+      }
+
+      var cacheKey = new CacheKey(dto.getIid(), dto.getIterationContainerId());
+      try {
+        this.cache.get(cacheKey, () -> dto.instantiatePojo(this.cache, this.dalUri));
+      } catch (ExecutionException e) {
+        log.error("Unexpected ExecutionException during add/update cache with message: " + e
+            .getMessage());
+      }
+    }
+  }
+
+  /**
+   * Delete all {@link Thing}s contained the {@link Thing} with the given {@link UUID}. This is used
+   * to delete {@link Iteration} and {@link EngineeringModel} when their respective setup was
+   * deleted.
+   *
+   * @param guid The {@link UUID}.
+   */
+  private void markAndDelete(UUID guid) {
+    var cachedThing = this.cache.getIfPresent(new CacheKey(guid, null));
+    if (cachedThing != null) {
+      this.thingsMarkedForDeletion.clear();
+      this.recursivelyMarksForRemoval(cachedThing);
+      for (var markedThing : this.thingsMarkedForDeletion) {
+        this.removeThingFromCache(markedThing);
+      }
+
+      this.thingsMarkedForDeletion.clear();
+    }
+  }
 }
 

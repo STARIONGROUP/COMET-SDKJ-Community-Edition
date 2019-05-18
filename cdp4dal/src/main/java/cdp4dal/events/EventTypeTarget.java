@@ -43,7 +43,7 @@ public class EventTypeTarget {
   private final Object target;
 
   /**
-   * Initializes a new instance of the {@link EventTypeTarget} struct.
+   * Initializes a new instance of the {@link EventTypeTarget}.
    *
    * @param eventType The event type.
    * @param target Optional qualifier that can be used to make the message type more specific.
@@ -75,6 +75,10 @@ public class EventTypeTarget {
    * @return The boolean indicating equality.
    */
   public boolean equals(EventTypeTarget other) {
+    if(other == null){
+      return false;
+    }
+
     return this.getEventType().equals(other.getEventType()) && this.getTarget()
         .equals(other.getTarget());
   }
