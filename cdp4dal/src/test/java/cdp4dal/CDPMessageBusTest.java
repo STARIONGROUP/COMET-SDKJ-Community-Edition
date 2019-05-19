@@ -127,7 +127,7 @@ class CDPMessageBusTest {
     CDPMessageBus.getCurrent().listen(ObjectChangedEvent.class, Person.class, null)
         .subscribe(x -> this.onEvent(x.getChangedThing()));
 
-    // The assembler will raise and event when something changes
+    // The assembler will raise an event when something changes
     var assembler = new Assembler(this.uri);
     assembler.synchronize(this.testInput, true).get();
 

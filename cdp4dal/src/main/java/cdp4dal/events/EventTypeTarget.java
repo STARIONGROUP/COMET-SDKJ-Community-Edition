@@ -75,12 +75,14 @@ public class EventTypeTarget {
    * @return The boolean indicating equality.
    */
   public boolean equals(EventTypeTarget other) {
-    if(other == null){
+    if (other == null) {
       return false;
     }
 
-    return this.getEventType().equals(other.getEventType()) && this.getTarget()
-        .equals(other.getTarget());
+    return this.getEventType().equals(other.getEventType()) && (
+        (this.getTarget() == null && other.getTarget() == null) || (this.getTarget() != null
+            && other.getTarget() != null && this.getTarget()
+            .equals(other.getTarget())));
   }
 
   /**

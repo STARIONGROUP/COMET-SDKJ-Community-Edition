@@ -31,13 +31,11 @@ import cdp4dal.events.EventKind;
 import cdp4dal.events.EventTypeTarget;
 import cdp4dal.events.ObjectChangedEvent;
 import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.disposables.Disposables;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.ObservableEmitter;
 import io.reactivex.subjects.Subject;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * The CDP specific MessageBus implementation.
@@ -47,7 +45,7 @@ public class CDPMessageBus {
   /**
    * The {@link ConcurrentMap} holding the subscriptions.
    */
-  private final ConcurrentMap<EventTypeTarget, CdpEventSubject> messageBus = new ConcurrentHashMap<>();
+  private final ConcurrentMap<EventTypeTarget, Pair<Observable, ObservableEmitter>> messageBus = new ConcurrentHashMap<>();
 
   /**
    * Singleton pattern private filed of the instance.
@@ -80,63 +78,48 @@ public class CDPMessageBus {
    */
   public <T> Observable<T> listen(Class<T> eventType, Object target, String contract) {
     return Observable.defer(
-        () -> this.getOrAddObservable(eventType, new EventTypeTarget(eventType, target)));
+        () -> (Observable<T>) this.getOrAddObservable(new EventTypeTarget(eventType, target)));
   }
 
   /**
-   * Gets or adds (if not existent) the {@link Observable<T>} to the {@link ConcurrentMap}.
+   * Gets or adds (if not existent) the {@link Observable} to the {@link ConcurrentMap}.
    *
-   * @param <T> The {@link Thing} that has changed.
-   * @param eventType The {@link Class} representing the event type at runtime.
-   * @param eventTypeTarget The {@link EventTypeTarget} pertaining to this {@link Observable<T>}.
-   * @return The {@link Observable<T>} connected to the target.
+   * @param eventTypeTarget The {@link EventTypeTarget} pertaining to this {@link Observable}.
+   * @return The {@link Observable} connected to the target.
    */
-  private <T> Observable<T> getOrAddObservable(Class<T> eventType,
+  private Observable getOrAddObservable(
       EventTypeTarget eventTypeTarget) {
-    var cdpEventSubject = this.messageBus.putIfAbsent(
-        eventTypeTarget,
-        this.composeEventSubject(eventType, eventTypeTarget));
+    Pair<Observable, ObservableEmitter> pair = this.messageBus.get(eventTypeTarget);
+    if (this.messageBus.get(eventTypeTarget) != null) {
+      return pair.getLeft();
+    }
 
-    return (Observable<T>) cdpEventSubject.getObservable();
+    return this.composeEventSubject(eventTypeTarget);
   }
 
   /**
    * Composes the observable subject of the {@link EventTypeTarget}.
    *
    * @param <T> The {@link Thing} POJO.
-   * @param eventType The {@link Class} representing the type at runtime.
    * @param eventTypeTarget The {@link EventTypeTarget} to create the {@link Subject{T}} from
    * @return The {@link CdpEventSubject} describing the subscription.
    */
-  private <T> CdpEventSubject composeEventSubject(Class<T> eventType,
+  private <T> Observable<T> composeEventSubject(
       EventTypeTarget eventTypeTarget) {
-    PublishSubject<T> subject = PublishSubject.create();
-
     var observable = Observable
-        .create(o -> new CompositeDisposable(subject.subscribe(ob -> {}),
-            createDisposableFromEvent(eventTypeTarget))).publish().refCount();
+        .create((ObservableEmitter<T> e) -> {
+          this.messageBus.put(
+              eventTypeTarget,
+              Pair.of(null, e));
 
-    return new CdpEventSubject(subject, observable);
-  }
+          e.setCancellable(() -> this.messageBus.remove(eventTypeTarget));
+        }).publish().refCount();
 
-  /**
-   * Creates a {@link Disposable} object from the {@link EventTypeTarget} with the delegate to run
-   * once the object is disposed.
-   *
-   * @param eventTypeTarget The {@link EventTypeTarget} to process.
-   * @return The {@link Disposable}.
-   */
-  private Disposable createDisposableFromEvent(EventTypeTarget eventTypeTarget) {
-    return Disposables.fromRunnable(() -> this.disposableDelegate(eventTypeTarget));
-  }
+    this.messageBus.computeIfPresent(eventTypeTarget, (k, v) ->
+        Pair.of(observable, v.getRight())
+    );
 
-  /**
-   * The method that executes when {@link EventTypeTarget} needs to be disposed.
-   *
-   * @param eventTypeTarget The {@link EventTypeTarget} that the dispose needs to handle.
-   */
-  private void disposableDelegate(EventTypeTarget eventTypeTarget) {
-    this.messageBus.remove(eventTypeTarget);
+    return observable;
   }
 
   /**
@@ -144,21 +127,20 @@ public class CDPMessageBus {
    * RegisterMessageSource instead if you will be sending messages in response to other changes such
    * as property changes or events.
    *
-   * @param <T> The type of the message to send.
    * @param message The actual event to send.
    * @param target The target type that the notification belongs to.
    * @param contract A unique String to distinguish messages with identical types (i.e.
    * "MyCoolViewModel") - if the message type is only used for one purpose, leave this as null.
    */
-  public <T> void sendMessage(
-      T message, Object
+  public void sendMessage(
+      Object message, Object
       target,
       String contract) {
     var cdpEventSubject = this.messageBus
         .get(new EventTypeTarget(message.getClass(), target));
 
     if (cdpEventSubject != null) {
-      ((Subject<T>) cdpEventSubject.getSubject()).onNext(message);
+      cdpEventSubject.getRight().onNext(message);
     }
   }
 

@@ -192,6 +192,11 @@ public class PojoThingFactory {
      * @return The {@link Thing} of type {@link T}
      */
     public static <T extends Thing> T get(Cache<CacheKey, Thing> cache, UUID itemIid, UUID iterationId, Class<T> clazz) {
+        if(itemIid == null){
+            log.debug(String.format("The %1$s is not possible to found in the cache for item: %2$s", clazz.getSimpleName(), itemIid));
+            return null;
+        }
+
         // try with the iteration id
         CacheKey key = new CacheKey(itemIid, iterationId);
         T thing = get(cache, key, clazz);
@@ -218,7 +223,7 @@ public class PojoThingFactory {
             }
         }
 
-        if (!firstKey.getThing().equals(new UUID(0L, 0L)) && firstKey.getIteration() != null) {
+        if (firstKey != null && !firstKey.getThing().equals(new UUID(0L, 0L)) && firstKey.getIteration() != null) {
             return get(cache, firstKey, clazz);
         }
 
