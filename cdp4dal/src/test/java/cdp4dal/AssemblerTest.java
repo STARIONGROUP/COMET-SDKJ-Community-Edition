@@ -24,431 +24,469 @@
 
 package cdp4dal;
 
+import static cdp4common.helpers.Utils.as;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import cdp4common.commondata.Alias;
+import cdp4common.commondata.Citation;
+import cdp4common.commondata.ClassKind;
+import cdp4common.dto.Thing;
+import cdp4common.engineeringmodeldata.EngineeringModel;
+import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.sitedirectorydata.EngineeringModelSetup;
+import cdp4common.sitedirectorydata.IterationSetup;
+import cdp4common.sitedirectorydata.ParameterType;
+import cdp4common.sitedirectorydata.ReferenceDataLibrary;
+import cdp4common.sitedirectorydata.SiteDirectory;
+import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
+import cdp4common.types.CacheKey;
+import com.google.common.collect.Lists;
+import com.google.common.collect.MoreCollectors;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 class AssemblerTest {
-//  private List<Dto.Thing> testInput;
-//  private Dto.SiteDirectory siteDir;
-//  private Dto.SiteReferenceDataLibrary siteRdl;
-//  private Uri uri;
-//
-//        [SetUp]
-//  public void SetUp()
-//  {
-//    this.uri = new Uri("http://www.rheagroup.com");
-//
-//    this.testInput = new List<Dto.Thing>();
-//
-//    //Top container
-//    this.siteDir = new Dto.SiteDirectory(Guid.NewGuid(), 1);
-//
-//    this.siteRdl = new Dto.SiteReferenceDataLibrary(Guid.NewGuid(), 1);
-//    this.siteDir.SiteReferenceDataLibrary.Add(this.siteRdl.Iid);
-//
-//    var category1 = new Dto.Category(Guid.NewGuid(), 1);
-//    category1.PermissibleClass.Add(ClassKind.ParameterType);
-//    category1.PermissibleClass.Add(ClassKind.Person);
-//    var category2 = new Dto.Category(Guid.NewGuid(), 1);
-//    category2.PermissibleClass.Add(ClassKind.TelephoneNumber);
-//    category2.PermissibleClass.Add(ClassKind.EmailAddress);
-//
-//    this.siteRdl.DefinedCategory.Add(category1.Iid);
-//    this.siteRdl.DefinedCategory.Add(category2.Iid);
-//
-//    //topContainer
-//    var siteRDL2 = new Dto.SiteReferenceDataLibrary(Guid.NewGuid(), 1);
-//    this.siteDir.SiteReferenceDataLibrary.Add(siteRDL2.Iid);
-//
-//    var booleanParameterType = new Dto.BooleanParameterType(Guid.NewGuid(), 1);
-//    booleanParameterType.Category = new List<Guid> { category1.Iid, category2.Iid };
-//    var definition = new Dto.Definition(Guid.NewGuid(), 1);
-//    booleanParameterType.Definition.Add(definition.Iid);
-//
-//    siteRDL2.ParameterType.Add(booleanParameterType.Iid);
-//
-//    this.testInput.Add(this.siteDir);
-//    this.testInput.Add(this.siteRdl);
-//    this.testInput.Add(category1);
-//    this.testInput.Add(category2);
-//
-//    this.testInput.Add(definition);
-//    this.testInput.Add(siteRDL2);
-//    this.testInput.Add(booleanParameterType);
-//  }
-//
-//        [TearDown]
-//  public void TearDown()
-//  {
-//    this.testInput.Clear();
-//    CDPMessageBus.Current.ClearSubscriptions();
-//  }
-//
-//        [Test]
-//  public void VerifyThatAssemblerThrowsNullReferenceExceptionWhenUriIsNull()
-//  {
-//    Assert.Throws<NullReferenceException>(() =>
-//      {
-//          var assembler = new Assembler(null);
-//            });
-//  }
-//
-//        [Test]
-//  public void AssertThatCacheCanStoreThings()
-//  {
-//    var assembler = new Assembler(this.uri);
-//
-//    // Check that the cache is empty
-//    Assert.IsFalse(assembler.Cache.Skip(0).Any());
-//
-//    var id = Guid.NewGuid();
-//    var testThing = new Lazy<Thing>(() => new Alias(id, assembler.Cache, this.uri));
-//    testThing.Value.Cache.TryAdd(new CacheKey(testThing.Value.Iid, null), testThing);
-//
-//    // Check that the cache is not empty anymore
-//    Assert.IsTrue(assembler.Cache.Skip(0).Any());
-//
-//    // Update the thing and the cache
-//    testThing = new Lazy<Thing>(() => new Alias(id, assembler.Cache, this.uri));
-//    testThing.Value.Cache.AddOrUpdate(new CacheKey(testThing.Value.Iid, null), testThing, (key, oldValue) => testThing);
-//
-//    // Check that the thing retrieved from the cache has the updated value
-//    Lazy<Thing> updatedThing;
-//    testThing.Value.Cache.TryGetValue(new CacheKey(testThing.Value.Iid, null), out updatedThing);
-//    Assert.IsNotNull(updatedThing);
-//
-//    // Check that we can remove things from the cache
-//    testThing.Value.Cache.TryRemove(new CacheKey(testThing.Value.Iid, null), out updatedThing);
-//    Assert.IsFalse(assembler.Cache.Skip(0).Any());
-//    Assert.IsFalse(testThing.Value.Cache.Skip(0).Any());
-//  }
-//
-//        [Test]
-//  public async Task AssertThatAssemblerSynchronizationWorks()
-//  {
-//    var assembler = new Assembler(this.uri);
-//
-//    // 1st call of Synnchronize
-//    await assembler.Synchronize(this.testInput);
-//
-//    // Modification of the input Dtos
-//    Assert.IsNotEmpty(assembler.Cache);
-//    Assert.AreEqual(7, assembler.Cache.Count);
-//
-//    // check containerList Element
-//    var siteDirId = this.testInput[0].Iid;
-//    Lazy<Thing> lazySiteDir;
-//    assembler.Cache.TryGetValue(new CacheKey(siteDirId, null), out lazySiteDir);
-//    var siteDir = lazySiteDir.Value as SiteDirectory;
-//    Assert.AreEqual(siteDirId, siteDir.SiteReferenceDataLibrary[0].Container.Iid);
-//
-//    // get category to removes
-//    var categoryToRemove = this.testInput[3] as Dto.Category;
-//
-//    // parametertype
-//    var parameterTypeId = this.testInput[6].Iid;
-//    Lazy<Thing> lazyPt;
-//    assembler.Cache.TryGetValue(new CacheKey(parameterTypeId, null), out lazyPt);
-//    Assert.AreEqual(2, (lazyPt.Value as ParameterType).Category.Count);
-//
-//    //Check that route works
-//    Lazy<Thing> lazyCat;
-//    assembler.Cache.TryGetValue(new CacheKey(categoryToRemove.Iid, null), out lazyCat);
-//    Assert.IsNotNull(lazyCat.Value.Route);
-//
-//    var siteRdl = this.testInput[1] as Dto.SiteReferenceDataLibrary;
-//    siteRdl.DefinedCategory.Remove(categoryToRemove.Iid);
-//
-//    // 2nd call with updated values, sRdl lost a category
-//    var newInput = this.testInput.GetRange(0, 3);
-//    await assembler.Synchronize(newInput);
-//
-//    // checks that the removed category is no longer in the cache
-//    Assert.AreEqual(6, assembler.Cache.Count);
-//    Assert.IsFalse(assembler.Cache.TryGetValue(new CacheKey(categoryToRemove.Iid, null), out lazyCat));
-//  }
-//
-//        [Test]
-//  public async Task VerifyThatAssemblerCanUpdateExistingPoco()
-//  {
-//    var assembler = new Assembler(this.uri);
-//    await assembler.Synchronize(this.testInput);
-//
-//    var siteDir = assembler.Cache.Select(x => x.Value)
-//                    .Select(x => x.Value)
-//                    .OfType<SiteDirectory>()
-//      .Single(x => x.Iid == this.siteDir.Iid);
-//
-//    var siteRdl1 =
-//        assembler.Cache.Select(x => x.Value)
-//                    .Select(x => x.Value)
-//                    .OfType<SiteReferenceDataLibrary>()
-//      .Single(x => x.Iid == this.siteRdl.Iid);
-//
-//    await assembler.Synchronize(new List<Dto.Thing> { this.siteRdl });
-//
-//    var siteRdl2 =
-//        assembler.Cache.Select(x => x.Value)
-//                    .Select(x => x.Value)
-//                    .OfType<SiteReferenceDataLibrary>()
-//      .Single(x => x.Iid == this.siteRdl.Iid);
-//
-//    Assert.AreEqual(siteRdl1, siteRdl2);
-//    Assert.AreEqual(siteDir, siteRdl2.Container);
-//  }
-//
-//        [Test]
-//  public void VerifyThatArgumentThrown()
-//  {
-//    var assembler = new Assembler(this.uri);
-//
-//    Assert.ThrowsAsync<ArgumentNullException>(async() =>
-//      {
-//          await assembler.Synchronize(null);
-//            });
-//  }
-//
-//        [Test]
-//  public async Task VerifyThatAssemblerCanMoveThings()
-//  {
-//    var sitedir = new Dto.SiteDirectory(Guid.NewGuid(), 0);
-//    var srdl1 = new Dto.SiteReferenceDataLibrary(Guid.NewGuid(), 0);
-//    var srdl2 = new Dto.SiteReferenceDataLibrary(Guid.NewGuid(), 0);
-//    var category = new Dto.Category(Guid.NewGuid(), 0);
-//
-//    sitedir.SiteReferenceDataLibrary.Add(srdl1.Iid);
-//    sitedir.SiteReferenceDataLibrary.Add(srdl2.Iid);
-//    srdl1.DefinedCategory.Add(category.Iid);
-//
-//    var dtos = new List<Dto.Thing>
-//    {
-//      sitedir,
-//          srdl1,
-//          srdl2,
-//          category
-//    };
-//
-//    var assembler = new Assembler(this.uri);
-//    await assembler.Synchronize(dtos);
-//
-//    Assert.AreEqual(4, assembler.Cache.Count);
-//
-//    srdl1.DefinedCategory.Clear();
-//    srdl2.DefinedCategory.Add(category.Iid);
-//
-//    // move category
-//    var movedDtos = new List<Dto.Thing>
-//    {
-//      sitedir,
-//          srdl1,
-//          srdl2
-//    };
-//
-//    await assembler.Synchronize(movedDtos);
-//    var srdl1poco = (SiteReferenceDataLibrary)assembler.Cache[new CacheKey(srdl1.Iid, null)].Value;
-//    var srdl2poco = (SiteReferenceDataLibrary)assembler.Cache[new CacheKey(srdl2.Iid, null)].Value;
-//    var catpoco = assembler.Cache[new CacheKey(category.Iid, null)].Value;
-//
-//    Assert.AreEqual(4, assembler.Cache.Count);
-//    Assert.IsEmpty(srdl1poco.DefinedCategory);
-//    Assert.IsTrue(srdl2poco.DefinedCategory.Contains(catpoco));
-//  }
-//
-//        [Test]
-//  public void VerifyThatMultipleIterationCanBeSynchronized()
-//  {
-//    var sitedir = new Dto.SiteDirectory(Guid.NewGuid(), 0);
-//    var srdl1 = new Dto.SiteReferenceDataLibrary(Guid.NewGuid(), 0);
-//    var srdl2 = new Dto.SiteReferenceDataLibrary(Guid.NewGuid(), 0);
-//    var category = new Dto.Category(Guid.NewGuid(), 0);
-//
-//    var modeldto = new Dto.EngineeringModel(Guid.NewGuid(), 1);
-//    var iteration1dto = new Dto.Iteration(Guid.NewGuid(), 1);
-//    var iteration2dto = new Dto.Iteration(Guid.NewGuid(), 1);
-//
-//    var element1dto = new Dto.ElementDefinition(Guid.NewGuid(), 1);
-//    element1dto.IterationContainerId = iteration1dto.Iid;
-//    element1dto.Category.Add(category.Iid);
-//
-//    var element2dto = new Dto.ElementDefinition(element1dto.Iid, 1);
-//    element2dto.IterationContainerId = iteration2dto.Iid;
-//    element2dto.Category.Add(category.Iid);
-//
-//    var usage1dto = new Dto.ElementUsage(Guid.NewGuid(), 1);
-//    usage1dto.IterationContainerId = iteration1dto.Iid;
-//    usage1dto.Category.Add(category.Iid);
-//
-//    var usage2dto = new Dto.ElementUsage(usage1dto.Iid, 1);
-//    usage2dto.IterationContainerId = iteration2dto.Iid;
-//    usage2dto.Category.Add(category.Iid);
-//
-//    sitedir.SiteReferenceDataLibrary.Add(srdl1.Iid);
-//    sitedir.SiteReferenceDataLibrary.Add(srdl2.Iid);
-//    srdl1.DefinedCategory.Add(category.Iid);
-//
-//    modeldto.Iteration.Add(iteration1dto.Iid);
-//    modeldto.Iteration.Add(iteration2dto.Iid);
-//
-//    iteration1dto.Element.Add(element1dto.Iid);
-//    iteration2dto.Element.Add(element2dto.Iid);
-//
-//    element1dto.ContainedElement.Add(usage1dto.Iid);
-//    element2dto.ContainedElement.Add(usage2dto.Iid);
-//
-//    var dtos = new List<Dto.Thing>
-//    {
-//      sitedir,
-//          srdl1,
-//          srdl2,
-//          category
-//    };
-//
-//    var assembler = new Assembler(this.uri);
-//    assembler.Synchronize(dtos);
-//
-//    dtos = new List<Dto.Thing>
-//    {
-//      modeldto,
-//          iteration1dto,
-//          iteration2dto,
-//          element1dto,
-//          element2dto,
-//          usage1dto,
-//          usage2dto
-//    };
-//
-//    assembler.Synchronize(dtos);
-//
-//    Assert.AreEqual(11, assembler.Cache.Count);
-//  }
-//
-//        [Test]
-//  public async Task VerifyThatCloseRdlWorks()
-//  {
-//    var assembler = new Assembler(this.uri);
-//    // 1st call of Synnchronize
-//    await assembler.Synchronize(this.testInput);
-//
-//    Lazy<Thing> lazyrdl;
-//    assembler.Cache.TryGetValue(new CacheKey(this.siteRdl.Iid, null), out lazyrdl);
-//    var rdl = (ReferenceDataLibrary)lazyrdl.Value;
-//    await assembler.CloseRdl(rdl);
-//
-//    Assert.IsEmpty(rdl.DefinedCategory);
-//    Assert.AreEqual(5, assembler.Cache.Count); // 2 categories should have been removed
-//  }
-//
-//        [Test]
-//  public async Task VerifyThatCitationIsResolvedWhenRdlIsLoaded()
-//  {
-//    var sitedir = new Dto.SiteDirectory(Guid.NewGuid(), 1);
-//    var domain = new Dto.DomainOfExpertise(Guid.NewGuid(), 1);
-//    var definition = new Dto.Definition(Guid.NewGuid(), 1);
-//    var citation = new Dto.Citation(Guid.NewGuid(), 1);
-//
-//    var referenceSource = new Dto.ReferenceSource(Guid.NewGuid(), 1);
-//    var srdl = new Dto.SiteReferenceDataLibrary(Guid.NewGuid(), 1);
-//    srdl.ReferenceSource.Add(referenceSource.Iid);
-//
-//    citation.Source = referenceSource.Iid;
-//
-//    sitedir.Domain.Add(domain.Iid);
-//    domain.Definition.Add(definition.Iid);
-//    definition.Citation.Add(citation.Iid);
-//
-//    var assembler = new Assembler(this.uri);
-//    var input = new List<Dto.Thing>();
-//    input.Add(sitedir);
-//    input.Add(domain);
-//    input.Add(definition);
-//    input.Add(citation);
-//
-//    await assembler.Synchronize(input);
-//
-//    var citationPoco = (Citation)
-//        assembler.Cache.Select(x => x.Value).Select(x => x.Value).Single(x => x.Iid == citation.Iid);
-//    Assert.AreEqual(citationPoco.Source.Iid, Guid.Empty);
-//    Assert.IsNotEmpty(citationPoco.ValidationErrors);
-//
-//    sitedir.SiteReferenceDataLibrary.Add(srdl.Iid);
-//    input.Clear();
-//
-//    input.Add(sitedir);
-//    input.Add(srdl);
-//    input.Add(referenceSource);
-//
-//    await assembler.Synchronize(input);
-//    Assert.IsNotNull(citationPoco.Source);
-//  }
-//
-//        [Test]
-//  public async Task VerifyThatIterationIsDeletedWhenSetupIsDeleted()
-//  {
-//    var assembler = new Assembler(this.uri);
-//
-//    var model = new EngineeringModel(Guid.NewGuid(), assembler.Cache, this.uri);
-//    var it1 = new Iteration(Guid.NewGuid(), assembler.Cache, this.uri);
-//    var it2 = new Iteration(Guid.NewGuid(), assembler.Cache, this.uri);
-//    model.Iteration.Add(it1);
-//    model.Iteration.Add(it2);
-//
-//    var sitedir = new SiteDirectory(Guid.NewGuid(), assembler.Cache, this.uri);
-//    var modelsetup = new EngineeringModelSetup(Guid.NewGuid(), assembler.Cache, this.uri){EngineeringModelIid = model.Iid};
-//    var iterationsetup1 = new IterationSetup(Guid.NewGuid(), assembler.Cache, this.uri){IterationIid = it1.Iid};
-//    var iterationsetup2 = new IterationSetup(Guid.NewGuid(), assembler.Cache, this.uri){IterationIid = it2.Iid};
-//
-//    sitedir.Model.Add(modelsetup);
-//    modelsetup.IterationSetup.Add(iterationsetup1);
-//    modelsetup.IterationSetup.Add(iterationsetup2);
-//
-//    assembler.Cache.TryAdd(new CacheKey(sitedir.Iid, null), new Lazy<Thing>(() => sitedir));
-//    assembler.Cache.TryAdd(new CacheKey(modelsetup.Iid, null), new Lazy<Thing>(() => modelsetup));
-//    assembler.Cache.TryAdd(new CacheKey(iterationsetup1.Iid, null), new Lazy<Thing>(() => iterationsetup1));
-//    assembler.Cache.TryAdd(new CacheKey(iterationsetup2.Iid, null), new Lazy<Thing>(() => iterationsetup2));
-//    assembler.Cache.TryAdd(new CacheKey(model.Iid, null), new Lazy<Thing>(() => model));
-//    assembler.Cache.TryAdd(new CacheKey(it1.Iid, null), new Lazy<Thing>(() => it1));
-//    assembler.Cache.TryAdd(new CacheKey(it2.Iid, null), new Lazy<Thing>(() => it2));
-//
-//    var sitedirdto = new Dto.SiteDirectory(sitedir.Iid, 1);
-//    sitedirdto.Model.Add(modelsetup.Iid);
-//
-//    var itdto = (Dto.IterationSetup)iterationsetup1.ToDto();
-//    itdto.IsDeleted = true;
-//
-//    Assert.IsTrue(assembler.Cache.ContainsKey(new CacheKey(it1.Iid, null)));
-//    await assembler.Synchronize(new List<Dto.Thing> {sitedirdto, itdto});
-//    Assert.IsFalse(assembler.Cache.ContainsKey(new CacheKey(it1.Iid, null)));
-//  }
-//
-//        [Test]
-//  public async Task VerifyThatModelIsDeletedWhenSetupIsDeleted()
-//  {
-//    var assembler = new Assembler(this.uri);
-//
-//    var model = new EngineeringModel(Guid.NewGuid(), assembler.Cache, this.uri);
-//    var it1 = new Iteration(Guid.NewGuid(), assembler.Cache, this.uri);
-//    var it2 = new Iteration(Guid.NewGuid(), assembler.Cache, this.uri);
-//    model.Iteration.Add(it1);
-//    model.Iteration.Add(it2);
-//
-//    var sitedir = new SiteDirectory(Guid.NewGuid(), assembler.Cache, this.uri);
-//    var modelsetup = new EngineeringModelSetup(Guid.NewGuid(), assembler.Cache, this.uri) { EngineeringModelIid = model.Iid };
-//    var iterationsetup1 = new IterationSetup(Guid.NewGuid(), assembler.Cache, this.uri) { IterationIid = it1.Iid };
-//    var iterationsetup2 = new IterationSetup(Guid.NewGuid(), assembler.Cache, this.uri) { IterationIid = it2.Iid };
-//
-//    sitedir.Model.Add(modelsetup);
-//    modelsetup.IterationSetup.Add(iterationsetup1);
-//    modelsetup.IterationSetup.Add(iterationsetup2);
-//
-//    assembler.Cache.TryAdd(new CacheKey(sitedir.Iid, null), new Lazy<Thing>(() => sitedir));
-//    assembler.Cache.TryAdd(new CacheKey(modelsetup.Iid, null), new Lazy<Thing>(() => modelsetup));
-//    assembler.Cache.TryAdd(new CacheKey(iterationsetup1.Iid, null), new Lazy<Thing>(() => iterationsetup1));
-//    assembler.Cache.TryAdd(new CacheKey(iterationsetup2.Iid, null), new Lazy<Thing>(() => iterationsetup2));
-//    assembler.Cache.TryAdd(new CacheKey(model.Iid, null), new Lazy<Thing>(() => model));
-//    assembler.Cache.TryAdd(new CacheKey(it1.Iid, null), new Lazy<Thing>(() => it1));
-//    assembler.Cache.TryAdd(new CacheKey(it2.Iid, null), new Lazy<Thing>(() => it2));
-//
-//    var sitedirdto = new Dto.SiteDirectory(sitedir.Iid, 1);
-//
-//    Assert.AreEqual(7, assembler.Cache.Count);
-//    await assembler.Synchronize(new List<Dto.Thing> { sitedirdto });
-//    Assert.AreEqual(1, assembler.Cache.Count);
-//  }
+
+  private List<Thing> testInput;
+  private cdp4common.dto.SiteDirectory siteDir;
+  private cdp4common.dto.SiteReferenceDataLibrary siteRdl;
+  private URI uri;
+
+  @BeforeEach
+  void setUp() {
+    this.uri = URI.create("http://www.rheagroup.com");
+
+    this.testInput = new ArrayList<>();
+
+    // Top container
+    this.siteDir = new cdp4common.dto.SiteDirectory(UUID.randomUUID(), 1);
+
+    this.siteRdl = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 1);
+    this.siteDir.getSiteReferenceDataLibrary().add(this.siteRdl.getIid());
+
+    var category1 = new cdp4common.dto.Category(UUID.randomUUID(), 1);
+    category1.getPermissibleClass().add(ClassKind.PARAMETER_TYPE);
+    category1.getPermissibleClass().add(ClassKind.PERSON);
+    var category2 = new cdp4common.dto.Category(UUID.randomUUID(), 1);
+    category2.getPermissibleClass().add(ClassKind.TELEPHONE_NUMBER);
+    category2.getPermissibleClass().add(ClassKind.EMAIL_ADDRESS);
+
+    this.siteRdl.getDefinedCategory().add(category1.getIid());
+    this.siteRdl.getDefinedCategory().add(category2.getIid());
+
+    //topContainer
+    var siteRDL2 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 1);
+    this.siteDir.getSiteReferenceDataLibrary().add(siteRDL2.getIid());
+
+    var booleanParameterType = new cdp4common.dto.BooleanParameterType(UUID.randomUUID(), 1);
+    booleanParameterType.setCategory(Lists.newArrayList(category1.getIid(), category2.getIid()));
+    var definition = new cdp4common.dto.Definition(UUID.randomUUID(), 1);
+    booleanParameterType.getDefinition().add(definition.getIid());
+
+    siteRDL2.getParameterType().add(booleanParameterType.getIid());
+
+    this.testInput.add(this.siteDir);
+    this.testInput.add(this.siteRdl);
+    this.testInput.add(category1);
+    this.testInput.add(category2);
+
+    this.testInput.add(definition);
+    this.testInput.add(siteRDL2);
+    this.testInput.add(booleanParameterType);
+  }
+
+  @AfterEach
+  void tearDown() {
+    this.testInput.clear();
+    CDPMessageBus.getCurrent().clearSubscriptions();
+  }
+
+  @Test
+  void verifyThatAssemblerThrowsNullPointerExceptionWhenUriIsNull() {
+    assertThrows(NullPointerException.class, () -> new Assembler(null));
+  }
+
+  @Test
+  void assertThatCacheCanStoreThings() {
+    var assembler = new Assembler(this.uri);
+
+    // Check that the cache is empty
+    assertTrue(assembler.getCache().size() == 0);
+
+    var id = UUID.randomUUID();
+    var testThing = new Alias(id, assembler.getCache(), this.uri);
+    testThing.getCache().put(new CacheKey(testThing.getIid(), null), testThing);
+
+    // Check that the cache is not empty anymore
+    assertTrue(assembler.getCache().size() > 0);
+
+    // Update the thing and the cache
+    testThing = new Alias(id, assembler.getCache(), this.uri);
+    testThing.getCache().put(new CacheKey(testThing.getIid(), null), testThing);
+
+    // Check that the thing retrieved from the cache has the updated value
+    cdp4common.commondata.Thing updatedThing = testThing.getCache()
+        .getIfPresent(new CacheKey(testThing.getIid(), null));
+    assertNotNull(updatedThing);
+
+    // Check that we can remove things from the cache
+    testThing.getCache().invalidate(new CacheKey(testThing.getIid(), null));
+    assertTrue(assembler.getCache().size() == 0);
+    assertTrue(testThing.getCache().size() == 0);
+  }
+
+  @Test
+  void assertThatAssemblerSynchronizationWorks() throws ExecutionException, InterruptedException {
+    var assembler = new Assembler(this.uri);
+
+    // 1st call of synchronize
+    assembler.synchronize(this.testInput, true).get();
+
+    // Modification of the input Dtos
+    assertTrue(assembler.getCache().size() > 0);
+    assertEquals(7, assembler.getCache().size());
+
+    // check containerList Element
+    var siteDirId = this.testInput.get(0).getIid();
+    cdp4common.commondata.Thing siteDirThing = assembler.getCache()
+        .getIfPresent(new CacheKey(siteDirId, null));
+    var siteDir = as(siteDirThing, SiteDirectory.class);
+    assertEquals(siteDirId, siteDir.getSiteReferenceDataLibrary().get(0).getContainer().getIid());
+
+    // get category to removes
+    var categoryToRemove = as(this.testInput.get(3), cdp4common.dto.Category.class);
+
+    // ParameterType
+    var parameterTypeId = this.testInput.get(6).getIid();
+    cdp4common.commondata.Thing pt = assembler.getCache()
+        .getIfPresent(new CacheKey(parameterTypeId, null));
+    assertEquals(2, as(pt, ParameterType.class).getCategory().size());
+
+    //Check that route works
+    cdp4common.commondata.Thing cat = assembler.getCache()
+        .getIfPresent(new CacheKey(categoryToRemove.getIid(), null));
+    assertNotNull(cat.getRoute());
+
+    var siteRdl = as(this.testInput.get(1), cdp4common.dto.SiteReferenceDataLibrary.class);
+    siteRdl.getDefinedCategory().remove(categoryToRemove.getIid());
+
+    // 2nd call with updated values, sRdl lost a category
+    var newInput = this.testInput.subList(0, 3);
+    assembler.synchronize(newInput, true).get();
+
+    // checks that the removed category is no longer in the cache
+    assertEquals(6, assembler.getCache().size());
+    assertNull(assembler.getCache().getIfPresent(new CacheKey(categoryToRemove.getIid(), null)));
+  }
+
+  @Test
+  void verifyThatAssemblerCanUpdateExistingPojo() throws ExecutionException, InterruptedException {
+    var assembler = new Assembler(this.uri);
+    assembler.synchronize(this.testInput, true).get();
+
+    var siteDir = assembler.getCache()
+        .asMap()
+        .values()
+        .stream()
+        .filter(x -> x instanceof SiteDirectory)
+        .filter(x -> x.getIid().equals(this.siteDir.getIid()))
+        .collect(MoreCollectors.onlyElement());
+
+    var siteRdl1 =
+        assembler.getCache()
+            .asMap()
+            .values()
+            .stream()
+            .filter(x -> x instanceof SiteReferenceDataLibrary)
+            .filter(x -> x.getIid().equals(this.siteRdl.getIid()))
+            .collect(MoreCollectors.onlyElement());
+
+    assembler.synchronize(Lists.newArrayList(this.siteRdl), true).get();
+
+    var siteRdl2 =
+        assembler.getCache()
+            .asMap()
+            .values()
+            .stream()
+            .filter(x -> x instanceof SiteReferenceDataLibrary)
+            .filter(x -> x.getIid().equals(this.siteRdl.getIid()))
+            .collect(MoreCollectors.onlyElement());
+
+    assertEquals(siteRdl1, siteRdl2);
+    assertEquals(siteDir, siteRdl2.getContainer());
+  }
+
+  @Test
+  void verifyThatArgumentThrown() {
+    var assembler = new Assembler(this.uri);
+
+    assertThrows(NullPointerException.class, () -> assembler.synchronize(null, true).get());
+  }
+
+  @Test
+  void verifyThatAssemblerCanMoveThings() throws ExecutionException, InterruptedException {
+    var sitedir = new cdp4common.dto.SiteDirectory(UUID.randomUUID(), 0);
+    var srdl1 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 0);
+    var srdl2 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 0);
+    var category = new cdp4common.dto.Category(UUID.randomUUID(), 0);
+
+    sitedir.getSiteReferenceDataLibrary().add(srdl1.getIid());
+    sitedir.getSiteReferenceDataLibrary().add(srdl2.getIid());
+    srdl1.getDefinedCategory().add(category.getIid());
+
+    List<Thing> dtos = Lists.newArrayList(
+        sitedir,
+        srdl1,
+        srdl2,
+        category
+    );
+
+    var assembler = new Assembler(this.uri);
+    assembler.synchronize(dtos, true).get();
+
+    assertEquals(4, assembler.getCache().size());
+
+    srdl1.getDefinedCategory().clear();
+    srdl2.getDefinedCategory().add(category.getIid());
+
+    // move category
+    List<Thing> movedDtos = Lists.newArrayList(
+        sitedir,
+        srdl1,
+        srdl2
+    );
+
+    assembler.synchronize(movedDtos, true).get();
+    var srdl1Pojo = (SiteReferenceDataLibrary) assembler.getCache()
+        .getIfPresent(new CacheKey(srdl1.getIid(), null));
+    var srdl2Pojo = (SiteReferenceDataLibrary) assembler.getCache()
+        .getIfPresent(new CacheKey(srdl2.getIid(), null));
+    var catPojo = assembler.getCache().getIfPresent(new CacheKey(category.getIid(), null));
+
+    assertEquals(4, assembler.getCache().size());
+    assertTrue(srdl1Pojo.getDefinedCategory().isEmpty());
+    assertTrue(srdl2Pojo.getDefinedCategory().contains(catPojo));
+  }
+
+  @Test
+  void verifyThatMultipleIterationCanBeSynchronized()
+      throws ExecutionException, InterruptedException {
+    var sitedir = new cdp4common.dto.SiteDirectory(UUID.randomUUID(), 0);
+    var srdl1 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 0);
+    var srdl2 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 0);
+    var category = new cdp4common.dto.Category(UUID.randomUUID(), 0);
+
+    var modeldto = new cdp4common.dto.EngineeringModel(UUID.randomUUID(), 1);
+    var iteration1dto = new cdp4common.dto.Iteration(UUID.randomUUID(), 1);
+    var iteration2dto = new cdp4common.dto.Iteration(UUID.randomUUID(), 1);
+
+    var element1dto = new cdp4common.dto.ElementDefinition(UUID.randomUUID(), 1);
+    element1dto.setIterationContainerId(iteration1dto.getIid());
+    element1dto.getCategory().add(category.getIid());
+
+    var element2dto = new cdp4common.dto.ElementDefinition(element1dto.getIid(), 1);
+    element2dto.setIterationContainerId(iteration2dto.getIid());
+    element2dto.getCategory().add(category.getIid());
+
+    var usage1dto = new cdp4common.dto.ElementUsage(UUID.randomUUID(), 1);
+    usage1dto.setIterationContainerId(iteration1dto.getIid());
+    usage1dto.getCategory().add(category.getIid());
+
+    var usage2dto = new cdp4common.dto.ElementUsage(usage1dto.getIid(), 1);
+    usage2dto.setIterationContainerId(iteration2dto.getIid());
+    usage2dto.getCategory().add(category.getIid());
+
+    sitedir.getSiteReferenceDataLibrary().add(srdl1.getIid());
+    sitedir.getSiteReferenceDataLibrary().add(srdl2.getIid());
+    srdl1.getDefinedCategory().add(category.getIid());
+
+    modeldto.getIteration().add(iteration1dto.getIid());
+    modeldto.getIteration().add(iteration2dto.getIid());
+
+    iteration1dto.getElement().add(element1dto.getIid());
+    iteration2dto.getElement().add(element2dto.getIid());
+
+    element1dto.getContainedElement().add(usage1dto.getIid());
+    element2dto.getContainedElement().add(usage2dto.getIid());
+
+    List<cdp4common.dto.Thing> dtos = Lists.newArrayList(
+        sitedir,
+        srdl1,
+        srdl2,
+        category
+    );
+
+    var assembler = new Assembler(this.uri);
+    assembler.synchronize(dtos, true).get();
+
+    dtos = Lists.newArrayList(
+        modeldto,
+        iteration1dto,
+        iteration2dto,
+        element1dto,
+        element2dto,
+        usage1dto,
+        usage2dto
+    );
+
+    assembler.synchronize(dtos, true).get();
+
+    assertEquals(11, assembler.getCache().size());
+  }
+
+  @Test
+  void verifyThatCloseRdlWorks() throws ExecutionException, InterruptedException {
+    var assembler = new Assembler(this.uri);
+    // 1st call of Synchronize
+    assembler.synchronize(this.testInput, true).get();
+
+    cdp4common.commondata.Thing rdlThing = assembler.getCache()
+        .getIfPresent(new CacheKey(this.siteRdl.getIid(), null));
+    var rdl = (ReferenceDataLibrary) rdlThing;
+    assembler.closeRdl(rdl).get();
+
+    assertTrue(rdl.getDefinedCategory().isEmpty());
+    assertEquals(5, assembler.getCache().size()); // 2 categories should have been removed
+  }
+
+  @Test
+  void verifyThatCitationIsResolvedWhenRdlIsLoaded()
+      throws ExecutionException, InterruptedException {
+    var sitedir = new cdp4common.dto.SiteDirectory(UUID.randomUUID(), 1);
+    var domain = new cdp4common.dto.DomainOfExpertise(UUID.randomUUID(), 1);
+    var definition = new cdp4common.dto.Definition(UUID.randomUUID(), 1);
+    var citation = new cdp4common.dto.Citation(UUID.randomUUID(), 1);
+
+    var referenceSource = new cdp4common.dto.ReferenceSource(UUID.randomUUID(), 1);
+    var srdl = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 1);
+    srdl.getReferenceSource().add(referenceSource.getIid());
+
+    citation.setSource(referenceSource.getIid());
+
+    sitedir.getDomain().add(domain.getIid());
+    domain.getDefinition().add(definition.getIid());
+    definition.getCitation().add(citation.getIid());
+
+    var assembler = new Assembler(this.uri);
+    var input = new ArrayList<Thing>();
+    input.add(sitedir);
+    input.add(domain);
+    input.add(definition);
+    input.add(citation);
+
+    assembler.synchronize(input, true).get();
+
+    var citationPojo = (Citation)
+        assembler.getCache()
+            .asMap()
+            .values()
+            .stream()
+            .filter(x -> x.getIid().equals(citation.getIid()))
+            .collect(MoreCollectors.onlyElement());
+
+    assertEquals(new UUID(0L, 0L), citationPojo.getSource().getIid());
+    assertFalse(citationPojo.getValidationErrors().isEmpty());
+
+    sitedir.getSiteReferenceDataLibrary().add(srdl.getIid());
+    input.clear();
+
+    input.add(sitedir);
+    input.add(srdl);
+    input.add(referenceSource);
+
+    assembler.synchronize(input, true).get();
+    assertNotNull(citationPojo.getSource());
+  }
+
+  @Test
+  void verifyThatIterationIsDeletedWhenSetupIsDeleted()
+      throws ExecutionException, InterruptedException {
+    var assembler = new Assembler(this.uri);
+
+    var model = new EngineeringModel(UUID.randomUUID(), assembler.getCache(), this.uri);
+    var it1 = new Iteration(UUID.randomUUID(), assembler.getCache(), this.uri);
+    var it2 = new Iteration(UUID.randomUUID(), assembler.getCache(), this.uri);
+    model.getIteration().add(it1);
+    model.getIteration().add(it2);
+
+    var sitedir = new SiteDirectory(UUID.randomUUID(), assembler.getCache(), this.uri);
+    var modelsetup = new EngineeringModelSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
+    modelsetup.setEngineeringModelIid(model.getIid());
+    var iterationsetup1 = new IterationSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
+    iterationsetup1.setIterationIid(it1.getIid());
+    var iterationsetup2 = new IterationSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
+    iterationsetup2.setIterationIid(it2.getIid());
+
+    sitedir.getModel().add(modelsetup);
+    modelsetup.getIterationSetup().add(iterationsetup1);
+    modelsetup.getIterationSetup().add(iterationsetup2);
+
+    assembler.getCache().put(new CacheKey(sitedir.getIid(), null), sitedir);
+    assembler.getCache().put(new CacheKey(modelsetup.getIid(), null), modelsetup);
+    assembler.getCache().put(new CacheKey(iterationsetup1.getIid(), null), iterationsetup1);
+    assembler.getCache().put(new CacheKey(iterationsetup2.getIid(), null), iterationsetup2);
+    assembler.getCache().put(new CacheKey(model.getIid(), null), model);
+    assembler.getCache().put(new CacheKey(it1.getIid(), null), it1);
+    assembler.getCache().put(new CacheKey(it2.getIid(), null), it2);
+
+    var sitedirdto = new cdp4common.dto.SiteDirectory(sitedir.getIid(), 1);
+    sitedirdto.getModel().add(modelsetup.getIid());
+
+    var itdto = (cdp4common.dto.IterationSetup) iterationsetup1.toDto();
+    itdto.setDeleted(true);
+
+    assertTrue(assembler.getCache().asMap().containsKey(new CacheKey(it1.getIid(), null)));
+    assembler.synchronize(Arrays.asList(sitedirdto, itdto), true).get();
+    assertFalse(assembler.getCache().asMap().containsKey(new CacheKey(it1.getIid(), null)));
+  }
+
+  @Test
+  void verifyThatModelIsDeletedWhenSetupIsDeleted()
+      throws ExecutionException, InterruptedException {
+    var assembler = new Assembler(this.uri);
+
+    var model = new EngineeringModel(UUID.randomUUID(), assembler.getCache(), this.uri);
+    var it1 = new Iteration(UUID.randomUUID(), assembler.getCache(), this.uri);
+    var it2 = new Iteration(UUID.randomUUID(), assembler.getCache(), this.uri);
+    model.getIteration().add(it1);
+    model.getIteration().add(it2);
+
+    var sitedir = new SiteDirectory(UUID.randomUUID(), assembler.getCache(), this.uri);
+    var modelsetup = new EngineeringModelSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
+    modelsetup.setEngineeringModelIid(model.getIid());
+    var iterationsetup1 = new IterationSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
+    iterationsetup1.setIterationIid(it1.getIid());
+    var iterationsetup2 = new IterationSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
+    iterationsetup2.setIterationIid(it2.getIid());
+
+    sitedir.getModel().add(modelsetup);
+    modelsetup.getIterationSetup().add(iterationsetup1);
+    modelsetup.getIterationSetup().add(iterationsetup2);
+
+    assembler.getCache().put(new CacheKey(sitedir.getIid(), null), sitedir);
+    assembler.getCache().put(new CacheKey(modelsetup.getIid(), null), modelsetup);
+    assembler.getCache().put(new CacheKey(iterationsetup1.getIid(), null), iterationsetup1);
+    assembler.getCache().put(new CacheKey(iterationsetup2.getIid(), null), iterationsetup2);
+    assembler.getCache().put(new CacheKey(model.getIid(), null), model);
+    assembler.getCache().put(new CacheKey(it1.getIid(), null), it1);
+    assembler.getCache().put(new CacheKey(it2.getIid(), null), it2);
+
+    var sitedirdto = new cdp4common.dto.SiteDirectory(sitedir.getIid(), 1);
+
+    assertEquals(7, assembler.getCache().size());
+    assembler.synchronize(Arrays.asList(sitedirdto), true).get();
+    assertEquals(1, assembler.getCache().size());
+  }
 }
