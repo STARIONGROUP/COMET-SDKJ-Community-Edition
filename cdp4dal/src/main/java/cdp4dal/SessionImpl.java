@@ -211,7 +211,7 @@ public class SessionImpl implements Session {
    */
   @Override
   public String getName() {
-    var personName = this.activePerson != null ? this.activePerson.getName() : "";
+    var personName = this.getActivePerson() != null ? this.getActivePerson().getName() : "";
     return String.format("%s - %s", this.getDataSourceUri(), personName);
   }
 
@@ -822,7 +822,7 @@ public class SessionImpl implements Session {
     var activeParticipant = ((EngineeringModel) iteration.getContainer()).getEngineeringModelSetup()
         .getParticipant()
         .stream()
-        .filter(x -> x.getPerson().equals(this.activePerson))
+        .filter(x -> x.getPerson().equals(this.getActivePerson()))
         .collect(MoreCollectors.toOptional()).orElseThrow(() -> new IllegalArgumentException(
             "The iteration does not have an active participant associated."));
 

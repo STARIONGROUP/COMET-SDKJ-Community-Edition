@@ -24,709 +24,719 @@
 
 package cdp4dal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import cdp4common.commondata.ClassKind;
+import cdp4common.dto.EngineeringModelSetup;
+import cdp4common.dto.Iteration;
+import cdp4common.dto.SiteDirectory;
+import cdp4common.dto.Thing;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.ModelReferenceDataLibrary;
+import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
+import cdp4common.sitedirectorydata.TelephoneNumber;
+import cdp4common.sitedirectorydata.VcardTelephoneNumberKind;
+import cdp4common.types.CacheKey;
+import cdp4dal.dal.Credentials;
+import cdp4dal.dal.Dal;
+import cdp4dal.dal.DalBase;
+import cdp4dal.dal.QueryAttributes;
+import cdp4dal.events.ObjectChangedEvent;
+import cdp4dal.events.SessionEvent;
+import cdp4dal.events.SessionStatus;
+import cdp4dal.operations.OperationContainer;
+import com.google.common.collect.MoreCollectors;
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import org.apache.commons.lang3.NotImplementedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 class SessionImplTest {
-//  /// <summary>
-//  /// mocked data service
-//  /// </summary>
-//  private Mock<IDal> mockedDal;
-//
-//  /// <summary>
-//  /// a list of <see cref="CDP4Common.DTO.Thing"/> returned from the mocked <see cref="IDal"/>
-//  /// </summary>
-//  private List<Thing> dalOutputs;
-//
-//  /// <summary>
-//  /// The uri of the mocked <see cref="IDal"/>
-//  /// </summary>
-//  private Uri uri;
-//
-//  /// <summary>
-//  /// The <see cref="Session"/> object under test
-//  /// </summary>
-//  private Session session;
-//
-//  /// <summary>
-//  /// The <see cref="Person"/> object under test
-//  /// </summary>
-//  private CDP4Common.DTO.Person person;
-//
-//  private CDP4Common.DTO.SiteDirectory sieSiteDirectoryDto;
-//
-//  private CancellationTokenSource tokenSource;
-//
-//        [SetUp]
-//  public void SetUp()
-//  {
-//    this.dalOutputs = new List<Thing>();
-//
-//    this.sieSiteDirectoryDto = new CDP4Common.DTO.SiteDirectory(Guid.NewGuid(), 22);
-//    this.person = new CDP4Common.DTO.Person(Guid.NewGuid(), 22) { ShortName = "John", GivenName = "John", Password = "Doe", IsActive = true };
-//    var phone1 = new CDP4Common.DTO.TelephoneNumber(Guid.NewGuid(), 22) { Value = "123" };
-//    phone1.VcardType.Add(VcardTelephoneNumberKind.HOME);
-//    var phone2 = new CDP4Common.DTO.TelephoneNumber(Guid.NewGuid(), 22) { Value = "456" };
-//    phone2.VcardType.Add(VcardTelephoneNumberKind.WORK);
-//    var phone3 = new CDP4Common.DTO.TelephoneNumber(Guid.NewGuid(), 22) { Value = "789" };
-//    phone3.VcardType.Add(VcardTelephoneNumberKind.FAX);
-//
-//    this.sieSiteDirectoryDto.Person.Add(this.person.Iid);
-//
-//    this.person.TelephoneNumber.Add(phone1.Iid);
-//    this.person.TelephoneNumber.Add(phone2.Iid);
-//    this.person.TelephoneNumber.Add(phone3.Iid);
-//
-//    this.dalOutputs.Add(this.sieSiteDirectoryDto);
-//    this.dalOutputs.Add(this.person);
-//    this.dalOutputs.Add(phone1);
-//    this.dalOutputs.Add(phone2);
-//    this.dalOutputs.Add(phone3);
-//
-//    this.uri = new Uri("http://www.rheagroup.com/");
-//    var credentials = new Credentials("John", "Doe", this.uri);
-//
-//    this.mockedDal = new Mock<IDal>();
-//    this.mockedDal.SetupProperty(d => d.Session);
-//
-//    this.session = new Session(this.mockedDal.Object, credentials);
-//
-//    this.tokenSource = new CancellationTokenSource();
-//
-//    var openTaskCompletionSource = new TaskCompletionSource<IEnumerable<Thing>>();
-//    openTaskCompletionSource.SetResult(this.dalOutputs);
-//    this.mockedDal.Setup(x => x.Open(It.IsAny<Credentials>(), It.IsAny<CancellationToken>())).Returns(openTaskCompletionSource.Task);
-//  }
-//
-//        [TearDown]
-//  public void TearDown()
-//  {
-//    CDPMessageBus.Current.ClearSubscriptions();
-//  }
-//
-//        [Test]
-//  public async Task VerifythatOpenCallAssemblerSynchronizeWithDtos()
-//  {
-//    var eventReceived = false;
-//    CDPMessageBus.Current.Listen<ObjectChangedEvent>(typeof(TelephoneNumber)).Subscribe(x =>
-//      {
-//          eventReceived = true;
-//            });
-//
-//    await this.session.Open();
-//
-//    Assert.IsTrue(eventReceived);
-//  }
-//
-//        [Test]
-//  public async Task VerifyThatWriteWithEmptyResponseSendsMessages()
-//  {
-//    var beginUpdateReceived = false;
-//    var endUpdateReceived = false;
-//
-//    var writeWithNoResultsTaskCompletionSource = new TaskCompletionSource<IEnumerable<Thing>>();
-//    writeWithNoResultsTaskCompletionSource.SetResult(new List<Thing>());
-//    this.mockedDal.Setup(x => x.Open(It.IsAny<Credentials>(), It.IsAny<CancellationToken>())).Returns(writeWithNoResultsTaskCompletionSource.Task);
-//
-//    CDPMessageBus.Current.Listen<SessionEvent>()
-//      .Subscribe(x =>
-//      {
-//    if (x.Status == SessionStatus.BeginUpdate)
-//    {
-//      beginUpdateReceived = true;
-//      return;
-//    }
-//
-//    if (x.Status == SessionStatus.EndUpdate)
-//    {
-//      endUpdateReceived = true;
-//    }
-//            });
-//
-//    var context = string.Format("/SiteDirectory/{0}", Guid.NewGuid());
-//    await this.session.Write(new OperationContainer(context));
-//
-//    Assert.IsTrue(beginUpdateReceived);
-//    Assert.IsTrue(endUpdateReceived);
-//  }
-//
-//        [Test]
-//  public async Task VerifythatRefreshSynchronizeTheAssembler()
-//  {
-//    var eventReceived = false;
-//
-//    var uriQueryAttMock = new Mock<IQueryAttributes>();
-//    uriQueryAttMock.Setup(x => x.RevisionNumber).Returns(22);
-//
-//    // returns the dtos only if revisionNumber == 0
-//    var readTaskCompletionSource = new TaskCompletionSource<IEnumerable<Thing>>();
-//    readTaskCompletionSource.SetResult(this.dalOutputs);
-//    this.mockedDal.Setup(x => x.Read(It.IsAny<Thing>(), It.IsAny<CancellationToken>(), It.Is<IQueryAttributes>(query => query.RevisionNumber == 0))).Returns(readTaskCompletionSource.Task);
-//
-//    await this.session.Open();
-//
-//    CDPMessageBus.Current.Listen<ObjectChangedEvent>(typeof(TelephoneNumber)).Subscribe(x =>
-//      {
-//          eventReceived = true;
-//            });
-//
-//    // refresh shouldnt do anything
-//    await this.session.Refresh();
-//
-//    Assert.IsFalse(eventReceived);
-//  }
-//
-//        [Test]
-//  public async Task VerifythatReloadSynchronizeTheAssembler()
-//  {
-//    var updatedTel = new CDP4Common.DTO.TelephoneNumber(this.dalOutputs.OfType<CDP4Common.DTO.TelephoneNumber>().First().Iid, 100);
-//    var eventReceived = false;
-//
-//    var uriQueryAttMock = new Mock<IQueryAttributes>();
-//    uriQueryAttMock.Setup(x => x.RevisionNumber).Returns(0);
-//
-//    // returns the dtos only if revisionNumber == 0
-//    var readTaskCompletionSource = new TaskCompletionSource<IEnumerable<Thing>>();
-//    readTaskCompletionSource.SetResult(new List<Thing> { updatedTel });
-//    this.mockedDal.Setup(x => x.Read(It.IsAny<Thing>(), It.IsAny<CancellationToken>(), It.Is<IQueryAttributes>(query => query.RevisionNumber == 0))).Returns(readTaskCompletionSource.Task);
-//
-//    await this.session.Open();
-//
-//    CDPMessageBus.Current.Listen<ObjectChangedEvent>(typeof(TelephoneNumber)).Subscribe(x =>
-//      {
-//          eventReceived = true;
-//            });
-//
-//    await this.session.Reload();
-//
-//    Assert.IsTrue(eventReceived);
-//  }
-//
-//  /// <summary>
-//  /// The verify that get active person works.
-//  /// </summary>
-//        [Test]
-//  public async Task VerifyThatGetActivePersonWorks()
-//  {
-//    await this.session.Open();
-//
-//    var activePerson = this.session.ActivePerson;
-//    Assert.IsNotNull(activePerson);
-//    Assert.AreEqual("John", activePerson.ShortName);
-//
-//    activePerson = null;
-//
-//    // query again to cover cached activeperson property
-//    activePerson = this.session.ActivePerson;
-//    Assert.IsNotNull(activePerson);
-//  }
-//
-//        [Test]
-//  public async Task VerifyThatOpenSiteRDLUpdatesListInSession()
-//  {
-//    var siteDir = new CDP4Common.SiteDirectoryData.SiteDirectory(Guid.NewGuid(), null, null);
-//    var rdlDto = new CDP4Common.DTO.SiteReferenceDataLibrary { Iid = Guid.NewGuid() };
-//    var siteDirDto = new CDP4Common.DTO.SiteDirectory() { Iid = Guid.NewGuid() };
-//    var requiredPocoDto = new CDP4Common.DTO.SiteReferenceDataLibrary() { Iid = Guid.NewGuid() };
-//    var requiredPocoRdl = new CDP4Common.SiteDirectoryData.SiteReferenceDataLibrary(requiredPocoDto.Iid, null, null);
-//    rdlDto.RequiredRdl = requiredPocoDto.Iid;
-//
-//    var credentials = new Credentials("admin", "pass", new Uri("http://www.rheagroup.com"));
-//    var session2 = new Session(this.mockedDal.Object, credentials);
-//    var rdlPoco = new CDP4Common.SiteDirectoryData.SiteReferenceDataLibrary { Iid = rdlDto.Iid, Name = rdlDto.Name, ShortName = rdlDto.ShortName, Container = siteDir, RequiredRdl = requiredPocoRdl };
-//    var thingsToAdd = new List<Thing>() { siteDirDto, requiredPocoDto, rdlDto };
-//
-//    await session2.Assembler.Synchronize(thingsToAdd);
-//
-//    Assert.IsEmpty(session2.OpenReferenceDataLibraries);
-//
-//    await session2.Read(rdlPoco);
-//
-//    Assert.AreEqual(2, session2.OpenReferenceDataLibraries.ToList().Count());
-//
-//    await session2.Close();
-//    Assert.IsEmpty(session2.OpenReferenceDataLibraries);
-//  }
-//
-//        [Test]
-//  public async Task VerifyThatCloseRdlWorks()
-//  {
-//    var siteDirectoryPoco = new CDP4Common.SiteDirectoryData.SiteDirectory(this.sieSiteDirectoryDto.Iid, this.session.Assembler.Cache, this.uri);
-//
-//    var rdlDto = new CDP4Common.DTO.SiteReferenceDataLibrary { Iid = Guid.NewGuid() };
-//    var rdlPoco = new CDP4Common.SiteDirectoryData.SiteReferenceDataLibrary { Iid = rdlDto.Iid, Name = rdlDto.Name, ShortName = rdlDto.ShortName, Container = siteDirectoryPoco };
-//
-//    var requiredSiteReferenceDataLibraryDto = new CDP4Common.DTO.SiteReferenceDataLibrary() { Iid = Guid.NewGuid() };
-//    var requiredSiteReferenceDataLibraryPoco = new CDP4Common.SiteDirectoryData.SiteReferenceDataLibrary(requiredSiteReferenceDataLibraryDto.Iid, this.session.Assembler.Cache, this.uri);
-//
-//    rdlDto.RequiredRdl = requiredSiteReferenceDataLibraryDto.Iid;
-//    rdlPoco.RequiredRdl = requiredSiteReferenceDataLibraryPoco;
-//
-//    var thingsToAdd = new List<Thing>() { requiredSiteReferenceDataLibraryDto, rdlDto };
-//
-//    await session.Assembler.Synchronize(thingsToAdd);
-//    await session.Read(rdlPoco);
-//    Assert.AreEqual(2, session.OpenReferenceDataLibraries.ToList().Count());
-//
-//    Lazy<CDP4Common.CommonData.Thing> rdlPocoToClose;
-//    session.Assembler.Cache.TryGetValue(new CacheKey(rdlPoco.Iid, null), out rdlPocoToClose);
-//    await session.CloseRdl((CDP4Common.SiteDirectoryData.SiteReferenceDataLibrary)rdlPocoToClose.Value);
-//    Assert.AreEqual(1, session.OpenReferenceDataLibraries.ToList().Count());
-//
-//    await session.Read(rdlPoco);
-//    Assert.AreEqual(2, session.OpenReferenceDataLibraries.ToList().Count());
-//
-//    session.Assembler.Cache.TryGetValue(new CacheKey(rdlPoco.Iid, null), out rdlPocoToClose);
-//    Lazy<CDP4Common.CommonData.Thing> requiredRdlToClose;
-//    session.Assembler.Cache.TryGetValue(new CacheKey(requiredSiteReferenceDataLibraryPoco.Iid, null), out requiredRdlToClose);
-//    await session.CloseRdl((CDP4Common.SiteDirectoryData.SiteReferenceDataLibrary)requiredRdlToClose.Value);
-//
-//    Assert.AreEqual(0, session.OpenReferenceDataLibraries.ToList().Count());
-//
-//    await session.CloseRdl((CDP4Common.SiteDirectoryData.SiteReferenceDataLibrary)rdlPocoToClose.Value);
-//    Assert.AreEqual(0, session.OpenReferenceDataLibraries.ToList().Count());
-//  }
-//
-//        [Test]
-//  public async Task VerifyThatSiteRdlRequiredByModelRdlCannotBeClosed()
-//  {
-//    var rdlDto = new CDP4Common.DTO.SiteReferenceDataLibrary { Iid = Guid.NewGuid() };
-//    var siteDirDto = new CDP4Common.DTO.SiteDirectory() { Iid = Guid.NewGuid() };
-//    var requiredRdlDto = new CDP4Common.DTO.SiteReferenceDataLibrary() { Iid = Guid.NewGuid() };
-//    rdlDto.RequiredRdl = requiredRdlDto.Iid;
-//    siteDirDto.SiteReferenceDataLibrary.Add(rdlDto.Iid);
-//    siteDirDto.SiteReferenceDataLibrary.Add(requiredRdlDto.Iid);
-//
-//    var mrdl = new CDP4Common.DTO.ModelReferenceDataLibrary(Guid.NewGuid(), 0) { RequiredRdl = requiredRdlDto.Iid };
-//    var modelsetup = new EngineeringModelSetup(Guid.NewGuid(), 0);
-//    modelsetup.RequiredRdl.Add(mrdl.Iid);
-//
-//    var model = new EngineeringModel(Guid.NewGuid(), 0) { EngineeringModelSetup = modelsetup.Iid };
-//    var iteration = new Iteration(Guid.NewGuid(), 0);
-//    model.Iteration.Add(iteration.Iid);
-//
-//    siteDirDto.Model.Add(modelsetup.Iid);
-//
-//    var readReturn = new List<Thing>
-//    {
-//      siteDirDto,
-//          mrdl,
-//          modelsetup,
-//          model,
-//          iteration
-//    };
-//
-//    var mrdlpoco = new ModelReferenceDataLibrary(mrdl.Iid, null, null);
-//    var modelsetuppoco = new CDP4Common.SiteDirectoryData.EngineeringModelSetup(modelsetup.Iid, null, null);
-//    modelsetuppoco.RequiredRdl.Add(mrdlpoco);
-//
-//    var participant = new CDP4Common.DTO.Participant(Guid.NewGuid(), 0) { Person = this.person.Iid };
-//    modelsetup.Participant.Add(participant.Iid);
-//    var modelPoco = new CDP4Common.EngineeringModelData.EngineeringModel(model.Iid, null, null){EngineeringModelSetup = modelsetuppoco};
-//    var iterationPoco = new CDP4Common.EngineeringModelData.Iteration(iteration.Iid, null, null);
-//    modelPoco.Iteration.Add(iterationPoco);
-//
-//    var readTaskCompletionSource = new TaskCompletionSource<IEnumerable<Thing>>();
-//    readTaskCompletionSource.SetResult(readReturn);
-//    this.mockedDal.Setup(
-//        x => x.Read(It.IsAny<Iteration>(), It.IsAny<CancellationToken>(), null))
-//                .Returns(readTaskCompletionSource.Task);
-//
-//    var thingsToAdd = new List<Thing>() { siteDirDto, requiredRdlDto, rdlDto, this.person, participant, modelsetup };
-//
-//    await this.session.Assembler.Synchronize(thingsToAdd);
-//    await this.session.Read(iterationPoco, null);
-//
-//    Assert.AreEqual(2, this.session.OpenReferenceDataLibraries.Count());
-//
-//    Lazy<CDP4Common.CommonData.Thing> requiredRdlToClose;
-//    this.session.Assembler.Cache.TryGetValue(new CacheKey(requiredRdlDto.Iid, null), out requiredRdlToClose);
-//
-//    await this.session.CloseRdl((SiteReferenceDataLibrary)requiredRdlToClose.Value);
-//    Assert.AreEqual(2, this.session.OpenReferenceDataLibraries.Count());
-//  }
-//
-//        [Test]
-//  public async Task VerifyThatCloseModelRdlWorks()
-//  {
-//    var siteDir = new CDP4Common.SiteDirectoryData.SiteDirectory(Guid.NewGuid(), null, null);
-//    var modelRdlDto = new CDP4Common.DTO.ModelReferenceDataLibrary() { Iid = Guid.NewGuid() };
-//    var siteDirDto = new CDP4Common.DTO.SiteDirectory() { Iid = Guid.NewGuid() };
-//    var requiredPocoDto = new CDP4Common.DTO.SiteReferenceDataLibrary() { Iid = Guid.NewGuid() };
-//    var requiredPocoRdl = new SiteReferenceDataLibrary(Guid.NewGuid(), null, null);
-//    var containerEngModelSetupDto = new EngineeringModelSetup() { Iid = Guid.NewGuid() };
-//    var containerEngModelSetup = new CDP4Common.SiteDirectoryData.EngineeringModelSetup() { Iid = containerEngModelSetupDto.Iid };
-//    siteDir.Model.Add(containerEngModelSetup);
-//    modelRdlDto.RequiredRdl = requiredPocoDto.Iid;
-//
-//    var credentials = new Credentials("admin", "pass", new Uri("http://www.rheagroup.com"));
-//    var session2 = new Session(this.mockedDal.Object, credentials);
-//    var modelRdlPoco = new ModelReferenceDataLibrary { Iid = modelRdlDto.Iid, Name = modelRdlDto.Name, ShortName = modelRdlDto.ShortName, Container = containerEngModelSetup, RequiredRdl = requiredPocoRdl };
-//    var thingsToAdd = new List<Thing>() { siteDirDto, requiredPocoDto, containerEngModelSetupDto, modelRdlDto };
-//
-//    await session2.Assembler.Synchronize(thingsToAdd);
-//    await session2.Read(modelRdlPoco);
-//    Assert.AreEqual(2, session2.OpenReferenceDataLibraries.ToList().Count());
-//
-//    Lazy<CDP4Common.CommonData.Thing> rdlPocoToClose;
-//    session2.Assembler.Cache.TryGetValue(new CacheKey(modelRdlPoco.Iid, null), out rdlPocoToClose);
-//    Assert.NotNull(rdlPocoToClose);
-//    await session2.CloseModelRdl((ModelReferenceDataLibrary)rdlPocoToClose.Value);
-//
-//    // Checkt that closing a modelRDL doesn't close it's required SiteRDL
-//    Assert.AreEqual(1, session2.OpenReferenceDataLibraries.ToList().Count());
-//    Assert.AreEqual(ClassKind.SiteReferenceDataLibrary, session2.OpenReferenceDataLibraries.First().ClassKind);
-//  }
-//
-//        [Test]
-//  public async Task VerifyThatCloseModelWorks()
-//  {
-//    var siteDir = new CDP4Common.SiteDirectoryData.SiteDirectory(Guid.NewGuid(), null, null);
-//    var modelRdlDto = new CDP4Common.DTO.ModelReferenceDataLibrary { Iid = Guid.NewGuid() };
-//    var siteDirDto = new CDP4Common.DTO.SiteDirectory { Iid = Guid.NewGuid() };
-//    var requiredPocoDto = new CDP4Common.DTO.SiteReferenceDataLibrary { Iid = Guid.NewGuid() };
-//    var containerEngModelSetupDto = new EngineeringModelSetup { Iid = Guid.NewGuid() };
-//    var containerEngModelSetup = new CDP4Common.SiteDirectoryData.EngineeringModelSetup { Iid = containerEngModelSetupDto.Iid };
-//    var iterationDto = new Iteration { Iid = Guid.NewGuid() };
-//    var iteration = new CDP4Common.EngineeringModelData.Iteration { Iid = iterationDto.Iid };
-//    var iterationSetupDto = new CDP4Common.DTO.IterationSetup { Iid = Guid.NewGuid(), IterationIid = iterationDto.Iid };
-//    iterationDto.IterationSetup = iterationSetupDto.IterationIid;
-//    siteDir.Model.Add(containerEngModelSetup);
-//    modelRdlDto.RequiredRdl = requiredPocoDto.Iid;
-//
-//    var credentials = new Credentials("admin", "pass", new Uri("http://www.rheagroup.com"));
-//    var session2 = new Session(this.mockedDal.Object, credentials);
-//
-//    var iterationSetup = new CDP4Common.SiteDirectoryData.IterationSetup { Iid = iterationSetupDto.Iid, Container = containerEngModelSetup, IterationIid = iteration.Iid };
-//    var thingsToAdd = new List<Thing> { siteDirDto, requiredPocoDto, containerEngModelSetupDto, modelRdlDto, iterationSetupDto };
-//
-//    await session2.Assembler.Synchronize(thingsToAdd);
-//
-//    var lazyiteration = new Lazy<CDP4Common.CommonData.Thing>(() => iteration);
-//    session2.Assembler.Cache.GetOrAdd(new CacheKey(iterationDto.Iid, null), lazyiteration);
-//
-//    CDP4Common.CommonData.Thing changedObject = null;
-//    CDPMessageBus.Current.Listen<ObjectChangedEvent>(typeof(CDP4Common.EngineeringModelData.Iteration)).Subscribe(x => changedObject = x.ChangedThing);
-//    session2.CloseIterationSetup(iterationSetup);
-//    Assert.NotNull(changedObject);
-//  }
-//
-//        [Test]
-//  public async Task VerifyThatReadRdlWorks()
-//  {
-//    var siteDir = new CDP4Common.SiteDirectoryData.SiteDirectory(Guid.NewGuid(), this.session.Assembler.Cache, this.uri);
-//    this.session.Assembler.Cache.TryAdd(new CacheKey(siteDir.Iid, null),
-//        new Lazy<CDP4Common.CommonData.Thing>(() => siteDir));
-//
-//    var sitedirDto = new SiteDirectory(siteDir.Iid, 1);
-//    var rdl = new CDP4Common.DTO.SiteReferenceDataLibrary(Guid.NewGuid(), 1);
-//    sitedirDto.SiteReferenceDataLibrary.Add(rdl.Iid);
-//
-//    var readOutput = new List<Thing>
-//    {
-//      sitedirDto,
-//          rdl
-//    };
-//
-//    var readTaskCompletionSource = new TaskCompletionSource<IEnumerable<Thing>>();
-//    readTaskCompletionSource.SetResult(readOutput);
-//    this.mockedDal.Setup(x => x.Read(It.IsAny<Thing>(), It.IsAny<CancellationToken>(), It.IsAny<IQueryAttributes>())).Returns(readTaskCompletionSource.Task);
-//
-//    var srdl = new SiteReferenceDataLibrary(rdl.Iid, null, null);
-//    srdl.Container = siteDir;
-//
-//    await this.session.Read(srdl);
-//
-//    Assert.AreEqual(1, this.session.OpenReferenceDataLibraries.Count());
-//    Assert.IsTrue(siteDir.SiteReferenceDataLibrary.Any());
-//  }
-//
-//        [Test]
-//  public void VerifyThatReadIterationWorks()
-//  {
-//    var siteDir = new CDP4Common.SiteDirectoryData.SiteDirectory(Guid.NewGuid(), this.session.Assembler.Cache, this.uri);
-//    var modelSetup = new CDP4Common.SiteDirectoryData.EngineeringModelSetup(Guid.NewGuid(), this.session.Assembler.Cache, this.uri);
-//    var iterationSetup = new CDP4Common.SiteDirectoryData.IterationSetup(Guid.NewGuid(), this.session.Assembler.Cache, this.uri) { FrozenOn = DateTime.Now, IterationIid = Guid.NewGuid() };
-//    var mrdl = new ModelReferenceDataLibrary(Guid.NewGuid(), this.session.Assembler.Cache, this.uri);
-//    var srdl = new SiteReferenceDataLibrary(Guid.NewGuid(), this.session.Assembler.Cache, this.uri);
-//    var activeDomain = new DomainOfExpertise(Guid.NewGuid(), this.session.Assembler.Cache, this.uri);
-//    mrdl.RequiredRdl = srdl;
-//    modelSetup.RequiredRdl.Add(mrdl);
-//    modelSetup.IterationSetup.Add(iterationSetup);
-//    siteDir.Model.Add(modelSetup);
-//    siteDir.SiteReferenceDataLibrary.Add(srdl);
-//    siteDir.Domain.Add(activeDomain);
-//
-//    this.session.Assembler.Cache.TryAdd(new CacheKey(siteDir.Iid, null), new Lazy<CDP4Common.CommonData.Thing>(() => siteDir));
-//    this.session.Assembler.Cache.TryAdd(new CacheKey(modelSetup.Iid, null), new Lazy<CDP4Common.CommonData.Thing>(() => modelSetup));
-//    this.session.Assembler.Cache.TryAdd(new CacheKey(mrdl.Iid, null), new Lazy<CDP4Common.CommonData.Thing>(() => mrdl));
-//    this.session.Assembler.Cache.TryAdd(new CacheKey(srdl.Iid, null), new Lazy<CDP4Common.CommonData.Thing>(() => srdl));
-//    this.session.Assembler.Cache.TryAdd(new CacheKey(siteDir.Iid, null), new Lazy<CDP4Common.CommonData.Thing>(() => siteDir));
-//    this.session.Assembler.Cache.TryAdd(new CacheKey(iterationSetup.Iid, null), new Lazy<CDP4Common.CommonData.Thing>(() => iterationSetup));
-//
-//    var participant = new CDP4Common.SiteDirectoryData.Participant(Guid.NewGuid(), this.session.Assembler.Cache, this.uri) { Person = this.session.ActivePerson };
-//    modelSetup.Participant.Add(participant);
-//
-//    var model = new EngineeringModel(Guid.NewGuid(), 1);
-//    var iteration = new Iteration(iterationSetup.IterationIid, 10) { IterationSetup = iterationSetup.Iid };
-//    model.Iteration.Add(iteration.Iid);
-//    model.EngineeringModelSetup = modelSetup.Iid;
-//
-//    var readOutput = new List<Thing>
-//    {
-//      model,
-//          iteration
-//    };
-//
-//    var readTaskCompletionSource = new TaskCompletionSource<IEnumerable<Thing>>();
-//    readTaskCompletionSource.SetResult(readOutput);
-//    this.mockedDal.Setup(x => x.Read(It.IsAny<Iteration>(), It.IsAny<CancellationToken>(), It.IsAny<IQueryAttributes>())).Returns(readTaskCompletionSource.Task);
-//
-//    var iterationToOpen = new CDP4Common.EngineeringModelData.Iteration(iteration.Iid, null, null);
-//    var modelToOpen = new CDP4Common.EngineeringModelData.EngineeringModel(model.Iid, null, null);
-//    iterationToOpen.Container = modelToOpen;
-//
-//    this.session.Read(iterationToOpen, activeDomain).Wait();
-//    this.mockedDal.Verify(x => x.Read(It.Is<Iteration>(i => i.Iid == iterationToOpen.Iid), It.IsAny<CancellationToken>(), It.IsAny<IQueryAttributes>()), Times.Once);
-//
-//    var pair = this.session.OpenIterations.Single();
-//    Assert.AreEqual(pair.Value.Item1, activeDomain);
-//
-//    this.session.Read(iterationToOpen, activeDomain).Wait();
-//    this.mockedDal.Verify(x => x.Read(It.Is<Iteration>(i => i.Iid == iterationToOpen.Iid), It.IsAny<CancellationToken>(), It.IsAny<IQueryAttributes>()), Times.Exactly(2));
-//
-//    pair = this.session.OpenIterations.Single();
-//    Assert.AreEqual(pair.Value.Item1, activeDomain);
-//
-//    var selectedDomain = this.session.QuerySelectedDomainOfExpertise(iterationToOpen);
-//    Assert.AreEqual(activeDomain.Iid, selectedDomain.Iid);
-//
-//    this.mockedDal.Setup(x => x.Read(It.IsAny<Thing>(), It.IsAny<CancellationToken>(), It.IsAny<IQueryAttributes>())).Returns<Thing, CancellationToken, IQueryAttributes>(
-//      (x, y, z) =>
-//    {
-//      // the method with iteration is called
-//      var xvariable = x;
-//      return readTaskCompletionSource.Task;
-//    });
-//
-//    this.session.Refresh().Wait();
-//    this.mockedDal.Verify(x => x.Read<Thing>(It.IsAny<Thing>(), It.IsAny<CancellationToken>(), It.IsAny<IQueryAttributes>()), Times.Exactly(1));
-//
-//    Assert.ThrowsAsync<InvalidOperationException>(async () => await this.session.Read(iterationToOpen, null));
-//  }
-//
-//
-//        [Test]
-//  public void VeriyThatCDPVersionIsSet()
-//  {
-//    var testDal = new TestDal();
-//    var credentials = new Credentials("John", "Doe", this.uri);
-//
-//    this.session = new Session(testDal, credentials);
-//    var version = new Version("1.1.0");
-//
-//    Assert.AreEqual(version.Major, this.session.DalVersion.Major);
-//    Assert.AreEqual(version.Minor, this.session.DalVersion.Minor);
-//    Assert.AreEqual(version.Build, this.session.DalVersion.Build);
-//  }
-//
-//        [Test]
-//  public void VerifyThatIsVersionSupportedReturnsExpectedResult()
-//  {
-//    var testDal = new TestDal();
-//    var credentials = new Credentials("John", "Doe", this.uri);
-//    this.session = new Session(testDal, credentials);
-//
-//    var supportedVersion = new Version("1.0.0");
-//    Assert.IsTrue(this.session.IsVersionSupported(supportedVersion));
-//
-//    supportedVersion = new Version("1.1.0");
-//    Assert.IsTrue(this.session.IsVersionSupported(supportedVersion));
-//
-//    var notSupportedVersion = new Version("2.0.0");
-//    Assert.IsFalse(this.session.IsVersionSupported(notSupportedVersion));
-//  }
-//}
-//
-////[DalExport("test dal", "test dal description", "1.1.0", DalType.Web)]
-//    internal class TestDal : IDal
-//    {
-//public Version SupportedVersion { get {return new Version(1, 0, 0);} }
-//public Version DalVersion { get {return new Version("1.1.0");} }
-//public IMetaDataProvider MetaDataProvider { get {return new MetaDataProvider();} }
-//
-///// <summary>
-///// Gets or sets the <see cref="ISession"/> that uses this <see cref="IDal"/>
-///// </summary>
-//public ISession Session { get; set; }
-//
-//public bool IsReadOnly { get { return false; } }
-//
-///// <summary>
-///// Write all the <see cref="Operation"/>s from all the <see cref="OperationContainer"/>s asynchronously.
-///// </summary>
-///// <param name="operationContainer">
-///// The provided <see cref="OperationContainer"/> to write
-///// </param>
-///// <param name="files">
-///// The path to the files that need to be uploaded. If <paramref name="files"/> is null, then no files are to be uploaded
-///// </param>
-///// <returns>
-///// A list of <see cref="Thing"/>s that has been created or updated since the last Read or Write operation.
-///// </returns>
-//public Task<IEnumerable<Thing>> Write(IEnumerable<OperationContainer> operationContainers, IEnumerable<string> files = null)
-//    {
-//    throw new NotImplementedException();
-//    }
-//
-///// <summary>
-///// Write all the <see cref="Operation"/>s from an <see cref="OperationContainer"/> asynchronously.
-///// </summary>
-///// <param name="operationContainer">
-///// The provided <see cref="OperationContainer"/> to write
-///// </param>
-///// <returns>
-///// A list of <see cref="Thing"/>s that has been created or updated since the last Read or Write operation.
-///// </returns>
-//public Task<IEnumerable<Thing>> Write(OperationContainer operationContainer, IEnumerable<string> files = null)
-//    {
-//    throw new NotImplementedException();
-//    }
-//
-///// <summary>
-///// Reads the data related to the provided <see cref="Thing"/> from the data-source
-///// </summary>
-///// <typeparam name="T">
-///// an type of <see cref="Thing"/>
-///// </typeparam>
-///// <param name="thing">
-///// An instance of <see cref="Thing"/> that needs to be read from the data-source
-///// </param>
-///// <param name="cancellationToken">
-///// The <see cref="CancellationToken"/>
-///// </param>
-///// <param name="attributes">
-///// An instance of <see cref="IQueryAttributes"/> to be used with the request
-///// </param>
-///// <returns>
-///// A list of <see cref="Thing"/> that are contained by the provided <see cref="Thing"/> including the <see cref="Thing"/>.
-///// In case the
-///// <param name="thing">
-///// </param>
-///// is a top container then all the <see cref="Thing"/>s that have been updated since the
-///// last read will be returned.
-///// </returns>
-//public Task<IEnumerable<Thing>> Read<T>(T thing, CancellationToken cancellationToken, IQueryAttributes attributes = null) where T : Thing
-//    {
-//    throw new NotImplementedException();
-//    }
-//
-///// <summary>
-///// Reads the data related to the provided <see cref="Iteration"/> from the data-source
-///// </summary>
-///// <param name="iteration">
-///// An instance of <see cref="Iteration"/> that needs to be read from the data-source
-///// </param>
-///// <param name="cancellationToken">
-///// The <see cref="CancellationToken"/>
-///// </param>
-///// <param name="attributes">
-///// An instance of <see cref="IQueryAttributes"/> to be used with the request
-///// </param>
-///// <returns>
-///// A list of <see cref="Thing"/> that are contained by the provided <see cref="EngineeringModel"/> including the Reference-Data.
-///// All the <see cref="Thing"/>s that have been updated since the last read will be returned.
-///// </returns>
-//public Task<IEnumerable<Thing>> Read(Iteration iteration, CancellationToken cancellationToken, IQueryAttributes attributes = null)
-//    {
-//    throw new NotImplementedException();
-//    }
-//
-///// <summary>
-///// Creates the specified <see cref="Thing"/> on the data-source
-///// </summary>
-///// <param name="thing">
-///// The <see cref="Thing"/> that is to be created
-///// </param>
-///// <typeparam name="T">
-///// The type of <see cref="Thing"/>
-///// </typeparam>
-///// <returns>
-///// A list of <see cref="Thing"/> that have been created.
-///// </returns>
-//public IEnumerable<Thing> Create<T>(T thing) where T : Thing
-//    {
-//    throw new NotImplementedException();
-//    }
-//
-///// <summary>
-///// Performs an update to the <see cref="Thing"/> on the data-source
-///// </summary>
-///// <param name="thing">
-///// The <see cref="Thing"/> that is to be updated
-///// </param>
-///// <typeparam name="T">
-///// a type of <see cref="Thing"/>
-///// </typeparam>
-///// <returns>
-///// A list of <see cref="Thing"/> that have been updated.
-///// </returns>
-//public IEnumerable<Thing> Update<T>(T thing) where T : Thing
-//    {
-//    throw new NotImplementedException();
-//    }
-//
-///// <summary>
-///// Deletes the specified <see cref="Thing"/> from the data-source
-///// </summary>
-///// <param name="thing">
-///// The <see cref="Thing"/> that is to be deleted
-///// </param>
-///// <typeparam name="T">
-///// a type of <see cref="Thing"/>
-///// </typeparam>
-///// <returns>
-///// A list of <see cref="Thing"/> that have been updated since the last Read has been performed.
-///// </returns>
-//public IEnumerable<Thing> Delete<T>(T thing) where T : Thing
-//    {
-//    throw new NotImplementedException();
-//    }
-//
-///// <summary>
-///// Opens a connection to a data-source <see cref="Uri"/>
-///// </summary>
-///// <param name="credentials">
-///// The <see cref="Credentials"/> that are used to connect to the data source such as username, password and <see cref="Uri"/>
-///// </param>
-///// <param name="cancellationToken">
-///// The cancellation Token.
-///// </param>
-///// <returns>
-///// The <see cref="IEnumerable{T}"/> that the services return when connecting to the <see cref="SiteDirectory"/>.
-///// </returns>
-//public Task<IEnumerable<Thing>> Open(Credentials credentials, CancellationToken cancellationToken)
-//    {
-//    throw new NotImplementedException();
-//    }
-//
-///// <summary>
-///// Closes the connection to the data-source.
-///// </summary>
-//public void Close()
-//    {
-//    throw new NotImplementedException();
-//    }
-//
-///// <summary>
-///// Assertion that the provided string is a valid <see cref="Uri"/> to connect to
-///// a data-source with the current implementation of the <see cref="IDal"/>
-///// </summary>
-///// <param name="uri">
-///// a string representing a <see cref="Uri"/>
-///// </param>
-///// <returns>
-///// true when valid, false when invalid
-///// </returns>
-//public bool IsValidUri(string uri)
-//    {
-//    throw new NotImplementedException();
-//    }
+
+  /**
+   * Mocked data service
+   */
+  private Dal mockedDal;
+
+  /**
+   * a list of {@link cdp4common.dto.Thing} returned from the mocked {@link Dal}
+   */
+  private List<Thing> dalOutputs;
+
+  /**
+   * The uri of the mocked {@link Dal}
+   */
+  private URI uri;
+
+  /**
+   * The {@link Session} object under test
+   */
+  private Session session;
+
+  /**
+   * The {@link cdp4common.dto.Person} object under test
+   */
+  private cdp4common.dto.Person person;
+
+  private cdp4common.dto.SiteDirectory sieSiteDirectoryDto;
+
+  private AtomicBoolean cancelled;
+
+  @BeforeEach
+  void setUp() {
+    CDPMessageBus.getCurrent().clearSubscriptions();
+
+    this.dalOutputs = new ArrayList<>();
+
+    this.sieSiteDirectoryDto = new cdp4common.dto.SiteDirectory(UUID.randomUUID(), 22);
+    this.person = new cdp4common.dto.Person(UUID.randomUUID(), 22);
+    this.person.setShortName("John");
+    this.person.setGivenName("John");
+    this.person.setPassword("Doe");
+    this.person.setActive(true);
+
+    var phone1 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 22);
+    phone1.setValue("123");
+    phone1.getVcardType().add(VcardTelephoneNumberKind.HOME);
+
+    var phone2 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 22);
+    phone2.setValue("456");
+    phone2.getVcardType().add(VcardTelephoneNumberKind.WORK);
+
+    var phone3 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 22);
+    phone3.setValue("789");
+    phone3.getVcardType().add(VcardTelephoneNumberKind.FAX);
+
+    this.sieSiteDirectoryDto.getPerson().add(this.person.getIid());
+
+    this.person.getTelephoneNumber().add(phone1.getIid());
+    this.person.getTelephoneNumber().add(phone2.getIid());
+    this.person.getTelephoneNumber().add(phone3.getIid());
+
+    this.dalOutputs.add(this.sieSiteDirectoryDto);
+    this.dalOutputs.add(this.person);
+    this.dalOutputs.add(phone1);
+    this.dalOutputs.add(phone2);
+    this.dalOutputs.add(phone3);
+
+    this.uri = URI.create("http://www.rheagroup.com/");
+    var credentials = new Credentials("John", "Doe", this.uri, null);
+
+    this.mockedDal = mock(Dal.class);
+
+    this.session = new SessionImpl(this.mockedDal, credentials);
+
+    this.cancelled = new AtomicBoolean();
+
+    when(this.mockedDal.open(any(Credentials.class), any(AtomicBoolean.class)))
+        .thenReturn(CompletableFuture.completedFuture(this.dalOutputs));
+  }
+
+  @Test
+  void verifyThatOpenCallAssemblerSynchronizeWithDtos()
+      throws ExecutionException, InterruptedException {
+    AtomicBoolean eventReceived = new AtomicBoolean();
+    CDPMessageBus.getCurrent().listen(ObjectChangedEvent.class, TelephoneNumber.class, null)
+        .subscribe(x -> eventReceived.set(true));
+
+    this.session.open().get();
+
+    assertTrue(eventReceived.get());
+  }
+
+  @Test
+  void verifyThatWriteWithEmptyResponseSendsMessages()
+      throws ExecutionException, InterruptedException {
+    AtomicBoolean beginUpdateReceived = new AtomicBoolean();
+    AtomicBoolean endUpdateReceived = new AtomicBoolean();
+
+    when(this.mockedDal.write(any(OperationContainer.class), any()))
+        .thenReturn(CompletableFuture.completedFuture(new ArrayList<>()));
+
+    CDPMessageBus.getCurrent().listen(SessionEvent.class, null, null)
+        .subscribe(x ->
+        {
+          if (x.getStatus() == SessionStatus.BEGIN_UPDATE) {
+            beginUpdateReceived.set(true);
+            return;
+          }
+
+          if (x.getStatus() == SessionStatus.END_UPDATE) {
+            endUpdateReceived.set(true);
+          }
+        });
+
+    var context = String.format("/SiteDirectory/%s", UUID.randomUUID());
+    this.session.write(new OperationContainer(context, null)).get();
+
+    assertTrue(beginUpdateReceived.get());
+    assertTrue(endUpdateReceived.get());
+  }
+
+  @Test
+  void verifyThatRefreshSynchronizeTheAssembler() throws ExecutionException, InterruptedException {
+    AtomicBoolean eventReceived = new AtomicBoolean();
+
+    when(this.mockedDal.read(any(Thing.class), any(AtomicBoolean.class), any()))
+        .thenReturn(CompletableFuture.completedFuture(this.dalOutputs));
+
+    this.session.open().get();
+
+    CDPMessageBus.getCurrent().listen(ObjectChangedEvent.class, TelephoneNumber.class, null)
+        .subscribe(x ->
+            eventReceived.set(true));
+
+    // refresh shouldn't do anything
+    this.session.refresh().get();
+
+    assertFalse(eventReceived.get());
+  }
+
+  @Test
+  void verifyThatReloadSynchronizeTheAssembler() throws ExecutionException, InterruptedException {
+    AtomicBoolean eventReceived = new AtomicBoolean();
+
+    var updatedTel = new cdp4common.dto.TelephoneNumber(
+        this.dalOutputs
+            .stream()
+            .filter(x -> x instanceof cdp4common.dto.TelephoneNumber)
+            .findAny()
+            .get().getIid(), 100);
+
+    when(this.mockedDal.read(any(Thing.class), any(AtomicBoolean.class), any()))
+        .thenReturn(CompletableFuture.completedFuture(
+            Arrays.asList(updatedTel)));
+
+    this.session.open().get();
+
+    CDPMessageBus.getCurrent().listen(ObjectChangedEvent.class, TelephoneNumber.class, null)
+        .subscribe(x ->
+            eventReceived.set(true)
+        );
+
+    this.session.reload().get();
+    TimeUnit.MILLISECONDS.sleep(10);
+    assertTrue(eventReceived.get());
+  }
+
+  /**
+   * The verify that get active person works.
+   */
+  @Test
+  void verifyThatGetActivePersonWorks() throws ExecutionException, InterruptedException {
+    this.session.open().get();
+
+    var activePerson = this.session.getActivePerson();
+    assertNotNull(activePerson);
+    assertEquals("John", activePerson.getShortName());
+
+    // query again to cover cached activePerson property
+    activePerson = this.session.getActivePerson();
+    assertNotNull(activePerson);
+  }
+
+  @Test
+  void verifyThatOpenSiteRDLUpdatesListInSession() throws ExecutionException, InterruptedException {
+    var siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(), null, null);
+    var rdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    rdlDto.setIid(UUID.randomUUID());
+    var siteDirDto = new cdp4common.dto.SiteDirectory();
+    siteDirDto.setIid(UUID.randomUUID());
+    var requiredPojoDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    requiredPojoDto.setIid(UUID.randomUUID());
+    var requiredPojoRdl = new cdp4common.sitedirectorydata.SiteReferenceDataLibrary(
+        requiredPojoDto.getIid(), null, null);
+    rdlDto.setRequiredRdl(requiredPojoDto.getIid());
+
+    var credentials = new Credentials("admin", "pass", URI.create("http://www.rheagroup.com"),
+        null);
+    var session2 = new SessionImpl(this.mockedDal, credentials);
+    var rdlPojo = new cdp4common.sitedirectorydata.SiteReferenceDataLibrary();
+    rdlPojo.setIid(rdlDto.getIid());
+    rdlPojo.setName(rdlDto.getName());
+    rdlPojo.setShortName(rdlDto.getShortName());
+    rdlPojo.setContainer(siteDir);
+    rdlPojo.setRequiredRdl(requiredPojoRdl);
+    var thingsToAdd = new ArrayList<Thing>();
+    thingsToAdd.add(siteDirDto);
+    thingsToAdd.add(requiredPojoDto);
+    thingsToAdd.add(rdlDto);
+
+    when(this.mockedDal.read(any(Thing.class), any(AtomicBoolean.class), any()))
+        .thenReturn(CompletableFuture.completedFuture(new ArrayList<>()));
+
+    session2.getAssembler().synchronize(thingsToAdd, true).get();
+    assertTrue(session2.getOpenReferenceDataLibraries().isEmpty());
+
+    session2.read(rdlPojo).get();
+    assertEquals(2, session2.getOpenReferenceDataLibraries().size());
+
+    session2.close().get();
+    assertTrue(session2.getOpenReferenceDataLibraries().isEmpty());
+  }
+
+  @Test
+  void verifyThatCloseRdlWorks() throws ExecutionException, InterruptedException {
+    var siteDirectoryPojo = new cdp4common.sitedirectorydata.SiteDirectory(
+        this.sieSiteDirectoryDto.getIid(), this.session.getAssembler().getCache(), this.uri);
+
+    var rdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    rdlDto.setIid(UUID.randomUUID());
+    var rdlPojo = new cdp4common.sitedirectorydata.SiteReferenceDataLibrary();
+    rdlPojo.setIid(rdlDto.getIid());
+    rdlPojo.setName(rdlDto.getName());
+    rdlPojo.setShortName(rdlDto.getShortName());
+    rdlPojo.setContainer(siteDirectoryPojo);
+
+    var requiredSiteReferenceDataLibraryDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    requiredSiteReferenceDataLibraryDto.setIid(UUID.randomUUID());
+    var requiredSiteReferenceDataLibraryPojo = new cdp4common.sitedirectorydata.SiteReferenceDataLibrary(
+        requiredSiteReferenceDataLibraryDto.getIid(), this.session.getAssembler().getCache(),
+        this.uri);
+
+    rdlDto.setRequiredRdl(requiredSiteReferenceDataLibraryDto.getIid());
+    rdlPojo.setRequiredRdl(requiredSiteReferenceDataLibraryPojo);
+
+    List<Thing> thingsToAdd = Arrays.asList(
+        requiredSiteReferenceDataLibraryDto, rdlDto
+    );
+
+    when(this.mockedDal.read(any(Thing.class), any(AtomicBoolean.class), any()))
+        .thenReturn(CompletableFuture.completedFuture(new ArrayList<>()));
+
+    session.getAssembler().synchronize(thingsToAdd, true).get();
+    session.read(rdlPojo).get();
+    assertEquals(2, session.getOpenReferenceDataLibraries().size());
+
+    cdp4common.commondata.Thing rdlPojoToClose =
+        session.getAssembler().getCache()
+            .getIfPresent(new CacheKey(rdlPojo.getIid(), null));
+    session.
+        closeRdl((cdp4common.sitedirectorydata.SiteReferenceDataLibrary) rdlPojoToClose).get();
+    assertEquals(1, session.getOpenReferenceDataLibraries().size());
+
+    session.read(rdlPojo).get();
+    assertEquals(2, session.getOpenReferenceDataLibraries().size());
+
+    rdlPojoToClose = session.getAssembler().getCache()
+        .getIfPresent(new CacheKey(rdlPojo.getIid(), null));
+    cdp4common.commondata.Thing requiredRdlToClose =
+        session.getAssembler().getCache()
+            .getIfPresent(new CacheKey(requiredSiteReferenceDataLibraryPojo.getIid(), null));
+    session.
+        closeRdl((cdp4common.sitedirectorydata.SiteReferenceDataLibrary) requiredRdlToClose).get();
+
+    assertEquals(0, session.getOpenReferenceDataLibraries().size());
+
+    session.
+        closeRdl((cdp4common.sitedirectorydata.SiteReferenceDataLibrary) rdlPojoToClose).get();
+    assertEquals(0, session.getOpenReferenceDataLibraries().size());
+  }
+
+  @Test
+  void verifyThatSiteRdlRequiredByModelRdlCannotBeClosed()
+      throws ExecutionException, InterruptedException {
+    var rdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    rdlDto.setIid(UUID.randomUUID());
+    var siteDirDto = new cdp4common.dto.SiteDirectory();
+    siteDirDto.setIid(UUID.randomUUID());
+    var requiredRdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    requiredRdlDto.setIid(UUID.randomUUID());
+    rdlDto.setRequiredRdl(requiredRdlDto.getIid());
+    siteDirDto.getSiteReferenceDataLibrary().add(rdlDto.getIid());
+    siteDirDto.getSiteReferenceDataLibrary().add(requiredRdlDto.getIid());
+
+    var mrdl = new cdp4common.dto.ModelReferenceDataLibrary(UUID.randomUUID(), 0);
+    mrdl.setRequiredRdl(requiredRdlDto.getIid());
+    var modelsetup = new cdp4common.dto.EngineeringModelSetup(UUID.randomUUID(), 0);
+    modelsetup.getRequiredRdl().add(mrdl.getIid());
+
+    var model = new cdp4common.dto.EngineeringModel(UUID.randomUUID(), 0);
+    model.setEngineeringModelSetup(modelsetup.getIid());
+
+    var iteration = new cdp4common.dto.Iteration(UUID.randomUUID(), 0);
+    model.getIteration().add(iteration.getIid());
+
+    siteDirDto.getModel().add(modelsetup.getIid());
+
+    List<Thing> readReturn = Arrays.asList(
+        siteDirDto,
+        mrdl,
+        modelsetup,
+        model,
+        iteration
+    );
+
+    var mrdlPojo = new ModelReferenceDataLibrary(mrdl.getIid(), null, null);
+    var modelSetupPojo = new cdp4common.sitedirectorydata.EngineeringModelSetup(modelsetup.getIid(),
+        null, null);
+    modelSetupPojo.getRequiredRdl().add(mrdlPojo);
+
+    var participant = new cdp4common.dto.Participant(UUID.randomUUID(), 0);
+    participant.setPerson(this.person.getIid());
+    modelsetup.getParticipant().add(participant.getIid());
+    var modelPojo = new cdp4common.engineeringmodeldata.EngineeringModel(model.getIid(), null,
+        null);
+    modelPojo.setEngineeringModelSetup(modelSetupPojo);
+    var iterationPojo = new cdp4common.engineeringmodeldata.Iteration(iteration.getIid(), null,
+        null);
+    modelPojo.getIteration().add(iterationPojo);
+
+    when(this.mockedDal.read(any(Iteration.class), any(AtomicBoolean.class), any()))
+        .thenReturn(CompletableFuture.completedFuture(readReturn));
+
+    List<Thing> thingsToAdd = Arrays.asList(
+        siteDirDto, requiredRdlDto, rdlDto, this.person, participant, modelsetup
+    );
+
+    this.session.getAssembler().synchronize(thingsToAdd, true).get();
+    this.session.read(iterationPojo, null).get();
+
+    assertEquals(2, this.session.getOpenReferenceDataLibraries().size());
+
+    cdp4common.commondata.Thing requiredRdlToClose =
+        this.session.getAssembler().getCache()
+            .getIfPresent(new CacheKey(requiredRdlDto.getIid(), null));
+
+    this.session.closeRdl((SiteReferenceDataLibrary) requiredRdlToClose).get();
+    assertEquals(2, this.session.getOpenReferenceDataLibraries().size());
+  }
+
+  @Test
+  void verifyThatCloseModelRdlWorks() throws ExecutionException, InterruptedException {
+    var siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(), null, null);
+    var modelRdlDto = new cdp4common.dto.ModelReferenceDataLibrary();
+    modelRdlDto.setIid(UUID.randomUUID());
+    var siteDirDto = new cdp4common.dto.SiteDirectory();
+    siteDirDto.setIid(UUID.randomUUID());
+    var requiredPojoDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    requiredPojoDto.setIid(UUID.randomUUID());
+    var requiredPojoRdl = new SiteReferenceDataLibrary(UUID.randomUUID(), null, null);
+    var containerEngModelSetupDto = new cdp4common.dto.EngineeringModelSetup();
+    containerEngModelSetupDto.setIid(UUID.randomUUID());
+    var containerEngModelSetup = new cdp4common.sitedirectorydata.EngineeringModelSetup();
+    containerEngModelSetup.setIid(containerEngModelSetupDto.getIid());
+    siteDir.getModel().add(containerEngModelSetup);
+    modelRdlDto.setRequiredRdl(requiredPojoDto.getIid());
+
+    var credentials = new Credentials("admin", "pass", URI.create("http://www.rheagroup.com"),
+        null);
+    var session2 = new SessionImpl(this.mockedDal, credentials);
+    var modelRdlPojo = new ModelReferenceDataLibrary();
+    modelRdlPojo.setIid(modelRdlDto.getIid());
+    modelRdlPojo.setName(modelRdlDto.getName());
+    modelRdlPojo.setShortName(modelRdlPojo.getShortName());
+    modelRdlPojo.setContainer(containerEngModelSetup);
+    modelRdlPojo.setRequiredRdl(requiredPojoRdl);
+    List<Thing> thingsToAdd = Arrays.asList(
+        siteDirDto, requiredPojoDto, containerEngModelSetupDto, modelRdlDto
+    );
+
+    when(this.mockedDal.read(any(Thing.class), any(AtomicBoolean.class), any()))
+        .thenReturn(CompletableFuture.completedFuture(new ArrayList<>()));
+
+    session2.getAssembler().synchronize(thingsToAdd, true).get();
+    session2.read(modelRdlPojo).get();
+    assertEquals(2, session2.getOpenReferenceDataLibraries().size());
+
+    cdp4common.commondata.Thing rdlPojoToClose =
+        session2.getAssembler().getCache()
+            .getIfPresent(new CacheKey(modelRdlPojo.getIid(), null));
+    assertNotNull(rdlPojoToClose);
+    session2.closeModelRdl((ModelReferenceDataLibrary) rdlPojoToClose).get();
+
+    // Check that closing a modelRDL doesn't close it's required SiteRDL
+    assertEquals(1, session2.getOpenReferenceDataLibraries().size());
+    assertEquals(ClassKind.SITE_REFERENCE_DATA_LIBRARY,
+        session2.getOpenReferenceDataLibraries().get(0).getClassKind());
+  }
+
+  @Test
+  void verifyThatCloseModelWorks() throws ExecutionException, InterruptedException {
+    var siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(), null, null);
+    var modelRdlDto = new cdp4common.dto.ModelReferenceDataLibrary();
+    modelRdlDto.setIid(UUID.randomUUID());
+    var siteDirDto = new cdp4common.dto.SiteDirectory();
+    siteDirDto.setIid(UUID.randomUUID());
+    var requiredPojoDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    requiredPojoDto.setIid(UUID.randomUUID());
+    var containerEngModelSetupDto = new EngineeringModelSetup();
+    containerEngModelSetupDto.setIid(UUID.randomUUID());
+    var containerEngModelSetup = new cdp4common.sitedirectorydata.EngineeringModelSetup();
+    containerEngModelSetup.setIid(containerEngModelSetupDto.getIid());
+    var iterationDto = new Iteration();
+    iterationDto.setIid(UUID.randomUUID());
+    var iteration = new cdp4common.engineeringmodeldata.Iteration();
+    iteration.setIid(iterationDto.getIid());
+    var iterationSetupDto = new cdp4common.dto.IterationSetup();
+    iterationSetupDto.setIid(UUID.randomUUID());
+    iterationSetupDto.setIterationIid(iterationDto.getIid());
+    iterationDto.setIterationSetup(iterationSetupDto.getIterationIid());
+    siteDir.getModel().add(containerEngModelSetup);
+    modelRdlDto.setRequiredRdl(requiredPojoDto.getIid());
+
+    var credentials = new Credentials("admin", "pass", URI.create("http://www.rheagroup.com"),
+        null);
+    var session2 = new SessionImpl(this.mockedDal, credentials);
+
+    var iterationSetup = new cdp4common.sitedirectorydata.IterationSetup();
+    iterationSetup.setIid(iterationSetupDto.getIid());
+    iterationSetup.setContainer(containerEngModelSetup);
+    iterationSetup.setIterationIid(iteration.getIid());
+    List<Thing> thingsToAdd = Arrays.asList(
+        siteDirDto, requiredPojoDto, containerEngModelSetupDto, modelRdlDto, iterationSetupDto
+    );
+
+    session2.getAssembler().synchronize(thingsToAdd, true).get();
+
+    session2.getAssembler().getCache()
+        .put(new CacheKey(iterationDto.getIid(), null), iteration);
+
+    var changedObject = new AtomicBoolean();
+    CDPMessageBus.getCurrent()
+        .listen(ObjectChangedEvent.class, cdp4common.engineeringmodeldata.Iteration.class, null)
+        .subscribe(x -> {
+          if (x.getChangedThing() != null) {
+            changedObject.set(true);
+          }
+        });
+    session2.closeIterationSetup(iterationSetup);
+    assertNotNull(changedObject);
+  }
+
+  @Test
+  void verifyThatReadRdlWorks() throws ExecutionException, InterruptedException {
+    var siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(),
+        this.session.getAssembler().getCache(), this.uri);
+    this.session.getAssembler().getCache().put(new CacheKey(siteDir.getIid(), null), siteDir);
+
+    var sitedirDto = new SiteDirectory(siteDir.getIid(), 1);
+    var rdl = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 1);
+    sitedirDto.getSiteReferenceDataLibrary().add(rdl.getIid());
+
+    List<Thing> readOutput = Arrays.asList(
+        sitedirDto,
+        rdl
+    );
+
+    when(this.mockedDal.read(any(Thing.class), any(AtomicBoolean.class), any()))
+        .thenReturn(CompletableFuture.completedFuture(readOutput));
+
+    var srdl = new SiteReferenceDataLibrary(rdl.getIid(), null, null);
+    srdl.setContainer(siteDir);
+
+    this.session.read(srdl).get();
+
+    assertEquals(1, this.session.getOpenReferenceDataLibraries().size());
+    assertTrue(siteDir.getSiteReferenceDataLibrary().size() > 0);
+  }
+
+  @Test
+  void verifyThatReadIterationWorks() throws ExecutionException, InterruptedException {
+    var siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(),
+        this.session.getAssembler().getCache(), this.uri);
+    var modelSetup = new cdp4common.sitedirectorydata.EngineeringModelSetup(UUID.randomUUID(),
+        this.session.getAssembler().getCache(), this.uri);
+    var iterationSetup = new cdp4common.sitedirectorydata.IterationSetup(UUID.randomUUID(),
+        this.session.getAssembler().getCache(), this.uri);
+    iterationSetup.setFrozenOn(LocalDateTime.now());
+    iterationSetup.setIterationIid(UUID.randomUUID());
+    var mrdl = new ModelReferenceDataLibrary(UUID.randomUUID(),
+        this.session.getAssembler().getCache(),
+        this.uri);
+    var srdl = new SiteReferenceDataLibrary(UUID.randomUUID(),
+        this.session.getAssembler().getCache(),
+        this.uri);
+    var activeDomain = new DomainOfExpertise(UUID.randomUUID(),
+        this.session.getAssembler().getCache(),
+        this.uri);
+    mrdl.setRequiredRdl(srdl);
+    modelSetup.getRequiredRdl().add(mrdl);
+    modelSetup.getIterationSetup().add(iterationSetup);
+    siteDir.getModel().add(modelSetup);
+    siteDir.getSiteReferenceDataLibrary().add(srdl);
+    siteDir.getDomain().add(activeDomain);
+
+    this.session.getAssembler().getCache().put(new CacheKey(siteDir.getIid(), null),
+        siteDir);
+    this.session.getAssembler().getCache().put(new CacheKey(modelSetup.getIid(), null),
+        modelSetup);
+    this.session.getAssembler().getCache().put(new CacheKey(mrdl.getIid(), null),
+        mrdl);
+    this.session.getAssembler().getCache().put(new CacheKey(srdl.getIid(), null),
+        srdl);
+    this.session.getAssembler().getCache().put(new CacheKey(siteDir.getIid(), null),
+        siteDir);
+    this.session.getAssembler().getCache().put(new CacheKey(iterationSetup.getIid(), null),
+        iterationSetup);
+
+    var person = new cdp4common.sitedirectorydata.Person(UUID.randomUUID(),
+        this.session.getAssembler().getCache(), this.uri);
+    person.setActive(true);
+    person.setShortName("John");
+    this.session.getAssembler().getCache().put(new CacheKey(person.getIid(), null),
+        person);
+
+    var participant = new cdp4common.sitedirectorydata.Participant(UUID.randomUUID(),
+        this.session.getAssembler().getCache(), this.uri);
+    participant.setPerson(this.session.getActivePerson());
+    modelSetup.getParticipant().add(participant);
+
+    var model = new cdp4common.dto.EngineeringModel(UUID.randomUUID(), 1);
+    var iteration = new cdp4common.dto.Iteration(iterationSetup.getIterationIid(), 10);
+    iteration.setIterationSetup(iterationSetup.getIid());
+    model.getIteration().add(iteration.getIid());
+    model.setEngineeringModelSetup(modelSetup.getIid());
+
+    List<Thing> readOutput = Arrays.asList(
+        model,
+        iteration
+    );
+
+    when(this.mockedDal.read(any(cdp4common.dto.Iteration.class), any(AtomicBoolean.class), any()))
+        .thenReturn(CompletableFuture.completedFuture(readOutput));
+
+    var iterationToOpen = new cdp4common.engineeringmodeldata.Iteration(iteration.getIid(), null,
+        null);
+    var modelToOpen = new cdp4common.engineeringmodeldata.EngineeringModel(model.getIid(), null,
+        null);
+    iterationToOpen.setContainer(modelToOpen);
+
+    this.session.read(iterationToOpen, activeDomain).get();
+    verify(this.mockedDal, times(1))
+        .read(argThat(x -> x.getIid().equals(iteration.getIid())), any(AtomicBoolean.class), any());
+
+    var pair = this.session.getOpenIterations().asMultimap().entries().stream().collect(
+        MoreCollectors.onlyElement());
+    assertEquals(pair.getValue().getLeft(), activeDomain);
+
+    this.session.read(iterationToOpen, activeDomain).get();
+    verify(this.mockedDal, times(2))
+        .read(argThat(x -> x.getIid().equals(iterationToOpen.getIid())), any(AtomicBoolean.class),
+            any());
+
+    pair = this.session.getOpenIterations().asMultimap().entries().stream().collect(
+        MoreCollectors.onlyElement());
+    assertEquals(pair.getValue().getLeft(), activeDomain);
+
+    var selectedDomain = this.session.querySelectedDomainOfExpertise(iterationToOpen);
+    assertEquals(activeDomain.getIid(), selectedDomain.getIid());
+
+    when(this.mockedDal.read(any(Thing.class), any(AtomicBoolean.class), any()))
+        .thenReturn(CompletableFuture.completedFuture(new ArrayList<>()));
+
+    this.session.refresh().get();
+
+    verify(this.mockedDal, times(1)).read(any(Thing.class), any(AtomicBoolean.class), any());
+    assertThrows(ExecutionException.class, () ->
+        this.session.read(iterationToOpen, null).get());
+  }
+
+  @Test
+  void verifyThatCDPVersionIsSet() {
+    var testDal = new TestDal();
+    var credentials = new Credentials("John", "Doe", this.uri, null);
+
+    this.session = new SessionImpl(testDal, credentials);
+    var version = new Version("1.1.0");
+
+    assertEquals(version.getMajor(), this.session.getDalVersion().getMajor());
+    assertEquals(version.getMinor(), this.session.getDalVersion().getMinor());
+    assertEquals(version.getMicro(), this.session.getDalVersion().getMicro());
+  }
+
+  @Test
+  void verifyThatIsVersionSupportedReturnsExpectedResult() {
+    var testDal = new TestDal();
+    var credentials = new Credentials("John", "Doe", this.uri, null);
+    this.session = new SessionImpl(testDal, credentials);
+
+    var supportedVersion = new Version("1.0.0");
+    assertTrue(this.session.isVersionSupported(supportedVersion));
+
+    supportedVersion = new Version("1.1.0");
+    assertTrue(this.session.isVersionSupported(supportedVersion));
+
+    var notSupportedVersion = new Version("2.0.0");
+    assertFalse(this.session.isVersionSupported(notSupportedVersion));
+  }
+
+  private class TestDal extends DalBase {
+
+    Version getSupportedVersion() {
+      return new Version(1, 0, 0);
+    }
+
+    public Version getDalVersion() {
+      return new Version("1.1.0");
+    }
+
+    public boolean isReadOnly() {
+      return false;
+    }
+
+    public CompletableFuture<List<Thing>> write(List<OperationContainer> operationContainers,
+        List<String> files) {
+      throw new NotImplementedException("Not implemented yet.");
+    }
+
+    public CompletableFuture<List<Thing>> write(OperationContainer operationContainer,
+        List<String> files) {
+      throw new NotImplementedException("Not implemented yet.");
+    }
+
+    public <T extends Thing> CompletableFuture<List<Thing>> read(T thing, AtomicBoolean cancelled,
+        QueryAttributes attributes) {
+      throw new NotImplementedException("Not implemented yet.");
+    }
+
+    public CompletableFuture<List<Thing>> read(Iteration iteration, AtomicBoolean cancelled,
+        QueryAttributes attributes) {
+      throw new NotImplementedException("Not implemented yet.");
+    }
+
+    public <T extends Thing> List<Thing> create(T thing) {
+      throw new NotImplementedException("Not implemented yet.");
+    }
+
+    public <T extends Thing> List<Thing> update(T thing) {
+      throw new NotImplementedException("Not implemented yet.");
+    }
+
+    public <T extends Thing> List<Thing> delete(T thing) {
+      throw new NotImplementedException("Not implemented yet.");
+    }
+
+    public CompletableFuture<List<Thing>> open(Credentials credentials, AtomicBoolean cancelled) {
+      throw new NotImplementedException("Not implemented yet.");
+    }
+
+    public void close() {
+      throw new NotImplementedException("Not implemented yet.");
+    }
+
+
+    public boolean isValidURI(String uri) {
+      throw new NotImplementedException("Not implemented yet.");
+    }
+  }
 }
