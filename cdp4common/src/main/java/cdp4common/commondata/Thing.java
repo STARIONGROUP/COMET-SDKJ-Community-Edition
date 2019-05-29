@@ -582,7 +582,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      * Returns the containing {@link Thing} of the specified type. If this {@link Thing} is not contained by a {@link Thing} of the specified type a null is returned.
      *
      * @param clazz The type of {@link Thing} the expected container has.
-     * @return he containing {@link Thing}or null if no such exists.
+     * @return The containing {@link Thing} or null if no such exists.
      */
     public <T> T getContainerOfType(Class<T> clazz) {
         if (this.getContainer() == null) {

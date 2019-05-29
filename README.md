@@ -25,7 +25,7 @@ The CDP4JsonSerializer library is an optimized CDP4Common specific JSON (de)seri
 
 ## CDP4Dal
 
-The CDP4Dal library is a library that provides the basis to implement ECSS-E-TM-10-25A Annex C. Annex C specifies both the JSON REST API and the exchange file format. The CDP4Dal library contains the Assembler that is used to create a fully dereferenced object graph, a message bus to send events for consumptions in applications that implement the MVVM design pattern as well as the Session class that manages a connection to a datasource.
+The CDP4Dal library is a library that provides the basis to implement ECSS-E-TM-10-25A Annex C. Annex C specifies both the JSON REST API and the exchange file format. The CDP4Dal library contains the Assembler that is used to create a fully dereferenced object graph, a message bus to send cdp4dal.events for consumptions in applications that implement the MVVM design pattern as well as the cdp4dal.Session class that manages a connection to a datasource.
 
 ## CDP4JsonFileDal
 

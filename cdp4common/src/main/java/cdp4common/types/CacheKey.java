@@ -24,11 +24,9 @@
 package cdp4common.types;
 
 import cdp4common.engineeringmodeldata.Iteration;
-import lombok.Getter;
-import lombok.NonNull;
-
 import java.util.Objects;
 import java.util.UUID;
+import lombok.Getter;
 
 /**
  * Represents the key of the Cache
@@ -59,7 +57,10 @@ public final class CacheKey {
      * @param thing     The unique identifier of the {@link cdp4common.commondata.Thing} that is cached
      * @param iteration The unique identifier of the container {@link cdp4common.engineeringmodeldata.Iteration} that is cached
      */
-    public CacheKey(@NonNull UUID thing, UUID iteration) {
+    public CacheKey(UUID thing, UUID iteration) {
+        if(thing == null){
+            throw new NullPointerException("CacheKey cannot have null thing.");
+        }
         this.thing = thing;
         this.iteration = iteration;
     }
