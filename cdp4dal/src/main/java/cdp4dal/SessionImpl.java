@@ -812,6 +812,7 @@ public class SessionImpl implements Session {
 
     var iteration = as(iterationFromCache, Iteration.class);
     if (iteration == null) {
+      log.warn("The iteration {} is not present in the Cache and is therefore not added to the open iterations", iterationId);
       return;
     }
 
@@ -824,7 +825,7 @@ public class SessionImpl implements Session {
         .stream()
         .filter(x -> x.getPerson().equals(this.getActivePerson()))
         .collect(MoreCollectors.toOptional()).orElseThrow(() -> new IllegalArgumentException(
-            "The iteration does not have an active participant associated."));
+            "The iteration does not have an active associated participant."));
 
     this.openIterations.put(iteration, Pair.of(activeDomain, activeParticipant));
 

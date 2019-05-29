@@ -193,7 +193,7 @@ public class PojoThingFactory {
      */
     public static <T extends Thing> T get(Cache<CacheKey, Thing> cache, UUID itemIid, UUID iterationId, Class<T> clazz) {
         if(itemIid == null){
-            log.debug(String.format("The %1$s is not possible to found in the cache for item: %2$s", clazz.getSimpleName(), itemIid));
+            log.debug(String.format("The unique identifier %1$s could not be found in the Cache for item: %2$s.", itemIid, clazz.getSimpleName()));
             return null;
         }
 
