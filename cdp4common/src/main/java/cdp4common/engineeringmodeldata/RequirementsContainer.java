@@ -58,7 +58,6 @@ import lombok.*;
  * RequirementsSpecification and RequirementsGroup
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class RequirementsContainer extends DefinedThing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

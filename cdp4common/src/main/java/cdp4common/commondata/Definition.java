@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = DefinedThing.class, propertyName = "definition")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Definition extends Thing implements Cloneable, Annotation {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

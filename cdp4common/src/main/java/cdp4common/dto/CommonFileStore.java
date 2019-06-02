@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = EngineeringModel.class, propertyName = "commonFileStore")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class CommonFileStore extends FileStore implements Cloneable {
     /**
      * Initializes a new instance of the {@link "CommonFileStore"} class.

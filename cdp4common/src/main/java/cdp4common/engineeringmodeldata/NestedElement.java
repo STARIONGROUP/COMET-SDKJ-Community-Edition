@@ -62,7 +62,6 @@ import lombok.*;
  */
 @Container(clazz = Option.class, propertyName = "nestedElement")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class NestedElement extends Thing implements Cloneable, NamedThing, OwnedThing, ShortNamedThing, VolatileThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

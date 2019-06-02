@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = Iteration.class, propertyName = "option")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Option extends DefinedThing implements Cloneable, CategorizableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

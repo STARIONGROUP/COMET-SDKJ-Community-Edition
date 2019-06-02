@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = Iteration.class, propertyName = "relationship")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class Relationship extends Thing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Initializes a new instance of the {@link "Relationship"} class.

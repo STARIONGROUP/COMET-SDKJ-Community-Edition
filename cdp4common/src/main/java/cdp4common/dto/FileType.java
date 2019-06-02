@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "fileType")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class FileType extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "FileType"} class.

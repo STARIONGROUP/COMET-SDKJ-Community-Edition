@@ -58,7 +58,6 @@ import lombok.*;
  */
 @Container(clazz = Requirement.class, propertyName = "parametricConstraint")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParametricConstraint extends Thing implements Cloneable, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

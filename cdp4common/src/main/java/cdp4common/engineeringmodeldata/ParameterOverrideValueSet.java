@@ -62,7 +62,6 @@ import java.util.stream.Collectors;
  */
 @Container(clazz = ParameterOverride.class, propertyName = "valueSet")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParameterOverrideValueSet extends ParameterValueSetBase implements Cloneable, ModelCode {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

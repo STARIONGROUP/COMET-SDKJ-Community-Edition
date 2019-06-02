@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = PersonRole.class, propertyName = "personPermission")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class PersonPermission extends Thing implements Cloneable, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "PersonPermission"} class.

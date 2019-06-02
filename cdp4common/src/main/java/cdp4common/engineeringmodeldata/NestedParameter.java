@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = NestedElement.class, propertyName = "nestedParameter")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class NestedParameter extends Thing implements Cloneable, OwnedThing, VolatileThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

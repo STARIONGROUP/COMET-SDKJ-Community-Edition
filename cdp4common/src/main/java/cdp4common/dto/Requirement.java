@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = RequirementsSpecification.class, propertyName = "requirement")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Requirement extends SimpleParameterizableThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "Requirement"} class.

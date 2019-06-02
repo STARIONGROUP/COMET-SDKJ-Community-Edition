@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class MeasurementScale extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "MeasurementScale"} class.

@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ParametricConstraint.class, propertyName = "expression")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class BooleanExpression extends Thing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "BooleanExpression"} class.

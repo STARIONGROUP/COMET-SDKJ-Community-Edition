@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ExternalIdentifierMap.class, propertyName = "correspondence")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class IdCorrespondence extends Thing implements Cloneable, OwnedThing {
     /**
      * Initializes a new instance of the {@link "IdCorrespondence"} class.

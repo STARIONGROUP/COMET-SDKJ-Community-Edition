@@ -58,7 +58,6 @@ import lombok.*;
  */
 @Container(clazz = RuleVerificationList.class, propertyName = "ruleVerification")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class RuleVerification extends Thing implements Cloneable, NamedThing, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

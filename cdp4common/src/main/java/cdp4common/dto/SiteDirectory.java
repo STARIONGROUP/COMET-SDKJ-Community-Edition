@@ -60,7 +60,6 @@ import javax.xml.bind.annotation.XmlTransient;
  * A Data Transfer Object representation of the {@link "SiteDirectory"} class.
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class SiteDirectory extends TopContainer implements Cloneable, NamedThing, ShortNamedThing, TimeStampedThing {
     /**
      * Initializes a new instance of the {@link "SiteDirectory"} class.

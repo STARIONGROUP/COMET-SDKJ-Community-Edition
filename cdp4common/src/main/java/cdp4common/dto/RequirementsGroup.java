@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = RequirementsContainer.class, propertyName = "group")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class RequirementsGroup extends RequirementsContainer implements Cloneable {
     /**
      * Initializes a new instance of the {@link "RequirementsGroup"} class.

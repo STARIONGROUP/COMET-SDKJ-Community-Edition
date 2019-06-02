@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ElementDefinition.class, propertyName = "parameter")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Parameter extends ParameterOrOverrideBase implements Cloneable {
     /**
      * Initializes a new instance of the {@link "Parameter"} class.

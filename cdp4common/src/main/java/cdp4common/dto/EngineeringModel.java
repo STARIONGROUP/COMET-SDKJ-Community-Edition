@@ -60,7 +60,6 @@ import javax.xml.bind.annotation.XmlTransient;
  * A Data Transfer Object representation of the {@link "EngineeringModel"} class.
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class EngineeringModel extends TopContainer implements Cloneable {
     /**
      * Initializes a new instance of the {@link "EngineeringModel"} class.

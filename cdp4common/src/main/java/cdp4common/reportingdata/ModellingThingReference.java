@@ -59,7 +59,6 @@ import lombok.*;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = EngineeringModelDataAnnotation.class, propertyName = "relatedThing")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ModellingThingReference extends ThingReference implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

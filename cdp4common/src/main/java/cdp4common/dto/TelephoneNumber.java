@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = Person.class, propertyName = "telephoneNumber")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class TelephoneNumber extends Thing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "TelephoneNumber"} class.

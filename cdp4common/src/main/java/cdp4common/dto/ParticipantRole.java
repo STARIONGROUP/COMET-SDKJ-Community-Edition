@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = SiteDirectory.class, propertyName = "participantRole")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParticipantRole extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "ParticipantRole"} class.

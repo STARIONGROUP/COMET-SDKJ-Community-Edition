@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "unitPrefix")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class UnitPrefix extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "UnitPrefix"} class.

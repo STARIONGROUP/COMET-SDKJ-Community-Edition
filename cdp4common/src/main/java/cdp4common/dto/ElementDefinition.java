@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = Iteration.class, propertyName = "element")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ElementDefinition extends ElementBase implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ElementDefinition"} class.

@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class CyclicRatioScale extends RatioScale implements Cloneable {
     /**
      * Initializes a new instance of the {@link "CyclicRatioScale"} class.

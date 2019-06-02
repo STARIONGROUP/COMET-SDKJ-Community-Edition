@@ -62,7 +62,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Relationship.class, propertyName = "parameterValue")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class RelationshipParameterValue extends ParameterValue implements Cloneable {
     /**
      * Initializes a new instance of the {@link "RelationshipParameterValue"} class.

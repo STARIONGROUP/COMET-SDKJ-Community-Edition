@@ -58,7 +58,6 @@ import lombok.*;
  */
 @CDPVersion(version = "1.1.0")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class DiagramThingBase extends Thing implements Cloneable, NamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

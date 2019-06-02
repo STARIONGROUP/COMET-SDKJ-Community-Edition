@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ElementDefinition.class, propertyName = "parameterGroup")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParameterGroup extends Thing implements Cloneable, NamedThing {
     /**
      * Initializes a new instance of the {@link "ParameterGroup"} class.

@@ -62,7 +62,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Iteration.class, propertyName = "goal")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Goal extends DefinedThing implements Cloneable, CategorizableThing {
     /**
      * Initializes a new instance of the {@link "Goal"} class.

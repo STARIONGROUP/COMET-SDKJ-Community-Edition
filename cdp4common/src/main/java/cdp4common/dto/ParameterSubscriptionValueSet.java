@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ParameterSubscription.class, propertyName = "valueSet")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParameterSubscriptionValueSet extends Thing implements Cloneable, OwnedThing {
     /**
      * Initializes a new instance of the {@link "ParameterSubscriptionValueSet"} class.

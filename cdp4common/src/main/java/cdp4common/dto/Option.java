@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = Iteration.class, propertyName = "option")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Option extends DefinedThing implements Cloneable, CategorizableThing {
     /**
      * Initializes a new instance of the {@link "Option"} class.

@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = RuleVerificationList.class, propertyName = "ruleVerification")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class RuleVerification extends Thing implements Cloneable, NamedThing, OwnedThing {
     /**
      * Initializes a new instance of the {@link "RuleVerification"} class.

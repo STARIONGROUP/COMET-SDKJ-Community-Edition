@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = DerivedQuantityKind.class, propertyName = "quantityKindFactor")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class QuantityKindFactor extends Thing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "QuantityKindFactor"} class.

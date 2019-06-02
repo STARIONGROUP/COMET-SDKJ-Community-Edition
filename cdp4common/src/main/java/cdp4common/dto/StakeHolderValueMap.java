@@ -62,7 +62,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Iteration.class, propertyName = "stakeholderValueMap")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class StakeHolderValueMap extends DefinedThing implements Cloneable, CategorizableThing {
     /**
      * Initializes a new instance of the {@link "StakeHolderValueMap"} class.

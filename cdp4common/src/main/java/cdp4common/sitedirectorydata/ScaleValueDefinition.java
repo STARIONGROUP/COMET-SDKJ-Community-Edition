@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = MeasurementScale.class, propertyName = "valueDefinition")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ScaleValueDefinition extends DefinedThing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

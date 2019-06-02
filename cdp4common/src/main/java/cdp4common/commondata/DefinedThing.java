@@ -32,32 +32,27 @@
 
 package cdp4common.commondata;
 
-import java.util.*;
-import java.util.stream.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.io.*;
-import java.net.URI;
-import cdp4common.*;
-import cdp4common.commondata.*;
-import cdp4common.diagramdata.*;
-import cdp4common.engineeringmodeldata.*;
-import cdp4common.exceptions.ContainmentException;
-import cdp4common.helpers.*;
-import cdp4common.reportingdata.*;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.*;
-import org.apache.commons.lang3.ObjectUtils;
+import cdp4common.AggregationKind;
+import cdp4common.ChangeKind;
+import cdp4common.UmlInformation;
+import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.types.CacheKey;
+import cdp4common.types.ContainerList;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import com.google.common.collect.Iterables;
-import lombok.*;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * abstract specialization of Thing for all classes that need a human readable definition, i.e. a name and a short name, and optionally explicit textual definitions, aliases and hyperlinks
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class DefinedThing extends Thing implements Cloneable, NamedThing, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

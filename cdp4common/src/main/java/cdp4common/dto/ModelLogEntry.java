@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = EngineeringModel.class, propertyName = "logEntry")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ModelLogEntry extends Thing implements Cloneable, Annotation, CategorizableThing, LogEntry, TimeStampedThing {
     /**
      * Initializes a new instance of the {@link "ModelLogEntry"} class.

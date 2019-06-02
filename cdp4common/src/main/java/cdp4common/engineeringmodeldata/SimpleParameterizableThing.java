@@ -59,7 +59,6 @@ import lombok.*;
  * Example: An example of a SimpleParameterizableThing is a Requirement.
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class SimpleParameterizableThing extends DefinedThing implements Cloneable, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

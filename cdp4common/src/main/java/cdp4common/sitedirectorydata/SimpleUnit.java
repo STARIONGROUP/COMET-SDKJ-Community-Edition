@@ -63,7 +63,6 @@ import lombok.*;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "unit")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class SimpleUnit extends MeasurementUnit implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

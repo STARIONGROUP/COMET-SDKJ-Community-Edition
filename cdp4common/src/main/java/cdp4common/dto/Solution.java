@@ -62,7 +62,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = ReviewItemDiscrepancy.class, propertyName = "solution")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Solution extends GenericAnnotation implements Cloneable, OwnedThing {
     /**
      * Initializes a new instance of the {@link "Solution"} class.

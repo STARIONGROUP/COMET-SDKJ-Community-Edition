@@ -58,7 +58,6 @@ import lombok.*;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = SiteDirectory.class, propertyName = "annotation")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class SiteDirectoryDataAnnotation extends GenericAnnotation implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

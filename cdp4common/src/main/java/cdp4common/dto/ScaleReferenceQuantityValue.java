@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = LogarithmicScale.class, propertyName = "referenceQuantityValue")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ScaleReferenceQuantityValue extends Thing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ScaleReferenceQuantityValue"} class.

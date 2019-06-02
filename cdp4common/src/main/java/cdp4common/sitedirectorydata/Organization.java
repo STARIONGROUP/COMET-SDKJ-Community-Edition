@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = SiteDirectory.class, propertyName = "organization")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Organization extends Thing implements Cloneable, DeprecatableThing, NamedThing, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

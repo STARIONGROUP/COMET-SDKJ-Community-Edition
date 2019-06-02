@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = SiteDirectory.class, propertyName = "logEntry")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class SiteLogEntry extends Thing implements Cloneable, Annotation, CategorizableThing, LogEntry, TimeStampedThing {
     /**
      * Initializes a new instance of the {@link "SiteLogEntry"} class.

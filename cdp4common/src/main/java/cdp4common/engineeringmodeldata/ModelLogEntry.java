@@ -58,7 +58,6 @@ import lombok.*;
  */
 @Container(clazz = EngineeringModel.class, propertyName = "logEntry")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ModelLogEntry extends Thing implements Cloneable, Annotation, CategorizableThing, LogEntry, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

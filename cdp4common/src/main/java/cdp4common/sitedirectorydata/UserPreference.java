@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = Person.class, propertyName = "userPreference")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class UserPreference extends Thing implements Cloneable, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = FileStore.class, propertyName = "folder")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Folder extends Thing implements Cloneable, NamedThing, OwnedThing, TimeStampedThing {
     /**
      * Initializes a new instance of the {@link "Folder"} class.

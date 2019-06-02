@@ -60,7 +60,6 @@ import lombok.*;
  */
 @Container(clazz = EngineeringModelSetup.class, propertyName = "iterationSetup")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class IterationSetup extends Thing implements Cloneable, ParticipantAffectedAccessThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

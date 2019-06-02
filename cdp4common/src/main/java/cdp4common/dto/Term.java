@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = Glossary.class, propertyName = "term")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Term extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "Term"} class.

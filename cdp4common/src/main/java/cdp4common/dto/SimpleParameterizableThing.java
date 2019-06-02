@@ -60,7 +60,6 @@ import javax.xml.bind.annotation.XmlTransient;
  * A Data Transfer Object representation of the {@link "SimpleParameterizableThing"} class.
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class SimpleParameterizableThing extends DefinedThing implements Cloneable, OwnedThing {
     /**
      * Initializes a new instance of the {@link "SimpleParameterizableThing"} class.

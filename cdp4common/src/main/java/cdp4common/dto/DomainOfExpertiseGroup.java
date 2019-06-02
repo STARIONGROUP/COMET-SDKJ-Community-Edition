@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = SiteDirectory.class, propertyName = "domainGroup")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class DomainOfExpertiseGroup extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "DomainOfExpertiseGroup"} class.

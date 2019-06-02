@@ -60,7 +60,6 @@ import javax.xml.bind.annotation.XmlTransient;
  * A Data Transfer Object representation of the {@link "ParameterOrOverrideBase"} class.
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class ParameterOrOverrideBase extends ParameterBase implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ParameterOrOverrideBase"} class.

@@ -60,7 +60,6 @@ import lombok.*;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class MeasurementScale extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

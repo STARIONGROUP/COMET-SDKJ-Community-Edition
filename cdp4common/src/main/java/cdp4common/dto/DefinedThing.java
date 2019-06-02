@@ -60,7 +60,6 @@ import javax.xml.bind.annotation.XmlTransient;
  * A Data Transfer Object representation of the {@link "DefinedThing"} class.
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class DefinedThing extends Thing implements Cloneable, NamedThing, ShortNamedThing {
     /**
      * Initializes a new instance of the {@link "DefinedThing"} class.

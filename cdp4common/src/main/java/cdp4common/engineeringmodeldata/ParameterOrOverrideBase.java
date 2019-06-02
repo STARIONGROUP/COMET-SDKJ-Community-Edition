@@ -57,7 +57,6 @@ import lombok.*;
  * abstract superclass to provide a common reference to Parameter and ParameterOverride
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class ParameterOrOverrideBase extends ParameterBase implements Cloneable, Publishable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

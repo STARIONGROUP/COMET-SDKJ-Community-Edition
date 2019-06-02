@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = Iteration.class, propertyName = "possibleFiniteStateList")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class PossibleFiniteStateList extends DefinedThing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Initializes a new instance of the {@link "PossibleFiniteStateList"} class.

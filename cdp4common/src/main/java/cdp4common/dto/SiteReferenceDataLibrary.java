@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = SiteDirectory.class, propertyName = "siteReferenceDataLibrary")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class SiteReferenceDataLibrary extends ReferenceDataLibrary implements Cloneable, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "SiteReferenceDataLibrary"} class.

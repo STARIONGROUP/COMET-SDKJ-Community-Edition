@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = Parameter.class, propertyName = "valueSet")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParameterValueSet extends ParameterValueSetBase implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ParameterValueSet"} class.

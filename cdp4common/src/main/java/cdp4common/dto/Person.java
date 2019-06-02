@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = SiteDirectory.class, propertyName = "person")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Person extends Thing implements Cloneable, DeprecatableThing, NamedThing, ShortNamedThing {
     /**
      * Initializes a new instance of the {@link "Person"} class.

@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ElementUsage.class, propertyName = "parameterOverride")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParameterOverride extends ParameterOrOverrideBase implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ParameterOverride"} class.

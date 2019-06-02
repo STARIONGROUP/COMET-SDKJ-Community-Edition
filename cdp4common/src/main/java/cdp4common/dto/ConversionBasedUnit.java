@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "unit")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class ConversionBasedUnit extends MeasurementUnit implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ConversionBasedUnit"} class.

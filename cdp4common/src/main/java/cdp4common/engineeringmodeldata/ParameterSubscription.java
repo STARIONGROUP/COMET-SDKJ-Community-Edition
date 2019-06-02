@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = ParameterOrOverrideBase.class, propertyName = "parameterSubscription")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParameterSubscription extends ParameterBase implements Cloneable, ModelCode {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

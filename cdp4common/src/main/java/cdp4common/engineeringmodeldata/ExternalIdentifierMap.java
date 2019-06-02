@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = Iteration.class, propertyName = "externalIdentifierMap")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ExternalIdentifierMap extends Thing implements Cloneable, NamedThing, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

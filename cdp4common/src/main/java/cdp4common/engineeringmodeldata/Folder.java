@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = FileStore.class, propertyName = "folder")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Folder extends Thing implements Cloneable, NamedThing, OwnedThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

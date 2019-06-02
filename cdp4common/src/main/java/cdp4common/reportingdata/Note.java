@@ -59,7 +59,6 @@ import lombok.*;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Page.class, propertyName = "note")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class Note extends Thing implements Cloneable, CategorizableThing, NamedThing, OwnedThing, ShortNamedThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

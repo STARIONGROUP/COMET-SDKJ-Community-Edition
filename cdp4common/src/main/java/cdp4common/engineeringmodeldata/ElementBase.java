@@ -57,7 +57,6 @@ import lombok.*;
  * abstract superclass of ElementDefinition, ElementUsage and     NestedElement     that     captures     their     common     properties     and     allows     to     refer     to     either     of     them
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class ElementBase extends DefinedThing implements Cloneable, CategorizableThing, OwnedThing, Publishable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

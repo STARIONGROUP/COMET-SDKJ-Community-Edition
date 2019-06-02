@@ -62,7 +62,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Section.class, propertyName = "page")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Page extends Thing implements Cloneable, CategorizableThing, NamedThing, OwnedThing, ShortNamedThing, TimeStampedThing {
     /**
      * Initializes a new instance of the {@link "Page"} class.

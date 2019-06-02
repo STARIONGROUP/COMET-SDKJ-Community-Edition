@@ -62,7 +62,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = SiteDirectoryDataAnnotation.class, propertyName = "relatedThing")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class SiteDirectoryThingReference extends ThingReference implements Cloneable {
     /**
      * Initializes a new instance of the {@link "SiteDirectoryThingReference"} class.

@@ -60,7 +60,6 @@ import lombok.*;
  */
 @Container(clazz = SiteDirectory.class, propertyName = "siteReferenceDataLibrary")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class SiteReferenceDataLibrary extends ReferenceDataLibrary implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = RuleVerificationList.class, propertyName = "ruleVerification")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class UserRuleVerification extends RuleVerification implements Cloneable {
     /**
      * Initializes a new instance of the {@link "UserRuleVerification"} class.

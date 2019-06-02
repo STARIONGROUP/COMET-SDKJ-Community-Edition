@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "referenceSource")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ReferenceSource extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "ReferenceSource"} class.

@@ -62,7 +62,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = EngineeringModel.class, propertyName = "modellingAnnotation")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class RequestForWaiver extends ContractDeviation implements Cloneable {
     /**
      * Initializes a new instance of the {@link "RequestForWaiver"} class.

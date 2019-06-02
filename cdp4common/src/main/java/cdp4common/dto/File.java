@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = FileStore.class, propertyName = "file")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class File extends Thing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Initializes a new instance of the {@link "File"} class.

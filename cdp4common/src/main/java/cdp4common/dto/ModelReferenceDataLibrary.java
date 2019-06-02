@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = EngineeringModelSetup.class, propertyName = "requiredRdl")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ModelReferenceDataLibrary extends ReferenceDataLibrary implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ModelReferenceDataLibrary"} class.

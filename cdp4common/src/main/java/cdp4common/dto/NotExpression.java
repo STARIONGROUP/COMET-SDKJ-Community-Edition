@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ParametricConstraint.class, propertyName = "expression")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class NotExpression extends BooleanExpression implements Cloneable {
     /**
      * Initializes a new instance of the {@link "NotExpression"} class.

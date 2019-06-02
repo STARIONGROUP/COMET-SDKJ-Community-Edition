@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = Iteration.class, propertyName = "domainFileStore")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class DomainFileStore extends FileStore implements Cloneable {
     /**
      * Initializes a new instance of the {@link "DomainFileStore"} class.

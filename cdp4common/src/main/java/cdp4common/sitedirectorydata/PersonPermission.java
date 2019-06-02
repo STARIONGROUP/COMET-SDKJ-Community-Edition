@@ -58,7 +58,6 @@ import lombok.*;
  */
 @Container(clazz = PersonRole.class, propertyName = "personPermission")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class PersonPermission extends Thing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

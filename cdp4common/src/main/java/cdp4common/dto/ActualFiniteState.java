@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ActualFiniteStateList.class, propertyName = "actualState")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ActualFiniteState extends Thing implements Cloneable, NamedThing, OwnedThing, ShortNamedThing {
     /**
      * Initializes a new instance of the {@link "ActualFiniteState"} class.

@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = Person.class, propertyName = "userPreference")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class UserPreference extends Thing implements Cloneable, ShortNamedThing {
     /**
      * Initializes a new instance of the {@link "UserPreference"} class.

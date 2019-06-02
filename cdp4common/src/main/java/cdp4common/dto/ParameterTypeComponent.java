@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = CompoundParameterType.class, propertyName = "component")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParameterTypeComponent extends Thing implements Cloneable, ShortNamedThing {
     /**
      * Initializes a new instance of the {@link "ParameterTypeComponent"} class.

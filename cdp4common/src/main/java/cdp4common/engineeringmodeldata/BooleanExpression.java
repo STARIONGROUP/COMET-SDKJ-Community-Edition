@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = ParametricConstraint.class, propertyName = "expression")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class BooleanExpression extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

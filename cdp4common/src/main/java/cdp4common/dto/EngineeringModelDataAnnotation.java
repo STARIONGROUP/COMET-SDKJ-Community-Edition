@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @CDPVersion(version = "1.1.0")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class EngineeringModelDataAnnotation extends GenericAnnotation implements Cloneable {
     /**
      * Initializes a new instance of the {@link "EngineeringModelDataAnnotation"} class.

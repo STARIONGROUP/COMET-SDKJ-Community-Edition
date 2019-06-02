@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class ScalarParameterType extends ParameterType implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ScalarParameterType"} class.

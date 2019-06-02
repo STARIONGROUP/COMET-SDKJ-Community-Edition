@@ -60,7 +60,6 @@ import lombok.*;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = EngineeringModel.class, propertyName = "book")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Book extends Thing implements Cloneable, CategorizableThing, NamedThing, OwnedThing, ShortNamedThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

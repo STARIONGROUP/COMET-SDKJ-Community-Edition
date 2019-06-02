@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = File.class, propertyName = "fileRevision")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class FileRevision extends Thing implements Cloneable, NamedThing, TimeStampedThing {
     /**
      * Initializes a new instance of the {@link "FileRevision"} class.

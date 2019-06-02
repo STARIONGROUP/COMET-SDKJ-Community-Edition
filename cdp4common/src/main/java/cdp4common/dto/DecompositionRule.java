@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "rule")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class DecompositionRule extends Rule implements Cloneable {
     /**
      * Initializes a new instance of the {@link "DecompositionRule"} class.

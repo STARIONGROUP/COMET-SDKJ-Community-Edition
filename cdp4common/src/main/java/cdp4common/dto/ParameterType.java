@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class ParameterType extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "ParameterType"} class.

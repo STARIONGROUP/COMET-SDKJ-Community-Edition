@@ -60,7 +60,6 @@ import lombok.*;
  */
 @Container(clazz = SiteDirectory.class, propertyName = "naturalLanguage")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class NaturalLanguage extends Thing implements Cloneable, NamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

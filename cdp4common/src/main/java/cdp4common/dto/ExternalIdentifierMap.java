@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = Iteration.class, propertyName = "externalIdentifierMap")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ExternalIdentifierMap extends Thing implements Cloneable, NamedThing, OwnedThing {
     /**
      * Initializes a new instance of the {@link "ExternalIdentifierMap"} class.

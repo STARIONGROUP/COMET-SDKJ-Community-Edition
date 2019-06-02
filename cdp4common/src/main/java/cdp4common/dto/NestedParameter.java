@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = NestedElement.class, propertyName = "nestedParameter")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class NestedParameter extends Thing implements Cloneable, OwnedThing, VolatileThing {
     /**
      * Initializes a new instance of the {@link "NestedParameter"} class.

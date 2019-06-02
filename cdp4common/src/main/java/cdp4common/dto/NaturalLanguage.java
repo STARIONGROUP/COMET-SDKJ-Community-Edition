@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = SiteDirectory.class, propertyName = "naturalLanguage")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class NaturalLanguage extends Thing implements Cloneable, NamedThing {
     /**
      * Initializes a new instance of the {@link "NaturalLanguage"} class.

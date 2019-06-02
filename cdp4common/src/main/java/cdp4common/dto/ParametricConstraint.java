@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = Requirement.class, propertyName = "parametricConstraint")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParametricConstraint extends Thing implements Cloneable, OwnedThing {
     /**
      * Initializes a new instance of the {@link "ParametricConstraint"} class.

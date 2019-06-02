@@ -60,7 +60,6 @@ import lombok.*;
  */
 @Container(clazz = File.class, propertyName = "fileRevision")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class FileRevision extends Thing implements Cloneable, NamedThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

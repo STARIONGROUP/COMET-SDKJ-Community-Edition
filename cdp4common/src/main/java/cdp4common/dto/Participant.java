@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = EngineeringModelSetup.class, propertyName = "participant")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Participant extends Thing implements Cloneable, ParticipantAffectedAccessThing {
     /**
      * Initializes a new instance of the {@link "Participant"} class.

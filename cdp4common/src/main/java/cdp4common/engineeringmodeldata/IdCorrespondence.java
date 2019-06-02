@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = ExternalIdentifierMap.class, propertyName = "correspondence")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class IdCorrespondence extends Thing implements Cloneable, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

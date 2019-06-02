@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = Iteration.class, propertyName = "publication")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Publication extends Thing implements Cloneable, TimeStampedThing {
     /**
      * Initializes a new instance of the {@link "Publication"} class.

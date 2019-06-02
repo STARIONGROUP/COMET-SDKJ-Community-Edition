@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = ElementDefinition.class, propertyName = "parameterGroup")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParameterGroup extends Thing implements Cloneable, NamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

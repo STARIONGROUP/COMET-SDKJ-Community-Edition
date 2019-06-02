@@ -62,7 +62,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = DiagramElementContainer.class, propertyName = "diagramElement")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class DiagramEdge extends DiagramElementThing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "DiagramEdge"} class.

@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = Definition.class, propertyName = "citation")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Citation extends Thing implements Cloneable, ShortNamedThing {
     /**
      * Initializes a new instance of the {@link "Citation"} class.

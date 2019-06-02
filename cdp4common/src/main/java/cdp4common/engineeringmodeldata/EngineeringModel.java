@@ -59,7 +59,6 @@ import lombok.*;
  * Note 2: When an EngineeringModel is created for first time, it shall contain one Iteration and one Option (with <i>name</i> and <i>shortName</i> set to "Default"), which shall also be referenced as the <i>defaultOption</i>.
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class EngineeringModel extends TopContainer implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

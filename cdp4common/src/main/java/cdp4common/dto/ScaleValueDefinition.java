@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = MeasurementScale.class, propertyName = "valueDefinition")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ScaleValueDefinition extends DefinedThing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ScaleValueDefinition"} class.

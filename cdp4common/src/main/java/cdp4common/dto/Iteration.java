@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = EngineeringModel.class, propertyName = "iteration")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Iteration extends Thing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "Iteration"} class.

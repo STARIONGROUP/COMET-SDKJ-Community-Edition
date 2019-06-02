@@ -60,7 +60,6 @@ import lombok.*;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = DiagramEdge.class, propertyName = "point")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Point extends DiagramThingBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

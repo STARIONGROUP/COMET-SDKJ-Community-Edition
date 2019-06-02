@@ -62,7 +62,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Page.class, propertyName = "note")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class BinaryNote extends Note implements Cloneable {
     /**
      * Initializes a new instance of the {@link "BinaryNote"} class.

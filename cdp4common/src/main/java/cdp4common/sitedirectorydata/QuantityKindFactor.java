@@ -58,7 +58,6 @@ import lombok.*;
  */
 @Container(clazz = DerivedQuantityKind.class, propertyName = "quantityKindFactor")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class QuantityKindFactor extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

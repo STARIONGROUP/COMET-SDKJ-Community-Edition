@@ -60,7 +60,6 @@ import lombok.*;
  */
 @Container(clazz = SiteDirectory.class, propertyName = "domain")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class DomainOfExpertise extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

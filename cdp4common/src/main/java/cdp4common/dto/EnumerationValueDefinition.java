@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = EnumerationParameterType.class, propertyName = "valueDefinition")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class EnumerationValueDefinition extends DefinedThing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "EnumerationValueDefinition"} class.

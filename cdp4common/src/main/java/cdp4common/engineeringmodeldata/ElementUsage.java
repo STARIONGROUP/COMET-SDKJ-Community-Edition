@@ -62,7 +62,6 @@ import lombok.*;
  */
 @Container(clazz = ElementDefinition.class, propertyName = "containedElement")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ElementUsage extends ElementBase implements Cloneable, OptionDependentThing, ModelCode {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

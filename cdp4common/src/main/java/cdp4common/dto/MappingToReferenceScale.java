@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = MeasurementScale.class, propertyName = "mappingToReferenceScale")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class MappingToReferenceScale extends Thing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "MappingToReferenceScale"} class.

@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = Iteration.class, propertyName = "publication")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Publication extends Thing implements Cloneable, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

@@ -58,7 +58,6 @@ import lombok.*;
  */
 @Container(clazz = DefinedThing.class, propertyName = "hyperLink")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class HyperLink extends Thing implements Cloneable, Annotation {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

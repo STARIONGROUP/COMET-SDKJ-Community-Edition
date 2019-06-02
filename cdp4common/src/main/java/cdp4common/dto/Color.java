@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = DiagrammingStyle.class, propertyName = "usedColor")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Color extends DiagramThingBase implements Cloneable {
     /**
      * Initializes a new instance of the {@link "Color"} class.

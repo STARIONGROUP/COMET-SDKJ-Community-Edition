@@ -61,7 +61,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Container(clazz = Option.class, propertyName = "nestedElement")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class NestedElement extends Thing implements Cloneable, NamedThing, OwnedThing, ShortNamedThing, VolatileThing {
     /**
      * Initializes a new instance of the {@link "NestedElement"} class.

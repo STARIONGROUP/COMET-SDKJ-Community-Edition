@@ -58,7 +58,6 @@ import lombok.*;
  */
 @Container(clazz = Iteration.class, propertyName = "actualFiniteStateList")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ActualFiniteStateList extends Thing implements Cloneable, NamedThing, OptionDependentThing, OwnedThing, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
