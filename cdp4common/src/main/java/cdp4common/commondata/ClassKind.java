@@ -914,14 +914,13 @@ public enum ClassKind {
      */
     VALUE_GROUP("ValueGroup");
 
-    private String classKindName;
+    private String className;
 
-    ClassKind(String classKindName){
-        this.classKindName = classKindName;
+    ClassKind(String className){
+        this.className = className;
     }
 
-    @Override
-    public String toString() {
-        return this.classKindName;
+    public String toClassName() {
+        return this.className;
     }
 }

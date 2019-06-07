@@ -1,12 +1,14 @@
 package cdp4common.helpers;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import cdp4common.commondata.ClassKind;
 import cdp4common.commondata.ParticipantAccessRightKind;
 import cdp4common.commondata.PersonAccessRightKind;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class DefaultPermissionProviderImplTest {
     private DefaultPermissionProvider defaultPermissionProvider;
@@ -21,13 +23,13 @@ class DefaultPermissionProviderImplTest {
         var classKinds = ClassKind.values();
 
         for (var classKind : classKinds) {
-            assertDoesNotThrow(() -> this.defaultPermissionProvider.getDefaultPersonPermission(classKind.toString()));
+            assertDoesNotThrow(() -> this.defaultPermissionProvider.getDefaultPersonPermission(classKind.toClassName()));
         }
 
-        assertEquals(PersonAccessRightKind.NONE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.PERSON.toString()));
-        assertEquals(PersonAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.NOT_THING.toString()));
+        assertEquals(PersonAccessRightKind.NONE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.PERSON.toClassName()));
+        assertEquals(PersonAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.NOT_THING.toClassName()));
 
-        assertEquals(PersonAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.ELEMENT_DEFINITION.toString()));
+        assertEquals(PersonAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.ELEMENT_DEFINITION.toClassName()));
     }
 
     @Test
@@ -54,12 +56,12 @@ class DefaultPermissionProviderImplTest {
         var classKinds = ClassKind.values();
 
         for (var classKind : classKinds) {
-            assertDoesNotThrow(() -> this.defaultPermissionProvider.getDefaultParticipantPermission(classKind.toString()));
+            assertDoesNotThrow(() -> this.defaultPermissionProvider.getDefaultParticipantPermission(classKind.toClassName()));
         }
 
-        assertEquals(ParticipantAccessRightKind.NONE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.ELEMENT_DEFINITION.toString()));
-        assertEquals(ParticipantAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.PERSON.toString()));
-        assertEquals(ParticipantAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.NOT_THING.toString()));
+        assertEquals(ParticipantAccessRightKind.NONE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.ELEMENT_DEFINITION.toClassName()));
+        assertEquals(ParticipantAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.PERSON.toClassName()));
+        assertEquals(ParticipantAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.NOT_THING.toClassName()));
     }
 
     @Test

@@ -226,7 +226,7 @@ public class ContainerPropertyHelper {
      * @return The name of the container property
      */
     public static String getContainerPropertyName(ClassKind classKind) {
-        return getContainerPropertyName(classKind.toString());
+        return getContainerPropertyName(classKind.toClassName());
     }
 
     /**
@@ -250,7 +250,7 @@ public class ContainerPropertyHelper {
      * @return The name of the container class
      */
     public static String getContainerClassName(ClassKind classKind) {
-        return getContainerClassName(classKind.toString());
+        return getContainerClassName(classKind.toClassName());
     }
 
     /**

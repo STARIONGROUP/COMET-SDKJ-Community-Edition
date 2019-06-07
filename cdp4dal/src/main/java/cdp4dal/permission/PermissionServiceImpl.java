@@ -561,7 +561,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     // if the permission is not found or superclass derivation is used then get the default one.
     var accessRightKind = permission == null ? StaticDefaultPermissionProvider
-        .getDefaultPersonPermission(thingType.toString()) : permission.getAccessRight();
+        .getDefaultPersonPermission(thingType.toClassName()) : permission.getAccessRight();
 
     switch (accessRightKind) {
       case SAME_AS_CONTAINER:
@@ -603,7 +603,7 @@ public class PermissionServiceImpl implements PermissionService {
    * @return True if the permissions of the superclass allow it.
    */
   private boolean canWriteBasedOnSuperclassClassKind(Thing containerThing, ClassKind thingType) {
-    var baseType = Utils.getSuperClassNameForClassName(thingType.toString());
+    var baseType = Utils.getSuperClassNameForClassName(thingType.toClassName());
 
     if (Strings.isNullOrEmpty(baseType)) {
       return false;
