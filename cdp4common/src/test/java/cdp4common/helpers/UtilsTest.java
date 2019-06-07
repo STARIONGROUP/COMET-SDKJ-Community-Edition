@@ -44,6 +44,14 @@ class UtilsTest {
   }
 
   @Test
+  void getConstantNotationFromUpperCamelDoesNotFailForConstantTest() {
+    Assertions.assertEquals("CONSTANT",
+        Utils.getConstantNotationFromUpperCamel("CONSTANT"));
+    Assertions.assertEquals("CONSTANT_NOTATION_TEST",
+        Utils.getConstantNotationFromUpperCamel("CONSTANT_NOTATION_TEST"));
+  }
+
+  @Test
   void getUpperCamelNotationFromConstantTest() {
     Assertions.assertEquals("ConstantNotationTest",
         Utils.getUpperCamelNotationFromConstant("CONSTANT_NOTATION_TEST"));

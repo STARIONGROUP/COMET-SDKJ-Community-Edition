@@ -55,7 +55,7 @@ public class ValueArray<T> implements Iterable<T>, Serializable {
     private Thing container;
 
     /**
-     * The type of the created {@link OrderedItemList<T>}
+     * The type of the created {@link ValueArray<T>}
      */
     private final Class<T> clazz;
 
@@ -109,7 +109,7 @@ public class ValueArray<T> implements Iterable<T>, Serializable {
      * Gets the type of the items of this collection.
      */
     public Class getItemType() {
-        return this.items.size() > 0 ? this.items.get(0).getClass() : null;
+        return this.clazz;
     }
 
     /**

@@ -96,8 +96,8 @@ class OperationContainerTest {
   @Test
   void verifyExecutionOfOperationAddAndRemove() {
     var elementDefinition = new ElementDefinition(UUID.randomUUID(), 0);
-    elementDefinition.PARTIAL_ROUTES.add("iteration/b58ea73d-350d-4520-b9d9-a52c75ac2b5d");
-    elementDefinition.PARTIAL_ROUTES.add("EngineeringModel/5e5dc7f8-833d-4331-b421-eb2c64fcf64b");
+    elementDefinition.getPartialRoutes().add("iteration/b58ea73d-350d-4520-b9d9-a52c75ac2b5d");
+    elementDefinition.getPartialRoutes().add("EngineeringModel/5e5dc7f8-833d-4331-b421-eb2c64fcf64b");
 
     var clone = elementDefinition.deepClone(ElementDefinition.class);
     var operation = new Operation(elementDefinition, clone, OperationKind.UPDATE);

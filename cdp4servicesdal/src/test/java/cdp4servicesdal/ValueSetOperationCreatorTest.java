@@ -358,7 +358,7 @@ class ValueSetOperationCreatorTest {
     assertEquals(2, operationContainer.getOperations().size());
     var operation = operationContainer.getOperations()
         .stream()
-        .filter(x -> x.getOriginalThing().CLASS_KIND == ClassKind.PARAMETER_VALUE_SET)
+        .filter(x -> x.getOriginalThing().getClassKind() == ClassKind.PARAMETER_VALUE_SET)
         .collect(MoreCollectors.onlyElement());
     var originalPvs = (cdp4common.dto.ParameterValueSet) operation.getOriginalThing();
     var modifiedPvs = (cdp4common.dto.ParameterValueSet) operation.getModifiedThing();

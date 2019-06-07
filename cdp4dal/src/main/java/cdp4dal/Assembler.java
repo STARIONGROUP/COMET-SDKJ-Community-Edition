@@ -713,7 +713,7 @@ public class Assembler {
       if (dto.getIid() == null || dto.getIid().equals(new UUID(0L, 0L))) {
         throw new IllegalArgumentException(
             "Cannot add DTO with a null UUID or UUID(0L, 0L) reference to the Cache:"
-                + dto.CLASS_KIND);
+                + dto.getClassKind());
       }
 
       var cacheKey = new CacheKey(dto.getIid(), dto.getIterationContainerId());

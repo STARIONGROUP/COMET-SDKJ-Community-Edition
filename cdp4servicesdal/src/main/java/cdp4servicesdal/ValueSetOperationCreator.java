@@ -103,9 +103,9 @@ class ValueSetOperationCreator {
 
     var valueSets = dtolist
         .stream()
-        .filter(dto -> dto.CLASS_KIND == ClassKind.PARAMETER_VALUE_SET
-            || dto.CLASS_KIND == ClassKind.PARAMETER_SUBSCRIPTION_VALUE_SET
-            || dto.CLASS_KIND == ClassKind.PARAMETER_OVERRIDE_VALUE_SET
+        .filter(dto -> dto.getClassKind() == ClassKind.PARAMETER_VALUE_SET
+            || dto.getClassKind() == ClassKind.PARAMETER_SUBSCRIPTION_VALUE_SET
+            || dto.getClassKind() == ClassKind.PARAMETER_OVERRIDE_VALUE_SET
         )
         .collect(Collectors.toList());
 
@@ -215,7 +215,7 @@ class ValueSetOperationCreator {
    */
   private void setValueSetValues(List<cdp4common.dto.Thing> things, ValueSet originalValueSet) {
     for (var thing : things) {
-      switch (thing.CLASS_KIND) {
+      switch (thing.getClassKind()) {
         case PARAMETER_VALUE_SET:
         case PARAMETER_OVERRIDE_VALUE_SET:
           this.setValueSetValues((cdp4common.dto.ParameterValueSetBase) thing,

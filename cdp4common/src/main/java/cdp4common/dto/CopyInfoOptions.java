@@ -35,16 +35,16 @@ public class CopyInfoOptions {
     /**
      * Gets or sets the {@link CopyKind}
      */
-    public CopyKind copyKind;
+    private CopyKind copyKind;
 
     /**
      * Gets or sets a value indicating whether values should be kept (parameter-values)
      */
-    public Boolean keepValues;
+    private Boolean keepValues;
 
     /**
      * Gets or sets a value indicating whether the copied objects should keep their original owner (if applicable)
      * Or use {@code Owner}
      */
-    public Boolean keepOwner;
+    private Boolean keepOwner;
 }

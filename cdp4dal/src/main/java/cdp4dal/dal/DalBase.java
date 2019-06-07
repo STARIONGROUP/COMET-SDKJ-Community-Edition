@@ -130,7 +130,7 @@ public abstract class DalBase implements Dal {
         .asList(EngineeringModelContainmentClassType.CLASS_KIND_ARRAY);
 
     for (var thing : dtos.stream()
-        .filter(x -> !engineeringModelContainmentClassKind.contains(x.CLASS_KIND)).collect(
+        .filter(x -> !engineeringModelContainmentClassKind.contains(x.getClassKind())).collect(
             Collectors.toList())) {
       // all the returned thing are iteration contained
       thing.setIterationContainerId(iterationId);

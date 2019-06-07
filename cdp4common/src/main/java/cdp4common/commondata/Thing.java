@@ -678,7 +678,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
         for (int i = partialRoutes.length - 4; i >= 0; i -= 2) {
             // partialRoute = <container property>/<UUID>
             String partialRoute = partialRoutes[i] + "/" + partialRoutes[i + 1];
-            dto.PARTIAL_ROUTES.add(partialRoute);
+            dto.getPartialRoutes().add(partialRoute);
         }
     }
 }

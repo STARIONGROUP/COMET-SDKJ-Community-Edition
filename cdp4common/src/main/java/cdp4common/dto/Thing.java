@@ -24,7 +24,11 @@
 
 package cdp4common.dto;
 
-import cdp4common.*;
+import cdp4common.AggregationKind;
+import cdp4common.CDPVersion;
+import cdp4common.ContainerLevelKind;
+import cdp4common.DataMember;
+import cdp4common.UmlInformation;
 import cdp4common.commondata.ClassKind;
 import cdp4common.helpers.ContainerPropertyHelper;
 import cdp4common.helpers.Utils;
@@ -32,15 +36,6 @@ import cdp4common.types.CacheKey;
 import cdp4common.types.OrderedItem;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.apache.commons.lang3.SerializationUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.commons.lang3.tuple.Pair;
-
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -50,6 +45,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import javax.xml.bind.annotation.XmlTransient;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.lang3.SerializationUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 
 /**
  * The Data Transfer Object representing the abstract {@link Thing} class.
@@ -59,7 +61,7 @@ public abstract class Thing {
     /**
      * A list of {@link cdp4common.commondata.ClassKind} representing the container that are added to compute the route
      */
-    private final List<ClassKind> PARTIAL_CLASS_KIND_ROUTE = new ArrayList<>();
+    private final List<ClassKind> partialClassKindRoute = new ArrayList<>();
 
     /**
      * Gets or sets the {@link cdp4common.commondata.Thing} that the current DTO was created from.
@@ -71,13 +73,14 @@ public abstract class Thing {
     /**
      * A list of partial routes, the outermost part of the route is the first in the list
      */
-    public final List<String> PARTIAL_ROUTES = new ArrayList<>();
+    @Getter
+    private final List<String> partialRoutes = new ArrayList<>();
 
     /**
      * Initializes a new instance of the {@link Thing} class.
      */
     protected Thing() {
-        this.CLASS_KIND = computeCurrentClassKind();
+        this.classKind = computeCurrentClassKind();
 
         this.excludedDomain = new ArrayList<>();
         this.excludedPerson = new ArrayList<>();
@@ -91,7 +94,7 @@ public abstract class Thing {
      */
     protected Thing(UUID iid, int rev) {
         this.iid = iid;
-        this.CLASS_KIND = computeCurrentClassKind();
+        this.classKind = computeCurrentClassKind();
         this.revisionNumber = rev;
 
         this.excludedDomain = new ArrayList<>();
@@ -103,7 +106,8 @@ public abstract class Thing {
      * Note: Typically this is used internally by the implementing software to improve classification of instances and optimise performance when moving data between different programming environments. In an object-oriented software engineering environment that supports reflection such information would be redundant.
      */
     @DataMember
-    public final ClassKind CLASS_KIND;
+    @Getter
+    private final ClassKind classKind;
 
     /**
      * Gets or sets the list of unique identifiers of the referenced ExcludedDomain instances.
@@ -277,9 +281,9 @@ public abstract class Thing {
      * @param iid       the unique id of the container that is being added
      */
     public void addContainer(ClassKind classKind, UUID iid) {
-        ClassKind lastRouteClassKind = this.PARTIAL_CLASS_KIND_ROUTE.size() > 0
-                ? this.PARTIAL_CLASS_KIND_ROUTE.get(this.PARTIAL_CLASS_KIND_ROUTE.size() - 1)
-                : this.CLASS_KIND;
+        ClassKind lastRouteClassKind = this.partialClassKindRoute.size() > 0
+                ? this.partialClassKindRoute.get(this.partialClassKindRoute.size() - 1)
+                : this.classKind;
 
         switch (lastRouteClassKind) {
             case SITE_DIRECTORY:
@@ -290,8 +294,8 @@ public abstract class Thing {
                 if (isAuthorizedRoute(lastRouteClassKind, classKind)) {
                     String containerPropertyName = ContainerPropertyHelper.getContainerPropertyName(classKind);
                     String partialRoute = String.format("%1$s/%2$s", containerPropertyName, iid);
-                    this.PARTIAL_ROUTES.add(partialRoute);
-                    this.PARTIAL_CLASS_KIND_ROUTE.add(classKind);
+                    this.partialRoutes.add(partialRoute);
+                    this.partialClassKindRoute.add(classKind);
                     break;
                 }
 
@@ -306,10 +310,10 @@ public abstract class Thing {
      * @return A string that represents the route
      */
     protected String computedRoute() {
-        List<String> temporaryList = Lists.reverse(new ArrayList<>(this.PARTIAL_ROUTES));
+        List<String> temporaryList = Lists.reverse(new ArrayList<>(this.partialRoutes));
         String containerRoute = String.join("/", temporaryList);
 
-        String containerPropertyName = ContainerPropertyHelper.getContainerPropertyName(this.CLASS_KIND);
+        String containerPropertyName = ContainerPropertyHelper.getContainerPropertyName(this.classKind);
         String partialRoute = String.format("%1$s/%2$s", containerPropertyName, getIid());
 
         if (StringUtils.isEmpty(containerRoute)) {
@@ -371,14 +375,14 @@ public abstract class Thing {
      * @throws UnsupportedOperationException If no valid route is determined this exception is thrown
      */
     public String getTopContainerRoute() {
-        List<String> temporaryList = Lists.reverse(this.PARTIAL_ROUTES);
+        List<String> temporaryList = Lists.reverse(this.partialRoutes);
 
         // if this is a top container simply return itself
         if (this instanceof SiteDirectory || this instanceof Iteration || this instanceof EngineeringModel) {
             return computedRoute();
         }
 
-        if (this.PARTIAL_ROUTES.size() == 0) {
+        if (this.partialRoutes.size() == 0) {
             throw new UnsupportedOperationException(String.format("No valid top container found for DTO: %1$s.", getIid()));
         }
 

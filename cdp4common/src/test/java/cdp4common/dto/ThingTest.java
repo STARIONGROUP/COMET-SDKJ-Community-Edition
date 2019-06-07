@@ -211,7 +211,7 @@ class ThingTest {
         assertEquals(ClassKind.ALIAS, alias.getClassKind());
 
         cdp4common.dto.Thing aliasdto = new cdp4common.dto.Alias();
-        assertEquals(ClassKind.ALIAS, aliasdto.CLASS_KIND);
+        assertEquals(ClassKind.ALIAS, aliasdto.getClassKind());
     }
 
     @Test

@@ -50,7 +50,7 @@ public class Utils {
     StringBuilder constantName = new StringBuilder(Character.toString(chars[0]).toUpperCase());
 
     for (int i = 1; i < chars.length; i++) {
-      if (Character.isUpperCase(chars[i])) {
+      if (Character.isUpperCase(chars[i]) && Character.isLowerCase(chars[i - 1])) {
         constantName.append("_");
       }
 
