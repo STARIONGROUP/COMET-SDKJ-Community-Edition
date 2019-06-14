@@ -147,7 +147,7 @@ public abstract class DalBase implements Dal {
   public UUID tryExtractIterationIdFromURI(@NonNull URI uri) {
     try {
       var uriString = uri.toString();
-      var iterationURIName = ContainerPropertyHelper.getContainerPropertyName(ClassKind.ITERATION);
+      var iterationURIName = ContainerPropertyHelper.getContainerPropertyName(ClassKind.Iteration);
       var regexPattern =
           iterationURIName + Constants.URI_PATH_SEPARATOR + Constants.URI_UUID_PATTERN;
 

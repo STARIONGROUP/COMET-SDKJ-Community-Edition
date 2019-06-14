@@ -37,10 +37,17 @@
         <apachehttpclient.version>4.5.8</apachehttpclient.version>
         <mockito.version>2.27.0</mockito.version>
         <rxjava.version>2.2.8</rxjava.version>
+        <jackson.version>2.9.9</jackson.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava -->
             <dependency>
                 <groupId>io.reactivex.rxjava2</groupId>

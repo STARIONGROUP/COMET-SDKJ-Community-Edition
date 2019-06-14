@@ -30,10 +30,10 @@ public enum CopyKind {
     /**
      * Asserts that the copy operation shall be a deep copy
      */
-    DEEP,
+    Deep,
 
     /**
      * Asserts that the copy operation shall be a shallow copy
      */
-    SHALLOW
+    Shallow
 }

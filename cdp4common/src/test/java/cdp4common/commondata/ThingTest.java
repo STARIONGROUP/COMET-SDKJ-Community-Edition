@@ -24,20 +24,42 @@
 
 package cdp4common.commondata;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import cdp4common.NotThing;
-import cdp4common.engineeringmodeldata.*;
+import cdp4common.engineeringmodeldata.ElementDefinition;
+import cdp4common.engineeringmodeldata.EngineeringModel;
+import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.engineeringmodeldata.Option;
+import cdp4common.engineeringmodeldata.PossibleFiniteState;
+import cdp4common.engineeringmodeldata.PossibleFiniteStateList;
+import cdp4common.engineeringmodeldata.Requirement;
+import cdp4common.engineeringmodeldata.RequirementsGroup;
+import cdp4common.engineeringmodeldata.RequirementsSpecification;
 import cdp4common.exceptions.ContainmentException;
-import cdp4common.sitedirectorydata.*;
+import cdp4common.sitedirectorydata.DerivedUnit;
+import cdp4common.sitedirectorydata.EmailAddress;
+import cdp4common.sitedirectorydata.ModelReferenceDataLibrary;
+import cdp4common.sitedirectorydata.Person;
+import cdp4common.sitedirectorydata.ReferenceDataLibrary;
+import cdp4common.sitedirectorydata.SiteDirectory;
+import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
+import cdp4common.sitedirectorydata.TelephoneNumber;
+import cdp4common.sitedirectorydata.UnitFactor;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import org.junit.jupiter.api.Test;
-
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class ThingTest {
     @Test
@@ -141,7 +163,7 @@ class ThingTest {
         assertEquals(revisionNumber, siteDirectory.getRevisionNumber());
         assertEquals(uri, siteDirectory.getIDalUri());
         assertEquals(cache, siteDirectory.getCache());
-        assertEquals(ClassKind.SITE_DIRECTORY, siteDirectory.getClassKind());
+        assertEquals(ClassKind.SiteDirectory, siteDirectory.getClassKind());
     }
 
     @Test

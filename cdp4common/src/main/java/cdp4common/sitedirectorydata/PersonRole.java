@@ -248,7 +248,7 @@ public class PersonRole extends DefinedThing implements Cloneable, DeprecatableT
                 .forEach(x -> {
                     PersonPermission personPermission = new PersonPermission(UUID.randomUUID(), null, null);
                     personPermission.setAccessRight(x.getValue());
-                    personPermission.setObjectClass(Enum.valueOf(ClassKind.class, Utils.getConstantNotationFromUpperCamel(x.getKey())));
+                    personPermission.setObjectClass(Enum.valueOf(ClassKind.class, x.getKey()));
                     this.personPermission.add(personPermission);
                 });
     }

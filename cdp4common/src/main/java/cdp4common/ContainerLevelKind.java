@@ -31,27 +31,27 @@ public enum ContainerLevelKind {
     /**
      * Assertion that the level cannot be set, this is applicable for Abstract classes
      */
-    INVALID,
+    Invalid,
 
     /**
      * Assertion that it is not yet determined where the instance is located in the containment hierarchy.
      */
-    INCONCLUSIVE,
+    Inconclusive,
 
     /**
      * Assertion that the instance is contained by a {@link cdp4common.sitedirectorydata.SiteDirectory}
      */
-    SITE_DIRECTORY,
+    SiteDirectory,
 
     /**
      * Assertion that the instance is contained by a {@link cdp4common.engineeringmodeldata.EngineeringModel}.
      * This exlcudes containment by {@link cdp4common.engineeringmodeldata.Iteration}
      */
-    ENGINEERING_MODEL,
+    EngineeringModel,
 
     /**
      * Assertion that the instance is contained by a {@link cdp4common.engineeringmodeldata.Iteration}.
      * This excludes containment by {@link cdp4common.engineeringmodeldata.Iteration}
      */
-    ITERATION
+    Iteration
 }

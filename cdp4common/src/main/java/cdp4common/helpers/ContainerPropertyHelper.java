@@ -226,7 +226,7 @@ public class ContainerPropertyHelper {
      * @return The name of the container property
      */
     public static String getContainerPropertyName(ClassKind classKind) {
-        return getContainerPropertyName(classKind.toClassName());
+        return getContainerPropertyName(classKind.name());
     }
 
     /**
@@ -250,7 +250,7 @@ public class ContainerPropertyHelper {
      * @return The name of the container class
      */
     public static String getContainerClassName(ClassKind classKind) {
-        return getContainerClassName(classKind.toClassName());
+        return getContainerClassName(classKind.name());
     }
 
     /**
@@ -273,10 +273,10 @@ public class ContainerPropertyHelper {
             }).collect(MoreCollectors.toOptional());
 
             if (pair.isPresent()){
-                return Enum.valueOf(ClassKind.class, Utils.getConstantNotationFromUpperCamel(pair.get().getKey()));
+                return Enum.valueOf(ClassKind.class, pair.get().getKey());
             }
         }
-        
+
         throw new IllegalArgumentException(String.format("the container property %1$s does not exist", containerProperty));
     }
 }

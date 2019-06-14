@@ -600,7 +600,7 @@ class ThingTransactionImplTest {
 
     var valueDefInTransaction =
         (EnumerationValueDefinition) transaction.getAddedThing().stream()
-            .filter(x -> x.getClassKind() == ClassKind.ENUMERATION_VALUE_DEFINITION)
+            .filter(x -> x.getClassKind() == ClassKind.EnumerationValueDefinition)
             .collect(MoreCollectors.onlyElement());
 
     assertNotEquals(enumValue.getIid(), valueDefInTransaction.getIid());

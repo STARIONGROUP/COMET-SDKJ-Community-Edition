@@ -245,7 +245,7 @@ public class ParticipantRole extends DefinedThing implements Cloneable, Deprecat
                 .forEach(x -> {
                     ParticipantPermission participantPermission = new ParticipantPermission(UUID.randomUUID(), null, null);
                     participantPermission.setAccessRight(x.getValue());
-                    participantPermission.setObjectClass(Enum.valueOf(ClassKind.class, Utils.getConstantNotationFromUpperCamel(x.getKey())));
+                    participantPermission.setObjectClass(Enum.valueOf(ClassKind.class, x.getKey()));
                     this.participantPermission.add(participantPermission);
                 });
     }

@@ -31,7 +31,6 @@ import cdp4common.DataMember;
 import cdp4common.UmlInformation;
 import cdp4common.commondata.ClassKind;
 import cdp4common.helpers.ContainerPropertyHelper;
-import cdp4common.helpers.Utils;
 import cdp4common.types.CacheKey;
 import cdp4common.types.OrderedItem;
 import com.google.common.cache.Cache;
@@ -178,7 +177,7 @@ public abstract class Thing {
      * the DTO is situated.
      */
     public ContainerLevelKind getContainerLevelKind() {
-        return ContainerLevelKind.INVALID;
+        return ContainerLevelKind.Invalid;
     }
 
     /**
@@ -286,9 +285,9 @@ public abstract class Thing {
                 : this.classKind;
 
         switch (lastRouteClassKind) {
-            case SITE_DIRECTORY:
+            case SiteDirectory:
                 throw new UnsupportedOperationException("Cannot add another container, SiteDirectory is a top container");
-            case ENGINEERING_MODEL:
+            case EngineeringModel:
                 throw new UnsupportedOperationException("Cannot add another container, EngineeringModel is a top container");
             default: {
                 if (isAuthorizedRoute(lastRouteClassKind, classKind)) {
@@ -329,7 +328,7 @@ public abstract class Thing {
      * @return the {@link ClassKind} of the current object
      */
     protected ClassKind computeCurrentClassKind() {
-        String className = Utils.getConstantNotationFromUpperCamel(this.getClass().getSimpleName());
+        String className = this.getClass().getSimpleName();
 
         return ClassKind.valueOf(className); // unsuccessful call will throw an exception
     }
@@ -343,7 +342,7 @@ public abstract class Thing {
      */
     private boolean isAuthorizedRoute(ClassKind lastRoute, ClassKind newRoute) {
         String lastRouteContainerClass = ContainerPropertyHelper.getContainerClassName(lastRoute);
-        if (newRoute.toClassName().equals(lastRouteContainerClass)) {
+        if (newRoute.name().equals(lastRouteContainerClass)) {
             return true;
         }
 
@@ -351,7 +350,7 @@ public abstract class Thing {
         // Check if the parent of the added container is that abstract class
         Class type;
         try {
-            type = Class.forName("cdp4common.dto." + newRoute.toClassName());
+            type = Class.forName("cdp4common.dto." + newRoute.name());
             Class parent = type.getSuperclass();
 
             while (parent != null) {

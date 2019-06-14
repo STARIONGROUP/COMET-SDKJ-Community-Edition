@@ -288,7 +288,7 @@ public class Assembler {
           var keyValuePair =
               this.cache.asMap().entrySet()
                   .stream()
-                  .filter(item -> item.getValue().getClassKind() == ClassKind.SITE_DIRECTORY)
+                  .filter(item -> item.getValue().getClassKind() == ClassKind.SiteDirectory)
                   .collect(
                       MoreCollectors.onlyElement());
 
@@ -378,7 +378,7 @@ public class Assembler {
                 .asMap()
                 .values()
                 .stream()
-                .filter(x -> x.getClassKind() == ClassKind.ITERATION)
+                .filter(x -> x.getClassKind() == ClassKind.Iteration)
                 .map(x -> (Iteration) x)
                 .collect(Collectors.toList());
 
@@ -398,7 +398,7 @@ public class Assembler {
                 .asMap()
                 .values()
                 .stream()
-                .filter(x -> x.getClassKind() == ClassKind.ENGINEERING_MODEL)
+                .filter(x -> x.getClassKind() == ClassKind.EngineeringModel)
                 .map(x -> (EngineeringModel) x)
                 .collect(Collectors.toList());
 

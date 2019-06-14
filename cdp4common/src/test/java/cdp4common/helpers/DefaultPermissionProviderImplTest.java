@@ -23,13 +23,13 @@ class DefaultPermissionProviderImplTest {
         var classKinds = ClassKind.values();
 
         for (var classKind : classKinds) {
-            assertDoesNotThrow(() -> this.defaultPermissionProvider.getDefaultPersonPermission(classKind.toClassName()));
+            assertDoesNotThrow(() -> this.defaultPermissionProvider.getDefaultPersonPermission(classKind.name()));
         }
 
-        assertEquals(PersonAccessRightKind.NONE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.PERSON.toClassName()));
-        assertEquals(PersonAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.NOT_THING.toClassName()));
+        assertEquals(PersonAccessRightKind.NONE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.Person.name()));
+        assertEquals(PersonAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.NotThing.name()));
 
-        assertEquals(PersonAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.ELEMENT_DEFINITION.toClassName()));
+        assertEquals(PersonAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.ElementDefinition.name()));
     }
 
     @Test
@@ -45,10 +45,10 @@ class DefaultPermissionProviderImplTest {
             assertDoesNotThrow(() -> this.defaultPermissionProvider.getDefaultPersonPermission(classKind));
         }
 
-        assertEquals(PersonAccessRightKind.NONE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.PERSON));
+        assertEquals(PersonAccessRightKind.NONE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.Person));
 
-        assertEquals(PersonAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.NOT_THING));
-        assertEquals(PersonAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.ELEMENT_DEFINITION));
+        assertEquals(PersonAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.NotThing));
+        assertEquals(PersonAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultPersonPermission(ClassKind.ElementDefinition));
     }
 
     @Test
@@ -56,12 +56,12 @@ class DefaultPermissionProviderImplTest {
         var classKinds = ClassKind.values();
 
         for (var classKind : classKinds) {
-            assertDoesNotThrow(() -> this.defaultPermissionProvider.getDefaultParticipantPermission(classKind.toClassName()));
+            assertDoesNotThrow(() -> this.defaultPermissionProvider.getDefaultParticipantPermission(classKind.name()));
         }
 
-        assertEquals(ParticipantAccessRightKind.NONE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.ELEMENT_DEFINITION.toClassName()));
-        assertEquals(ParticipantAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.PERSON.toClassName()));
-        assertEquals(ParticipantAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.NOT_THING.toClassName()));
+        assertEquals(ParticipantAccessRightKind.NONE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.ElementDefinition.name()));
+        assertEquals(ParticipantAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.Person.name()));
+        assertEquals(ParticipantAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.NotThing.name()));
     }
 
     @Test
@@ -77,8 +77,8 @@ class DefaultPermissionProviderImplTest {
             assertDoesNotThrow(() -> this.defaultPermissionProvider.getDefaultParticipantPermission(classKind));
         }
 
-        assertEquals(ParticipantAccessRightKind.NONE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.ELEMENT_DEFINITION));
-        assertEquals(ParticipantAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.PERSON));
-        assertEquals(ParticipantAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.NOT_THING));
+        assertEquals(ParticipantAccessRightKind.NONE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.ElementDefinition));
+        assertEquals(ParticipantAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.Person));
+        assertEquals(ParticipantAccessRightKind.NOT_APPLICABLE, this.defaultPermissionProvider.getDefaultParticipantPermission(ClassKind.NotThing));
     }
 }

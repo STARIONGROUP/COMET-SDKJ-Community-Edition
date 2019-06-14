@@ -178,9 +178,9 @@ public class CopyPermissionHelper {
    */
   private void computeModelCopyPermission(Thing thingToCopy, Thing targetContainer,
       CopyPermissionResult permissionResult) {
-    if (thingToCopy.getClassKind() == ClassKind.PARAMETER_VALUE_SET
-        || thingToCopy.getClassKind() == ClassKind.PARAMETER_OVERRIDE_VALUE_SET
-        || thingToCopy.getClassKind() == ClassKind.PARAMETER_SUBSCRIPTION_VALUE_SET) {
+    if (thingToCopy.getClassKind() == ClassKind.ParameterValueSet
+        || thingToCopy.getClassKind() == ClassKind.ParameterOverrideValueSet
+        || thingToCopy.getClassKind() == ClassKind.ParameterSubscriptionValueSet) {
       // value sets are not copied
       return;
     }
@@ -264,7 +264,7 @@ public class CopyPermissionHelper {
   private boolean computeDependenciesCopyPermission(Thing thingToCopy, Thing targetContainer,
       CopyPermissionResult permissionResult) {
     switch (thingToCopy.getClassKind()) {
-      case ELEMENT_USAGE:
+      case ElementUsage:
         return this.computeDependenciesCopyPermission((ElementUsage) thingToCopy,
             (ElementDefinition) targetContainer, permissionResult);
       default:

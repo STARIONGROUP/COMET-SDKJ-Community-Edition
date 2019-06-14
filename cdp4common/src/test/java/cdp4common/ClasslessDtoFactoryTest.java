@@ -68,7 +68,7 @@ class ClasslessDtoFactoryTest {
         var classlessDTO = ClasslessDtoFactory.fromThing(siteDirectory, properties);
 
         assertEquals(2, classlessDTO.size());
-        assertEquals(ClassKind.SITE_DIRECTORY, classlessDTO.get("classKind"));
+        assertEquals(ClassKind.SiteDirectory, classlessDTO.get("classKind"));
         assertTrue(classlessDTO.get("iid") instanceof UUID);
     }
 

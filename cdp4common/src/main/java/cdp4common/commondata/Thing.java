@@ -24,29 +24,38 @@
 
 package cdp4common.commondata;
 
-import cdp4common.*;
+import cdp4common.AggregationKind;
+import cdp4common.CDPVersion;
+import cdp4common.ChangeKind;
+import cdp4common.Container;
+import cdp4common.NotThing;
+import cdp4common.UmlInformation;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.engineeringmodeldata.Relationship;
 import cdp4common.exceptions.ContainmentException;
 import cdp4common.helpers.Action;
-import cdp4common.helpers.Utils;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.Person;
 import cdp4common.sitedirectorydata.ReferenceDataLibrary;
 import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
+import java.lang.annotation.Annotation;
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.Predicate;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang3.tuple.Pair;
-
-import java.lang.annotation.Annotation;
-import java.net.URI;
-import java.time.LocalDateTime;
-import java.util.*;
-import java.util.function.Predicate;
 
 /**
  * Top level abstract superclass from which all domain concept classes in the model inherit.
@@ -266,7 +275,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
 
         Iteration iterationContainer = this.getContainerOfType(Iteration.class);
         UUID iterationId = null;
-        if (iterationContainer != null && this.classKind != ClassKind.ITERATION) {
+        if (iterationContainer != null && this.classKind != ClassKind.Iteration) {
             iterationId = iterationContainer.getIid();
         }
 
@@ -482,7 +491,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
 
         try {
             ClassKind classKind;
-            classKind = Enum.valueOf(ClassKind.class, Utils.getConstantNotationFromUpperCamel(type.getSimpleName()));
+            classKind = Enum.valueOf(ClassKind.class, type.getSimpleName());
             return classKind;
         } catch (IllegalArgumentException ex) {
             throw new IllegalStateException(String.format("The current Thing %1$s does not have a corresponding ClassKind", type));

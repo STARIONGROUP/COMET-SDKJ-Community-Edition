@@ -466,7 +466,7 @@ class SessionImplTest {
 
     // Check that closing a modelRDL doesn't close it's required SiteRDL
     assertEquals(1, session2.getOpenReferenceDataLibraries().size());
-    assertEquals(ClassKind.SITE_REFERENCE_DATA_LIBRARY,
+    assertEquals(ClassKind.SiteReferenceDataLibrary,
         session2.getOpenReferenceDataLibraries().get(0).getClassKind());
   }
 
