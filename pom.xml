@@ -20,5 +20,6 @@
     <module>parent</module>
     <module>cdp4dal</module>
     <module>cdp4servicesdal</module>
+    <module>cdp4jsonserializer</module>
   </modules>
 </project>
