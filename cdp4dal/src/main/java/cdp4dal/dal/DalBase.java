@@ -33,7 +33,7 @@ import cdp4common.helpers.Constants;
 import cdp4common.helpers.ContainerPropertyHelper;
 import cdp4common.helpers.EngineeringModelContainmentClassType;
 import cdp4dal.Session;
-import cdp4dal.Version;
+import cdp4common.Version;
 import cdp4dal.composition.DalExport;
 import cdp4dal.exceptions.InvalidOperationContainerException;
 import cdp4dal.operations.Operation;

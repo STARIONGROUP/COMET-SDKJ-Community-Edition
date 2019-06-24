@@ -36,6 +36,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import cdp4common.Version;
 import cdp4common.commondata.ClassKind;
 import cdp4common.dto.EngineeringModelSetup;
 import cdp4common.dto.Iteration;

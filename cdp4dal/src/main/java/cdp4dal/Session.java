@@ -24,6 +24,7 @@
 
 package cdp4dal;
 
+import cdp4common.Version;
 import cdp4common.commondata.Thing;
 import cdp4common.commondata.TopContainer;
 import cdp4common.engineeringmodeldata.EngineeringModel;

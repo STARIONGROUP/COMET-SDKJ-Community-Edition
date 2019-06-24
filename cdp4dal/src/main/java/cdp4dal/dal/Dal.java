@@ -29,7 +29,7 @@ import cdp4common.dto.Iteration;
 import cdp4common.dto.SiteDirectory;
 import cdp4common.dto.Thing;
 import cdp4dal.Session;
-import cdp4dal.Version;
+import cdp4common.Version;
 import cdp4dal.operations.Operation;
 import cdp4dal.operations.OperationContainer;
 import java.net.URI;
