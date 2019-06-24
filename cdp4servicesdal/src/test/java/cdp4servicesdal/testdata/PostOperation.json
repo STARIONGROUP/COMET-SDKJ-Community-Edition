@@ -1,0 +1,61 @@
+{
+  "_copy": [
+    {
+      "source": {
+        "thing": {
+          "iid": "fe9295c5-af99-494e-86ff-e715837806ae",
+          "classKind": "ElementDefinition"
+        },
+        "topContainer": {
+          "iid": "9ec982e4-ef72-4953-aa85-b158a95d8d56",
+          "classKind": "EngineeringModel"
+        },
+        "iterationId": "e163c5ad-f32b-4387-b805-f4b34600bc2c"
+      },
+      "target": {
+        "container": {
+          "iid": "e163c5ad-f32b-4387-b805-f4b34600bc2c",
+          "classKind": "Iteration"
+        },
+        "topContainer": {
+          "iid": "9ec982e4-ef72-4953-aa85-b158a95d8d56",
+          "classKind": "EngineeringModel"
+        },
+        "iterationId": "e163c5ad-f32b-4387-b805-f4b34600bc2c"
+      },
+      "options": {
+        "copyKind": "Deep",
+        "keepValues": true,
+        "keepOwner": true
+      },
+      "activeOwner" : "0e92edde-fdff-41db-9b1d-f2e484f12535"
+    }
+  ],
+  "_delete": [],
+  "_update": [{
+    "classKind": "SiteDirectory",
+    "iid": "eb77f3e1-a0f3-412d-8ed6-b8ce881c0145",
+    "person": ["1706e6a5-7ec0-4831-82c2-87bcae8853fb"]
+  }],
+  "_create": [{
+    "classKind": "Person",
+    "defaultDomain": "8790fe92-d1fa-42ea-9520-e0ddac52f1ad",
+    "defaultEmailAddress": null,
+    "defaultTelephoneNumber": null,
+    "emailAddress": [],
+    "givenName": "Sam",
+    "iid": "1706e6a5-7ec0-4831-82c2-87bcae8853fb",
+    "isActive": true,
+    "isDeprecated": false,
+    "modifiedOn": "0001-01-01T00:00:00",
+    "organization": null,
+    "organizationalUnit": "SESS",
+    "password": "pass",
+    "revisionNumber": 0,
+    "role": "e3b2f0f5-3e29-4ba3-94ba-05738e5b3307",
+    "shortName": "sgerene",
+    "surname": "Gerene",
+    "telephoneNumber": [],
+    "userPreference": []
+  }]
+}
