@@ -32,29 +32,21 @@
 
 package cdp4common.dto;
 
-import java.util.*;
-import java.util.stream.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.io.*;
-import java.net.URI;
-import cdp4common.*;
-import cdp4common.commondata.*;
-import cdp4common.diagramdata.*;
-import cdp4common.engineeringmodeldata.*;
-import cdp4common.helpers.*;
-import cdp4common.reportingdata.*;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.*;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.MoreCollectors;
+import cdp4common.AggregationKind;
+import cdp4common.Container;
+import cdp4common.DataMember;
+import cdp4common.UmlInformation;
+import cdp4common.types.CacheKey;
+import cdp4common.types.OrderedItem;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.cache.Cache;
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.EqualsAndHashCode;
-
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * A Data Transfer Object representation of the {@link "FileRevision"} class.
@@ -138,7 +130,7 @@ public class FileRevision extends Thing implements Cloneable, NamedThing, TimeSt
      * Gets the path.
      * @throws UnsupportedOperationException The path property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public String getPath() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property FileRevision.path");
     }
@@ -147,7 +139,7 @@ public class FileRevision extends Thing implements Cloneable, NamedThing, TimeSt
      * Sets the path.
      * @throws UnsupportedOperationException The path property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setPath(String path) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property FileRevision.path");
     }

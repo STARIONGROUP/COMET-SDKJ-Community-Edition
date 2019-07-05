@@ -54,7 +54,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "RuleVerification"} class.
@@ -128,7 +128,7 @@ public abstract class RuleVerification extends Thing implements Cloneable, Named
      * Gets the unique identifier of the referenced owner.
      * @throws UnsupportedOperationException The owner property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public UUID getOwner() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property RuleVerification.owner");
     }
@@ -137,7 +137,7 @@ public abstract class RuleVerification extends Thing implements Cloneable, Named
      * Sets the unique identifier of the referenced owner.
      * @throws UnsupportedOperationException The owner property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setOwner(UUID owner) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property RuleVerification.owner");
     }

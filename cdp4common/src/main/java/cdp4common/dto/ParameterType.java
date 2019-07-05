@@ -54,7 +54,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "ParameterType"} class.
@@ -111,7 +111,7 @@ public abstract class ParameterType extends DefinedThing implements Cloneable, C
      * Gets the numberOfValues.
      * @throws UnsupportedOperationException The numberOfValues property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public int getNumberOfValues() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterType.numberOfValues");
     }
@@ -120,7 +120,7 @@ public abstract class ParameterType extends DefinedThing implements Cloneable, C
      * Sets the numberOfValues.
      * @throws UnsupportedOperationException The numberOfValues property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setNumberOfValues(int numberOfValues) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterType.numberOfValues");
     }

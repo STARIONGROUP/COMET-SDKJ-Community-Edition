@@ -44,7 +44,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -169,7 +169,7 @@ public abstract class Thing {
      * The {@link ContainerLevelKind} that determines where in the containment tree
      * the DTO is situated.
      */
-    @XmlTransient
+    @JsonIgnore
     private ContainerLevelKind containerLevelKind;
 
     /**

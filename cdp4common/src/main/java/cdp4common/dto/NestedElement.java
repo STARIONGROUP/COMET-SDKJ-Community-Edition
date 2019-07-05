@@ -54,7 +54,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "NestedElement"} class.
@@ -122,7 +122,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * Gets the name.
      * @throws UnsupportedOperationException The name property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public String getName() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property NestedElement.name");
     }
@@ -131,7 +131,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * Gets the unique identifier of the referenced owner.
      * @throws UnsupportedOperationException The owner property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public UUID getOwner() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property NestedElement.owner");
     }
@@ -140,7 +140,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * Gets the shortName.
      * @throws UnsupportedOperationException The shortName property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public String getShortName() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property NestedElement.shortName");
     }
@@ -149,7 +149,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * Sets the name.
      * @throws UnsupportedOperationException The name property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setName(String name) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property NestedElement.name");
     }
@@ -158,7 +158,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * Sets the unique identifier of the referenced owner.
      * @throws UnsupportedOperationException The owner property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setOwner(UUID owner) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property NestedElement.owner");
     }
@@ -167,7 +167,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
      * Sets the shortName.
      * @throws UnsupportedOperationException The shortName property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setShortName(String shortName) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property NestedElement.shortName");
     }
