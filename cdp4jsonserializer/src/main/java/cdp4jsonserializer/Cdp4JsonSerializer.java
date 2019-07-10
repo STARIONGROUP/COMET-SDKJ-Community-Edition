@@ -55,7 +55,7 @@ public interface Cdp4JsonSerializer {
    * @param collectionSource The collection source.
    * @param outputStream The output stream.
    */
-  void serializeToStream(Object collectionSource, OutputStream outputStream);
+  void serializeToStream(Object collectionSource, OutputStream outputStream) throws IOException;
 
   /**
    * Serialize the {@link cdp4common.commondata.Thing} to a JSON stream.
@@ -66,7 +66,7 @@ public interface Cdp4JsonSerializer {
    * cdp4common.commondata.Thing} shall be included in the JSON stream
    */
   void serializeToStream(cdp4common.commondata.Thing source, OutputStream outputStream,
-      boolean isExtentDeep);
+      boolean isExtentDeep) throws IOException;
 
   /**
    * Serialize the {@link cdp4common.commondata.Thing} to a JSON String.
@@ -76,7 +76,8 @@ public interface Cdp4JsonSerializer {
    * cdp4common.commondata.Thing} shall be processed.
    * @return The JSON String
    */
-  String serializeToString(cdp4common.commondata.Thing source, boolean isExtentDeep);
+  String serializeToString(cdp4common.commondata.Thing source, boolean isExtentDeep)
+      throws IOException;
 
   /**
    * Convenience method that deserializes the passed in JSON content stream.
