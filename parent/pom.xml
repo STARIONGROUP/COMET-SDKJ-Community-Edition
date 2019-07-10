@@ -34,7 +34,8 @@
         <mvn.versions.plugin.version>2.7</mvn.versions.plugin.version>
         <puppycrawl.version>8.17</puppycrawl.version>
         <logging.version>2.11.2</logging.version>
-        <apachehttpclient.version>4.5.8</apachehttpclient.version>
+        <apachehttpclient.version>4.1.4</apachehttpclient.version>
+        <apachehttpmime.version>4.5.9</apachehttpmime.version>
         <mockito.version>2.27.0</mockito.version>
         <rxjava.version>2.2.8</rxjava.version>
         <jackson.version>2.9.9</jackson.version>
@@ -61,12 +62,19 @@
                 <artifactId>rxjava</artifactId>
                 <version>${rxjava.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+            <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpasyncclient -->
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
+                <artifactId>httpasyncclient</artifactId>
                 <version>${apachehttpclient.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpmime</artifactId>
+                <version>${apachehttpmime.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
