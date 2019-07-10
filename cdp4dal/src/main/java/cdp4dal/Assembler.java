@@ -128,7 +128,7 @@ public class Assembler {
    *
    * @param dtoThings The DTOs.
    * @param activeMessageBus An optional value indicating whether the {@link CDPMessageBus} should
-   * publish {@link ObjectChangedEvent} or not.
+   * publish {@link ObjectChangedEvent} or not. By default should be set to {@code true}.
    * @return The {@link CompletableFuture} that can be awaited.
    */
   public CompletableFuture<Void> synchronize(List<cdp4common.dto.Thing> dtoThings,

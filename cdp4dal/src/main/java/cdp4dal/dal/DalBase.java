@@ -123,7 +123,7 @@ public abstract class DalBase implements Dal {
    */
   public void setIterationContainer(@NonNull List<Thing> dtos, UUID iterationId) {
     if (iterationId == null || iterationId.equals(new UUID(0L, 0L))) {
-      throw new IllegalArgumentException("The Iteration Id must be set");
+      throw new IllegalArgumentException("The Iteration Id must be set.");
     }
 
     var engineeringModelContainmentClassKind = Arrays
@@ -225,7 +225,7 @@ public abstract class DalBase implements Dal {
       var contentFoundInAnOperation = false;
       for (var operation : operationContainer.getOperations()) {
         var fileRevision = as(operation.getModifiedThing(), cdp4common.dto.FileRevision.class);
-        if (fileRevision != null && fileRevision.getContentHash().equals(hash)) {
+        if (fileRevision != null && fileRevision.getContentHash().toLowerCase().equals(hash.toLowerCase())) {
           contentFoundInAnOperation = true;
           break;
         }
