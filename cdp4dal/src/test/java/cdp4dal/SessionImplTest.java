@@ -38,6 +38,7 @@ import static org.mockito.Mockito.when;
 
 import cdp4common.Version;
 import cdp4common.commondata.ClassKind;
+import cdp4common.dto.EngineeringModel;
 import cdp4common.dto.EngineeringModelSetup;
 import cdp4common.dto.Iteration;
 import cdp4common.dto.SiteDirectory;
@@ -68,39 +69,23 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class SessionImplTest {
 
-  /**
-   * Mocked data service
-   */
   private Dal mockedDal;
 
-  /**
-   * a list of {@link cdp4common.dto.Thing} returned from the mocked {@link Dal}
-   */
   private List<Thing> dalOutputs;
 
-  /**
-   * The uri of the mocked {@link Dal}
-   */
   private URI uri;
 
-  /**
-   * The {@link Session} object under test
-   */
   private Session session;
 
-  /**
-   * The {@link cdp4common.dto.Person} object under test
-   */
   private cdp4common.dto.Person person;
 
   private cdp4common.dto.SiteDirectory sieSiteDirectoryDto;
-
-  private AtomicBoolean cancelled;
 
   @BeforeEach
   void setUp() {
@@ -146,8 +131,6 @@ class SessionImplTest {
 
     this.session = new SessionImpl(this.mockedDal, credentials);
 
-    this.cancelled = new AtomicBoolean();
-
     when(this.mockedDal.open(any(Credentials.class), any(AtomicBoolean.class)))
         .thenReturn(CompletableFuture.completedFuture(this.dalOutputs));
   }
@@ -166,7 +149,7 @@ class SessionImplTest {
 
   @Test
   void verifyThatWriteWithEmptyResponseSendsMessages()
-      throws ExecutionException, InterruptedException {
+      throws ExecutionException, InterruptedException, IllegalAccessException {
     AtomicBoolean beginUpdateReceived = new AtomicBoolean();
     AtomicBoolean endUpdateReceived = new AtomicBoolean();
 
@@ -187,6 +170,10 @@ class SessionImplTest {
         });
 
     var context = String.format("/SiteDirectory/%s", UUID.randomUUID());
+    var johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
+        this.session.getAssembler().getCache(), this.uri);
+    johnDoe.setShortName("John");
+    FieldUtils.writeField(this.session, "activePerson", johnDoe, true);
     this.session.write(new OperationContainer(context, null)).get();
 
     assertTrue(beginUpdateReceived.get());
@@ -249,15 +236,15 @@ class SessionImplTest {
     var activePerson = this.session.getActivePerson();
     assertNotNull(activePerson);
     assertEquals("John", activePerson.getShortName());
-
-    // query again to cover cached activePerson property
-    activePerson = this.session.getActivePerson();
-    assertNotNull(activePerson);
   }
 
   @Test
-  void verifyThatOpenSiteRDLUpdatesListInSession() throws ExecutionException, InterruptedException {
+  void verifyThatOpenSiteRDLUpdatesListInSession()
+      throws ExecutionException, InterruptedException, IllegalAccessException {
     var siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(), null, null);
+    var johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
+        this.session.getAssembler().getCache(), this.uri);
+    johnDoe.setShortName("John");
     var rdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
     rdlDto.setIid(UUID.randomUUID());
     var siteDirDto = new cdp4common.dto.SiteDirectory();
@@ -285,6 +272,7 @@ class SessionImplTest {
     when(this.mockedDal.read(any(Thing.class), any(AtomicBoolean.class), any()))
         .thenReturn(CompletableFuture.completedFuture(new ArrayList<>()));
 
+    FieldUtils.writeField(session2, "activePerson", johnDoe, true);
     session2.getAssembler().synchronize(thingsToAdd, true).get();
     assertTrue(session2.getOpenReferenceDataLibraries().isEmpty());
 
@@ -296,9 +284,13 @@ class SessionImplTest {
   }
 
   @Test
-  void verifyThatCloseRdlWorks() throws ExecutionException, InterruptedException {
+  void verifyThatCloseRdlWorks()
+      throws ExecutionException, InterruptedException, IllegalAccessException {
     var siteDirectoryPojo = new cdp4common.sitedirectorydata.SiteDirectory(
         this.sieSiteDirectoryDto.getIid(), this.session.getAssembler().getCache(), this.uri);
+    var johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
+        this.session.getAssembler().getCache(), this.uri);
+    johnDoe.setShortName("John");
 
     var rdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
     rdlDto.setIid(UUID.randomUUID());
@@ -324,6 +316,7 @@ class SessionImplTest {
     when(this.mockedDal.read(any(Thing.class), any(AtomicBoolean.class), any()))
         .thenReturn(CompletableFuture.completedFuture(new ArrayList<>()));
 
+    FieldUtils.writeField(session, "activePerson", johnDoe, true);
     session.getAssembler().synchronize(thingsToAdd, true).get();
     session.read(rdlPojo).get();
     assertEquals(2, session.getOpenReferenceDataLibraries().size());
@@ -355,7 +348,7 @@ class SessionImplTest {
 
   @Test
   void verifyThatSiteRdlRequiredByModelRdlCannotBeClosed()
-      throws ExecutionException, InterruptedException {
+      throws ExecutionException, InterruptedException, IllegalAccessException {
     var rdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
     rdlDto.setIid(UUID.randomUUID());
     var siteDirDto = new cdp4common.dto.SiteDirectory();
@@ -365,6 +358,7 @@ class SessionImplTest {
     rdlDto.setRequiredRdl(requiredRdlDto.getIid());
     siteDirDto.getSiteReferenceDataLibrary().add(rdlDto.getIid());
     siteDirDto.getSiteReferenceDataLibrary().add(requiredRdlDto.getIid());
+    siteDirDto.getPerson().add(this.person.getIid());
 
     var mrdl = new cdp4common.dto.ModelReferenceDataLibrary(UUID.randomUUID(), 0);
     mrdl.setRequiredRdl(requiredRdlDto.getIid());
@@ -384,7 +378,8 @@ class SessionImplTest {
         mrdl,
         modelsetup,
         model,
-        iteration
+        iteration,
+        this.person
     );
 
     var mrdlPojo = new ModelReferenceDataLibrary(mrdl.getIid(), null, null);
@@ -410,6 +405,13 @@ class SessionImplTest {
     );
 
     this.session.getAssembler().synchronize(thingsToAdd, true).get();
+
+    var johnDoe = this.session.retrieveSiteDirectory().getPerson()
+        .stream()
+        .filter(x -> x.getIid().equals(this.person.getIid()))
+        .collect(MoreCollectors.onlyElement());
+    FieldUtils.writeField(session, "activePerson", johnDoe, true);
+
     this.session.read(iterationPojo, null).get();
 
     assertEquals(2, this.session.getOpenReferenceDataLibraries().size());
@@ -423,8 +425,12 @@ class SessionImplTest {
   }
 
   @Test
-  void verifyThatCloseModelRdlWorks() throws ExecutionException, InterruptedException {
+  void verifyThatCloseModelRdlWorks()
+      throws ExecutionException, InterruptedException, IllegalAccessException {
     var siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(), null, null);
+    var johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
+        this.session.getAssembler().getCache(), this.uri);
+    johnDoe.setShortName("John");
     var modelRdlDto = new cdp4common.dto.ModelReferenceDataLibrary();
     modelRdlDto.setIid(UUID.randomUUID());
     var siteDirDto = new cdp4common.dto.SiteDirectory();
@@ -438,10 +444,13 @@ class SessionImplTest {
     containerEngModelSetup.setIid(containerEngModelSetupDto.getIid());
     siteDir.getModel().add(containerEngModelSetup);
     modelRdlDto.setRequiredRdl(requiredPojoDto.getIid());
+    siteDir.getPerson().add(johnDoe);
 
     var credentials = new Credentials("admin", "pass", URI.create("http://www.rheagroup.com"),
         null);
     var session2 = new SessionImpl(this.mockedDal, credentials);
+    FieldUtils.writeField(session2, "activePerson", johnDoe, true);
+
     var modelRdlPojo = new ModelReferenceDataLibrary();
     modelRdlPojo.setIid(modelRdlDto.getIid());
     modelRdlPojo.setName(modelRdlDto.getName());
@@ -525,9 +534,14 @@ class SessionImplTest {
   }
 
   @Test
-  void verifyThatReadRdlWorks() throws ExecutionException, InterruptedException {
+  void verifyThatReadRdlWorks()
+      throws ExecutionException, InterruptedException, IllegalAccessException {
     var siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(),
         this.session.getAssembler().getCache(), this.uri);
+    var johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
+        this.session.getAssembler().getCache(), this.uri);
+    johnDoe.setShortName("John");
+
     this.session.getAssembler().getCache().put(new CacheKey(siteDir.getIid(), null), siteDir);
 
     var sitedirDto = new SiteDirectory(siteDir.getIid(), 1);
@@ -545,6 +559,7 @@ class SessionImplTest {
     var srdl = new SiteReferenceDataLibrary(rdl.getIid(), null, null);
     srdl.setContainer(siteDir);
 
+    FieldUtils.writeField(session, "activePerson", johnDoe, true);
     this.session.read(srdl).get();
 
     assertEquals(1, this.session.getOpenReferenceDataLibraries().size());
@@ -552,9 +567,13 @@ class SessionImplTest {
   }
 
   @Test
-  void verifyThatReadIterationWorks() throws ExecutionException, InterruptedException {
+  void verifyThatReadIterationWorks()
+      throws ExecutionException, InterruptedException, IllegalAccessException {
     var siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(),
         this.session.getAssembler().getCache(), this.uri);
+    var johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
+        this.session.getAssembler().getCache(), this.uri);
+    johnDoe.setShortName("John");
     var modelSetup = new cdp4common.sitedirectorydata.EngineeringModelSetup(UUID.randomUUID(),
         this.session.getAssembler().getCache(), this.uri);
     var iterationSetup = new cdp4common.sitedirectorydata.IterationSetup(UUID.randomUUID(),
@@ -576,9 +595,12 @@ class SessionImplTest {
     siteDir.getModel().add(modelSetup);
     siteDir.getSiteReferenceDataLibrary().add(srdl);
     siteDir.getDomain().add(activeDomain);
+    siteDir.getPerson().add(johnDoe);
 
     this.session.getAssembler().getCache().put(new CacheKey(siteDir.getIid(), null),
         siteDir);
+    this.session.getAssembler().getCache().put(new CacheKey(johnDoe.getIid(), null),
+        johnDoe);
     this.session.getAssembler().getCache().put(new CacheKey(modelSetup.getIid(), null),
         modelSetup);
     this.session.getAssembler().getCache().put(new CacheKey(mrdl.getIid(), null),
@@ -590,12 +612,7 @@ class SessionImplTest {
     this.session.getAssembler().getCache().put(new CacheKey(iterationSetup.getIid(), null),
         iterationSetup);
 
-    var person = new cdp4common.sitedirectorydata.Person(UUID.randomUUID(),
-        this.session.getAssembler().getCache(), this.uri);
-    person.setActive(true);
-    person.setShortName("John");
-    this.session.getAssembler().getCache().put(new CacheKey(person.getIid(), null),
-        person);
+    FieldUtils.writeField(session, "activePerson", johnDoe, true);
 
     var participant = new cdp4common.sitedirectorydata.Participant(UUID.randomUUID(),
         this.session.getAssembler().getCache(), this.uri);
@@ -650,6 +667,27 @@ class SessionImplTest {
     verify(this.mockedDal, times(1)).read(any(Thing.class), any(AtomicBoolean.class), any());
     assertThrows(ExecutionException.class, () ->
         this.session.read(iterationToOpen, null).get());
+  }
+
+  @Test
+  void verify_that_when_active_person_is_null_Iteration_is_not_read() {
+    var iterationSetup = new cdp4common.sitedirectorydata.IterationSetup(UUID.randomUUID(), null,
+        null);
+    iterationSetup.setFrozenOn(LocalDateTime.now());
+    iterationSetup.setIterationIid(UUID.randomUUID());
+    var activeDomain = new DomainOfExpertise(UUID.randomUUID(), null, null);
+    var model = new EngineeringModel(UUID.randomUUID(), 1);
+    var iteration = new Iteration(UUID.randomUUID(), 10);
+    iteration.setIterationSetup(iterationSetup.getIid());
+
+    var iterationToOpen = new cdp4common.engineeringmodeldata.Iteration(iteration.getIid(), null,
+        null);
+    var modelToOpen = new cdp4common.engineeringmodeldata.EngineeringModel(model.getIid(), null,
+        null);
+    iterationToOpen.setContainer(modelToOpen);
+
+    assertThrows(IllegalStateException.class,
+        () -> this.session.read(iterationToOpen, activeDomain).get());
   }
 
   @Test
