@@ -45,6 +45,7 @@ import cdp4dal.operations.Operation;
 import cdp4dal.operations.OperationKind;
 import cdp4dal.operations.OperationUtils;
 import cdp4dal.operations.PostOperation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
@@ -64,16 +65,19 @@ class CdpPostOperation implements PostOperation {
   /**
    * The property name that stores the unique identifier of a {@link Thing}.
    */
-  private final String IID_KEY = "Iid";
+  @JsonIgnore
+  private final String IID_KEY = "iid";
 
   /**
    * The property name that stores the classkind of a {@link Thing}.
    */
-  private final String CLASSKIND_KEY = "ClassKind";
+  @JsonIgnore
+  private final String CLASSKIND_KEY = "classKind";
 
   /**
    * The {@link Session}.
    */
+  @JsonIgnore
   private final Session session;
 
   /**
@@ -81,6 +85,10 @@ class CdpPostOperation implements PostOperation {
    */
   CdpPostOperation() {
     this.session = null;
+    this.delete = new ArrayList<>();
+    this.create = new ArrayList<>();
+    this.update = new ArrayList<>();
+    this.copy = new ArrayList<>();
   }
 
   /**
@@ -90,6 +98,10 @@ class CdpPostOperation implements PostOperation {
    */
   CdpPostOperation(Session session) {
     this.session = session;
+    this.delete = new ArrayList<>();
+    this.create = new ArrayList<>();
+    this.update = new ArrayList<>();
+    this.copy = new ArrayList<>();
   }
 
   /**
@@ -170,7 +182,6 @@ class CdpPostOperation implements PostOperation {
 
     for (var key : original.keySet()) {
       var originalIterable = as(original.get(key), Iterable.class);
-//      if (originalIterable != null && originalIterable.GetType().IsGenericType)
       if (originalIterable != null) {
         var modifiedIterable = (Iterable) modifiedFull.get(key);
 
@@ -189,7 +200,16 @@ class CdpPostOperation implements PostOperation {
           ArrayList originalProperty;
           ArrayList modifiedProperty;
 
-          var genericTypeArgument = ((List) original.get(key)).get(0).getClass();
+          // Try to get a generic type
+          Class genericTypeArgument = null;
+          if (((List) original.get(key)).isEmpty()){
+            if (!((List) modified.get(key)).isEmpty()){
+              genericTypeArgument = ((List) modified.get(key)).get(0).getClass();
+            }
+          } else{
+            genericTypeArgument = ((List) original.get(key)).get(0).getClass();
+          }
+
           if (genericTypeArgument == UUID.class || genericTypeArgument == ClassKind.class
               || genericTypeArgument == VcardTelephoneNumberKind.class) {
             originalProperty = Lists.newArrayList(originalIterable);

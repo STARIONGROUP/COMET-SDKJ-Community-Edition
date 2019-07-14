@@ -54,10 +54,6 @@ import java.util.stream.Collectors;
  * multiple create {@link Operation}s.
  */
 class CopyOperationHandler {
-//  /**
-//  * The {@link Enumerable}'s cast method
-//  */
-//  private static readonly MethodInfo CastMethod = typeof(Enumerable).GetMethod("Cast");
 
   /**
    * The associated {@link Session}.
@@ -232,7 +228,7 @@ class CopyOperationHandler {
     for (var containerList : pojo.getContainerLists()) {
       var updatedContainerList = new ArrayList<Thing>();
       for (var containedObject : containerList) {
-        var containedPojo = (Thing)containedObject;
+        var containedPojo = (Thing) containedObject;
         if (!this.copyableIds.contains(containedPojo.getIid())) {
           continue;
         }
@@ -252,23 +248,13 @@ class CopyOperationHandler {
 
       // clear the list
       containerList.clear();
-//      var containerListType = containerList.GetType();
-//      var genericType = containerListType.GetGenericArguments().Single();
-//
-//      var clearMethod = containerListType.GetMethod("Clear");
-//      clearMethod.Invoke(containerList, null);
-//
+
       if (updatedContainerList.isEmpty()) {
         continue;
       }
 
       // Add items
       containerList.addAll(updatedContainerList);
-//      var castContainerList = CastMethod.MakeGenericMethod(genericType)
-//          .Invoke(null, new object[] { updatedContainerList });
-//
-//      var addRangeMethod = containerListType.GetMethod("AddRange");
-//      addRangeMethod.Invoke(containerList, new[] { castContainerList });
     }
   }
 
@@ -330,10 +316,6 @@ class CopyOperationHandler {
     // if the group cannot be copied, set to null
     Thing groupCopy = this.copyThingMap.get(parameter.getGroup());
     parameter.setGroup(groupCopy != null ? (ParameterGroup) groupCopy : null);
-
-//    = this.copyThingMap.TryGetValue(parameter.Group, out groupCopy)
-//        ? (ParameterGroup)groupCopy
-//        : null;
   }
 
   /**
@@ -349,10 +331,6 @@ class CopyOperationHandler {
     // if the group cannot be copied, set to null
     Thing groupCopy = this.copyThingMap.get(group.getContainingGroup());
     group.setContainingGroup(groupCopy != null ? (ParameterGroup) groupCopy : null);
-
-//        this.copyThingMap.TryGetValue(group.ContainingGroup, out groupCopy)
-//        ? (ParameterGroup)groupCopy
-//        : null;
   }
 
   /**

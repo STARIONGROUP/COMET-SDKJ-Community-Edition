@@ -24,10 +24,33 @@
 
 package cdp4servicesdal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import cdp4common.commondata.ClassKind;
 import cdp4common.commondata.Thing;
-import cdp4common.engineeringmodeldata.*;
-import cdp4common.sitedirectorydata.*;
+import cdp4common.engineeringmodeldata.ElementDefinition;
+import cdp4common.engineeringmodeldata.ElementUsage;
+import cdp4common.engineeringmodeldata.EngineeringModel;
+import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.engineeringmodeldata.Parameter;
+import cdp4common.engineeringmodeldata.ParameterGroup;
+import cdp4common.engineeringmodeldata.ParameterOverride;
+import cdp4common.engineeringmodeldata.ParameterSubscription;
+import cdp4common.sitedirectorydata.BooleanParameterType;
+import cdp4common.sitedirectorydata.Category;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.EngineeringModelSetup;
+import cdp4common.sitedirectorydata.IterationSetup;
+import cdp4common.sitedirectorydata.ModelReferenceDataLibrary;
+import cdp4common.sitedirectorydata.Participant;
+import cdp4common.sitedirectorydata.Person;
+import cdp4common.sitedirectorydata.SiteDirectory;
+import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
 import cdp4dal.Assembler;
 import cdp4dal.Session;
 import cdp4dal.operations.Operation;
@@ -37,21 +60,13 @@ import cdp4dal.operations.TransactionContextResolver;
 import cdp4dal.permission.PermissionService;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
-import org.apache.commons.lang3.tuple.Pair;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.net.URI;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.apache.commons.lang3.tuple.Pair;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class CopyOperationHandlerTest {
 
@@ -318,14 +333,13 @@ class CopyOperationHandlerTest {
     assertFalse(operationContainer.getContext().isEmpty());
   }
 
-        @Test
-   void verifyThatDryCopyWorks()
-  {
+  @Test
+  void verifyThatDryCopyWorks() {
     when(this.permissionService.canWrite(any(ClassKind.class), any(Thing.class))).thenReturn(true);
     when(this.session.getOpenIterations()).thenReturn(
-            ImmutableMap
-                    .of(this.iteration1, Pair.of(domain1, null), this.iteration2, Pair.of(domain3, null)));
-    
+        ImmutableMap
+            .of(this.iteration1, Pair.of(domain1, null), this.iteration2, Pair.of(domain3, null)));
+
     var iteration2Clone = this.iteration2.clone(false);
     var defClone = this.rootDef.clone(false);
     defClone.setIid(UUID.randomUUID());
@@ -335,52 +349,54 @@ class CopyOperationHandlerTest {
     var context = transactionContext.getContextRoute();
 
     var operationContainer = new OperationContainer(context, this.model2.getRevisionNumber());
-    operationContainer.addOperation(new Operation(this.iteration2.toDto(), iteration2Clone.toDto(), OperationKind.UPDATE));
-    operationContainer.addOperation(new Operation(this.rootDef.toDto(), defClone.toDto(), OperationKind.COPY_DEFAULT_VALUES_CHANGE_OWNER));
+    operationContainer.addOperation(
+        new Operation(this.iteration2.toDto(), iteration2Clone.toDto(), OperationKind.UPDATE));
+    operationContainer.addOperation(new Operation(this.rootDef.toDto(), defClone.toDto(),
+        OperationKind.COPY_DEFAULT_VALUES_CHANGE_OWNER));
 
     var copyHandler = new CopyOperationHandler(this.session);
     copyHandler.modifiedCopyOperation(operationContainer);
 
     var operations = operationContainer.getOperations();
     assertEquals(14, operations.size());
-    assertFalse(operationContainer.getContext().isEmpty()); // check that operation container is correctly built
+    assertFalse(operationContainer.getContext()
+        .isEmpty()); // check that operation container is correctly built
 
     var ownedThings =
         operationContainer.getOperations()
-                .stream()
-                .map(Operation::getModifiedThing)
-                .filter(x -> x.getClassKind() != ClassKind.ParameterSubscription)
-                .filter(x -> x instanceof cdp4common.dto.OwnedThing)
-                .map(x -> (cdp4common.dto.OwnedThing)x)
-                .collect(Collectors.toList());
+            .stream()
+            .map(Operation::getModifiedThing)
+            .filter(x -> x.getClassKind() != ClassKind.ParameterSubscription)
+            .filter(x -> x instanceof cdp4common.dto.OwnedThing)
+            .map(x -> (cdp4common.dto.OwnedThing) x)
+            .collect(Collectors.toList());
 
     var dtoOwner = ownedThings
-            .stream()
-            .map(cdp4common.dto.OwnedThing::getOwner)
-            .distinct()
-            .collect(MoreCollectors.onlyElement());
+        .stream()
+        .map(cdp4common.dto.OwnedThing::getOwner)
+        .distinct()
+        .collect(MoreCollectors.onlyElement());
 
     assertEquals(dtoOwner, this.domain3.getIid());
 
     var sub =
         operationContainer.getOperations()
-                .stream()
-                .map(Operation::getModifiedThing)
-                .filter(x -> x instanceof cdp4common.dto.ParameterSubscription)
-                .map(x -> (cdp4common.dto.ParameterSubscription)x)
-                .collect(MoreCollectors.onlyElement());
+            .stream()
+            .map(Operation::getModifiedThing)
+            .filter(x -> x instanceof cdp4common.dto.ParameterSubscription)
+            .map(x -> (cdp4common.dto.ParameterSubscription) x)
+            .collect(MoreCollectors.onlyElement());
 
     assertEquals(sub.getOwner(), this.subscription1.getOwner().getIid());
   }
 
-        @Test
-   void verifyThatDryCopyDoesNotCopySubscriptionWithOwnerAsActiveDomain()
-  {
+  @Test
+  void verifyThatDryCopyDoesNotCopySubscriptionWithOwnerAsActiveDomain() {
     when(this.permissionService.canWrite(any(ClassKind.class), any(Thing.class))).thenReturn(true);
     when(this.session.getOpenIterations()).thenReturn(
-            ImmutableMap
-                    .of(this.iteration1, Pair.of(domain1, null), this.iteration2, Pair.of(domain1, null)));
-   
+        ImmutableMap
+            .of(this.iteration1, Pair.of(domain1, null), this.iteration2, Pair.of(domain1, null)));
+
     var iteration2Clone = this.iteration2.clone(false);
     var defClone = this.rootDef.clone(false);
     defClone.setIid(UUID.randomUUID());
@@ -390,50 +406,52 @@ class CopyOperationHandlerTest {
     var context = transactionContext.getContextRoute();
 
     var operationContainer = new OperationContainer(context, this.model2.getRevisionNumber());
-    operationContainer.addOperation(new Operation(this.iteration2.toDto(), iteration2Clone.toDto(), OperationKind.UPDATE));
-    operationContainer.addOperation(new Operation(this.rootDef.toDto(), defClone.toDto(), OperationKind.COPY_DEFAULT_VALUES_CHANGE_OWNER));
+    operationContainer.addOperation(
+        new Operation(this.iteration2.toDto(), iteration2Clone.toDto(), OperationKind.UPDATE));
+    operationContainer.addOperation(new Operation(this.rootDef.toDto(), defClone.toDto(),
+        OperationKind.COPY_DEFAULT_VALUES_CHANGE_OWNER));
 
     var copyHandler = new CopyOperationHandler(this.session);
     copyHandler.modifiedCopyOperation(operationContainer);
 
     var operations = operationContainer.getOperations();
     assertEquals(13, operations.size());
-    assertFalse(operationContainer.getContext().isEmpty()); // check that operation container is correctly built
+    assertFalse(operationContainer.getContext()
+        .isEmpty()); // check that operation container is correctly built
 
     var ownedThings =
-            operationContainer.getOperations()
-                    .stream()
-                    .map(Operation::getModifiedThing)
-                    .filter(x -> x.getClassKind() != ClassKind.ParameterSubscription)
-                    .filter(x -> x instanceof cdp4common.dto.OwnedThing)
-                    .map(x -> (cdp4common.dto.OwnedThing)x)
-                    .collect(Collectors.toList());
+        operationContainer.getOperations()
+            .stream()
+            .map(Operation::getModifiedThing)
+            .filter(x -> x.getClassKind() != ClassKind.ParameterSubscription)
+            .filter(x -> x instanceof cdp4common.dto.OwnedThing)
+            .map(x -> (cdp4common.dto.OwnedThing) x)
+            .collect(Collectors.toList());
 
     var dtoOwner = ownedThings
-            .stream()
-            .map(cdp4common.dto.OwnedThing::getOwner)
-            .distinct()
-            .collect(MoreCollectors.onlyElement());
+        .stream()
+        .map(cdp4common.dto.OwnedThing::getOwner)
+        .distinct()
+        .collect(MoreCollectors.onlyElement());
 
     assertEquals(dtoOwner, this.domain1.getIid());
 
     var subCount =
-            operationContainer.getOperations()
-                    .stream()
-                    .map(Operation::getModifiedThing)
-                    .filter(x -> x instanceof cdp4common.dto.ParameterSubscription)
-                    .count();
+        operationContainer.getOperations()
+            .stream()
+            .map(Operation::getModifiedThing)
+            .filter(x -> x instanceof cdp4common.dto.ParameterSubscription)
+            .count();
 
     assertEquals(0, subCount);
   }
 
-        @Test
-   void verifyThatDryCopyDoesNotCopySubscriptionWithInactiveDomain()
-  {
+  @Test
+  void verifyThatDryCopyDoesNotCopySubscriptionWithInactiveDomain() {
     when(this.permissionService.canWrite(any(ClassKind.class), any(Thing.class))).thenReturn(true);
     when(this.session.getOpenIterations()).thenReturn(
-            ImmutableMap
-                    .of(this.iteration1, Pair.of(domain1, null), this.iteration2, Pair.of(domain1, null)));
+        ImmutableMap
+            .of(this.iteration1, Pair.of(domain1, null), this.iteration2, Pair.of(domain1, null)));
     this.subscription1.setOwner(this.domain3);
 
     var iteration2Clone = this.iteration2.clone(false);
@@ -445,39 +463,42 @@ class CopyOperationHandlerTest {
     var context = transactionContext.getContextRoute();
 
     var operationContainer = new OperationContainer(context, this.model2.getRevisionNumber());
-    operationContainer.addOperation(new Operation(this.iteration2.toDto(), iteration2Clone.toDto(), OperationKind.UPDATE));
-    operationContainer.addOperation(new Operation(this.rootDef.toDto(), defClone.toDto(), OperationKind.COPY_DEFAULT_VALUES_CHANGE_OWNER));
+    operationContainer.addOperation(
+        new Operation(this.iteration2.toDto(), iteration2Clone.toDto(), OperationKind.UPDATE));
+    operationContainer.addOperation(new Operation(this.rootDef.toDto(), defClone.toDto(),
+        OperationKind.COPY_DEFAULT_VALUES_CHANGE_OWNER));
 
     var copyHandler = new CopyOperationHandler(this.session);
     copyHandler.modifiedCopyOperation(operationContainer);
 
     var operations = operationContainer.getOperations();
     assertEquals(13, operations.size());
-    assertFalse(operationContainer.getContext().isEmpty()); // check that operation container is correctly built
+    assertFalse(operationContainer.getContext()
+        .isEmpty()); // check that operation container is correctly built
 
     var ownedThings =
-            operationContainer.getOperations()
-                    .stream()
-                    .map(Operation::getModifiedThing)
-                    .filter(x -> x.getClassKind() != ClassKind.ParameterSubscription)
-                    .filter(x -> x instanceof cdp4common.dto.OwnedThing)
-                    .map(x -> (cdp4common.dto.OwnedThing)x)
-                    .collect(Collectors.toList());
+        operationContainer.getOperations()
+            .stream()
+            .map(Operation::getModifiedThing)
+            .filter(x -> x.getClassKind() != ClassKind.ParameterSubscription)
+            .filter(x -> x instanceof cdp4common.dto.OwnedThing)
+            .map(x -> (cdp4common.dto.OwnedThing) x)
+            .collect(Collectors.toList());
 
     var dtoOwner = ownedThings
-            .stream()
-            .map(cdp4common.dto.OwnedThing::getOwner)
-            .distinct()
-            .collect(MoreCollectors.onlyElement());
+        .stream()
+        .map(cdp4common.dto.OwnedThing::getOwner)
+        .distinct()
+        .collect(MoreCollectors.onlyElement());
 
     assertEquals(dtoOwner, this.domain1.getIid());
 
     var subCount =
-            operationContainer.getOperations()
-                    .stream()
-                    .map(Operation::getModifiedThing)
-                    .filter(x -> x instanceof cdp4common.dto.ParameterSubscription)
-                    .count();
+        operationContainer.getOperations()
+            .stream()
+            .map(Operation::getModifiedThing)
+            .filter(x -> x instanceof cdp4common.dto.ParameterSubscription)
+            .count();
 
     assertEquals(0, subCount);
   }
