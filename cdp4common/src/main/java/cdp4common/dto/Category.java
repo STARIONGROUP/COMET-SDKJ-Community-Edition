@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "Category"} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "definedCategory")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Category extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "Category"} class.

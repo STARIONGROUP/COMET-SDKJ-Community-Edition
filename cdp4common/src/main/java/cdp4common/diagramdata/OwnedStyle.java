@@ -59,7 +59,6 @@ import lombok.*;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = DiagramElementThing.class, propertyName = "localStyle")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class OwnedStyle extends DiagrammingStyle implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

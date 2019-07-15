@@ -23,19 +23,22 @@
  */
 package cdp4common;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import cdp4common.commondata.ClassKind;
 import cdp4common.dto.ParameterGroup;
 import cdp4common.dto.SiteDirectory;
 import cdp4common.dto.Thing;
 import com.google.common.collect.Lists;
-import org.junit.jupiter.api.Test;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class ClasslessDtoFactoryTest {
 
@@ -44,7 +47,7 @@ class ClasslessDtoFactoryTest {
         var siteDirectory = new SiteDirectory(UUID.randomUUID(), 2);
         siteDirectory.setDefaultParticipantRole(UUID.randomUUID());
 
-        var properties = Arrays.asList("defaultPersonRole", "iid", "CLASS_KIND", "defaultParticipantRole", "createdOn");
+        var properties = Arrays.asList("defaultPersonRole", "iid", "classKind", "defaultParticipantRole", "createdOn");
 
         var classlessDTO = ClasslessDtoFactory.fromThing(siteDirectory, properties);
 
@@ -65,7 +68,7 @@ class ClasslessDtoFactoryTest {
         var classlessDTO = ClasslessDtoFactory.fromThing(siteDirectory, properties);
 
         assertEquals(2, classlessDTO.size());
-        assertEquals(ClassKind.SITE_DIRECTORY, classlessDTO.get("CLASS_KIND"));
+        assertEquals(ClassKind.SiteDirectory, classlessDTO.get("classKind"));
         assertTrue(classlessDTO.get("iid") instanceof UUID);
     }
 
@@ -74,7 +77,7 @@ class ClasslessDtoFactoryTest {
         var siteDirectory = new SiteDirectory(UUID.randomUUID(), 2);
         siteDirectory.setDefaultParticipantRole(UUID.randomUUID());
 
-        var properties = Arrays.asList("defaultPersonRole", "iid", "CLASS_KIND", "unknownProperty");
+        var properties = Arrays.asList("defaultPersonRole", "iid", "classKind", "unknownProperty");
 
         assertThrows(NoSuchElementException.class, () -> ClasslessDtoFactory.fromThing(siteDirectory, properties));
     }
@@ -86,7 +89,7 @@ class ClasslessDtoFactoryTest {
 
         var classlessDTO = ClasslessDtoFactory.fullFromThing(siteDirectory);
 
-        assertTrue(classlessDTO.containsKey("CLASS_KIND"));
+        assertTrue(classlessDTO.containsKey("classKind"));
         assertTrue(classlessDTO.containsKey("iid"));
         assertTrue(classlessDTO.containsKey("organization"));
         assertTrue(classlessDTO.containsKey("person"));

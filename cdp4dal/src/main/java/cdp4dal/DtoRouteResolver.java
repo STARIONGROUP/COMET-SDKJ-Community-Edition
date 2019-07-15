@@ -74,7 +74,7 @@ public class DtoRouteResolver {
           .getIfPresent(new CacheKey(thing.getIid(), thing.getIterationContainerId()));
       if (containerFromCache == null) {
         throw new InstanceNotFoundException(String
-            .format("The %s with id %s could not be found", thing.CLASS_KIND, thing.getIid()));
+            .format("The %s with id %s could not be found", thing.getClassKind(), thing.getIid()));
       }
 
       // Build the complete containment tree
@@ -83,7 +83,7 @@ public class DtoRouteResolver {
     }
 
     // The container is in the list of dtos
-    thing.addContainer(container.get().CLASS_KIND, container.get().getIid());
+    thing.addContainer(container.get().getClassKind(), container.get().getIid());
     while (!(container.get() instanceof TopContainer)) {
       var previousContainer = container.get();
       container = dtos
@@ -91,7 +91,7 @@ public class DtoRouteResolver {
           .filter(dto -> dto.contains(previousContainer))
           .collect(MoreCollectors.toOptional());
       if (container.isPresent()) {
-        thing.addContainer(container.get().CLASS_KIND, container.get().getIid());
+        thing.addContainer(container.get().getClassKind(), container.get().getIid());
         continue;
       }
 
@@ -101,7 +101,7 @@ public class DtoRouteResolver {
           new CacheKey(previousContainer.getIid(), previousContainer.getIterationContainerId()));
       if (containerFromCache == null) {
         throw new InstanceNotFoundException(String
-            .format("The %s with id %s could not be found", previousContainer.CLASS_KIND,
+            .format("The %s with id %s could not be found", previousContainer.getClassKind(),
                 previousContainer.getIid()));
       }
 
@@ -121,7 +121,7 @@ public class DtoRouteResolver {
     var container = cachedThing.getContainer();
     if (container == null) {
       throw new NullPointerException(String
-          .format("The container of the %s with id %s is null.", thing.CLASS_KIND, thing.getIid()));
+          .format("The container of the %s with id %s is null.", thing.getClassKind(), thing.getIid()));
     }
 
     thing.addContainer(container.getClassKind(), container.getIid());
@@ -131,7 +131,7 @@ public class DtoRouteResolver {
 //      container = container.getContainer();
 //      if (container == null)
 //      {
-//        throw new NullPointerException(String.format("The containment tree is broken for the %s with id %s.", thing.CLASS_KIND, thing.getIid()));
+//        throw new NullPointerException(String.format("The containment tree is broken for the %s with id %s.", thing.getClassKind(), thing.getIid()));
 //      }
 //
 //      thing.addContainer(container.getClassKind(), container.getIid());
@@ -150,7 +150,7 @@ public class DtoRouteResolver {
       tmpContainer = tmpContainer.getContainer();
       if (tmpContainer == null) {
         throw new NullPointerException(String
-            .format("The containment tree is broken for the %s with id %s.", thing.CLASS_KIND,
+            .format("The containment tree is broken for the %s with id %s.", thing.getClassKind(),
                 thing.getIid()));
       }
 

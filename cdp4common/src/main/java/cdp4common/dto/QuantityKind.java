@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "QuantityKind"} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class QuantityKind extends ScalarParameterType implements Cloneable {
     /**
      * Initializes a new instance of the {@link "QuantityKind"} class.
@@ -112,7 +111,7 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Gets the list of unique identifiers of the referenced AllPossibleScale instances.
      * @throws UnsupportedOperationException The allPossibleScale property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public ArrayList<UUID> getAllPossibleScale() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property QuantityKind.allPossibleScale");
     }
@@ -121,7 +120,7 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Gets a list of ordered String.
      * @throws UnsupportedOperationException The quantityDimensionExponent property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public ArrayList<OrderedItem> getQuantityDimensionExponent() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property QuantityKind.quantityDimensionExponent");
     }
@@ -130,7 +129,7 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Gets the quantityDimensionExpression.
      * @throws UnsupportedOperationException The quantityDimensionExpression property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public String getQuantityDimensionExpression() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property QuantityKind.quantityDimensionExpression");
     }
@@ -139,7 +138,7 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Sets the list of unique identifiers of the referenced AllPossibleScale instances.
      * @throws UnsupportedOperationException The allPossibleScale property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setAllPossibleScale(ArrayList<UUID> allPossibleScale) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property QuantityKind.allPossibleScale");
     }
@@ -148,7 +147,7 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Sets a list of ordered String.
      * @throws UnsupportedOperationException The quantityDimensionExponent property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setQuantityDimensionExponent(ArrayList<OrderedItem> quantityDimensionExponent) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property QuantityKind.quantityDimensionExponent");
     }
@@ -157,7 +156,7 @@ public abstract class QuantityKind extends ScalarParameterType implements Clonea
      * Sets the quantityDimensionExpression.
      * @throws UnsupportedOperationException The quantityDimensionExpression property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setQuantityDimensionExpression(String quantityDimensionExpression) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property QuantityKind.quantityDimensionExpression");
     }

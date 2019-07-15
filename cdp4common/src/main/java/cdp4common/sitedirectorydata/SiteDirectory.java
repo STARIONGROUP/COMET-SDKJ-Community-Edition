@@ -62,7 +62,6 @@ import lombok.*;
  * central administrative resource.
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class SiteDirectory extends TopContainer implements Cloneable, NamedThing, ShortNamedThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

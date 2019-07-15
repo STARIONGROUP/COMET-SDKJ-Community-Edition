@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "ParameterGroup"} class.
  */
 @Container(clazz = ElementDefinition.class, propertyName = "parameterGroup")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParameterGroup extends Thing implements Cloneable, NamedThing {
     /**
      * Initializes a new instance of the {@link "ParameterGroup"} class.

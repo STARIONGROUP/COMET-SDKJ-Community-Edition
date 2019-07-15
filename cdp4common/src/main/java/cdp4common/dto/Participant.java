@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "Participant"} class.
  */
 @Container(clazz = EngineeringModelSetup.class, propertyName = "participant")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Participant extends Thing implements Cloneable, ParticipantAffectedAccessThing {
     /**
      * Initializes a new instance of the {@link "Participant"} class.

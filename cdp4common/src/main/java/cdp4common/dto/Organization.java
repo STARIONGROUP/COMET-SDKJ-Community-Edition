@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "Organization"} class.
  */
 @Container(clazz = SiteDirectory.class, propertyName = "organization")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Organization extends Thing implements Cloneable, DeprecatableThing, NamedThing, ShortNamedThing {
     /**
      * Initializes a new instance of the {@link "Organization"} class.

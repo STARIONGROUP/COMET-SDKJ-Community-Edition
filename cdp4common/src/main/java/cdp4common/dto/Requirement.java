@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "Requirement"} class.
  */
 @Container(clazz = RequirementsSpecification.class, propertyName = "requirement")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Requirement extends SimpleParameterizableThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "Requirement"} class.

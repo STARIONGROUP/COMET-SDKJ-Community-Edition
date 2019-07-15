@@ -26,7 +26,9 @@ package cdp4common.types;
 
 import cdp4common.commondata.Thing;
 import com.google.common.collect.Lists;
-
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -42,7 +44,7 @@ import java.util.Locale;
  *
  * @param <T> The {@link Thing} contained by the Value Array.
  */
-public class ValueArray<T> implements Iterable<T> {
+public class ValueArray<T> implements Iterable<T>, Serializable {
     /**
      * The underlying collection of items.
      */
@@ -54,7 +56,7 @@ public class ValueArray<T> implements Iterable<T> {
     private Thing container;
 
     /**
-     * The type of the created {@link OrderedItemList<T>}
+     * The type of the created {@link ValueArray<T>}
      */
     private final Class<T> clazz;
 
@@ -105,10 +107,29 @@ public class ValueArray<T> implements Iterable<T> {
     }
 
     /**
+     * Initializes a new instance of the {@link ValueArray<T>} class.
+     *
+     * @param initializationCollection Collection to initialize this {@link Collection<T>}.
+     */
+    public ValueArray(Iterable<T> initializationCollection) {
+        this.items = initializationCollection == null ? new ArrayList<>() : Lists.newArrayList(initializationCollection);
+
+        Field items = null;
+        try {
+            items = ValueArray.class.getDeclaredField("items");
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        ParameterizedType stringListType = (ParameterizedType) items.getGenericType();
+        Class<?> itemsClass = (Class<?>) stringListType.getActualTypeArguments()[0];
+        this.clazz = (Class<T>)itemsClass;
+    }
+
+    /**
      * Gets the type of the items of this collection.
      */
     public Class getItemType() {
-        return this.items.size() > 0 ? this.items.get(0).getClass() : null;
+        return this.clazz;
     }
 
     /**

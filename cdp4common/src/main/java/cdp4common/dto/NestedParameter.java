@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "NestedParameter"} class.
  */
 @Container(clazz = NestedElement.class, propertyName = "nestedParameter")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class NestedParameter extends Thing implements Cloneable, OwnedThing, VolatileThing {
     /**
      * Initializes a new instance of the {@link "NestedParameter"} class.
@@ -137,7 +136,7 @@ public class NestedParameter extends Thing implements Cloneable, OwnedThing, Vol
      * Gets the path.
      * @throws UnsupportedOperationException The path property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public String getPath() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property NestedParameter.path");
     }
@@ -146,7 +145,7 @@ public class NestedParameter extends Thing implements Cloneable, OwnedThing, Vol
      * Sets the path.
      * @throws UnsupportedOperationException The path property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setPath(String path) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property NestedParameter.path");
     }

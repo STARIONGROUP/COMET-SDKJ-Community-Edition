@@ -26,9 +26,9 @@ package cdp4dal.exceptions;
 
 /**
  * A {@link DalWriteException} is thrown the when a during a Write operation the data-source returns
- * an exception
+ * an exception.
  */
-public class DalWriteException extends Exception {
+public class DalWriteException extends RuntimeException {
 
   /**
    * Initializes a new instance of the {@link DalWriteException} class.
@@ -48,8 +48,8 @@ public class DalWriteException extends Exception {
   /**
    * Initializes a new instance of the {@link DalWriteException} class.
    *
-   * @param message The exception message
-   * @param cause A reference to the cause {@link Throwable}
+   * @param message The exception message.
+   * @param cause A reference to the cause {@link Throwable}.
    */
   public DalWriteException(String message, Throwable cause) {
     super(message, cause);

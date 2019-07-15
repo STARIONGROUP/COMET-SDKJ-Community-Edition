@@ -60,7 +60,6 @@ import lombok.*;
  */
 @Container(clazz = RequirementsSpecification.class, propertyName = "requirement")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Requirement extends SimpleParameterizableThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "File"} class.
  */
 @Container(clazz = FileStore.class, propertyName = "file")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class File extends Thing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Initializes a new instance of the {@link "File"} class.

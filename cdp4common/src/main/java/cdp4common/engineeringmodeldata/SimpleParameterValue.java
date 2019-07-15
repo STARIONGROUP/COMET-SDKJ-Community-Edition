@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = SimpleParameterizableThing.class, propertyName = "parameterValue")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class SimpleParameterValue extends Thing implements Cloneable, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

@@ -50,7 +50,7 @@ public class Utils {
     StringBuilder constantName = new StringBuilder(Character.toString(chars[0]).toUpperCase());
 
     for (int i = 1; i < chars.length; i++) {
-      if (Character.isUpperCase(chars[i])) {
+      if (Character.isUpperCase(chars[i]) && Character.isLowerCase(chars[i - 1])) {
         constantName.append("_");
       }
 
@@ -140,7 +140,7 @@ public class Utils {
     String className = clazz.getName();
 
     try {
-      return ClassKind.valueOf(getConstantNotationFromUpperCamel(getOnlyClassName(className)));
+      return ClassKind.valueOf(getOnlyClassName(className));
     } catch (IllegalArgumentException ex) {
       return null;
     }
@@ -158,7 +158,7 @@ public class Utils {
     }
 
     try {
-      return ClassKind.valueOf(getConstantNotationFromUpperCamel(typeName));
+      return ClassKind.valueOf(typeName);
     } catch (IllegalArgumentException ex) {
       return null;
     }

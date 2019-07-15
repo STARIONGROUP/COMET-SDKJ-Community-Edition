@@ -186,28 +186,28 @@ public class ValueSetConverter {
 
         // datetime
         switch (parameterType.getClassKind()) {
-            case BOOLEAN_PARAMETER_TYPE:
+            case BooleanParameterType:
                 try {
                     return Boolean.parseBoolean(value);
                 } catch (Exception ex) {
                     log.debug(ex.toString());
                     return null;
                 }
-            case DATE_TIME_PARAMETER_TYPE:
+            case DateTimeParameterType:
                 try {
                     return LocalDateTime.parse(value);
                 } catch (Exception ex) {
                     log.debug(ex.toString());
                     return null;
                 }
-            case DATE_PARAMETER_TYPE:
+            case DateParameterType:
                 try {
                     return LocalDate.parse(value, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 } catch (Exception ex) {
                     log.debug(ex.toString());
                     return null;
                 }
-            case TIME_OF_DAY_PARAMETER_TYPE:
+            case TimeOfDayParameterType:
                 try {
                     return LocalTime.parse(value);
                 } catch (Exception ex) {
@@ -227,11 +227,11 @@ public class ValueSetConverter {
      */
     public static Object defaultObject(ParameterType parameterType) {
         switch (parameterType.getClassKind()) {
-            case ENUMERATION_PARAMETER_TYPE:
-            case BOOLEAN_PARAMETER_TYPE:
-            case DATE_PARAMETER_TYPE:
-            case DATE_TIME_PARAMETER_TYPE:
-            case TIME_OF_DAY_PARAMETER_TYPE:
+            case EnumerationParameterType:
+            case BooleanParameterType:
+            case DateParameterType:
+            case DateTimeParameterType:
+            case TimeOfDayParameterType:
                 return null;
             default:
                 return "-";

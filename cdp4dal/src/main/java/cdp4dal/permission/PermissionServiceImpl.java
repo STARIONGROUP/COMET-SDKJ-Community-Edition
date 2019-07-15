@@ -101,9 +101,9 @@ public class PermissionServiceImpl implements PermissionService {
     var topContainerClassKind = thing.getTopContainer().getClassKind();
 
     switch (topContainerClassKind) {
-      case SITE_DIRECTORY:
+      case SiteDirectory:
         return this.canReadSiteDirectoryContainedThing(thing, thingType);
-      case ENGINEERING_MODEL:
+      case EngineeringModel:
         return this.canReadEngineeringModelContainedThing(thing, thingType);
     }
 
@@ -327,9 +327,9 @@ public class PermissionServiceImpl implements PermissionService {
     var topContainerClassKind = thing.getTopContainer().getClassKind();
 
     switch (topContainerClassKind) {
-      case SITE_DIRECTORY:
+      case SiteDirectory:
         return this.canWriteSiteDirectoryContainedThing(thing, thingType);
-      case ENGINEERING_MODEL:
+      case EngineeringModel:
         return this.canWriteEngineeringModelContainedThing(thing, thingType);
       default:
         log.error("The top container of the {} could not be resolved", thing.getClassKind());
@@ -356,9 +356,9 @@ public class PermissionServiceImpl implements PermissionService {
 
     var topContainerClassKind = containerThing.getTopContainer().getClassKind();
     switch (topContainerClassKind) {
-      case SITE_DIRECTORY:
+      case SiteDirectory:
         return this.canWriteSiteDirectoryContainedThing(classKind, containerThing, classKind);
-      case ENGINEERING_MODEL:
+      case EngineeringModel:
         return this.canWriteEngineeringModelContainedThing(classKind, containerThing, classKind);
     }
 
@@ -561,7 +561,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     // if the permission is not found or superclass derivation is used then get the default one.
     var accessRightKind = permission == null ? StaticDefaultPermissionProvider
-        .getDefaultPersonPermission(thingType.toString()) : permission.getAccessRight();
+        .getDefaultPersonPermission(thingType.name()) : permission.getAccessRight();
 
     switch (accessRightKind) {
       case SAME_AS_CONTAINER:
@@ -603,7 +603,7 @@ public class PermissionServiceImpl implements PermissionService {
    * @return True if the permissions of the superclass allow it.
    */
   private boolean canWriteBasedOnSuperclassClassKind(Thing containerThing, ClassKind thingType) {
-    var baseType = Utils.getSuperClassNameForClassName(thingType.toString());
+    var baseType = Utils.getSuperClassNameForClassName(thingType.name());
 
     if (Strings.isNullOrEmpty(baseType)) {
       return false;

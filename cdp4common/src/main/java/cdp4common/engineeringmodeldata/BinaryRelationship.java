@@ -62,7 +62,6 @@ import java.util.stream.Collectors;
  */
 @Container(clazz = Iteration.class, propertyName = "relationship")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class BinaryRelationship extends Relationship implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

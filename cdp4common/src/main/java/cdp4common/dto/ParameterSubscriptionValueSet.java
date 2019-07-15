@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "ParameterSubscriptionValueSet"} class.
  */
 @Container(clazz = ParameterSubscription.class, propertyName = "valueSet")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParameterSubscriptionValueSet extends Thing implements Cloneable, OwnedThing {
     /**
      * Initializes a new instance of the {@link "ParameterSubscriptionValueSet"} class.
@@ -112,7 +111,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets the unique identifier of the referenced actualOption.
      * @throws UnsupportedOperationException The actualOption property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public UUID getActualOption() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscriptionValueSet.actualOption");
     }
@@ -121,7 +120,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets the unique identifier of the referenced actualState.
      * @throws UnsupportedOperationException The actualState property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public UUID getActualState() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscriptionValueSet.actualState");
     }
@@ -130,7 +129,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets a list of ordered String.
      * @throws UnsupportedOperationException The actualValue property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public ValueArray<String> getActualValue() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscriptionValueSet.actualValue");
     }
@@ -139,7 +138,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets a list of ordered String.
      * @throws UnsupportedOperationException The computed property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public ValueArray<String> getComputed() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscriptionValueSet.computed");
     }
@@ -148,7 +147,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets the unique identifier of the referenced owner.
      * @throws UnsupportedOperationException The owner property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public UUID getOwner() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscriptionValueSet.owner");
     }
@@ -157,7 +156,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets a list of ordered String.
      * @throws UnsupportedOperationException The reference property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public ValueArray<String> getReference() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterSubscriptionValueSet.reference");
     }
@@ -166,7 +165,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Sets the unique identifier of the referenced actualOption.
      * @throws UnsupportedOperationException The actualOption property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setActualOption(UUID actualOption) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.actualOption");
     }
@@ -175,7 +174,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Sets the unique identifier of the referenced actualState.
      * @throws UnsupportedOperationException The actualState property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setActualState(UUID actualState) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.actualState");
     }
@@ -184,7 +183,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Sets a list of ordered String.
      * @throws UnsupportedOperationException The actualValue property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setActualValue(ValueArray<String> actualValue) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.actualValue");
     }
@@ -193,7 +192,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Sets a list of ordered String.
      * @throws UnsupportedOperationException The computed property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setComputed(ValueArray<String> computed) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.computed");
     }
@@ -202,7 +201,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Sets the unique identifier of the referenced owner.
      * @throws UnsupportedOperationException The owner property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setOwner(UUID owner) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.owner");
     }
@@ -211,7 +210,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Sets a list of ordered String.
      * @throws UnsupportedOperationException The reference property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setReference(ValueArray<String> reference) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.reference");
     }

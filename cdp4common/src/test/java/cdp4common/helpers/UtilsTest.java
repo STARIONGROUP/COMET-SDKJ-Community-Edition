@@ -44,6 +44,14 @@ class UtilsTest {
   }
 
   @Test
+  void getConstantNotationFromUpperCamelDoesNotFailForConstantTest() {
+    Assertions.assertEquals("CONSTANT",
+        Utils.getConstantNotationFromUpperCamel("CONSTANT"));
+    Assertions.assertEquals("CONSTANT_NOTATION_TEST",
+        Utils.getConstantNotationFromUpperCamel("CONSTANT_NOTATION_TEST"));
+  }
+
+  @Test
   void getUpperCamelNotationFromConstantTest() {
     Assertions.assertEquals("ConstantNotationTest",
         Utils.getUpperCamelNotationFromConstant("CONSTANT_NOTATION_TEST"));
@@ -68,7 +76,7 @@ class UtilsTest {
 
   @Test
   void parseTypeNameToClassKindTest() {
-    Assertions.assertEquals(ClassKind.ENGINEERING_MODEL, Utils.parseTypeNameToClassKind(
+    Assertions.assertEquals(ClassKind.EngineeringModel, Utils.parseTypeNameToClassKind(
         EngineeringModel.class.getSimpleName()));
     Assertions.assertNull(Utils.parseTypeNameToClassKind(
         "Unknown"));
@@ -80,7 +88,7 @@ class UtilsTest {
 
   @Test
   void parseClassToClassKindTest() {
-    Assertions.assertEquals(ClassKind.ENGINEERING_MODEL, Utils.parseClassToClassKind(
+    Assertions.assertEquals(ClassKind.EngineeringModel, Utils.parseClassToClassKind(
         EngineeringModel.class));
     Assertions
         .assertThrows(IllegalArgumentException.class, () -> Utils.parseClassToClassKind(null));

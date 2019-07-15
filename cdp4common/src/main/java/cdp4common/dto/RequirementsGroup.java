@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "RequirementsGroup"} class.
  */
 @Container(clazz = RequirementsContainer.class, propertyName = "group")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class RequirementsGroup extends RequirementsContainer implements Cloneable {
     /**
      * Initializes a new instance of the {@link "RequirementsGroup"} class.

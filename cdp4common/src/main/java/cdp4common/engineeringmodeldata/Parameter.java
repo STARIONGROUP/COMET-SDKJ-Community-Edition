@@ -60,7 +60,6 @@ import lombok.*;
  */
 @Container(clazz = ElementDefinition.class, propertyName = "parameter")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Parameter extends ParameterOrOverrideBase implements Cloneable, ModelCode {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

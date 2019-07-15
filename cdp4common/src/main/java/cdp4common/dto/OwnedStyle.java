@@ -54,7 +54,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "OwnedStyle"} class.
@@ -62,7 +62,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = DiagramElementThing.class, propertyName = "localStyle")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class OwnedStyle extends DiagrammingStyle implements Cloneable {
     /**
      * Initializes a new instance of the {@link "OwnedStyle"} class.

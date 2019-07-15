@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = FileStore.class, propertyName = "file")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class File extends Thing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

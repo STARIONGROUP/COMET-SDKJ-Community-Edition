@@ -33,7 +33,7 @@ import cdp4common.helpers.Constants;
 import cdp4common.helpers.ContainerPropertyHelper;
 import cdp4common.helpers.EngineeringModelContainmentClassType;
 import cdp4dal.Session;
-import cdp4dal.Version;
+import cdp4common.Version;
 import cdp4dal.composition.DalExport;
 import cdp4dal.exceptions.InvalidOperationContainerException;
 import cdp4dal.operations.Operation;
@@ -123,14 +123,14 @@ public abstract class DalBase implements Dal {
    */
   public void setIterationContainer(@NonNull List<Thing> dtos, UUID iterationId) {
     if (iterationId == null || iterationId.equals(new UUID(0L, 0L))) {
-      throw new IllegalArgumentException("The Iteration Id must be set");
+      throw new IllegalArgumentException("The Iteration Id must be set.");
     }
 
     var engineeringModelContainmentClassKind = Arrays
         .asList(EngineeringModelContainmentClassType.CLASS_KIND_ARRAY);
 
     for (var thing : dtos.stream()
-        .filter(x -> !engineeringModelContainmentClassKind.contains(x.CLASS_KIND)).collect(
+        .filter(x -> !engineeringModelContainmentClassKind.contains(x.getClassKind())).collect(
             Collectors.toList())) {
       // all the returned thing are iteration contained
       thing.setIterationContainerId(iterationId);
@@ -147,7 +147,7 @@ public abstract class DalBase implements Dal {
   public UUID tryExtractIterationIdFromURI(@NonNull URI uri) {
     try {
       var uriString = uri.toString();
-      var iterationURIName = ContainerPropertyHelper.getContainerPropertyName(ClassKind.ITERATION);
+      var iterationURIName = ContainerPropertyHelper.getContainerPropertyName(ClassKind.Iteration);
       var regexPattern =
           iterationURIName + Constants.URI_PATH_SEPARATOR + Constants.URI_UUID_PATTERN;
 
@@ -225,7 +225,7 @@ public abstract class DalBase implements Dal {
       var contentFoundInAnOperation = false;
       for (var operation : operationContainer.getOperations()) {
         var fileRevision = as(operation.getModifiedThing(), cdp4common.dto.FileRevision.class);
-        if (fileRevision != null && fileRevision.getContentHash().equals(hash)) {
+        if (fileRevision != null && fileRevision.getContentHash().toLowerCase().equals(hash.toLowerCase())) {
           contentFoundInAnOperation = true;
           break;
         }

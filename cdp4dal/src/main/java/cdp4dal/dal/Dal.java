@@ -24,12 +24,12 @@
 
 package cdp4dal.dal;
 
+import cdp4common.Version;
 import cdp4common.dto.EngineeringModel;
 import cdp4common.dto.Iteration;
 import cdp4common.dto.SiteDirectory;
 import cdp4common.dto.Thing;
 import cdp4dal.Session;
-import cdp4dal.Version;
 import cdp4dal.operations.Operation;
 import cdp4dal.operations.OperationContainer;
 import java.net.URI;
@@ -91,25 +91,26 @@ public interface Dal {
    * @param <T> an type of {@link Thing}.
    * @param thing An instance of {@link Thing} that needs to be read from the data-source.
    * @param cancelled a flag that signals whether the thread should be cancelled or not.
-   * @param attributes An instance of {@link QueryAttributes} to be used with the request.
+   * @param queryAttributes An instance of {@link QueryAttributes} to be used with the request.
    * @return A list of {@link Thing} that are contained by the provided {@link Thing} including the
    * {@link Thing}.
    */
   <T extends Thing> CompletableFuture<List<Thing>> read(T thing, AtomicBoolean cancelled,
-      QueryAttributes attributes);
+      QueryAttributes queryAttributes);
 
   /**
    * Reads the data related to the provided {@link Iteration} from the data-source.
    *
    * @param iteration An instance of {@link Iteration} that needs to be read from the data-source.
    * @param cancelled a flag that signals whether the thread should be cancelled or not.
-   * @param attributes An instance of {@link QueryAttributes} to be used with the request.
+   * @param queryAttributes An instance of {@link QueryAttributes} to be used with the request.
    * @return A list of {@link Thing} that are contained by the provided {@link EngineeringModel}
    * including the Reference-Data. All the {@link Thing}s that have been updated since the last read
    * will be returned.
+   * @throws IllegalArgumentException when the {@link Session} property has not been set.
    */
   CompletableFuture<List<Thing>> read(Iteration iteration, AtomicBoolean cancelled,
-      QueryAttributes attributes);
+      QueryAttributes queryAttributes);
 
   /**
    * Creates the specified {@link Thing} on the data-source.

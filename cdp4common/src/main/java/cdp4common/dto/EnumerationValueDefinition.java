@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "EnumerationValueDefinition"} class.
  */
 @Container(clazz = EnumerationParameterType.class, propertyName = "valueDefinition")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class EnumerationValueDefinition extends DefinedThing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "EnumerationValueDefinition"} class.

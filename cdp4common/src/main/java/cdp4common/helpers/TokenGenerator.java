@@ -23,7 +23,7 @@
  */
 package cdp4common.helpers;
 
-import java.nio.charset.Charset;
+import com.google.common.io.BaseEncoding;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TokenGenerator {
@@ -37,6 +37,6 @@ public class TokenGenerator {
         byte[] data = new byte[6];
         ThreadLocalRandom.current().nextBytes(data);
 
-        return new String(data, Charset.forName("UTF-8")).replace("-", "");
+        return BaseEncoding.base16().lowerCase().encode(data);
     }
 }

@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "SiteReferenceDataLibrary"} class.
  */
 @Container(clazz = SiteDirectory.class, propertyName = "siteReferenceDataLibrary")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class SiteReferenceDataLibrary extends ReferenceDataLibrary implements Cloneable, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "SiteReferenceDataLibrary"} class.

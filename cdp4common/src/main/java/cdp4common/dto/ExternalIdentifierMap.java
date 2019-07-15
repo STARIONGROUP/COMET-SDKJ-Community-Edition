@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "ExternalIdentifierMap"} class.
  */
 @Container(clazz = Iteration.class, propertyName = "externalIdentifierMap")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ExternalIdentifierMap extends Thing implements Cloneable, NamedThing, OwnedThing {
     /**
      * Initializes a new instance of the {@link "ExternalIdentifierMap"} class.

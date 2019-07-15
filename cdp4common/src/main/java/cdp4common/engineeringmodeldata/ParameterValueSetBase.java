@@ -45,21 +45,18 @@ import cdp4common.sitedirectorydata.ParameterType;
 import cdp4common.types.CacheKey;
 import cdp4common.types.ValueArray;
 import com.google.common.cache.Cache;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * abstract superclass representing the switch setting and values of a Parameter or ParameterOverride and serves as a common reference type for ParameterValueSet and ParameterOverrideValueSet
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class ParameterValueSetBase extends Thing implements Cloneable, OwnedThing, ValueSet {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

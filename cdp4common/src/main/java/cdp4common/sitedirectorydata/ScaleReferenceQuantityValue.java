@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = LogarithmicScale.class, propertyName = "referenceQuantityValue")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ScaleReferenceQuantityValue extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

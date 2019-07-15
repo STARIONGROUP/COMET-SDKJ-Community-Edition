@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "ModelLogEntry"} class.
  */
 @Container(clazz = EngineeringModel.class, propertyName = "logEntry")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ModelLogEntry extends Thing implements Cloneable, Annotation, CategorizableThing, LogEntry, TimeStampedThing {
     /**
      * Initializes a new instance of the {@link "ModelLogEntry"} class.

@@ -26,10 +26,12 @@ package cdp4dal;
 
 import static cdp4common.helpers.Utils.as;
 
+import cdp4common.Version;
 import cdp4common.commondata.Thing;
 import cdp4common.commondata.TopContainer;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.exceptions.IncompleteModelException;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
 import cdp4common.sitedirectorydata.IterationSetup;
@@ -79,6 +81,7 @@ public class SessionImpl implements Session {
   /**
    * Backing field for active{@link #getActivePerson}.
    */
+  @Getter(onMethod = @__({@Override}))
   private Person activePerson;
 
   /**
@@ -151,27 +154,6 @@ public class SessionImpl implements Session {
   public boolean isVersionSupported(Version version) {
     var comparison = version.compareTo(this.getDalVersion());
     return comparison <= 0;
-  }
-
-  /**
-   * Gets the active {@link Person} in this {@link cdp4dal.Session}
-   */
-  @Override
-  public Person getActivePerson() {
-    if (this.activePerson != null) {
-      return this.activePerson;
-    }
-
-    this.activePerson = this.assembler.getCache()
-        .asMap()
-        .values()
-        .stream()
-        .filter(x -> x instanceof Person)
-        .map(x -> (Person) x)
-        .filter(x -> x.getShortName().equals(this.credentials.getUserName()))
-        .collect(MoreCollectors.toOptional()).orElse(null);
-
-    return this.activePerson;
   }
 
   /**
@@ -342,6 +324,24 @@ public class SessionImpl implements Session {
       CDPMessageBus.getCurrent()
           .sendMessage(new SessionEvent(this, SessionStatus.BEGIN_UPDATE), null, null);
       this.assembler.synchronize(dtoThings, true).join();
+
+      this.activePerson = this.assembler.getCache()
+          .asMap()
+          .values()
+          .stream()
+          .filter(x -> x instanceof Person)
+          .map(x -> (Person) x)
+          .filter(x -> x.getShortName().equals(this.credentials.getUserName()))
+          .collect(MoreCollectors.toOptional()).orElse(null);
+
+      if (this.activePerson == null) {
+        // clear cache
+        this.assembler.clear().join();
+
+        throw new IncompleteModelException(
+            "The Person object that matches the user specified in the Credentials could not be found");
+      }
+
       CDPMessageBus.getCurrent()
           .sendMessage(new SessionEvent(this, SessionStatus.END_UPDATE), null, null);
 
@@ -391,7 +391,13 @@ public class SessionImpl implements Session {
    */
   @Override
   public CompletableFuture<Void> read(Iteration iteration, DomainOfExpertise domain) {
+    if (this.activePerson == null) {
+      throw new IllegalStateException(
+          "The Iteration cannot be read when the ActivePerson is null; The Open method must be called prior to any of the Read methods");
+    }
+
     return CompletableFuture.runAsync(() -> {
+
       // check if iteration is already open
       // if so check that the domain is not different
       var iterationDomainPair = this.openIterations
@@ -452,6 +458,11 @@ public class SessionImpl implements Session {
    */
   @Override
   public CompletableFuture<Void> read(ReferenceDataLibrary rdl) {
+    if (this.activePerson == null) {
+      throw new IllegalStateException(
+          "The ReferenceDataLibrary cannot be read when the ActivePerson is null; The Open method must be called prior to any of the Read methods");
+    }
+
     return this.read((Thing) rdl).thenAccept((x) -> this.addRdlToOpenList(rdl));
   }
 
@@ -463,6 +474,12 @@ public class SessionImpl implements Session {
    */
   @Override
   public CompletableFuture<Void> read(Thing thing) {
+    if (this.activePerson == null) {
+      throw new IllegalStateException(String.format(
+          "The %s cannot be read when the ActivePerson is null; The Open method must be called prior to any of the Read methods",
+          thing.getClassKind()));
+    }
+
     return CompletableFuture.runAsync(() -> {
       log.info("cdp4dal.Session.Read {} {}", thing.getClassKind(), thing.getIid());
       var dto = thing.toDto();
@@ -510,6 +527,11 @@ public class SessionImpl implements Session {
    */
   @Override
   public CompletableFuture<Void> write(OperationContainer operationContainer) {
+    if (this.activePerson == null) {
+      throw new IllegalStateException(
+          "The Write operation cannot be performed when the ActivePerson is null; The Open method must be called prior to performing a Write.");
+    }
+
     return CompletableFuture.runAsync(() -> {
       this.dal.setSession(this);
       List<cdp4common.dto.Thing> dtoThings = null;
@@ -539,6 +561,11 @@ public class SessionImpl implements Session {
    */
   @Override
   public CompletableFuture<Void> refresh() {
+    if (this.activePerson == null) {
+      throw new IllegalStateException(
+          "The Refresh operation cannot be performed when the ActivePerson is null; The Open method must be called prior to performing a Write.");
+    }
+
     return CompletableFuture.runAsync(() -> {
       for (var topContainer : this.getSiteDirectoryAndActiveIterations()) {
         this.update(topContainer, true).join();
@@ -553,6 +580,11 @@ public class SessionImpl implements Session {
    */
   @Override
   public CompletableFuture<Void> reload() {
+    if (this.activePerson == null) {
+      throw new IllegalStateException(
+          "The Reload operation cannot be performed when the ActivePerson is null; The Open method must be called prior to performing a Write.");
+    }
+
     return CompletableFuture.runAsync(() -> {
       for (var topContainer : this.getSiteDirectoryAndActiveIterations()) {
         this.update(topContainer, false).join();
@@ -585,6 +617,8 @@ public class SessionImpl implements Session {
 
       log.info("cdp4dal.Session {} closed successfully.", this.getDataSourceUri());
       this.openReferenceDataLibraries.clear();
+
+      this.activePerson = null;
     });
   }
 
@@ -812,7 +846,9 @@ public class SessionImpl implements Session {
 
     var iteration = as(iterationFromCache, Iteration.class);
     if (iteration == null) {
-      log.warn("The iteration {} is not present in the Cache and is therefore not added to the open iterations", iterationId);
+      log.warn(
+          "The iteration {} is not present in the Cache and is therefore not added to the open iterations",
+          iterationId);
       return;
     }
 

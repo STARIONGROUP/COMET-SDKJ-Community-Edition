@@ -59,7 +59,6 @@ import lombok.*;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Iteration.class, propertyName = "diagramCanvas")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class DiagramCanvas extends DiagramElementContainer implements Cloneable, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

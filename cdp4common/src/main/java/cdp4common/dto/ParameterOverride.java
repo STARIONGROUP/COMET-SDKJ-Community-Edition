@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "ParameterOverride"} class.
  */
 @Container(clazz = ElementUsage.class, propertyName = "parameterOverride")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParameterOverride extends ParameterOrOverrideBase implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ParameterOverride"} class.
@@ -103,7 +102,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Gets the unique identifier of the referenced group.
      * @throws UnsupportedOperationException The group property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public UUID getGroup() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterOverride.group");
     }
@@ -112,7 +111,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Gets a value indicating whether isOptionDependent.
      * @throws UnsupportedOperationException The isOptionDependent property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public boolean isOptionDependent() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterOverride.isOptionDependent");
     }
@@ -121,7 +120,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Gets the unique identifier of the referenced parameterType.
      * @throws UnsupportedOperationException The parameterType property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public UUID getParameterType() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterOverride.parameterType");
     }
@@ -130,7 +129,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Gets the unique identifier of the referenced scale.
      * @throws UnsupportedOperationException The scale property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public UUID getScale() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterOverride.scale");
     }
@@ -139,7 +138,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Gets the unique identifier of the referenced stateDependence.
      * @throws UnsupportedOperationException The stateDependence property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public UUID getStateDependence() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterOverride.stateDependence");
     }
@@ -148,7 +147,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Sets the unique identifier of the referenced group.
      * @throws UnsupportedOperationException The group property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setGroup(UUID group) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterOverride.group");
     }
@@ -157,7 +156,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Sets a value indicating whether isOptionDependent.
      * @throws UnsupportedOperationException The isOptionDependent property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setOptionDependent(boolean isOptionDependent) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterOverride.isOptionDependent");
     }
@@ -166,7 +165,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Sets the unique identifier of the referenced parameterType.
      * @throws UnsupportedOperationException The parameterType property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setParameterType(UUID parameterType) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterOverride.parameterType");
     }
@@ -175,7 +174,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Sets the unique identifier of the referenced scale.
      * @throws UnsupportedOperationException The scale property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setScale(UUID scale) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterOverride.scale");
     }
@@ -184,7 +183,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
      * Sets the unique identifier of the referenced stateDependence.
      * @throws UnsupportedOperationException The stateDependence property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setStateDependence(UUID stateDependence) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterOverride.stateDependence");
     }

@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "ParameterOverrideValueSet"} class.
  */
 @Container(clazz = ParameterOverride.class, propertyName = "valueSet")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParameterOverrideValueSet extends ParameterValueSetBase implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ParameterOverrideValueSet"} class.
@@ -92,7 +91,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * Gets the unique identifier of the referenced actualOption.
      * @throws UnsupportedOperationException The actualOption property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public UUID getActualOption() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterOverrideValueSet.actualOption");
     }
@@ -101,7 +100,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * Gets the unique identifier of the referenced actualState.
      * @throws UnsupportedOperationException The actualState property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public UUID getActualState() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ParameterOverrideValueSet.actualState");
     }
@@ -110,7 +109,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * Sets the unique identifier of the referenced actualOption.
      * @throws UnsupportedOperationException The actualOption property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setActualOption(UUID actualOption) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterOverrideValueSet.actualOption");
     }
@@ -119,7 +118,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * Sets the unique identifier of the referenced actualState.
      * @throws UnsupportedOperationException The actualState property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setActualState(UUID actualState) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ParameterOverrideValueSet.actualState");
     }

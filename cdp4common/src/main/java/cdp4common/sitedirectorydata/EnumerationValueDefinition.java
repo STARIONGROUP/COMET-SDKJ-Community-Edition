@@ -60,7 +60,6 @@ import lombok.*;
  */
 @Container(clazz = EnumerationParameterType.class, propertyName = "valueDefinition")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class EnumerationValueDefinition extends DefinedThing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "ElementUsage"} class.
  */
 @Container(clazz = ElementDefinition.class, propertyName = "containedElement")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ElementUsage extends ElementBase implements Cloneable, OptionDependentThing {
     /**
      * Initializes a new instance of the {@link "ElementUsage"} class.

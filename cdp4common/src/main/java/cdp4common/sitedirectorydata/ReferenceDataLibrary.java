@@ -63,7 +63,6 @@ import lombok.ToString;
  * may not be deleted because that would potentially invalidate such libraries for earlier EngineeringModels or other ReferenceDataLibraries that reference them. Such instances may only be deprecated, see DeprecatableThing.
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class ReferenceDataLibrary extends DefinedThing implements Cloneable, ParticipantAffectedAccessThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

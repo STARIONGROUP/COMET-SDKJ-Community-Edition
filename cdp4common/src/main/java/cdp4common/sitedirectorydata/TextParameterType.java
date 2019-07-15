@@ -58,7 +58,6 @@ import lombok.*;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class TextParameterType extends ScalarParameterType implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

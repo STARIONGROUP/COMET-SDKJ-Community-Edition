@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "FileType"} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "fileType")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class FileType extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Initializes a new instance of the {@link "FileType"} class.

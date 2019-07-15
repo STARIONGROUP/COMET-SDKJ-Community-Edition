@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "GenericAnnotation"} class.
  */
 @CDPVersion(version = "1.1.0")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class GenericAnnotation extends Thing implements Cloneable, Annotation, TimeStampedThing {
     /**
      * Initializes a new instance of the {@link "GenericAnnotation"} class.

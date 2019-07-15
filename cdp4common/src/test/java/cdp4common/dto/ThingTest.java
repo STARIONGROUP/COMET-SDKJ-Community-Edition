@@ -24,21 +24,22 @@
 
 package cdp4common.dto;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import cdp4common.commondata.ClassKind;
 import cdp4common.types.CacheKey;
 import cdp4common.types.OrderedItem;
 import cdp4common.types.ValueArray;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Iterables;
-import org.apache.commons.lang3.NotImplementedException;
-import org.apache.commons.lang3.tuple.Pair;
-import org.junit.jupiter.api.Test;
-
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.commons.lang3.NotImplementedException;
+import org.junit.jupiter.api.Test;
 
 class ThingTest {
     @Test
@@ -56,8 +57,8 @@ class ThingTest {
 
         // test that it works for a parameter type contained in SiteReferenceDataLibrary
         booleanParameterType = new BooleanParameterType(booleanParameterTypeId, 1);
-        booleanParameterType.addContainer(ClassKind.SITE_REFERENCE_DATA_LIBRARY, siteReferenceDataLibraryId);
-        booleanParameterType.addContainer(ClassKind.SITE_DIRECTORY, siteDirectoryId);
+        booleanParameterType.addContainer(ClassKind.SiteReferenceDataLibrary, siteReferenceDataLibraryId);
+        booleanParameterType.addContainer(ClassKind.SiteDirectory, siteDirectoryId);
 
         expectedRoute = String.format("/SiteDirectory/%s/siteReferenceDataLibrary/%s/parameterType/%s", siteDirectoryId, siteReferenceDataLibraryId, booleanParameterTypeId);
         computedRoute = booleanParameterType.getRoute();
@@ -65,9 +66,9 @@ class ThingTest {
 
         // test that it works for a parameter type contained in ModelReferenceDataLibrary
         booleanParameterType = new BooleanParameterType(booleanParameterTypeId, 1);
-        booleanParameterType.addContainer(ClassKind.MODEL_REFERENCE_DATA_LIBRARY, modelReferenceDataLibraryId);
-        booleanParameterType.addContainer(ClassKind.ENGINEERING_MODEL_SETUP, engineeringModelSetupId);
-        booleanParameterType.addContainer(ClassKind.SITE_DIRECTORY, siteDirectoryId);
+        booleanParameterType.addContainer(ClassKind.ModelReferenceDataLibrary, modelReferenceDataLibraryId);
+        booleanParameterType.addContainer(ClassKind.EngineeringModelSetup, engineeringModelSetupId);
+        booleanParameterType.addContainer(ClassKind.SiteDirectory, siteDirectoryId);
 
         expectedRoute = String.format("/SiteDirectory/%s/model/%s/requiredRdl/%s/parameterType/%s", siteDirectoryId, engineeringModelSetupId, modelReferenceDataLibraryId, booleanParameterTypeId);
         computedRoute = booleanParameterType.getRoute();
@@ -83,10 +84,10 @@ class ThingTest {
         UUID siteDirectoryId = UUID.randomUUID();
 
         booleanParameterType = new BooleanParameterType(booleanParameterTypeId, 1);
-        booleanParameterType.addContainer(ClassKind.SITE_REFERENCE_DATA_LIBRARY, siteReferenceDataLibraryId);
-        booleanParameterType.addContainer(ClassKind.SITE_DIRECTORY, siteDirectoryId);
+        booleanParameterType.addContainer(ClassKind.SiteReferenceDataLibrary, siteReferenceDataLibraryId);
+        booleanParameterType.addContainer(ClassKind.SiteDirectory, siteDirectoryId);
 
-        assertThrows(UnsupportedOperationException.class, () -> booleanParameterType.addContainer(ClassKind.ENGINEERING_MODEL, UUID.randomUUID()));
+        assertThrows(UnsupportedOperationException.class, () -> booleanParameterType.addContainer(ClassKind.EngineeringModel, UUID.randomUUID()));
     }
 
     @Test
@@ -98,10 +99,10 @@ class ThingTest {
         UUID engineeringModelId = UUID.randomUUID();
 
         elementDefinition = new ElementDefinition(elementDefinitionId, 1);
-        elementDefinition.addContainer(ClassKind.ITERATION, iterationId);
-        elementDefinition.addContainer(ClassKind.ENGINEERING_MODEL, engineeringModelId);
+        elementDefinition.addContainer(ClassKind.Iteration, iterationId);
+        elementDefinition.addContainer(ClassKind.EngineeringModel, engineeringModelId);
 
-        assertThrows(UnsupportedOperationException.class, () -> elementDefinition.addContainer(ClassKind.PERSON, UUID.randomUUID()));
+        assertThrows(UnsupportedOperationException.class, () -> elementDefinition.addContainer(ClassKind.Person, UUID.randomUUID()));
     }
 
     @Test
@@ -152,8 +153,8 @@ class ThingTest {
         UUID engineeringModelId = UUID.randomUUID();
 
         elementDefinition = new ElementDefinition(elementDefinitionId, 1);
-        elementDefinition.addContainer(ClassKind.ITERATION, iterationId);
-        elementDefinition.addContainer(ClassKind.ENGINEERING_MODEL, engineeringModelId);
+        elementDefinition.addContainer(ClassKind.Iteration, iterationId);
+        elementDefinition.addContainer(ClassKind.EngineeringModel, engineeringModelId);
 
         assertEquals(String.format("/EngineeringModel/%s/iteration/%s", engineeringModelId, iterationId), elementDefinition.getTopContainerRoute());
 
@@ -162,10 +163,10 @@ class ThingTest {
         Section section;
 
         book = new Book(UUID.randomUUID(), 1);
-        book.addContainer(ClassKind.ENGINEERING_MODEL, engineeringModelId);
+        book.addContainer(ClassKind.EngineeringModel, engineeringModelId);
         section = new Section(UUID.randomUUID(), 1);
-        section.addContainer(ClassKind.BOOK, book.getIid());
-        section.addContainer(ClassKind.ENGINEERING_MODEL, engineeringModelId);
+        section.addContainer(ClassKind.Book, book.getIid());
+        section.addContainer(ClassKind.EngineeringModel, engineeringModelId);
 
         assertEquals(String.format("/EngineeringModel/%s", engineeringModelId), book.getTopContainerRoute());
         assertEquals(String.format("/EngineeringModel/%s", engineeringModelId), section.getTopContainerRoute());
@@ -185,8 +186,8 @@ class ThingTest {
         SiteDirectory siteDirectory = new SiteDirectory(siteDirectoryId, 1);
 
         booleanParameterType = new BooleanParameterType(booleanParameterTypeId, 1);
-        booleanParameterType.addContainer(ClassKind.SITE_REFERENCE_DATA_LIBRARY, siteReferenceDataLibraryId);
-        booleanParameterType.addContainer(ClassKind.SITE_DIRECTORY, siteDirectoryId);
+        booleanParameterType.addContainer(ClassKind.SiteReferenceDataLibrary, siteReferenceDataLibraryId);
+        booleanParameterType.addContainer(ClassKind.SiteDirectory, siteDirectoryId);
 
         assertEquals(String.format("/SiteDirectory/%s", siteDirectoryId), booleanParameterType.getTopContainerRoute());
         assertEquals(String.format("/SiteDirectory/%s", siteDirectoryId), siteDirectory.getTopContainerRoute());
@@ -200,18 +201,18 @@ class ThingTest {
         UUID siteReferenceDataLibraryId = UUID.randomUUID();
 
         booleanParameterType = new BooleanParameterType(booleanParameterTypeId, 1);
-        booleanParameterType.addContainer(ClassKind.SITE_REFERENCE_DATA_LIBRARY, siteReferenceDataLibraryId);
+        booleanParameterType.addContainer(ClassKind.SiteReferenceDataLibrary, siteReferenceDataLibraryId);
 
-        assertThrows(UnsupportedOperationException.class, () -> booleanParameterType.addContainer(ClassKind.PERSON, UUID.randomUUID()));
+        assertThrows(UnsupportedOperationException.class, () -> booleanParameterType.addContainer(ClassKind.Person, UUID.randomUUID()));
     }
 
     @Test
     void verifyClassKindIsCorrect() {
         cdp4common.commondata.Thing alias = new cdp4common.commondata.Alias();
-        assertEquals(ClassKind.ALIAS, alias.getClassKind());
+        assertEquals(ClassKind.Alias, alias.getClassKind());
 
         cdp4common.dto.Thing aliasdto = new cdp4common.dto.Alias();
-        assertEquals(ClassKind.ALIAS, aliasdto.CLASS_KIND);
+        assertEquals(ClassKind.Alias, aliasdto.getClassKind());
     }
 
     @Test
@@ -268,7 +269,7 @@ class ThingTest {
 
         @Override
         protected ClassKind computeCurrentClassKind() {
-            return ClassKind.THING;
+            return ClassKind.Thing;
         }
     }
 }

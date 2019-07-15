@@ -61,7 +61,6 @@ import lombok.*;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "fileType")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class FileType extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

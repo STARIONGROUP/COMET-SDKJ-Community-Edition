@@ -60,7 +60,6 @@ import java.util.stream.Collectors;
  */
 @Container(clazz = Parameter.class, propertyName = "valueSet")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParameterValueSet extends ParameterValueSetBase implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

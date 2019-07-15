@@ -92,7 +92,6 @@ class TransactionContextResolverTest {
     this.activeIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
     this.activeIteration.setRevisionNumber(2);
     this.activeIteration.setIterationSetup(activeIterationSetup);
-    ;
 
     this.engineeringModel.getIteration().add(this.frozenIteration);
     this.engineeringModel.getIteration().add(this.activeIteration);

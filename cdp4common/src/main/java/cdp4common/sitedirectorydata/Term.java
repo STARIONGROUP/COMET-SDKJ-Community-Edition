@@ -58,7 +58,6 @@ import lombok.*;
  */
 @Container(clazz = Glossary.class, propertyName = "term")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Term extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

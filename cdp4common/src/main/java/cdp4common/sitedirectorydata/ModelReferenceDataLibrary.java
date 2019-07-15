@@ -58,7 +58,6 @@ import lombok.*;
  */
 @Container(clazz = EngineeringModelSetup.class, propertyName = "requiredRdl")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ModelReferenceDataLibrary extends ReferenceDataLibrary implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

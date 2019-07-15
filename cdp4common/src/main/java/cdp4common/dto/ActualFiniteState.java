@@ -32,36 +32,26 @@
 
 package cdp4common.dto;
 
-import java.util.*;
-import java.util.stream.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.io.*;
-import java.net.URI;
-import cdp4common.*;
-import cdp4common.commondata.*;
-import cdp4common.diagramdata.*;
-import cdp4common.engineeringmodeldata.*;
-import cdp4common.helpers.*;
-import cdp4common.reportingdata.*;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.*;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.MoreCollectors;
+import cdp4common.AggregationKind;
+import cdp4common.Container;
+import cdp4common.DataMember;
+import cdp4common.UmlInformation;
+import cdp4common.engineeringmodeldata.ActualFiniteStateKind;
+import cdp4common.types.CacheKey;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.cache.Cache;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.EqualsAndHashCode;
-
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * A Data Transfer Object representation of the {@link "ActualFiniteState"} class.
  */
 @Container(clazz = ActualFiniteStateList.class, propertyName = "actualState")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ActualFiniteState extends Thing implements Cloneable, NamedThing, OwnedThing, ShortNamedThing {
     /**
      * Initializes a new instance of the {@link "ActualFiniteState"} class.
@@ -103,7 +93,7 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
      * Gets the name.
      * @throws UnsupportedOperationException The name property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public String getName() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ActualFiniteState.name");
     }
@@ -112,7 +102,7 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
      * Gets the unique identifier of the referenced owner.
      * @throws UnsupportedOperationException The owner property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public UUID getOwner() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ActualFiniteState.owner");
     }
@@ -121,7 +111,7 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
      * Gets the shortName.
      * @throws UnsupportedOperationException The shortName property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public String getShortName() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ActualFiniteState.shortName");
     }
@@ -130,7 +120,7 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
      * Sets the name.
      * @throws UnsupportedOperationException The name property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setName(String name) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ActualFiniteState.name");
     }
@@ -139,7 +129,7 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
      * Sets the unique identifier of the referenced owner.
      * @throws UnsupportedOperationException The owner property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setOwner(UUID owner) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ActualFiniteState.owner");
     }
@@ -148,7 +138,7 @@ public class ActualFiniteState extends Thing implements Cloneable, NamedThing, O
      * Sets the shortName.
      * @throws UnsupportedOperationException The shortName property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setShortName(String shortName) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ActualFiniteState.shortName");
     }

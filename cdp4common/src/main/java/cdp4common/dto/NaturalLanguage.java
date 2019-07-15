@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "NaturalLanguage"} class.
  */
 @Container(clazz = SiteDirectory.class, propertyName = "naturalLanguage")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class NaturalLanguage extends Thing implements Cloneable, NamedThing {
     /**
      * Initializes a new instance of the {@link "NaturalLanguage"} class.

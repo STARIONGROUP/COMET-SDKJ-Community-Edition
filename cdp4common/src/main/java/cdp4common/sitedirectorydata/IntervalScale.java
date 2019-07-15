@@ -83,7 +83,6 @@ import lombok.*;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class IntervalScale extends MeasurementScale implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

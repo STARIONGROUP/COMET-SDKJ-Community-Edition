@@ -28,7 +28,7 @@ package cdp4dal.exceptions;
  * A {@link HeaderException} is thrown the when a specific header was not found in a REST response
  * or if is found it has an incorrect value
  */
-public class HeaderException extends Exception {
+public class HeaderException extends RuntimeException {
 
   /**
    * Initializes a new instance of the {@link HeaderException} class.

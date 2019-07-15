@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "ScaleValueDefinition"} class.
  */
 @Container(clazz = MeasurementScale.class, propertyName = "valueDefinition")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ScaleValueDefinition extends DefinedThing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ScaleValueDefinition"} class.

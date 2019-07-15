@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = Iteration.class, propertyName = "ruleVerificationList")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class RuleVerificationList extends DefinedThing implements Cloneable, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

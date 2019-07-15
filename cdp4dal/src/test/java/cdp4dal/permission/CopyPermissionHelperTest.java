@@ -231,8 +231,8 @@ class CopyPermissionHelperTest {
   @Test
   void verifyThatComputationWorksIfPermissionDenied() {
     when(this.permissionService.canWrite(argThat(
-        x -> x == ClassKind.ELEMENT_DEFINITION || x == ClassKind.ELEMENT_USAGE
-            || x == ClassKind.PARAMETER || x == ClassKind.PARAMETER_SUBSCRIPTION),
+        x -> x == ClassKind.ElementDefinition || x == ClassKind.ElementUsage
+            || x == ClassKind.Parameter || x == ClassKind.ParameterSubscription),
         any(Thing.class))).thenReturn(true);
     when(this.session.getOpenIterations()).thenReturn(ImmutableMap.of(this.iteration2, Pair
         .of(this.domain1, null)));

@@ -31,7 +31,7 @@ import cdp4dal.operations.OperationContainer;
  * A {@link InvalidOperationContainerException} is thrown when an {@link OperationContainer} is
  * invalid or incomplete, or one of the contained {@link Operation}s is invalid or incomplete.
  */
-public class InvalidOperationContainerException extends Exception {
+public class InvalidOperationContainerException extends RuntimeException {
 
   /**
    * Initializes a new instance of the {@link InvalidOperationContainerException} class.

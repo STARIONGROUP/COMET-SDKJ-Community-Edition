@@ -60,7 +60,6 @@ import lombok.*;
  */
 @Container(clazz = Iteration.class, propertyName = "requirementsSpecification")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class RequirementsSpecification extends RequirementsContainer implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

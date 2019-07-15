@@ -60,7 +60,6 @@ import java.util.UUID;
  */
 @Container(clazz = Iteration.class, propertyName = "relationship")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class Relationship extends Thing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

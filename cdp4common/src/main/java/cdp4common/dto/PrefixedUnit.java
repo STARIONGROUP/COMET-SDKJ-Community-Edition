@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "PrefixedUnit"} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "unit")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
     /**
      * Initializes a new instance of the {@link "PrefixedUnit"} class.
@@ -92,7 +91,7 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * Gets the conversionFactor.
      * @throws UnsupportedOperationException The conversionFactor property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public String getConversionFactor() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property PrefixedUnit.conversionFactor");
     }
@@ -101,7 +100,7 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * Gets the name.
      * @throws UnsupportedOperationException The name property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public String getName() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property PrefixedUnit.name");
     }
@@ -110,7 +109,7 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * Gets the shortName.
      * @throws UnsupportedOperationException The shortName property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public String getShortName() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property PrefixedUnit.shortName");
     }
@@ -119,7 +118,7 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * Sets the conversionFactor.
      * @throws UnsupportedOperationException The conversionFactor property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setConversionFactor(String conversionFactor) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property PrefixedUnit.conversionFactor");
     }
@@ -128,7 +127,7 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * Sets the name.
      * @throws UnsupportedOperationException The name property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setName(String name) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property PrefixedUnit.name");
     }
@@ -137,7 +136,7 @@ public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
      * Sets the shortName.
      * @throws UnsupportedOperationException The shortName property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setShortName(String shortName) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property PrefixedUnit.shortName");
     }

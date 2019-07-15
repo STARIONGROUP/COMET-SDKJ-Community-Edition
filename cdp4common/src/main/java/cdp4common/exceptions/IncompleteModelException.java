@@ -24,6 +24,8 @@
 
 package cdp4common.exceptions;
 
+import cdp4common.commondata.Thing;
+
 /**
  * An {@link IncompleteModelException} is thrown when the containment tree of any {@link Thing} is walked, either
  * up or down and the model is incomplete.

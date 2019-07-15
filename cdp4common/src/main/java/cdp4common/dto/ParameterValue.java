@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "ParameterValue"} class.
  */
 @CDPVersion(version = "1.1.0")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class ParameterValue extends Thing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ParameterValue"} class.

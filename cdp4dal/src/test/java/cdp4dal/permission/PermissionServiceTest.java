@@ -168,7 +168,7 @@ class PermissionServiceTest {
     assertFalse(this.permissionService.canWrite(this.iterationSetup));
     assertFalse(this.permissionService.canWrite(this.person));
     assertFalse(this.permissionService.canWrite(this.participant));
-    assertFalse(this.permissionService.canWrite(ClassKind.PERSON, this.sitedir));
+    assertFalse(this.permissionService.canWrite(ClassKind.Person, this.sitedir));
 
     assertFalse(this.permissionService.canWrite(this.model));
     assertFalse(this.permissionService.canWrite(this.iteration));
@@ -187,7 +187,7 @@ class PermissionServiceTest {
   void verifyThatPersonPermissionReadModifyWorks() {
     var sdPermission = this.personRole.getPersonPermission()
         .stream()
-        .filter(x -> x.getObjectClass() == ClassKind.SITE_DIRECTORY)
+        .filter(x -> x.getObjectClass() == ClassKind.SiteDirectory)
         .collect(MoreCollectors.onlyElement());
     sdPermission.setAccessRight(PersonAccessRightKind.READ);
 
@@ -206,7 +206,7 @@ class PermissionServiceTest {
     assertFalse(this.permissionService.canWrite(this.modelsetup));
     assertTrue(this.permissionService.canRead(this.sitedir));
     assertFalse(this.permissionService.canRead(this.person));
-    assertFalse(this.permissionService.canWrite(ClassKind.ENGINEERING_MODEL, this.sitedir));
+    assertFalse(this.permissionService.canWrite(ClassKind.EngineeringModel, this.sitedir));
     assertFalse(this.permissionService.canWrite(this.definition));
     assertFalse(this.permissionService.canRead(this.definition));
   }
@@ -215,7 +215,7 @@ class PermissionServiceTest {
   void verifyThatSameAsContainerPermissionWorks() {
     var sdPermission = this.personRole.getPersonPermission()
         .stream()
-        .filter(x -> x.getObjectClass() == ClassKind.ENGINEERING_MODEL_SETUP)
+        .filter(x -> x.getObjectClass() == ClassKind.EngineeringModelSetup)
         .collect(MoreCollectors.onlyElement());
     sdPermission.setAccessRight(PersonAccessRightKind.READ);
 
@@ -235,18 +235,18 @@ class PermissionServiceTest {
 
     var permission = this.personRole.getPersonPermission()
         .stream()
-        .filter(x -> x.getObjectClass() == ClassKind.SITE_REFERENCE_DATA_LIBRARY)
+        .filter(x -> x.getObjectClass() == ClassKind.SiteReferenceDataLibrary)
         .collect(MoreCollectors.onlyElement());
 
     permission.setAccessRight(PersonAccessRightKind.READ);
     assertTrue(this.permissionService.canRead(this.booleanpt));
     assertFalse(this.permissionService.canWrite(this.booleanpt));
-    assertFalse(this.permissionService.canWrite(ClassKind.BOOLEAN_PARAMETER_TYPE, this.srdl));
+    assertFalse(this.permissionService.canWrite(ClassKind.BooleanParameterType, this.srdl));
 
     permission.setAccessRight(PersonAccessRightKind.MODIFY);
     assertTrue(this.permissionService.canRead(this.booleanpt));
     assertTrue(this.permissionService.canWrite(this.booleanpt));
-    assertTrue(this.permissionService.canWrite(ClassKind.BOOLEAN_PARAMETER_TYPE, this.srdl));
+    assertTrue(this.permissionService.canWrite(ClassKind.BooleanParameterType, this.srdl));
   }
 
   @Test
@@ -258,7 +258,7 @@ class PermissionServiceTest {
 
     var permission = this.personRole.getPersonPermission()
         .stream()
-        .filter(x -> x.getObjectClass() == ClassKind.PERSON)
+        .filter(x -> x.getObjectClass() == ClassKind.Person)
         .collect(MoreCollectors.onlyElement());
 
     permission.setAccessRight(PersonAccessRightKind.MODIFY_OWN_PERSON);
@@ -271,7 +271,7 @@ class PermissionServiceTest {
 
     var sdpermission = this.personRole.getPersonPermission()
         .stream()
-        .filter(x -> x.getObjectClass() == ClassKind.SITE_DIRECTORY)
+        .filter(x -> x.getObjectClass() == ClassKind.SiteDirectory)
         .collect(MoreCollectors.onlyElement());
 
     sdpermission.setAccessRight(PersonAccessRightKind.MODIFY_OWN_PERSON);
@@ -289,14 +289,14 @@ class PermissionServiceTest {
 
     var sdpermission = this.personRole.getPersonPermission()
         .stream()
-        .filter(x -> x.getObjectClass() == ClassKind.SITE_DIRECTORY)
+        .filter(x -> x.getObjectClass() == ClassKind.SiteDirectory)
         .collect(MoreCollectors.onlyElement());
 
     sdpermission.setAccessRight(PersonAccessRightKind.READ_IF_PARTICIPANT);
 
     var permission = this.personRole.getPersonPermission()
         .stream()
-        .filter(x -> x.getObjectClass() == ClassKind.ENGINEERING_MODEL_SETUP)
+        .filter(x -> x.getObjectClass() == ClassKind.EngineeringModelSetup)
         .collect(MoreCollectors.onlyElement());
 
     permission.setAccessRight(PersonAccessRightKind.READ_IF_PARTICIPANT);
@@ -325,7 +325,7 @@ class PermissionServiceTest {
 
     var permission = this.participantRole.getParticipantPermission()
         .stream()
-        .filter(x -> x.getObjectClass() == ClassKind.ENGINEERING_MODEL)
+        .filter(x -> x.getObjectClass() == ClassKind.EngineeringModel)
         .collect(MoreCollectors.onlyElement());
 
     permission.setAccessRight(ParticipantAccessRightKind.MODIFY);
@@ -343,12 +343,12 @@ class PermissionServiceTest {
     var permission =
         this.participantRole.getParticipantPermission()
             .stream()
-            .filter(x -> x.getObjectClass() == ClassKind.ENGINEERING_MODEL)
+            .filter(x -> x.getObjectClass() == ClassKind.EngineeringModel)
             .collect(MoreCollectors.onlyElement());
     var defpermission =
         this.participantRole.getParticipantPermission()
             .stream()
-            .filter(x -> x.getObjectClass() == ClassKind.ELEMENT_DEFINITION)
+            .filter(x -> x.getObjectClass() == ClassKind.ElementDefinition)
             .collect(MoreCollectors.onlyElement());
 
     permission.setAccessRight(ParticipantAccessRightKind.MODIFY_IF_OWNER);
@@ -376,7 +376,7 @@ class PermissionServiceTest {
 
     var permission = this.participantRole.getParticipantPermission()
         .stream()
-        .filter(x -> x.getObjectClass() == ClassKind.RELATIONSHIP)
+        .filter(x -> x.getObjectClass() == ClassKind.Relationship)
         .collect(MoreCollectors.onlyElement());
 
     permission.setAccessRight(ParticipantAccessRightKind.MODIFY);
@@ -394,7 +394,7 @@ class PermissionServiceTest {
 
     var permission = this.participantRole.getParticipantPermission()
         .stream()
-        .filter(x -> x.getObjectClass() == ClassKind.PARAMETER)
+        .filter(x -> x.getObjectClass() == ClassKind.Parameter)
         .collect(MoreCollectors.onlyElement());
 
     permission.setAccessRight(ParticipantAccessRightKind.MODIFY);
@@ -408,13 +408,13 @@ class PermissionServiceTest {
         .thenReturn(List.of(this.participant));
     var permission = this.participantRole.getParticipantPermission()
         .stream()
-        .filter(x -> x.getObjectClass() == ClassKind.ELEMENT_DEFINITION)
+        .filter(x -> x.getObjectClass() == ClassKind.ElementDefinition)
         .collect(MoreCollectors.onlyElement());
 
     permission.setAccessRight(ParticipantAccessRightKind.MODIFY);
     permission = this.participantRole.getParticipantPermission()
         .stream()
-        .filter(x -> x.getObjectClass() == ClassKind.ITERATION)
+        .filter(x -> x.getObjectClass() == ClassKind.Iteration)
         .collect(MoreCollectors.onlyElement());
 
     permission.setAccessRight(ParticipantAccessRightKind.MODIFY);
@@ -422,12 +422,12 @@ class PermissionServiceTest {
     assertNull(this.iterationSetup.getFrozenOn());
     assertTrue(this.permissionService.canWrite(this.elementDef));
     assertTrue(this.permissionService.canWrite(this.iteration));
-    assertTrue(this.permissionService.canWrite(ClassKind.ELEMENT_DEFINITION, this.iteration));
+    assertTrue(this.permissionService.canWrite(ClassKind.ElementDefinition, this.iteration));
 
     this.iterationSetup.setFrozenOn(LocalDateTime.now());
     assertNotNull(this.iterationSetup.getFrozenOn());
     assertFalse(this.permissionService.canWrite(this.elementDef));
     assertFalse(this.permissionService.canWrite(this.iteration));
-    assertFalse(this.permissionService.canWrite(ClassKind.ELEMENT_DEFINITION, this.iteration));
+    assertFalse(this.permissionService.canWrite(ClassKind.ElementDefinition, this.iteration));
   }
 }

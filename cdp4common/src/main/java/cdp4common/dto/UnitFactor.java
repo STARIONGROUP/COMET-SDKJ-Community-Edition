@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "UnitFactor"} class.
  */
 @Container(clazz = DerivedUnit.class, propertyName = "unitFactor")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class UnitFactor extends Thing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "UnitFactor"} class.

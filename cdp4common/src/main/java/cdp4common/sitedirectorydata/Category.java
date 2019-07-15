@@ -32,26 +32,34 @@
 
 package cdp4common.sitedirectorydata;
 
-import java.util.*;
-import java.util.stream.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.io.*;
-import java.net.URI;
-import cdp4common.*;
-import cdp4common.commondata.*;
-import cdp4common.diagramdata.*;
-import cdp4common.engineeringmodeldata.*;
-import cdp4common.exceptions.ContainmentException;
-import cdp4common.helpers.*;
-import cdp4common.reportingdata.*;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.*;
-import org.apache.commons.lang3.ObjectUtils;
-import com.google.common.base.Strings;
+import cdp4common.AggregationKind;
+import cdp4common.ChangeKind;
+import cdp4common.Container;
+import cdp4common.UmlInformation;
+import cdp4common.commondata.Alias;
+import cdp4common.commondata.ClassKind;
+import cdp4common.commondata.DefinedThing;
+import cdp4common.commondata.Definition;
+import cdp4common.commondata.DeprecatableThing;
+import cdp4common.commondata.HyperLink;
+import cdp4common.commondata.ParticipantAccessRightKind;
+import cdp4common.commondata.PersonAccessRightKind;
+import cdp4common.commondata.Thing;
+import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.helpers.PojoThingFactory;
+import cdp4common.helpers.RequiredReferenceDataLibraryAbacus;
+import cdp4common.types.CacheKey;
+import cdp4common.types.ContainerList;
 import com.google.common.cache.Cache;
-import com.google.common.collect.Iterables;
-import lombok.*;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * representation of a user-defined category for categorization of instances that have common characteristics
@@ -60,7 +68,6 @@ import lombok.*;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "definedCategory")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Category extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
@@ -306,7 +313,7 @@ public class Category extends DefinedThing implements Cloneable, DeprecatableThi
         List<Category> categories = new ArrayList<>();
 
         for (CacheKey key : getCache().asMap().keySet()){
-            if (getCache().getIfPresent(key).getClassKind().equals(ClassKind.CATEGORY)){
+            if (getCache().getIfPresent(key).getClassKind().equals(ClassKind.Category)){
                 categories.add((Category)(getCache().getIfPresent(key)));
             }
         }

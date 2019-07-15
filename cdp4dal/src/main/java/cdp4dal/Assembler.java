@@ -128,7 +128,7 @@ public class Assembler {
    *
    * @param dtoThings The DTOs.
    * @param activeMessageBus An optional value indicating whether the {@link CDPMessageBus} should
-   * publish {@link ObjectChangedEvent} or not.
+   * publish {@link ObjectChangedEvent} or not. By default should be set to {@code true}.
    * @return The {@link CompletableFuture} that can be awaited.
    */
   public CompletableFuture<Void> synchronize(List<cdp4common.dto.Thing> dtoThings,
@@ -288,7 +288,7 @@ public class Assembler {
           var keyValuePair =
               this.cache.asMap().entrySet()
                   .stream()
-                  .filter(item -> item.getValue().getClassKind() == ClassKind.SITE_DIRECTORY)
+                  .filter(item -> item.getValue().getClassKind() == ClassKind.SiteDirectory)
                   .collect(
                       MoreCollectors.onlyElement());
 
@@ -378,7 +378,7 @@ public class Assembler {
                 .asMap()
                 .values()
                 .stream()
-                .filter(x -> x.getClassKind() == ClassKind.ITERATION)
+                .filter(x -> x.getClassKind() == ClassKind.Iteration)
                 .map(x -> (Iteration) x)
                 .collect(Collectors.toList());
 
@@ -398,7 +398,7 @@ public class Assembler {
                 .asMap()
                 .values()
                 .stream()
-                .filter(x -> x.getClassKind() == ClassKind.ENGINEERING_MODEL)
+                .filter(x -> x.getClassKind() == ClassKind.EngineeringModel)
                 .map(x -> (EngineeringModel) x)
                 .collect(Collectors.toList());
 
@@ -713,7 +713,7 @@ public class Assembler {
       if (dto.getIid() == null || dto.getIid().equals(new UUID(0L, 0L))) {
         throw new IllegalArgumentException(
             "Cannot add DTO with a null UUID or UUID(0L, 0L) reference to the Cache:"
-                + dto.CLASS_KIND);
+                + dto.getClassKind());
       }
 
       var cacheKey = new CacheKey(dto.getIid(), dto.getIterationContainerId());

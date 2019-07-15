@@ -58,7 +58,6 @@ import lombok.*;
  */
 @Container(clazz = EngineeringModelSetup.class, propertyName = "participant")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Participant extends Thing implements Cloneable, ParticipantAffectedAccessThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

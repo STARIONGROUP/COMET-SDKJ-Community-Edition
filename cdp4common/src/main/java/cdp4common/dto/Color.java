@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "Color"} class.
  */
 @Container(clazz = DiagrammingStyle.class, propertyName = "usedColor")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Color extends DiagramThingBase implements Cloneable {
     /**
      * Initializes a new instance of the {@link "Color"} class.

@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "Relationship"} class.
  */
 @Container(clazz = Iteration.class, propertyName = "relationship")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class Relationship extends Thing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Initializes a new instance of the {@link "Relationship"} class.

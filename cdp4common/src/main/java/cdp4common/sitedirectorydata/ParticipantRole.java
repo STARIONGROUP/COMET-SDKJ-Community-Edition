@@ -49,7 +49,6 @@ import lombok.*;
  */
 @Container(clazz = SiteDirectory.class, propertyName = "participantRole")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParticipantRole extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
@@ -246,7 +245,7 @@ public class ParticipantRole extends DefinedThing implements Cloneable, Deprecat
                 .forEach(x -> {
                     ParticipantPermission participantPermission = new ParticipantPermission(UUID.randomUUID(), null, null);
                     participantPermission.setAccessRight(x.getValue());
-                    participantPermission.setObjectClass(Enum.valueOf(ClassKind.class, Utils.getConstantNotationFromUpperCamel(x.getKey())));
+                    participantPermission.setObjectClass(Enum.valueOf(ClassKind.class, x.getKey()));
                     this.participantPermission.add(participantPermission);
                 });
     }

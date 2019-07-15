@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "rule")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class Rule extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

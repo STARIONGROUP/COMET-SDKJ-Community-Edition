@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "RuleViolation"} class.
  */
 @Container(clazz = RuleVerification.class, propertyName = "violation")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class RuleViolation extends Thing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "RuleViolation"} class.

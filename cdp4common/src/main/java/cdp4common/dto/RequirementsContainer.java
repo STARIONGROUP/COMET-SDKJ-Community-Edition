@@ -54,13 +54,12 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "RequirementsContainer"} class.
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class RequirementsContainer extends DefinedThing implements Cloneable, CategorizableThing, OwnedThing {
     /**
      * Initializes a new instance of the {@link "RequirementsContainer"} class.

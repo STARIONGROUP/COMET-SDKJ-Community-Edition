@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "ArrayParameterType"} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ArrayParameterType extends CompoundParameterType implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ArrayParameterType"} class.
@@ -103,7 +102,7 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * Gets a value indicating whether hasSingleComponentType.
      * @throws UnsupportedOperationException The hasSingleComponentType property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public boolean getHasSingleComponentType() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ArrayParameterType.hasSingleComponentType");
     }
@@ -112,7 +111,7 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * Gets the rank.
      * @throws UnsupportedOperationException The rank property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public int getRank() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property ArrayParameterType.rank");
     }
@@ -121,7 +120,7 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * Sets a value indicating whether hasSingleComponentType.
      * @throws UnsupportedOperationException The hasSingleComponentType property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setHasSingleComponentType(boolean hasSingleComponentType) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ArrayParameterType.hasSingleComponentType");
     }
@@ -130,7 +129,7 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * Sets the rank.
      * @throws UnsupportedOperationException The rank property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setRank(int rank) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property ArrayParameterType.rank");
     }

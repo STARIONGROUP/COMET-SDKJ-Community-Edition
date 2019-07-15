@@ -60,7 +60,6 @@ import lombok.*;
  */
 @Container(clazz = SiteDirectory.class, propertyName = "person")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Person extends Thing implements Cloneable, DeprecatableThing, NamedThing, ShortNamedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

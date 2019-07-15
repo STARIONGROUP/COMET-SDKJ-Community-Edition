@@ -57,7 +57,6 @@ import lombok.*;
  * data container that may hold zero or more (possibly nested) Folders and Files
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class FileStore extends Thing implements Cloneable, NamedThing, OwnedThing, TimeStampedThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

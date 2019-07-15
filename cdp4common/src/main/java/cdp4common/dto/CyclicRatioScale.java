@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "CyclicRatioScale"} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class CyclicRatioScale extends RatioScale implements Cloneable {
     /**
      * Initializes a new instance of the {@link "CyclicRatioScale"} class.

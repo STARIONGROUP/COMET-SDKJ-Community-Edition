@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "unitPrefix")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class UnitPrefix extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

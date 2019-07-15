@@ -96,8 +96,8 @@ class OperationContainerTest {
   @Test
   void verifyExecutionOfOperationAddAndRemove() {
     var elementDefinition = new ElementDefinition(UUID.randomUUID(), 0);
-    elementDefinition.PARTIAL_ROUTES.add("iteration/b58ea73d-350d-4520-b9d9-a52c75ac2b5d");
-    elementDefinition.PARTIAL_ROUTES.add("EngineeringModel/5e5dc7f8-833d-4331-b421-eb2c64fcf64b");
+    elementDefinition.getPartialRoutes().add("iteration/b58ea73d-350d-4520-b9d9-a52c75ac2b5d");
+    elementDefinition.getPartialRoutes().add("EngineeringModel/5e5dc7f8-833d-4331-b421-eb2c64fcf64b");
 
     var clone = elementDefinition.deepClone(ElementDefinition.class);
     var operation = new Operation(elementDefinition, clone, OperationKind.UPDATE);
@@ -116,22 +116,22 @@ class OperationContainerTest {
     var engineeringModelIid_1 = UUID.randomUUID();
     var iterationIid_1 = UUID.randomUUID();
     var iteration_1 = new Iteration(iterationIid_1, 1);
-    iteration_1.addContainer(ClassKind.ENGINEERING_MODEL, engineeringModelIid_1);
+    iteration_1.addContainer(ClassKind.EngineeringModel, engineeringModelIid_1);
 
     var topContainerContext = iteration_1.getTopContainerRoute();
     var operationContainer = new OperationContainer(topContainerContext, 1);
 
     var modifiedIteration_1 = new Iteration(iterationIid_1, 2);
-    modifiedIteration_1.addContainer(ClassKind.ENGINEERING_MODEL, engineeringModelIid_1);
+    modifiedIteration_1.addContainer(ClassKind.EngineeringModel, engineeringModelIid_1);
     var operation_1 = new Operation(iteration_1, modifiedIteration_1, OperationKind.UPDATE);
     operationContainer.addOperation(operation_1);
 
     var engineeringModelIid_2 = UUID.randomUUID();
     var iterationIid_2 = UUID.randomUUID();
     var iteration_2 = new Iteration(iterationIid_2, 1);
-    iteration_2.addContainer(ClassKind.ENGINEERING_MODEL, engineeringModelIid_2);
+    iteration_2.addContainer(ClassKind.EngineeringModel, engineeringModelIid_2);
     var modifiedIteration_2 = new Iteration(iterationIid_2, 2);
-    modifiedIteration_2.addContainer(ClassKind.ENGINEERING_MODEL, engineeringModelIid_2);
+    modifiedIteration_2.addContainer(ClassKind.EngineeringModel, engineeringModelIid_2);
     var operation_2 = new Operation(iteration_2, modifiedIteration_2, OperationKind.UPDATE);
     assertThrows(IllegalArgumentException.class,
         () -> operationContainer.addOperation(operation_2));

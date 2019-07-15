@@ -31,10 +31,10 @@ public enum ExtentQueryAttribute {
   /**
    * Forces the return of the queried object only
    */
-  SHALLOW,
+  shallow,
 
   /**
    * Forces the return of the object and all objects it contains
    */
-  DEEP
+  deep
 }

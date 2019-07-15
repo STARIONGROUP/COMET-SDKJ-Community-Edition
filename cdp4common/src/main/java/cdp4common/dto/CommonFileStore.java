@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "CommonFileStore"} class.
  */
 @Container(clazz = EngineeringModel.class, propertyName = "commonFileStore")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class CommonFileStore extends FileStore implements Cloneable {
     /**
      * Initializes a new instance of the {@link "CommonFileStore"} class.

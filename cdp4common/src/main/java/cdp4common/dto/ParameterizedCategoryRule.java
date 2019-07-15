@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "ParameterizedCategoryRule"} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "rule")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class ParameterizedCategoryRule extends Rule implements Cloneable {
     /**
      * Initializes a new instance of the {@link "ParameterizedCategoryRule"} class.

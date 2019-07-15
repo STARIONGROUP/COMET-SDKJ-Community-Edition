@@ -35,16 +35,18 @@ import lombok.Getter;
 public class Credentials {
 
   /**
-   * The property where the password is stored
+   * The property where the password is stored.
    */
   private final String password;
 
   /**
    * Initializes a new instance of the {@link Credentials} class.
    *
-   * @param userName The username that is used to connect to a data-store
-   * @param password the password that is sued to connect to a data-store
-   * @param uri the {@link URI} of the data-store
+   * @param userName The username that is used to connect to a data-store.
+   * @param password The password that is sued to connect to a data-store.
+   * @param uri The {@link URI} of the data-store.
+   * @param proxySettings The settings used to connect to a Proxy server. Set {@code null} if no
+   * proxy is used.
    */
   public Credentials(String userName, String password, java.net.URI uri,
       ProxySettings proxySettings) {
@@ -67,19 +69,17 @@ public class Credentials {
   }
 
   /**
-   * The username that is used to connect to a data-store
+   * The username that is used to connect to a data-store.
    */
   private String userName;
 
   /**
-   * The {@link URI} of the data-store
+   * The {@link URI} of the data-store.
    */
   private URI uri;
 
   /**
-   * The settings used to connect to a Proxy server
-   *
-   *
+   * The settings used to connect to a Proxy server.
    * The {@link ProxySettings} may be null, no proxy will be used in this case.
    */
   private ProxySettings proxySettings;

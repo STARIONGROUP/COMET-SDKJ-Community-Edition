@@ -34,7 +34,7 @@ import static org.mockito.Mockito.when;
 import cdp4common.dto.ActionItem;
 import cdp4common.dto.ArrayParameterType;
 import cdp4common.dto.FileRevision;
-import cdp4dal.Version;
+import cdp4common.Version;
 import cdp4dal.exceptions.InvalidOperationContainerException;
 import cdp4dal.operations.Operation;
 import cdp4dal.operations.OperationContainer;

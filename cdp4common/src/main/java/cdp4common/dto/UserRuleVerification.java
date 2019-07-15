@@ -54,14 +54,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "UserRuleVerification"} class.
  */
 @Container(clazz = RuleVerificationList.class, propertyName = "ruleVerification")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class UserRuleVerification extends RuleVerification implements Cloneable {
     /**
      * Initializes a new instance of the {@link "UserRuleVerification"} class.
@@ -92,7 +91,7 @@ public class UserRuleVerification extends RuleVerification implements Cloneable 
      * Gets the name.
      * @throws UnsupportedOperationException The name property is a derived property; when the getter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public String getName() {
         throw new UnsupportedOperationException("Forbidden Get value for the derived property UserRuleVerification.name");
     }
@@ -101,7 +100,7 @@ public class UserRuleVerification extends RuleVerification implements Cloneable 
      * Sets the name.
      * @throws UnsupportedOperationException The name property is a derived property; when the setter is invoked an UnsupportedOperationException will be thrown.
      */
-    @XmlTransient
+    @JsonIgnore
     public void setName(String name) {
         throw new UnsupportedOperationException("Forbidden Set value for the derived property UserRuleVerification.name");
     }

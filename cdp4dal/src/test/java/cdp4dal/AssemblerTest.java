@@ -77,11 +77,11 @@ class AssemblerTest {
     this.siteDir.getSiteReferenceDataLibrary().add(this.siteRdl.getIid());
 
     var category1 = new cdp4common.dto.Category(UUID.randomUUID(), 1);
-    category1.getPermissibleClass().add(ClassKind.PARAMETER_TYPE);
-    category1.getPermissibleClass().add(ClassKind.PERSON);
+    category1.getPermissibleClass().add(ClassKind.ParameterType);
+    category1.getPermissibleClass().add(ClassKind.Person);
     var category2 = new cdp4common.dto.Category(UUID.randomUUID(), 1);
-    category2.getPermissibleClass().add(ClassKind.TELEPHONE_NUMBER);
-    category2.getPermissibleClass().add(ClassKind.EMAIL_ADDRESS);
+    category2.getPermissibleClass().add(ClassKind.TelephoneNumber);
+    category2.getPermissibleClass().add(ClassKind.EmailAddress);
 
     this.siteRdl.getDefinedCategory().add(category1.getIid());
     this.siteRdl.getDefinedCategory().add(category2.getIid());

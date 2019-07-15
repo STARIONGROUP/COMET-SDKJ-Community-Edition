@@ -54,13 +54,12 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
 
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link "TopContainer"} class.
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class TopContainer extends Thing implements Cloneable {
     /**
      * Initializes a new instance of the {@link "TopContainer"} class.

@@ -59,7 +59,6 @@ import lombok.*;
 @CDPVersion(version = "1.1.0")
 @Container(clazz = DiagramElementContainer.class, propertyName = "diagramElement")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class DiagramElementThing extends DiagramElementContainer implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

@@ -34,12 +34,24 @@ import java.io.Serializable;
 * The ordered item  contains the ordered key and  the value
 */
 public class OrderedItem implements Serializable{
+
     /**
     * Initializes a new instance of the {@link OrderedItem} class.
     */
     public OrderedItem()
     {
         this.m = null;
+    }
+
+    /**
+     * Initializes a new instance of the {@link OrderedItem} class.
+     *
+     * @param k The key.
+     * @param v The value.
+     */
+    public OrderedItem(long k, Object v) {
+        this.k = k;
+        this.v = v;
     }
 
     /**

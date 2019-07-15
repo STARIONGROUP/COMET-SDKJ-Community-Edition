@@ -57,7 +57,6 @@ import lombok.*;
  * abstract superclass that enables a common referencing mechanism for Parameter, ParameterOverride and ParameterSubscription
  */
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public abstract class ParameterBase extends Thing implements Cloneable, OwnedThing, ModelCode {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class

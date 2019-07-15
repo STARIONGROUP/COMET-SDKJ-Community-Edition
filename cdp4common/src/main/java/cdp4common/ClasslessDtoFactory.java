@@ -51,7 +51,7 @@ public class ClasslessDtoFactory {
         var classlessDto = new ClasslessDTO();
 
         // the iid and classkind properties are transferred automatically
-        classlessDto.put("CLASS_KIND", thing.CLASS_KIND);
+        classlessDto.put("classKind", thing.getClassKind());
         classlessDto.put("iid", thing.getIid());
 
         // all other named properties
@@ -60,7 +60,7 @@ public class ClasslessDtoFactory {
             for(var property : propertyList)
             {
                 // if iid or classkind somehow gets included into the list just skip it
-                if (property.equals("iid") || property.equals("CLASS_KIND")) {
+                if (property.equals("iid") || property.equals("classKind")) {
                     continue;
                 }
 
@@ -111,7 +111,7 @@ public class ClasslessDtoFactory {
         var classlessDto = new ClasslessDTO();
 
         // the Iid and ClassKind properties are transferred automatically
-        classlessDto.put("CLASS_KIND", thing.CLASS_KIND);
+        classlessDto.put("classKind", thing.getClassKind());
         classlessDto.put("iid", thing.getIid());
         List<Field> fields = FieldUtils.getAllFieldsList(thing.getClass());
 
@@ -121,7 +121,7 @@ public class ClasslessDtoFactory {
             UmlInformation umlInformation = field.getAnnotation(UmlInformation.class);
             DataMember dataMember = field.getAnnotation(DataMember.class);
 
-            if (field.getName().equals("iid") || field.getName().equals("CLASS_KIND") || dataMember == null || umlInformation.isDerived()) {
+            if (field.getName().equals("iid") || field.getName().equals("classKind") || dataMember == null || umlInformation.isDerived()) {
                 continue;
             }
 

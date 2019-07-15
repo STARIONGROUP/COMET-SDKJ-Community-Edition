@@ -32,14 +32,12 @@ import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import org.apache.commons.lang3.tuple.Pair;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.net.URI;
 import java.util.Collection;
 import java.util.UUID;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Suite of tests for the {@link Category}
@@ -162,17 +160,17 @@ class CategoryTest {
     void verifyThatCategorizedThingsReturnsExpectedElementDefinitions() {
         Category categorya1 = new Category(UUID.randomUUID(), this.cache, this.uri);
         categorya1.setShortName("A1");
-        categorya1.getPermissibleClass().add(ClassKind.ELEMENT_DEFINITION);
+        categorya1.getPermissibleClass().add(ClassKind.ElementDefinition);
         this.cache.put(new CacheKey(categorya1.getIid(), null), categorya1);
 
         Category categorya11 = new Category(UUID.randomUUID(), this.cache, this.uri);
         categorya11.setShortName("A11");
-        categorya11.getPermissibleClass().add(ClassKind.ELEMENT_DEFINITION);
+        categorya11.getPermissibleClass().add(ClassKind.ElementDefinition);
         this.cache.put(new CacheKey(categorya11.getIid(), null), categorya11);
 
         Category categorya111 = new Category(UUID.randomUUID(), this.cache, this.uri);
         categorya111.setShortName("A111");
-        categorya111.getPermissibleClass().add(ClassKind.ELEMENT_DEFINITION);
+        categorya111.getPermissibleClass().add(ClassKind.ElementDefinition);
         this.cache.put(new CacheKey(categorya111.getIid(), null), categorya111);
 
         categorya111.getSuperCategory().add(categorya11);
@@ -180,17 +178,17 @@ class CategoryTest {
 
         Category categoryb1 = new Category(UUID.randomUUID(), this.cache, this.uri);
         categoryb1.setShortName("B1");
-        categoryb1.getPermissibleClass().add(ClassKind.ELEMENT_DEFINITION);
+        categoryb1.getPermissibleClass().add(ClassKind.ElementDefinition);
         this.cache.put(new CacheKey(categoryb1.getIid(), null), categoryb1);
 
         Category categoryb11 = new Category(UUID.randomUUID(), this.cache, this.uri);
         categoryb11.setShortName("B11");
-        categoryb11.getPermissibleClass().add(ClassKind.ELEMENT_DEFINITION);
+        categoryb11.getPermissibleClass().add(ClassKind.ElementDefinition);
         this.cache.put(new CacheKey(categoryb11.getIid(), null), categoryb11);
 
         Category categoryb111 = new Category(UUID.randomUUID(), this.cache, this.uri);
         categoryb111.setShortName("B111");
-        categoryb111.getPermissibleClass().add(ClassKind.ELEMENT_DEFINITION);
+        categoryb111.getPermissibleClass().add(ClassKind.ElementDefinition);
         this.cache.put(new CacheKey(categoryb111.getIid(), null), categoryb111);
 
         categoryb111.getSuperCategory().add(categoryb11);
@@ -225,7 +223,7 @@ class CategoryTest {
     void verifyThatCategorizedThingsReturnsNoneWhenThereAreNoCategorizableThingsInTheCache() {
         Category categorya1 = new Category(UUID.randomUUID(), this.cache, this.uri);
         categorya1.setShortName("A1");
-        categorya1.getPermissibleClass().add(ClassKind.ELEMENT_DEFINITION);
+        categorya1.getPermissibleClass().add(ClassKind.ElementDefinition);
         this.cache.put(new CacheKey(categorya1.getIid(), null), categorya1);
 
         Assertions.assertTrue(categorya1.getCategorizedThings().isEmpty());

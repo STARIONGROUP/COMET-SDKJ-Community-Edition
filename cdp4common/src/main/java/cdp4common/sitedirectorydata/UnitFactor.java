@@ -59,7 +59,6 @@ import lombok.*;
  */
 @Container(clazz = DerivedUnit.class, propertyName = "unitFactor")
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class UnitFactor extends Thing implements Cloneable {
     /**
      * Representation of the default value for the accessRight property of a PersonPermission for the affected class
