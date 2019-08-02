@@ -25,15 +25,19 @@
 package cdp4common.validation;
 
 import cdp4common.commondata.Thing;
-import cdp4common.sitedirectorydata.*;
+import cdp4common.sitedirectorydata.BooleanParameterType;
+import cdp4common.sitedirectorydata.DateParameterType;
+import cdp4common.sitedirectorydata.DateTimeParameterType;
+import cdp4common.sitedirectorydata.EnumerationParameterType;
+import cdp4common.sitedirectorydata.EnumerationValueDefinition;
+import cdp4common.sitedirectorydata.NumberSetKind;
+import cdp4common.sitedirectorydata.RatioScale;
+import cdp4common.sitedirectorydata.SimpleQuantityKind;
+import cdp4common.sitedirectorydata.TextParameterType;
+import cdp4common.sitedirectorydata.TimeOfDayParameterType;
 import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import org.apache.commons.lang3.tuple.Pair;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.net.URI;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -41,8 +45,13 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Locale;
 import java.util.UUID;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ValueValidatorTest {
     private URI uri;
@@ -194,7 +203,7 @@ class ValueValidatorTest {
         Assertions.assertEquals(ValidationResultKind.VALID, result.getResultKind());
         Assertions.assertTrue(result.getMessage().isEmpty());
 
-        LocalDateTime dateTime = LocalDateTime.of(2002, 12, 1, 1, 0, 1);
+        OffsetDateTime dateTime = OffsetDateTime.of(LocalDateTime.of(2002, 12, 1, 1, 0, 1), ZoneOffset.UTC);
         result = ValueValidator.validate(this.dateParameterType, dateTime);
         Assertions.assertEquals(ValidationResultKind.INVALID, result.getResultKind());
         Assertions.assertFalse(result.getMessage().isEmpty());
@@ -219,7 +228,7 @@ class ValueValidatorTest {
         result = ValueValidator.validate(this.dateTimeParameterType, "2012-13-13T12:01:01+02");
         Assertions.assertEquals(ValidationResultKind.INVALID, result.getResultKind());
 
-        LocalDateTime date = LocalDateTime.of(2002, 12, 1, 0, 0);
+        OffsetDateTime date = OffsetDateTime.of(LocalDateTime.of(2002, 12, 1, 0, 0), ZoneOffset.UTC);
         result = ValueValidator.validate(this.dateTimeParameterType, date);
         Assertions.assertEquals(ValidationResultKind.VALID, result.getResultKind());
         Assertions.assertTrue(result.getMessage().isEmpty());

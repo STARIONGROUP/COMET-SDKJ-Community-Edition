@@ -41,7 +41,7 @@ import cdp4common.types.OrderedItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.cache.Cache;
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 import lombok.Getter;
@@ -97,7 +97,7 @@ public class FileRevision extends Thing implements Cloneable, NamedThing, TimeSt
     @DataMember
     @Getter
     @Setter
-    private LocalDateTime createdOn;
+    private OffsetDateTime createdOn;
 
     /**
      * The unique identifier of the referenced creator.

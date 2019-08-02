@@ -35,7 +35,7 @@ package cdp4common.dto;
 import java.util.*;
 import java.util.stream.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.io.*;
 import java.net.URI;
 import cdp4common.*;
@@ -94,7 +94,7 @@ public class Folder extends Thing implements Cloneable, NamedThing, OwnedThing, 
     @DataMember
     @Getter
     @Setter
-    private LocalDateTime createdOn;
+    private OffsetDateTime createdOn;
 
     /**
      * The unique identifier of the referenced creator.

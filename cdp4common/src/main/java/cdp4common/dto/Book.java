@@ -41,7 +41,7 @@ import cdp4common.types.CacheKey;
 import cdp4common.types.OrderedItem;
 import com.google.common.cache.Cache;
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -92,7 +92,7 @@ public class Book extends Thing implements Cloneable, CategorizableThing, NamedT
     @DataMember
     @Getter
     @Setter
-    private LocalDateTime createdOn;
+    private OffsetDateTime createdOn;
 
     /**
      * The name.

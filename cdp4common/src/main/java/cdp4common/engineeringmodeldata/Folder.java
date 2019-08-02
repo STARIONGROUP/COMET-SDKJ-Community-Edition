@@ -35,7 +35,7 @@ package cdp4common.engineeringmodeldata;
 import java.util.*;
 import java.util.stream.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.io.*;
 import java.net.URI;
 import cdp4common.*;
@@ -108,7 +108,7 @@ public class Folder extends Thing implements Cloneable, NamedThing, OwnedThing, 
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
     @Getter
     @Setter
-    private LocalDateTime createdOn;
+    private OffsetDateTime createdOn;
 
     /**
      * Property creator.

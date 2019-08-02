@@ -27,7 +27,7 @@
 
 package cdp4common.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 import cdp4common.commondata.*;

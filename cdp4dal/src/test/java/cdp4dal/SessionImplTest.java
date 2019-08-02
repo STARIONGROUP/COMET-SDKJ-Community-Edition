@@ -59,7 +59,7 @@ import cdp4dal.events.SessionStatus;
 import cdp4dal.operations.OperationContainer;
 import com.google.common.collect.MoreCollectors;
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -578,7 +578,7 @@ class SessionImplTest {
         this.session.getAssembler().getCache(), this.uri);
     var iterationSetup = new cdp4common.sitedirectorydata.IterationSetup(UUID.randomUUID(),
         this.session.getAssembler().getCache(), this.uri);
-    iterationSetup.setFrozenOn(LocalDateTime.now());
+    iterationSetup.setFrozenOn(OffsetDateTime.now());
     iterationSetup.setIterationIid(UUID.randomUUID());
     var mrdl = new ModelReferenceDataLibrary(UUID.randomUUID(),
         this.session.getAssembler().getCache(),
@@ -673,7 +673,7 @@ class SessionImplTest {
   void verify_that_when_active_person_is_null_Iteration_is_not_read() {
     var iterationSetup = new cdp4common.sitedirectorydata.IterationSetup(UUID.randomUUID(), null,
         null);
-    iterationSetup.setFrozenOn(LocalDateTime.now());
+    iterationSetup.setFrozenOn(OffsetDateTime.now());
     iterationSetup.setIterationIid(UUID.randomUUID());
     var activeDomain = new DomainOfExpertise(UUID.randomUUID(), null, null);
     var model = new EngineeringModel(UUID.randomUUID(), 1);

@@ -35,7 +35,7 @@ package cdp4common.commondata;
 import java.util.*;
 import java.util.stream.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.io.*;
 import java.net.URI;
 import cdp4common.*;
@@ -97,7 +97,7 @@ public abstract class TopContainer extends Thing implements Cloneable {
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
     @Getter
     @Setter
-    private LocalDateTime lastModifiedOn;
+    private OffsetDateTime lastModifiedOn;
 
     /**
      * Creates and returns a copy of this {@link TopContainer} for edit purpose.

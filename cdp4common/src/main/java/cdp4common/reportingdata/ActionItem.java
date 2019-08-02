@@ -35,7 +35,7 @@ package cdp4common.reportingdata;
 import java.util.*;
 import java.util.stream.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.io.*;
 import java.net.URI;
 import cdp4common.*;
@@ -106,7 +106,7 @@ public class ActionItem extends ModellingAnnotationItem implements Cloneable {
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
     @Getter
     @Setter
-    private LocalDateTime closeOutDate;
+    private OffsetDateTime closeOutDate;
 
     /**
      * Property closeOutStatement.
@@ -124,7 +124,7 @@ public class ActionItem extends ModellingAnnotationItem implements Cloneable {
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
     @Getter
     @Setter
-    private LocalDateTime dueDate;
+    private OffsetDateTime dueDate;
 
     /**
      * Creates and returns a copy of this {@link ActionItem} for edit purpose.

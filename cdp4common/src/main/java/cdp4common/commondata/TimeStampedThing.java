@@ -27,7 +27,7 @@
 
 package cdp4common.commondata;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
@@ -41,12 +41,12 @@ public interface TimeStampedThing {
      * Note 1: This implies that any value shall comply with the following (informative) ISO 8601 format "yyyy-mm-ddThh:mm:ss.sssZ".
      * Note 2: All persistent date-and-time-stamps in this model shall be stored in UTC. When local calendar dates and clock times in a specific timezone are needed they shall be converted on the fly from and to UTC by client applications.
      */
-    LocalDateTime getCreatedOn();
+    OffsetDateTime getCreatedOn();
 
     /**
      * Sets the CreatedOn.
      * Note 1: This implies that any value shall comply with the following (informative) ISO 8601 format "yyyy-mm-ddThh:mm:ss.sssZ".
      * Note 2: All persistent date-and-time-stamps in this model shall be stored in UTC. When local calendar dates and clock times in a specific timezone are needed they shall be converted on the fly from and to UTC by client applications.
      */
-    void setCreatedOn(LocalDateTime createdOn);
+    void setCreatedOn(OffsetDateTime createdOn);
 }

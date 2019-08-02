@@ -35,7 +35,7 @@ package cdp4common.dto;
 import java.util.*;
 import java.util.stream.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.io.*;
 import java.net.URI;
 import cdp4common.*;
@@ -89,7 +89,7 @@ public class Publication extends Thing implements Cloneable, TimeStampedThing {
     @DataMember
     @Getter
     @Setter
-    private LocalDateTime createdOn;
+    private OffsetDateTime createdOn;
 
     /**
      * The list of unique identifiers of the referenced domain instances.
