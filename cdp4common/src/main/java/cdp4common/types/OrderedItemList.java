@@ -275,14 +275,14 @@ public class OrderedItemList<T> implements Collection<T> {
         int maxIndex = Math.max(index, destinationIndex);
 
         List<Object> keyList = new ArrayList<>(Arrays.asList(this.sortedItems.keySet().toArray())).subList(minIndex, maxIndex - minIndex + 1);
-        keyList.sort((Object o1, Object o2) -> Long.compare((Long) o1, (Long) o2));
+        keyList.sort(Comparator.comparingLong((Object o) -> (Long) o));
 
         if (destinationIndex < index) {
             keyList.sort((Object o1, Object o2) -> Long.compare((Long) o2, (Long) o1));
         }
 
         // Move all items between the 2 specified indexes
-        T initialItem = this.sortedItems.get((Long) keyList.get(0));
+        T initialItem = this.sortedItems.get(keyList.get(0));
         for (int i = 1; i < keyList.size(); i++) {
             Long key = (Long) keyList.get(i);
             Long previousKey = (Long) keyList.get(i - 1);

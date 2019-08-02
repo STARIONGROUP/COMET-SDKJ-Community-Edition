@@ -40,16 +40,19 @@ import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
 import cdp4common.sitedirectorydata.IterationSetup;
+import cdp4common.sitedirectorydata.NumberSetKind;
 import cdp4common.sitedirectorydata.ParameterType;
 import cdp4common.sitedirectorydata.ReferenceDataLibrary;
 import cdp4common.sitedirectorydata.SiteDirectory;
 import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
 import cdp4common.types.CacheKey;
+import cdp4common.types.OrderedItem;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MoreCollectors;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -488,5 +491,131 @@ class AssemblerTest {
     assertEquals(7, assembler.getCache().size());
     assembler.synchronize(Arrays.asList(sitedirdto), true).get();
     assertEquals(1, assembler.getCache().size());
+  }
+
+  @Test
+  void verifyThatSynchronizationPreservesKeysOfOrderedItemList() {
+    var assembler = new Assembler(this.uri);
+
+    var simpleUnit = new cdp4common.dto.SimpleUnit(UUID.randomUUID(), 1);
+    simpleUnit.setName("Unit");
+    simpleUnit.setShortName("unit");
+    var ratioScale = new cdp4common.dto.RatioScale(UUID.randomUUID(), 1);
+    ratioScale.setName("Ration");
+    ratioScale.setShortName("ratio");
+    ratioScale.setNumberSet(NumberSetKind.INTEGER_NUMBER_SET);
+    ratioScale.setUnit(simpleUnit.getIid());
+
+    var simpleQuantityKind1 = new cdp4common.dto.SimpleQuantityKind(UUID.randomUUID(), 1);
+    simpleQuantityKind1.setName("Kind1");
+    simpleQuantityKind1.setShortName("kind1");
+    simpleQuantityKind1.setSymbol("symbol");
+    simpleQuantityKind1.setDefaultScale(ratioScale.getIid());
+    var orderedItem1 = new OrderedItem();
+    orderedItem1.setK(1);
+    orderedItem1.setV(simpleQuantityKind1.getIid());
+
+    var simpleQuantityKind2 = new cdp4common.dto.SimpleQuantityKind(UUID.randomUUID(), 1);
+    simpleQuantityKind2.setName("Kind2");
+    simpleQuantityKind2.setShortName("kind2");
+    simpleQuantityKind2.setSymbol("symbol");
+    simpleQuantityKind2.setDefaultScale(ratioScale.getIid());
+    var orderedItem2 = new OrderedItem();
+    orderedItem2.setK(2);
+    orderedItem2.setV(simpleQuantityKind2.getIid());
+
+    this.siteRdl.getUnit().add(simpleUnit.getIid());
+    this.siteRdl.getScale().add(ratioScale.getIid());
+    this.siteRdl.getBaseQuantityKind().add(orderedItem1);
+    this.siteRdl.getBaseQuantityKind().add(orderedItem2);
+
+    this.testInput.add(simpleUnit);
+    this.testInput.add(ratioScale);
+    this.testInput.add(simpleQuantityKind1);
+    this.testInput.add(simpleQuantityKind2);
+
+    assembler.synchronize(this.testInput, true).join();
+
+    var siteRdl = assembler.getCache().getIfPresent(new CacheKey(this.siteRdl.getIid(), null));
+    var orderedItemList = ((SiteReferenceDataLibrary) siteRdl).getBaseQuantityKind()
+        .toDtoOrderedItemList();
+
+    assertEquals(1, orderedItemList.get(0).getK());
+    assertEquals(simpleQuantityKind1.getIid(), orderedItemList.get(0).getV());
+
+    assertEquals(2, orderedItemList.get(1).getK());
+    assertEquals(simpleQuantityKind2.getIid(), orderedItemList.get(1).getV());
+  }
+
+  @Test
+  void verifyThatSynchronizationUpdatesKeysOfOrderedItemList() {
+    var assembler = new Assembler(this.uri);
+
+    var simpleUnit = new cdp4common.dto.SimpleUnit(UUID.randomUUID(), 1);
+    simpleUnit.setName("Unit");
+    simpleUnit.setShortName("unit");
+    var ratioScale = new cdp4common.dto.RatioScale(UUID.randomUUID(), 1);
+    ratioScale.setName("Ration");
+    ratioScale.setShortName("ratio");
+    ratioScale.setNumberSet(NumberSetKind.INTEGER_NUMBER_SET);
+    ratioScale.setUnit(simpleUnit.getIid());
+
+    var simpleQuantityKind1 = new cdp4common.dto.SimpleQuantityKind(UUID.randomUUID(), 1);
+    simpleQuantityKind1.setName("Kind1");
+    simpleQuantityKind1.setShortName("kind1");
+    simpleQuantityKind1.setSymbol("symbol");
+    simpleQuantityKind1.setDefaultScale(ratioScale.getIid());
+    var orderedItem1 = new OrderedItem();
+    orderedItem1.setK(1);
+    orderedItem1.setV(simpleQuantityKind1.getIid());
+
+    var simpleQuantityKind2 = new cdp4common.dto.SimpleQuantityKind(UUID.randomUUID(), 1);
+    simpleQuantityKind2.setName("Kind2");
+    simpleQuantityKind2.setShortName("kind2");
+    simpleQuantityKind2.setSymbol("symbol");
+    simpleQuantityKind2.setDefaultScale(ratioScale.getIid());
+    var orderedItem2 = new OrderedItem();
+    orderedItem2.setK(2);
+    orderedItem2.setV(simpleQuantityKind2.getIid());
+
+    this.siteRdl.getUnit().add(simpleUnit.getIid());
+    this.siteRdl.getScale().add(ratioScale.getIid());
+    this.siteRdl.getBaseQuantityKind().add(orderedItem1);
+    this.siteRdl.getBaseQuantityKind().add(orderedItem2);
+
+    this.testInput.add(simpleUnit);
+    this.testInput.add(ratioScale);
+    this.testInput.add(simpleQuantityKind1);
+    this.testInput.add(simpleQuantityKind2);
+
+    // First call
+    assembler.synchronize(this.testInput, true).join();
+
+    var siteRdl = assembler.getCache().getIfPresent(new CacheKey(this.siteRdl.getIid(), null));
+    var orderedItemList = ((SiteReferenceDataLibrary) siteRdl).getBaseQuantityKind()
+        .toDtoOrderedItemList();
+
+    assertEquals(1, orderedItemList.get(0).getK());
+    assertEquals(simpleQuantityKind1.getIid(), orderedItemList.get(0).getV());
+
+    assertEquals(2, orderedItemList.get(1).getK());
+    assertEquals(simpleQuantityKind2.getIid(), orderedItemList.get(1).getV());
+
+    orderedItem1.setK(2);
+    orderedItem2.setK(1);
+    this.siteRdl.setRevisionNumber(2);
+
+    // Update call
+    assembler.synchronize(Collections.singletonList(this.siteRdl), true).join();
+
+    siteRdl = assembler.getCache().getIfPresent(new CacheKey(this.siteRdl.getIid(), null));
+    orderedItemList = ((SiteReferenceDataLibrary) siteRdl).getBaseQuantityKind()
+        .toDtoOrderedItemList();
+
+    assertEquals(2, orderedItemList.get(1).getK());
+    assertEquals(simpleQuantityKind1.getIid(), orderedItemList.get(1).getV());
+
+    assertEquals(1, orderedItemList.get(0).getK());
+    assertEquals(simpleQuantityKind2.getIid(), orderedItemList.get(0).getV());
   }
 }
