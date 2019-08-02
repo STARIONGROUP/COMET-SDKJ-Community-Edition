@@ -36,6 +36,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.base.Stopwatch;
@@ -57,6 +58,13 @@ import lombok.extern.log4j.Log4j2;
  */
 @Log4j2
 public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
+
+  /**
+   * An instance of {@link ObjectMapper} that is used as a JSON serializer/deserializer. Practically
+   * it should be a single instance for a single instance of {@link Cdp4JsonSerializer}, because it
+   * is absolutely thread safe and provides an internal caching mechanism for a better efficiency.
+   */
+  private ObjectMapper serializer;
 
   /**
    * Initializes a new instance of the {@link Cdp4JsonSerializer} class.
@@ -87,6 +95,7 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
   @Override
   public void initialize(Version supportedVersion) {
     this.requestDataModelVersion = supportedVersion;
+    this.serializer = createObjectMapper();
   }
 
   /**
@@ -113,8 +122,6 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
     }
 
     var sw = Stopwatch.createStarted();
-
-    var serializer = this.createObjectMapper();
 
     log.trace("Serialize sources");
     serializer.writeValue(outputStream, collectionSource);
@@ -263,6 +270,7 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
 
     // Register modules for Java Time  and custom classes
     objectMapper.registerModules(new JavaTimeModule(), module);
+    objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
     return objectMapper;
   }
