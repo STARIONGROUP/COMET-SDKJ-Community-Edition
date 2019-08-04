@@ -150,17 +150,6 @@
                 <artifactId>annotations</artifactId>
                 <version>${intellij.version}</version>
             </dependency>
-            <!-- Java 6 = JAX-B Version 2.0   -->
-            <!-- Java 7 = JAX-B Version 2.2.3 -->
-            <!-- Java 8 = JAX-B Version 2.2.8 -->
-            <!-- Java 9 requires side implementation -->
-            <!--See https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception-in-j/43574427#43574427-->
-            <!--and https://stackoverflow.com/questions/48204141/replacements-for-deprecated-jpms-modules-with-java-ee-apis/48204154#48204154-->
-            <dependency>
-                <groupId>javax.xml.bind</groupId>
-                <artifactId>jaxb-api</artifactId>
-                <version>${jaxb.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.reflections</groupId>
                 <artifactId>reflections</artifactId>
