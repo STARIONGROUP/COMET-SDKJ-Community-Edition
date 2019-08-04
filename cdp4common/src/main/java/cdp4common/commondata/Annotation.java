@@ -27,11 +27,6 @@
 
 package cdp4common.commondata;
 
-import java.time.LocalDateTime;
-import java.util.*;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.*;
-
 /**
  * abstract supertype that represents information expressed in human-readable natural language
  * Note: Multiple alternative annotations may be given in different natural languages.

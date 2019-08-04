@@ -44,8 +44,9 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import java.net.URI;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,7 +82,7 @@ class TransactionContextResolverTest {
 
     var frozenIterationSetup = new IterationSetup(UUID.randomUUID(), this.cache, this.uri);
     frozenIterationSetup
-        .setFrozenOn(LocalDateTime.of(LocalDate.parse("2012-12-12"), LocalTime.now()));
+        .setFrozenOn(OffsetDateTime.of(LocalDate.parse("2012-12-12"), LocalTime.now(), ZoneOffset.UTC));
 
     this.frozenIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
     this.frozenIteration.setRevisionNumber(1);

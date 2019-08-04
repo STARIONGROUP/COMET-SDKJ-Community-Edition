@@ -47,7 +47,7 @@
     "iid": "1706e6a5-7ec0-4831-82c2-87bcae8853fb",
     "isActive": true,
     "isDeprecated": false,
-    "modifiedOn": "0001-01-01T00:00:00",
+    "modifiedOn": "0001-01-01T00:00:00Z",
     "organization": null,
     "organizationalUnit": "SESS",
     "password": "pass",

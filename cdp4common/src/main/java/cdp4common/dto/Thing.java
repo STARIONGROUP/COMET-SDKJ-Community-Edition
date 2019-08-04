@@ -40,7 +40,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -145,7 +145,7 @@ public abstract class Thing {
     @Getter
     @Setter
     @DataMember
-    private LocalDateTime modifiedOn;
+    private OffsetDateTime modifiedOn;
 
     /**
      * Gets or set the revision number of this Thing

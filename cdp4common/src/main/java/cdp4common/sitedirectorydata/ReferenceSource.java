@@ -35,7 +35,7 @@ package cdp4common.sitedirectorydata;
 import java.util.*;
 import java.util.stream.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.io.*;
 import java.net.URI;
 import cdp4common.*;
@@ -164,7 +164,7 @@ public class ReferenceSource extends DefinedThing implements Cloneable, Categori
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
     @Getter
     @Setter
-    private LocalDateTime versionDate;
+    private OffsetDateTime versionDate;
 
     /**
      * Property versionIdentifier.

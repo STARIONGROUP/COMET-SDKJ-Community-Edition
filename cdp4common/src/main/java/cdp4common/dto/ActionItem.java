@@ -35,7 +35,7 @@ package cdp4common.dto;
 import java.util.*;
 import java.util.stream.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.io.*;
 import java.net.URI;
 import cdp4common.*;
@@ -95,7 +95,7 @@ public class ActionItem extends ModellingAnnotationItem implements Cloneable {
     @DataMember
     @Getter
     @Setter
-    private LocalDateTime closeOutDate;
+    private OffsetDateTime closeOutDate;
 
     /**
      * The closeOutStatement.
@@ -113,7 +113,7 @@ public class ActionItem extends ModellingAnnotationItem implements Cloneable {
     @DataMember
     @Getter
     @Setter
-    private LocalDateTime dueDate;
+    private OffsetDateTime dueDate;
 
     /**
      * Gets the route for the current {@link ActionItem}.

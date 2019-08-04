@@ -197,8 +197,8 @@ class CdpPostOperation implements PostOperation {
         } else {
           var possibleAdditions = new ArrayList<>();
 
-          ArrayList originalProperty;
-          ArrayList modifiedProperty;
+          List originalProperty;
+          List modifiedProperty;
 
           // Try to get a generic type
           Class genericTypeArgument = null;
@@ -218,8 +218,8 @@ class CdpPostOperation implements PostOperation {
             originalProperty = Lists.newArrayList(originalIterable);
             modifiedProperty = Lists.newArrayList(modifiedIterable);
 
-            var originalPropertyOrdered = Lists.newArrayList(original.get(key));
-            var modifiedPropertyOrdered = Lists.newArrayList(modifiedFull.get(key));
+            List<OrderedItem> originalPropertyOrdered = Lists.newArrayList((Iterable)original.get(key));
+            List<OrderedItem> modifiedPropertyOrdered = Lists.newArrayList((Iterable)modifiedFull.get(key));
 
             // move property using intersection
             var sameItems = Lists.newArrayList(originalPropertyOrdered);
@@ -228,20 +228,18 @@ class CdpPostOperation implements PostOperation {
             for (var sameItem : sameItems) {
               var orItem = originalPropertyOrdered
                   .stream()
-                  .map(x -> (OrderedItem) x)
-                  .filter(o -> o.getV().equals((((OrderedItem) sameItem).getV())))
+                  .filter(o -> o.getV().equals((sameItem.getV())))
                   .findFirst();
 
               var modItem = modifiedPropertyOrdered
                   .stream()
-                  .map(x -> (OrderedItem) x)
-                  .filter(m -> m.getV().equals((((OrderedItem) sameItem).getV())))
+                  .filter(m -> m.getV().equals((sameItem.getV())))
                   .findFirst();
 
               if (orItem.isPresent() && modItem.isPresent() && orItem.get().getK() != modItem.get()
                   .getK()) {
                 modItem.get().moveItem(orItem.get().getK(), modItem.get().getK());
-                possibleAdditions.add(modItem);
+                possibleAdditions.add(modItem.get());
               }
             }
           } else {

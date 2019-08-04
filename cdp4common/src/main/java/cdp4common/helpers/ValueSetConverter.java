@@ -38,7 +38,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -139,8 +139,8 @@ public class ValueSetConverter {
         }
 
         // datetime
-        if (value instanceof LocalDateTime) {
-            LocalDateTime datetime = (LocalDateTime) value;
+        if (value instanceof OffsetDateTime) {
+            OffsetDateTime datetime = (OffsetDateTime) value;
             datetime.format(DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss"));
             return datetime.toString();
         }
@@ -195,7 +195,7 @@ public class ValueSetConverter {
                 }
             case DateTimeParameterType:
                 try {
-                    return LocalDateTime.parse(value);
+                    return OffsetDateTime.parse(value);
                 } catch (Exception ex) {
                     log.debug(ex.toString());
                     return null;

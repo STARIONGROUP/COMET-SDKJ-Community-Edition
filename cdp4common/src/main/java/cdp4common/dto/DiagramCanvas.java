@@ -35,7 +35,7 @@ package cdp4common.dto;
 import java.util.*;
 import java.util.stream.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.io.*;
 import java.net.URI;
 import cdp4common.*;
@@ -86,7 +86,7 @@ public class DiagramCanvas extends DiagramElementContainer implements Cloneable,
     @DataMember
     @Getter
     @Setter
-    private LocalDateTime createdOn;
+    private OffsetDateTime createdOn;
 
     /**
      * Gets the route for the current {@link DiagramCanvas}.

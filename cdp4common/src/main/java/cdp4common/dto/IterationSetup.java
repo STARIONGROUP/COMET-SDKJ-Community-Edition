@@ -35,7 +35,7 @@ package cdp4common.dto;
 import java.util.*;
 import java.util.stream.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.io.*;
 import java.net.URI;
 import cdp4common.*;
@@ -85,7 +85,7 @@ public class IterationSetup extends Thing implements Cloneable, ParticipantAffec
     @DataMember
     @Getter
     @Setter
-    private LocalDateTime createdOn;
+    private OffsetDateTime createdOn;
 
     /**
      * The description.
@@ -103,7 +103,7 @@ public class IterationSetup extends Thing implements Cloneable, ParticipantAffec
     @DataMember
     @Getter
     @Setter
-    private LocalDateTime frozenOn;
+    private OffsetDateTime frozenOn;
 
     /**
      * Value indicating whether isDeleted.

@@ -35,7 +35,7 @@ package cdp4common.engineeringmodeldata;
 import java.util.*;
 import java.util.stream.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.io.*;
 import java.net.URI;
 import cdp4common.*;
@@ -98,7 +98,7 @@ public abstract class RuleVerification extends Thing implements Cloneable, Named
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
     @Getter
     @Setter
-    private LocalDateTime executedOn;
+    private OffsetDateTime executedOn;
 
     /**
      * Value indicating whether isActive.

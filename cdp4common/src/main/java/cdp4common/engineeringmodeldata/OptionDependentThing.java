@@ -27,7 +27,7 @@
 
 package cdp4common.engineeringmodeldata;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;

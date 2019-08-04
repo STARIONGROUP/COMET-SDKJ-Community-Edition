@@ -15,6 +15,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +35,7 @@ class Cdp4JsonSerializerImplTest {
 
   @Test
   void serializesPropertiesAccordingToVersion() throws IOException {
-    String expectedJson = "{\"classKind\":\"File\",\"excludedDomain\":[],\"excludedPerson\":[],\"iid\":\"b3e2edac-3fea-4b7a-964f-c129b6dd63b2\",\"modifiedOn\":null,\"revisionNumber\":0,\"category\":[],\"fileRevision\":[\"e8de903b-9c38-416a-83f4-90b6cf7b7a41\"],\"lockedBy\":null,\"owner\":\"0e92edde-fdff-41db-9b1d-f2e484f12535\"}";
+    String expectedJson = "{\"classKind\":\"File\",\"excludedDomain\":[],\"excludedPerson\":[],\"iid\":\"b3e2edac-3fea-4b7a-964f-c129b6dd63b2\",\"modifiedOn\":\"2019-08-02T14:11:56.58Z\",\"revisionNumber\":0,\"category\":[],\"fileRevision\":[\"e8de903b-9c38-416a-83f4-90b6cf7b7a41\"],\"lockedBy\":null,\"owner\":\"0e92edde-fdff-41db-9b1d-f2e484f12535\"}";
     var engineeringModelIid = UUID.fromString("9ec982e4-ef72-4953-aa85-b158a95d8d56");
     var iterationIid = UUID.fromString("e163c5ad-f32b-4387-b805-f4b34600bc2c");
     var domainFileStoreIid = UUID.fromString("da7dddaa-02aa-4897-9935-e8d66c811a96");
@@ -47,6 +49,7 @@ class Cdp4JsonSerializerImplTest {
     file.addContainer(ClassKind.DomainFileStore, domainFileStoreIid);
     file.addContainer(ClassKind.Iteration, iterationIid);
     file.addContainer(ClassKind.EngineeringModel, engineeringModelIid);
+    file.setModifiedOn(OffsetDateTime.of(2019, 8, 2, 14, 11, 56, 580_000_000, ZoneOffset.UTC));
 
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     this.serializer.serializeToStream(file, outputStream);
@@ -175,7 +178,7 @@ class Cdp4JsonSerializerImplTest {
 
   @Test
   void orderedItemListIsDeserializedTest() throws IOException {
-    var source = "[{\"classKind\":\"FileRevision\",\"containingFolder\":null,\"contentHash\":\"F73747371CFD9473C19A0A7F99BCAB008474C4CA\",\"createdOn\":null,\"creator\":\"284334dd-e8e5-42d6-bc8a-715c507a7f02\",\"excludedDomain\":[],\"excludedPerson\":[],\"fileType\":[{\"k\":1,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\"}],\"iid\":\"e8de903b-9c38-416a-83f4-90b6cf7b7a41\",\"modifiedOn\":null,\"name\":\"testfile\",\"revisionNumber\":0}]";
+    var source = "[{\"classKind\":\"FileRevision\",\"containingFolder\":null,\"contentHash\":\"F73747371CFD9473C19A0A7F99BCAB008474C4CA\",\"createdOn\":null,\"creator\":\"284334dd-e8e5-42d6-bc8a-715c507a7f02\",\"excludedDomain\":[],\"excludedPerson\":[],\"fileType\":[{\"k\":1,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\"}],\"iid\":\"e8de903b-9c38-416a-83f4-90b6cf7b7a41\",\"modifiedOn\":\"2019-08-02T14:11:56.580Z\",\"name\":\"testfile\",\"revisionNumber\":0}]";
 
     ByteArrayInputStream inputStream = new ByteArrayInputStream(source.getBytes());
     List<Thing> fileRevisionList = this.serializer.deserialize(inputStream);
@@ -184,6 +187,7 @@ class Cdp4JsonSerializerImplTest {
 
     var fileRevision = fileRevisionList.get(0);
     assertEquals(1, ((FileRevision) fileRevision).getFileType().size());
+    assertEquals(OffsetDateTime.of(2019, 8, 2, 14, 11, 56, 580_000_000, ZoneOffset.UTC), ((FileRevision) fileRevision).getModifiedOn());
 
     var fileType = ((FileRevision) fileRevision).getFileType().get(0);
     assertEquals(1, fileType.getK());

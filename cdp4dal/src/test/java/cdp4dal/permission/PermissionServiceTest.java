@@ -61,7 +61,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.apache.commons.lang3.tuple.Pair;
@@ -424,7 +424,7 @@ class PermissionServiceTest {
     assertTrue(this.permissionService.canWrite(this.iteration));
     assertTrue(this.permissionService.canWrite(ClassKind.ElementDefinition, this.iteration));
 
-    this.iterationSetup.setFrozenOn(LocalDateTime.now());
+    this.iterationSetup.setFrozenOn(OffsetDateTime.now());
     assertNotNull(this.iterationSetup.getFrozenOn());
     assertFalse(this.permissionService.canWrite(this.elementDef));
     assertFalse(this.permissionService.canWrite(this.iteration));

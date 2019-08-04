@@ -35,7 +35,7 @@ package cdp4common.dto;
 import java.util.*;
 import java.util.stream.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.io.*;
 import java.net.URI;
 import cdp4common.*;
@@ -87,7 +87,7 @@ public abstract class RuleVerification extends Thing implements Cloneable, Named
     @DataMember
     @Getter
     @Setter
-    private LocalDateTime executedOn;
+    private OffsetDateTime executedOn;
 
     /**
      * Value indicating whether isActive.

@@ -34,7 +34,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -205,10 +205,10 @@ public class ValueValidator {
     }
 
     /**
-     * Validates the {@code value} to check whether it is a {@link LocalDateTime}
+     * Validates the {@code value} to check whether it is a {@link OffsetDateTime}
      *
      * @param parameterType A {@link DateTimeParameterType}
-     * @param value         the string representation of a {@link LocalDateTime} value
+     * @param value         the string representation of a {@link OffsetDateTime} value
      * @return a {@link ValidationResult} that carries the {@link ValidationResultKind} and an optional message.
      */
     public static ValidationResult validate(DateTimeParameterType parameterType, Object value) {
@@ -235,7 +235,7 @@ public class ValueValidator {
                         .appendOffset("+HH:mm", "Z")
                         .toFormatter();
 
-                LocalDateTime dateTime = LocalDateTime.parse(value.toString(), formatter);
+                OffsetDateTime dateTime = OffsetDateTime.parse(value.toString(), formatter);
                 log.debug(String.format("DateTimeParameterType %1$s validated", dateTime));
 
                 result.setResultKind(ValidationResultKind.VALID);
@@ -251,7 +251,7 @@ public class ValueValidator {
         }
 
         try {
-            LocalDateTime dateTimeValue = (LocalDateTime) value;
+            OffsetDateTime dateTimeValue = (OffsetDateTime) value;
             log.debug(String.format("DateTimeParameterType %1$s validated", dateTimeValue));
 
             result.setResultKind(ValidationResultKind.VALID);

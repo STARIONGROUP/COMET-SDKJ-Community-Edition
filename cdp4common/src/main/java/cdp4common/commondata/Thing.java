@@ -42,7 +42,7 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import java.lang.annotation.Annotation;
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -200,7 +200,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false)
     @Getter
     @Setter
-    private LocalDateTime modifiedOn;
+    private OffsetDateTime modifiedOn;
 
     /**
      * Revision number of this Thing

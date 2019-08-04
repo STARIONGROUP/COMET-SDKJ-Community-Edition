@@ -649,7 +649,7 @@ public class Assembler {
         continue;
       }
 
-      var type = ((List) container).get(0).getClass();
+      var type = container.toArray()[0].getClass();
       if (nonPersistentType.contains(type)) {
         // non-persistent things are not added
         continue;
@@ -718,6 +718,11 @@ public class Assembler {
 
       var cacheKey = new CacheKey(dto.getIid(), dto.getIterationContainerId());
       try {
+        if (this.cache.getIfPresent(cacheKey) == null) {
+          log.trace("{} {} is added to the cache", dto.getClassKind(), dto.getIid());
+        } else {
+          log.trace("{} {} is updated in the cache", dto.getClassKind(), dto.getIid());
+        }
         this.cache.get(cacheKey, () -> dto.instantiatePojo(this.cache, this.dalUri));
       } catch (ExecutionException e) {
         log.error("Unexpected ExecutionException during add/update cache with message: " + e
