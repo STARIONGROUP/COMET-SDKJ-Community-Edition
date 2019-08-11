@@ -24,6 +24,8 @@
 
 package cdp4dal.dal;
 
+import cdp4dal.dal.ecss1025annexc.ExtentQueryAttribute;
+
 /**
  * The QueryAttributes interface.
  */
@@ -56,4 +58,60 @@ public interface QueryAttributes {
    * @param revisionNumber A revision number to set as a parameter.
    */
   void setRevisionNumber(Integer revisionNumber);
+
+  /**
+   * Gets the {@link ExtentQueryAttribute} of the query.
+   *
+   * @return A {@link ExtentQueryAttribute} from this {@link QueryAttributes}.
+   */
+  ExtentQueryAttribute getExtent();
+
+  /**
+   * Sets the {@link ExtentQueryAttribute} of the query.
+   *
+   * @param extent A @link ExtentQueryAttribute} of the query.
+   */
+  void setExtent(ExtentQueryAttribute extent);
+
+  /**
+   * Gets whether to query the include reference data.
+   *
+   * @return whether to query the include reference data from this {@link QueryAttributes}.
+   */
+  Boolean getIncludeReferenceData();
+
+  /**
+   * Sets whether to query the include reference data.
+   *
+   * @param includeReferenceData whether to query the include reference data.
+   */
+  void setIncludeReferenceData(Boolean includeReferenceData);
+
+  /**
+   * Gets whether to include all containers.
+   *
+   * @return whether to include all containers from this {@link QueryAttributes}.
+   */
+  Boolean getIncludeAllContainers();
+
+  /**
+   * Sets whether to include all containers.
+   *
+   * @param includeAllContainers whether to include all containers.
+   */
+  void setIncludeAllContainers(Boolean includeAllContainers);
+
+  /**
+   * Gets whether to include the file data.
+   *
+   * @return A revision number from this {@link QueryAttributes}.
+   */
+  Boolean getIncludeFileData();
+
+  /**
+   * Sets whether to include the file data.
+   *
+   * @param includeFileData whether to include the file data from this {@link QueryAttributes}.
+   */
+  void setIncludeFileData(Boolean includeFileData);
 }

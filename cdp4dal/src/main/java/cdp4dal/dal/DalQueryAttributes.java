@@ -24,6 +24,7 @@
 
 package cdp4dal.dal;
 
+import cdp4dal.dal.ecss1025annexc.ExtentQueryAttribute;
 import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +34,33 @@ import lombok.Setter;
 /**
  * The base query attributes.
  */
+@Getter
+@Setter
 public class DalQueryAttributes implements QueryAttributes {
+
+  /**
+   * Gets or sets the {@link ExtentQueryAttribute} of the query.
+   */
+  private ExtentQueryAttribute extent;
+
+  /**
+   * Gets or sets whether to query the include reference data.
+   */
+  private Boolean includeReferenceData;
+
+  /**
+   * Gets or sets whether to include all containers.
+   */
+  private Boolean includeAllContainers;
+
+  /**
+   * Gets or sets whether to include the file data.
+   */
+  private Boolean includeFileData;
 
   /**
    * Gets or sets the revision number.
    */
-  @Getter
-  @Setter
   private Integer revisionNumber;
 
   /**

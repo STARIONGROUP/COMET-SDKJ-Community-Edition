@@ -42,8 +42,6 @@ public class QueryAttributesImpl extends DalQueryAttributes {
   /**
    * Gets or sets the {@link ExtentQueryAttribute} of the query.
    */
-  @Getter
-  @Setter
   private ExtentQueryAttribute extent;
 
   /**

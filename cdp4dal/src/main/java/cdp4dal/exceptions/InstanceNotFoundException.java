@@ -29,7 +29,7 @@ import cdp4common.commondata.Thing;
 /**
  * A {@link InstanceNotFoundException} is thrown the when a {@link Thing} cannot be found.
  */
-public class InstanceNotFoundException extends Exception {
+public class InstanceNotFoundException extends RuntimeException {
 
   /**
    * Initializes a new instance of the {@link InstanceNotFoundException} class.
