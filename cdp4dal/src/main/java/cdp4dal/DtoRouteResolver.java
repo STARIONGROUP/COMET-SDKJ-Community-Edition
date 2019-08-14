@@ -49,8 +49,7 @@ public class DtoRouteResolver {
    * @throws NullPointerException The containment tree is broken for a {@code Pojo} currently in the
    * {@link Session}.
    */
-  public static void resolveRoute(Thing thing, List<Thing> dtoList, Session session)
-      throws InstanceNotFoundException {
+  public static void resolveRoute(Thing thing, List<Thing> dtoList, Session session) {
     if (dtoList == null) {
       throw new NullPointerException("dtolist");
     }
@@ -121,21 +120,12 @@ public class DtoRouteResolver {
     var container = cachedThing.getContainer();
     if (container == null) {
       throw new NullPointerException(String
-          .format("The container of the %s with id %s is null.", thing.getClassKind(), thing.getIid()));
+          .format("The container of the %s with id %s is null.", thing.getClassKind(),
+              thing.getIid()));
     }
 
     thing.addContainer(container.getClassKind(), container.getIid());
     addContainerPartialTree(thing, container);
-//    while (!(container instanceof cdp4common.commondata.TopContainer))
-//    {
-//      container = container.getContainer();
-//      if (container == null)
-//      {
-//        throw new NullPointerException(String.format("The containment tree is broken for the %s with id %s.", thing.getClassKind(), thing.getIid()));
-//      }
-//
-//      thing.addContainer(container.getClassKind(), container.getIid());
-//    }
   }
 
   /**

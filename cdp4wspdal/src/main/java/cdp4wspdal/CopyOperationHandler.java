@@ -22,7 +22,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package cdp4servicesdal;
+package cdp4wspdal;
 
 import cdp4common.commondata.ClassKind;
 import cdp4common.commondata.Thing;
@@ -61,7 +61,7 @@ class CopyOperationHandler {
   private final Session session;
 
   /**
-   * A {@link Map} that map the original {@link cdp4common.commondata.Thing} to the copied version.
+   * A {@link Map} that map the original {@link Thing} to the copied version.
    */
   private Map<Thing, Thing> copyThingMap;
 
@@ -85,7 +85,7 @@ class CopyOperationHandler {
   }
 
   /**
-   * Gets the {@link ImmutableMap} that map the original {@link cdp4common.commondata.Thing} to the
+   * Gets the {@link ImmutableMap} that map the original {@link Thing} to the
    * copied version.
    */
   public ImmutableMap<Thing, Thing> getCopyThingMap() {
@@ -259,7 +259,7 @@ class CopyOperationHandler {
   }
 
   /**
-   * Creates a {@link List<Operation>} associated to a {@link cdp4common.commondata.Thing} to copy.
+   * Creates a {@link List<Operation>} associated to a {@link Thing} to copy.
    */
   private void createOperations() {
     for (var copy : this.copyThingMap.values()) {

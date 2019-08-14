@@ -24,123 +24,128 @@
 
 package cdp4common.sitedirectorydata;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.ElementUsage;
 import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import org.apache.commons.lang3.tuple.Pair;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.net.URI;
 import java.util.Collection;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class CategorizableThingExtensionsTest {
-    private URI uri;
-    private Cache<CacheKey, Thing> cache;
 
-    private Category productCategory;
-    private Category equipmentCategory;
-    private Category batteryCategory;
-    private Category lithiumBatteryCategory;
-    private Category transmitterCategory;
+  private URI uri;
+  private Cache<CacheKey, Thing> cache;
 
-    private ElementDefinition elementDefinition;
+  private Category productCategory;
+  private Category equipmentCategory;
+  private Category batteryCategory;
+  private Category lithiumBatteryCategory;
+  private Category transmitterCategory;
 
-    @BeforeEach
-    void setup() {
-        this.uri = URI.create("http://www.rheagroup.com");
-        this.cache = CacheBuilder.newBuilder().build();
+  private ElementDefinition elementDefinition;
 
-        this.productCategory = new Category(UUID.randomUUID(), this.cache, this.uri);
-        this.productCategory.setShortName("PROD");
-        this.productCategory.setName("Product");
+  @BeforeEach
+  void setup() {
+    this.uri = URI.create("http://www.rheagroup.com");
+    this.cache = CacheBuilder.newBuilder().build();
 
-        this.equipmentCategory = new Category(UUID.randomUUID(), this.cache, this.uri);
-        this.equipmentCategory.setShortName("EQT");
-        this.equipmentCategory.setName("Equipment");
+    this.productCategory = new Category(UUID.randomUUID(), this.cache, this.uri);
+    this.productCategory.setShortName("PROD");
+    this.productCategory.setName("Product");
 
-        this.batteryCategory = new Category(UUID.randomUUID(), this.cache, this.uri);
-        this.batteryCategory.setShortName("BAT");
-        this.batteryCategory.setName("Battery");
+    this.equipmentCategory = new Category(UUID.randomUUID(), this.cache, this.uri);
+    this.equipmentCategory.setShortName("EQT");
+    this.equipmentCategory.setName("Equipment");
 
-        this.lithiumBatteryCategory = new Category(UUID.randomUUID(), this.cache, this.uri);
-        this.lithiumBatteryCategory.setShortName("LITBAT");
-        this.lithiumBatteryCategory.setName("Lithium Battery");
+    this.batteryCategory = new Category(UUID.randomUUID(), this.cache, this.uri);
+    this.batteryCategory.setShortName("BAT");
+    this.batteryCategory.setName("Battery");
 
-        this.transmitterCategory = new Category(UUID.randomUUID(), this.cache, this.uri);
-        this.transmitterCategory.setShortName("TX");
-        this.transmitterCategory.setName("Transmitter");
+    this.lithiumBatteryCategory = new Category(UUID.randomUUID(), this.cache, this.uri);
+    this.lithiumBatteryCategory.setShortName("LITBAT");
+    this.lithiumBatteryCategory.setName("Lithium Battery");
 
-        this.lithiumBatteryCategory.getSuperCategory().add(this.batteryCategory);
-        this.batteryCategory.getSuperCategory().add(this.equipmentCategory);
-        this.transmitterCategory.getSuperCategory().add(this.equipmentCategory);
-        this.equipmentCategory.getSuperCategory().add(this.productCategory);
+    this.transmitterCategory = new Category(UUID.randomUUID(), this.cache, this.uri);
+    this.transmitterCategory.setShortName("TX");
+    this.transmitterCategory.setName("Transmitter");
 
-        this.cache.put(new CacheKey(this.productCategory.getIid(), null), this.productCategory);
+    this.lithiumBatteryCategory.getSuperCategory().add(this.batteryCategory);
+    this.batteryCategory.getSuperCategory().add(this.equipmentCategory);
+    this.transmitterCategory.getSuperCategory().add(this.equipmentCategory);
+    this.equipmentCategory.getSuperCategory().add(this.productCategory);
 
-        this.cache.put(new CacheKey(this.equipmentCategory.getIid(), null), this.equipmentCategory);
+    this.cache.put(new CacheKey(this.productCategory.getIid(), null), this.productCategory);
 
-        this.cache.put(new CacheKey(this.batteryCategory.getIid(), null), this.batteryCategory);
+    this.cache.put(new CacheKey(this.equipmentCategory.getIid(), null), this.equipmentCategory);
 
-        this.cache.put(new CacheKey(this.lithiumBatteryCategory.getIid(), null), this.lithiumBatteryCategory);
+    this.cache.put(new CacheKey(this.batteryCategory.getIid(), null), this.batteryCategory);
 
-        this.cache.put(new CacheKey(this.transmitterCategory.getIid(), null), this.transmitterCategory);
+    this.cache
+        .put(new CacheKey(this.lithiumBatteryCategory.getIid(), null), this.lithiumBatteryCategory);
 
-        this.elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
-    }
+    this.cache.put(new CacheKey(this.transmitterCategory.getIid(), null), this.transmitterCategory);
 
-    @Test
-    void verifyThatAllCategoriesAreReturned() {
-        this.elementDefinition.getCategory().add(this.equipmentCategory);
+    this.elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
+  }
 
-        Collection<Category> categories = CategorizableThingExtensions.getAllCategories(elementDefinition);
+  @Test
+  void verifyThatAllCategoriesAreReturned() {
+    this.elementDefinition.getCategory().add(this.equipmentCategory);
 
-        assertTrue(categories.contains(this.productCategory));
-        assertTrue(categories.contains(this.equipmentCategory));
-    }
+    Collection<Category> categories = CategorizableThingExtensions
+        .getAllCategories(elementDefinition);
 
-    @Test
-    void verifyThatIfCategorizableThingIsElementUsageTheCategoriesOfTheReferencedElementDefinitionAreReturnedAsWell() {
-        this.elementDefinition.getCategory().add(this.equipmentCategory);
+    assertTrue(categories.contains(this.productCategory));
+    assertTrue(categories.contains(this.equipmentCategory));
+  }
 
-        ElementUsage elementUsage = new ElementUsage(UUID.randomUUID(), this.cache, this.uri);
-        elementUsage.setElementDefinition(this.elementDefinition);
+  @Test
+  void verifyThatIfCategorizableThingIsElementUsageTheCategoriesOfTheReferencedElementDefinitionAreReturnedAsWell() {
+    this.elementDefinition.getCategory().add(this.equipmentCategory);
 
-        Collection<Category> categories = CategorizableThingExtensions.getAllCategories(elementUsage);
+    ElementUsage elementUsage = new ElementUsage(UUID.randomUUID(), this.cache, this.uri);
+    elementUsage.setElementDefinition(this.elementDefinition);
 
-        assertTrue(categories.contains(this.productCategory));
-        assertTrue(categories.contains(this.equipmentCategory));
-    }
+    Collection<Category> categories = CategorizableThingExtensions.getAllCategories(elementUsage);
 
-    @Test
-    void verifyThatAllCategoryShortNamesAreReturned() {
-        this.elementDefinition.getCategory().add(this.equipmentCategory);
+    assertTrue(categories.contains(this.productCategory));
+    assertTrue(categories.contains(this.equipmentCategory));
+  }
 
-        assertEquals("PROD EQT", CategorizableThingExtensions.getAllCategoryShortNames(this.elementDefinition));
-    }
+  @Test
+  void verifyThatAllCategoryShortNamesAreReturned() {
+    this.elementDefinition.getCategory().add(this.equipmentCategory);
 
-    @Test
-    void verifyThatIfCategorizableThingIsAMemberOfACategoryTrueIsReturned() {
-        ElementDefinition battery = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
-        battery.getCategory().add(this.batteryCategory);
+    assertEquals("PROD EQT",
+        CategorizableThingExtensions.getAllCategoryShortNames(this.elementDefinition));
+  }
 
-        assertTrue(CategorizableThingExtensions.isMemberOfCategory(battery, this.batteryCategory));
-        assertTrue(CategorizableThingExtensions.isMemberOfCategory(battery, this.equipmentCategory));
-        assertTrue(CategorizableThingExtensions.isMemberOfCategory(battery, this.productCategory));
-    }
+  @Test
+  void verifyThatIfCategorizableThingIsAMemberOfACategoryTrueIsReturned() {
+    ElementDefinition battery = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
+    battery.getCategory().add(this.batteryCategory);
 
-    @Test
-    void verifyThatIfCategorizableThingIsANotMemberOfACategoryFalseIsReturned() {
-        ElementDefinition battery = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
-        battery.getCategory().add(this.batteryCategory);
+    assertTrue(CategorizableThingExtensions.isMemberOfCategory(battery, this.batteryCategory));
+    assertTrue(CategorizableThingExtensions.isMemberOfCategory(battery, this.equipmentCategory));
+    assertTrue(CategorizableThingExtensions.isMemberOfCategory(battery, this.productCategory));
+  }
 
-        assertFalse(CategorizableThingExtensions.isMemberOfCategory(battery, this.lithiumBatteryCategory));
-        assertFalse(CategorizableThingExtensions.isMemberOfCategory(battery, this.transmitterCategory));
-    }
+  @Test
+  void verifyThatIfCategorizableThingIsANotMemberOfACategoryFalseIsReturned() {
+    ElementDefinition battery = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
+    battery.getCategory().add(this.batteryCategory);
+
+    assertFalse(
+        CategorizableThingExtensions.isMemberOfCategory(battery, this.lithiumBatteryCategory));
+    assertFalse(CategorizableThingExtensions.isMemberOfCategory(battery, this.transmitterCategory));
+  }
 }

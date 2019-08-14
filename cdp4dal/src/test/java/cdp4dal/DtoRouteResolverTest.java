@@ -93,7 +93,7 @@ class DtoRouteResolverTest {
   }
 
   @Test
-  void verifyThatResolveRouteWorks() throws InstanceNotFoundException {
+  void verifyThatResolveRouteWorks() {
     List<Thing> list = List.of(this.model, this.iteration, this.stateList, this.state);
 
     DtoRouteResolver.resolveRoute(this.state, list, this.session);
@@ -105,7 +105,7 @@ class DtoRouteResolverTest {
   }
 
   @Test
-  void verifyThatResolveTopContainerRouteWorks() throws InstanceNotFoundException {
+  void verifyThatResolveTopContainerRouteWorks() {
     List<Thing> list = List.of(this.model, this.iteration, this.stateList, this.state);
 
     DtoRouteResolver.resolveRoute(this.model, list, this.session);
@@ -114,7 +114,7 @@ class DtoRouteResolverTest {
   }
 
   @Test
-  void verifyThatFullContainmentTreeIsBuiltFromSession() throws InstanceNotFoundException {
+  void verifyThatFullContainmentTreeIsBuiltFromSession() {
     List<Thing> list = List.of(this.state);
 
     this.assembler.getCache().put(new CacheKey(this.model.getIid(), null), this.pojoModel);
@@ -133,7 +133,7 @@ class DtoRouteResolverTest {
   }
 
   @Test
-  void verifyThatPartialContainmentTreeIsBuiltFromSession() throws InstanceNotFoundException {
+  void verifyThatPartialContainmentTreeIsBuiltFromSession() {
     List<Thing> list = List.of(this.stateList, this.state);
 
     this.assembler.getCache().put(new CacheKey(this.model.getIid(), null), this.pojoModel);

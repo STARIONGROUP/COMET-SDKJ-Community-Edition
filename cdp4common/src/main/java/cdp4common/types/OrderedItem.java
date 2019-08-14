@@ -24,11 +24,11 @@
 
 package cdp4common.types;
 
+import java.io.Serializable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.Serializable;
+import org.apache.commons.lang3.ClassUtils;
 
 /**
 * The ordered item  contains the ordered key and  the value
@@ -114,7 +114,7 @@ public class OrderedItem implements Serializable{
         }
 
         Class vType = this.v.getClass();
-        if (vType.isPrimitive())
+        if (ClassUtils.isPrimitiveOrWrapper(vType))
         {
             return this.primitiveEquals((OrderedItem)obj);
         }

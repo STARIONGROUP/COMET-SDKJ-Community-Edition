@@ -23,7 +23,7 @@
  */
 
 
-package cdp4servicesdal;
+package cdp4wspdal;
 
 import cdp4common.commondata.ClassKind;
 import cdp4common.dto.Thing;
@@ -67,13 +67,13 @@ class ValueSetOperationCreator {
    *
    * @param context The route of the {@link cdp4common.dto.SiteDirectory} or {@link Iteration} for
    * which the current {@link OperationContainer} is valid.
-   * @param dtos The returned {@link cdp4common.dto.Thing}s.
+   * @param dtos The returned {@link Thing}s.
    * @param copyThingMap The copy map containing the original {@link Thing} associated to their
    * copy.
    * @return The {@link OperationContainer}.
    */
   OperationContainer createValueSetsUpdateOperations(String context,
-      List<cdp4common.dto.Thing> dtos,
+      List<Thing> dtos,
       ImmutableMap<cdp4common.commondata.Thing, cdp4common.commondata.Thing> copyThingMap) {
     var dtolist = Lists.newArrayList(dtos);
 
@@ -110,7 +110,7 @@ class ValueSetOperationCreator {
     this.computeRoutes(valueSets, dtolist);
     var valueSetsClones = valueSets
         .stream()
-        .map(dto -> dto.deepClone(cdp4common.dto.Thing.class))
+        .map(dto -> dto.deepClone(Thing.class))
         .collect(Collectors.toList());
 
     // The original of the copy are normally in the map
@@ -158,12 +158,12 @@ class ValueSetOperationCreator {
   }
 
   /**
-   * Computes the routes of a set of {@link cdp4common.dto.Thing}s contained in a bigger list.
+   * Computes the routes of a set of {@link Thing}s contained in a bigger list.
    *
-   * @param dtos The set of {@link cdp4common.dto.Thing} to compute.
+   * @param dtos The set of {@link Thing} to compute.
    * @param dtoList The list returned by the data-source.
    */
-  private void computeRoutes(List<cdp4common.dto.Thing> dtos, List<cdp4common.dto.Thing> dtoList) {
+  private void computeRoutes(List<Thing> dtos, List<Thing> dtoList) {
     for (var valueSet : dtos) {
       DtoRouteResolver.resolveRoute(valueSet, dtoList, this.session);
     }
@@ -205,12 +205,12 @@ class ValueSetOperationCreator {
   }
 
   /**
-   * Set the values of the copied {@link cdp4common.dto.Thing}s representing value-sets.
+   * Set the values of the copied {@link Thing}s representing value-sets.
    *
-   * @param things The copied {@link cdp4common.dto.Thing} representing a value-set.
+   * @param things The copied {@link Thing} representing a value-set.
    * @param originalValueSet The original {@link ValueSet} to copy.
    */
-  private void setValueSetValues(List<cdp4common.dto.Thing> things, ValueSet originalValueSet) {
+  private void setValueSetValues(List<Thing> things, ValueSet originalValueSet) {
     for (var thing : things) {
       switch (thing.getClassKind()) {
         case ParameterValueSet:

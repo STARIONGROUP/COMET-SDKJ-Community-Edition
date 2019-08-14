@@ -30,6 +30,7 @@ import cdp4common.dto.Iteration;
 import cdp4common.dto.SiteDirectory;
 import cdp4common.dto.Thing;
 import cdp4dal.Session;
+import cdp4dal.exceptions.InvalidOperationKindException;
 import cdp4dal.operations.Operation;
 import cdp4dal.operations.OperationContainer;
 import java.net.URI;
@@ -82,6 +83,7 @@ public interface Dal {
    * files are to be uploaded.
    * @return A list of {@link Thing}s that has been created or updated since the last Read or Write
    * operation.
+   * @throws InvalidOperationKindException if unsupported operations are performed.
    */
   CompletableFuture<List<Thing>> write(OperationContainer operationContainer, List<String> files);
 
