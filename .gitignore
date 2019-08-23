@@ -26,6 +26,9 @@ cdp4common/target/**
 *.tar.gz
 *.rar
 
+!cdp4jsonfiledal/src/test/java/cdp4jsonfiledal/data/*.zip
+!cdp4jsonfiledal/src/test/java/cdp4jsonfiledal/files/*.zip
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
