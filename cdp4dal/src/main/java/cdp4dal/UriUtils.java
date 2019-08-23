@@ -24,12 +24,15 @@
 
 package cdp4dal;
 
+import java.io.File;
 import java.net.URI;
+import java.nio.file.Path;
 
 /**
  * The static helper class that provides utilities to validate {@link URI}.
  */
 public class UriUtils {
+
   /**
    * Asserts that the uri is following the http or https schema.
    *
@@ -54,5 +57,26 @@ public class UriUtils {
     if (!uri.getScheme().equals("file")) {
       throw new IllegalArgumentException(String.format("Invalid URI scheme for: %s", uri));
     }
+  }
+
+  /**
+   * Gets a file {@link Path} from a {@link URI} with a file schema.
+   *
+   * @param uri The {@link URI} with a file schema.
+   * @return {@link Path} to the file from the supplied {@link URI}.
+   * @throws IllegalArgumentException If the {@link URI} is not File schema, this exception is
+   * thrown.
+   */
+  public static Path getFilePathFromUri(URI uri) {
+    assertUriIsFileSchema(uri);
+
+    var path = uri.getPath();
+
+    // Check whether it is on a Unix file system
+    if (File.separatorChar != '/') {
+      path = path.substring(1); // delete leading '/' symbol. It is Windows OS
+    }
+
+    return Path.of(path);
   }
 }

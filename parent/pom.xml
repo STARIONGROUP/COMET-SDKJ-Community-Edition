@@ -40,6 +40,7 @@
         <mockito.version>2.27.0</mockito.version>
         <rxjava.version>2.2.8</rxjava.version>
         <jackson.version>2.9.9</jackson.version>
+        <zip4j.version>2.1.2</zip4j.version>
     </properties>
 
     <dependencyManagement>
@@ -74,6 +75,12 @@
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpmime</artifactId>
                 <version>${apachehttpmime.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/net.lingala.zip4j/zip4j -->
+            <dependency>
+                <groupId>net.lingala.zip4j</groupId>
+                <artifactId>zip4j</artifactId>
+                <version>${zip4j.version}</version>
             </dependency>
 
             <dependency>

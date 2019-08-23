@@ -22,5 +22,6 @@
     <module>cdp4servicesdal</module>
     <module>cdp4jsonserializer</module>
     <module>cdp4wspdal</module>
+    <module>cdp4jsonfiledal</module>
   </modules>
 </project>
