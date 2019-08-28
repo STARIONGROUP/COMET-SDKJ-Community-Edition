@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.rheagroup</groupId>
+    <artifactId>cdp4-sdk4j-parent</artifactId>
+    <version>1.0.0</version>
+    <relativePath>../parent/pom.xml</relativePath>
+  </parent>
+
+  <artifactId>cdp4jsonfiledal</artifactId>
+  <name>CDP4 JSON File Dal</name>
+  <packaging>jar</packaging>
+
+  <properties>
+    <cdp4common.version>1.0.0</cdp4common.version>
+    <cdp4dal.version>1.0.0</cdp4dal.version>
+    <cdp4jsonserializer.version>1.0.0</cdp4jsonserializer.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.rheagroup</groupId>
+      <artifactId>cdp4common</artifactId>
+      <version>${cdp4common.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.rheagroup</groupId>
+      <artifactId>cdp4dal</artifactId>
+      <version>${cdp4dal.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.rheagroup</groupId>
+      <artifactId>cdp4jsonserializer</artifactId>
+      <version>${cdp4jsonserializer.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>net.lingala.zip4j</groupId>
+      <artifactId>zip4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+    </dependency>
+  </dependencies>
+</project>
