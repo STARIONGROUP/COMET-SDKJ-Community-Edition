@@ -60,6 +60,8 @@ public interface Dal {
 
   /**
    * Gets the value indicating whether this {@link Dal} is read only.
+   *
+   * @return {@code true} if this {@link Dal} is read only, otherwise {@code false}
    */
   boolean isReadOnly();
 

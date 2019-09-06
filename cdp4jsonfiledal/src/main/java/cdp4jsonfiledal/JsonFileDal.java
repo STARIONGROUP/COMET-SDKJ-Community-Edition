@@ -114,7 +114,7 @@ public class JsonFileDal extends DalBase {
   private Cdp4JsonSerializer serializer;
 
   /**
-   * @inheritDocs
+   * {@inheritDocs}
    */
   @Override
   public boolean isReadOnly() {
@@ -122,7 +122,7 @@ public class JsonFileDal extends DalBase {
   }
 
   /**
-   * @inheritDocs
+   * {@inheritDocs}
    */
   @Override
   public CompletableFuture<List<Thing>> write(List<OperationContainer> operationContainers,
@@ -220,7 +220,7 @@ public class JsonFileDal extends DalBase {
   }
 
   /**
-   * @inheritDocs
+   * {@inheritDocs}
    */
   @Override
   public CompletableFuture<List<Thing>> write(OperationContainer operationContainer,

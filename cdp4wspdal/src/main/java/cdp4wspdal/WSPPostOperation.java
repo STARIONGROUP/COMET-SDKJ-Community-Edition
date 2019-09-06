@@ -45,8 +45,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Class containing the form of the official WSP post request.
@@ -67,32 +65,24 @@ class WSPPostOperation implements PostOperation {
    * The collection of DTOs to delete.
    */
   @JsonProperty("_delete")
-  @Getter(onMethod = @__({@Override}))
-  @Setter(onMethod = @__({@Override}))
   private List<ClasslessDTO> delete;
 
   /**
    * The collection of DTOs to create.
    */
   @JsonProperty("_create")
-  @Getter(onMethod = @__({@Override}))
-  @Setter(onMethod = @__({@Override}))
   private List<cdp4common.dto.Thing> create;
 
   /**
    * The collection of DTOs to update.
    */
   @JsonProperty("_update")
-  @Getter(onMethod = @__({@Override}))
-  @Setter(onMethod = @__({@Override}))
   private List<ClasslessDTO> update;
 
   /**
    * Gets or sets the collection of DTOs to copy.
    */
   @JsonProperty("_copy")
-  @Getter(onMethod = @__({@Override}))
-  @Setter(onMethod = @__({@Override}))
   private List<CopyInfo> copy;
 
   /**
@@ -276,5 +266,45 @@ class WSPPostOperation implements PostOperation {
     if (modified.size() > 2) {
       this.update.add(modified);
     }
+  }
+
+  @Override
+  public List<ClasslessDTO> getDelete() {
+    return this.delete;
+  }
+
+  @Override
+  public List<cdp4common.dto.Thing> getCreate() {
+    return this.create;
+  }
+
+  @Override
+  public List<ClasslessDTO> getUpdate() {
+    return this.update;
+  }
+
+  @Override
+  public List<CopyInfo> getCopy() {
+    return this.copy;
+  }
+
+  @Override
+  public void setDelete(List<ClasslessDTO> delete) {
+    this.delete = delete;
+  }
+
+  @Override
+  public void setCreate(List<cdp4common.dto.Thing> create) {
+    this.create = create;
+  }
+
+  @Override
+  public void setUpdate(List<ClasslessDTO> update) {
+    this.update = update;
+  }
+
+  @Override
+  public void setCopy(List<CopyInfo> copy) {
+    this.copy = copy;
   }
 }
