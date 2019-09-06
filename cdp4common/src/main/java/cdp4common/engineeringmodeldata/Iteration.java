@@ -321,12 +321,12 @@ public class Iteration extends Thing implements Cloneable {
     private ContainerList<ValueGroup> valueGroup;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link Iteration}.
+     * {@link Iterable} that references the composite properties of the current {@link Iteration}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Iteration}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link Iteration}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

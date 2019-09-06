@@ -99,7 +99,7 @@ public class ReviewItemDiscrepancy extends ModellingAnnotationItem implements Cl
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link ReviewItemDiscrepancy}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link ReviewItemDiscrepancy}.
      */
     @Override
     public List<List> getContainerLists() {

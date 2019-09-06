@@ -125,7 +125,7 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link ParametricConstraint}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link ParametricConstraint}.
      */
     @Override
     public List<List> getContainerLists() {

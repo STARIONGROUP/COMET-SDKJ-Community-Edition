@@ -147,7 +147,7 @@ public abstract class RuleVerification extends Thing implements Cloneable, Named
     private ContainerList<RuleViolation> violation;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link RuleVerification}.
+     * {@link Iterable} that references the composite properties of the current {@link RuleVerification}.
      */
     private Iterable<Iterable> containerLists;
 
@@ -174,7 +174,7 @@ public abstract class RuleVerification extends Thing implements Cloneable, Named
     }
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link RuleVerification}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link RuleVerification}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

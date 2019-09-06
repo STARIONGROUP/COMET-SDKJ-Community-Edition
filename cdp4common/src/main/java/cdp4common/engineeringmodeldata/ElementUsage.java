@@ -145,12 +145,12 @@ public class ElementUsage extends ElementBase implements Cloneable, OptionDepend
     private ContainerList<ParameterOverride> parameterOverride;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link ElementUsage}.
+     * {@link Iterable} that references the composite properties of the current {@link ElementUsage}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ElementUsage}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link ElementUsage}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

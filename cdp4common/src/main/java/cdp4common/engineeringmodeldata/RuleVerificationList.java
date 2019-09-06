@@ -112,12 +112,12 @@ public class RuleVerificationList extends DefinedThing implements Cloneable, Own
     private OrderedItemList<RuleVerification> ruleVerification;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link RuleVerificationList}.
+     * {@link Iterable} that references the composite properties of the current {@link RuleVerificationList}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link RuleVerificationList}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link RuleVerificationList}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

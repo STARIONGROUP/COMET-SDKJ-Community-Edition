@@ -130,12 +130,12 @@ public class SiteDirectoryDataAnnotation extends GenericAnnotation implements Cl
     private ContainerList<SiteDirectoryThingReference> relatedThing;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link SiteDirectoryDataAnnotation}.
+     * {@link Iterable} that references the composite properties of the current {@link SiteDirectoryDataAnnotation}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link SiteDirectoryDataAnnotation}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link SiteDirectoryDataAnnotation}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

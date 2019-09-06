@@ -103,12 +103,12 @@ public class ParticipantRole extends DefinedThing implements Cloneable, Deprecat
     private ContainerList<ParticipantPermission> participantPermission;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link ParticipantRole}.
+     * {@link Iterable} that references the composite properties of the current {@link ParticipantRole}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ParticipantRole}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link ParticipantRole}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

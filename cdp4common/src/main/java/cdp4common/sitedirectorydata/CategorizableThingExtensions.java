@@ -72,7 +72,7 @@ public class CategorizableThingExtensions {
      *
      * @param categorizableThing The {@link CategorizableThing} that is to be queried for all its categories
      *                           and its super categories.
-     * @return an {@link Collection<Category>} that contains all the categories
+     * @return a {@link Collection} that contains all the categories
      */
     public static Collection<Category> getAllCategories(CategorizableThing categorizableThing) {
         List<Category> allCategories = new ArrayList<>();

@@ -126,12 +126,12 @@ public abstract class Relationship extends Thing implements Cloneable, Categoriz
     private ContainerList<RelationshipParameterValue> parameterValue;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link Relationship}.
+     * {@link Iterable} that references the composite properties of the current {@link Relationship}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Relationship}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link Relationship}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

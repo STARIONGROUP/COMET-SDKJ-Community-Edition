@@ -34,11 +34,12 @@ import java.util.regex.Pattern;
 
 /**
  * Extension class for {@link ValueArray}
- * <p>
+ * <pre>
  * Note: In comparison with Thing C# implementation the following methods were modified due
  * to the language specifics:
- * - public static bool TryParseToIntValueArray(this string stringArray, out ValueArray<int> valueArray,
+ * - public static bool TryParseToIntValueArray(this string stringArray, out ValueArray&lt;int&gt; valueArray,
  * out string error){} - method signature and name were changed.
+ * </pre>
  */
 public class ValueArrayParser {
     /**
@@ -57,7 +58,7 @@ public class ValueArrayParser {
     private static final String NON_STRING_ARGUMENT_EXCEPTION_MESSAGE = "The value array shall start with a \"{\" and end with a \"}\". The values shall be delimited by a \";\".\nExample: {1;2;3}";
 
     /**
-     * Parses a string into a {@link ValueArray<Integer>}.
+     * Parses a string into a {@link ValueArray}.
      *
      * @param stringArray The {@link String} to parse
      * @return true if the parsing succeeded

@@ -122,7 +122,7 @@ public abstract class RequirementsContainer extends DefinedThing implements Clon
     private ArrayList<UUID> parameterValue;
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link RequirementsContainer}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link RequirementsContainer}.
      */
     @Override
     public List<List> getContainerLists() {

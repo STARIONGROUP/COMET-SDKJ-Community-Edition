@@ -58,7 +58,7 @@ public class NestedElementTreeGenerator {
      * @param domainOfExpertise The {@link DomainOfExpertise} for which the {@link NestedParameter}s flat list needs to be generated. Only the {@link Parameter}s, {@link ParameterOverride}s and
      *                          {@link ParameterSubscription}s that are owned by the {@link DomainOfExpertise} will be taken into account.
      * @param updateOption      Value indicating whether the {@link Option} shall be updated with the created {@link NestedElement}s or not.
-     * @return An {@link List} that contains the generated <{@link NestedParameter}s
+     * @return An {@link List} that contains the generated {@link NestedParameter}s
      * @throws NullPointerException thrown when the {@code domainOfExpertise} is null or thrown when the {@code option} is null
      */
     public List<NestedParameter> getNestedParameters(Option option, DomainOfExpertise domainOfExpertise, boolean updateOption) {
@@ -166,7 +166,7 @@ public class NestedElementTreeGenerator {
      * @param domainOfExpertise The {@link DomainOfExpertise} for which the {@link NestedElement} tree needs to be generated.
      *                          Only the {@link Parameter}s, {@link ParameterOverride}s and {@link ParameterSubscription}s
      *                          that are owned by the {@link DomainOfExpertise} will be taken into account when generating {@link NestedParameter}s
-     * @param elementUsages     A {@link List{ElementUsage}} that contains the {@link ElementUsage} that define the containment tree
+     * @param elementUsages     A {@link List} that contains the {@link ElementUsage} that define the containment tree
      *                          for the {@link NestedElement}s at the level of the {@code elementDefinition}.
      * @param option            The {@link Option} for which the {@link NestedElement} tree is created. When the {@link Option}
      *                          is null then none of the {@link ElementUsage}s are filtered.

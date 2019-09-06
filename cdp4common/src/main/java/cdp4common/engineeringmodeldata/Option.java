@@ -32,26 +32,34 @@
 
 package cdp4common.engineeringmodeldata;
 
-import java.util.*;
-import java.util.stream.*;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.io.*;
-import java.net.URI;
-import cdp4common.*;
-import cdp4common.commondata.*;
-import cdp4common.diagramdata.*;
-import cdp4common.engineeringmodeldata.*;
-import cdp4common.exceptions.ContainmentException;
-import cdp4common.helpers.*;
-import cdp4common.reportingdata.*;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.*;
-import org.apache.commons.lang3.ObjectUtils;
-import com.google.common.base.Strings;
+import cdp4common.AggregationKind;
+import cdp4common.ChangeKind;
+import cdp4common.Container;
+import cdp4common.UmlInformation;
+import cdp4common.commondata.Alias;
+import cdp4common.commondata.DefinedThing;
+import cdp4common.commondata.Definition;
+import cdp4common.commondata.HyperLink;
+import cdp4common.commondata.ParticipantAccessRightKind;
+import cdp4common.commondata.PersonAccessRightKind;
+import cdp4common.commondata.Thing;
+import cdp4common.helpers.PojoThingFactory;
+import cdp4common.sitedirectorydata.CategorizableThing;
+import cdp4common.sitedirectorydata.Category;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.Person;
+import cdp4common.types.CacheKey;
+import cdp4common.types.ContainerList;
 import com.google.common.cache.Cache;
-import com.google.common.collect.Iterables;
-import lombok.*;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * representation of an option that is a potential design solution for the system-of-interest being developed in an Iteration of an EngineeringModel
@@ -114,12 +122,12 @@ public class Option extends DefinedThing implements Cloneable, CategorizableThin
     private ContainerList<NestedElement> nestedElement;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link Option}.
+     * {@link Iterable} that references the composite properties of the current {@link Option}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Option}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link Option}.
      */
     @Override
     public Collection<Collection> getContainerLists() {
@@ -250,7 +258,7 @@ public class Option extends DefinedThing implements Cloneable, CategorizableThin
     // DO NOT ADD ANYTHING ABOVE THIS COMMENT, BECAUSE IT WILL BE LOST DURING NEXT CODE GENERATION.
 
     /*
-     * Gets a value indicating whether this <see cref="Option"/> is the default in the current <see cref="Iteration"/>
+     * Gets a value indicating whether this {@link Option} is the default in the current {@link Iteration}
      */
     public boolean isDefault() {
         Iteration iteration = (Iteration)this.getContainer();

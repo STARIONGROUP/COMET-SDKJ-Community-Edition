@@ -101,7 +101,7 @@ public abstract class DiagramElementContainer extends DiagramThingBase implement
     private ArrayList<UUID> diagramElement;
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link DiagramElementContainer}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link DiagramElementContainer}.
      */
     @Override
     public List<List> getContainerLists() {

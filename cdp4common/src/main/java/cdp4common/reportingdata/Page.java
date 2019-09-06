@@ -155,12 +155,12 @@ public class Page extends Thing implements Cloneable, CategorizableThing, NamedT
     private String shortName;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link Page}.
+     * {@link Iterable} that references the composite properties of the current {@link Page}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Page}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link Page}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

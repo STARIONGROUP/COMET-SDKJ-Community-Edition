@@ -37,10 +37,10 @@ import java.util.Set;
  */
 public class RequiredReferenceDataLibraryAbacus {
     /**
-     * Computes the {@link Collection<ReferenceDataLibrary>} that contains
+     * Computes the {@link Collection} that contains
      * the required {@link ReferenceDataLibrary} for the current {@link Thing}
      *
-     * @return a {@link Collection<ReferenceDataLibrary>} of the required {@link ReferenceDataLibrary}s for the current {@link Thing}
+     * @return a {@link Collection} of the required {@link ReferenceDataLibrary}s for the current {@link Thing}
      * @throws IllegalArgumentException when this method is invoked on a class that is not directly contained by a {@link ReferenceDataLibrary}
      */
     public static Collection<ReferenceDataLibrary> computeRequiredRdls(Thing thing) {

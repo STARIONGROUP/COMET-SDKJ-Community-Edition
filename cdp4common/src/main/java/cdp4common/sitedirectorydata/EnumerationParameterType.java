@@ -111,12 +111,12 @@ public class EnumerationParameterType extends ScalarParameterType implements Clo
     private OrderedItemList<EnumerationValueDefinition> valueDefinition;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link EnumerationParameterType}.
+     * {@link Iterable} that references the composite properties of the current {@link EnumerationParameterType}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link EnumerationParameterType}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link EnumerationParameterType}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

@@ -117,7 +117,7 @@ public abstract class DiagramElementThing extends DiagramElementContainer implem
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link DiagramElementThing}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link DiagramElementThing}.
      */
     @Override
     public List<List> getContainerLists() {

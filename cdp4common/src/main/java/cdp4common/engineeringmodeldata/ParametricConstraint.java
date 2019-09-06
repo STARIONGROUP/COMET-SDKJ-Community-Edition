@@ -117,7 +117,7 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
     private BooleanExpression topExpression;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link ParametricConstraint}.
+     * {@link Iterable} that references the composite properties of the current {@link ParametricConstraint}.
      */
     private Iterable<Iterable> containerLists;
 
@@ -142,7 +142,7 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
     }
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ParametricConstraint}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link ParametricConstraint}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

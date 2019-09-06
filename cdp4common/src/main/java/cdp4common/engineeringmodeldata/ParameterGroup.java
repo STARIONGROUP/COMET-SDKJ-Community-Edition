@@ -32,26 +32,28 @@
 
 package cdp4common.engineeringmodeldata;
 
-import java.util.*;
-import java.util.stream.*;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.io.*;
-import java.net.URI;
-import cdp4common.*;
-import cdp4common.commondata.*;
-import cdp4common.diagramdata.*;
-import cdp4common.engineeringmodeldata.*;
-import cdp4common.exceptions.ContainmentException;
-import cdp4common.helpers.*;
-import cdp4common.reportingdata.*;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.*;
-import org.apache.commons.lang3.ObjectUtils;
+import cdp4common.AggregationKind;
+import cdp4common.ChangeKind;
+import cdp4common.Container;
+import cdp4common.UmlInformation;
+import cdp4common.commondata.NamedThing;
+import cdp4common.commondata.ParticipantAccessRightKind;
+import cdp4common.commondata.PersonAccessRightKind;
+import cdp4common.commondata.Thing;
+import cdp4common.helpers.PojoThingFactory;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.Person;
+import cdp4common.types.CacheKey;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import com.google.common.collect.Iterables;
-import lombok.*;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * representation of a group of Parameters within an ElementDefinition
@@ -224,7 +226,7 @@ public class ParameterGroup extends Thing implements Cloneable, NamedThing {
      * @param extendDeep If {@code extendDeep} is true, get all {@link ParameterGroup}s contained
      * directly and indirectly by the current one
      * 
-     * @return An {@link List{ParameterGroup}} that is "contained" by the current {@link ParameterGroup}
+     * @return An {@link List} that is "contained" by the current {@link ParameterGroup}
      */
     public List<ParameterGroup> getContainedGroup(boolean extendDeep) {
         if (this.getContainer() == null) {
@@ -237,17 +239,17 @@ public class ParameterGroup extends Thing implements Cloneable, NamedThing {
 
     /**
      * Queries the {@link ParameterGroup}s that are "contained" by the current {@link ParameterGroup}
-     * from the provided {@link List{ParameterGroup}}.
+     * from the provided {@link List}.
      *
      * @param parameterGroups
-     * An {@link List{ParameterGroup}} that may contain {@link ParameterGroup}s that are
+     * An {@link List} that may contain {@link ParameterGroup}s that are
      * contained by the current {@link ParameterGroup}
      * 
      * @param extendDeep If {@code extendDeep} is true, get all {@link ParameterGroup}s contained
      * directly and indirectly by the current one
      * 
      * @return 
-     * An {@link List{ParameterGroup}} that is "contained" by the current {@link ParameterGroup}
+     * An {@link List} that is "contained" by the current {@link ParameterGroup}
      */
     public List<ParameterGroup> getContainedGroup(List<ParameterGroup> parameterGroups, boolean extendDeep) {
         List<ParameterGroup> containedGroup = new ArrayList<>();
@@ -266,7 +268,7 @@ public class ParameterGroup extends Thing implements Cloneable, NamedThing {
     /**
      * Queries the {@link Parameter}s that are "contained" by the current {@link ParameterGroup}
      *
-     * @return An {@link List{Parameter}} that is "contained" by the current {@link ParameterGroup}
+     * @return An {@link List} that is "contained" by the current {@link ParameterGroup}
      */
     public List<Parameter> getContainedParameter() {
         if (this.getContainer() == null) {
@@ -280,10 +282,10 @@ public class ParameterGroup extends Thing implements Cloneable, NamedThing {
     /**
      * Queries the {@link Parameter}s that are "contained" by the current {@link ParameterGroup}
      *
-     * @param parameters An {@link List<Parameter>} that may contain {@link Parameter}s that are
+     * @param parameters A {@link List} that may contain {@link Parameter}s that are
      * contained by the current {@link ParameterGroup}
      * 
-     * @return An {@link List<Parameter>} that is "contained" by the current {@link ParameterGroup}
+     * @return A {@link List} that is "contained" by the current {@link ParameterGroup}
      */
     public List<Parameter> getContainedParameter(List<Parameter> parameters) {
         List<Parameter> containedParameter = new ArrayList<>();
@@ -302,7 +304,7 @@ public class ParameterGroup extends Thing implements Cloneable, NamedThing {
      *
      * @return 
      * the level of the {@link ParameterGroup} in it's virtual group containment hierarchy.
-     * The level of a {@link ParameterGroup} that has no {@link #getContainingGroup} is zero.
+     * The level of a {@link ParameterGroup} that has no {@code containingGroup} is zero.
      * If the containing {@link ElementDefinition} of the group is null, the result is -1.
      */
     public int getLevel() {

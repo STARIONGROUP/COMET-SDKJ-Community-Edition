@@ -147,7 +147,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
     private ContainerList<ParameterOverrideValueSet> valueSet;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link ParameterOverride}.
+     * {@link Iterable} that references the composite properties of the current {@link ParameterOverride}.
      */
     private Iterable<Iterable> containerLists;
 
@@ -252,7 +252,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
     }
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ParameterOverride}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link ParameterOverride}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

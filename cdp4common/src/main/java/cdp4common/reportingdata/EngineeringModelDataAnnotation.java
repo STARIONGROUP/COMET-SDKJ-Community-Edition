@@ -130,12 +130,12 @@ public abstract class EngineeringModelDataAnnotation extends GenericAnnotation i
     private ContainerList<ModellingThingReference> relatedThing;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link EngineeringModelDataAnnotation}.
+     * {@link Iterable} that references the composite properties of the current {@link EngineeringModelDataAnnotation}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link EngineeringModelDataAnnotation}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link EngineeringModelDataAnnotation}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

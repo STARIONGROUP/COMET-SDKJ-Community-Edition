@@ -198,7 +198,7 @@ public abstract class DiagrammingStyle extends DiagramThingBase implements Clone
     private ArrayList<UUID> usedColor;
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link DiagrammingStyle}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link DiagrammingStyle}.
      */
     @Override
     public List<List> getContainerLists() {

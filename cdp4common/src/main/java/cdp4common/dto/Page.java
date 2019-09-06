@@ -146,7 +146,7 @@ public class Page extends Thing implements Cloneable, CategorizableThing, NamedT
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link Page}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link Page}.
      */
     @Override
     public List<List> getContainerLists() {

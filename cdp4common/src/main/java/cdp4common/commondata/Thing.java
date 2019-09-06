@@ -61,7 +61,7 @@ import org.apache.commons.lang3.tuple.Pair;
  * Top level abstract superclass from which all domain concept classes in the model inherit.
  * Note: In comparison with Thing C# implementation the following properties and methods were abandoned due
  * to the language specifics:
- * - public T GetContainerOfType<T>()
+ * - public T GetContainerOfType()
  * - public virtual string UserFriendlyName{}
  * - public virtual string UserFriendlyShortName{}
  */
@@ -342,7 +342,7 @@ public abstract class Thing implements AutoCloseable, Cloneable {
      * complete containment hierarchy and returns them as a flat list. The current {@link Thing}
      * is included as well
      *
-     * @return {@link List<Thing>}
+     * @return {@link List}
      */
     public List<Thing> queryContainedThingsDeep() {
         List<Thing> temp = new ArrayList<>();
@@ -399,19 +399,19 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     }
 
     /**
-     * Get an {@link Collection<ReferenceDataLibrary>} that contains the required {@link ReferenceDataLibrary} for the current {@link Thing}
+     * Get a {@link Collection} that contains the required {@link ReferenceDataLibrary} for the current {@link Thing}
      */
     public Collection<ReferenceDataLibrary> getRequiredRdls() {
         return new HashSet<>();
     }
 
     /**
-     * A {@link Collection<String>} listing all the potential errors on this {@link Thing}
+     * A {@link Collection} listing all the potential errors on this {@link Thing}
      */
     private Collection<String> validationErrors;
 
     /**
-     * Gets a {@link Collection<String>} listing all the potential errors on this {@link Thing}
+     * Gets a {@link Collection} listing all the potential errors on this {@link Thing}
      */
     public Collection<String> getValidationErrors() {
         return this.validationErrorList;
@@ -517,12 +517,12 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     }
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link Thing}
+     * {@link Iterable} that references the composite properties of the current {@link Thing}
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Get an {@link Collection<Collection>} that references the composite properties of the current {@link Thing}
+     * Get a {@link Collection} that references the composite properties of the current {@link Thing}
      */
     public Collection<Collection> getContainerLists() {
         return new ArrayList<>();
@@ -552,9 +552,9 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     }
 
     /**
-     * Returns true if the current object is within the containment tree of the specified {@link Predicate<Thing>}.
+     * Returns true if the current object is within the containment tree of the specified {@link Predicate}.
      *
-     * @param matchPredicate The {@link Predicate<Thing>}
+     * @param matchPredicate The {@link Predicate}
      * @return True if this thing is contained by a Thing that matches the predicate.False if not.
      */
     public boolean isContainedBy(Predicate<Thing> matchPredicate) {

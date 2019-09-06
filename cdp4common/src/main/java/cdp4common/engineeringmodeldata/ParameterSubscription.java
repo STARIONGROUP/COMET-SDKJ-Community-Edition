@@ -137,7 +137,7 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
     private ContainerList<ParameterSubscriptionValueSet> valueSet;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link ParameterSubscription}.
+     * {@link Iterable} that references the composite properties of the current {@link ParameterSubscription}.
      */
     private Iterable<Iterable> containerLists;
 
@@ -242,7 +242,7 @@ public class ParameterSubscription extends ParameterBase implements Cloneable, M
     }
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ParameterSubscription}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link ParameterSubscription}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

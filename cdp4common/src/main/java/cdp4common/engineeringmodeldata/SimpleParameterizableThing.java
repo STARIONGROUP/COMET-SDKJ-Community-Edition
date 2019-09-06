@@ -112,12 +112,12 @@ public abstract class SimpleParameterizableThing extends DefinedThing implements
     private ContainerList<SimpleParameterValue> parameterValue;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link SimpleParameterizableThing}.
+     * {@link Iterable} that references the composite properties of the current {@link SimpleParameterizableThing}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link SimpleParameterizableThing}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link SimpleParameterizableThing}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

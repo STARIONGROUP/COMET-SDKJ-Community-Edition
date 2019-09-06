@@ -38,7 +38,7 @@ import lombok.Setter;
  */
 public class DtoValidationHelper<T extends Thing> {
     /**
-     * Initializes a new instance of the {@link DtoValidationHelper<T>} class.
+     * Initializes a new instance of the {@link DtoValidationHelper} class.
      *
      * @param validationPredicate The validation predicate.
      * @param validationError     The validation error.

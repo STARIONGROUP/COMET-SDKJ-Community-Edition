@@ -107,7 +107,7 @@ public class ParticipantRole extends DefinedThing implements Cloneable, Deprecat
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link ParticipantRole}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link ParticipantRole}.
      */
     @Override
     public List<List> getContainerLists() {

@@ -64,12 +64,12 @@ public class PojoThingFactory {
   }
 
   /**
-   * Resolve the {@link ContainerList<T>} from a {@link Iterable<UUID>} that represent the ids of
+   * Resolve the {@link ContainerList} from a {@link Iterable} that represent the ids of
    * the contained {@link Thing}s
    *
    * @param <T> The type of {@link Thing}
-   * @param list The {@link ContainerList<T>} to resolve
-   * @param UUIDList The source {@link Iterable<UUID>}
+   * @param list The {@link ContainerList} to resolve
+   * @param UUIDList The source {@link Iterable}
    * @param iterationId The potential {@link Iteration} container id of the contained {@link
    * Thing}s
    * @param cache The cache that stores the {@link Thing}s
@@ -91,12 +91,12 @@ public class PojoThingFactory {
   }
 
   /**
-   * Resolve the {@link OrderedItemList<T>} from a {@link Iterable<OrderedItem>} that shall
+   * Resolve the {@link OrderedItemList} from a {@link Iterable} that shall
    * represent an ordered list of {@link UUID}
    *
    * @param <T> A type of {@link Thing}
    * @param list The ordered list to resolve
-   * @param orderedItemList The source {@link Iterable<OrderedItem>}
+   * @param orderedItemList The source {@link Iterable}
    * @param iterationId The potential {@link Iteration}'s id at the top of the containment tree
    * @param cache The cache that stores the {@link Thing}s
    * @param clazz The expected type of {@link Thing}
@@ -132,11 +132,11 @@ public class PojoThingFactory {
   }
 
   /**
-   * Clear and add the item of a source {@link Collection<T>} to a {@link List<T>}
+   * Clear and add the item of a source {@link Collection} to a {@link List}
    *
    * @param <T> A type
-   * @param list The {@link List<T>}
-   * @param sourceList The source {@link Iterable<T>}
+   * @param list The {@link List}
+   * @param sourceList The source {@link Iterable}
    */
   public static <T> void clearAndAddRange(List<T> list, Collection<T> sourceList) {
     list.clear();
@@ -144,12 +144,12 @@ public class PojoThingFactory {
   }
 
   /**
-   * Clear and add to the {@link OrderedItemList<T>} from a {@link Iterable<OrderedItem>}
+   * Clear and add to the {@link OrderedItemList} from a {@link Iterable}
    *
-   * @param <T> The generic type of the {@link OrderedItemList<T>}. This should be a primitive type
-   * that matches the value of the {@link cdp4common.dto.Thing}'s {@link Iterable<OrderedItem>}
-   * @param list The {@link OrderedItemList<T>} to resolve
-   * @param orderedItemList The source {@link Iterable<OrderedItem>}
+   * @param <T> The generic type of the {@link OrderedItemList}. This should be a primitive type
+   * that matches the value of the {@link cdp4common.dto.Thing}'s {@link Iterable}
+   * @param list The {@link OrderedItemList} to resolve
+   * @param orderedItemList The source {@link Iterable}
    */
   public static <T> void clearAndAddRange(OrderedItemList<T> list,
       Iterable<OrderedItem> orderedItemList) {
@@ -158,11 +158,11 @@ public class PojoThingFactory {
   }
 
   /**
-   * Resolve the {@link List<T>} from a {@link Iterable<UUID>}
+   * Resolve the {@link List} from a {@link Iterable}
    *
    * @param <T> A type of {@link Thing}
-   * @param list The {@link List<T>} to resolve
-   * @param UUIDList The {@link Iterable<UUID>} that contains the {@link UUID}s of the {@link
+   * @param list The {@link List} to resolve
+   * @param UUIDList The {@link Iterable} that contains the {@link UUID}s of the {@link
    * Thing}s that shall be contained in {@code list}
    * @param iterationId The {@link Iteration} {@link UUID} at the top of the containment tree
    * @param cache The cache that stores the {@link Thing}s

@@ -380,7 +380,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
     public abstract ParameterType queryParameterType();
 
     /**
-     * Resets the {@link ValueArray{T}} of the {@link #getManual()} to proper amount of slots and default value of "-"
+     * Resets the {@link ValueArray} of the {@link #getManual()} to proper amount of slots and default value of "-"
      */
     public void resetManual() {
         if (this.valueArraySize == 0) {
@@ -392,7 +392,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
     }
 
     /**
-     * Resets the {@link ValueArray{T}} of the {@link #getComputed()} to proper amount of slots and default value of "-"
+     * Resets the {@link ValueArray} of the {@link #getComputed()} to proper amount of slots and default value of "-"
      */
     public void resetComputed() {
         if (this.valueArraySize == 0) {
@@ -404,7 +404,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
     }
 
     /**
-     * Resets the {@link ValueArray{T}} of the {@link #getReference()} to proper amount of slots and default value of "-"
+     * Resets the {@link ValueArray} of the {@link #getReference()} to proper amount of slots and default value of "-"
      */
     public void resetReference() {
         if (this.valueArraySize == 0) {
@@ -416,7 +416,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
     }
 
     /**
-     * Resets the {@link ValueArray{T}} of the {@link #getFormula()} to proper amount of slots and default value of "-"
+     * Resets the {@link ValueArray} of the {@link #getFormula()} to proper amount of slots and default value of "-"
      */
     public void resetFormula() {
         if (this.valueArraySize == 0) {

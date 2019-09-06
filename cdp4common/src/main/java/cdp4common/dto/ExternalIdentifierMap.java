@@ -152,7 +152,7 @@ public class ExternalIdentifierMap extends Thing implements Cloneable, NamedThin
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link ExternalIdentifierMap}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link ExternalIdentifierMap}.
      */
     @Override
     public List<List> getContainerLists() {

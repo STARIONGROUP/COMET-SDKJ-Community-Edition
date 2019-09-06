@@ -584,7 +584,7 @@ public class Assembler {
    * Get the non-persistent property type in a {@link Thing}.
    *
    * @param thing The {@link Thing}.
-   * @return An {@link List<Class>} containing the type of {@link Thing}s that are not persistent in
+   * @return A {@link List} containing the type of {@link Thing}s that are not persistent in
    * the {@code thing}.
    */
   private List<Class> computeNonPersistentPropertyType(Thing thing) {

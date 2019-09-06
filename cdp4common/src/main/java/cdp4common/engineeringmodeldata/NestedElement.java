@@ -159,7 +159,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
     private String shortName;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link NestedElement}.
+     * {@link Iterable} that references the composite properties of the current {@link NestedElement}.
      */
     private Iterable<Iterable> containerLists;
 
@@ -226,7 +226,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
     }
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link NestedElement}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link NestedElement}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

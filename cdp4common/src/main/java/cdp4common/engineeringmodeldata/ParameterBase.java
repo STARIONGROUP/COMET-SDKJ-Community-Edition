@@ -217,7 +217,7 @@ public abstract class ParameterBase extends Thing implements Cloneable, OwnedThi
     }
 
     /**
-     * Gets an {@link List<ReferenceDataLibrary>} that contains the required {@link ReferenceDataLibrary}
+     * Gets A {@link List} that contains the required {@link ReferenceDataLibrary}
      * for the current {@link Thing}
      */
     @Override

@@ -127,7 +127,7 @@ public class PossibleFiniteStateList extends DefinedThing implements Cloneable, 
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link PossibleFiniteStateList}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link PossibleFiniteStateList}.
      */
     @Override
     public List<List> getContainerLists() {

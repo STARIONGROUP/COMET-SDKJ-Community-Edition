@@ -107,7 +107,7 @@ public class EnumerationParameterType extends ScalarParameterType implements Clo
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link EnumerationParameterType}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link EnumerationParameterType}.
      */
     @Override
     public List<List> getContainerLists() {

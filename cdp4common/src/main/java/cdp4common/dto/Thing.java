@@ -191,12 +191,12 @@ public abstract class Thing {
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link Thing}
+     * Gets an {@link Iterable} that references the composite properties of the current {@link Thing}
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link List<List>} that references the composite properties of the current {@link Thing}
+     * Gets a {@link List} that references the composite properties of the current {@link Thing}
      */
     public List<List> getContainerLists() {
         return new ArrayList<>();

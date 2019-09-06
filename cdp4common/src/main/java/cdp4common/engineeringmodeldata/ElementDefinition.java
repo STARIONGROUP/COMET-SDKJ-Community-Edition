@@ -32,26 +32,36 @@
 
 package cdp4common.engineeringmodeldata;
 
-import java.util.*;
-import java.util.stream.*;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.io.*;
-import java.net.URI;
-import cdp4common.*;
-import cdp4common.commondata.*;
-import cdp4common.diagramdata.*;
-import cdp4common.engineeringmodeldata.*;
+import cdp4common.AggregationKind;
+import cdp4common.ChangeKind;
+import cdp4common.Container;
+import cdp4common.ModelCode;
+import cdp4common.SentinelThingProvider;
+import cdp4common.UmlInformation;
+import cdp4common.commondata.Alias;
+import cdp4common.commondata.Definition;
+import cdp4common.commondata.HyperLink;
+import cdp4common.commondata.ParticipantAccessRightKind;
+import cdp4common.commondata.PersonAccessRightKind;
+import cdp4common.commondata.Thing;
 import cdp4common.exceptions.ContainmentException;
-import cdp4common.helpers.*;
-import cdp4common.reportingdata.*;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.*;
-import org.apache.commons.lang3.ObjectUtils;
-import com.google.common.base.Strings;
+import cdp4common.helpers.PojoThingFactory;
+import cdp4common.sitedirectorydata.Category;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.Person;
+import cdp4common.types.CacheKey;
+import cdp4common.types.ContainerList;
 import com.google.common.cache.Cache;
-import com.google.common.collect.Iterables;
-import lombok.*;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * definition of an element in a design solution for a system-of-interest
@@ -146,12 +156,12 @@ public class ElementDefinition extends ElementBase implements Cloneable, ModelCo
     private ArrayList<NestedElement> referencedElement;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link ElementDefinition}.
+     * {@link Iterable} that references the composite properties of the current {@link ElementDefinition}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ElementDefinition}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link ElementDefinition}.
      */
     @Override
     public Collection<Collection> getContainerLists() {
@@ -299,7 +309,7 @@ public class ElementDefinition extends ElementBase implements Cloneable, ModelCo
     /**
      * Queries the {@link ParameterGroup}s that are "contained" directly by the current {@link ElementDefinition}.
      *
-     * @return An {@link List<ParameterGroup>} that is "contained" by the current {@link ElementDefinition}
+     * @return A {@link List} that is "contained" by the current {@link ElementDefinition}
      */
     public List<ParameterGroup> getContainedGroup() {
         return this.getContainedGroup(this.getParameterGroup());
@@ -308,9 +318,9 @@ public class ElementDefinition extends ElementBase implements Cloneable, ModelCo
     /**
      * Queries the {@link ParameterGroup}s that are "contained" directly by the current {@link ElementDefinition}.
      *
-     * @param parameterGroups An {@link List<ParameterGroup>} that may contain {@link ParameterGroup}s that are
+     * @param parameterGroups A {@link List} that may contain {@link ParameterGroup}s that are
      * contained by the current {@link ElementDefinition}
-     * @return An {@link List<ParameterGroup>} that is "contained" by the current {@link ElementDefinition}
+     * @return A {@link List} that is "contained" by the current {@link ElementDefinition}
      */
     private List<ParameterGroup> getContainedGroup(List<ParameterGroup> parameterGroups) {
         List<ParameterGroup> containedGroup = new ArrayList<>();
@@ -328,7 +338,7 @@ public class ElementDefinition extends ElementBase implements Cloneable, ModelCo
      * Queries the {@link Parameter}s that are "contained" by the current {@link ElementDefinition}
      *
      * @return 
-     * An {@link List<Parameter>} that is "contained" directly by the current {@link ElementDefinition}
+     * A {@link List} that is "contained" directly by the current {@link ElementDefinition}
      */
     public List<Parameter> getContainedParameter()
     {
@@ -338,9 +348,9 @@ public class ElementDefinition extends ElementBase implements Cloneable, ModelCo
     /**
      * Queries the {@link Parameter}s that are "contained" by the current {@link ElementDefinition}
      *
-     * @param parameters An {@link List<Parameter>} that may contain {@link Parameter}s that are
+     * @param parameters A {@link List} that may contain {@link Parameter}s that are
      * contained by the current {@link ElementDefinition}
-     * @return An {@link List<Parameter>} that is "contained" by the current {@link ElementDefinition}
+     * @return A {@link List} that is "contained" by the current {@link ElementDefinition}
      */
     public List<Parameter> getContainedParameter(List<Parameter> parameters) {
         List<Parameter> containedParameter = new ArrayList<>();
@@ -385,7 +395,7 @@ public class ElementDefinition extends ElementBase implements Cloneable, ModelCo
     /**
      * Queries the {@link ElementUsage}s that reference the current {@link ElementDefinition}
      *
-     * @return An {@link List<ElementUsage>} that reference the current {@link ElementDefinition}
+     * @return A {@link List} that reference the current {@link ElementDefinition}
      */
     public List<ElementUsage> referencingElementUsages() {
         Iteration iteration = this.getContainer() instanceof Iteration ? (Iteration)this.getContainer() : null;

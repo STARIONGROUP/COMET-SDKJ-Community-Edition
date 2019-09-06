@@ -173,12 +173,12 @@ public class EngineeringModel extends TopContainer implements Cloneable {
     private ContainerList<ModellingAnnotationItem> modellingAnnotation;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link EngineeringModel}.
+     * {@link Iterable} that references the composite properties of the current {@link EngineeringModel}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link EngineeringModel}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link EngineeringModel}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

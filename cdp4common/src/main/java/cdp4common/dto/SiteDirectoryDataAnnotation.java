@@ -128,7 +128,7 @@ public class SiteDirectoryDataAnnotation extends GenericAnnotation implements Cl
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link SiteDirectoryDataAnnotation}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link SiteDirectoryDataAnnotation}.
      */
     @Override
     public List<List> getContainerLists() {

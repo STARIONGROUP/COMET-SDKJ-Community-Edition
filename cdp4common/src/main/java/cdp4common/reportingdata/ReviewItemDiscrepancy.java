@@ -104,12 +104,12 @@ public class ReviewItemDiscrepancy extends ModellingAnnotationItem implements Cl
     private ContainerList<Solution> solution;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link ReviewItemDiscrepancy}.
+     * {@link Iterable} that references the composite properties of the current {@link ReviewItemDiscrepancy}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ReviewItemDiscrepancy}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link ReviewItemDiscrepancy}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

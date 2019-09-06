@@ -112,12 +112,12 @@ public abstract class DiagramElementContainer extends DiagramThingBase implement
     private ContainerList<DiagramElementThing> diagramElement;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link DiagramElementContainer}.
+     * {@link Iterable} that references the composite properties of the current {@link DiagramElementContainer}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link DiagramElementContainer}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link DiagramElementContainer}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

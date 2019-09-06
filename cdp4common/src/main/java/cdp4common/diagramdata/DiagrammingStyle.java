@@ -220,12 +220,12 @@ public abstract class DiagrammingStyle extends DiagramThingBase implements Clone
     private ContainerList<Color> usedColor;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link DiagrammingStyle}.
+     * {@link Iterable} that references the composite properties of the current {@link DiagrammingStyle}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link DiagrammingStyle}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link DiagrammingStyle}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

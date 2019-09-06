@@ -32,7 +32,12 @@
 
 package cdp4common.engineeringmodeldata;
 
-import cdp4common.*;
+import cdp4common.AggregationKind;
+import cdp4common.ChangeKind;
+import cdp4common.Container;
+import cdp4common.ModelCode;
+import cdp4common.SentinelThingProvider;
+import cdp4common.UmlInformation;
 import cdp4common.commondata.ParticipantAccessRightKind;
 import cdp4common.commondata.PersonAccessRightKind;
 import cdp4common.commondata.Thing;
@@ -46,17 +51,15 @@ import cdp4common.sitedirectorydata.Person;
 import cdp4common.types.CacheKey;
 import cdp4common.types.ValueArray;
 import com.google.common.cache.Cache;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.apache.commons.lang3.ObjectUtils;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * representation of the switch setting and all values of a ParameterSubscription
@@ -534,7 +537,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
     /**
      * Gets the formula assigned by the owner {@link DomainOfExpertise} of the associated {@link Parameter} or {@link ParameterOverride}
      * <p>
-     * Member of the {@link ValueSet} interface added for convenience which will always return a {@link ValueArray<String>} where all the components are null
+     * Member of the {@link ValueSet} interface added for convenience which will always return a {@link ValueArray} where all the components are null
      */
     public ValueArray<String> getFormula() {
         ParameterSubscription parameterSubscription = (ParameterSubscription) this.getContainer();

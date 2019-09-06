@@ -25,11 +25,8 @@
 package cdp4common.types;
 
 import cdp4common.commondata.Thing;
-
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.function.Supplier;
-import java.util.stream.Collector;
 
 /**
  * List Type used for the 10-25 model for classes which are part of a composition relationship
@@ -57,7 +54,7 @@ public class ContainerList<T extends Thing> extends ArrayList<T> {
      * @param containerList            The {@link ContainerList} which values are copied.
      * @param updateContaineeContainer A value indicating whether the container of the contained items, the containees,
      *                                 in the provided {@code containerList} shall be set to the provided {@code container}.
-     * @ param container The owner of this {@link ContainerList}.
+     * @param container The owner of this {@link ContainerList}.
      */
     public ContainerList(ContainerList<T> containerList, Thing container, boolean updateContaineeContainer) {
         super(containerList);
@@ -71,7 +68,7 @@ public class ContainerList<T extends Thing> extends ArrayList<T> {
     }
 
     /**
-     * Adds a new {@link Thing} in the {@link Thing} and sets its {@link Thing#setContainer} property
+     * Adds a new {@link Thing} in the {@link Thing} and sets its {@code container} property
      *
      * @param thing The new {@link Thing} to add.
      */
@@ -87,7 +84,7 @@ public class ContainerList<T extends Thing> extends ArrayList<T> {
     }
 
     /**
-     * Adds a {@link Collection} of {@link Thing} in the {@link ArrayList} and sets their {@link Thing#getContainer()} property
+     * Adds a {@link Collection} of {@link Thing} in the {@link ArrayList} and sets their {@code container} property
      *
      * @param things The new {@link Thing}s to add.
      */

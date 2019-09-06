@@ -246,7 +246,7 @@ public class Person extends Thing implements Cloneable, DeprecatableThing, Named
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link Person}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link Person}.
      */
     @Override
     public List<List> getContainerLists() {

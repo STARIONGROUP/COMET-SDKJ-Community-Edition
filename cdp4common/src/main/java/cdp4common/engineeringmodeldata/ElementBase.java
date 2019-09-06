@@ -158,7 +158,7 @@ public abstract class ElementBase extends DefinedThing implements Cloneable, Cat
     public abstract boolean canBePublished ();
 
     /**
-     * Gets an {@link List<ReferenceDataLibrary>} that contains the
+     * Gets A {@link List} that contains the
      * required {@link ReferenceDataLibrary} for the current {@link Thing}
      */
     @Override

@@ -117,7 +117,7 @@ public class DiagramEdge extends DiagramElementThing implements Cloneable {
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link DiagramEdge}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link DiagramEdge}.
      */
     @Override
     public List<List> getContainerLists() {

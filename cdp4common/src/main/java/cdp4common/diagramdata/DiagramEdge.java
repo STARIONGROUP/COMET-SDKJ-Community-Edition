@@ -32,26 +32,34 @@
 
 package cdp4common.diagramdata;
 
-import java.util.*;
-import java.util.stream.*;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.io.*;
-import java.net.URI;
-import cdp4common.*;
-import cdp4common.commondata.*;
-import cdp4common.diagramdata.*;
-import cdp4common.engineeringmodeldata.*;
-import cdp4common.exceptions.ContainmentException;
-import cdp4common.helpers.*;
-import cdp4common.reportingdata.*;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.*;
-import org.apache.commons.lang3.ObjectUtils;
-import com.google.common.base.Strings;
+import cdp4common.AggregationKind;
+import cdp4common.CDPVersion;
+import cdp4common.ChangeKind;
+import cdp4common.Container;
+import cdp4common.SentinelThingProvider;
+import cdp4common.UmlInformation;
+import cdp4common.commondata.ParticipantAccessRightKind;
+import cdp4common.commondata.PersonAccessRightKind;
+import cdp4common.commondata.Thing;
+import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.helpers.ActionImpl;
+import cdp4common.helpers.PojoThingFactory;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.Person;
+import cdp4common.types.CacheKey;
+import cdp4common.types.ContainerList;
+import cdp4common.types.OrderedItemList;
 import com.google.common.cache.Cache;
-import com.google.common.collect.Iterables;
-import lombok.*;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * Represents a diagram element that renders as a polyline, connecting a source diagram element to a target diagram element,
@@ -121,12 +129,12 @@ public class DiagramEdge extends DiagramElementThing implements Cloneable {
     private DiagramElementThing target;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link DiagramEdge}.
+     * {@link Iterable} that references the composite properties of the current {@link DiagramEdge}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link DiagramEdge}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link DiagramEdge}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

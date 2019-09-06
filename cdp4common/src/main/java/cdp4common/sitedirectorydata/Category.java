@@ -284,9 +284,9 @@ public class Category extends DefinedThing implements Cloneable, DeprecatableThi
 
     /**
     * Queries the full hierarchy of super categories of the current {@link Category}
-    * and returns those as an {@link Collection<Category>}
+    * and returns those as a {@link Collection}
     *
-    * @return an {@link Collection<Category>}
+    * @return a {@link Collection}
     */
     public Collection<Category> getAllSuperCategories() {
         List<Category> superCategories = new ArrayList<>();
@@ -304,10 +304,10 @@ public class Category extends DefinedThing implements Cloneable, DeprecatableThi
 
     /**
     * Queries the full hierarchy of categories that are derived categories of the current {@link Category}
-    * and returns those as an {@link Collection<Category>}
+    * and returns those as a {@link Collection}
     *
     * @return
-    * an {@link Collection<Category>}
+    * a {@link Collection}
     */
     public Collection<Category> getAllDerivedCategories() {
         List<Category> categories = new ArrayList<>();
@@ -332,10 +332,10 @@ public class Category extends DefinedThing implements Cloneable, DeprecatableThi
 
     /**
     * Queries the full hierarchy of categories that are derived categories of the current {@link Category}
-    * and returns those as an {@link Collection<Category>}
+    * and returns those as a {@link Collection}
     *
-    * @param categories The {@link List{Category}} that may contain derived {@link Category} instances
-    * @return an {@link Collection<Category>} that contains the {@link Category} instances that are derived from the current {@link Category}
+    * @param categories The {@link List} that may contain derived {@link Category} instances
+    * @return a {@link Collection} that contains the {@link Category} instances that are derived from the current {@link Category}
     */
     private Collection<Category> getAllDerivedCategories(List<Category> categories)
     {
@@ -350,7 +350,7 @@ public class Category extends DefinedThing implements Cloneable, DeprecatableThi
     }
 
     /**
-    * Gets an {@link Collection{ReferenceDataLibrary}} that contains
+    * Gets a {@link Collection} that contains
     * the required {@link ReferenceDataLibrary} for the current {@link Thing}
     */
     @Override
@@ -362,7 +362,7 @@ public class Category extends DefinedThing implements Cloneable, DeprecatableThi
      * Queries all the {@link CategorizableThing}s that have been categorized with the current {@link Category}
      *
      *  * @return
-     * an {@link Collection{ICategorizableThing}}
+     * a {@link Collection}
      */
     public Collection<CategorizableThing> getCategorizedThings() {
         List<CategorizableThing> categorizableThings = new ArrayList<>();

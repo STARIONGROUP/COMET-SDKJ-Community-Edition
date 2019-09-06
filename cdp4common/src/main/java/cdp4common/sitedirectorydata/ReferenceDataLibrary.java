@@ -50,7 +50,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -244,12 +243,12 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
     private ContainerList<UnitPrefix> unitPrefix;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link ReferenceDataLibrary}.
+     * {@link Iterable} that references the composite properties of the current {@link ReferenceDataLibrary}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ReferenceDataLibrary}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link ReferenceDataLibrary}.
      */
     @Override
     public Collection<Collection> getContainerLists() {
@@ -312,7 +311,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
     }
 
     /**
-     * Gets an {@link Collection<ReferenceDataLibrary>} that contains
+     * Gets a {@link Collection} that contains
      * the required {@link ReferenceDataLibrary} for the current {@link Thing}
      */
     @Override
@@ -336,7 +335,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
      * Queries the {@link Category} from the chain of {@link ReferenceDataLibrary} including the
      * current {@link ReferenceDataLibrary}
      *
-     * @return A {@link Collection<Category>}
+     * @return A {@link Collection}
      */
     public Collection<Category> queryCategoriesFromChainOfRdls() {
         return this.getAggregatedReferenceDataLibrary()
@@ -349,7 +348,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
      * Queries the {@link Category} from the chain of {@link ReferenceDataLibrary} including the
      * current {@link ReferenceDataLibrary}
      *
-     * @return A {@link Collection<Category>}
+     * @return A {@link Collection}
      */
     public Collection<ParameterType> queryParameterTypesFromChainOfRdls() {
         return this.getAggregatedReferenceDataLibrary()
@@ -362,7 +361,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
      * Queries the {@link MeasurementScale} from the chain of {@link ReferenceDataLibrary} including the
      * current {@link ReferenceDataLibrary}
      *
-     * @return A {@link Collection<MeasurementScale>}
+     * @return A {@link Collection}
      */
     public Collection<MeasurementScale> queryMeasurementScalesFromChainOfRdls() {
         return this.getAggregatedReferenceDataLibrary()
@@ -375,7 +374,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
      * Queries the {@link UnitPrefix} from the chain of {@link ReferenceDataLibrary} including the
      * current {@link ReferenceDataLibrary}
      *
-     * @return A {@link Collection<UnitPrefix>}
+     * @return A {@link Collection}
      */
     public Collection<UnitPrefix> queryUnitPrefixesFromChainOfRdls() {
         return this.getAggregatedReferenceDataLibrary()
@@ -388,7 +387,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
      * Queries the {@link MeasurementUnit} from the chain of {@link ReferenceDataLibrary} including the
      * current {@link ReferenceDataLibrary}
      *
-     * @return A {@link Collection<MeasurementUnit>}
+     * @return A {@link Collection}
      */
     public Collection<MeasurementUnit> queryMeasurementUnitsFromChainOfRdls() {
         return this.getAggregatedReferenceDataLibrary()
@@ -401,7 +400,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
      * Queries the {@link FileType} from the chain of {@link ReferenceDataLibrary} including the
      * current {@link ReferenceDataLibrary}
      *
-     * @return A {@link Collection<FileType>}
+     * @return A {@link Collection}
      */
     public Collection<FileType> queryFileTypesFromChainOfRdls() {
         return this.getAggregatedReferenceDataLibrary()
@@ -414,7 +413,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
      * Queries the {@link Glossary} from the chain of {@link ReferenceDataLibrary} including the
      * current {@link ReferenceDataLibrary}
      *
-     * @return A {@link Collection<Glossary>}
+     * @return A {@link Collection}
      */
     public Collection<Glossary> queryGlossariesFromChainOfRdls() {
         return this.getAggregatedReferenceDataLibrary()
@@ -427,7 +426,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
      * Queries the {@link ReferenceSource} from the chain of {@link ReferenceDataLibrary} including the
      * current {@link ReferenceDataLibrary}
      *
-     * @return A {@link Collection<ReferenceSource>}
+     * @return A {@link Collection}
      */
     public Collection<ReferenceSource> queryReferenceSourcesFromChainOfRdls() {
         return this.getAggregatedReferenceDataLibrary()
@@ -440,7 +439,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
      * Queries the {@link Rule} from the chain of {@link ReferenceDataLibrary} including the
      * current {@link ReferenceDataLibrary}
      *
-     * @return A {@link Collection<Rule>}
+     * @return A {@link Collection}
      */
     public Collection<Rule> queryRulesFromChainOfRdls() {
         return this.getAggregatedReferenceDataLibrary()
@@ -453,7 +452,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
      * Queries the {@link Constant} from the chain of {@link ReferenceDataLibrary} including the
      * current {@link ReferenceDataLibrary}
      *
-     * @return A {@link Collection<Constant>}
+     * @return A {@link Collection}
      */
     public Collection<Constant> queryConstantsFromChainOfRdls() {
         return this.getAggregatedReferenceDataLibrary()

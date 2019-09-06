@@ -135,12 +135,12 @@ public abstract class RequirementsContainer extends DefinedThing implements Clon
     private ContainerList<RequirementsContainerParameterValue> parameterValue;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link RequirementsContainer}.
+     * {@link Iterable} that references the composite properties of the current {@link RequirementsContainer}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link RequirementsContainer}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link RequirementsContainer}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

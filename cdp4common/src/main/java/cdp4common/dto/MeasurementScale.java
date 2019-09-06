@@ -190,7 +190,7 @@ public abstract class MeasurementScale extends DefinedThing implements Cloneable
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link MeasurementScale}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link MeasurementScale}.
      */
     @Override
     public List<List> getContainerLists() {

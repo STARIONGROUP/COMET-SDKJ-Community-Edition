@@ -53,29 +53,29 @@ public class OrderedItemList<T> implements Collection<T> {
     private final SortedMap<Long, T> sortedItems;
 
     /**
-     * Backing field for the container of this {@link OrderedItemList<T>}
+     * Backing field for the container of this {@link OrderedItemList}
      */
     public final Thing container;
 
     /**
-     * A value indicating that this {@link OrderedItemList<T>} is a container
+     * A value indicating that this {@link OrderedItemList} is a container
      */
     public final boolean isComposite;
 
     /**
-     * The highest sort key currently in this {@link OrderedItemList<T>}.
+     * The highest sort key currently in this {@link OrderedItemList}.
      */
     private long highestKey = -defaultKeyInterval;
 
     /**
-     * The type of the created {@link OrderedItemList<T>}
+     * The type of the created {@link OrderedItemList}
      */
     private final Class<T> clazz;
 
     /**
-     * Initializes a new instance of the {@link OrderedItemList<T>} class
+     * Initializes a new instance of the {@link OrderedItemList} class
      *
-     * @param container The {@link Thing} that contains this {@link OrderedItemList<T>}
+     * @param container The {@link Thing} that contains this {@link OrderedItemList}
      * @param clazz     The type of the contained elements
      */
     public OrderedItemList(Thing container, Class<T> clazz) {
@@ -83,10 +83,10 @@ public class OrderedItemList<T> implements Collection<T> {
     }
 
     /**
-     * Initializes a new instance of the {@link OrderedItemList<T>} class
+     * Initializes a new instance of the {@link OrderedItemList} class
      *
-     * @param container   The {@link Thing} that contains this {@link OrderedItemList<T>}
-     * @param isComposite Value indicating whether the {@link T} in this {@link OrderedItemList<T>} are part of
+     * @param container   The {@link Thing} that contains this {@link OrderedItemList}
+     * @param isComposite Value indicating whether the {@link T} in this {@link OrderedItemList} are part of
      *                    a composition relationship.
      * @param clazz       The type of the contained elements
      */
@@ -99,10 +99,10 @@ public class OrderedItemList<T> implements Collection<T> {
     }
 
     /**
-     * Initializes a new instance of the {@link OrderedItemList<T>} class
+     * Initializes a new instance of the {@link OrderedItemList} class
      *
-     * @param orderedItemList The {@link OrderedItemList<T>} which values are copied
-     * @param container       The owner of this {@link OrderedItemList<T>}
+     * @param orderedItemList The {@link OrderedItemList} which values are copied
+     * @param container       The owner of this {@link OrderedItemList}
      * @param clazz           The type of the contained elements
      */
     public OrderedItemList(OrderedItemList<T> orderedItemList, Thing container, Class<T> clazz) {
@@ -133,9 +133,9 @@ public class OrderedItemList<T> implements Collection<T> {
     }
 
     /**
-     * Retrieve the index of the item that matches the {@link Predicate<T>}
+     * Retrieve the index of the item that matches the {@link Predicate}
      *
-     * @param match The {@link Predicate<T>}
+     * @param match The {@link Predicate}
      * @return The index of the item if there is a match, else -1
      */
     public int findIndex(Predicate<T> match) {
@@ -154,7 +154,7 @@ public class OrderedItemList<T> implements Collection<T> {
 
 
     /**
-     * Gets the underlying {@link TreeMap}"/> of items.
+     * Gets the underlying {@link TreeMap} of items.
      */
     public SortedMap<Long, T> getSortedItems() {
         return this.sortedItems;
@@ -296,7 +296,7 @@ public class OrderedItemList<T> implements Collection<T> {
     }
 
     /**
-     * Converts this {@link OrderedItemList<T>} to a {@link List} of {@link OrderedItem} to be passed to the {@link cdp4common.dto.Thing}
+     * Converts this {@link OrderedItemList} to a {@link List} of {@link OrderedItem} to be passed to the {@link cdp4common.dto.Thing}
      *
      * @return The corresponding {@link List} of {@link OrderedItem}
      */

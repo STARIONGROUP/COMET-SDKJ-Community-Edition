@@ -115,12 +115,12 @@ public class CompoundParameterType extends ParameterType implements Cloneable {
     private boolean isFinalized;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link CompoundParameterType}.
+     * {@link Iterable} that references the composite properties of the current {@link CompoundParameterType}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link CompoundParameterType}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link CompoundParameterType}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

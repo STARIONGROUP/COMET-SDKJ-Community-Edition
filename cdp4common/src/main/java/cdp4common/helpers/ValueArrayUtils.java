@@ -28,7 +28,7 @@ import cdp4common.types.ValueArray;
 import java.util.ArrayList;
 
 /**
- * The purpose of the {@link ValueArrayUtils} <see cref="ValueArrayUtils"/> is to provide static helper methods for handling
+ * The purpose of the {@link ValueArrayUtils} is to provide static helper methods for handling
  * business logic related to {@link ValueArray}
  */
 public class ValueArrayUtils {

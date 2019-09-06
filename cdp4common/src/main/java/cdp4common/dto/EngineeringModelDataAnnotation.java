@@ -119,7 +119,7 @@ public abstract class EngineeringModelDataAnnotation extends GenericAnnotation i
     private ArrayList<UUID> relatedThing;
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link EngineeringModelDataAnnotation}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link EngineeringModelDataAnnotation}.
      */
     @Override
     public List<List> getContainerLists() {

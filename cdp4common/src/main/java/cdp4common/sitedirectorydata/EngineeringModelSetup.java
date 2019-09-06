@@ -182,12 +182,12 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
     private StudyPhaseKind studyPhase;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link EngineeringModelSetup}.
+     * {@link Iterable} that references the composite properties of the current {@link EngineeringModelSetup}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link EngineeringModelSetup}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link EngineeringModelSetup}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

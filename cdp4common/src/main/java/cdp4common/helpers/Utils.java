@@ -169,7 +169,7 @@ public class Utils {
    *
    * @param o The object to be checked for a specific type.
    * @param clazz The {@link Class} to check object's type for.
-   * @return <T> if an object is not null and is instance of the supplied {@link Class}, otherwise
+   * @return Required object if the object is not null and is instance of the supplied {@link Class}, otherwise
    * {@code null}.
    */
   public static <T> T as(Object o, Class<T> clazz) {

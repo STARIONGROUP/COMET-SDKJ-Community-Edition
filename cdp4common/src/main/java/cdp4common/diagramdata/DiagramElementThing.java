@@ -121,12 +121,12 @@ public abstract class DiagramElementThing extends DiagramElementContainer implem
     private SharedStyle sharedStyle;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link DiagramElementThing}.
+     * {@link Iterable} that references the composite properties of the current {@link DiagramElementThing}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link DiagramElementThing}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link DiagramElementThing}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

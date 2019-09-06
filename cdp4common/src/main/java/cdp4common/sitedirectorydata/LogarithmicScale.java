@@ -142,12 +142,12 @@ public class LogarithmicScale extends MeasurementScale implements Cloneable {
     private ContainerList<ScaleReferenceQuantityValue> referenceQuantityValue;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link LogarithmicScale}.
+     * {@link Iterable} that references the composite properties of the current {@link LogarithmicScale}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link LogarithmicScale}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link LogarithmicScale}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

@@ -156,12 +156,12 @@ public class Book extends Thing implements Cloneable, CategorizableThing, NamedT
     private String shortName;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link Book}.
+     * {@link Iterable} that references the composite properties of the current {@link Book}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Book}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link Book}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

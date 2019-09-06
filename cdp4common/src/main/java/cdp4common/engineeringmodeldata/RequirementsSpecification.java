@@ -112,12 +112,12 @@ public class RequirementsSpecification extends RequirementsContainer implements 
     private ContainerList<Requirement> requirement;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link RequirementsSpecification}.
+     * {@link Iterable} that references the composite properties of the current {@link RequirementsSpecification}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link RequirementsSpecification}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link RequirementsSpecification}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

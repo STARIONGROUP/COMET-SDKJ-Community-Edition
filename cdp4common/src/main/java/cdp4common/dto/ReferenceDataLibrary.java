@@ -219,7 +219,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
     private ArrayList<UUID> unitPrefix;
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link ReferenceDataLibrary}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link ReferenceDataLibrary}.
      */
     @Override
     public List<List> getContainerLists() {

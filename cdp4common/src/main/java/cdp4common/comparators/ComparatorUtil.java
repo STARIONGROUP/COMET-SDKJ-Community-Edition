@@ -50,8 +50,8 @@ final class ComparatorUtil {
     /**
      * Compares two {@link Option}s. The order is determined by the ordering in the container collection
      *
-     * @param x The first instance of {@link Option} to compare.</param>
-     * @param y The second instance of {@link Option} to compare.</param>
+     * @param x The first instance of {@link Option} to compare.
+     * @param y The second instance of {@link Option} to compare.
      * @return Less than zero : x is less than y. Zero: x equals y. Greater than zero: x is greater than y.
      */
     static int compareOptions(Option x, Option y) {

@@ -127,7 +127,7 @@ public class Requirement extends SimpleParameterizableThing implements Cloneable
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link Requirement}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link Requirement}.
      */
     @Override
     public List<List> getContainerLists() {

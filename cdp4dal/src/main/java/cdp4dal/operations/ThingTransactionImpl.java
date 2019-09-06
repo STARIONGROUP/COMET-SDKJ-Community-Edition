@@ -710,7 +710,7 @@ public class ThingTransactionImpl extends Transaction {
   }
 
   /**
-   * Update the {@link OrderedItemList{T}} property of the container.
+   * Update the {@link OrderedItemList} property of the container.
    *
    * @param thing The {@link Thing} to add.
    * @param containerClone The clone of the container {@link Thing}.
@@ -929,7 +929,7 @@ public class ThingTransactionImpl extends Transaction {
    *
    * @param clone The {@link Thing} to add or remove.
    * @param containerClone The container to update.
-   * @param nextThing The next (following) {@link Thing} in an {@link OrderedItemList{T}} where the
+   * @param nextThing The next (following) {@link Thing} in an {@link OrderedItemList} where the
    * new {@link Thing} is created if {@code nextThing} is null, the {@code clone} is appended to the
    * list.
    */
@@ -1183,7 +1183,7 @@ public class ThingTransactionImpl extends Transaction {
    * Returns the predicate to be used as a distinct by some key filter that is missed in standard
    * Java Stream API.
    *
-   * @return The {@link Predicate<T>}.
+   * @return The {@link Predicate}.
    */
   private <T> Predicate<T> distinctByKey(
       Function<? super T, ?> key) {

@@ -98,7 +98,7 @@ public class DerivedUnit extends MeasurementUnit implements Cloneable {
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link DerivedUnit}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link DerivedUnit}.
      */
     @Override
     public List<List> getContainerLists() {

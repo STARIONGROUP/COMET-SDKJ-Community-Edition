@@ -141,12 +141,12 @@ public abstract class FileStore extends Thing implements Cloneable, NamedThing, 
     private DomainOfExpertise owner;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link FileStore}.
+     * {@link Iterable} that references the composite properties of the current {@link FileStore}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link FileStore}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link FileStore}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

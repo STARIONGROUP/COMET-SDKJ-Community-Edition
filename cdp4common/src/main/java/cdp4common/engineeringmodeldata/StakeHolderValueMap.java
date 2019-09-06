@@ -152,12 +152,12 @@ public class StakeHolderValueMap extends DefinedThing implements Cloneable, Cate
     private ArrayList<ValueGroup> valueGroup;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link StakeHolderValueMap}.
+     * {@link Iterable} that references the composite properties of the current {@link StakeHolderValueMap}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link StakeHolderValueMap}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link StakeHolderValueMap}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

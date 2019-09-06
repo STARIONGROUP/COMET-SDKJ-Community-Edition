@@ -131,12 +131,12 @@ public class Parameter extends ParameterOrOverrideBase implements Cloneable, Mod
     private ContainerList<ParameterValueSet> valueSet;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link Parameter}.
+     * {@link Iterable} that references the composite properties of the current {@link Parameter}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Parameter}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link Parameter}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

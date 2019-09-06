@@ -167,7 +167,7 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link EngineeringModelSetup}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link EngineeringModelSetup}.
      */
     @Override
     public List<List> getContainerLists() {

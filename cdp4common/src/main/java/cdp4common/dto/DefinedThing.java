@@ -129,7 +129,7 @@ public abstract class DefinedThing extends Thing implements Cloneable, NamedThin
     private String shortName;
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link DefinedThing}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link DefinedThing}.
      */
     @Override
     public List<List> getContainerLists() {

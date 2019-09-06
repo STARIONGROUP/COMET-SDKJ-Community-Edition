@@ -44,8 +44,6 @@ import java.util.StringTokenizer;
  *
  * <p>
  * <code>Version</code> objects are immutable.
- *
- * @Immutable
  */
 public class Version implements Comparable {
 

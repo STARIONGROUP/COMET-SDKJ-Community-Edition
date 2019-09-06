@@ -121,12 +121,12 @@ public class Glossary extends DefinedThing implements Cloneable, CategorizableTh
     private ContainerList<Term> term;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link Glossary}.
+     * {@link Iterable} that references the composite properties of the current {@link Glossary}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Glossary}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link Glossary}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

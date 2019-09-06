@@ -127,7 +127,7 @@ public class ElementUsage extends ElementBase implements Cloneable, OptionDepend
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link ElementUsage}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link ElementUsage}.
      */
     @Override
     public List<List> getContainerLists() {

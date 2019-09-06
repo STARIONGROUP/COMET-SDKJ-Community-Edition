@@ -166,7 +166,7 @@ public abstract class ModellingAnnotationItem extends EngineeringModelDataAnnota
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link ModellingAnnotationItem}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link ModellingAnnotationItem}.
      */
     @Override
     public List<List> getContainerLists() {

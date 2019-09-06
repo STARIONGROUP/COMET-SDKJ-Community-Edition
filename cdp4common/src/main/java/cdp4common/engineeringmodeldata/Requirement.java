@@ -133,12 +133,12 @@ public class Requirement extends SimpleParameterizableThing implements Cloneable
     private OrderedItemList<ParametricConstraint> parametricConstraint;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link Requirement}.
+     * {@link Iterable} that references the composite properties of the current {@link Requirement}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Requirement}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link Requirement}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

@@ -267,12 +267,12 @@ public class SiteDirectory extends TopContainer implements Cloneable, NamedThing
     private ContainerList<SiteReferenceDataLibrary> siteReferenceDataLibrary;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link SiteDirectory}.
+     * {@link Iterable} that references the composite properties of the current {@link SiteDirectory}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link SiteDirectory}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link SiteDirectory}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

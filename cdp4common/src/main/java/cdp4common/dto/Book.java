@@ -139,7 +139,7 @@ public class Book extends Thing implements Cloneable, CategorizableThing, NamedT
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link Book}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link Book}.
      */
     @Override
     public List<List> getContainerLists() {

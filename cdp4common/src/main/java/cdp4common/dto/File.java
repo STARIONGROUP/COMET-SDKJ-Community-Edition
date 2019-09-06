@@ -127,7 +127,7 @@ public class File extends Thing implements Cloneable, CategorizableThing, OwnedT
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link File}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link File}.
      */
     @Override
     public List<List> getContainerLists() {

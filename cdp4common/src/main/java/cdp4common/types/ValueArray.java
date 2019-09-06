@@ -35,7 +35,7 @@ import java.util.Iterator;
 import java.util.Locale;
 
 /**
- * The {@link ValueArray<T>} class is a collection of a given class type where its order is fixed, and that
+ * The {@link ValueArray} class is a collection of a given class type where its order is fixed, and that
  * it can be represented by a simple array structure.
  * <p>
  * Note: In comparison with Thing C# implementation the following properties and methods were abandoned due
@@ -51,17 +51,17 @@ public class ValueArray<T> implements Iterable<T>, Serializable {
     private final ArrayList<T> items;
 
     /**
-     * The container of this {@link ValueArray<T>}
+     * The container of this {@link ValueArray}
      */
     private Thing container;
 
     /**
-     * The type of the created {@link ValueArray<T>}
+     * The type of the created {@link ValueArray}
      */
     private final Class<T> clazz;
 
     /**
-     * Initializes a new instance of the {@link ValueArray<T>} class.
+     * Initializes a new instance of the {@link ValueArray} class.
      *
      * @param clazz The type of the contained elements
      */
@@ -71,9 +71,9 @@ public class ValueArray<T> implements Iterable<T>, Serializable {
     }
 
     /**
-     * Initializes a new instance of the {@link ValueArray<T>} class.
+     * Initializes a new instance of the {@link ValueArray} class.
      *
-     * @param container The container of this {@link ValueArray<T>}
+     * @param container The container of this {@link ValueArray}
      * @param clazz     The type of the contained elements
      */
     public ValueArray(Thing container, Class<T> clazz) {
@@ -83,9 +83,9 @@ public class ValueArray<T> implements Iterable<T>, Serializable {
     }
 
     /**
-     * Initializes a new instance of the {@link ValueArray<T>} class.
+     * Initializes a new instance of the {@link ValueArray} class.
      *
-     * @param initializationCollection Collection to initialize this {@link Collection<T>}.
+     * @param initializationCollection Collection to initialize this {@link Collection}.
      * @param clazz                    The type of the contained elements
      */
     public ValueArray(Iterable<T> initializationCollection, Class<T> clazz) {
@@ -94,10 +94,10 @@ public class ValueArray<T> implements Iterable<T>, Serializable {
     }
 
     /**
-     * Initializes a new instance of the {@link ValueArray<T>} class.
+     * Initializes a new instance of the {@link ValueArray} class.
      *
-     * @param initializationCollection Collection to initialize this {@link Collection<T>}.
-     * @param container                The container of this {@link ValueArray<T>}
+     * @param initializationCollection Collection to initialize this {@link Collection}.
+     * @param container                The container of this {@link ValueArray}
      * @param clazz                    The type of the contained elements
      */
     public ValueArray(Iterable<T> initializationCollection, Thing container, Class<T> clazz) {
@@ -107,9 +107,9 @@ public class ValueArray<T> implements Iterable<T>, Serializable {
     }
 
     /**
-     * Initializes a new instance of the {@link ValueArray<T>} class.
+     * Initializes a new instance of the {@link ValueArray} class.
      *
-     * @param initializationCollection Collection to initialize this {@link Collection<T>}.
+     * @param initializationCollection Collection to initialize this {@link Collection}.
      */
     public ValueArray(Iterable<T> initializationCollection) {
         this.items = initializationCollection == null ? new ArrayList<>() : Lists.newArrayList(initializationCollection);
@@ -155,7 +155,7 @@ public class ValueArray<T> implements Iterable<T>, Serializable {
     /**
      * Returns an Iterator that iterates through this collection.
      *
-     * @return The {@link Iterator<T>}.
+     * @return The {@link Iterator}.
      */
     @Override
     public Iterator<T> iterator() {

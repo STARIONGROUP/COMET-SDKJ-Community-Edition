@@ -109,7 +109,7 @@ public class Option extends DefinedThing implements Cloneable, CategorizableThin
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link Option}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link Option}.
      */
     @Override
     public List<List> getContainerLists() {

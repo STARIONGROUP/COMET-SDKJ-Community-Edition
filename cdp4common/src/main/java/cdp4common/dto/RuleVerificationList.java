@@ -107,7 +107,7 @@ public class RuleVerificationList extends DefinedThing implements Cloneable, Own
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link RuleVerificationList}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link RuleVerificationList}.
      */
     @Override
     public List<List> getContainerLists() {

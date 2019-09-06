@@ -32,29 +32,14 @@
 
 package cdp4common.dto;
 
-import java.util.*;
-import java.util.stream.*;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.io.*;
-import java.net.URI;
-import cdp4common.*;
-import cdp4common.commondata.*;
-import cdp4common.diagramdata.*;
-import cdp4common.engineeringmodeldata.*;
-import cdp4common.helpers.*;
-import cdp4common.reportingdata.*;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.*;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.MoreCollectors;
-import com.google.common.cache.Cache;
+import cdp4common.AggregationKind;
+import cdp4common.DataMember;
+import cdp4common.UmlInformation;
+import java.util.Collection;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.EqualsAndHashCode;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Data Transfer Object representation of the {@link ParameterBase} class.
@@ -137,8 +122,8 @@ public abstract class ParameterBase extends Thing implements Cloneable, OwnedThi
     /**
      * Gets the {@link UUID} of the value-sets of this {@link ParameterBase}
      * <p>
-     * This is a convenience method to retrieve {@link Parameter#getValueSet()},
-     * {@link ParameterOverride#getValueSet()} or {@link ParameterSubscription#getValueSet()}
+     * This is a convenience method to retrieve {@code valueSet} from {@link Parameter},
+     * {@link ParameterOverride} or {@link ParameterSubscription}
      */
     public Collection<UUID> getValueSets() {
         if (this instanceof Parameter){

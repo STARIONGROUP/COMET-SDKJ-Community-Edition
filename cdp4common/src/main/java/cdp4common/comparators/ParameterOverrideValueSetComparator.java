@@ -36,8 +36,8 @@ public class ParameterOverrideValueSetComparator implements Comparator<Parameter
     /**
      * Compares two {@link ParameterValueSet}s
      *
-     * @param x The first instance of {@link ParameterValueSet} to compare.</param>
-     * @param y The second instance of {@link ParameterValueSet} to compare.</param>
+     * @param x The first instance of {@link ParameterValueSet} to compare.
+     * @param y The second instance of {@link ParameterValueSet} to compare.
      * @return Less than zero : x is less than y. Zero: x equals y. Greater than zero: x is greater than y.
      */
     public int compare(ParameterOverrideValueSet x, ParameterOverrideValueSet y) {

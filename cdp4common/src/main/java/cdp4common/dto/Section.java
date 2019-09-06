@@ -146,7 +146,7 @@ public class Section extends Thing implements Cloneable, CategorizableThing, Nam
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link Section}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link Section}.
      */
     @Override
     public List<List> getContainerLists() {

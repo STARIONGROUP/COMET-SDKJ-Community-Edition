@@ -132,12 +132,12 @@ public class File extends Thing implements Cloneable, CategorizableThing, OwnedT
     private DomainOfExpertise owner;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link File}.
+     * {@link Iterable} that references the composite properties of the current {@link File}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link File}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link File}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

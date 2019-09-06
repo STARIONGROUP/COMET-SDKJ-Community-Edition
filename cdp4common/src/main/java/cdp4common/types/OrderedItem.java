@@ -98,7 +98,7 @@ public class OrderedItem implements Serializable{
     * 
     * @param obj
     * The {@link Object} to compare to.
-    * @return The <{@link boolean} indicating whether the equality holds.
+    * @return The {@link boolean} indicating whether the equality holds.
     */
     @Override
     public boolean equals(Object obj)

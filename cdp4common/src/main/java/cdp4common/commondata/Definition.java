@@ -144,12 +144,12 @@ public class Definition extends Thing implements Cloneable, Annotation {
     private OrderedItemList<String> note;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link Definition}.
+     * {@link Iterable} that references the composite properties of the current {@link Definition}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Definition}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link Definition}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

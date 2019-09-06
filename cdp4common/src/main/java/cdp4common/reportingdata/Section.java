@@ -156,12 +156,12 @@ public class Section extends Thing implements Cloneable, CategorizableThing, Nam
     private String shortName;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link Section}.
+     * {@link Iterable} that references the composite properties of the current {@link Section}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link Section}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link Section}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

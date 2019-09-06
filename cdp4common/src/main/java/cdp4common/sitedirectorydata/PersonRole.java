@@ -103,12 +103,12 @@ public class PersonRole extends DefinedThing implements Cloneable, DeprecatableT
     private ContainerList<PersonPermission> personPermission;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link PersonRole}.
+     * {@link Iterable} that references the composite properties of the current {@link PersonRole}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link PersonRole}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link PersonRole}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

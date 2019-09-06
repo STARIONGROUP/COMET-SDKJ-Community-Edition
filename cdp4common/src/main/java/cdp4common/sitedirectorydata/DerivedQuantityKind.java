@@ -104,12 +104,12 @@ public class DerivedQuantityKind extends QuantityKind implements Cloneable {
     private OrderedItemList<QuantityKindFactor> quantityKindFactor;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link DerivedQuantityKind}.
+     * {@link Iterable} that references the composite properties of the current {@link DerivedQuantityKind}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link DerivedQuantityKind}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link DerivedQuantityKind}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

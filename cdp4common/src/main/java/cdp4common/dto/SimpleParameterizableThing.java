@@ -98,7 +98,7 @@ public abstract class SimpleParameterizableThing extends DefinedThing implements
     private ArrayList<UUID> parameterValue;
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link SimpleParameterizableThing}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link SimpleParameterizableThing}.
      */
     @Override
     public List<List> getContainerLists() {

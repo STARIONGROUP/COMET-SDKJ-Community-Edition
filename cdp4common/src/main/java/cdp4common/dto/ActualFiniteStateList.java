@@ -165,7 +165,7 @@ public class ActualFiniteStateList extends Thing implements Cloneable, NamedThin
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link ActualFiniteStateList}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link ActualFiniteStateList}.
      */
     @Override
     public List<List> getContainerLists() {

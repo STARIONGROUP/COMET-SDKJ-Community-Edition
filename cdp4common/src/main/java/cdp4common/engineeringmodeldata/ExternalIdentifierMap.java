@@ -158,12 +158,12 @@ public class ExternalIdentifierMap extends Thing implements Cloneable, NamedThin
     private DomainOfExpertise owner;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link ExternalIdentifierMap}.
+     * {@link Iterable} that references the composite properties of the current {@link ExternalIdentifierMap}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ExternalIdentifierMap}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link ExternalIdentifierMap}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

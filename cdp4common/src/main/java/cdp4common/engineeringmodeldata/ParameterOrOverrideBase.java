@@ -100,12 +100,12 @@ public abstract class ParameterOrOverrideBase extends ParameterBase implements C
     private ContainerList<ParameterSubscription> parameterSubscription;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link ParameterOrOverrideBase}.
+     * {@link Iterable} that references the composite properties of the current {@link ParameterOrOverrideBase}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link ParameterOrOverrideBase}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link ParameterOrOverrideBase}.
      */
     @Override
     public Collection<Collection> getContainerLists() {

@@ -138,7 +138,7 @@ public class Definition extends Thing implements Cloneable, Annotation {
     }
 
     /**
-     * Gets an {@link Iterable<Iterable>} that references the composite properties of the current {@link Definition}.
+     * Gets an {@link Iterable} that references the composite properties of the current {@link Definition}.
      */
     @Override
     public List<List> getContainerLists() {

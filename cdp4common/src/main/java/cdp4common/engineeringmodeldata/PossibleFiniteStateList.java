@@ -140,12 +140,12 @@ public class PossibleFiniteStateList extends DefinedThing implements Cloneable, 
     private OrderedItemList<PossibleFiniteState> possibleState;
 
     /**
-     * {@link Iterable<Iterable>} that references the composite properties of the current {@link PossibleFiniteStateList}.
+     * {@link Iterable} that references the composite properties of the current {@link PossibleFiniteStateList}.
      */
     private Iterable<Iterable> containerLists;
 
     /**
-     * Gets an {@link Collection<Collection>} that references the composite properties of the current {@link PossibleFiniteStateList}.
+     * Gets a {@link Collection} that references the composite properties of the current {@link PossibleFiniteStateList}.
      */
     @Override
     public Collection<Collection> getContainerLists() {
