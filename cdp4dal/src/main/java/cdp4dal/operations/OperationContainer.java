@@ -46,7 +46,7 @@ public class OperationContainer {
   * @param context
   * The route of the {@link SiteDirectory} or {@link Iteration} for which the current {@link OperationContainer} is valid.
   *
-  * @param topContainerRevNumber The unique {@link TopContainer#getRevisionNumber()} in this {@link OperationContainer}. By default should be set to {@code null}.
+  * @param topContainerRevNumber The unique top container revision number in this {@link OperationContainer}. By default should be set to {@code null}.
    */
   public OperationContainer(String context, Integer topContainerRevNumber) {
     if (Strings.isNullOrEmpty(context)) {

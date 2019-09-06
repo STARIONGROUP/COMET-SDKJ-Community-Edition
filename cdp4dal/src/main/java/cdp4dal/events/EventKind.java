@@ -24,6 +24,8 @@
 
 package cdp4dal.events;
 
+import cdp4dal.CDPMessageBus;
+
 /**
  * Enumerates the types of cdp4dal.events that can be published through the {@link CDPMessageBus}.
  */

@@ -147,7 +147,7 @@ public interface Dal {
    * @param credentials The {@link Credentials} that are used to connect to the data source such as
    * username, password and {@link URI}.
    * @param cancelled a flag that signals whether the thread should be cancelled or not.
-   * @return The {@link List{T}} that the services return when connecting to the {@link
+   * @return The {@link List} that the services return when connecting to the {@link
    * SiteDirectory}.
    */
   CompletableFuture<List<Thing>> open(Credentials credentials, AtomicBoolean cancelled);

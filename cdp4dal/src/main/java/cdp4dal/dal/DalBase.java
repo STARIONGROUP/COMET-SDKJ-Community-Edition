@@ -26,6 +26,7 @@ package cdp4dal.dal;
 
 import static cdp4common.helpers.Utils.as;
 
+import cdp4common.Version;
 import cdp4common.commondata.ClassKind;
 import cdp4common.dto.Iteration;
 import cdp4common.dto.Thing;
@@ -33,7 +34,6 @@ import cdp4common.helpers.Constants;
 import cdp4common.helpers.ContainerPropertyHelper;
 import cdp4common.helpers.EngineeringModelContainmentClassType;
 import cdp4dal.Session;
-import cdp4common.Version;
 import cdp4dal.composition.DalExport;
 import cdp4dal.exceptions.InvalidOperationContainerException;
 import cdp4dal.operations.Operation;
@@ -53,7 +53,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
@@ -72,23 +71,19 @@ public abstract class DalBase implements Dal {
   }
 
   /**
-   * Gets the supported version of the data-model.
+   * The supported version of the data-model.
    */
-  @Getter(onMethod = @__({@Override}))
-  @Setter(AccessLevel.PRIVATE)
   private Version dalVersion;
 
   /**
    * Gets or sets the {@link Session} that uses this {@link Dal}.
    */
-  @Getter(onMethod = @__({@Override}))
   @Setter
   private Session session;
 
   /**
    * Gets or sets the {@link Credentials} that are used to connect the data-store.
    */
-  @Getter
   @Setter(AccessLevel.PROTECTED)
   private Credentials credentials;
 
@@ -247,9 +242,23 @@ public abstract class DalBase implements Dal {
   protected void setCdpVersion() {
     var dalExportAttribute = this.getClass().getAnnotationsByType(DalExport.class);
     if (dalExportAttribute.length > 0) {
-      this.setDalVersion(new Version(dalExportAttribute[0].cdpVersion()));
+      this.dalVersion = new Version(dalExportAttribute[0].cdpVersion());
     } else {
-      this.setDalVersion(new Version("1.0.0"));
+      this.dalVersion = new Version("1.0.0");
     }
+  }
+
+  @Override
+  public Version getDalVersion() {
+    return this.dalVersion;
+  }
+
+  @Override
+  public Session getSession() {
+    return this.session;
+  }
+
+  public Credentials getCredentials() {
+    return this.credentials;
   }
 }

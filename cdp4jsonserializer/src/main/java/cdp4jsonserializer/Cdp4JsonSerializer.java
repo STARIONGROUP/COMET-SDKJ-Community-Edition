@@ -38,7 +38,9 @@ import java.util.List;
 public interface Cdp4JsonSerializer {
 
   /**
-   * Gets or sets the data model version for this request.
+   * Gets the data model version for this request.
+   *
+   * @return {@link Version} of the data model for this request.
    */
   Version getRequestDataModelVersion();
 
@@ -53,7 +55,8 @@ public interface Cdp4JsonSerializer {
    * The serialize to stream.
    *
    * @param collectionSource The collection source.
-   * @param outputStream The output stream.
+   * @param outputStream The output stream to which the serialized JSON objects are written.
+   * @throws IOException when there is a problem with accessing outputStream.
    */
   void serializeToStream(Object collectionSource, OutputStream outputStream) throws IOException;
 
@@ -63,7 +66,8 @@ public interface Cdp4JsonSerializer {
    * @param source The {@link cdp4common.commondata.Thing}.
    * @param outputStream The output stream to which the serialized JSON objects are written.
    * @param isExtentDeep A value indicating whether the contained {@link
-   * cdp4common.commondata.Thing} shall be included in the JSON stream
+   * cdp4common.commondata.Thing} shall be included in the JSON stream.
+   * @throws IOException when there is a problem with accessing outputStream.
    */
   void serializeToStream(cdp4common.commondata.Thing source, OutputStream outputStream,
       boolean isExtentDeep) throws IOException;
@@ -74,7 +78,8 @@ public interface Cdp4JsonSerializer {
    * @param source The {@link cdp4common.commondata.Thing}.
    * @param isExtentDeep A value indicating whether the contained {@link
    * cdp4common.commondata.Thing} shall be processed.
-   * @return The JSON String
+   * @return The JSON String.
+   * @throws IOException when there is a problem with serializing {@code source}.
    */
   String serializeToString(cdp4common.commondata.Thing source, boolean isExtentDeep)
       throws IOException;
@@ -84,15 +89,18 @@ public interface Cdp4JsonSerializer {
    *
    * @param contentStream The content Stream.
    * @return The the deserialized collection of {@link cdp4common.dto.Thing}.
+   * @throws IOException when there is a problem with deserializing {@code source}.
    */
   List<Thing> deserialize(InputStream contentStream) throws IOException;
 
   /**
    * Convenience method that deserializes the passed in JSON content stream.
    *
-   * @param <T> The type reference for which deserialization will be performed.
+   * @param <T> The type of deserialized objects.
+   * @param typeReference The type reference for which deserialization will be performed.
    * @param contentStream The content Stream.
    * @return The deserialized instance of {@code T}.
+   * @throws IOException when there is a problem with deserializing {@code source}.
    */
   <T> T deserialize(TypeReference<T> typeReference, InputStream contentStream) throws IOException;
 }

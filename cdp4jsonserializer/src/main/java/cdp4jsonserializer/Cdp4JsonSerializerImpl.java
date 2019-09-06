@@ -47,7 +47,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
 // TODO filter classes based on CdpVersion before serialization/after deserialization, because object mapper does not provide this functionality
@@ -84,13 +83,18 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
   /**
    * Data model version for this request.
    */
-  @Getter(onMethod = @__({@Override}))
   private Version requestDataModelVersion;
 
   /**
-   * Initialize this instance with the supported {@link Version}.
-   *
-   * @param supportedVersion The supported {@link Version}.
+   * {@inheritDoc}
+   */
+  @Override
+  public Version getRequestDataModelVersion() {
+    return this.requestDataModelVersion;
+  }
+
+  /**
+   * {@inheritDoc}
    */
   @Override
   public void initialize(Version supportedVersion) {
@@ -99,11 +103,7 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
   }
 
   /**
-   * The serialize to stream.
-   *
-   * @param collectionSource The collection source.
-   * @param outputStream The output stream to which the serialized JSON objects are written.
-   * @throws IOException when there is a problem with accessing outputStream.
+   * {@inheritDoc}
    */
   @Override
   public void serializeToStream(Object collectionSource, OutputStream outputStream)
@@ -131,13 +131,7 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
   }
 
   /**
-   * Serialize the {@link cdp4common.commondata.Thing} to a JSON stream.
-   *
-   * @param source The {@link cdp4common.commondata.Thing}.
-   * @param outputStream The output stream to which the serialized JSON objects are written.
-   * @param isExtentDeep A value indicating whether the contained {@link
-   * cdp4common.commondata.Thing} shall be included in the JSON stream.
-   * @throws IOException when there is a problem with accessing outputStream.
+   * {@inheritDoc}
    */
   @Override
   public void serializeToStream(cdp4common.commondata.Thing source, OutputStream outputStream,
@@ -172,13 +166,7 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
   }
 
   /**
-   * Serialize the {@link cdp4common.commondata.Thing} to a JSON String.
-   *
-   * @param source The {@link cdp4common.commondata.Thing}.
-   * @param isExtentDeep A value indicating whether the contained {@link
-   * cdp4common.commondata.Thing} shall be processed.
-   * @return The JSON String.
-   * @throws IOException when there is a problem with serializing {@code source}.
+   * {@inheritDoc}
    */
   @Override
   public String serializeToString(cdp4common.commondata.Thing source, boolean isExtentDeep)
@@ -204,23 +192,16 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
   }
 
   /**
-   * Convenience method that deserializes the passed in JSON content stream.
-   *
-   * @param contentStream The content Stream.
-   * @return The deserialized collection of {@link cdp4common.dto.Thing}.
+   * {@inheritDoc}
    */
   @Override
   public List<Thing> deserialize(InputStream contentStream) throws IOException {
-    return this.deserialize(new TypeReference<List<Thing>>() {
+    return this.deserialize(new TypeReference<>() {
     }, contentStream);
   }
 
   /**
-   * Convenience method that deserializes the passed in JSON content stream.
-   *
-   * @param <T> The type reference for which deserialization will be performed.
-   * @param contentStream The content Stream.
-   * @return The deserialized instance of {@link T}.
+   * {@inheritDoc}
    */
   @Override
   public <T> T deserialize(TypeReference<T> typeReference, InputStream contentStream)

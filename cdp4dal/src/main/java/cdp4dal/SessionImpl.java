@@ -28,7 +28,6 @@ import static cdp4common.helpers.Utils.as;
 
 import cdp4common.Version;
 import cdp4common.commondata.Thing;
-import cdp4common.commondata.TopContainer;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.exceptions.IncompleteModelException;
@@ -48,7 +47,6 @@ import cdp4dal.dal.DalQueryAttributes;
 import cdp4dal.events.DomainChangedEvent;
 import cdp4dal.events.SessionEvent;
 import cdp4dal.events.SessionStatus;
-import cdp4dal.operations.Operation;
 import cdp4dal.operations.OperationContainer;
 import cdp4dal.permission.PermissionService;
 import cdp4dal.permission.PermissionServiceImpl;
@@ -67,7 +65,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
-import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -81,7 +78,6 @@ public class SessionImpl implements Session {
   /**
    * Backing field for active{@link #getActivePerson}.
    */
-  @Getter(onMethod = @__({@Override}))
   private Person activePerson;
 
   /**
@@ -117,25 +113,22 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Gets the {@link Credentials} that are use to connect to the data source
+   * The {@link Credentials} that are used to connect to the data source
    */
-  @Getter(onMethod = @__({@Override}))
   private cdp4dal.dal.Credentials credentials;
 
   /**
-   * Gets the {@link PermissionService} that handles access permissions for this {@link Session}.
+   * The {@link PermissionService} that handles access permissions for this {@link Session}.
    */
-  @Getter(onMethod = @__({@Override}))
   private PermissionService permissionService;
 
   /**
-   * Gets the {@link Dal} that the current {@link cdp4dal.Session} communicates with.
+   * The {@link Dal} that the current {@link cdp4dal.Session} communicates with.
    */
-  @Getter(onMethod = @__({@Override}))
   private Dal dal;
 
   /**
-   * Gets the version of the data-model that is supported by the associated {@link Dal}
+   * {@inheritDoc}
    */
   @Override
   public Version getDalVersion() {
@@ -143,12 +136,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Asserts whether the {@link Version} is supported by the connected {@link Session#getDal()}. A
-   * {@link Version} is supported when it is lower or equal than the {@link Version} of the
-   * connected {@link Session#getDal()}.
-   *
-   * @param version The {@link Version} that is checked.
-   * @return True if the version is supported, false if not
+   * {@inheritDoc}
    */
   @Override
   public boolean isVersionSupported(Version version) {
@@ -157,8 +145,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Retrieves the {@link Participant}s from the {@link Iteration}s that are currently open and that
-   * the current active {@link Person} is associated to.
+   * {@inheritDoc}
    */
   @Override
   public List<Participant> getActivePersonParticipants() {
@@ -169,14 +156,53 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Gets the {@link cdp4dal.Assembler} associated with the current {@link cdp4dal.Session}
-   * containing the Cache.
+   * The {@link cdp4dal.Assembler} associated with the current {@link cdp4dal.Session} containing
+   * the Cache.
    */
-  @Getter(onMethod = @__({@Override}))
   private Assembler assembler;
 
   /**
-   * Gets the uri of the connected data-source
+   * {@inheritDoc}
+   */
+  @Override
+  public Person getActivePerson() {
+    return this.activePerson;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Credentials getCredentials() {
+    return this.credentials;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public PermissionService getPermissionService() {
+    return this.permissionService;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Dal getDal() {
+    return this.dal;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Assembler getAssembler() {
+    return this.assembler;
+  }
+
+  /**
+   * {@inheritDoc}
    */
   @Override
   public String getDataSourceUri() {
@@ -188,8 +214,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Gets the name of the session which is the concatentation of the data-source uri and the active
-   * person
+   * {@inheritDoc}
    */
   @Override
   public String getName() {
@@ -198,8 +223,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Gets the list of {@link ReferenceDataLibrary} that are currently open in the running
-   * application.
+   * {@inheritDoc}
    */
   @Override
   public List<ReferenceDataLibrary> getOpenReferenceDataLibraries() {
@@ -207,8 +231,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Gets the list of {@link Iteration}s that are currently open with the active {@link
-   * DomainOfExpertise} and {@link Participant}
+   * {@inheritDoc}
    */
   @Override
   public ImmutableMap<Iteration, Pair<DomainOfExpertise, Participant>> getOpenIterations() {
@@ -216,9 +239,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Retrieves the {@link SiteDirectory} in the context of the current session.
-   *
-   * @return The instance {@link SiteDirectory} that is loaded in the {@link cdp4dal.Session}.
+   * {@inheritDoc}
    */
   @Override
   public SiteDirectory retrieveSiteDirectory() {
@@ -226,13 +247,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Queries the selected {@link DomainOfExpertise} from the session for provided current {@link
-   * Iteration}.
-   *
-   * @param iteration The {@link Iteration} for which the selected {@link DomainOfExpertise} is
-   * queried.
-   * @return A {@link DomainOfExpertise} if has been selected for the {@link Iteration}, null
-   * otherwise.
+   * {@inheritDoc}
    */
   @Override
   public DomainOfExpertise querySelectedDomainOfExpertise(Iteration iteration) {
@@ -252,11 +267,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Convenience function to get the required reference data library chain for the passed in
-   * engineeringModel.
-   *
-   * @param engineeringModel The engineering model.
-   * @return Chain of required reference data libraries for this {@link EngineeringModel}.
+   * {@inheritDoc}
    */
   @Override
   public List<ReferenceDataLibrary> getEngineeringModelRdlChain(
@@ -265,11 +276,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Convenience function to get the required reference data library chain for the passed in
-   * engineeringModel.
-   *
-   * @param engineeringModelSetup The engineering model setup.
-   * @return Chain of required reference data libraries for this {@link EngineeringModelSetup}.
+   * {@inheritDoc}
    */
   @Override
   public List<ReferenceDataLibrary> getEngineeringModelSetupRdlChain(
@@ -289,11 +296,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Open the underlying {@link Dal} and update the Cache with the retrieved objects. The {@link
-   * CDPMessageBus} is used to send messages to notify listeners of {@link Thing}s that have been
-   * added to the cache.
-   *
-   * @return A {@link java.util.concurrent.CompletableFuture}.
+   * {@inheritDoc}
    */
   @Override
   public CompletableFuture<Void> open() {
@@ -357,10 +360,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Switches the current domain for an iteration.
-   *
-   * @param iterationId The iteration identifier.
-   * @param domain The domain.
+   * {@inheritDoc}
    */
   @Override
   public void switchDomain(UUID iterationId, DomainOfExpertise domain) {
@@ -380,14 +380,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Read an {@link Iteration} from the underlying {@link Dal} and set the active {@link
-   * DomainOfExpertise} for the {@link Iteration}. The Cache is updated with the returned objects
-   * and the {@link CDPMessageBus} is used to send messages to notify listeners of updates to the
-   * Cache.
-   *
-   * @param iteration The {@link Iteration} to read.
-   * @param domain The active {@link DomainOfExpertise} for the {@link Iteration}.
-   * @return A {@link java.util.concurrent.CompletableFuture}.
+   * {@inheritDoc}
    */
   @Override
   public CompletableFuture<Void> read(Iteration iteration, DomainOfExpertise domain) {
@@ -449,12 +442,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Read a {@link ReferenceDataLibrary} from the underlying {@link Dal}. The Cache is updated with
-   * the returned objects and the {@link CDPMessageBus} is used to send messages to notify listeners
-   * of updates to the Cache.
-   *
-   * @param rdl The {@link ReferenceDataLibrary} to read.
-   * @return A {@link java.util.concurrent.CompletableFuture}.
+   * {@inheritDoc}
    */
   @Override
   public CompletableFuture<Void> read(ReferenceDataLibrary rdl) {
@@ -467,10 +455,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Read a {@link Thing} in the associated {@link Dal}.
-   *
-   * @param thing The {@link Thing} to read.
-   * @return A {@link java.util.concurrent.CompletableFuture}.
+   * {@inheritDoc}
    */
   @Override
   public CompletableFuture<Void> read(Thing thing) {
@@ -520,10 +505,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Write all the {@link Operation}s from an {@link OperationContainer} asynchronously.
-   *
-   * @param operationContainer The provided {@link OperationContainer} to write.
-   * @return A {@link java.util.concurrent.CompletableFuture}.
+   * {@inheritDoc}
    */
   @Override
   public CompletableFuture<Void> write(OperationContainer operationContainer) {
@@ -555,9 +537,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Refreshes all the {@link cdp4common.commondata.TopContainer}s in the cache.
-   *
-   * @return A {@link java.util.concurrent.CompletableFuture}.
+   * {@inheritDoc}
    */
   @Override
   public CompletableFuture<Void> refresh() {
@@ -574,9 +554,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Reloads all the {@link TopContainer}s the in cache.
-   *
-   * @return A {@link java.util.concurrent.CompletableFuture}.
+   * {@inheritDoc}
    */
   @Override
   public CompletableFuture<Void> reload() {
@@ -593,7 +571,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Cancel any read or open operation.
+   * {@inheritDoc}
    */
   @Override
   public void cancel() {
@@ -603,9 +581,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Close the underlying {@link Dal} and clears the encapsulated {@link Assembler}.
-   *
-   * @return A {@link java.util.concurrent.CompletableFuture}.
+   * {@inheritDoc}
    */
   @Override
   public CompletableFuture<Void> close() {
@@ -623,10 +599,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Close a {@link SiteReferenceDataLibrary} and all {@link SiteDirectory} that depends on it.
-   *
-   * @param sRdl The {@link SiteReferenceDataLibrary} to close.
-   * @return A {@link java.util.concurrent.CompletableFuture}.
+   * {@inheritDoc}
    */
   @Override
   public CompletableFuture<Void> closeRdl(SiteReferenceDataLibrary sRdl) {
@@ -739,10 +712,7 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Close a {@link ModelReferenceDataLibrary}.
-   *
-   * @param modelRdl The model RDL.
-   * @return A {@link java.util.concurrent.CompletableFuture}.
+   * {@inheritDoc}
    */
   @Override
   public CompletableFuture<Void> closeModelRdl(ModelReferenceDataLibrary modelRdl) {
@@ -759,11 +729,9 @@ public class SessionImpl implements Session {
   }
 
   /**
-   * Close a {@link Iteration} and its {@link ModelReferenceDataLibrary}.
-   *
-   * @param iterationSetup The iteration setup.
-   * @return A {@link java.util.concurrent.CompletableFuture}.
+   * {@inheritDoc}
    */
+  @Override
   public CompletableFuture<Void> closeIterationSetup(IterationSetup iterationSetup) {
     return CompletableFuture.runAsync(() -> {
       CDPMessageBus.getCurrent()
