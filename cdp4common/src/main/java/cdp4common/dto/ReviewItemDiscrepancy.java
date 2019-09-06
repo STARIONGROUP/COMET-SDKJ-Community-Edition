@@ -57,21 +57,21 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ReviewItemDiscrepancy"} class.
+ * A Data Transfer Object representation of the {@link ReviewItemDiscrepancy} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = EngineeringModel.class, propertyName = "modellingAnnotation")
 @ToString
 public class ReviewItemDiscrepancy extends ModellingAnnotationItem implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "ReviewItemDiscrepancy"} class.
+     * Initializes a new instance of the {@link ReviewItemDiscrepancy} class.
      */
     public ReviewItemDiscrepancy() {
         this.solution = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "ReviewItemDiscrepancy"} class.
+     * Initializes a new instance of the {@link ReviewItemDiscrepancy} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

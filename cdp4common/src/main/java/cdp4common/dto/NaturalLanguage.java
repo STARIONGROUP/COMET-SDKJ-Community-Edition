@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "NaturalLanguage"} class.
+ * A Data Transfer Object representation of the {@link NaturalLanguage} class.
  */
 @Container(clazz = SiteDirectory.class, propertyName = "naturalLanguage")
 @ToString
 public class NaturalLanguage extends Thing implements Cloneable, NamedThing {
     /**
-     * Initializes a new instance of the {@link "NaturalLanguage"} class.
+     * Initializes a new instance of the {@link NaturalLanguage} class.
      */
     public NaturalLanguage() {
     }
 
     /**
-     * Initializes a new instance of the {@link "NaturalLanguage"} class.
+     * Initializes a new instance of the {@link NaturalLanguage} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

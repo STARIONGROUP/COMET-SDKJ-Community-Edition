@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "RequirementsGroup"} class.
+ * A Data Transfer Object representation of the {@link RequirementsGroup} class.
  */
 @Container(clazz = RequirementsContainer.class, propertyName = "group")
 @ToString
 public class RequirementsGroup extends RequirementsContainer implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "RequirementsGroup"} class.
+     * Initializes a new instance of the {@link RequirementsGroup} class.
      */
     public RequirementsGroup() {
     }
 
     /**
-     * Initializes a new instance of the {@link "RequirementsGroup"} class.
+     * Initializes a new instance of the {@link RequirementsGroup} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

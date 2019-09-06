@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Participant"} class.
+ * A Data Transfer Object representation of the {@link Participant} class.
  */
 @Container(clazz = EngineeringModelSetup.class, propertyName = "participant")
 @ToString
 public class Participant extends Thing implements Cloneable, ParticipantAffectedAccessThing {
     /**
-     * Initializes a new instance of the {@link "Participant"} class.
+     * Initializes a new instance of the {@link Participant} class.
      */
     public Participant() {
         this.domain = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "Participant"} class.
+     * Initializes a new instance of the {@link Participant} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

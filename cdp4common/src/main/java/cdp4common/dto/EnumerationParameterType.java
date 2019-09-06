@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "EnumerationParameterType"} class.
+ * A Data Transfer Object representation of the {@link EnumerationParameterType} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
 public class EnumerationParameterType extends ScalarParameterType implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "EnumerationParameterType"} class.
+     * Initializes a new instance of the {@link EnumerationParameterType} class.
      */
     public EnumerationParameterType() {
         this.valueDefinition = new ArrayList<OrderedItem>();
     }
 
     /**
-     * Initializes a new instance of the {@link "EnumerationParameterType"} class.
+     * Initializes a new instance of the {@link EnumerationParameterType} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

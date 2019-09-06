@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Term"} class.
+ * A Data Transfer Object representation of the {@link Term} class.
  */
 @Container(clazz = Glossary.class, propertyName = "term")
 @ToString
 public class Term extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
-     * Initializes a new instance of the {@link "Term"} class.
+     * Initializes a new instance of the {@link Term} class.
      */
     public Term() {
     }
 
     /**
-     * Initializes a new instance of the {@link "Term"} class.
+     * Initializes a new instance of the {@link Term} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

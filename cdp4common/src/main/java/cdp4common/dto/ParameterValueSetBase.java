@@ -57,12 +57,12 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ParameterValueSetBase"} class.
+ * A Data Transfer Object representation of the {@link ParameterValueSetBase} class.
  */
 @ToString
 public abstract class ParameterValueSetBase extends Thing implements Cloneable, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "ParameterValueSetBase"} class.
+     * Initializes a new instance of the {@link ParameterValueSetBase} class.
      */
     protected ParameterValueSetBase() {
         this.computed = new ValueArray<String>(String.class);
@@ -73,7 +73,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
     }
 
     /**
-     * Initializes a new instance of the {@link "ParameterValueSetBase"} class.
+     * Initializes a new instance of the {@link ParameterValueSetBase} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

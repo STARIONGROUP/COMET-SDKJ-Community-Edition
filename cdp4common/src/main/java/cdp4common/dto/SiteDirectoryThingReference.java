@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "SiteDirectoryThingReference"} class.
+ * A Data Transfer Object representation of the {@link SiteDirectoryThingReference} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = SiteDirectoryDataAnnotation.class, propertyName = "relatedThing")
 @ToString
 public class SiteDirectoryThingReference extends ThingReference implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "SiteDirectoryThingReference"} class.
+     * Initializes a new instance of the {@link SiteDirectoryThingReference} class.
      */
     public SiteDirectoryThingReference() {
     }
 
     /**
-     * Initializes a new instance of the {@link "SiteDirectoryThingReference"} class.
+     * Initializes a new instance of the {@link SiteDirectoryThingReference} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

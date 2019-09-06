@@ -57,14 +57,14 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ModellingAnnotationItem"} class.
+ * A Data Transfer Object representation of the {@link ModellingAnnotationItem} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = EngineeringModel.class, propertyName = "modellingAnnotation")
 @ToString
 public abstract class ModellingAnnotationItem extends EngineeringModelDataAnnotation implements Cloneable, CategorizableThing, OwnedThing, ShortNamedThing {
     /**
-     * Initializes a new instance of the {@link "ModellingAnnotationItem"} class.
+     * Initializes a new instance of the {@link ModellingAnnotationItem} class.
      */
     protected ModellingAnnotationItem() {
         this.approvedBy = new ArrayList<UUID>();
@@ -73,7 +73,7 @@ public abstract class ModellingAnnotationItem extends EngineeringModelDataAnnota
     }
 
     /**
-     * Initializes a new instance of the {@link "ModellingAnnotationItem"} class.
+     * Initializes a new instance of the {@link ModellingAnnotationItem} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

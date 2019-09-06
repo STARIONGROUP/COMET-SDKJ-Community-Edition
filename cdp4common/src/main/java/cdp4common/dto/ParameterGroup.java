@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ParameterGroup"} class.
+ * A Data Transfer Object representation of the {@link ParameterGroup} class.
  */
 @Container(clazz = ElementDefinition.class, propertyName = "parameterGroup")
 @ToString
 public class ParameterGroup extends Thing implements Cloneable, NamedThing {
     /**
-     * Initializes a new instance of the {@link "ParameterGroup"} class.
+     * Initializes a new instance of the {@link ParameterGroup} class.
      */
     public ParameterGroup() {
     }
 
     /**
-     * Initializes a new instance of the {@link "ParameterGroup"} class.
+     * Initializes a new instance of the {@link ParameterGroup} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

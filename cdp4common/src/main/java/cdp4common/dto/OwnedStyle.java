@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "OwnedStyle"} class.
+ * A Data Transfer Object representation of the {@link OwnedStyle} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = DiagramElementThing.class, propertyName = "localStyle")
 @ToString
 public class OwnedStyle extends DiagrammingStyle implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "OwnedStyle"} class.
+     * Initializes a new instance of the {@link OwnedStyle} class.
      */
     public OwnedStyle() {
     }
 
     /**
-     * Initializes a new instance of the {@link "OwnedStyle"} class.
+     * Initializes a new instance of the {@link OwnedStyle} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

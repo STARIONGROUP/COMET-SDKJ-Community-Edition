@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "RatioScale"} class.
+ * A Data Transfer Object representation of the {@link RatioScale} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
 public class RatioScale extends MeasurementScale implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "RatioScale"} class.
+     * Initializes a new instance of the {@link RatioScale} class.
      */
     public RatioScale() {
     }
 
     /**
-     * Initializes a new instance of the {@link "RatioScale"} class.
+     * Initializes a new instance of the {@link RatioScale} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

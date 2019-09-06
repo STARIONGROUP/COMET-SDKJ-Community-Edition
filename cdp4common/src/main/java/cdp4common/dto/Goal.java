@@ -57,21 +57,21 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Goal"} class.
+ * A Data Transfer Object representation of the {@link Goal} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Iteration.class, propertyName = "goal")
 @ToString
 public class Goal extends DefinedThing implements Cloneable, CategorizableThing {
     /**
-     * Initializes a new instance of the {@link "Goal"} class.
+     * Initializes a new instance of the {@link Goal} class.
      */
     public Goal() {
         this.category = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "Goal"} class.
+     * Initializes a new instance of the {@link Goal} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

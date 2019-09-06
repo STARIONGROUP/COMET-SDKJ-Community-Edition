@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "SiteReferenceDataLibrary"} class.
+ * A Data Transfer Object representation of the {@link SiteReferenceDataLibrary} class.
  */
 @Container(clazz = SiteDirectory.class, propertyName = "siteReferenceDataLibrary")
 @ToString
 public class SiteReferenceDataLibrary extends ReferenceDataLibrary implements Cloneable, DeprecatableThing {
     /**
-     * Initializes a new instance of the {@link "SiteReferenceDataLibrary"} class.
+     * Initializes a new instance of the {@link SiteReferenceDataLibrary} class.
      */
     public SiteReferenceDataLibrary() {
     }
 
     /**
-     * Initializes a new instance of the {@link "SiteReferenceDataLibrary"} class.
+     * Initializes a new instance of the {@link SiteReferenceDataLibrary} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "RelationalExpression"} class.
+ * A Data Transfer Object representation of the {@link RelationalExpression} class.
  */
 @Container(clazz = ParametricConstraint.class, propertyName = "expression")
 @ToString
 public class RelationalExpression extends BooleanExpression implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "RelationalExpression"} class.
+     * Initializes a new instance of the {@link RelationalExpression} class.
      */
     public RelationalExpression() {
         this.value = new ValueArray<String>(String.class);
     }
 
     /**
-     * Initializes a new instance of the {@link "RelationalExpression"} class.
+     * Initializes a new instance of the {@link RelationalExpression} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

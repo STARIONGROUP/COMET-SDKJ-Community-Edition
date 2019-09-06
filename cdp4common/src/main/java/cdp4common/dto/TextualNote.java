@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "TextualNote"} class.
+ * A Data Transfer Object representation of the {@link TextualNote} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Page.class, propertyName = "note")
 @ToString
 public class TextualNote extends Note implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "TextualNote"} class.
+     * Initializes a new instance of the {@link TextualNote} class.
      */
     public TextualNote() {
     }
 
     /**
-     * Initializes a new instance of the {@link "TextualNote"} class.
+     * Initializes a new instance of the {@link TextualNote} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

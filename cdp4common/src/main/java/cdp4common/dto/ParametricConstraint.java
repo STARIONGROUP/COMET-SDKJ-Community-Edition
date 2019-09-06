@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ParametricConstraint"} class.
+ * A Data Transfer Object representation of the {@link ParametricConstraint} class.
  */
 @Container(clazz = Requirement.class, propertyName = "parametricConstraint")
 @ToString
 public class ParametricConstraint extends Thing implements Cloneable, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "ParametricConstraint"} class.
+     * Initializes a new instance of the {@link ParametricConstraint} class.
      */
     public ParametricConstraint() {
         this.expression = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "ParametricConstraint"} class.
+     * Initializes a new instance of the {@link ParametricConstraint} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

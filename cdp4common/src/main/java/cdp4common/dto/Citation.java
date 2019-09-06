@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Citation"} class.
+ * A Data Transfer Object representation of the {@link Citation} class.
  */
 @Container(clazz = Definition.class, propertyName = "citation")
 @ToString
 public class Citation extends Thing implements Cloneable, ShortNamedThing {
     /**
-     * Initializes a new instance of the {@link "Citation"} class.
+     * Initializes a new instance of the {@link Citation} class.
      */
     public Citation() {
     }
 
     /**
-     * Initializes a new instance of the {@link "Citation"} class.
+     * Initializes a new instance of the {@link Citation} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ModelReferenceDataLibrary"} class.
+ * A Data Transfer Object representation of the {@link ModelReferenceDataLibrary} class.
  */
 @Container(clazz = EngineeringModelSetup.class, propertyName = "requiredRdl")
 @ToString
 public class ModelReferenceDataLibrary extends ReferenceDataLibrary implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "ModelReferenceDataLibrary"} class.
+     * Initializes a new instance of the {@link ModelReferenceDataLibrary} class.
      */
     public ModelReferenceDataLibrary() {
     }
 
     /**
-     * Initializes a new instance of the {@link "ModelReferenceDataLibrary"} class.
+     * Initializes a new instance of the {@link ModelReferenceDataLibrary} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

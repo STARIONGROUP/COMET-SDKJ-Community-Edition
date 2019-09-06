@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "SiteLogEntry"} class.
+ * A Data Transfer Object representation of the {@link SiteLogEntry} class.
  */
 @Container(clazz = SiteDirectory.class, propertyName = "logEntry")
 @ToString
 public class SiteLogEntry extends Thing implements Cloneable, Annotation, CategorizableThing, LogEntry, TimeStampedThing {
     /**
-     * Initializes a new instance of the {@link "SiteLogEntry"} class.
+     * Initializes a new instance of the {@link SiteLogEntry} class.
      */
     public SiteLogEntry() {
         this.affectedItemIid = new ArrayList<UUID>();
@@ -71,7 +71,7 @@ public class SiteLogEntry extends Thing implements Cloneable, Annotation, Catego
     }
 
     /**
-     * Initializes a new instance of the {@link "SiteLogEntry"} class.
+     * Initializes a new instance of the {@link SiteLogEntry} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

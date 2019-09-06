@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "PersonPermission"} class.
+ * A Data Transfer Object representation of the {@link PersonPermission} class.
  */
 @Container(clazz = PersonRole.class, propertyName = "personPermission")
 @ToString
 public class PersonPermission extends Thing implements Cloneable, DeprecatableThing {
     /**
-     * Initializes a new instance of the {@link "PersonPermission"} class.
+     * Initializes a new instance of the {@link PersonPermission} class.
      */
     public PersonPermission() {
     }
 
     /**
-     * Initializes a new instance of the {@link "PersonPermission"} class.
+     * Initializes a new instance of the {@link PersonPermission} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

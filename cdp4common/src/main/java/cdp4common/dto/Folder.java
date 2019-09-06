@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Folder"} class.
+ * A Data Transfer Object representation of the {@link Folder} class.
  */
 @Container(clazz = FileStore.class, propertyName = "folder")
 @ToString
 public class Folder extends Thing implements Cloneable, NamedThing, OwnedThing, TimeStampedThing {
     /**
-     * Initializes a new instance of the {@link "Folder"} class.
+     * Initializes a new instance of the {@link Folder} class.
      */
     public Folder() {
     }
 
     /**
-     * Initializes a new instance of the {@link "Folder"} class.
+     * Initializes a new instance of the {@link Folder} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

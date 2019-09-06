@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "MeasurementScale"} class.
+ * A Data Transfer Object representation of the {@link MeasurementScale} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
 public abstract class MeasurementScale extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
-     * Initializes a new instance of the {@link "MeasurementScale"} class.
+     * Initializes a new instance of the {@link MeasurementScale} class.
      */
     protected MeasurementScale() {
         this.mappingToReferenceScale = new ArrayList<UUID>();
@@ -71,7 +71,7 @@ public abstract class MeasurementScale extends DefinedThing implements Cloneable
     }
 
     /**
-     * Initializes a new instance of the {@link "MeasurementScale"} class.
+     * Initializes a new instance of the {@link MeasurementScale} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

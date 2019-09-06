@@ -32,44 +32,32 @@
 
 package cdp4common.dto;
 
-import java.util.*;
-import java.util.stream.*;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.io.*;
-import java.net.URI;
-import cdp4common.*;
-import cdp4common.commondata.*;
-import cdp4common.diagramdata.*;
-import cdp4common.engineeringmodeldata.*;
-import cdp4common.helpers.*;
-import cdp4common.reportingdata.*;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.*;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.MoreCollectors;
+import cdp4common.AggregationKind;
+import cdp4common.Container;
+import cdp4common.DataMember;
+import cdp4common.UmlInformation;
+import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
+import java.net.URI;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.EqualsAndHashCode;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "MappingToReferenceScale"} class.
+ * A Data Transfer Object representation of the {@link MappingToReferenceScale} class.
  */
 @Container(clazz = MeasurementScale.class, propertyName = "mappingToReferenceScale")
 @ToString
 public class MappingToReferenceScale extends Thing implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "MappingToReferenceScale"} class.
+     * Initializes a new instance of the {@link MappingToReferenceScale} class.
      */
     public MappingToReferenceScale() {
     }
 
     /**
-     * Initializes a new instance of the {@link "MappingToReferenceScale"} class.
+     * Initializes a new instance of the {@link MappingToReferenceScale} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

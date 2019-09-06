@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "BinaryRelationship"} class.
+ * A Data Transfer Object representation of the {@link BinaryRelationship} class.
  */
 @Container(clazz = Iteration.class, propertyName = "relationship")
 @ToString
 public class BinaryRelationship extends Relationship implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "BinaryRelationship"} class.
+     * Initializes a new instance of the {@link BinaryRelationship} class.
      */
     public BinaryRelationship() {
     }
 
     /**
-     * Initializes a new instance of the {@link "BinaryRelationship"} class.
+     * Initializes a new instance of the {@link BinaryRelationship} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

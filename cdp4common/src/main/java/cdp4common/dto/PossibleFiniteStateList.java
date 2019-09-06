@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "PossibleFiniteStateList"} class.
+ * A Data Transfer Object representation of the {@link PossibleFiniteStateList} class.
  */
 @Container(clazz = Iteration.class, propertyName = "possibleFiniteStateList")
 @ToString
 public class PossibleFiniteStateList extends DefinedThing implements Cloneable, CategorizableThing, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "PossibleFiniteStateList"} class.
+     * Initializes a new instance of the {@link PossibleFiniteStateList} class.
      */
     public PossibleFiniteStateList() {
         this.category = new ArrayList<UUID>();
@@ -71,7 +71,7 @@ public class PossibleFiniteStateList extends DefinedThing implements Cloneable, 
     }
 
     /**
-     * Initializes a new instance of the {@link "PossibleFiniteStateList"} class.
+     * Initializes a new instance of the {@link PossibleFiniteStateList} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

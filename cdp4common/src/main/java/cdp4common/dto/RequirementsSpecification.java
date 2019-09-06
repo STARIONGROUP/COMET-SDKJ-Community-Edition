@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "RequirementsSpecification"} class.
+ * A Data Transfer Object representation of the {@link RequirementsSpecification} class.
  */
 @Container(clazz = Iteration.class, propertyName = "requirementsSpecification")
 @ToString
 public class RequirementsSpecification extends RequirementsContainer implements Cloneable, DeprecatableThing {
     /**
-     * Initializes a new instance of the {@link "RequirementsSpecification"} class.
+     * Initializes a new instance of the {@link RequirementsSpecification} class.
      */
     public RequirementsSpecification() {
         this.requirement = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "RequirementsSpecification"} class.
+     * Initializes a new instance of the {@link RequirementsSpecification} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

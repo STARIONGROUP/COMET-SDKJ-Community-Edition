@@ -57,12 +57,12 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "EngineeringModel"} class.
+ * A Data Transfer Object representation of the {@link EngineeringModel} class.
  */
 @ToString
 public class EngineeringModel extends TopContainer implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "EngineeringModel"} class.
+     * Initializes a new instance of the {@link EngineeringModel} class.
      */
     public EngineeringModel() {
         this.book = new ArrayList<OrderedItem>();
@@ -74,7 +74,7 @@ public class EngineeringModel extends TopContainer implements Cloneable {
     }
 
     /**
-     * Initializes a new instance of the {@link "EngineeringModel"} class.
+     * Initializes a new instance of the {@link EngineeringModel} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

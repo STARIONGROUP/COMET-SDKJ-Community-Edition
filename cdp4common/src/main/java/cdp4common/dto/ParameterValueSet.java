@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ParameterValueSet"} class.
+ * A Data Transfer Object representation of the {@link ParameterValueSet} class.
  */
 @Container(clazz = Parameter.class, propertyName = "valueSet")
 @ToString
 public class ParameterValueSet extends ParameterValueSetBase implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "ParameterValueSet"} class.
+     * Initializes a new instance of the {@link ParameterValueSet} class.
      */
     public ParameterValueSet() {
     }
 
     /**
-     * Initializes a new instance of the {@link "ParameterValueSet"} class.
+     * Initializes a new instance of the {@link ParameterValueSet} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

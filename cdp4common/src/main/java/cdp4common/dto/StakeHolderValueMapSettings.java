@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "StakeHolderValueMapSettings"} class.
+ * A Data Transfer Object representation of the {@link StakeHolderValueMapSettings} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = StakeHolderValueMap.class, propertyName = "settings")
 @ToString
 public class StakeHolderValueMapSettings extends Thing implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "StakeHolderValueMapSettings"} class.
+     * Initializes a new instance of the {@link StakeHolderValueMapSettings} class.
      */
     public StakeHolderValueMapSettings() {
     }
 
     /**
-     * Initializes a new instance of the {@link "StakeHolderValueMapSettings"} class.
+     * Initializes a new instance of the {@link StakeHolderValueMapSettings} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

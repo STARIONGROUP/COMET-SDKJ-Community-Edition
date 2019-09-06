@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Option"} class.
+ * A Data Transfer Object representation of the {@link Option} class.
  */
 @Container(clazz = Iteration.class, propertyName = "option")
 @ToString
 public class Option extends DefinedThing implements Cloneable, CategorizableThing {
     /**
-     * Initializes a new instance of the {@link "Option"} class.
+     * Initializes a new instance of the {@link Option} class.
      */
     public Option() {
         this.category = new ArrayList<UUID>();
@@ -71,7 +71,7 @@ public class Option extends DefinedThing implements Cloneable, CategorizableThin
     }
 
     /**
-     * Initializes a new instance of the {@link "Option"} class.
+     * Initializes a new instance of the {@link Option} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

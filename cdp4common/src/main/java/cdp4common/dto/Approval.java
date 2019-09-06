@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Approval"} class.
+ * A Data Transfer Object representation of the {@link Approval} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = ModellingAnnotationItem.class, propertyName = "approvedBy")
 @ToString
 public class Approval extends GenericAnnotation implements Cloneable, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "Approval"} class.
+     * Initializes a new instance of the {@link Approval} class.
      */
     public Approval() {
     }
 
     /**
-     * Initializes a new instance of the {@link "Approval"} class.
+     * Initializes a new instance of the {@link Approval} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

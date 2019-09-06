@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "PrefixedUnit"} class.
+ * A Data Transfer Object representation of the {@link PrefixedUnit} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "unit")
 @ToString
 public class PrefixedUnit extends ConversionBasedUnit implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "PrefixedUnit"} class.
+     * Initializes a new instance of the {@link PrefixedUnit} class.
      */
     public PrefixedUnit() {
     }
 
     /**
-     * Initializes a new instance of the {@link "PrefixedUnit"} class.
+     * Initializes a new instance of the {@link PrefixedUnit} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

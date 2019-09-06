@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "DiagramCanvas"} class.
+ * A Data Transfer Object representation of the {@link DiagramCanvas} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Iteration.class, propertyName = "diagramCanvas")
 @ToString
 public class DiagramCanvas extends DiagramElementContainer implements Cloneable, TimeStampedThing {
     /**
-     * Initializes a new instance of the {@link "DiagramCanvas"} class.
+     * Initializes a new instance of the {@link DiagramCanvas} class.
      */
     public DiagramCanvas() {
     }
 
     /**
-     * Initializes a new instance of the {@link "DiagramCanvas"} class.
+     * Initializes a new instance of the {@link DiagramCanvas} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

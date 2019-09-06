@@ -57,21 +57,21 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "DiagramElementThing"} class.
+ * A Data Transfer Object representation of the {@link DiagramElementThing} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = DiagramElementContainer.class, propertyName = "diagramElement")
 @ToString
 public abstract class DiagramElementThing extends DiagramElementContainer implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "DiagramElementThing"} class.
+     * Initializes a new instance of the {@link DiagramElementThing} class.
      */
     protected DiagramElementThing() {
         this.localStyle = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "DiagramElementThing"} class.
+     * Initializes a new instance of the {@link DiagramElementThing} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

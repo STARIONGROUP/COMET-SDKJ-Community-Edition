@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "RelationshipParameterValue"} class.
+ * A Data Transfer Object representation of the {@link RelationshipParameterValue} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Relationship.class, propertyName = "parameterValue")
 @ToString
 public class RelationshipParameterValue extends ParameterValue implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "RelationshipParameterValue"} class.
+     * Initializes a new instance of the {@link RelationshipParameterValue} class.
      */
     public RelationshipParameterValue() {
     }
 
     /**
-     * Initializes a new instance of the {@link "RelationshipParameterValue"} class.
+     * Initializes a new instance of the {@link RelationshipParameterValue} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

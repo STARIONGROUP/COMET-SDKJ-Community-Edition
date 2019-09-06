@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "SharedStyle"} class.
+ * A Data Transfer Object representation of the {@link SharedStyle} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Iteration.class, propertyName = "sharedDiagramStyle")
 @ToString
 public class SharedStyle extends DiagrammingStyle implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "SharedStyle"} class.
+     * Initializes a new instance of the {@link SharedStyle} class.
      */
     public SharedStyle() {
     }
 
     /**
-     * Initializes a new instance of the {@link "SharedStyle"} class.
+     * Initializes a new instance of the {@link SharedStyle} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

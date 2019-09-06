@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "UserPreference"} class.
+ * A Data Transfer Object representation of the {@link UserPreference} class.
  */
 @Container(clazz = Person.class, propertyName = "userPreference")
 @ToString
 public class UserPreference extends Thing implements Cloneable, ShortNamedThing {
     /**
-     * Initializes a new instance of the {@link "UserPreference"} class.
+     * Initializes a new instance of the {@link UserPreference} class.
      */
     public UserPreference() {
     }
 
     /**
-     * Initializes a new instance of the {@link "UserPreference"} class.
+     * Initializes a new instance of the {@link UserPreference} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

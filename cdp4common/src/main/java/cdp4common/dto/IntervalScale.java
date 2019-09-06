@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "IntervalScale"} class.
+ * A Data Transfer Object representation of the {@link IntervalScale} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
 public class IntervalScale extends MeasurementScale implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "IntervalScale"} class.
+     * Initializes a new instance of the {@link IntervalScale} class.
      */
     public IntervalScale() {
     }
 
     /**
-     * Initializes a new instance of the {@link "IntervalScale"} class.
+     * Initializes a new instance of the {@link IntervalScale} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

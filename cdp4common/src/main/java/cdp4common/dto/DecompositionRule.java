@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "DecompositionRule"} class.
+ * A Data Transfer Object representation of the {@link DecompositionRule} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "rule")
 @ToString
 public class DecompositionRule extends Rule implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "DecompositionRule"} class.
+     * Initializes a new instance of the {@link DecompositionRule} class.
      */
     public DecompositionRule() {
         this.containedCategory = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "DecompositionRule"} class.
+     * Initializes a new instance of the {@link DecompositionRule} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

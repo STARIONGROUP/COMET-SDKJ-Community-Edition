@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "LogarithmicScale"} class.
+ * A Data Transfer Object representation of the {@link LogarithmicScale} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
 public class LogarithmicScale extends MeasurementScale implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "LogarithmicScale"} class.
+     * Initializes a new instance of the {@link LogarithmicScale} class.
      */
     public LogarithmicScale() {
         this.referenceQuantityValue = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "LogarithmicScale"} class.
+     * Initializes a new instance of the {@link LogarithmicScale} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

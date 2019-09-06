@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Person"} class.
+ * A Data Transfer Object representation of the {@link Person} class.
  */
 @Container(clazz = SiteDirectory.class, propertyName = "person")
 @ToString
 public class Person extends Thing implements Cloneable, DeprecatableThing, NamedThing, ShortNamedThing {
     /**
-     * Initializes a new instance of the {@link "Person"} class.
+     * Initializes a new instance of the {@link Person} class.
      */
     public Person() {
         this.emailAddress = new ArrayList<UUID>();
@@ -72,7 +72,7 @@ public class Person extends Thing implements Cloneable, DeprecatableThing, Named
     }
 
     /**
-     * Initializes a new instance of the {@link "Person"} class.
+     * Initializes a new instance of the {@link Person} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

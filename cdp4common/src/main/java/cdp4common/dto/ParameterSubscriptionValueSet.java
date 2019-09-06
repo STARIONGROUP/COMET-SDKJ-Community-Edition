@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ParameterSubscriptionValueSet"} class.
+ * A Data Transfer Object representation of the {@link ParameterSubscriptionValueSet} class.
  */
 @Container(clazz = ParameterSubscription.class, propertyName = "valueSet")
 @ToString
 public class ParameterSubscriptionValueSet extends Thing implements Cloneable, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "ParameterSubscriptionValueSet"} class.
+     * Initializes a new instance of the {@link ParameterSubscriptionValueSet} class.
      */
     public ParameterSubscriptionValueSet() {
         this.manual = new ValueArray<String>(String.class);
     }
 
     /**
-     * Initializes a new instance of the {@link "ParameterSubscriptionValueSet"} class.
+     * Initializes a new instance of the {@link ParameterSubscriptionValueSet} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

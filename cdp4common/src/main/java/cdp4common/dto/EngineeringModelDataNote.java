@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "EngineeringModelDataNote"} class.
+ * A Data Transfer Object representation of the {@link EngineeringModelDataNote} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = EngineeringModel.class, propertyName = "genericNote")
 @ToString
 public class EngineeringModelDataNote extends EngineeringModelDataAnnotation implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "EngineeringModelDataNote"} class.
+     * Initializes a new instance of the {@link EngineeringModelDataNote} class.
      */
     public EngineeringModelDataNote() {
     }
 
     /**
-     * Initializes a new instance of the {@link "EngineeringModelDataNote"} class.
+     * Initializes a new instance of the {@link EngineeringModelDataNote} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

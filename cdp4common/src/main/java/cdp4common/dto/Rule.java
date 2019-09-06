@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Rule"} class.
+ * A Data Transfer Object representation of the {@link Rule} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "rule")
 @ToString
 public abstract class Rule extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
-     * Initializes a new instance of the {@link "Rule"} class.
+     * Initializes a new instance of the {@link Rule} class.
      */
     protected Rule() {
     }
 
     /**
-     * Initializes a new instance of the {@link "Rule"} class.
+     * Initializes a new instance of the {@link Rule} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

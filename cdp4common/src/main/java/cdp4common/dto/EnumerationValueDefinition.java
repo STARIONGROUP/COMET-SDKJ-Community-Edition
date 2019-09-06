@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "EnumerationValueDefinition"} class.
+ * A Data Transfer Object representation of the {@link EnumerationValueDefinition} class.
  */
 @Container(clazz = EnumerationParameterType.class, propertyName = "valueDefinition")
 @ToString
 public class EnumerationValueDefinition extends DefinedThing implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "EnumerationValueDefinition"} class.
+     * Initializes a new instance of the {@link EnumerationValueDefinition} class.
      */
     public EnumerationValueDefinition() {
     }
 
     /**
-     * Initializes a new instance of the {@link "EnumerationValueDefinition"} class.
+     * Initializes a new instance of the {@link EnumerationValueDefinition} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

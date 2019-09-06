@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "DerivedUnit"} class.
+ * A Data Transfer Object representation of the {@link DerivedUnit} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "unit")
 @ToString
 public class DerivedUnit extends MeasurementUnit implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "DerivedUnit"} class.
+     * Initializes a new instance of the {@link DerivedUnit} class.
      */
     public DerivedUnit() {
         this.unitFactor = new ArrayList<OrderedItem>();
     }
 
     /**
-     * Initializes a new instance of the {@link "DerivedUnit"} class.
+     * Initializes a new instance of the {@link DerivedUnit} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

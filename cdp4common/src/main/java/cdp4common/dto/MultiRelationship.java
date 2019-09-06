@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "MultiRelationship"} class.
+ * A Data Transfer Object representation of the {@link MultiRelationship} class.
  */
 @Container(clazz = Iteration.class, propertyName = "relationship")
 @ToString
 public class MultiRelationship extends Relationship implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "MultiRelationship"} class.
+     * Initializes a new instance of the {@link MultiRelationship} class.
      */
     public MultiRelationship() {
         this.relatedThing = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "MultiRelationship"} class.
+     * Initializes a new instance of the {@link MultiRelationship} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

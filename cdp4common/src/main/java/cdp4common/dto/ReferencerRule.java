@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ReferencerRule"} class.
+ * A Data Transfer Object representation of the {@link ReferencerRule} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "rule")
 @ToString
 public class ReferencerRule extends Rule implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "ReferencerRule"} class.
+     * Initializes a new instance of the {@link ReferencerRule} class.
      */
     public ReferencerRule() {
         this.referencedCategory = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "ReferencerRule"} class.
+     * Initializes a new instance of the {@link ReferencerRule} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

@@ -57,14 +57,14 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "StakeHolderValueMap"} class.
+ * A Data Transfer Object representation of the {@link StakeHolderValueMap} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Iteration.class, propertyName = "stakeholderValueMap")
 @ToString
 public class StakeHolderValueMap extends DefinedThing implements Cloneable, CategorizableThing {
     /**
-     * Initializes a new instance of the {@link "StakeHolderValueMap"} class.
+     * Initializes a new instance of the {@link StakeHolderValueMap} class.
      */
     public StakeHolderValueMap() {
         this.category = new ArrayList<UUID>();
@@ -76,7 +76,7 @@ public class StakeHolderValueMap extends DefinedThing implements Cloneable, Cate
     }
 
     /**
-     * Initializes a new instance of the {@link "StakeHolderValueMap"} class.
+     * Initializes a new instance of the {@link StakeHolderValueMap} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

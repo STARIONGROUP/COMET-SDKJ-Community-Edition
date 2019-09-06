@@ -57,21 +57,21 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Note"} class.
+ * A Data Transfer Object representation of the {@link Note} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Page.class, propertyName = "note")
 @ToString
 public abstract class Note extends Thing implements Cloneable, CategorizableThing, NamedThing, OwnedThing, ShortNamedThing, TimeStampedThing {
     /**
-     * Initializes a new instance of the {@link "Note"} class.
+     * Initializes a new instance of the {@link Note} class.
      */
     protected Note() {
         this.category = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "Note"} class.
+     * Initializes a new instance of the {@link Note} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

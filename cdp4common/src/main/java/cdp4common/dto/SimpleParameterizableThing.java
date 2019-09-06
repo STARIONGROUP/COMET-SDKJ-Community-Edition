@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "SimpleParameterizableThing"} class.
+ * A Data Transfer Object representation of the {@link SimpleParameterizableThing} class.
  */
 @ToString
 public abstract class SimpleParameterizableThing extends DefinedThing implements Cloneable, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "SimpleParameterizableThing"} class.
+     * Initializes a new instance of the {@link SimpleParameterizableThing} class.
      */
     protected SimpleParameterizableThing() {
         this.parameterValue = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "SimpleParameterizableThing"} class.
+     * Initializes a new instance of the {@link SimpleParameterizableThing} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

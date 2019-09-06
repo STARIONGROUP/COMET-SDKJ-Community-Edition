@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Iteration"} class.
+ * A Data Transfer Object representation of the {@link Iteration} class.
  */
 @Container(clazz = EngineeringModel.class, propertyName = "iteration")
 @ToString
 public class Iteration extends Thing implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "Iteration"} class.
+     * Initializes a new instance of the {@link Iteration} class.
      */
     public Iteration() {
         this.actualFiniteStateList = new ArrayList<UUID>();
@@ -86,7 +86,7 @@ public class Iteration extends Thing implements Cloneable {
     }
 
     /**
-     * Initializes a new instance of the {@link "Iteration"} class.
+     * Initializes a new instance of the {@link Iteration} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

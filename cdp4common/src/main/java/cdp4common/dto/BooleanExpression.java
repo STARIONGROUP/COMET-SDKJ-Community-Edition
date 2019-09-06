@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "BooleanExpression"} class.
+ * A Data Transfer Object representation of the {@link BooleanExpression} class.
  */
 @Container(clazz = ParametricConstraint.class, propertyName = "expression")
 @ToString
 public abstract class BooleanExpression extends Thing implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "BooleanExpression"} class.
+     * Initializes a new instance of the {@link BooleanExpression} class.
      */
     protected BooleanExpression() {
     }
 
     /**
-     * Initializes a new instance of the {@link "BooleanExpression"} class.
+     * Initializes a new instance of the {@link BooleanExpression} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

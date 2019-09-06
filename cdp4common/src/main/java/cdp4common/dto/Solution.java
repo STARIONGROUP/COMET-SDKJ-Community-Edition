@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Solution"} class.
+ * A Data Transfer Object representation of the {@link Solution} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = ReviewItemDiscrepancy.class, propertyName = "solution")
 @ToString
 public class Solution extends GenericAnnotation implements Cloneable, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "Solution"} class.
+     * Initializes a new instance of the {@link Solution} class.
      */
     public Solution() {
     }
 
     /**
-     * Initializes a new instance of the {@link "Solution"} class.
+     * Initializes a new instance of the {@link Solution} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

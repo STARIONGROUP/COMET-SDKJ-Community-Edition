@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "QuantityKind"} class.
+ * A Data Transfer Object representation of the {@link QuantityKind} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
 public abstract class QuantityKind extends ScalarParameterType implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "QuantityKind"} class.
+     * Initializes a new instance of the {@link QuantityKind} class.
      */
     protected QuantityKind() {
         this.possibleScale = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "QuantityKind"} class.
+     * Initializes a new instance of the {@link QuantityKind} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

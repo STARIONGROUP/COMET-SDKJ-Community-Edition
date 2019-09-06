@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Category"} class.
+ * A Data Transfer Object representation of the {@link Category} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "definedCategory")
 @ToString
 public class Category extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
-     * Initializes a new instance of the {@link "Category"} class.
+     * Initializes a new instance of the {@link Category} class.
      */
     public Category() {
         this.permissibleClass = new ArrayList<ClassKind>();
@@ -71,7 +71,7 @@ public class Category extends DefinedThing implements Cloneable, DeprecatableThi
     }
 
     /**
-     * Initializes a new instance of the {@link "Category"} class.
+     * Initializes a new instance of the {@link Category} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

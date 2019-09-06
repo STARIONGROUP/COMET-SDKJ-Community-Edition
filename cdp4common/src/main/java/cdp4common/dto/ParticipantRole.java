@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ParticipantRole"} class.
+ * A Data Transfer Object representation of the {@link ParticipantRole} class.
  */
 @Container(clazz = SiteDirectory.class, propertyName = "participantRole")
 @ToString
 public class ParticipantRole extends DefinedThing implements Cloneable, DeprecatableThing {
     /**
-     * Initializes a new instance of the {@link "ParticipantRole"} class.
+     * Initializes a new instance of the {@link ParticipantRole} class.
      */
     public ParticipantRole() {
         this.participantPermission = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "ParticipantRole"} class.
+     * Initializes a new instance of the {@link ParticipantRole} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

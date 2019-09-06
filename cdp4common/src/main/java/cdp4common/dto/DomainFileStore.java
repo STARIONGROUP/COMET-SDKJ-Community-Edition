@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "DomainFileStore"} class.
+ * A Data Transfer Object representation of the {@link DomainFileStore} class.
  */
 @Container(clazz = Iteration.class, propertyName = "domainFileStore")
 @ToString
 public class DomainFileStore extends FileStore implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "DomainFileStore"} class.
+     * Initializes a new instance of the {@link DomainFileStore} class.
      */
     public DomainFileStore() {
     }
 
     /**
-     * Initializes a new instance of the {@link "DomainFileStore"} class.
+     * Initializes a new instance of the {@link DomainFileStore} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

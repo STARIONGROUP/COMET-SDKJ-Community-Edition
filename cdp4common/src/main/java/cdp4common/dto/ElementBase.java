@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ElementBase"} class.
+ * A Data Transfer Object representation of the {@link ElementBase} class.
  */
 @ToString
 public abstract class ElementBase extends DefinedThing implements Cloneable, CategorizableThing, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "ElementBase"} class.
+     * Initializes a new instance of the {@link ElementBase} class.
      */
     protected ElementBase() {
         this.category = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "ElementBase"} class.
+     * Initializes a new instance of the {@link ElementBase} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

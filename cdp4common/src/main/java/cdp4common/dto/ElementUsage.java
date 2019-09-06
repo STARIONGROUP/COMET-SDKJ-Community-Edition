@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ElementUsage"} class.
+ * A Data Transfer Object representation of the {@link ElementUsage} class.
  */
 @Container(clazz = ElementDefinition.class, propertyName = "containedElement")
 @ToString
 public class ElementUsage extends ElementBase implements Cloneable, OptionDependentThing {
     /**
-     * Initializes a new instance of the {@link "ElementUsage"} class.
+     * Initializes a new instance of the {@link ElementUsage} class.
      */
     public ElementUsage() {
         this.excludeOption = new ArrayList<UUID>();
@@ -71,7 +71,7 @@ public class ElementUsage extends ElementBase implements Cloneable, OptionDepend
     }
 
     /**
-     * Initializes a new instance of the {@link "ElementUsage"} class.
+     * Initializes a new instance of the {@link ElementUsage} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

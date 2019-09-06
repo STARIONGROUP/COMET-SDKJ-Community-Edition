@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ParameterOrOverrideBase"} class.
+ * A Data Transfer Object representation of the {@link ParameterOrOverrideBase} class.
  */
 @ToString
 public abstract class ParameterOrOverrideBase extends ParameterBase implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "ParameterOrOverrideBase"} class.
+     * Initializes a new instance of the {@link ParameterOrOverrideBase} class.
      */
     protected ParameterOrOverrideBase() {
         this.parameterSubscription = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "ParameterOrOverrideBase"} class.
+     * Initializes a new instance of the {@link ParameterOrOverrideBase} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

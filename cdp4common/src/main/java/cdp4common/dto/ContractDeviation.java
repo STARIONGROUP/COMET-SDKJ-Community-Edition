@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ContractDeviation"} class.
+ * A Data Transfer Object representation of the {@link ContractDeviation} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = EngineeringModel.class, propertyName = "modellingAnnotation")
 @ToString
 public abstract class ContractDeviation extends ModellingAnnotationItem implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "ContractDeviation"} class.
+     * Initializes a new instance of the {@link ContractDeviation} class.
      */
     protected ContractDeviation() {
     }
 
     /**
-     * Initializes a new instance of the {@link "ContractDeviation"} class.
+     * Initializes a new instance of the {@link ContractDeviation} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

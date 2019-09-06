@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ExternalIdentifierMap"} class.
+ * A Data Transfer Object representation of the {@link ExternalIdentifierMap} class.
  */
 @Container(clazz = Iteration.class, propertyName = "externalIdentifierMap")
 @ToString
 public class ExternalIdentifierMap extends Thing implements Cloneable, NamedThing, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "ExternalIdentifierMap"} class.
+     * Initializes a new instance of the {@link ExternalIdentifierMap} class.
      */
     public ExternalIdentifierMap() {
         this.correspondence = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "ExternalIdentifierMap"} class.
+     * Initializes a new instance of the {@link ExternalIdentifierMap} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

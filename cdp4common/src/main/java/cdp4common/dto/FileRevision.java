@@ -49,20 +49,20 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * A Data Transfer Object representation of the {@link "FileRevision"} class.
+ * A Data Transfer Object representation of the {@link FileRevision} class.
  */
 @Container(clazz = File.class, propertyName = "fileRevision")
 @ToString
 public class FileRevision extends Thing implements Cloneable, NamedThing, TimeStampedThing {
     /**
-     * Initializes a new instance of the {@link "FileRevision"} class.
+     * Initializes a new instance of the {@link FileRevision} class.
      */
     public FileRevision() {
         this.fileType = new ArrayList<OrderedItem>();
     }
 
     /**
-     * Initializes a new instance of the {@link "FileRevision"} class.
+     * Initializes a new instance of the {@link FileRevision} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

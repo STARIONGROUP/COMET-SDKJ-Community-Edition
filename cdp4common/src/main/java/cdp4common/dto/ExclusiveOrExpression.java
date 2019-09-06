@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ExclusiveOrExpression"} class.
+ * A Data Transfer Object representation of the {@link ExclusiveOrExpression} class.
  */
 @Container(clazz = ParametricConstraint.class, propertyName = "expression")
 @ToString
 public class ExclusiveOrExpression extends BooleanExpression implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "ExclusiveOrExpression"} class.
+     * Initializes a new instance of the {@link ExclusiveOrExpression} class.
      */
     public ExclusiveOrExpression() {
         this.term = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "ExclusiveOrExpression"} class.
+     * Initializes a new instance of the {@link ExclusiveOrExpression} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ScaleValueDefinition"} class.
+ * A Data Transfer Object representation of the {@link ScaleValueDefinition} class.
  */
 @Container(clazz = MeasurementScale.class, propertyName = "valueDefinition")
 @ToString
 public class ScaleValueDefinition extends DefinedThing implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "ScaleValueDefinition"} class.
+     * Initializes a new instance of the {@link ScaleValueDefinition} class.
      */
     public ScaleValueDefinition() {
     }
 
     /**
-     * Initializes a new instance of the {@link "ScaleValueDefinition"} class.
+     * Initializes a new instance of the {@link ScaleValueDefinition} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "EmailAddress"} class.
+ * A Data Transfer Object representation of the {@link EmailAddress} class.
  */
 @Container(clazz = Person.class, propertyName = "emailAddress")
 @ToString
 public class EmailAddress extends Thing implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "EmailAddress"} class.
+     * Initializes a new instance of the {@link EmailAddress} class.
      */
     public EmailAddress() {
     }
 
     /**
-     * Initializes a new instance of the {@link "EmailAddress"} class.
+     * Initializes a new instance of the {@link EmailAddress} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

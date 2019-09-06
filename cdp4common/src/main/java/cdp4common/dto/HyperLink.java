@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "HyperLink"} class.
+ * A Data Transfer Object representation of the {@link HyperLink} class.
  */
 @Container(clazz = DefinedThing.class, propertyName = "hyperLink")
 @ToString
 public class HyperLink extends Thing implements Cloneable, Annotation {
     /**
-     * Initializes a new instance of the {@link "HyperLink"} class.
+     * Initializes a new instance of the {@link HyperLink} class.
      */
     public HyperLink() {
     }
 
     /**
-     * Initializes a new instance of the {@link "HyperLink"} class.
+     * Initializes a new instance of the {@link HyperLink} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

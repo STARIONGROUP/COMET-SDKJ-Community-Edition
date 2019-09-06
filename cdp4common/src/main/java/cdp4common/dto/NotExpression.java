@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "NotExpression"} class.
+ * A Data Transfer Object representation of the {@link NotExpression} class.
  */
 @Container(clazz = ParametricConstraint.class, propertyName = "expression")
 @ToString
 public class NotExpression extends BooleanExpression implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "NotExpression"} class.
+     * Initializes a new instance of the {@link NotExpression} class.
      */
     public NotExpression() {
     }
 
     /**
-     * Initializes a new instance of the {@link "NotExpression"} class.
+     * Initializes a new instance of the {@link NotExpression} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

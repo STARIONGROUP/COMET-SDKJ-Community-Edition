@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "OrdinalScale"} class.
+ * A Data Transfer Object representation of the {@link OrdinalScale} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
 public class OrdinalScale extends MeasurementScale implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "OrdinalScale"} class.
+     * Initializes a new instance of the {@link OrdinalScale} class.
      */
     public OrdinalScale() {
     }
 
     /**
-     * Initializes a new instance of the {@link "OrdinalScale"} class.
+     * Initializes a new instance of the {@link OrdinalScale} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

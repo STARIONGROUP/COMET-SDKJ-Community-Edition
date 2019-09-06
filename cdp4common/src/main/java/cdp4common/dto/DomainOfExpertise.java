@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "DomainOfExpertise"} class.
+ * A Data Transfer Object representation of the {@link DomainOfExpertise} class.
  */
 @Container(clazz = SiteDirectory.class, propertyName = "domain")
 @ToString
 public class DomainOfExpertise extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
-     * Initializes a new instance of the {@link "DomainOfExpertise"} class.
+     * Initializes a new instance of the {@link DomainOfExpertise} class.
      */
     public DomainOfExpertise() {
         this.category = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "DomainOfExpertise"} class.
+     * Initializes a new instance of the {@link DomainOfExpertise} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

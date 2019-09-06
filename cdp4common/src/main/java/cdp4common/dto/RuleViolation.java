@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "RuleViolation"} class.
+ * A Data Transfer Object representation of the {@link RuleViolation} class.
  */
 @Container(clazz = RuleVerification.class, propertyName = "violation")
 @ToString
 public class RuleViolation extends Thing implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "RuleViolation"} class.
+     * Initializes a new instance of the {@link RuleViolation} class.
      */
     public RuleViolation() {
         this.violatingThing = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "RuleViolation"} class.
+     * Initializes a new instance of the {@link RuleViolation} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

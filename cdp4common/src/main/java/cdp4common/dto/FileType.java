@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "FileType"} class.
+ * A Data Transfer Object representation of the {@link FileType} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "fileType")
 @ToString
 public class FileType extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
-     * Initializes a new instance of the {@link "FileType"} class.
+     * Initializes a new instance of the {@link FileType} class.
      */
     public FileType() {
         this.category = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "FileType"} class.
+     * Initializes a new instance of the {@link FileType} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Color"} class.
+ * A Data Transfer Object representation of the {@link Color} class.
  */
 @Container(clazz = DiagrammingStyle.class, propertyName = "usedColor")
 @ToString
 public class Color extends DiagramThingBase implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "Color"} class.
+     * Initializes a new instance of the {@link Color} class.
      */
     public Color() {
     }
 
     /**
-     * Initializes a new instance of the {@link "Color"} class.
+     * Initializes a new instance of the {@link Color} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

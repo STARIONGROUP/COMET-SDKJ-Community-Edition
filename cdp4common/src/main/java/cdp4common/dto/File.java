@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "File"} class.
+ * A Data Transfer Object representation of the {@link File} class.
  */
 @Container(clazz = FileStore.class, propertyName = "file")
 @ToString
 public class File extends Thing implements Cloneable, CategorizableThing, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "File"} class.
+     * Initializes a new instance of the {@link File} class.
      */
     public File() {
         this.category = new ArrayList<UUID>();
@@ -71,7 +71,7 @@ public class File extends Thing implements Cloneable, CategorizableThing, OwnedT
     }
 
     /**
-     * Initializes a new instance of the {@link "File"} class.
+     * Initializes a new instance of the {@link File} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

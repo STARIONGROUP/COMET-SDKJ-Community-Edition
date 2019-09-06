@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "DiagrammingStyle"} class.
+ * A Data Transfer Object representation of the {@link DiagrammingStyle} class.
  */
 @CDPVersion(version = "1.1.0")
 @ToString
 public abstract class DiagrammingStyle extends DiagramThingBase implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "DiagrammingStyle"} class.
+     * Initializes a new instance of the {@link DiagrammingStyle} class.
      */
     protected DiagrammingStyle() {
         this.usedColor = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "DiagrammingStyle"} class.
+     * Initializes a new instance of the {@link DiagrammingStyle} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

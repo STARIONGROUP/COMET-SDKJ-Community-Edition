@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "TelephoneNumber"} class.
+ * A Data Transfer Object representation of the {@link TelephoneNumber} class.
  */
 @Container(clazz = Person.class, propertyName = "telephoneNumber")
 @ToString
 public class TelephoneNumber extends Thing implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "TelephoneNumber"} class.
+     * Initializes a new instance of the {@link TelephoneNumber} class.
      */
     public TelephoneNumber() {
         this.vcardType = new ArrayList<VcardTelephoneNumberKind>();
     }
 
     /**
-     * Initializes a new instance of the {@link "TelephoneNumber"} class.
+     * Initializes a new instance of the {@link TelephoneNumber} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

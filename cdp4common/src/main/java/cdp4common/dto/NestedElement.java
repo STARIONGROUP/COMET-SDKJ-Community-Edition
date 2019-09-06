@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "NestedElement"} class.
+ * A Data Transfer Object representation of the {@link NestedElement} class.
  */
 @Container(clazz = Option.class, propertyName = "nestedElement")
 @ToString
 public class NestedElement extends Thing implements Cloneable, NamedThing, OwnedThing, ShortNamedThing, VolatileThing {
     /**
-     * Initializes a new instance of the {@link "NestedElement"} class.
+     * Initializes a new instance of the {@link NestedElement} class.
      */
     public NestedElement() {
         this.elementUsage = new ArrayList<OrderedItem>();
@@ -71,7 +71,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
     }
 
     /**
-     * Initializes a new instance of the {@link "NestedElement"} class.
+     * Initializes a new instance of the {@link NestedElement} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

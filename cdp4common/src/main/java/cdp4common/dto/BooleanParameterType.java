@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "BooleanParameterType"} class.
+ * A Data Transfer Object representation of the {@link BooleanParameterType} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
 public class BooleanParameterType extends ScalarParameterType implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "BooleanParameterType"} class.
+     * Initializes a new instance of the {@link BooleanParameterType} class.
      */
     public BooleanParameterType() {
     }
 
     /**
-     * Initializes a new instance of the {@link "BooleanParameterType"} class.
+     * Initializes a new instance of the {@link BooleanParameterType} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

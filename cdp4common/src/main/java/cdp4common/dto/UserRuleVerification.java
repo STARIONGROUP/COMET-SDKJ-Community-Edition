@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "UserRuleVerification"} class.
+ * A Data Transfer Object representation of the {@link UserRuleVerification} class.
  */
 @Container(clazz = RuleVerificationList.class, propertyName = "ruleVerification")
 @ToString
 public class UserRuleVerification extends RuleVerification implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "UserRuleVerification"} class.
+     * Initializes a new instance of the {@link UserRuleVerification} class.
      */
     public UserRuleVerification() {
     }
 
     /**
-     * Initializes a new instance of the {@link "UserRuleVerification"} class.
+     * Initializes a new instance of the {@link UserRuleVerification} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

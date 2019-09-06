@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "RuleVerificationList"} class.
+ * A Data Transfer Object representation of the {@link RuleVerificationList} class.
  */
 @Container(clazz = Iteration.class, propertyName = "ruleVerificationList")
 @ToString
 public class RuleVerificationList extends DefinedThing implements Cloneable, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "RuleVerificationList"} class.
+     * Initializes a new instance of the {@link RuleVerificationList} class.
      */
     public RuleVerificationList() {
         this.ruleVerification = new ArrayList<OrderedItem>();
     }
 
     /**
-     * Initializes a new instance of the {@link "RuleVerificationList"} class.
+     * Initializes a new instance of the {@link RuleVerificationList} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

@@ -57,18 +57,18 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "TopContainer"} class.
+ * A Data Transfer Object representation of the {@link TopContainer} class.
  */
 @ToString
 public abstract class TopContainer extends Thing implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "TopContainer"} class.
+     * Initializes a new instance of the {@link TopContainer} class.
      */
     protected TopContainer() {
     }
 
     /**
-     * Initializes a new instance of the {@link "TopContainer"} class.
+     * Initializes a new instance of the {@link TopContainer} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

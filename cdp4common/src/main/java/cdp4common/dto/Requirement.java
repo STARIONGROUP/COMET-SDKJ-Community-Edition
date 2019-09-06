@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Requirement"} class.
+ * A Data Transfer Object representation of the {@link Requirement} class.
  */
 @Container(clazz = RequirementsSpecification.class, propertyName = "requirement")
 @ToString
 public class Requirement extends SimpleParameterizableThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
-     * Initializes a new instance of the {@link "Requirement"} class.
+     * Initializes a new instance of the {@link Requirement} class.
      */
     public Requirement() {
         this.category = new ArrayList<UUID>();
@@ -71,7 +71,7 @@ public class Requirement extends SimpleParameterizableThing implements Cloneable
     }
 
     /**
-     * Initializes a new instance of the {@link "Requirement"} class.
+     * Initializes a new instance of the {@link Requirement} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

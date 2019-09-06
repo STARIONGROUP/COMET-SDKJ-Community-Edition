@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ThingReference"} class.
+ * A Data Transfer Object representation of the {@link ThingReference} class.
  */
 @CDPVersion(version = "1.1.0")
 @ToString
 public abstract class ThingReference extends Thing implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "ThingReference"} class.
+     * Initializes a new instance of the {@link ThingReference} class.
      */
     protected ThingReference() {
     }
 
     /**
-     * Initializes a new instance of the {@link "ThingReference"} class.
+     * Initializes a new instance of the {@link ThingReference} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

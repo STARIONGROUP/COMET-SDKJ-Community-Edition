@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "DerivedQuantityKind"} class.
+ * A Data Transfer Object representation of the {@link DerivedQuantityKind} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
 public class DerivedQuantityKind extends QuantityKind implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "DerivedQuantityKind"} class.
+     * Initializes a new instance of the {@link DerivedQuantityKind} class.
      */
     public DerivedQuantityKind() {
         this.quantityKindFactor = new ArrayList<OrderedItem>();
     }
 
     /**
-     * Initializes a new instance of the {@link "DerivedQuantityKind"} class.
+     * Initializes a new instance of the {@link DerivedQuantityKind} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

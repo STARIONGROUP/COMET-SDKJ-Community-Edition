@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Bounds"} class.
+ * A Data Transfer Object representation of the {@link Bounds} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = DiagramElementContainer.class, propertyName = "bounds")
 @ToString
 public class Bounds extends DiagramThingBase implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "Bounds"} class.
+     * Initializes a new instance of the {@link Bounds} class.
      */
     public Bounds() {
     }
 
     /**
-     * Initializes a new instance of the {@link "Bounds"} class.
+     * Initializes a new instance of the {@link Bounds} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

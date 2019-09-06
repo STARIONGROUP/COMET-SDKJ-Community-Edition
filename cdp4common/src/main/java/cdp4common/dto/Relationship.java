@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Relationship"} class.
+ * A Data Transfer Object representation of the {@link Relationship} class.
  */
 @Container(clazz = Iteration.class, propertyName = "relationship")
 @ToString
 public abstract class Relationship extends Thing implements Cloneable, CategorizableThing, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "Relationship"} class.
+     * Initializes a new instance of the {@link Relationship} class.
      */
     protected Relationship() {
         this.category = new ArrayList<UUID>();
@@ -71,7 +71,7 @@ public abstract class Relationship extends Thing implements Cloneable, Categoriz
     }
 
     /**
-     * Initializes a new instance of the {@link "Relationship"} class.
+     * Initializes a new instance of the {@link Relationship} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ModelLogEntry"} class.
+ * A Data Transfer Object representation of the {@link ModelLogEntry} class.
  */
 @Container(clazz = EngineeringModel.class, propertyName = "logEntry")
 @ToString
 public class ModelLogEntry extends Thing implements Cloneable, Annotation, CategorizableThing, LogEntry, TimeStampedThing {
     /**
-     * Initializes a new instance of the {@link "ModelLogEntry"} class.
+     * Initializes a new instance of the {@link ModelLogEntry} class.
      */
     public ModelLogEntry() {
         this.affectedItemIid = new ArrayList<UUID>();
@@ -71,7 +71,7 @@ public class ModelLogEntry extends Thing implements Cloneable, Annotation, Categ
     }
 
     /**
-     * Initializes a new instance of the {@link "ModelLogEntry"} class.
+     * Initializes a new instance of the {@link ModelLogEntry} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

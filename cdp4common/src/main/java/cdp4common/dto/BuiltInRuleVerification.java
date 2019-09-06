@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "BuiltInRuleVerification"} class.
+ * A Data Transfer Object representation of the {@link BuiltInRuleVerification} class.
  */
 @Container(clazz = RuleVerificationList.class, propertyName = "ruleVerification")
 @ToString
 public class BuiltInRuleVerification extends RuleVerification implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "BuiltInRuleVerification"} class.
+     * Initializes a new instance of the {@link BuiltInRuleVerification} class.
      */
     public BuiltInRuleVerification() {
     }
 
     /**
-     * Initializes a new instance of the {@link "BuiltInRuleVerification"} class.
+     * Initializes a new instance of the {@link BuiltInRuleVerification} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

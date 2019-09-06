@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "DiagramThingBase"} class.
+ * A Data Transfer Object representation of the {@link DiagramThingBase} class.
  */
 @CDPVersion(version = "1.1.0")
 @ToString
 public abstract class DiagramThingBase extends Thing implements Cloneable, NamedThing {
     /**
-     * Initializes a new instance of the {@link "DiagramThingBase"} class.
+     * Initializes a new instance of the {@link DiagramThingBase} class.
      */
     protected DiagramThingBase() {
     }
 
     /**
-     * Initializes a new instance of the {@link "DiagramThingBase"} class.
+     * Initializes a new instance of the {@link DiagramThingBase} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

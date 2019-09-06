@@ -48,20 +48,20 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * A Data Transfer Object representation of the {@link "ActualFiniteState"} class.
+ * A Data Transfer Object representation of the {@link ActualFiniteState} class.
  */
 @Container(clazz = ActualFiniteStateList.class, propertyName = "actualState")
 @ToString
 public class ActualFiniteState extends Thing implements Cloneable, NamedThing, OwnedThing, ShortNamedThing {
     /**
-     * Initializes a new instance of the {@link "ActualFiniteState"} class.
+     * Initializes a new instance of the {@link ActualFiniteState} class.
      */
     public ActualFiniteState() {
         this.possibleState = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "ActualFiniteState"} class.
+     * Initializes a new instance of the {@link ActualFiniteState} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

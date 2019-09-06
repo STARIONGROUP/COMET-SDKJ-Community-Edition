@@ -57,12 +57,12 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ReferenceDataLibrary"} class.
+ * A Data Transfer Object representation of the {@link ReferenceDataLibrary} class.
  */
 @ToString
 public abstract class ReferenceDataLibrary extends DefinedThing implements Cloneable, ParticipantAffectedAccessThing {
     /**
-     * Initializes a new instance of the {@link "ReferenceDataLibrary"} class.
+     * Initializes a new instance of the {@link ReferenceDataLibrary} class.
      */
     protected ReferenceDataLibrary() {
         this.baseQuantityKind = new ArrayList<OrderedItem>();
@@ -80,7 +80,7 @@ public abstract class ReferenceDataLibrary extends DefinedThing implements Clone
     }
 
     /**
-     * Initializes a new instance of the {@link "ReferenceDataLibrary"} class.
+     * Initializes a new instance of the {@link ReferenceDataLibrary} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

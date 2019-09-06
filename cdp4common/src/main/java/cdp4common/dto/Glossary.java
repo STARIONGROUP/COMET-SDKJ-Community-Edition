@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Glossary"} class.
+ * A Data Transfer Object representation of the {@link Glossary} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "glossary")
 @ToString
 public class Glossary extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
-     * Initializes a new instance of the {@link "Glossary"} class.
+     * Initializes a new instance of the {@link Glossary} class.
      */
     public Glossary() {
         this.category = new ArrayList<UUID>();
@@ -71,7 +71,7 @@ public class Glossary extends DefinedThing implements Cloneable, CategorizableTh
     }
 
     /**
-     * Initializes a new instance of the {@link "Glossary"} class.
+     * Initializes a new instance of the {@link Glossary} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

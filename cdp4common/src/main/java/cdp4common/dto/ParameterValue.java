@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ParameterValue"} class.
+ * A Data Transfer Object representation of the {@link ParameterValue} class.
  */
 @CDPVersion(version = "1.1.0")
 @ToString
 public abstract class ParameterValue extends Thing implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "ParameterValue"} class.
+     * Initializes a new instance of the {@link ParameterValue} class.
      */
     protected ParameterValue() {
         this.value = new ValueArray<String>(String.class);
     }
 
     /**
-     * Initializes a new instance of the {@link "ParameterValue"} class.
+     * Initializes a new instance of the {@link ParameterValue} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

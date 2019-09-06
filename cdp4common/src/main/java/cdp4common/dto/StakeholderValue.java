@@ -57,21 +57,21 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "StakeholderValue"} class.
+ * A Data Transfer Object representation of the {@link StakeholderValue} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Iteration.class, propertyName = "stakeholderValue")
 @ToString
 public class StakeholderValue extends DefinedThing implements Cloneable, CategorizableThing {
     /**
-     * Initializes a new instance of the {@link "StakeholderValue"} class.
+     * Initializes a new instance of the {@link StakeholderValue} class.
      */
     public StakeholderValue() {
         this.category = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "StakeholderValue"} class.
+     * Initializes a new instance of the {@link StakeholderValue} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

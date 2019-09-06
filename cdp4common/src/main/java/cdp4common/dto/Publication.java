@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Publication"} class.
+ * A Data Transfer Object representation of the {@link Publication} class.
  */
 @Container(clazz = Iteration.class, propertyName = "publication")
 @ToString
 public class Publication extends Thing implements Cloneable, TimeStampedThing {
     /**
-     * Initializes a new instance of the {@link "Publication"} class.
+     * Initializes a new instance of the {@link Publication} class.
      */
     public Publication() {
         this.domain = new ArrayList<UUID>();
@@ -71,7 +71,7 @@ public class Publication extends Thing implements Cloneable, TimeStampedThing {
     }
 
     /**
-     * Initializes a new instance of the {@link "Publication"} class.
+     * Initializes a new instance of the {@link Publication} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

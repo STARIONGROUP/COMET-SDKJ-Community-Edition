@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ParameterizedCategoryRule"} class.
+ * A Data Transfer Object representation of the {@link ParameterizedCategoryRule} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "rule")
 @ToString
 public class ParameterizedCategoryRule extends Rule implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "ParameterizedCategoryRule"} class.
+     * Initializes a new instance of the {@link ParameterizedCategoryRule} class.
      */
     public ParameterizedCategoryRule() {
         this.parameterType = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "ParameterizedCategoryRule"} class.
+     * Initializes a new instance of the {@link ParameterizedCategoryRule} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

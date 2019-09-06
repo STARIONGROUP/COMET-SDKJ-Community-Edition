@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Definition"} class.
+ * A Data Transfer Object representation of the {@link Definition} class.
  */
 @Container(clazz = DefinedThing.class, propertyName = "definition")
 @ToString
 public class Definition extends Thing implements Cloneable, Annotation {
     /**
-     * Initializes a new instance of the {@link "Definition"} class.
+     * Initializes a new instance of the {@link Definition} class.
      */
     public Definition() {
         this.citation = new ArrayList<UUID>();
@@ -72,7 +72,7 @@ public class Definition extends Thing implements Cloneable, Annotation {
     }
 
     /**
-     * Initializes a new instance of the {@link "Definition"} class.
+     * Initializes a new instance of the {@link Definition} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

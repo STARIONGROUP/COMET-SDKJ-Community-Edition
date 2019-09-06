@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "NestedParameter"} class.
+ * A Data Transfer Object representation of the {@link NestedParameter} class.
  */
 @Container(clazz = NestedElement.class, propertyName = "nestedParameter")
 @ToString
 public class NestedParameter extends Thing implements Cloneable, OwnedThing, VolatileThing {
     /**
-     * Initializes a new instance of the {@link "NestedParameter"} class.
+     * Initializes a new instance of the {@link NestedParameter} class.
      */
     public NestedParameter() {
     }
 
     /**
-     * Initializes a new instance of the {@link "NestedParameter"} class.
+     * Initializes a new instance of the {@link NestedParameter} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

@@ -57,14 +57,14 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "SiteDirectoryDataAnnotation"} class.
+ * A Data Transfer Object representation of the {@link SiteDirectoryDataAnnotation} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = SiteDirectory.class, propertyName = "annotation")
 @ToString
 public class SiteDirectoryDataAnnotation extends GenericAnnotation implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "SiteDirectoryDataAnnotation"} class.
+     * Initializes a new instance of the {@link SiteDirectoryDataAnnotation} class.
      */
     public SiteDirectoryDataAnnotation() {
         this.discussion = new ArrayList<UUID>();
@@ -72,7 +72,7 @@ public class SiteDirectoryDataAnnotation extends GenericAnnotation implements Cl
     }
 
     /**
-     * Initializes a new instance of the {@link "SiteDirectoryDataAnnotation"} class.
+     * Initializes a new instance of the {@link SiteDirectoryDataAnnotation} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

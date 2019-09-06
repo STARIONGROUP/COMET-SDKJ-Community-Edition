@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "CyclicRatioScale"} class.
+ * A Data Transfer Object representation of the {@link CyclicRatioScale} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "scale")
 @ToString
 public class CyclicRatioScale extends RatioScale implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "CyclicRatioScale"} class.
+     * Initializes a new instance of the {@link CyclicRatioScale} class.
      */
     public CyclicRatioScale() {
     }
 
     /**
-     * Initializes a new instance of the {@link "CyclicRatioScale"} class.
+     * Initializes a new instance of the {@link CyclicRatioScale} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "PossibleFiniteState"} class.
+ * A Data Transfer Object representation of the {@link PossibleFiniteState} class.
  */
 @Container(clazz = PossibleFiniteStateList.class, propertyName = "possibleState")
 @ToString
 public class PossibleFiniteState extends DefinedThing implements Cloneable, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "PossibleFiniteState"} class.
+     * Initializes a new instance of the {@link PossibleFiniteState} class.
      */
     public PossibleFiniteState() {
     }
 
     /**
-     * Initializes a new instance of the {@link "PossibleFiniteState"} class.
+     * Initializes a new instance of the {@link PossibleFiniteState} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

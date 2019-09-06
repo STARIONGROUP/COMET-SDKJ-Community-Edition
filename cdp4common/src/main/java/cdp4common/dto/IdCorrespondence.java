@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "IdCorrespondence"} class.
+ * A Data Transfer Object representation of the {@link IdCorrespondence} class.
  */
 @Container(clazz = ExternalIdentifierMap.class, propertyName = "correspondence")
 @ToString
 public class IdCorrespondence extends Thing implements Cloneable, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "IdCorrespondence"} class.
+     * Initializes a new instance of the {@link IdCorrespondence} class.
      */
     public IdCorrespondence() {
     }
 
     /**
-     * Initializes a new instance of the {@link "IdCorrespondence"} class.
+     * Initializes a new instance of the {@link IdCorrespondence} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

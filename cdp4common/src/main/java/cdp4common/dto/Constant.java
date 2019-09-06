@@ -57,13 +57,13 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Constant"} class.
+ * A Data Transfer Object representation of the {@link Constant} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "constant")
 @ToString
 public class Constant extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
-     * Initializes a new instance of the {@link "Constant"} class.
+     * Initializes a new instance of the {@link Constant} class.
      */
     public Constant() {
         this.category = new ArrayList<UUID>();
@@ -71,7 +71,7 @@ public class Constant extends DefinedThing implements Cloneable, CategorizableTh
     }
 
     /**
-     * Initializes a new instance of the {@link "Constant"} class.
+     * Initializes a new instance of the {@link Constant} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

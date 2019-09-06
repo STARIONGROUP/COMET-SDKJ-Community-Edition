@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "MultiRelationshipRule"} class.
+ * A Data Transfer Object representation of the {@link MultiRelationshipRule} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "rule")
 @ToString
 public class MultiRelationshipRule extends Rule implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "MultiRelationshipRule"} class.
+     * Initializes a new instance of the {@link MultiRelationshipRule} class.
      */
     public MultiRelationshipRule() {
         this.relatedCategory = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "MultiRelationshipRule"} class.
+     * Initializes a new instance of the {@link MultiRelationshipRule} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

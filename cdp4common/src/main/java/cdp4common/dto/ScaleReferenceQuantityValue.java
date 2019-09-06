@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ScaleReferenceQuantityValue"} class.
+ * A Data Transfer Object representation of the {@link ScaleReferenceQuantityValue} class.
  */
 @Container(clazz = LogarithmicScale.class, propertyName = "referenceQuantityValue")
 @ToString
 public class ScaleReferenceQuantityValue extends Thing implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "ScaleReferenceQuantityValue"} class.
+     * Initializes a new instance of the {@link ScaleReferenceQuantityValue} class.
      */
     public ScaleReferenceQuantityValue() {
     }
 
     /**
-     * Initializes a new instance of the {@link "ScaleReferenceQuantityValue"} class.
+     * Initializes a new instance of the {@link ScaleReferenceQuantityValue} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ReferenceSource"} class.
+ * A Data Transfer Object representation of the {@link ReferenceSource} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "referenceSource")
 @ToString
 public class ReferenceSource extends DefinedThing implements Cloneable, CategorizableThing, DeprecatableThing {
     /**
-     * Initializes a new instance of the {@link "ReferenceSource"} class.
+     * Initializes a new instance of the {@link ReferenceSource} class.
      */
     public ReferenceSource() {
         this.category = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "ReferenceSource"} class.
+     * Initializes a new instance of the {@link ReferenceSource} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

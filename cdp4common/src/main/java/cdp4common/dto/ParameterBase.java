@@ -57,18 +57,18 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ParameterBase"} class.
+ * A Data Transfer Object representation of the {@link ParameterBase} class.
  */
 @ToString
 public abstract class ParameterBase extends Thing implements Cloneable, OwnedThing {
     /**
-     * Initializes a new instance of the {@link "ParameterBase"} class.
+     * Initializes a new instance of the {@link ParameterBase} class.
      */
     protected ParameterBase() {
     }
 
     /**
-     * Initializes a new instance of the {@link "ParameterBase"} class.
+     * Initializes a new instance of the {@link ParameterBase} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

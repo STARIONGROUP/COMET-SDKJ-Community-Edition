@@ -50,14 +50,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * A Data Transfer Object representation of the {@link "Book"} class.
+ * A Data Transfer Object representation of the {@link Book} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = EngineeringModel.class, propertyName = "book")
 @ToString
 public class Book extends Thing implements Cloneable, CategorizableThing, NamedThing, OwnedThing, ShortNamedThing, TimeStampedThing {
     /**
-     * Initializes a new instance of the {@link "Book"} class.
+     * Initializes a new instance of the {@link Book} class.
      */
     public Book() {
         this.category = new ArrayList<UUID>();
@@ -65,7 +65,7 @@ public class Book extends Thing implements Cloneable, CategorizableThing, NamedT
     }
 
     /**
-     * Initializes a new instance of the {@link "Book"} class.
+     * Initializes a new instance of the {@link Book} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "SimpleQuantityKind"} class.
+ * A Data Transfer Object representation of the {@link SimpleQuantityKind} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
 public class SimpleQuantityKind extends QuantityKind implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "SimpleQuantityKind"} class.
+     * Initializes a new instance of the {@link SimpleQuantityKind} class.
      */
     public SimpleQuantityKind() {
     }
 
     /**
-     * Initializes a new instance of the {@link "SimpleQuantityKind"} class.
+     * Initializes a new instance of the {@link SimpleQuantityKind} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

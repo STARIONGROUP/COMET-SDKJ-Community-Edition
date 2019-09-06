@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "TimeOfDayParameterType"} class.
+ * A Data Transfer Object representation of the {@link TimeOfDayParameterType} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
 public class TimeOfDayParameterType extends ScalarParameterType implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "TimeOfDayParameterType"} class.
+     * Initializes a new instance of the {@link TimeOfDayParameterType} class.
      */
     public TimeOfDayParameterType() {
     }
 
     /**
-     * Initializes a new instance of the {@link "TimeOfDayParameterType"} class.
+     * Initializes a new instance of the {@link TimeOfDayParameterType} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

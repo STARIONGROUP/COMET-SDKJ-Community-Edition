@@ -57,21 +57,21 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "ValueGroup"} class.
+ * A Data Transfer Object representation of the {@link ValueGroup} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Iteration.class, propertyName = "valueGroup")
 @ToString
 public class ValueGroup extends DefinedThing implements Cloneable, CategorizableThing {
     /**
-     * Initializes a new instance of the {@link "ValueGroup"} class.
+     * Initializes a new instance of the {@link ValueGroup} class.
      */
     public ValueGroup() {
         this.category = new ArrayList<UUID>();
     }
 
     /**
-     * Initializes a new instance of the {@link "ValueGroup"} class.
+     * Initializes a new instance of the {@link ValueGroup} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

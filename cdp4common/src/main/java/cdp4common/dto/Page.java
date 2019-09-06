@@ -57,14 +57,14 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Page"} class.
+ * A Data Transfer Object representation of the {@link Page} class.
  */
 @CDPVersion(version = "1.1.0")
 @Container(clazz = Section.class, propertyName = "page")
 @ToString
 public class Page extends Thing implements Cloneable, CategorizableThing, NamedThing, OwnedThing, ShortNamedThing, TimeStampedThing {
     /**
-     * Initializes a new instance of the {@link "Page"} class.
+     * Initializes a new instance of the {@link Page} class.
      */
     public Page() {
         this.category = new ArrayList<UUID>();
@@ -72,7 +72,7 @@ public class Page extends Thing implements Cloneable, CategorizableThing, NamedT
     }
 
     /**
-     * Initializes a new instance of the {@link "Page"} class.
+     * Initializes a new instance of the {@link Page} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

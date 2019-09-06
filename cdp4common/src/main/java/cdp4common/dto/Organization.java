@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "Organization"} class.
+ * A Data Transfer Object representation of the {@link Organization} class.
  */
 @Container(clazz = SiteDirectory.class, propertyName = "organization")
 @ToString
 public class Organization extends Thing implements Cloneable, DeprecatableThing, NamedThing, ShortNamedThing {
     /**
-     * Initializes a new instance of the {@link "Organization"} class.
+     * Initializes a new instance of the {@link Organization} class.
      */
     public Organization() {
     }
 
     /**
-     * Initializes a new instance of the {@link "Organization"} class.
+     * Initializes a new instance of the {@link Organization} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

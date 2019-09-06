@@ -57,19 +57,19 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "CommonFileStore"} class.
+ * A Data Transfer Object representation of the {@link CommonFileStore} class.
  */
 @Container(clazz = EngineeringModel.class, propertyName = "commonFileStore")
 @ToString
 public class CommonFileStore extends FileStore implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "CommonFileStore"} class.
+     * Initializes a new instance of the {@link CommonFileStore} class.
      */
     public CommonFileStore() {
     }
 
     /**
-     * Initializes a new instance of the {@link "CommonFileStore"} class.
+     * Initializes a new instance of the {@link CommonFileStore} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.

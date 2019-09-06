@@ -57,20 +57,20 @@ import lombok.EqualsAndHashCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A Data Transfer Object representation of the {@link "CompoundParameterType"} class.
+ * A Data Transfer Object representation of the {@link CompoundParameterType} class.
  */
 @Container(clazz = ReferenceDataLibrary.class, propertyName = "parameterType")
 @ToString
 public class CompoundParameterType extends ParameterType implements Cloneable {
     /**
-     * Initializes a new instance of the {@link "CompoundParameterType"} class.
+     * Initializes a new instance of the {@link CompoundParameterType} class.
      */
     public CompoundParameterType() {
         this.component = new ArrayList<OrderedItem>();
     }
 
     /**
-     * Initializes a new instance of the {@link "CompoundParameterType"} class.
+     * Initializes a new instance of the {@link CompoundParameterType} class.
      *
      * @param iid The unique identifier.
      * @param rev The revision number.
