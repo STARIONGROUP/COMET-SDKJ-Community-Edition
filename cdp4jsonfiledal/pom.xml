@@ -7,18 +7,45 @@
   <parent>
     <groupId>com.rheagroup</groupId>
     <artifactId>cdp4-sdk4j-parent</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
   <artifactId>cdp4jsonfiledal</artifactId>
   <name>CDP4 JSON File Dal</name>
   <packaging>jar</packaging>
+  <url>https://github.com/RHEAGROUP/CDP4-SDKJ-Community-Edition</url>
+  <licenses>
+    <license>
+      <name>GNU Lesser General Public License v3.0</name>
+      <url>https://www.gnu.org/licenses/lgpl-3.0.html</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Sam Gerené</name>
+      <email>s.gerene@rheagroup.com</email>
+      <organization>RHEA GROUP</organization>
+      <organizationUrl>https://www.rheagroup.com/</organizationUrl>
+    </developer>
+    <developer>
+      <name>Alex Vorobiev</name>
+      <email>a.vorobiev@rheagroup.com</email>
+      <organization>RHEA GROUP</organization>
+      <organizationUrl>https://www.rheagroup.com/</organizationUrl>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git://github.com/RHEAGROUP/CDP4-SDKJ-Community-Edition.git</connection>
+    <developerConnection>scm:git:ssh://github.com:RHEAGROUP/CDP4-SDKJ-Community-Edition.git
+    </developerConnection>
+    <url>https://github.com/RHEAGROUP/CDP4-SDKJ-Community-Edition/tree/master</url>
+  </scm>
 
   <properties>
-    <cdp4common.version>1.0.0</cdp4common.version>
-    <cdp4dal.version>1.0.0</cdp4dal.version>
-    <cdp4jsonserializer.version>1.0.0</cdp4jsonserializer.version>
+    <cdp4common.version>1.0.0-SNAPSHOT</cdp4common.version>
+    <cdp4dal.version>1.0.0-SNAPSHOT</cdp4dal.version>
+    <cdp4jsonserializer.version>1.0.0-SNAPSHOT</cdp4jsonserializer.version>
   </properties>
 
   <dependencies>
