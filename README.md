@@ -4,6 +4,19 @@ The Concurrent Design Platform Java Software Development Kit that is compliant w
 
 > The C# SDK is the primary implementation, therefore the Java implementation may be a bit behind on new features and bug fixes. Both libraries are actively maintained and the Java implementation will get sycned up within a few weeks.
 
+# Maven Central
+
+The SDK contains multiple libraries that are each packaged as Maven artifacts and avaialble from [Maven Central](https://search.maven.org/).
+
+Artifact | Link
+---------|-----
+CDP4Common | [![Maven Central](https://img.shields.io/maven-central/v/com.rheagroup/cdp4common?style=plastic)](https://search.maven.org/artifact/com.rheagroup/cdp4common)
+CDP4JsonSerializer | [![Maven Central](https://img.shields.io/maven-central/v/com.rheagroup/cdp4jsonserializer?style=plastic)](https://search.maven.org/artifact/com.rheagroup/cdp4jsonserializer)
+CDP4Dal | [![Maven Central](https://img.shields.io/maven-central/v/com.rheagroup/cdp4dal?style=plastic)](https://search.maven.org/artifact/com.rheagroup/cdp4dal)
+CDP4JsonFileDal | [![Maven Central](https://img.shields.io/maven-central/v/com.rheagroup/cdp4jsonfiledal?style=plastic)](https://search.maven.org/artifact/com.rheagroup/cdp4jsonfiledal)
+CDP4ServicesDal | [![Maven Central](https://img.shields.io/maven-central/v/com.rheagroup/cdp4servicesdal?style=plastic)](https://search.maven.org/artifact/com.rheagroup/cdp4servicesdal)
+CDP4WspDal | [![Maven Central](https://img.shields.io/maven-central/v/com.rheagroup/cdp4wspdal?style=plastic)](https://search.maven.org/artifact/com.rheagroup/cdp4wspdal)
+
 # Build and Coverage Status
 
 Travis is used to build and test the CDP4-SDKJ
