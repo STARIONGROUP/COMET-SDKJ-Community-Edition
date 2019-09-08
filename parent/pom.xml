@@ -7,7 +7,7 @@
   <groupId>com.rheagroup</groupId>
   <artifactId>cdp4-sdk4j-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>CDP4 SDK Java Implementation Project Parent</name>
   <description>A parent pom that is used by all CDP4 modules</description>
   <url>https://github.com/RHEAGROUP/CDP4-SDKJ-Community-Edition</url>
@@ -63,7 +63,7 @@
     <commons.io.version>2.6</commons.io.version>
     <guava.version>27.0.1-jre</guava.version>
     <reflections.version>0.9.11</reflections.version>
-    <apiguardian.version>1.0.0-SNAPSHOT</apiguardian.version>
+    <apiguardian.version>1.0.0</apiguardian.version>
     <intellij.version>12.0</intellij.version>
     <jaxb.version>2.3.0</jaxb.version>
     <mvn.compiler.version>3.8.0</mvn.compiler.version>
@@ -282,7 +282,7 @@
           <serverId>ossrh</serverId>
           <nexusUrl>https://oss.sonatype.org/</nexusUrl>
           <!-- Set this to true and the release will automatically proceed and sync to Central Repository will follow  -->
-          <autoReleaseAfterClose>false</autoReleaseAfterClose>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
       </plugin>
       <plugin>
