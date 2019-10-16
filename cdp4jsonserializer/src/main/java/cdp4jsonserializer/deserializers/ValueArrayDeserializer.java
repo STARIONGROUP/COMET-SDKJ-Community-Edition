@@ -52,7 +52,7 @@ public class ValueArrayDeserializer extends StdDeserializer<ValueArray> {
     JsonNode node = mapper.readTree(jp);
     String value = mapper.writeValueAsString(node);
 
-    Pattern patternArray = Pattern.compile("^\\[(.*)\\]$");
+    Pattern patternArray = Pattern.compile("^\\[(.*)\\]$", Pattern.DOTALL);
     Matcher arrayMatcher = patternArray.matcher(value);
     arrayMatcher.find();
     String extractedArrayString = arrayMatcher.group(1);
