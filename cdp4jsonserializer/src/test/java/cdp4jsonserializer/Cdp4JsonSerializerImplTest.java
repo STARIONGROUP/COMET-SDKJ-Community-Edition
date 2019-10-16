@@ -1,5 +1,6 @@
 package cdp4jsonserializer;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -18,10 +19,13 @@ import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class Cdp4JsonSerializerImplTest {
 
@@ -187,7 +191,8 @@ class Cdp4JsonSerializerImplTest {
 
     var fileRevision = fileRevisionList.get(0);
     assertEquals(1, ((FileRevision) fileRevision).getFileType().size());
-    assertEquals(OffsetDateTime.of(2019, 8, 2, 14, 11, 56, 580_000_000, ZoneOffset.UTC), ((FileRevision) fileRevision).getModifiedOn());
+    assertEquals(OffsetDateTime.of(2019, 8, 2, 14, 11, 56, 580_000_000, ZoneOffset.UTC),
+        ((FileRevision) fileRevision).getModifiedOn());
 
     var fileType = ((FileRevision) fileRevision).getFileType().get(0);
     assertEquals(1, fileType.getK());
@@ -212,13 +217,13 @@ class Cdp4JsonSerializerImplTest {
     assertEquals(expected, outputStream.toString());
   }
 
-   @Test
+  @Test
   void valueArrayIsDeserializedTest() throws IOException {
-     String source = "\"[\\\"one\\\",\\\"two\\\",\\\"three\\\"]\"";
+    String source = "\"[\\\"one\\\",\\\"two\\\",\\\"three\\\"]\"";
 
-     ByteArrayInputStream inputStream = new ByteArrayInputStream(source.getBytes());
-     var item = this.serializer.deserialize(new TypeReference<ValueArray>() {
-     }, inputStream);
+    ByteArrayInputStream inputStream = new ByteArrayInputStream(source.getBytes());
+    var item = this.serializer.deserialize(new TypeReference<ValueArray>() {
+    }, inputStream);
 
     assertEquals(3, item.size());
     assertEquals("one", item.get(0));
@@ -240,6 +245,28 @@ class Cdp4JsonSerializerImplTest {
     assertEquals("three", item.get(2));
   }
 
+  @ParameterizedTest
+  @MethodSource("getTestStrings")
+  void verifyThatValueArrayIsSerializedAndDeserialized(String input) throws IOException {
+    var valueArray = new ValueArray<>(Collections.singletonList(input), String.class);
+
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    this.serializer.serializeToStream(valueArray, outputStream);
+    var json = outputStream.toString();
+
+    ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes());
+    var result = this.serializer.deserialize(new TypeReference<ValueArray>() {
+    }, inputStream);
+
+    assertThat(valueArray).containsExactlyInAnyOrderElementsOf(result);
+
+    outputStream.reset();
+    this.serializer.serializeToStream(result, outputStream);
+    var resultJson = outputStream.toString();
+
+    assertEquals(json, resultJson);
+  }
+
   boolean areEqualBySumOfBytes(String s1, String s2) {
     long s1SumOfBytes = 0;
     long s2SumOfBytes = 0;
@@ -254,5 +281,111 @@ class Cdp4JsonSerializerImplTest {
 
     System.out.println(s1SumOfBytes + "--" + s2SumOfBytes);
     return s1SumOfBytes == s2SumOfBytes;
+  }
+
+  private static String getJsonString() {
+    return String.join("\\n",
+        "{\"widget\": {",
+        "\"debug\": \"on\",",
+        "\"window\": {",
+        "\"title\": \"Sample Konfabulator Widget\",",
+        "\"name\": \"main_window\",",
+        "\"width\": 500,",
+        "\"height\": 500",
+        "},",
+        "\"image\": {",
+        "\"src\": \"Images/Sun.png\",",
+        "\"name\": \"sun1\",",
+        "\"hOffset\": 250,",
+        "\"vOffset\": 250,",
+        "\"alignment\": \"center\"",
+        "},",
+        "\"text\": {",
+        "\"data\": \"Click Here\",",
+        "\"size\": 36,",
+        "\"style\": \"bold\",",
+        "\"name\": \"text1\",",
+        "\"hOffset\": 250,",
+        "\"vOffset\": 100,",
+        "\"alignment\": \"center\",",
+        "\"onMouseUp\": \"sun1.opacity = (sun1.opacity / 100) * 90;\"",
+        "}",
+        "}",
+        "}");
+  }
+
+  private static String getXmlString() {
+
+    return String.join("\\n",
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+        "<bookstore>",
+        "<book category=\"cooking\">",
+        "<title lang=\"en\">Everyday Italian</title>",
+        "<author>Giada De Laurentiis</author>",
+        "<year>2005</year>",
+        "<price>30.00</price>",
+        "<data><![CDATA[Within this Character Data block I can",
+        "use double dashes as much as I want (along with <, &, ', and \")",
+        "*and* %MyParamEntity; will be expanded to the text",
+        "\"Has been expanded\" ... however, I can't use",
+        "the CEND sequence.If I need to use CEND I must escape one of the",
+        "brackets or the greater-than sign using concatenated CDATA sections.",
+        "\"]]></data>",
+        "</book>",
+        "<book category=\"children\">",
+        "<title lang=\"en\">Harry Potter</title>",
+        "<author>J K. Rowling</author>",
+        "<year>2005</year>",
+        "<price>29.99</price>",
+        "</book>",
+        "<book category=\"web\">",
+        "<title lang=\"en\">Learning XML</title>",
+        "<author>Erik T. Ray</author>",
+        "<year>2003</year>",
+        "<price>39.95</price>",
+        "</book>",
+        "</bookstore>");
+  }
+
+  private static String[] getTestStrings() {
+    String[] strings = {
+        "value with trailing spaces  ",
+        "value with trailing space ",
+        " value with leading spaces",
+        "  value with leading space",
+        "=2*(2+2)",
+        "=2*\\n(2+2)",
+        "=2*\\r(2+2)",
+        "=2*\\r\\n(2+2)",
+        "=2*\\n\\r(2+2)",
+        "= 2 * \\n ( 2 + 2 )",
+        "=2*\\b(2+2)",
+        "=2*\\f(2+2)",
+        "=2*\\t(2+2)",
+        "Ar54WbBu + yhw - R:G!d)C!X_H % Vy ? V",
+        "qm+L/{hp,qU[F\\nnSyFymmZ\\n+F(G/pP8@",
+        "JSfJzH!U5:*wcnzT+{a5-L&+Xaq[g4",
+        "EfRKJ[*A%uiM9MJ_h-z?9X(KYJQ/xL",
+        "B_Dw+Tw.7g,.36]7(j8(k3/hxX,K_y",
+        "qKt_C}@).D!ik.4W48ESR}w*VGvaub",
+        "33CDr2NPZ[fJQ]p?aXT2L{giUUm}g#",
+        "mpb-!ump7S{D)]Z9B@S([FXMRSq/9S",
+        "D,VeZQRnV/}?}*qxMeX}N7*%R]!Tf/",
+        "L$X7@P,JhcYM,-e4Z5,!ft.UbC[Y{n",
+        "QWuAr.P$RUCf(NiV{7}tcwnia:.Fnp",
+        "L%%t?cdpa?g#-PE4w6=[yU72Cgxz:f",
+        ",GCeVX=$6R,(JJW[mLd4uF@{,Yr%NL",
+        "i?5,/.G%D,M3im?8:,+ju}(CMh_E77",
+        "}8Bn)rtS4BGTWThmT,=nu,q{[H?):9",
+        "ScVmbHjSB[HS$8A*C{awPvvp{%@5Xr",
+        "wy6bDVDuim}YLhB24=[y6!4vpM2pTw",
+        "f:][.LfcN#(gH=Dq$6Lcp7TWQP7LH!",
+        "!&.v8L44$ep69u+W-_5jq?DV@fi($H",
+        "?_uB5Z(U$B6,cVPMPJv%q}d[+2PAMZ",
+        "[_*q5d$U{qE7}r_7$fdf$h5yBFpPG+",
+        getJsonString()
+    };
+
+    return strings;
   }
 }

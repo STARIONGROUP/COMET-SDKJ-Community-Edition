@@ -26,7 +26,6 @@ package cdp4jsonserializer.serializers;
 
 import cdp4common.types.ValueArray;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
@@ -44,13 +43,13 @@ public class ValueArraySerializer extends StdSerializer<ValueArray> {
   @Override
   public void serialize(
       ValueArray value, JsonGenerator jgen, SerializerProvider provider)
-      throws IOException, JsonProcessingException {
+      throws IOException {
 
     var builder = new StringBuilder("[");
 
     for (var item : value) {
       builder.append("\"");
-      builder.append(item.toString());
+      builder.append(item.toString().replace("\\", "\\\\").replace("\"", "\\\""));
       builder.append("\"");
       builder.append(",");
     }
@@ -60,6 +59,6 @@ public class ValueArraySerializer extends StdSerializer<ValueArray> {
 
     builder.append("]");
 
-    jgen.writeString(builder.toString());
+    jgen.writeRaw(builder.toString());
   }
 }
