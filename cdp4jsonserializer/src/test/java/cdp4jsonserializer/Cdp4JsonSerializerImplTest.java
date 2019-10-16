@@ -202,7 +202,7 @@ class Cdp4JsonSerializerImplTest {
 
   @Test
   void valueArrayIsSerializedTest() throws IOException {
-    String expected = "\"[\\\"one\\\",\\\"two\\\",\\\"three\\\"]\"";
+    String expected = "[\"one\",\"two\",\"three\"]";
 
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     List<String> list = new ArrayList<>();
@@ -219,7 +219,7 @@ class Cdp4JsonSerializerImplTest {
 
   @Test
   void valueArrayIsDeserializedTest() throws IOException {
-    String source = "\"[\\\"one\\\",\\\"two\\\",\\\"three\\\"]\"";
+    String source = "[\"one\",\"two\",\"three\"]";
 
     ByteArrayInputStream inputStream = new ByteArrayInputStream(source.getBytes());
     var item = this.serializer.deserialize(new TypeReference<ValueArray>() {
@@ -233,7 +233,7 @@ class Cdp4JsonSerializerImplTest {
 
   @Test
   void valueArrayIsDeserializedForRedundantSpacesTest() throws IOException {
-    String source = "\" [  \\\"one\\\",   \\\"two\\\" ,  \\\"three\\\" ]  \"";
+    String source = "[  \"one\",   \"two\" ,  \"three\" ]";
 
     ByteArrayInputStream inputStream = new ByteArrayInputStream(source.getBytes());
     var item = this.serializer.deserialize(new TypeReference<ValueArray>() {
