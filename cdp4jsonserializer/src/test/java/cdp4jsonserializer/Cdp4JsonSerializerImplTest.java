@@ -202,7 +202,7 @@ class Cdp4JsonSerializerImplTest {
 
   @Test
   void valueArrayIsSerializedTest() throws IOException {
-    String expected = "[\"one\",\"two\",\"three\"]";
+    String expected = "\"[\\\"one\\\",\\\"two\\\",\\\"three\\\"]\"";
 
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     List<String> list = new ArrayList<>();
@@ -215,34 +215,6 @@ class Cdp4JsonSerializerImplTest {
     System.out.println(outputStream.toString());
     System.out.println(expected);
     assertEquals(expected, outputStream.toString());
-  }
-
-  @Test
-  void valueArrayIsDeserializedTest() throws IOException {
-    String source = "[\"one\",\"two\",\"three\"]";
-
-    ByteArrayInputStream inputStream = new ByteArrayInputStream(source.getBytes());
-    var item = this.serializer.deserialize(new TypeReference<ValueArray>() {
-    }, inputStream);
-
-    assertEquals(3, item.size());
-    assertEquals("one", item.get(0));
-    assertEquals("two", item.get(1));
-    assertEquals("three", item.get(2));
-  }
-
-  @Test
-  void valueArrayIsDeserializedForRedundantSpacesTest() throws IOException {
-    String source = "[  \"one\",   \"two\" ,  \"three\" ]";
-
-    ByteArrayInputStream inputStream = new ByteArrayInputStream(source.getBytes());
-    var item = this.serializer.deserialize(new TypeReference<ValueArray>() {
-    }, inputStream);
-
-    assertEquals(3, item.size());
-    assertEquals("one", item.get(0));
-    assertEquals("two", item.get(1));
-    assertEquals("three", item.get(2));
   }
 
   @ParameterizedTest
@@ -284,7 +256,7 @@ class Cdp4JsonSerializerImplTest {
   }
 
   private static String getJsonString() {
-    return String.join("\\n",
+    return String.join("\n",
         "{\"widget\": {",
         "\"debug\": \"on\",",
         "\"window\": {",
@@ -316,7 +288,7 @@ class Cdp4JsonSerializerImplTest {
 
   private static String getXmlString() {
 
-    return String.join("\\n",
+    return String.join("\n",
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
         "<bookstore>",
         "<book category=\"cooking\">",
@@ -354,16 +326,16 @@ class Cdp4JsonSerializerImplTest {
         " value with leading spaces",
         "  value with leading space",
         "=2*(2+2)",
-        "=2*\\n(2+2)",
-        "=2*\\r(2+2)",
-        "=2*\\r\\n(2+2)",
-        "=2*\\n\\r(2+2)",
-        "= 2 * \\n ( 2 + 2 )",
-        "=2*\\b(2+2)",
-        "=2*\\f(2+2)",
-        "=2*\\t(2+2)",
+        "=2*\n(2+2)",
+        "=2*\r(2+2)",
+        "=2*\r\n(2+2)",
+        "=2*\n\r(2+2)",
+        "= 2 * \n ( 2 + 2 )",
+        "=2*\b(2+2)",
+        "=2*\f(2+2)",
+        "=2*\t(2+2)",
         "Ar54WbBu + yhw - R:G!d)C!X_H % Vy ? V",
-        "qm+L/{hp,qU[F\\nnSyFymmZ\\n+F(G/pP8@",
+        "qm+L/{hp,qU[F\nnSyFymmZ\n+F(G/pP8@",
         "JSfJzH!U5:*wcnzT+{a5-L&+Xaq[g4",
         "EfRKJ[*A%uiM9MJ_h-z?9X(KYJQ/xL",
         "B_Dw+Tw.7g,.36]7(j8(k3/hxX,K_y",
@@ -383,7 +355,8 @@ class Cdp4JsonSerializerImplTest {
         "!&.v8L44$ep69u+W-_5jq?DV@fi($H",
         "?_uB5Z(U$B6,cVPMPJv%q}d[+2PAMZ",
         "[_*q5d$U{qE7}r_7$fdf$h5yBFpPG+",
-        getJsonString()
+        getJsonString(),
+        getXmlString()
     };
 
     return strings;

@@ -49,7 +49,19 @@ public class ValueArraySerializer extends StdSerializer<ValueArray> {
 
     for (var item : value) {
       builder.append("\"");
-      builder.append(item.toString().replace("\\", "\\\\").replace("\"", "\\\""));
+      // Escape special string characters in accordance with JSON specification
+      // Details see http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
+      // Section 9 String
+      builder.append(item.toString()
+          .replace("\\", "\\\\")
+          .replace("\"", "\\\"")
+          .replace("\b", "\\b")
+          .replace("\f", "\\f")
+          .replace("\n", "\\n")
+          .replace("\r", "\\r")
+          .replace("\t", "\\t")
+          .replace("/", "\\/")
+      );
       builder.append("\"");
       builder.append(",");
     }
@@ -59,6 +71,6 @@ public class ValueArraySerializer extends StdSerializer<ValueArray> {
 
     builder.append("]");
 
-    jgen.writeRaw(builder.toString());
+    jgen.writeString(builder.toString());
   }
 }

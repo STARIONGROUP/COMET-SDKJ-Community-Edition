@@ -50,7 +50,7 @@ public class ValueArrayDeserializer extends StdDeserializer<ValueArray> {
       throws IOException {
     ObjectMapper mapper = (ObjectMapper) jp.getCodec();
     JsonNode node = mapper.readTree(jp);
-    String value = mapper.writeValueAsString(node);
+    String value = node.textValue();
 
     Pattern patternArray = Pattern.compile("^\\[(.*)\\]$", Pattern.DOTALL);
     Matcher arrayMatcher = patternArray.matcher(value);
@@ -60,12 +60,25 @@ public class ValueArrayDeserializer extends StdDeserializer<ValueArray> {
     // match within 2 unescape double-quote the following content:
     // 1) (no special char \ or ") 0..* times
     // 2) (a pattern that starts with \ followed by any character (special included) and 0..* "non special" characters) 0..* times
-    Pattern patternElements = Pattern.compile("\"([^\"\"\\\\]*(\\\\.[^\"\"\\\\]*)*)\"");
+    Pattern patternElements = Pattern
+        .compile("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"", Pattern.DOTALL);
     var elements = patternElements.matcher(extractedArrayString);
     var items = new ArrayList<String>();
 
     while (elements.find()) {
-      items.add(elements.group(1).replace("\\\"", "\"").replace("\\\\", "\\"));
+      // Unescape special string characters in accordance with JSON specification
+      // Details see http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
+      // Section 9 String
+      items.add(elements.group(1)
+          .replace("\\\"", "\"")
+          .replace("\\\\", "\\")
+          .replace("\\b", "\b")
+          .replace("\\f", "\f")
+          .replace("\\n", "\n")
+          .replace("\\r", "\r")
+          .replace("\\t", "\t")
+          .replace("\\/", "/")
+      );
     }
 
     return new ValueArray<>(items, String.class);
