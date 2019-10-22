@@ -325,6 +325,8 @@ class Cdp4JsonSerializerImplTest {
         "value with trailing space ",
         " value with leading spaces",
         "  value with leading space",
+        "\t\t\tvalue with leading and trailing tabs \t",
+        "\nvalue with leading and trailing linebreaks \r",
         "=2*(2+2)",
         "=2*\n(2+2)",
         "=2*\r(2+2)",
