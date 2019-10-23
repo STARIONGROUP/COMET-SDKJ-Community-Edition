@@ -26,7 +26,6 @@ package cdp4jsonserializer.serializers;
 
 import cdp4common.types.ValueArray;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
@@ -44,13 +43,25 @@ public class ValueArraySerializer extends StdSerializer<ValueArray> {
   @Override
   public void serialize(
       ValueArray value, JsonGenerator jgen, SerializerProvider provider)
-      throws IOException, JsonProcessingException {
+      throws IOException {
 
     var builder = new StringBuilder("[");
 
     for (var item : value) {
       builder.append("\"");
-      builder.append(item.toString());
+      // Escape special string characters in accordance with JSON specification
+      // Details see http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
+      // Section 9 String
+      builder.append(item.toString()
+          .replace("\\", "\\\\")
+          .replace("\"", "\\\"")
+          .replace("\b", "\\b")
+          .replace("\f", "\\f")
+          .replace("\n", "\\n")
+          .replace("\r", "\\r")
+          .replace("\t", "\\t")
+          .replace("/", "\\/")
+      );
       builder.append("\"");
       builder.append(",");
     }

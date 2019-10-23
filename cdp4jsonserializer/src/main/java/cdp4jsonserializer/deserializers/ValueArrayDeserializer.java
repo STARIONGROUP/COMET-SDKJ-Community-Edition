@@ -26,12 +26,14 @@ package cdp4jsonserializer.deserializers;
 
 import cdp4common.types.ValueArray;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ValueArrayDeserializer extends StdDeserializer<ValueArray> {
 
@@ -45,20 +47,40 @@ public class ValueArrayDeserializer extends StdDeserializer<ValueArray> {
 
   @Override
   public ValueArray deserialize(JsonParser jp, DeserializationContext ctxt)
-      throws IOException, JsonProcessingException {
-    String value = jp.getCodec().readValue(jp, String.class);
+      throws IOException {
+    ObjectMapper mapper = (ObjectMapper) jp.getCodec();
+    JsonNode node = mapper.readTree(jp);
+    String value = node.textValue();
 
-    int firstBracketIndex = value.indexOf("[");
-    int lastBracketIndex = value.indexOf("]");
+    Pattern patternArray = Pattern.compile("^\\[(.*)\\]$", Pattern.DOTALL);
+    Matcher arrayMatcher = patternArray.matcher(value);
+    arrayMatcher.find();
+    String extractedArrayString = arrayMatcher.group(1);
 
-    String[] values = value.substring(firstBracketIndex + 1, lastBracketIndex).split(",");
+    // match within 2 unescape double-quote the following content:
+    // 1) (no special char \ or ") 0..* times
+    // 2) (a pattern that starts with \ followed by any character (special included) and 0..* "non special" characters) 0..* times
+    Pattern patternElements = Pattern
+        .compile("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"", Pattern.DOTALL);
+    var elements = patternElements.matcher(extractedArrayString);
+    var items = new ArrayList<String>();
 
-    List<String> list = new ArrayList<>();
-
-    for (var item : values) {
-      list.add(item.strip().replace("\"", ""));
+    while (elements.find()) {
+      // Unescape special string characters in accordance with JSON specification
+      // Details see http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
+      // Section 9 String
+      items.add(elements.group(1)
+          .replace("\\\"", "\"")
+          .replace("\\\\", "\\")
+          .replace("\\b", "\b")
+          .replace("\\f", "\f")
+          .replace("\\n", "\n")
+          .replace("\\r", "\r")
+          .replace("\\t", "\t")
+          .replace("\\/", "/")
+      );
     }
 
-    return new ValueArray<>(list, String.class);
+    return new ValueArray<>(items, String.class);
   }
 }
