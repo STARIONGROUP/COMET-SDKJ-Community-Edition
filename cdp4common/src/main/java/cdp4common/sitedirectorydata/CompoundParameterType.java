@@ -148,7 +148,7 @@ public class CompoundParameterType extends ParameterType implements Cloneable {
 
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
-        clone.setComponent(cloneContainedThings ? new OrderedItemList<ParameterTypeComponent>(clone, true, ParameterTypeComponent.class) : new OrderedItemList<ParameterTypeComponent>(this.getComponent(), clone, ParameterTypeComponent.class));
+        clone.setComponent(cloneContainedThings ? null : new OrderedItemList<ParameterTypeComponent>(this.getComponent(), clone, ParameterTypeComponent.class));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -156,7 +156,7 @@ public class CompoundParameterType extends ParameterType implements Cloneable {
 
         if (cloneContainedThings) {
             clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
-            clone.getComponent().addAll(this.getComponent().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.setComponent(this.getComponent().clone(clone));
             clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }

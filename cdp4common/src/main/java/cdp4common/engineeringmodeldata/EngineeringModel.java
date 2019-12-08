@@ -209,7 +209,7 @@ public class EngineeringModel extends TopContainer implements Cloneable {
             throw new IllegalAccessError("Somehow EngineeringModel cannot be cloned.");
         }
 
-        clone.setBook(cloneContainedThings ? new OrderedItemList<Book>(clone, true, Book.class) : new OrderedItemList<Book>(this.getBook(), clone, Book.class));
+        clone.setBook(cloneContainedThings ? null : new OrderedItemList<Book>(this.getBook(), clone, Book.class));
         clone.setCommonFileStore(cloneContainedThings ? new ContainerList<CommonFileStore>(clone) : new ContainerList<CommonFileStore>(this.getCommonFileStore(), clone, false));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
@@ -219,7 +219,7 @@ public class EngineeringModel extends TopContainer implements Cloneable {
         clone.setModellingAnnotation(cloneContainedThings ? new ContainerList<ModellingAnnotationItem>(clone) : new ContainerList<ModellingAnnotationItem>(this.getModellingAnnotation(), clone, false));
 
         if (cloneContainedThings) {
-            clone.getBook().addAll(this.getBook().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.setBook(this.getBook().clone(clone));
             clone.getCommonFileStore().addAll(this.getCommonFileStore().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getGenericNote().addAll(this.getGenericNote().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getIteration().addAll(this.getIteration().stream().map(x -> x.clone(true)).collect(Collectors.toList()));

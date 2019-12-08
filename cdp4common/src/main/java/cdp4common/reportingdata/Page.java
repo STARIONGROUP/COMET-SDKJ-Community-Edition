@@ -189,10 +189,10 @@ public class Page extends Thing implements Cloneable, CategorizableThing, NamedT
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setNote(cloneContainedThings ? new OrderedItemList<Note>(clone, true, Note.class) : new OrderedItemList<Note>(this.getNote(), clone, Note.class));
+        clone.setNote(cloneContainedThings ? null : new OrderedItemList<Note>(this.getNote(), clone, Note.class));
 
         if (cloneContainedThings) {
-            clone.getNote().addAll(this.getNote().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.setNote(this.getNote().clone(clone));
         }
 
         clone.setOriginal(this);

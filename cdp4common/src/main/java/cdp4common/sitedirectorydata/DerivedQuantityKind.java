@@ -142,13 +142,13 @@ public class DerivedQuantityKind extends QuantityKind implements Cloneable {
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
         clone.setPossibleScale(new ArrayList<MeasurementScale>(this.getPossibleScale()));
-        clone.setQuantityKindFactor(cloneContainedThings ? new OrderedItemList<QuantityKindFactor>(clone, true, QuantityKindFactor.class) : new OrderedItemList<QuantityKindFactor>(this.getQuantityKindFactor(), clone, QuantityKindFactor.class));
+        clone.setQuantityKindFactor(cloneContainedThings ? null : new OrderedItemList<QuantityKindFactor>(this.getQuantityKindFactor(), clone, QuantityKindFactor.class));
 
         if (cloneContainedThings) {
             clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
-            clone.getQuantityKindFactor().addAll(this.getQuantityKindFactor().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.setQuantityKindFactor(this.getQuantityKindFactor().clone(clone));
         }
 
         clone.setOriginal(this);

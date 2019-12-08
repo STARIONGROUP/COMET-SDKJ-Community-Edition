@@ -190,10 +190,10 @@ public class Section extends Thing implements Cloneable, CategorizableThing, Nam
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setPage(cloneContainedThings ? new OrderedItemList<Page>(clone, true, Page.class) : new OrderedItemList<Page>(this.getPage(), clone, Page.class));
+        clone.setPage(cloneContainedThings ? null : new OrderedItemList<Page>(this.getPage(), clone, Page.class));
 
         if (cloneContainedThings) {
-            clone.getPage().addAll(this.getPage().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.setPage(this.getPage().clone(clone));
         }
 
         clone.setOriginal(this);

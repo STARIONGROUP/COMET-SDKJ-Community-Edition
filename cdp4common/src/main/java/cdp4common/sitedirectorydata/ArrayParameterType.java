@@ -32,30 +32,26 @@
 
 package cdp4common.sitedirectorydata;
 
-import cdp4common.AggregationKind;
-import cdp4common.ChangeKind;
-import cdp4common.Container;
-import cdp4common.UmlInformation;
-import cdp4common.commondata.Alias;
-import cdp4common.commondata.Definition;
-import cdp4common.commondata.HyperLink;
-import cdp4common.commondata.ParticipantAccessRightKind;
-import cdp4common.commondata.PersonAccessRightKind;
-import cdp4common.commondata.Thing;
-import cdp4common.engineeringmodeldata.Iteration;
-import cdp4common.helpers.PojoThingFactory;
-import cdp4common.types.CacheKey;
-import cdp4common.types.ContainerList;
-import cdp4common.types.OrderedItemList;
-import com.google.common.cache.Cache;
+import java.util.*;
+import java.util.stream.*;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.io.*;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import cdp4common.*;
+import cdp4common.commondata.*;
+import cdp4common.diagramdata.*;
+import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
+import cdp4common.helpers.*;
+import cdp4common.reportingdata.*;
+import cdp4common.sitedirectorydata.*;
+import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
+import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * specialization of CompoundParameterType that specifies a one-dimensional or multi-dimensional array parameter type with elements (components) that are typed by other ScalarParameterTypes
@@ -155,7 +151,7 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * Note: The rank of an array datatype is equal to the number of dimensions
      * it has.
      * Example: A vector has rank = 1, a matrix has rank = 2, a higher order
-     * tensor has rank &gt; 2. Vector and matrix are special cases of the general
+     * tensor has rank > 2. Vector and matrix are special cases of the general
      * concept of tensor.
      */
     public int getRank(){
@@ -182,7 +178,7 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
      * Note: The rank of an array datatype is equal to the number of dimensions
      * it has.
      * Example: A vector has rank = 1, a matrix has rank = 2, a higher order
-     * tensor has rank &gt; 2. Vector and matrix are special cases of the general
+     * tensor has rank > 2. Vector and matrix are special cases of the general
      * concept of tensor.
      *
      * @throws IllegalStateException The rank property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
@@ -212,7 +208,7 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
 
         clone.setAlias(cloneContainedThings ? new ContainerList<Alias>(clone) : new ContainerList<Alias>(this.getAlias(), clone, false));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
-        clone.setComponent(cloneContainedThings ? new OrderedItemList<ParameterTypeComponent>(clone, true, ParameterTypeComponent.class) : new OrderedItemList<ParameterTypeComponent>(this.getComponent(), clone, ParameterTypeComponent.class));
+        clone.setComponent(cloneContainedThings ? null : new OrderedItemList<ParameterTypeComponent>(this.getComponent(), clone, ParameterTypeComponent.class));
         clone.setDefinition(cloneContainedThings ? new ContainerList<Definition>(clone) : new ContainerList<Definition>(this.getDefinition(), clone, false));
         clone.setDimension(new OrderedItemList<Integer>(this.getDimension(), this, Integer.class));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
@@ -221,7 +217,7 @@ public class ArrayParameterType extends CompoundParameterType implements Cloneab
 
         if (cloneContainedThings) {
             clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
-            clone.getComponent().addAll(this.getComponent().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.setComponent(this.getComponent().clone(clone));
             clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }

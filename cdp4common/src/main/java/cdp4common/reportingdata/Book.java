@@ -190,10 +190,10 @@ public class Book extends Thing implements Cloneable, CategorizableThing, NamedT
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
-        clone.setSection(cloneContainedThings ? new OrderedItemList<Section>(clone, true, Section.class) : new OrderedItemList<Section>(this.getSection(), clone, Section.class));
+        clone.setSection(cloneContainedThings ? null : new OrderedItemList<Section>(this.getSection(), clone, Section.class));
 
         if (cloneContainedThings) {
-            clone.getSection().addAll(this.getSection().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.setSection(this.getSection().clone(clone));
         }
 
         clone.setOriginal(this);

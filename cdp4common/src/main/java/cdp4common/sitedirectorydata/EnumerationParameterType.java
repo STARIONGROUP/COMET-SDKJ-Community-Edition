@@ -148,13 +148,13 @@ public class EnumerationParameterType extends ScalarParameterType implements Clo
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
-        clone.setValueDefinition(cloneContainedThings ? new OrderedItemList<EnumerationValueDefinition>(clone, true, EnumerationValueDefinition.class) : new OrderedItemList<EnumerationValueDefinition>(this.getValueDefinition(), clone, EnumerationValueDefinition.class));
+        clone.setValueDefinition(cloneContainedThings ? null : new OrderedItemList<EnumerationValueDefinition>(this.getValueDefinition(), clone, EnumerationValueDefinition.class));
 
         if (cloneContainedThings) {
             clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
-            clone.getValueDefinition().addAll(this.getValueDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.setValueDefinition(this.getValueDefinition().clone(clone));
         }
 
         clone.setOriginal(this);

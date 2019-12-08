@@ -145,13 +145,13 @@ public class DerivedUnit extends MeasurementUnit implements Cloneable {
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
-        clone.setUnitFactor(cloneContainedThings ? new OrderedItemList<UnitFactor>(clone, true, UnitFactor.class) : new OrderedItemList<UnitFactor>(this.getUnitFactor(), clone, UnitFactor.class));
+        clone.setUnitFactor(cloneContainedThings ? null : new OrderedItemList<UnitFactor>(this.getUnitFactor(), clone, UnitFactor.class));
 
         if (cloneContainedThings) {
             clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
-            clone.getUnitFactor().addAll(this.getUnitFactor().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.setUnitFactor(this.getUnitFactor().clone(clone));
         }
 
         clone.setOriginal(this);

@@ -171,14 +171,14 @@ public class Requirement extends SimpleParameterizableThing implements Cloneable
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
         clone.setParameterValue(cloneContainedThings ? new ContainerList<SimpleParameterValue>(clone) : new ContainerList<SimpleParameterValue>(this.getParameterValue(), clone, false));
-        clone.setParametricConstraint(cloneContainedThings ? new OrderedItemList<ParametricConstraint>(clone, true, ParametricConstraint.class) : new OrderedItemList<ParametricConstraint>(this.getParametricConstraint(), clone, ParametricConstraint.class));
+        clone.setParametricConstraint(cloneContainedThings ? null : new OrderedItemList<ParametricConstraint>(this.getParametricConstraint(), clone, ParametricConstraint.class));
 
         if (cloneContainedThings) {
             clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getParameterValue().addAll(this.getParameterValue().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
-            clone.getParametricConstraint().addAll(this.getParametricConstraint().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.setParametricConstraint(this.getParametricConstraint().clone(clone));
         }
 
         clone.setOriginal(this);
