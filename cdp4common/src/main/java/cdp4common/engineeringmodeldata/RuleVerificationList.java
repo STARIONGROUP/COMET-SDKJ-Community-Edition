@@ -148,13 +148,13 @@ public class RuleVerificationList extends DefinedThing implements Cloneable, Own
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
-        clone.setRuleVerification(cloneContainedThings ? new OrderedItemList<RuleVerification>(clone, true, RuleVerification.class) : new OrderedItemList<RuleVerification>(this.getRuleVerification(), clone, RuleVerification.class));
+        clone.setRuleVerification(cloneContainedThings ? null : new OrderedItemList<RuleVerification>(this.getRuleVerification(), clone, RuleVerification.class));
 
         if (cloneContainedThings) {
             clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
-            clone.getRuleVerification().addAll(this.getRuleVerification().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.setRuleVerification(this.getRuleVerification().clone(clone));
         }
 
         clone.setOriginal(this);

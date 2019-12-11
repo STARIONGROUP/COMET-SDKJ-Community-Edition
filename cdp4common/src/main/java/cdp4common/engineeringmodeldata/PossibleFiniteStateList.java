@@ -177,13 +177,13 @@ public class PossibleFiniteStateList extends DefinedThing implements Cloneable, 
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
-        clone.setPossibleState(cloneContainedThings ? new OrderedItemList<PossibleFiniteState>(clone, true, PossibleFiniteState.class) : new OrderedItemList<PossibleFiniteState>(this.getPossibleState(), clone, PossibleFiniteState.class));
+        clone.setPossibleState(cloneContainedThings ? null : new OrderedItemList<PossibleFiniteState>(this.getPossibleState(), clone, PossibleFiniteState.class));
 
         if (cloneContainedThings) {
             clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
-            clone.getPossibleState().addAll(this.getPossibleState().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.setPossibleState(this.getPossibleState().clone(clone));
         }
 
         clone.setOriginal(this);

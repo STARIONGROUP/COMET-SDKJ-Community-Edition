@@ -165,13 +165,13 @@ public class DiagramEdge extends DiagramElementThing implements Cloneable {
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setLocalStyle(cloneContainedThings ? new ContainerList<OwnedStyle>(clone) : new ContainerList<OwnedStyle>(this.getLocalStyle(), clone, false));
-        clone.setPoint(cloneContainedThings ? new OrderedItemList<Point>(clone, true, Point.class) : new OrderedItemList<Point>(this.getPoint(), clone, Point.class));
+        clone.setPoint(cloneContainedThings ? null : new OrderedItemList<Point>(this.getPoint(), clone, Point.class));
 
         if (cloneContainedThings) {
             clone.getBounds().addAll(this.getBounds().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getDiagramElement().addAll(this.getDiagramElement().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getLocalStyle().addAll(this.getLocalStyle().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
-            clone.getPoint().addAll(this.getPoint().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.setPoint(this.getPoint().clone(clone));
         }
 
         clone.setOriginal(this);

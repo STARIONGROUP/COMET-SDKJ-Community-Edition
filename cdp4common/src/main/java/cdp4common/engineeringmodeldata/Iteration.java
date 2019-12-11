@@ -376,7 +376,7 @@ public class Iteration extends Thing implements Cloneable {
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setExternalIdentifierMap(cloneContainedThings ? new ContainerList<ExternalIdentifierMap>(clone) : new ContainerList<ExternalIdentifierMap>(this.getExternalIdentifierMap(), clone, false));
         clone.setGoal(cloneContainedThings ? new ContainerList<Goal>(clone) : new ContainerList<Goal>(this.getGoal(), clone, false));
-        clone.setOption(cloneContainedThings ? new OrderedItemList<Option>(clone, true, Option.class) : new OrderedItemList<Option>(this.getOption(), clone, Option.class));
+        clone.setOption(cloneContainedThings ? null : new OrderedItemList<Option>(this.getOption(), clone, Option.class));
         clone.setPossibleFiniteStateList(cloneContainedThings ? new ContainerList<PossibleFiniteStateList>(clone) : new ContainerList<PossibleFiniteStateList>(this.getPossibleFiniteStateList(), clone, false));
         clone.setPublication(cloneContainedThings ? new ContainerList<Publication>(clone) : new ContainerList<Publication>(this.getPublication(), clone, false));
         clone.setRelationship(cloneContainedThings ? new ContainerList<Relationship>(clone) : new ContainerList<Relationship>(this.getRelationship(), clone, false));
@@ -395,7 +395,7 @@ public class Iteration extends Thing implements Cloneable {
             clone.getElement().addAll(this.getElement().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getExternalIdentifierMap().addAll(this.getExternalIdentifierMap().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getGoal().addAll(this.getGoal().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
-            clone.getOption().addAll(this.getOption().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.setOption(this.getOption().clone(clone));
             clone.getPossibleFiniteStateList().addAll(this.getPossibleFiniteStateList().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getPublication().addAll(this.getPublication().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getRelationship().addAll(this.getRelationship().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
