@@ -152,9 +152,7 @@ public class OrderedItemList<T> implements Collection<T> {
    * @return The index of the item if there is a match, else -1
    */
   public int findIndex(Predicate<T> match) {
-    if (match == null) {
-      throw new NullPointerException("match");
-    }
+    this.validateValueForNull(match, "A match cannot be null");
 
     for (T item : this) {
       if (match.test(item)) {
@@ -180,10 +178,7 @@ public class OrderedItemList<T> implements Collection<T> {
    * @return The value of the item with the specified index.
    */
   public T get(int index) {
-    if (index < 0 || index >= this.sortedItems.size()) {
-      throw new IndexOutOfBoundsException(String
-          .format("index is %1$s, valid range is 0 to %2$s", index, this.sortedItems.size() - 1));
-    }
+    this.validateIndex(index);
 
     return this.clazz.cast(this.sortedItems.values().toArray()[index]);
   }
@@ -194,20 +189,11 @@ public class OrderedItemList<T> implements Collection<T> {
    * @param index The zero-based index of the item to set.
    */
   public void set(int index, T value) {
-    if (index < 0 || index >= this.sortedItems.size()) {
-      throw new IndexOutOfBoundsException(String
-          .format("index is %1$s, valid range is 0 to %2$s", index, this.sortedItems.size() - 1));
-    }
-
-    if (value == null) {
-      throw new NullPointerException("value");
-    }
+    this.validateIndex(index);
+    this.validateValueForNull(value, "An item cannot be null");
 
     if (value instanceof Thing) {
-      if (this.sortedItems.values().contains(value)) {
-        throw new IllegalArgumentException(String
-            .format("The sorted list already contains the item %1$s", ((Thing) value).getIid()));
-      }
+      this.validateItemForExistence(value);
     }
 
     if ((value instanceof Thing) && this.isComposite) {
@@ -251,9 +237,7 @@ public class OrderedItemList<T> implements Collection<T> {
    * @param item The item to insert.
    */
   public void insert(int index, T item) {
-    if (item == null) {
-      throw new NullPointerException("Inserted item cannot be null.");
-    }
+    this.validateValueForNull(item, "An item cannot be null");
 
     if (index < this.size()) {
       long upperSortKey = (long) this.sortedItems.keySet().toArray()[index];
@@ -279,15 +263,8 @@ public class OrderedItemList<T> implements Collection<T> {
    * @param destinationIndex The destination index
    */
   public void move(int index, int destinationIndex) {
-    if (index >= this.sortedItems.size() || index < 0) {
-      throw new IndexOutOfBoundsException(
-          String.format("The Key %1$s does not exist in the ordered item list", index));
-    }
-
-    if (destinationIndex >= this.sortedItems.size() || destinationIndex < 0) {
-      throw new IndexOutOfBoundsException(
-          String.format("The Key %1$s does not exist in the ordered item list", destinationIndex));
-    }
+    this.validateIndex(index);
+    this.validateIndex(destinationIndex);
 
     int minIndex = Math.min(index, destinationIndex);
     int maxIndex = Math.max(index, destinationIndex);
@@ -441,14 +418,10 @@ public class OrderedItemList<T> implements Collection<T> {
    */
   @Override
   public boolean add(T item) {
-    if (item == null) {
-      throw new NullPointerException("item");
-    }
+    this.validateValueForNull(item, "An item cannot be null");
 
     if (item instanceof Thing) {
-      if (this.sortedItems.values().contains(item)) {
-        throw new IllegalArgumentException("The added object already exists");
-      }
+      this.validateItemForExistence(item);
     }
 
     if ((item instanceof Thing) && this.isComposite) {
@@ -575,7 +548,7 @@ public class OrderedItemList<T> implements Collection<T> {
   /**
    * Get the converted to a specified type value.
    *
-   * @param value String value to convert
+   * @param value String value to convert.
    */
   private T getConvertedValue(String value) {
     // Boxed primitives
@@ -613,5 +586,50 @@ public class OrderedItemList<T> implements Collection<T> {
 
     // Default attempt to cast
     return this.clazz.cast(value);
+  }
+
+  /**
+   * Validates a value for being null.
+   *
+   * @param value The value to validate.
+   * @param message The message to pass to an exception if validation not passes.
+   * @throws NullPointerException when {@code value} is null.
+   */
+  private void validateValueForNull(Object value, String message) {
+    if (value == null) {
+      throw new NullPointerException(message);
+    }
+  }
+
+  /**
+   * Validates an index to be within an allowed range of the list of items.
+   *
+   * @param index The value to validate.
+   * @throws IndexOutOfBoundsException when {@code index} is out of the allowed range.
+   */
+  private void validateIndex(int index) {
+    if (index < 0 || index >= this.sortedItems.size()) {
+      var rangeMessage = this.sortedItems.size() == 0 ? "the list is empty"
+          : "valid range is 0 to " + (this.sortedItems.size() - 1);
+      throw new IndexOutOfBoundsException(
+          String.format("The index %s does not exist in the ordered item list, %s", index,
+              rangeMessage));
+    }
+  }
+
+  /**
+   * Validates whether an item is already in the list of items.
+   *
+   * @param item The item to validate.
+   * @throws IllegalArgumentException when {@code item} is already in the list.
+   */
+  private void validateItemForExistence(T item) {
+    if (this.sortedItems.values().contains(item)) {
+      var thing = as(item, Thing.class);
+      var message = thing != null ? thing.getIid().toString()
+          : "An item is not a Thing. Incorrect use of validation.";
+      throw new IllegalArgumentException(
+          String.format("OrderedItemList already contains the item: %s", message));
+    }
   }
 }
