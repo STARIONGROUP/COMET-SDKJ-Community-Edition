@@ -1,5 +1,5 @@
 /*
- * OrderedItemSerializer.java
+ * RelationalOperatorKindExtensions.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -22,40 +22,43 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package cdp4jsonserializer.serializers;
+package cdp4common.extensions;
 
-import cdp4common.types.OrderedItem;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import java.io.IOException;
+import cdp4common.engineeringmodeldata.RelationalOperatorKind;
 
-public class OrderedItemSerializer extends StdSerializer<OrderedItem> {
-
-  public OrderedItemSerializer() {
-    this(null);
-  }
-
-  public OrderedItemSerializer(Class<OrderedItem> t) {
-    super(t);
-  }
+/**
+ * Extension methods for the {@link RelationalOperatorKind} enum.
+ */
+public class RelationalOperatorKindExtensions {
 
   /**
-   * {@inheritDoc}
+   * A method that converts a {@link RelationalOperatorKind} to a readable string.
+   *
+   * @param value {@link RelationalOperatorKind}  to convert.
+   * @return String that contains a scientific representation of the {@link RelationalOperatorKind}.
    */
-  @Override
-  public void serialize(
-      OrderedItem value, JsonGenerator jgen, SerializerProvider provider)
-      throws IOException {
+  public static String toScientificNotationString(RelationalOperatorKind value) {
+    switch (value) {
+      case EQ:
+        return "=";
 
-    jgen.writeStartObject();
-    jgen.writeNumberField("k", value.getK());
-    jgen.writeStringField("v", value.getV().toString());
+      case GE:
+        return "≥";
 
-    if (value.getM() != null) {
-      jgen.writeNumberField("m", value.getM());
+      case GT:
+        return ">";
+
+      case LT:
+        return "<";
+
+      case LE:
+        return "≤";
+
+      case NE:
+        return "≠";
+
+      default:
+        return value.toString();
     }
-
-    jgen.writeEndObject();
   }
 }

@@ -1,5 +1,5 @@
 /*
- * OrderedItemSerializer.java
+ * UuidListSerializer.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -24,19 +24,24 @@
 
 package cdp4jsonserializer.serializers;
 
-import cdp4common.types.OrderedItem;
+import cdp4common.comparators.UuidComparator;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
-public class OrderedItemSerializer extends StdSerializer<OrderedItem> {
+public class UuidListSerializer extends StdSerializer<List<UUID>> {
 
-  public OrderedItemSerializer() {
+  private UuidComparator uuidComparator = new UuidComparator();
+
+  public UuidListSerializer() {
     this(null);
   }
 
-  public OrderedItemSerializer(Class<OrderedItem> t) {
+  public UuidListSerializer(Class<List<UUID>> t) {
     super(t);
   }
 
@@ -45,17 +50,19 @@ public class OrderedItemSerializer extends StdSerializer<OrderedItem> {
    */
   @Override
   public void serialize(
-      OrderedItem value, JsonGenerator jgen, SerializerProvider provider)
+      List<UUID> value, JsonGenerator jgen, SerializerProvider provider)
       throws IOException {
 
-    jgen.writeStartObject();
-    jgen.writeNumberField("k", value.getK());
-    jgen.writeStringField("v", value.getV().toString());
-
-    if (value.getM() != null) {
-      jgen.writeNumberField("m", value.getM());
+    // Empty list
+    if (value.isEmpty()) {
+      jgen.writeRawValue("[]");
+      return;
     }
 
-    jgen.writeEndObject();
+    jgen.writeStartArray();
+    for (var item : value.stream().sorted(this.uuidComparator).collect(Collectors.toList())) {
+      jgen.writeString(item.toString());
+    }
+    jgen.writeEndArray();
   }
 }

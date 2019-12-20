@@ -27,6 +27,7 @@ package cdp4dal.permission;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -37,11 +38,15 @@ import cdp4common.commondata.ParticipantAccessRightKind;
 import cdp4common.commondata.PersonAccessRightKind;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.BinaryRelationship;
+import cdp4common.engineeringmodeldata.CommonFileStore;
 import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.engineeringmodeldata.Parameter;
 import cdp4common.engineeringmodeldata.ParameterValueSet;
+import cdp4common.engineeringmodeldata.Requirement;
+import cdp4common.engineeringmodeldata.RequirementsSpecification;
+import cdp4common.exceptions.IncompleteModelException;
 import cdp4common.sitedirectorydata.BooleanParameterType;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
@@ -62,6 +67,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
 import java.net.URI;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.apache.commons.lang3.tuple.Pair;
@@ -92,8 +98,11 @@ class PermissionServiceTest {
   private BinaryRelationship relationship;
   private Parameter parameter;
   private ParameterValueSet valueset;
+  private Requirement requirement;
+  private RequirementsSpecification requirementsSpecification;
 
   private PermissionService permissionService;
+  private CommonFileStore commonFileStore;
   private Cache<CacheKey, Thing> cache;
 
   @BeforeEach
@@ -128,6 +137,11 @@ class PermissionServiceTest {
     this.parameter = new Parameter(UUID.randomUUID(), this.cache, this.uri);
     this.valueset = new ParameterValueSet(UUID.randomUUID(), this.cache, this.uri);
 
+    this.requirementsSpecification = new RequirementsSpecification(UUID.randomUUID(), this.cache,
+        this.uri);
+    this.requirement = new Requirement(UUID.randomUUID(), this.cache, this.uri);
+    this.commonFileStore = new CommonFileStore(UUID.randomUUID(), this.cache, this.uri);
+
     this.sitedir.getModel().add(this.modelsetup);
     this.sitedir.getPerson().add(this.person);
     this.sitedir.getPerson().add(this.person2);
@@ -153,6 +167,11 @@ class PermissionServiceTest {
     this.modelsetup.setEngineeringModelIid(this.model.getIid());
     this.iterationSetup.setIterationIid(this.iteration.getIid());
     this.elementDef.setOwner(this.domain1);
+    this.relationship.setOwner(this.domain1);
+    this.parameter.setOwner(this.domain1);
+    this.requirementsSpecification.getRequirement().add(this.requirement);
+    this.iteration.getRequirementsSpecification().add(this.requirementsSpecification);
+    this.model.getCommonFileStore().add(this.commonFileStore);
 
     when(this.session.getActivePerson()).thenReturn(this.person);
     when(this.session.getOpenIterations()).thenReturn(ImmutableMap.of(this.iteration, Pair
@@ -334,7 +353,7 @@ class PermissionServiceTest {
   }
 
   @Test
-  void verifyModifyIfOwner() {
+  void verifyModifyIfOwnerForIterationsWithoutDomainOfExpertiseAndParticipant() {
     when(this.session.getActivePersonParticipants())
         .thenReturn(List.of(this.participant));
     assertFalse(this.permissionService.canWrite(this.model));
@@ -365,6 +384,89 @@ class PermissionServiceTest {
 
     assertFalse(this.permissionService.canWrite(this.elementDef));
     assertTrue(this.permissionService.canRead(this.elementDef));
+  }
+
+  @Test
+  void verifyModifyIfOwnerForRequirement() {
+    when(this.session.getActivePersonParticipants()).thenReturn(Arrays.asList(this.participant));
+    assertFalse(this.permissionService.canWrite(this.model));
+    assertFalse(this.permissionService.canRead(this.model));
+
+    var permission =
+        this.participantRole.getParticipantPermission().stream()
+            .filter(x -> x.getObjectClass() == ClassKind.Requirement)
+            .collect(MoreCollectors.onlyElement());
+
+    var specPermission =
+        this.participantRole.getParticipantPermission().stream()
+            .filter(x -> x.getObjectClass() == ClassKind.RequirementsSpecification)
+            .collect(MoreCollectors.onlyElement());
+
+    permission.setAccessRight(ParticipantAccessRightKind.MODIFY_IF_OWNER);
+    specPermission.setAccessRight(ParticipantAccessRightKind.MODIFY);
+
+    // Requirement has no owner
+    assertThrows(IncompleteModelException.class,
+        () -> this.permissionService.canWrite(this.requirement));
+    assertThrows(IncompleteModelException.class,
+        () -> this.permissionService.canRead(this.requirement));
+
+    // RequirementsSpecification has no owner
+    assertThrows(IncompleteModelException.class,
+        () -> this.permissionService.canWrite(this.requirement));
+    assertThrows(IncompleteModelException.class,
+        () -> this.permissionService.canRead(this.requirement));
+
+    // Requirement has same owner than user's domain of expertise
+    this.requirement.setOwner(this.domain1);
+    assertTrue(this.permissionService.canWrite(this.requirement));
+    assertTrue(this.permissionService.canRead(this.requirement));
+
+    // Requirement has other owner than user's domain of expertise
+    this.requirement.setOwner(this.domain2);
+    assertFalse(this.permissionService.canWrite(this.requirement));
+    assertTrue(this.permissionService.canRead(this.requirement));
+
+    // RequirementsSpecification has same owner than user's domain of expertise
+    this.requirementsSpecification.setOwner(this.domain1);
+    specPermission.setAccessRight(ParticipantAccessRightKind.MODIFY_IF_OWNER);
+    assertTrue(this.permissionService.canWrite(this.requirementsSpecification));
+    assertTrue(this.permissionService.canRead(this.requirementsSpecification));
+
+    // RequirementsSpecification has other owner than user's domain of expertise
+    this.requirementsSpecification.setOwner(this.domain2);
+    assertFalse(this.permissionService.canWrite(this.requirementsSpecification));
+    assertTrue(this.permissionService.canRead(this.requirementsSpecification));
+  }
+
+  @Test
+  void verifyModifyIfOwnerForThingsThatAreDirectlyUnderEngineeringModel() {
+    when(this.session.getActivePersonParticipants()).thenReturn(Arrays.asList(this.participant));
+    assertFalse(this.permissionService.canWrite(this.model));
+    assertFalse(this.permissionService.canRead(this.model));
+
+    var permission =
+        this.participantRole.getParticipantPermission().stream()
+            .filter(x -> x.getObjectClass() == ClassKind.CommonFileStore)
+            .collect(MoreCollectors.onlyElement());
+
+    permission.setAccessRight(ParticipantAccessRightKind.MODIFY_IF_OWNER);
+
+    // Thing has no owner
+    assertThrows(IncompleteModelException.class,
+        () -> this.permissionService.canWrite(this.commonFileStore));
+    assertThrows(IncompleteModelException.class,
+        () -> this.permissionService.canRead(this.commonFileStore));
+
+    // Thing has same owner as User's participant
+    this.commonFileStore.setOwner(this.domain1);
+    assertTrue(this.permissionService.canWrite(this.commonFileStore));
+    assertTrue(this.permissionService.canRead(this.commonFileStore));
+
+    // Thing has other owner as User's participant
+    this.commonFileStore.setOwner(this.domain2);
+    assertTrue(this.permissionService.canWrite(this.commonFileStore));
+    assertTrue(this.permissionService.canRead(this.commonFileStore));
   }
 
   @Test

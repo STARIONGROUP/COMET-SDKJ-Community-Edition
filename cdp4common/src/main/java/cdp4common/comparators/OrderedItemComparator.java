@@ -1,5 +1,5 @@
 /*
- * OrderedItemSerializer.java
+ * OrderedItemComparator.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -22,40 +22,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package cdp4jsonserializer.serializers;
+package cdp4common.comparators;
 
 import cdp4common.types.OrderedItem;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import java.io.IOException;
+import java.util.Comparator;
 
-public class OrderedItemSerializer extends StdSerializer<OrderedItem> {
-
-  public OrderedItemSerializer() {
-    this(null);
-  }
-
-  public OrderedItemSerializer(Class<OrderedItem> t) {
-    super(t);
-  }
+/**
+ * A comparator for {@link cdp4common.types.OrderedItem}.
+ */
+public class OrderedItemComparator implements Comparator<OrderedItem> {
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void serialize(
-      OrderedItem value, JsonGenerator jgen, SerializerProvider provider)
-      throws IOException {
-
-    jgen.writeStartObject();
-    jgen.writeNumberField("k", value.getK());
-    jgen.writeStringField("v", value.getV().toString());
-
-    if (value.getM() != null) {
-      jgen.writeNumberField("m", value.getM());
-    }
-
-    jgen.writeEndObject();
+  public int compare(OrderedItem orderedItem1, OrderedItem orderedItem2) {
+    return Long.compare(orderedItem1.getK(), orderedItem2.getK());
   }
 }

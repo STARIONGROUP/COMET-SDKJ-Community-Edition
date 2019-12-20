@@ -1,5 +1,5 @@
 /*
- * OrderedItemSerializer.java
+ * OrderedItemListSerializer.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -24,19 +24,24 @@
 
 package cdp4jsonserializer.serializers;
 
+import cdp4common.comparators.OrderedItemComparator;
 import cdp4common.types.OrderedItem;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class OrderedItemSerializer extends StdSerializer<OrderedItem> {
+public class OrderedItemListSerializer extends StdSerializer<List<OrderedItem>> {
 
-  public OrderedItemSerializer() {
+  private OrderedItemComparator orderedItemComparator = new OrderedItemComparator();
+
+  public OrderedItemListSerializer() {
     this(null);
   }
 
-  public OrderedItemSerializer(Class<OrderedItem> t) {
+  public OrderedItemListSerializer(Class<List<OrderedItem>> t) {
     super(t);
   }
 
@@ -45,17 +50,29 @@ public class OrderedItemSerializer extends StdSerializer<OrderedItem> {
    */
   @Override
   public void serialize(
-      OrderedItem value, JsonGenerator jgen, SerializerProvider provider)
+      List<OrderedItem> value, JsonGenerator jgen, SerializerProvider provider)
       throws IOException {
 
-    jgen.writeStartObject();
-    jgen.writeNumberField("k", value.getK());
-    jgen.writeStringField("v", value.getV().toString());
-
-    if (value.getM() != null) {
-      jgen.writeNumberField("m", value.getM());
+    // Empty list
+    if (value.isEmpty()) {
+      jgen.writeRawValue("[]");
+      return;
     }
 
-    jgen.writeEndObject();
+    jgen.writeStartArray();
+    for (var item : value.stream().sorted(this.orderedItemComparator)
+        .collect(Collectors.toList())) {
+      jgen.writeStartObject();
+      jgen.writeNumberField("k", item.getK());
+      jgen.writeStringField("v", item.getV().toString());
+
+      if (item.getM() != null) {
+        jgen.writeNumberField("m", item.getM());
+      }
+
+      jgen.writeEndObject();
+    }
+
+    jgen.writeEndArray();
   }
 }

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -212,8 +213,6 @@ class Cdp4JsonSerializerImplTest {
 
     this.serializer.serializeToStream(new ValueArray<>(list, String.class), outputStream);
 
-    System.out.println(outputStream.toString());
-    System.out.println(expected);
     assertEquals(expected, outputStream.toString());
   }
 
@@ -239,6 +238,35 @@ class Cdp4JsonSerializerImplTest {
     assertEquals(json, resultJson);
   }
 
+  @Test
+  void thingSerializedWithSortedPropertiesTest() throws IOException {
+    String expected = "{\"classKind\":\"FileRevision\",\"containingFolder\":null,\"contentHash\":\"F73747371CFD9473C19A0A7F99BCAB008474C4CA\",\"createdOn\":null,\"creator\":\"284334dd-e8e5-42d6-bc8a-715c507a7f02\",\"excludedDomain\":[],\"excludedPerson\":[\"b16894e4-acb5-4e81-a118-16c00eb86d8f\",\"b18894e4-acb5-4e81-a118-16c00eb86d8f\",\"b19894e4-acb5-4e81-a118-16c00eb86d8f\"],\"fileType\":[{\"k\":4,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\"},{\"k\":8,\"v\":\"b19894e4-acb5-4e81-a118-16c00eb86d8f\"},{\"k\":12,\"v\":\"b18894e4-acb5-4e81-a118-16c00eb86d8f\"}],\"iid\":\"e8de903b-9c38-416a-83f4-90b6cf7b7a41\",\"modifiedOn\":null,\"name\":\"testfile\",\"revisionNumber\":0}";
+
+    var fileTypeIid1 = UUID.fromString("b19894e4-acb5-4e81-a118-16c00eb86d8f");
+    var fileTypeIid2 = UUID.fromString("b18894e4-acb5-4e81-a118-16c00eb86d8f");
+    var fileTypeIid3 = UUID.fromString("b16894e4-acb5-4e81-a118-16c00eb86d8f");
+    var excludedPerson1 = UUID.fromString("b18894e4-acb5-4e81-a118-16c00eb86d8f");
+    var excludedPerson2 = UUID.fromString("b19894e4-acb5-4e81-a118-16c00eb86d8f");
+    var excludedPerson3 = UUID.fromString("b16894e4-acb5-4e81-a118-16c00eb86d8f");
+    var participantIid = UUID.fromString("284334dd-e8e5-42d6-bc8a-715c507a7f02");
+    var fileRevisionIid = UUID.fromString("e8de903b-9c38-416a-83f4-90b6cf7b7a41");
+
+    var fileRevision = new cdp4common.dto.FileRevision(fileRevisionIid, 0);
+    fileRevision.setName("testfile");
+    fileRevision.setContentHash("F73747371CFD9473C19A0A7F99BCAB008474C4CA");
+    fileRevision.getFileType().addAll(Arrays
+        .asList(new OrderedItem(8, fileTypeIid1), new OrderedItem(12, fileTypeIid2),
+            new OrderedItem(4, fileTypeIid3)));
+    fileRevision.setCreator(participantIid);
+    fileRevision.setExcludedPerson(List.of(excludedPerson1, excludedPerson2, excludedPerson3));
+
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+    this.serializer.serializeToStream(fileRevision, outputStream);
+
+    assertEquals(expected, outputStream.toString());
+  }
+
   boolean areEqualBySumOfBytes(String s1, String s2) {
     long s1SumOfBytes = 0;
     long s2SumOfBytes = 0;
@@ -251,7 +279,6 @@ class Cdp4JsonSerializerImplTest {
       s2SumOfBytes += b;
     }
 
-    System.out.println(s1SumOfBytes + "--" + s2SumOfBytes);
     return s1SumOfBytes == s2SumOfBytes;
   }
 

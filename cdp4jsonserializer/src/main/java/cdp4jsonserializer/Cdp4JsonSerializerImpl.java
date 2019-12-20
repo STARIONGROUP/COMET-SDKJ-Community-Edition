@@ -30,14 +30,18 @@ import cdp4common.types.OrderedItem;
 import cdp4common.types.ValueArray;
 import cdp4jsonserializer.deserializers.OrderedItemDeserializer;
 import cdp4jsonserializer.deserializers.ValueArrayDeserializer;
+import cdp4jsonserializer.modules.TypedModule;
+import cdp4jsonserializer.serializers.OrderedItemListSerializer;
 import cdp4jsonserializer.serializers.OrderedItemSerializer;
+import cdp4jsonserializer.serializers.UuidListSerializer;
 import cdp4jsonserializer.serializers.ValueArraySerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.base.Stopwatch;
 import java.io.ByteArrayOutputStream;
@@ -46,6 +50,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import lombok.extern.log4j.Log4j2;
 
@@ -232,6 +237,8 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
     objectMapper.addMixIn(Thing.class, DtoThingMixIn.class);
     objectMapper.setSerializationInclusion(Include.ALWAYS);
 
+    objectMapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
+
     // Setup checked visibility of fields and getters/setters
     objectMapper.setVisibility(objectMapper.getSerializationConfig().getDefaultVisibilityChecker()
         .withFieldVisibility(Visibility.ANY)
@@ -243,14 +250,20 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
 
     objectMapper.setAnnotationIntrospector(new CdpAnnotationIntrospector(requestDataModelVersion));
 
-    SimpleModule module = new SimpleModule();
-    module.addDeserializer(ValueArray.class, new ValueArrayDeserializer());
-    module.addDeserializer(OrderedItem.class, new OrderedItemDeserializer());
-    module.addSerializer(ValueArray.class, new ValueArraySerializer());
-    module.addSerializer(OrderedItem.class, new OrderedItemSerializer());
+    TypedModule typedModule = new TypedModule();
+    JavaType uuidList = objectMapper.getTypeFactory()
+        .constructCollectionType(List.class, UUID.class);
+    JavaType orderedItemList = objectMapper.getTypeFactory()
+        .constructCollectionType(List.class, OrderedItem.class);
+    typedModule.addSerializer(uuidList, new UuidListSerializer())
+        .addSerializer(orderedItemList, new OrderedItemListSerializer())
+        .addSerializer(ValueArray.class, new ValueArraySerializer())
+        .addSerializer(OrderedItem.class, new OrderedItemSerializer())
+        .addDeserializer(ValueArray.class, new ValueArrayDeserializer())
+        .addDeserializer(OrderedItem.class, new OrderedItemDeserializer());
 
-    // Register modules for Java Time  and custom classes
-    objectMapper.registerModules(new JavaTimeModule(), module);
+    // Register modules for Java Time  and custom (de)serializers
+    objectMapper.registerModules(new JavaTimeModule(), typedModule);
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
     return objectMapper;

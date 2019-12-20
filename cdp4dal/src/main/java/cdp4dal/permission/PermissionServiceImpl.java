@@ -32,6 +32,7 @@ import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.engineeringmodeldata.OwnedThing;
+import cdp4common.exceptions.IncompleteModelException;
 import cdp4common.helpers.StaticDefaultPermissionProvider;
 import cdp4common.helpers.Utils;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
@@ -100,6 +101,8 @@ public class PermissionServiceImpl implements PermissionService {
     log.trace("CanRead invoked on Thing {} of type {}", thing, thingType);
     var topContainerClassKind = thing.getTopContainer().getClassKind();
 
+    this.checkOwnedThing(thing);
+
     switch (topContainerClassKind) {
       case SiteDirectory:
         return this.canReadSiteDirectoryContainedThing(thing, thingType);
@@ -108,6 +111,18 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     return false;
+  }
+
+  /**
+   * Checks if thing is an OwnedThing without an actual Owner.
+   *
+   * @param thing The {@link Thing} to check.
+   */
+  private void checkOwnedThing(Thing thing) {
+    if (thing instanceof OwnedThing && ((OwnedThing) thing).getOwner() == null) {
+      throw new IncompleteModelException(String
+          .format("Owner of %s with id %s is empty.", thing.getClass().getName(), thing.getIid()));
+    }
   }
 
   /**
@@ -324,6 +339,7 @@ public class PermissionServiceImpl implements PermissionService {
    * @return True if Write operation can be performed.
    */
   private boolean canWrite(Thing thing, Class thingType) {
+    this.checkOwnedThing(thing);
     var topContainerClassKind = thing.getTopContainer().getClassKind();
 
     switch (topContainerClassKind) {
@@ -353,6 +369,8 @@ public class PermissionServiceImpl implements PermissionService {
     if (this.getSession().getDal().isReadOnly()) {
       return false;
     }
+
+    this.checkOwnedThing(containerThing);
 
     var topContainerClassKind = containerThing.getTopContainer().getClassKind();
     switch (topContainerClassKind) {
@@ -624,36 +642,42 @@ public class PermissionServiceImpl implements PermissionService {
   private boolean canWriteIfParticipantOwned(OwnedThing ownedThing) {
     var thing = (Thing) ownedThing;
 
+    // Check if the iteration domain is null
+    if (thing.getContainer() instanceof EngineeringModel) {
+      return this.getSession().getOpenIterations().entrySet()
+          .stream()
+          .filter(x -> x.getKey().getContainer().equals(thing.getContainer()))
+          .map(Entry::getValue).count() > 0;
+    }
+
+    var participant = this.getThingParticipant(thing);
+
+    return participant.isPresent() && participant.get().getDomain().contains(ownedThing.getOwner());
+  }
+
+  /**
+   * Get the user's 'participant information for the Iteration where the thing input parameter
+   * belongs to.
+   *
+   * @param thing General Thing for which the user's participant information is retrieved.
+   * @return {@link Optional<Participant>} that contains {@link Participant} if found, otherwise
+   * empty.
+   */
+  private Optional<Participant> getThingParticipant(Thing thing) {
     var iteration =
         thing instanceof Iteration ? (Iteration) thing : thing.getContainerOfType(Iteration.class);
 
-    if (iteration == null || !this.getSession().getOpenIterations().containsKey(iteration)) {
-      return false;
-    }
-
+    Participant participant = null;
     Pair<DomainOfExpertise, Participant> participation = this.getSession().getOpenIterations()
         .get(iteration);
-    // Check if the iteration domain is null
-    if (participation.getLeft() == null) {
-      return false;
+
+    if (iteration != null
+        && participation != null
+        && participation.getLeft() != null
+        && participation.getRight() != null) {
+      participant = participation.getRight();
     }
 
-    // Check if the ownedThing domain is contained in the participant domains
-    if (participation.getRight() != null) {
-      var participant = participation.getRight();
-      if (participant.getDomain().contains(ownedThing.getOwner())) {
-        return true;
-      }
-    }
-
-    // OwnedThing directly under EngineeringModel (CommonFileStore)
-    // give permission if any active domain in the model
-
-    // get all active domains for the current model
-    var currentModel = (EngineeringModel) thing.getTopContainer();
-    return this.getSession().getOpenIterations().entrySet()
-        .stream()
-        .filter(x -> x.getKey().getContainer() == currentModel)
-        .map(Entry::getValue).count() > 0;
+    return Optional.ofNullable(participant);
   }
 }
