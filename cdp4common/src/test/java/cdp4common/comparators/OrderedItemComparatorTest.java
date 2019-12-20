@@ -1,5 +1,5 @@
 /*
- * OrderedItemSerializer.java
+ * OrderedItemComparatorTest.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -22,40 +22,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package cdp4jsonserializer.serializers;
+package cdp4common.comparators;
 
 import cdp4common.types.OrderedItem;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import java.io.IOException;
+import java.util.Arrays;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-public class OrderedItemSerializer extends StdSerializer<OrderedItem> {
+class OrderedItemComparatorTest {
 
-  public OrderedItemSerializer() {
-    this(null);
-  }
+  @Test
+  void verify_that_List_of_OrderedItem_is_ordered() {
+    var orderedItem1 = new OrderedItem(5, "middle");
+    var orderedItem2 = new OrderedItem(10, "last");
+    var orderedItem3 = new OrderedItem(1, "first");
 
-  public OrderedItemSerializer(Class<OrderedItem> t) {
-    super(t);
-  }
+    var orderedItems = Arrays.asList(orderedItem1, orderedItem2, orderedItem3);
+    orderedItems.sort(new OrderedItemComparator());
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void serialize(
-      OrderedItem value, JsonGenerator jgen, SerializerProvider provider)
-      throws IOException {
+    var ordered = Arrays.asList(orderedItem3, orderedItem1, orderedItem2);
 
-    jgen.writeStartObject();
-    jgen.writeNumberField("k", value.getK());
-    jgen.writeStringField("v", value.getV().toString());
-
-    if (value.getM() != null) {
-      jgen.writeNumberField("m", value.getM());
-    }
-
-    jgen.writeEndObject();
+    Assertions.assertThat(ordered).containsExactlyElementsOf(orderedItems);
   }
 }

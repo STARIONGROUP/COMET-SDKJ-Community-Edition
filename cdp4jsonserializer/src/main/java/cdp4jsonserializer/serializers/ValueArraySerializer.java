@@ -40,6 +40,9 @@ public class ValueArraySerializer extends StdSerializer<ValueArray> {
     super(t);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void serialize(
       ValueArray value, JsonGenerator jgen, SerializerProvider provider)

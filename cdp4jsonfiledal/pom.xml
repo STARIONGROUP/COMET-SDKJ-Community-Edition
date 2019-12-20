@@ -51,11 +51,6 @@
   <dependencies>
     <dependency>
       <groupId>com.rheagroup</groupId>
-      <artifactId>cdp4common</artifactId>
-      <version>${cdp4common.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.rheagroup</groupId>
       <artifactId>cdp4dal</artifactId>
       <version>${cdp4dal.version}</version>
     </dependency>

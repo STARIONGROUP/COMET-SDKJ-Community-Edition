@@ -31,6 +31,7 @@ package cdp4jsonfiledal;
 import static cdp4common.helpers.Utils.as;
 
 import cdp4common.commondata.ClassKind;
+import cdp4common.comparators.UuidComparator;
 import cdp4common.dto.Thing;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
@@ -64,6 +65,7 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import net.lingala.zip4j.ZipFile;
@@ -528,7 +530,10 @@ public class JsonFileDal extends DalBase {
       ZipFile zipFile)
       throws IOException {
     var outputStream = new ByteArrayOutputStream();
-    this.serializer.serializeToStream(prunedSiteDirectoryContents, outputStream);
+    var orderedContents = prunedSiteDirectoryContents.stream()
+        .sorted((t1, t2) -> UuidComparator.compareUuid(t1.getIid(), t2.getIid()))
+        .collect(Collectors.toList());
+    this.serializer.serializeToStream(orderedContents, outputStream);
 
     var zipParameters = new ZipParameters();
     zipParameters.setFileNameInZip("SiteDirectory.json");
@@ -551,7 +556,9 @@ public class JsonFileDal extends DalBase {
       var containmentPojos = siteReferenceDataLibrary.queryContainedThingsDeep();
       containmentPojos.remove(siteReferenceDataLibrary);
 
-      var dtos = containmentPojos.stream().map(cdp4common.commondata.Thing::toDto);
+      var dtos = containmentPojos.stream().map(cdp4common.commondata.Thing::toDto)
+          .sorted((t1, t2) -> UuidComparator.compareUuid(t1.getIid(), t2.getIid()))
+          .collect(Collectors.toList());
 
       var outputStream = new ByteArrayOutputStream();
       this.serializer.serializeToStream(dtos, outputStream);
@@ -581,7 +588,9 @@ public class JsonFileDal extends DalBase {
       var containmentPojos = modelReferenceDataLibrary.queryContainedThingsDeep();
       containmentPojos.remove(modelReferenceDataLibrary);
 
-      var dtos = containmentPojos.stream().map(cdp4common.commondata.Thing::toDto);
+      var dtos = containmentPojos.stream().map(cdp4common.commondata.Thing::toDto)
+          .sorted((t1, t2) -> UuidComparator.compareUuid(t1.getIid(), t2.getIid()))
+          .collect(Collectors.toList());
 
       var outputStream = new ByteArrayOutputStream();
       this.serializer.serializeToStream(dtos, outputStream);
@@ -629,7 +638,9 @@ public class JsonFileDal extends DalBase {
       }
 
       var containmentPojos = iteration.queryContainedThingsDeep();
-      var dtos = containmentPojos.stream().map(cdp4common.commondata.Thing::toDto);
+      var dtos = containmentPojos.stream().map(cdp4common.commondata.Thing::toDto)
+          .sorted((t1, t2) -> UuidComparator.compareUuid(t1.getIid(), t2.getIid()))
+          .collect(Collectors.toList());
 
       var iterationOutputStream = new ByteArrayOutputStream();
       this.serializer.serializeToStream(dtos, iterationOutputStream);
