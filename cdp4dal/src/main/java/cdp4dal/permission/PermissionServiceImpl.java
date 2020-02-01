@@ -464,15 +464,15 @@ public class PermissionServiceImpl implements PermissionService {
    * contained {@link Thing}.
    *
    * @param classKind The {@link ClassKind} that ultimately determines the permissions.
-   * @param containerThing The {@link Thing} to write to.
+   * @param thing The {@link Thing} to write to.
    * @param thingType The {@link ClassKind} that ultimately determines the permissions.
    * @return True if Write operation can be performed.
    */
-  private boolean canWriteEngineeringModelContainedThing(ClassKind classKind, Thing containerThing,
+  private boolean canWriteEngineeringModelContainedThing(ClassKind classKind, Thing thing,
       ClassKind thingType) {
-    var engineeringModel = Utils.as(containerThing.getTopContainer(), EngineeringModel.class);
+    var engineeringModel = Utils.as(thing.getTopContainer(), EngineeringModel.class);
 
-    var participantOptional = getParticipantIfActiveAndIterationNotFrozen(containerThing,
+    var participantOptional = getParticipantIfActiveAndIterationNotFrozen(thing,
         engineeringModel);
 
     if (participantOptional.isEmpty()) {
@@ -491,9 +491,9 @@ public class PermissionServiceImpl implements PermissionService {
 
     switch (right) {
       case SAME_AS_CONTAINER:
-        return this.canWrite(containerThing, containerThing.getClass());
+        return this.canWrite(thing.getContainer(), thing.getContainer().getClass());
       case SAME_AS_SUPERCLASS:
-        return this.canWriteBasedOnSuperclassClassKind(containerThing, thingType);
+        return this.canWriteBasedOnSuperclassClassKind(thing, thingType);
       case MODIFY:
       case MODIFY_IF_OWNER:
         return true;
@@ -555,11 +555,11 @@ public class PermissionServiceImpl implements PermissionService {
    * contained {@link Thing}.
    *
    * @param classKind The {@link ClassKind} that ultimately determines the permissions.
-   * @param containerThing The {@link Thing} to write to.
+   * @param thing The {@link Thing} to write to.
    * @param thingType The {@link ClassKind} that determine the permission
    * @return True if Write operation can be performed.
    */
-  private boolean canWriteSiteDirectoryContainedThing(ClassKind classKind, Thing containerThing,
+  private boolean canWriteSiteDirectoryContainedThing(ClassKind classKind, Thing thing,
       ClassKind thingType) {
     var person = this.getSession().getActivePerson();
     if (person == null) {
@@ -583,27 +583,27 @@ public class PermissionServiceImpl implements PermissionService {
 
     switch (accessRightKind) {
       case SAME_AS_CONTAINER:
-        return this.canWrite(containerThing, containerThing.getClass());
+        return this.canWrite(thing.getContainer(), thing.getContainer().getClass());
       case SAME_AS_SUPERCLASS:
-        return this.canWriteBasedOnSuperclassClassKind(containerThing, thingType);
+        return this.canWriteBasedOnSuperclassClassKind(thing, thingType);
       case MODIFY:
         return true;
       case MODIFY_IF_PARTICIPANT:
-        if (containerThing instanceof EngineeringModelSetup) {
-          var setup = Utils.as(containerThing, EngineeringModelSetup.class);
+        if (thing instanceof EngineeringModelSetup) {
+          var setup = Utils.as(thing, EngineeringModelSetup.class);
           return setup.getParticipant()
               .stream()
               .anyMatch(x -> x.getPerson() == this.getSession().getActivePerson());
         }
 
-        if (containerThing instanceof SiteReferenceDataLibrary) {
+        if (thing instanceof SiteReferenceDataLibrary) {
           var rdl =
               this.getSession().retrieveSiteDirectory()
                   .getModel()
                   .stream()
                   .flatMap(ems -> this.getSession().getEngineeringModelSetupRdlChain(ems).stream())
                   .collect(Collectors.toList());
-          return rdl.contains(containerThing);
+          return rdl.contains(thing);
         }
         return false;
       default:
