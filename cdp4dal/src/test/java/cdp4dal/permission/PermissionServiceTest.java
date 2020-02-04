@@ -243,7 +243,7 @@ class PermissionServiceTest {
     assertFalse(this.permissionService.canWrite(this.definition));
 
     sdPermission.setAccessRight(PersonAccessRightKind.MODIFY);
-    assertTrue(this.permissionService.canWrite(this.definition));
+    assertTrue(this.permissionService.canRead(this.definition));
     assertTrue(this.permissionService.canWrite(this.definition));
   }
 
@@ -265,7 +265,7 @@ class PermissionServiceTest {
     permission.setAccessRight(PersonAccessRightKind.MODIFY);
     assertTrue(this.permissionService.canRead(this.booleanpt));
     assertTrue(this.permissionService.canWrite(this.booleanpt));
-    assertTrue(this.permissionService.canWrite(ClassKind.BooleanParameterType, this.srdl));
+    assertFalse(this.permissionService.canWrite(ClassKind.BooleanParameterType, this.srdl));
   }
 
   @Test
@@ -413,11 +413,11 @@ class PermissionServiceTest {
 
     // RequirementsSpecification has no owner
     assertThrows(IncompleteModelException.class,
-        () -> this.permissionService.canWrite(this.requirement));
+        () -> this.permissionService.canWrite(this.requirementsSpecification));
     assertThrows(IncompleteModelException.class,
-        () -> this.permissionService.canRead(this.requirement));
+        () -> this.permissionService.canRead(this.requirementsSpecification));
 
-    // Requirement has same owner than user's domain of expertise
+    // Requirement has same owner as user's domain of expertise
     this.requirement.setOwner(this.domain1);
     assertTrue(this.permissionService.canWrite(this.requirement));
     assertTrue(this.permissionService.canRead(this.requirement));
@@ -427,7 +427,7 @@ class PermissionServiceTest {
     assertFalse(this.permissionService.canWrite(this.requirement));
     assertTrue(this.permissionService.canRead(this.requirement));
 
-    // RequirementsSpecification has same owner than user's domain of expertise
+    // RequirementsSpecification has same owner as user's domain of expertise
     this.requirementsSpecification.setOwner(this.domain1);
     specPermission.setAccessRight(ParticipantAccessRightKind.MODIFY_IF_OWNER);
     assertTrue(this.permissionService.canWrite(this.requirementsSpecification));
