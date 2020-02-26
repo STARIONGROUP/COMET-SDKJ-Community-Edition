@@ -72,7 +72,7 @@ class CopyOperationHandlerTest {
 
   private Session session;
   private PermissionService permissionService;
-  private URI uri = URI.create("https://cdp4services-.rheagroup.com");
+  private URI uri = URI.create("https://cdp4services-test.cdp4.org");
   private Assembler assembler;
 
   private SiteDirectory siteDir;

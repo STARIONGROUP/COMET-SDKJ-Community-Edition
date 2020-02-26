@@ -49,7 +49,7 @@ import org.junit.jupiter.api.Test;
 
 class OperationModifierTest {
 
-  private URI uri = URI.create("https://cdp4services-.rheagroup.com");
+  private URI uri = URI.create("https://cdp4services-test.cdp4.org");
   private Session session;
   private Assembler assembler;
 

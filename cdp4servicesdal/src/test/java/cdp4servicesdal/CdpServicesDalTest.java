@@ -93,7 +93,7 @@ class CdpServicesDalTest {
   private Credentials credentials;
   private Session session;
 
-  private final URI uri = URI.create("https://cdp4services-test.rheagroup.com");
+  private final URI uri = URI.create("https://cdp4services-test.cdp4.org");
   private AtomicBoolean cancelled;
 
   private SiteDirectory siteDirectory;
@@ -225,7 +225,7 @@ class CdpServicesDalTest {
 
   @Test
   void verifyThatIfNotHttpOrHttpsExceptionIsThrown() {
-    var uri = URI.create("https://cdp4services-test.rheagroup.com");
+    var uri = URI.create("https://cdp4services-test.cdp4.org");
     var invalidCredentials = new Credentials("John", "a password", uri, null);
 
     try {
@@ -421,7 +421,7 @@ class CdpServicesDalTest {
 
     dal.setSession(this.session);
     var credentials = new Credentials("admin", "pass",
-        URI.create("https://cdp4services-public.rheagroup.com"), null);
+        URI.create("https://cdp4services-public.cdp4.org"), null);
     var session = new SessionImpl(dal, credentials);
 
     var returned = dal.open(credentials, this.cancelled).get();
@@ -506,7 +506,7 @@ class CdpServicesDalTest {
     var files = Arrays.asList(filename);
 
     var contentHash = "F73747371CFD9473C19A0A7F99BCAB008474C4CA";
-    var uri = URI.create("https://cdp4services-test.rheagroup.com");
+    var uri = URI.create("https://cdp4services-test.cdp4.org");
     this.credentials = new Credentials("admin", "pass", uri, null);
 
     this.dal.open(this.credentials, this.cancelled).get();
@@ -566,8 +566,8 @@ class CdpServicesDalTest {
   @Test
   void verifyThatIsValidUriReturnsExpectedResult() {
 
-    assertTrue(dal.isValidURI("http://cdp4services-test.rheagroup.com"));
-    assertTrue(dal.isValidURI("https://cdp4services-test.rheagroup.com"));
+    assertTrue(dal.isValidURI("http://cdp4services-test.cdp4.org"));
+    assertTrue(dal.isValidURI("https://cdp4services-test.cdp4.org"));
     assertFalse(dal.isValidURI("file://some file"));
   }
 
@@ -610,7 +610,7 @@ class CdpServicesDalTest {
   @Tag("WebServicesDependent")
   void verify_that_opens_returns_expected_result()
       throws ExecutionException, InterruptedException {
-    var uri = URI.create("https://cdp4services-test.rheagroup.com");
+    var uri = URI.create("https://cdp4services-test.cdp4.org");
     this.credentials = new Credentials("admin", "pass", uri, null);
 
     var result = dal.open(this.credentials, new AtomicBoolean()).get();
@@ -624,7 +624,7 @@ class CdpServicesDalTest {
   void verify_that_opens_and_close_removes_items_from_cache()
       throws ExecutionException, InterruptedException {
     this.credentials = new Credentials("admin", "pass",
-        URI.create("https://cdp4services-public.rheagroup.com"), null);
+        URI.create("https://cdp4services-public.cdp4.org"), null);
 
     this.session = new SessionImpl(dal, credentials);
     this.session.open().get();
@@ -673,7 +673,7 @@ class CdpServicesDalTest {
       throws ExecutionException, InterruptedException {
     var proxySettings = new ProxySettings(URI.create("http://tinyproxy:8888"), null, null);
 
-    var uri = URI.create("https://cdp4services-test.rheagroup.com");
+    var uri = URI.create("https://cdp4services-test.cdp4.org");
     this.credentials = new Credentials("admin", "pass", uri, proxySettings);
 
     var result = dal.open(this.credentials, new AtomicBoolean()).get();
@@ -685,7 +685,7 @@ class CdpServicesDalTest {
   @Tag("WebServicesDependent")
   void verify_that_multiple_read_requests_can_be_made_in_parallel()
       throws ExecutionException, InterruptedException {
-    var uri = URI.create("https://cdp4services-test.rheagroup.com");
+    var uri = URI.create("https://cdp4services-test.cdp4.org");
     var credentials = new Credentials("admin", "pass", uri, null);
 
     var result = dal.open(credentials, new AtomicBoolean()).get();

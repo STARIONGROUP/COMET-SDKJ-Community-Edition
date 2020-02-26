@@ -49,7 +49,7 @@ class SessionTest {
 
   @BeforeEach
   void setup() throws URISyntaxException {
-    this.uri = new URI("https://cdp4services-test.rheagroup.com");
+    this.uri = new URI("https://cdp4services-test.cdp4.org");
     this.credentials = new Credentials("admin", "pass", this.uri, null);
 
     this.cancelled = new AtomicBoolean();
