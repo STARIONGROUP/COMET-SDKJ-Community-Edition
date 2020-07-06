@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link TelephoneNumber} class.
+ */
 public class TelephoneNumber {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.TelephoneNumber} to {@link CDP4.SiteDirectoryData.TelephoneNumber}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.TelephoneNumber}
+     */
     public static CDP4.SiteDirectoryData.TelephoneNumber toEmf(cdp4common.sitedirectorydata.TelephoneNumber thing) {       
-        
         
         CDP4.SiteDirectoryData.TelephoneNumber emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createTelephoneNumber();      
        
@@ -73,11 +80,14 @@ public class TelephoneNumber {
         if (thing.getVcardType() != null) {thing.getVcardType().forEach(item-> emf.getVcardType().add(CDP4.SiteDirectoryData.VcardTelephoneNumberKind.valueOf(thing.getVcardType().toString())));}                          
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.TelephoneNumber toPojo(CDP4.SiteDirectoryData.TelephoneNumber emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.TelephoneNumber} to {@link cdp4common.sitedirectorydata.TelephoneNumber}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.TelephoneNumber}
+     */
+    public static cdp4common.sitedirectorydata.TelephoneNumber toPojo(CDP4.SiteDirectoryData.TelephoneNumber emfThing) {
         
         cdp4common.sitedirectorydata.TelephoneNumber pojo = new cdp4common.sitedirectorydata.TelephoneNumber();
         
@@ -96,10 +106,16 @@ public class TelephoneNumber {
         if (emfThing.getVcardType() != null) {emfThing.getVcardType().forEach(item-> pojo.getVcardType().add(cdp4common.sitedirectorydata.VcardTelephoneNumberKind.valueOf(item.toString())));}   
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.TelephoneNumber} from a {@link CDP4.SiteDirectoryData.TelephoneNumber}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.TelephoneNumber}.
+    * @return A new {@link cdp4common.sitedirectorydata.TelephoneNumber}
+    */
     public static cdp4common.sitedirectorydata.TelephoneNumber instiatePojo(CDP4.SiteDirectoryData.TelephoneNumber thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.TelephoneNumber(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.TelephoneNumber(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

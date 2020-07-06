@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link TextualNote} class.
+ */
 public class TextualNote {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.TextualNote} to {@link CDP4.ReportingData.TextualNote}
+     *
+     * @return Generated {@link CDP4.ReportingData.TextualNote}
+     */
     public static CDP4.ReportingData.TextualNote toEmf(cdp4common.reportingdata.TextualNote thing) {       
-        
         
         CDP4.ReportingData.TextualNote emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createTextualNote();      
        
@@ -83,11 +90,14 @@ public class TextualNote {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.TextualNote toPojo(CDP4.ReportingData.TextualNote emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.TextualNote} to {@link cdp4common.reportingdata.TextualNote}
+     *
+     * @return Generated {@link cdp4common.reportingdata.TextualNote}
+     */
+    public static cdp4common.reportingdata.TextualNote toPojo(CDP4.ReportingData.TextualNote emfThing) {
         
         cdp4common.reportingdata.TextualNote pojo = new cdp4common.reportingdata.TextualNote();
         
@@ -116,10 +126,16 @@ public class TextualNote {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.TextualNote} from a {@link CDP4.ReportingData.TextualNote}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.TextualNote}.
+    * @return A new {@link cdp4common.reportingdata.TextualNote}
+    */
     public static cdp4common.reportingdata.TextualNote instiatePojo(CDP4.ReportingData.TextualNote thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.TextualNote(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.TextualNote(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

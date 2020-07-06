@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Page} class.
+ */
 public class Page {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.Page} to {@link CDP4.ReportingData.Page}
+     *
+     * @return Generated {@link CDP4.ReportingData.Page}
+     */
     public static CDP4.ReportingData.Page toEmf(cdp4common.reportingdata.Page thing) {       
-        
         
         CDP4.ReportingData.Page emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createPage();      
        
@@ -81,11 +88,14 @@ public class Page {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.Page toPojo(CDP4.ReportingData.Page emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.Page} to {@link cdp4common.reportingdata.Page}
+     *
+     * @return Generated {@link cdp4common.reportingdata.Page}
+     */
+    public static cdp4common.reportingdata.Page toPojo(CDP4.ReportingData.Page emfThing) {
         
         cdp4common.reportingdata.Page pojo = new cdp4common.reportingdata.Page();
         
@@ -112,10 +122,16 @@ public class Page {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.Page} from a {@link CDP4.ReportingData.Page}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.Page}.
+    * @return A new {@link cdp4common.reportingdata.Page}
+    */
     public static cdp4common.reportingdata.Page instiatePojo(CDP4.ReportingData.Page thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.Page(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.Page(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

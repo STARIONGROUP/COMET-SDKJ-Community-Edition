@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link RelationshipParameterValue} class.
+ */
 public class RelationshipParameterValue {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.RelationshipParameterValue} to {@link CDP4.EngineeringModelData.RelationshipParameterValue}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.RelationshipParameterValue}
+     */
     public static CDP4.EngineeringModelData.RelationshipParameterValue toEmf(cdp4common.engineeringmodeldata.RelationshipParameterValue thing) {       
-        
         
         CDP4.EngineeringModelData.RelationshipParameterValue emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRelationshipParameterValue();      
        
@@ -74,11 +81,14 @@ public class RelationshipParameterValue {
         thing.getValue().forEach(item -> emf.getValue().add(item));	             
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.RelationshipParameterValue toPojo(CDP4.EngineeringModelData.RelationshipParameterValue emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.RelationshipParameterValue} to {@link cdp4common.engineeringmodeldata.RelationshipParameterValue}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.RelationshipParameterValue}
+     */
+    public static cdp4common.engineeringmodeldata.RelationshipParameterValue toPojo(CDP4.EngineeringModelData.RelationshipParameterValue emfThing) {
         
         cdp4common.engineeringmodeldata.RelationshipParameterValue pojo = new cdp4common.engineeringmodeldata.RelationshipParameterValue();
         
@@ -98,10 +108,16 @@ public class RelationshipParameterValue {
         emfThing.getValue().forEach(item -> pojo.getValue().set(item.indexOf(item), item));		      
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.RelationshipParameterValue} from a {@link CDP4.EngineeringModelData.RelationshipParameterValue}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.RelationshipParameterValue}.
+    * @return A new {@link cdp4common.engineeringmodeldata.RelationshipParameterValue}
+    */
     public static cdp4common.engineeringmodeldata.RelationshipParameterValue instiatePojo(CDP4.EngineeringModelData.RelationshipParameterValue thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.RelationshipParameterValue(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.RelationshipParameterValue(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

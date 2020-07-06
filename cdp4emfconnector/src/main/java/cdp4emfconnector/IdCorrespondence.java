@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link IdCorrespondence} class.
+ */
 public class IdCorrespondence {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.IdCorrespondence} to {@link CDP4.EngineeringModelData.IdCorrespondence}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.IdCorrespondence}
+     */
     public static CDP4.EngineeringModelData.IdCorrespondence toEmf(cdp4common.engineeringmodeldata.IdCorrespondence thing) {       
-        
         
         CDP4.EngineeringModelData.IdCorrespondence emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createIdCorrespondence();      
        
@@ -73,11 +80,14 @@ public class IdCorrespondence {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.IdCorrespondence toPojo(CDP4.EngineeringModelData.IdCorrespondence emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.IdCorrespondence} to {@link cdp4common.engineeringmodeldata.IdCorrespondence}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.IdCorrespondence}
+     */
+    public static cdp4common.engineeringmodeldata.IdCorrespondence toPojo(CDP4.EngineeringModelData.IdCorrespondence emfThing) {
         
         cdp4common.engineeringmodeldata.IdCorrespondence pojo = new cdp4common.engineeringmodeldata.IdCorrespondence();
         
@@ -96,10 +106,16 @@ public class IdCorrespondence {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.IdCorrespondence} from a {@link CDP4.EngineeringModelData.IdCorrespondence}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.IdCorrespondence}.
+    * @return A new {@link cdp4common.engineeringmodeldata.IdCorrespondence}
+    */
     public static cdp4common.engineeringmodeldata.IdCorrespondence instiatePojo(CDP4.EngineeringModelData.IdCorrespondence thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.IdCorrespondence(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.IdCorrespondence(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

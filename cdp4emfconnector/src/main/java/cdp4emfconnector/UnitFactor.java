@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link UnitFactor} class.
+ */
 public class UnitFactor {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.UnitFactor} to {@link CDP4.SiteDirectoryData.UnitFactor}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.UnitFactor}
+     */
     public static CDP4.SiteDirectoryData.UnitFactor toEmf(cdp4common.sitedirectorydata.UnitFactor thing) {       
-        
         
         CDP4.SiteDirectoryData.UnitFactor emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createUnitFactor();      
        
@@ -73,11 +80,14 @@ public class UnitFactor {
         emf.setUnit(thing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toEmf(thing.getUnit()) : null);        
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.UnitFactor toPojo(CDP4.SiteDirectoryData.UnitFactor emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.UnitFactor} to {@link cdp4common.sitedirectorydata.UnitFactor}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.UnitFactor}
+     */
+    public static cdp4common.sitedirectorydata.UnitFactor toPojo(CDP4.SiteDirectoryData.UnitFactor emfThing) {
         
         cdp4common.sitedirectorydata.UnitFactor pojo = new cdp4common.sitedirectorydata.UnitFactor();
         
@@ -96,10 +106,16 @@ public class UnitFactor {
         pojo.setUnit(emfThing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toPojo(emfThing.getUnit()) : null);        
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.UnitFactor} from a {@link CDP4.SiteDirectoryData.UnitFactor}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.UnitFactor}.
+    * @return A new {@link cdp4common.sitedirectorydata.UnitFactor}
+    */
     public static cdp4common.sitedirectorydata.UnitFactor instiatePojo(CDP4.SiteDirectoryData.UnitFactor thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.UnitFactor(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.UnitFactor(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

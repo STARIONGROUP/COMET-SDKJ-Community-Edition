@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ParametricConstraint} class.
+ */
 public class ParametricConstraint {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.ParametricConstraint} to {@link CDP4.EngineeringModelData.ParametricConstraint}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.ParametricConstraint}
+     */
     public static CDP4.EngineeringModelData.ParametricConstraint toEmf(cdp4common.engineeringmodeldata.ParametricConstraint thing) {       
-        
         
         CDP4.EngineeringModelData.ParametricConstraint emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createParametricConstraint();      
        
@@ -72,11 +79,14 @@ public class ParametricConstraint {
         
         emf.setTopExpression(thing.getTopExpression() != null ? cdp4emfconnector.BooleanExpression.toEmf(thing.getTopExpression()) : null);
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.ParametricConstraint toPojo(CDP4.EngineeringModelData.ParametricConstraint emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.ParametricConstraint} to {@link cdp4common.engineeringmodeldata.ParametricConstraint}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.ParametricConstraint}
+     */
+    public static cdp4common.engineeringmodeldata.ParametricConstraint toPojo(CDP4.EngineeringModelData.ParametricConstraint emfThing) {
         
         cdp4common.engineeringmodeldata.ParametricConstraint pojo = new cdp4common.engineeringmodeldata.ParametricConstraint();
         
@@ -94,10 +104,16 @@ public class ParametricConstraint {
         
         pojo.setTopExpression(emfThing.getTopExpression() != null ? cdp4emfconnector.BooleanExpression.toPojo(emfThing.getTopExpression()) : null);
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.ParametricConstraint} from a {@link CDP4.EngineeringModelData.ParametricConstraint}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.ParametricConstraint}.
+    * @return A new {@link cdp4common.engineeringmodeldata.ParametricConstraint}
+    */
     public static cdp4common.engineeringmodeldata.ParametricConstraint instiatePojo(CDP4.EngineeringModelData.ParametricConstraint thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.ParametricConstraint(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.ParametricConstraint(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

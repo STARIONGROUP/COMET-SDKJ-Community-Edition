@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link DiagramCanvas} class.
+ */
 public class DiagramCanvas {
-
+   
+    /**
+     * Convert from {@link cdp4common.diagramdata.DiagramCanvas} to {@link CDP4.DiagramData.DiagramCanvas}
+     *
+     * @return Generated {@link CDP4.DiagramData.DiagramCanvas}
+     */
     public static CDP4.DiagramData.DiagramCanvas toEmf(cdp4common.diagramdata.DiagramCanvas thing) {       
-        
         
         CDP4.DiagramData.DiagramCanvas emf =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createDiagramCanvas();      
        
@@ -77,11 +84,14 @@ public class DiagramCanvas {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.diagramdata.DiagramCanvas toPojo(CDP4.DiagramData.DiagramCanvas emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.DiagramData.DiagramCanvas} to {@link cdp4common.diagramdata.DiagramCanvas}
+     *
+     * @return Generated {@link cdp4common.diagramdata.DiagramCanvas}
+     */
+    public static cdp4common.diagramdata.DiagramCanvas toPojo(CDP4.DiagramData.DiagramCanvas emfThing) {
         
         cdp4common.diagramdata.DiagramCanvas pojo = new cdp4common.diagramdata.DiagramCanvas();
         
@@ -104,10 +114,16 @@ public class DiagramCanvas {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.diagramdata.DiagramCanvas} from a {@link CDP4.DiagramData.DiagramCanvas}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.diagramdata.DiagramCanvas}.
+    * @return A new {@link cdp4common.diagramdata.DiagramCanvas}
+    */
     public static cdp4common.diagramdata.DiagramCanvas instiatePojo(CDP4.DiagramData.DiagramCanvas thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.diagramdata.DiagramCanvas(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.diagramdata.DiagramCanvas(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

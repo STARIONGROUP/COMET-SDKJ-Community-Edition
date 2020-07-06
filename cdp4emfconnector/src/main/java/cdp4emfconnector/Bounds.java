@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Bounds} class.
+ */
 public class Bounds {
-
+   
+    /**
+     * Convert from {@link cdp4common.diagramdata.Bounds} to {@link CDP4.DiagramData.Bounds}
+     *
+     * @return Generated {@link CDP4.DiagramData.Bounds}
+     */
     public static CDP4.DiagramData.Bounds toEmf(cdp4common.diagramdata.Bounds thing) {       
-        
         
         CDP4.DiagramData.Bounds emf =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createBounds();      
        
@@ -79,11 +86,14 @@ public class Bounds {
         emf.setY(thing.getY());
         
         return emf;
-        
     }
 
-    public static  cdp4common.diagramdata.Bounds toPojo(CDP4.DiagramData.Bounds emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.DiagramData.Bounds} to {@link cdp4common.diagramdata.Bounds}
+     *
+     * @return Generated {@link cdp4common.diagramdata.Bounds}
+     */
+    public static cdp4common.diagramdata.Bounds toPojo(CDP4.DiagramData.Bounds emfThing) {
         
         cdp4common.diagramdata.Bounds pojo = new cdp4common.diagramdata.Bounds();
         
@@ -108,10 +118,16 @@ public class Bounds {
         pojo.setY((float)emfThing.getY());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.diagramdata.Bounds} from a {@link CDP4.DiagramData.Bounds}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.diagramdata.Bounds}.
+    * @return A new {@link cdp4common.diagramdata.Bounds}
+    */
     public static cdp4common.diagramdata.Bounds instiatePojo(CDP4.DiagramData.Bounds thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.diagramdata.Bounds(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.diagramdata.Bounds(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

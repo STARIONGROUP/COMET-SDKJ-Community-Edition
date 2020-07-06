@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link PrefixedUnit} class.
+ */
 public class PrefixedUnit {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.PrefixedUnit} to {@link CDP4.SiteDirectoryData.PrefixedUnit}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.PrefixedUnit}
+     */
     public static CDP4.SiteDirectoryData.PrefixedUnit toEmf(cdp4common.sitedirectorydata.PrefixedUnit thing) {       
-        
         
         CDP4.SiteDirectoryData.PrefixedUnit emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createPrefixedUnit();      
        
@@ -81,11 +88,14 @@ public class PrefixedUnit {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.PrefixedUnit toPojo(CDP4.SiteDirectoryData.PrefixedUnit emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.PrefixedUnit} to {@link cdp4common.sitedirectorydata.PrefixedUnit}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.PrefixedUnit}
+     */
+    public static cdp4common.sitedirectorydata.PrefixedUnit toPojo(CDP4.SiteDirectoryData.PrefixedUnit emfThing) {
         
         cdp4common.sitedirectorydata.PrefixedUnit pojo = new cdp4common.sitedirectorydata.PrefixedUnit();
         
@@ -112,10 +122,16 @@ public class PrefixedUnit {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.PrefixedUnit} from a {@link CDP4.SiteDirectoryData.PrefixedUnit}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.PrefixedUnit}.
+    * @return A new {@link cdp4common.sitedirectorydata.PrefixedUnit}
+    */
     public static cdp4common.sitedirectorydata.PrefixedUnit instiatePojo(CDP4.SiteDirectoryData.PrefixedUnit thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.PrefixedUnit(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.PrefixedUnit(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

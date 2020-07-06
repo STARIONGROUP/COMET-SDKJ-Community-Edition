@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link TopContainer} class.
+ */
 public abstract class TopContainer {
-
+   
+    /**
+     * Convert from {@link cdp4common.commondata.TopContainer} to {@link CDP4.CommonData.TopContainer}
+     *
+     * @return Generated {@link CDP4.CommonData.TopContainer}
+     */
     public static CDP4.CommonData.TopContainer toEmf(cdp4common.commondata.TopContainer thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,7 +70,9 @@ public abstract class TopContainer {
         
         emfSiteDirectory.setIid(thing.getIid().toString()); 
         
+        emfSiteDirectory.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteDirectory.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteDirectory.setLastModifiedOn(thing.getLastModifiedOn());
         
@@ -70,15 +80,16 @@ public abstract class TopContainer {
         
         emfSiteDirectory.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSiteDirectory;   
-        
+        return emfSiteDirectory;
         
         case "cdp4common.engineeringmodeldata.EngineeringModel":
         CDP4.CommonData.TopContainer emfEngineeringModel =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createEngineeringModel();    
         
         emfEngineeringModel.setIid(thing.getIid().toString()); 
         
+        emfEngineeringModel.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEngineeringModel.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfEngineeringModel.setLastModifiedOn(thing.getLastModifiedOn());
         
@@ -86,16 +97,19 @@ public abstract class TopContainer {
         
         emfEngineeringModel.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfEngineeringModel;   
-        
+        return emfEngineeringModel;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.commondata.TopContainer toPojo(CDP4.CommonData.TopContainer emfThing) {
+    /**
+     * Convert from {@link CDP4.CommonData.TopContainer} to {@link cdp4common.commondata.TopContainer}
+     *
+     * @return Generated {@link cdp4common.commondata.TopContainer}
+     */
+    public static cdp4common.commondata.TopContainer toPojo(CDP4.CommonData.TopContainer emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -114,8 +128,7 @@ public abstract class TopContainer {
         
         pojoSiteDirectory.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSiteDirectory;   
-        
+        return pojoSiteDirectory;
         
         case "CDP4.engineeringmodeldata.EngineeringModel":                
         cdp4common.commondata.TopContainer pojoEngineeringModel = new cdp4common.engineeringmodeldata.EngineeringModel();	    
@@ -132,14 +145,11 @@ public abstract class TopContainer {
         
         pojoEngineeringModel.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoEngineeringModel;   
-        
+        return pojoEngineeringModel;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

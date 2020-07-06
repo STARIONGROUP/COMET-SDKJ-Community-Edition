@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link PossibleFiniteState} class.
+ */
 public class PossibleFiniteState {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.PossibleFiniteState} to {@link CDP4.EngineeringModelData.PossibleFiniteState}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.PossibleFiniteState}
+     */
     public static CDP4.EngineeringModelData.PossibleFiniteState toEmf(cdp4common.engineeringmodeldata.PossibleFiniteState thing) {       
-        
         
         CDP4.EngineeringModelData.PossibleFiniteState emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createPossibleFiniteState();      
        
@@ -79,11 +86,14 @@ public class PossibleFiniteState {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.PossibleFiniteState toPojo(CDP4.EngineeringModelData.PossibleFiniteState emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.PossibleFiniteState} to {@link cdp4common.engineeringmodeldata.PossibleFiniteState}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.PossibleFiniteState}
+     */
+    public static cdp4common.engineeringmodeldata.PossibleFiniteState toPojo(CDP4.EngineeringModelData.PossibleFiniteState emfThing) {
         
         cdp4common.engineeringmodeldata.PossibleFiniteState pojo = new cdp4common.engineeringmodeldata.PossibleFiniteState();
         
@@ -108,10 +118,16 @@ public class PossibleFiniteState {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.PossibleFiniteState} from a {@link CDP4.EngineeringModelData.PossibleFiniteState}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.PossibleFiniteState}.
+    * @return A new {@link cdp4common.engineeringmodeldata.PossibleFiniteState}
+    */
     public static cdp4common.engineeringmodeldata.PossibleFiniteState instiatePojo(CDP4.EngineeringModelData.PossibleFiniteState thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.PossibleFiniteState(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.PossibleFiniteState(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

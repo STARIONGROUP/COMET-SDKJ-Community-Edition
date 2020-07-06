@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link HyperLink} class.
+ */
 public class HyperLink {
-
+   
+    /**
+     * Convert from {@link cdp4common.commondata.HyperLink} to {@link CDP4.CommonData.HyperLink}
+     *
+     * @return Generated {@link CDP4.CommonData.HyperLink}
+     */
     public static CDP4.CommonData.HyperLink toEmf(cdp4common.commondata.HyperLink thing) {       
-        
         
         CDP4.CommonData.HyperLink emf =  CDP4.CommonData.impl.CommonDataFactoryImpl.eINSTANCE.createHyperLink();      
        
@@ -75,11 +82,14 @@ public class HyperLink {
         emf.setUri(thing.getUri());
         
         return emf;
-        
     }
 
-    public static  cdp4common.commondata.HyperLink toPojo(CDP4.CommonData.HyperLink emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.CommonData.HyperLink} to {@link cdp4common.commondata.HyperLink}
+     *
+     * @return Generated {@link cdp4common.commondata.HyperLink}
+     */
+    public static cdp4common.commondata.HyperLink toPojo(CDP4.CommonData.HyperLink emfThing) {
         
         cdp4common.commondata.HyperLink pojo = new cdp4common.commondata.HyperLink();
         
@@ -100,10 +110,16 @@ public class HyperLink {
         pojo.setUri(emfThing.getUri());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.commondata.HyperLink} from a {@link CDP4.CommonData.HyperLink}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.commondata.HyperLink}.
+    * @return A new {@link cdp4common.commondata.HyperLink}
+    */
     public static cdp4common.commondata.HyperLink instiatePojo(CDP4.CommonData.HyperLink thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.commondata.HyperLink(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.commondata.HyperLink(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

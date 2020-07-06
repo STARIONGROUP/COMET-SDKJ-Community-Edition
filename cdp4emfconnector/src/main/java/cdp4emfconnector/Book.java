@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Book} class.
+ */
 public class Book {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.Book} to {@link CDP4.ReportingData.Book}
+     *
+     * @return Generated {@link CDP4.ReportingData.Book}
+     */
     public static CDP4.ReportingData.Book toEmf(cdp4common.reportingdata.Book thing) {       
-        
         
         CDP4.ReportingData.Book emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createBook();      
        
@@ -81,11 +88,14 @@ public class Book {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.Book toPojo(CDP4.ReportingData.Book emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.Book} to {@link cdp4common.reportingdata.Book}
+     *
+     * @return Generated {@link cdp4common.reportingdata.Book}
+     */
+    public static cdp4common.reportingdata.Book toPojo(CDP4.ReportingData.Book emfThing) {
         
         cdp4common.reportingdata.Book pojo = new cdp4common.reportingdata.Book();
         
@@ -112,10 +122,16 @@ public class Book {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.Book} from a {@link CDP4.ReportingData.Book}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.Book}.
+    * @return A new {@link cdp4common.reportingdata.Book}
+    */
     public static cdp4common.reportingdata.Book instiatePojo(CDP4.ReportingData.Book thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.Book(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.Book(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

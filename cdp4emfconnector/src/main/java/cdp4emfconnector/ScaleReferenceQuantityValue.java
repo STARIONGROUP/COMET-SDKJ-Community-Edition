@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ScaleReferenceQuantityValue} class.
+ */
 public class ScaleReferenceQuantityValue {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.ScaleReferenceQuantityValue} to {@link CDP4.SiteDirectoryData.ScaleReferenceQuantityValue}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.ScaleReferenceQuantityValue}
+     */
     public static CDP4.SiteDirectoryData.ScaleReferenceQuantityValue toEmf(cdp4common.sitedirectorydata.ScaleReferenceQuantityValue thing) {       
-        
         
         CDP4.SiteDirectoryData.ScaleReferenceQuantityValue emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createScaleReferenceQuantityValue();      
        
@@ -73,11 +80,14 @@ public class ScaleReferenceQuantityValue {
         emf.setValue(thing.getValue());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.ScaleReferenceQuantityValue toPojo(CDP4.SiteDirectoryData.ScaleReferenceQuantityValue emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.ScaleReferenceQuantityValue} to {@link cdp4common.sitedirectorydata.ScaleReferenceQuantityValue}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.ScaleReferenceQuantityValue}
+     */
+    public static cdp4common.sitedirectorydata.ScaleReferenceQuantityValue toPojo(CDP4.SiteDirectoryData.ScaleReferenceQuantityValue emfThing) {
         
         cdp4common.sitedirectorydata.ScaleReferenceQuantityValue pojo = new cdp4common.sitedirectorydata.ScaleReferenceQuantityValue();
         
@@ -96,10 +106,16 @@ public class ScaleReferenceQuantityValue {
         pojo.setValue(emfThing.getValue());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.ScaleReferenceQuantityValue} from a {@link CDP4.SiteDirectoryData.ScaleReferenceQuantityValue}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.ScaleReferenceQuantityValue}.
+    * @return A new {@link cdp4common.sitedirectorydata.ScaleReferenceQuantityValue}
+    */
     public static cdp4common.sitedirectorydata.ScaleReferenceQuantityValue instiatePojo(CDP4.SiteDirectoryData.ScaleReferenceQuantityValue thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.ScaleReferenceQuantityValue(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.ScaleReferenceQuantityValue(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

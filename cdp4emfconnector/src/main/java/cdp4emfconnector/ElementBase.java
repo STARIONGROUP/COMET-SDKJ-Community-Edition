@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ElementBase} class.
+ */
 public abstract class ElementBase {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.ElementBase} to {@link CDP4.EngineeringModelData.ElementBase}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.ElementBase}
+     */
     public static CDP4.EngineeringModelData.ElementBase toEmf(cdp4common.engineeringmodeldata.ElementBase thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,11 +70,17 @@ public abstract class ElementBase {
         
         emfElementDefinition.setIid(thing.getIid().toString()); 
         
+        emfElementDefinition.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementDefinition.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementDefinition.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementDefinition.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementDefinition.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementDefinition.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfElementDefinition.setModifiedOn(thing.getModifiedOn());
         
@@ -78,19 +92,24 @@ public abstract class ElementBase {
         
         emfElementDefinition.setShortName(thing.getShortName());
         		        
-        return emfElementDefinition;   
-        
+        return emfElementDefinition;
         
         case "cdp4common.engineeringmodeldata.ElementUsage":
         CDP4.EngineeringModelData.ElementBase emfElementUsage =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createElementUsage();    
         
         emfElementUsage.setIid(thing.getIid().toString()); 
         
+        emfElementUsage.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementUsage.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementUsage.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementUsage.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementUsage.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementUsage.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfElementUsage.setModifiedOn(thing.getModifiedOn());
         
@@ -102,16 +121,19 @@ public abstract class ElementBase {
         
         emfElementUsage.setShortName(thing.getShortName());
         		        
-        return emfElementUsage;   
-        
+        return emfElementUsage;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.ElementBase toPojo(CDP4.EngineeringModelData.ElementBase emfThing) {
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.ElementBase} to {@link cdp4common.engineeringmodeldata.ElementBase}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.ElementBase}
+     */
+    public static cdp4common.engineeringmodeldata.ElementBase toPojo(CDP4.EngineeringModelData.ElementBase emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -142,8 +164,7 @@ public abstract class ElementBase {
         
         pojoElementDefinition.setShortName(emfThing.getShortName());
         		        
-        return pojoElementDefinition;   
-        
+        return pojoElementDefinition;
         
         case "CDP4.engineeringmodeldata.ElementUsage":                
         cdp4common.engineeringmodeldata.ElementBase pojoElementUsage = new cdp4common.engineeringmodeldata.ElementUsage();	    
@@ -172,14 +193,11 @@ public abstract class ElementBase {
         
         pojoElementUsage.setShortName(emfThing.getShortName());
         		        
-        return pojoElementUsage;   
-        
+        return pojoElementUsage;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

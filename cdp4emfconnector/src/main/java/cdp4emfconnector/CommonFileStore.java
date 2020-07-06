@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link CommonFileStore} class.
+ */
 public class CommonFileStore {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.CommonFileStore} to {@link CDP4.EngineeringModelData.CommonFileStore}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.CommonFileStore}
+     */
     public static CDP4.EngineeringModelData.CommonFileStore toEmf(cdp4common.engineeringmodeldata.CommonFileStore thing) {       
-        
         
         CDP4.EngineeringModelData.CommonFileStore emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createCommonFileStore();      
        
@@ -79,11 +86,14 @@ public class CommonFileStore {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.CommonFileStore toPojo(CDP4.EngineeringModelData.CommonFileStore emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.CommonFileStore} to {@link cdp4common.engineeringmodeldata.CommonFileStore}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.CommonFileStore}
+     */
+    public static cdp4common.engineeringmodeldata.CommonFileStore toPojo(CDP4.EngineeringModelData.CommonFileStore emfThing) {
         
         cdp4common.engineeringmodeldata.CommonFileStore pojo = new cdp4common.engineeringmodeldata.CommonFileStore();
         
@@ -108,10 +118,16 @@ public class CommonFileStore {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.CommonFileStore} from a {@link CDP4.EngineeringModelData.CommonFileStore}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.CommonFileStore}.
+    * @return A new {@link cdp4common.engineeringmodeldata.CommonFileStore}
+    */
     public static cdp4common.engineeringmodeldata.CommonFileStore instiatePojo(CDP4.EngineeringModelData.CommonFileStore thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.CommonFileStore(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.CommonFileStore(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link FileStore} class.
+ */
 public abstract class FileStore {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.FileStore} to {@link CDP4.EngineeringModelData.FileStore}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.FileStore}
+     */
     public static CDP4.EngineeringModelData.FileStore toEmf(cdp4common.engineeringmodeldata.FileStore thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -64,9 +72,13 @@ public abstract class FileStore {
         
         emfCommonFileStore.setCreatedOn(thing.getCreatedOn());
         
+        emfCommonFileStore.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfCommonFileStore.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfCommonFileStore.getFile().addAll(thing.getFile().stream().map(item -> cdp4emfconnector.File.toEmf(item)).collect(Collectors.toList()));
         
+        emfCommonFileStore.getFolder().addAll(thing.getFolder().stream().map(item -> cdp4emfconnector.Folder.toEmf(item)).collect(Collectors.toList()));
         
         emfCommonFileStore.setModifiedOn(thing.getModifiedOn());
         
@@ -76,8 +88,7 @@ public abstract class FileStore {
         
         emfCommonFileStore.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfCommonFileStore;   
-        
+        return emfCommonFileStore;
         
         case "cdp4common.engineeringmodeldata.DomainFileStore":
         CDP4.EngineeringModelData.FileStore emfDomainFileStore =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createDomainFileStore();    
@@ -86,9 +97,13 @@ public abstract class FileStore {
         
         emfDomainFileStore.setCreatedOn(thing.getCreatedOn());
         
+        emfDomainFileStore.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDomainFileStore.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDomainFileStore.getFile().addAll(thing.getFile().stream().map(item -> cdp4emfconnector.File.toEmf(item)).collect(Collectors.toList()));
         
+        emfDomainFileStore.getFolder().addAll(thing.getFolder().stream().map(item -> cdp4emfconnector.Folder.toEmf(item)).collect(Collectors.toList()));
         
         emfDomainFileStore.setModifiedOn(thing.getModifiedOn());
         
@@ -98,16 +113,19 @@ public abstract class FileStore {
         
         emfDomainFileStore.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDomainFileStore;   
-        
+        return emfDomainFileStore;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.FileStore toPojo(CDP4.EngineeringModelData.FileStore emfThing) {
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.FileStore} to {@link cdp4common.engineeringmodeldata.FileStore}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.FileStore}
+     */
+    public static cdp4common.engineeringmodeldata.FileStore toPojo(CDP4.EngineeringModelData.FileStore emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -134,8 +152,7 @@ public abstract class FileStore {
         
         pojoCommonFileStore.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoCommonFileStore;   
-        
+        return pojoCommonFileStore;
         
         case "CDP4.engineeringmodeldata.DomainFileStore":                
         cdp4common.engineeringmodeldata.FileStore pojoDomainFileStore = new cdp4common.engineeringmodeldata.DomainFileStore();	    
@@ -160,14 +177,11 @@ public abstract class FileStore {
         
         pojoDomainFileStore.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDomainFileStore;   
-        
+        return pojoDomainFileStore;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

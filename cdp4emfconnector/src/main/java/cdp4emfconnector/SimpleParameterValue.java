@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link SimpleParameterValue} class.
+ */
 public class SimpleParameterValue {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.SimpleParameterValue} to {@link CDP4.EngineeringModelData.SimpleParameterValue}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.SimpleParameterValue}
+     */
     public static CDP4.EngineeringModelData.SimpleParameterValue toEmf(cdp4common.engineeringmodeldata.SimpleParameterValue thing) {       
-        
         
         CDP4.EngineeringModelData.SimpleParameterValue emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createSimpleParameterValue();      
        
@@ -74,11 +81,14 @@ public class SimpleParameterValue {
         thing.getValue().forEach(item -> emf.getValue().add(item));	             
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.SimpleParameterValue toPojo(CDP4.EngineeringModelData.SimpleParameterValue emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.SimpleParameterValue} to {@link cdp4common.engineeringmodeldata.SimpleParameterValue}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.SimpleParameterValue}
+     */
+    public static cdp4common.engineeringmodeldata.SimpleParameterValue toPojo(CDP4.EngineeringModelData.SimpleParameterValue emfThing) {
         
         cdp4common.engineeringmodeldata.SimpleParameterValue pojo = new cdp4common.engineeringmodeldata.SimpleParameterValue();
         
@@ -98,10 +108,16 @@ public class SimpleParameterValue {
         emfThing.getValue().forEach(item -> pojo.getValue().set(item.indexOf(item), item));		      
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.SimpleParameterValue} from a {@link CDP4.EngineeringModelData.SimpleParameterValue}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.SimpleParameterValue}.
+    * @return A new {@link cdp4common.engineeringmodeldata.SimpleParameterValue}
+    */
     public static cdp4common.engineeringmodeldata.SimpleParameterValue instiatePojo(CDP4.EngineeringModelData.SimpleParameterValue thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.SimpleParameterValue(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.SimpleParameterValue(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ParameterGroup} class.
+ */
 public class ParameterGroup {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.ParameterGroup} to {@link CDP4.EngineeringModelData.ParameterGroup}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.ParameterGroup}
+     */
     public static CDP4.EngineeringModelData.ParameterGroup toEmf(cdp4common.engineeringmodeldata.ParameterGroup thing) {       
-        
         
         CDP4.EngineeringModelData.ParameterGroup emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createParameterGroup();      
        
@@ -72,11 +79,14 @@ public class ParameterGroup {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.ParameterGroup toPojo(CDP4.EngineeringModelData.ParameterGroup emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.ParameterGroup} to {@link cdp4common.engineeringmodeldata.ParameterGroup}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.ParameterGroup}
+     */
+    public static cdp4common.engineeringmodeldata.ParameterGroup toPojo(CDP4.EngineeringModelData.ParameterGroup emfThing) {
         
         cdp4common.engineeringmodeldata.ParameterGroup pojo = new cdp4common.engineeringmodeldata.ParameterGroup();
         
@@ -94,10 +104,16 @@ public class ParameterGroup {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.ParameterGroup} from a {@link CDP4.EngineeringModelData.ParameterGroup}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.ParameterGroup}.
+    * @return A new {@link cdp4common.engineeringmodeldata.ParameterGroup}
+    */
     public static cdp4common.engineeringmodeldata.ParameterGroup instiatePojo(CDP4.EngineeringModelData.ParameterGroup thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.ParameterGroup(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.ParameterGroup(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

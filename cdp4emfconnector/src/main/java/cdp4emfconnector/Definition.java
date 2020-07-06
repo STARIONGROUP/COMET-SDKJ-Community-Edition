@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Definition} class.
+ */
 public class Definition {
-
+   
+    /**
+     * Convert from {@link cdp4common.commondata.Definition} to {@link CDP4.CommonData.Definition}
+     *
+     * @return Generated {@link CDP4.CommonData.Definition}
+     */
     public static CDP4.CommonData.Definition toEmf(cdp4common.commondata.Definition thing) {       
-        
         
         CDP4.CommonData.Definition emf =  CDP4.CommonData.impl.CommonDataFactoryImpl.eINSTANCE.createDefinition();      
        
@@ -79,11 +86,14 @@ public class Definition {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.commondata.Definition toPojo(CDP4.CommonData.Definition emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.CommonData.Definition} to {@link cdp4common.commondata.Definition}
+     *
+     * @return Generated {@link cdp4common.commondata.Definition}
+     */
+    public static cdp4common.commondata.Definition toPojo(CDP4.CommonData.Definition emfThing) {
         
         cdp4common.commondata.Definition pojo = new cdp4common.commondata.Definition();
         
@@ -108,10 +118,16 @@ public class Definition {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.commondata.Definition} from a {@link CDP4.CommonData.Definition}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.commondata.Definition}.
+    * @return A new {@link cdp4common.commondata.Definition}
+    */
     public static cdp4common.commondata.Definition instiatePojo(CDP4.CommonData.Definition thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.commondata.Definition(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.commondata.Definition(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

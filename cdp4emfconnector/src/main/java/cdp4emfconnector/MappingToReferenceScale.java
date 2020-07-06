@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link MappingToReferenceScale} class.
+ */
 public class MappingToReferenceScale {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.MappingToReferenceScale} to {@link CDP4.SiteDirectoryData.MappingToReferenceScale}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.MappingToReferenceScale}
+     */
     public static CDP4.SiteDirectoryData.MappingToReferenceScale toEmf(cdp4common.sitedirectorydata.MappingToReferenceScale thing) {       
-        
         
         CDP4.SiteDirectoryData.MappingToReferenceScale emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createMappingToReferenceScale();      
        
@@ -73,11 +80,14 @@ public class MappingToReferenceScale {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.MappingToReferenceScale toPojo(CDP4.SiteDirectoryData.MappingToReferenceScale emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.MappingToReferenceScale} to {@link cdp4common.sitedirectorydata.MappingToReferenceScale}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.MappingToReferenceScale}
+     */
+    public static cdp4common.sitedirectorydata.MappingToReferenceScale toPojo(CDP4.SiteDirectoryData.MappingToReferenceScale emfThing) {
         
         cdp4common.sitedirectorydata.MappingToReferenceScale pojo = new cdp4common.sitedirectorydata.MappingToReferenceScale();
         
@@ -96,10 +106,16 @@ public class MappingToReferenceScale {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.MappingToReferenceScale} from a {@link CDP4.SiteDirectoryData.MappingToReferenceScale}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.MappingToReferenceScale}.
+    * @return A new {@link cdp4common.sitedirectorydata.MappingToReferenceScale}
+    */
     public static cdp4common.sitedirectorydata.MappingToReferenceScale instiatePojo(CDP4.SiteDirectoryData.MappingToReferenceScale thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.MappingToReferenceScale(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.MappingToReferenceScale(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link RequirementsGroup} class.
+ */
 public class RequirementsGroup {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.RequirementsGroup} to {@link CDP4.EngineeringModelData.RequirementsGroup}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.RequirementsGroup}
+     */
     public static CDP4.EngineeringModelData.RequirementsGroup toEmf(cdp4common.engineeringmodeldata.RequirementsGroup thing) {       
-        
         
         CDP4.EngineeringModelData.RequirementsGroup emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRequirementsGroup();      
        
@@ -87,11 +94,14 @@ public class RequirementsGroup {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.RequirementsGroup toPojo(CDP4.EngineeringModelData.RequirementsGroup emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.RequirementsGroup} to {@link cdp4common.engineeringmodeldata.RequirementsGroup}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.RequirementsGroup}
+     */
+    public static cdp4common.engineeringmodeldata.RequirementsGroup toPojo(CDP4.EngineeringModelData.RequirementsGroup emfThing) {
         
         cdp4common.engineeringmodeldata.RequirementsGroup pojo = new cdp4common.engineeringmodeldata.RequirementsGroup();
         
@@ -124,10 +134,16 @@ public class RequirementsGroup {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.RequirementsGroup} from a {@link CDP4.EngineeringModelData.RequirementsGroup}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.RequirementsGroup}.
+    * @return A new {@link cdp4common.engineeringmodeldata.RequirementsGroup}
+    */
     public static cdp4common.engineeringmodeldata.RequirementsGroup instiatePojo(CDP4.EngineeringModelData.RequirementsGroup thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.RequirementsGroup(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.RequirementsGroup(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

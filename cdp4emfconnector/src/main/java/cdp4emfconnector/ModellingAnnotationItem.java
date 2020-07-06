@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ModellingAnnotationItem} class.
+ */
 public abstract class ModellingAnnotationItem {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.ModellingAnnotationItem} to {@link CDP4.ReportingData.ModellingAnnotationItem}
+     *
+     * @return Generated {@link CDP4.ReportingData.ModellingAnnotationItem}
+     */
     public static CDP4.ReportingData.ModellingAnnotationItem toEmf(cdp4common.reportingdata.ModellingAnnotationItem thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -63,9 +71,11 @@ public abstract class ModellingAnnotationItem {
         
         emfRequestForWaiver.setIid(thing.getIid().toString()); 
         
+        emfRequestForWaiver.getApprovedBy().addAll(thing.getApprovedBy().stream().map(item -> cdp4emfconnector.Approval.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForWaiver.setAuthor(thing.getAuthor() != null ? cdp4emfconnector.Participant.toEmf(thing.getAuthor()) : null);        
         
+        emfRequestForWaiver.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getClassification() != null) {emfRequestForWaiver.setClassification(CDP4.ReportingData.AnnotationClassificationKind.valueOf(thing.getClassification().toString()));}                        
         
@@ -73,8 +83,11 @@ public abstract class ModellingAnnotationItem {
         
         emfRequestForWaiver.setCreatedOn(thing.getCreatedOn());
         
+        emfRequestForWaiver.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequestForWaiver.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequestForWaiver.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForWaiver.setLanguageCode(thing.getLanguageCode());
         
@@ -83,27 +96,30 @@ public abstract class ModellingAnnotationItem {
         emfRequestForWaiver.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
         emfRequestForWaiver.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfRequestForWaiver.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForWaiver.setRevisionNumber(thing.getRevisionNumber());
         
         emfRequestForWaiver.setShortName(thing.getShortName());
         
+        emfRequestForWaiver.getSourceAnnotation().addAll(thing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getStatus() != null) {emfRequestForWaiver.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
         emfRequestForWaiver.setTitle(thing.getTitle());
         		        
-        return emfRequestForWaiver;   
-        
+        return emfRequestForWaiver;
         
         case "cdp4common.reportingdata.RequestForDeviation":
         CDP4.ReportingData.ModellingAnnotationItem emfRequestForDeviation =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createRequestForDeviation();    
         
         emfRequestForDeviation.setIid(thing.getIid().toString()); 
         
+        emfRequestForDeviation.getApprovedBy().addAll(thing.getApprovedBy().stream().map(item -> cdp4emfconnector.Approval.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForDeviation.setAuthor(thing.getAuthor() != null ? cdp4emfconnector.Participant.toEmf(thing.getAuthor()) : null);        
         
+        emfRequestForDeviation.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getClassification() != null) {emfRequestForDeviation.setClassification(CDP4.ReportingData.AnnotationClassificationKind.valueOf(thing.getClassification().toString()));}                        
         
@@ -111,8 +127,11 @@ public abstract class ModellingAnnotationItem {
         
         emfRequestForDeviation.setCreatedOn(thing.getCreatedOn());
         
+        emfRequestForDeviation.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequestForDeviation.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequestForDeviation.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForDeviation.setLanguageCode(thing.getLanguageCode());
         
@@ -121,27 +140,30 @@ public abstract class ModellingAnnotationItem {
         emfRequestForDeviation.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
         emfRequestForDeviation.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfRequestForDeviation.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForDeviation.setRevisionNumber(thing.getRevisionNumber());
         
         emfRequestForDeviation.setShortName(thing.getShortName());
         
+        emfRequestForDeviation.getSourceAnnotation().addAll(thing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getStatus() != null) {emfRequestForDeviation.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
         emfRequestForDeviation.setTitle(thing.getTitle());
         		        
-        return emfRequestForDeviation;   
-        
+        return emfRequestForDeviation;
         
         case "cdp4common.reportingdata.ChangeRequest":
         CDP4.ReportingData.ModellingAnnotationItem emfChangeRequest =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createChangeRequest();    
         
         emfChangeRequest.setIid(thing.getIid().toString()); 
         
+        emfChangeRequest.getApprovedBy().addAll(thing.getApprovedBy().stream().map(item -> cdp4emfconnector.Approval.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeRequest.setAuthor(thing.getAuthor() != null ? cdp4emfconnector.Participant.toEmf(thing.getAuthor()) : null);        
         
+        emfChangeRequest.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getClassification() != null) {emfChangeRequest.setClassification(CDP4.ReportingData.AnnotationClassificationKind.valueOf(thing.getClassification().toString()));}                        
         
@@ -149,8 +171,11 @@ public abstract class ModellingAnnotationItem {
         
         emfChangeRequest.setCreatedOn(thing.getCreatedOn());
         
+        emfChangeRequest.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfChangeRequest.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfChangeRequest.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeRequest.setLanguageCode(thing.getLanguageCode());
         
@@ -159,27 +184,30 @@ public abstract class ModellingAnnotationItem {
         emfChangeRequest.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
         emfChangeRequest.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfChangeRequest.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeRequest.setRevisionNumber(thing.getRevisionNumber());
         
         emfChangeRequest.setShortName(thing.getShortName());
         
+        emfChangeRequest.getSourceAnnotation().addAll(thing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getStatus() != null) {emfChangeRequest.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
         emfChangeRequest.setTitle(thing.getTitle());
         		        
-        return emfChangeRequest;   
-        
+        return emfChangeRequest;
         
         case "cdp4common.reportingdata.ReviewItemDiscrepancy":
         CDP4.ReportingData.ModellingAnnotationItem emfReviewItemDiscrepancy =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createReviewItemDiscrepancy();    
         
         emfReviewItemDiscrepancy.setIid(thing.getIid().toString()); 
         
+        emfReviewItemDiscrepancy.getApprovedBy().addAll(thing.getApprovedBy().stream().map(item -> cdp4emfconnector.Approval.toEmf(item)).collect(Collectors.toList()));
         
         emfReviewItemDiscrepancy.setAuthor(thing.getAuthor() != null ? cdp4emfconnector.Participant.toEmf(thing.getAuthor()) : null);        
         
+        emfReviewItemDiscrepancy.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getClassification() != null) {emfReviewItemDiscrepancy.setClassification(CDP4.ReportingData.AnnotationClassificationKind.valueOf(thing.getClassification().toString()));}                        
         
@@ -187,8 +215,11 @@ public abstract class ModellingAnnotationItem {
         
         emfReviewItemDiscrepancy.setCreatedOn(thing.getCreatedOn());
         
+        emfReviewItemDiscrepancy.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfReviewItemDiscrepancy.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfReviewItemDiscrepancy.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfReviewItemDiscrepancy.setLanguageCode(thing.getLanguageCode());
         
@@ -197,27 +228,30 @@ public abstract class ModellingAnnotationItem {
         emfReviewItemDiscrepancy.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
         emfReviewItemDiscrepancy.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfReviewItemDiscrepancy.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfReviewItemDiscrepancy.setRevisionNumber(thing.getRevisionNumber());
         
         emfReviewItemDiscrepancy.setShortName(thing.getShortName());
         
+        emfReviewItemDiscrepancy.getSourceAnnotation().addAll(thing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getStatus() != null) {emfReviewItemDiscrepancy.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
         emfReviewItemDiscrepancy.setTitle(thing.getTitle());
         		        
-        return emfReviewItemDiscrepancy;   
-        
+        return emfReviewItemDiscrepancy;
         
         case "cdp4common.reportingdata.ActionItem":
         CDP4.ReportingData.ModellingAnnotationItem emfActionItem =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createActionItem();    
         
         emfActionItem.setIid(thing.getIid().toString()); 
         
+        emfActionItem.getApprovedBy().addAll(thing.getApprovedBy().stream().map(item -> cdp4emfconnector.Approval.toEmf(item)).collect(Collectors.toList()));
         
         emfActionItem.setAuthor(thing.getAuthor() != null ? cdp4emfconnector.Participant.toEmf(thing.getAuthor()) : null);        
         
+        emfActionItem.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getClassification() != null) {emfActionItem.setClassification(CDP4.ReportingData.AnnotationClassificationKind.valueOf(thing.getClassification().toString()));}                        
         
@@ -225,8 +259,11 @@ public abstract class ModellingAnnotationItem {
         
         emfActionItem.setCreatedOn(thing.getCreatedOn());
         
+        emfActionItem.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfActionItem.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfActionItem.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfActionItem.setLanguageCode(thing.getLanguageCode());
         
@@ -235,27 +272,30 @@ public abstract class ModellingAnnotationItem {
         emfActionItem.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
         emfActionItem.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfActionItem.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfActionItem.setRevisionNumber(thing.getRevisionNumber());
         
         emfActionItem.setShortName(thing.getShortName());
         
+        emfActionItem.getSourceAnnotation().addAll(thing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getStatus() != null) {emfActionItem.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
         emfActionItem.setTitle(thing.getTitle());
         		        
-        return emfActionItem;   
-        
+        return emfActionItem;
         
         case "cdp4common.reportingdata.ChangeProposal":
         CDP4.ReportingData.ModellingAnnotationItem emfChangeProposal =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createChangeProposal();    
         
         emfChangeProposal.setIid(thing.getIid().toString()); 
         
+        emfChangeProposal.getApprovedBy().addAll(thing.getApprovedBy().stream().map(item -> cdp4emfconnector.Approval.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeProposal.setAuthor(thing.getAuthor() != null ? cdp4emfconnector.Participant.toEmf(thing.getAuthor()) : null);        
         
+        emfChangeProposal.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getClassification() != null) {emfChangeProposal.setClassification(CDP4.ReportingData.AnnotationClassificationKind.valueOf(thing.getClassification().toString()));}                        
         
@@ -263,8 +303,11 @@ public abstract class ModellingAnnotationItem {
         
         emfChangeProposal.setCreatedOn(thing.getCreatedOn());
         
+        emfChangeProposal.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfChangeProposal.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfChangeProposal.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeProposal.setLanguageCode(thing.getLanguageCode());
         
@@ -273,27 +316,30 @@ public abstract class ModellingAnnotationItem {
         emfChangeProposal.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
         emfChangeProposal.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfChangeProposal.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeProposal.setRevisionNumber(thing.getRevisionNumber());
         
         emfChangeProposal.setShortName(thing.getShortName());
         
+        emfChangeProposal.getSourceAnnotation().addAll(thing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getStatus() != null) {emfChangeProposal.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
         emfChangeProposal.setTitle(thing.getTitle());
         		        
-        return emfChangeProposal;   
-        
+        return emfChangeProposal;
         
         case "cdp4common.reportingdata.ContractChangeNotice":
         CDP4.ReportingData.ModellingAnnotationItem emfContractChangeNotice =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createContractChangeNotice();    
         
         emfContractChangeNotice.setIid(thing.getIid().toString()); 
         
+        emfContractChangeNotice.getApprovedBy().addAll(thing.getApprovedBy().stream().map(item -> cdp4emfconnector.Approval.toEmf(item)).collect(Collectors.toList()));
         
         emfContractChangeNotice.setAuthor(thing.getAuthor() != null ? cdp4emfconnector.Participant.toEmf(thing.getAuthor()) : null);        
         
+        emfContractChangeNotice.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getClassification() != null) {emfContractChangeNotice.setClassification(CDP4.ReportingData.AnnotationClassificationKind.valueOf(thing.getClassification().toString()));}                        
         
@@ -301,8 +347,11 @@ public abstract class ModellingAnnotationItem {
         
         emfContractChangeNotice.setCreatedOn(thing.getCreatedOn());
         
+        emfContractChangeNotice.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfContractChangeNotice.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfContractChangeNotice.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfContractChangeNotice.setLanguageCode(thing.getLanguageCode());
         
@@ -311,26 +360,31 @@ public abstract class ModellingAnnotationItem {
         emfContractChangeNotice.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
         emfContractChangeNotice.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfContractChangeNotice.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfContractChangeNotice.setRevisionNumber(thing.getRevisionNumber());
         
         emfContractChangeNotice.setShortName(thing.getShortName());
         
+        emfContractChangeNotice.getSourceAnnotation().addAll(thing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getStatus() != null) {emfContractChangeNotice.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
         emfContractChangeNotice.setTitle(thing.getTitle());
         		        
-        return emfContractChangeNotice;   
-        
+        return emfContractChangeNotice;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.reportingdata.ModellingAnnotationItem toPojo(CDP4.ReportingData.ModellingAnnotationItem emfThing) {
+    /**
+     * Convert from {@link CDP4.ReportingData.ModellingAnnotationItem} to {@link cdp4common.reportingdata.ModellingAnnotationItem}
+     *
+     * @return Generated {@link cdp4common.reportingdata.ModellingAnnotationItem}
+     */
+    public static cdp4common.reportingdata.ModellingAnnotationItem toPojo(CDP4.ReportingData.ModellingAnnotationItem emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -377,8 +431,7 @@ public abstract class ModellingAnnotationItem {
         
         pojoRequestForWaiver.setTitle(emfThing.getTitle());
         		        
-        return pojoRequestForWaiver;   
-        
+        return pojoRequestForWaiver;
         
         case "CDP4.reportingdata.RequestForDeviation":                
         cdp4common.reportingdata.ModellingAnnotationItem pojoRequestForDeviation = new cdp4common.reportingdata.RequestForDeviation();	    
@@ -422,8 +475,7 @@ public abstract class ModellingAnnotationItem {
         
         pojoRequestForDeviation.setTitle(emfThing.getTitle());
         		        
-        return pojoRequestForDeviation;   
-        
+        return pojoRequestForDeviation;
         
         case "CDP4.reportingdata.ChangeRequest":                
         cdp4common.reportingdata.ModellingAnnotationItem pojoChangeRequest = new cdp4common.reportingdata.ChangeRequest();	    
@@ -467,8 +519,7 @@ public abstract class ModellingAnnotationItem {
         
         pojoChangeRequest.setTitle(emfThing.getTitle());
         		        
-        return pojoChangeRequest;   
-        
+        return pojoChangeRequest;
         
         case "CDP4.reportingdata.ReviewItemDiscrepancy":                
         cdp4common.reportingdata.ModellingAnnotationItem pojoReviewItemDiscrepancy = new cdp4common.reportingdata.ReviewItemDiscrepancy();	    
@@ -512,8 +563,7 @@ public abstract class ModellingAnnotationItem {
         
         pojoReviewItemDiscrepancy.setTitle(emfThing.getTitle());
         		        
-        return pojoReviewItemDiscrepancy;   
-        
+        return pojoReviewItemDiscrepancy;
         
         case "CDP4.reportingdata.ActionItem":                
         cdp4common.reportingdata.ModellingAnnotationItem pojoActionItem = new cdp4common.reportingdata.ActionItem();	    
@@ -557,8 +607,7 @@ public abstract class ModellingAnnotationItem {
         
         pojoActionItem.setTitle(emfThing.getTitle());
         		        
-        return pojoActionItem;   
-        
+        return pojoActionItem;
         
         case "CDP4.reportingdata.ChangeProposal":                
         cdp4common.reportingdata.ModellingAnnotationItem pojoChangeProposal = new cdp4common.reportingdata.ChangeProposal();	    
@@ -602,8 +651,7 @@ public abstract class ModellingAnnotationItem {
         
         pojoChangeProposal.setTitle(emfThing.getTitle());
         		        
-        return pojoChangeProposal;   
-        
+        return pojoChangeProposal;
         
         case "CDP4.reportingdata.ContractChangeNotice":                
         cdp4common.reportingdata.ModellingAnnotationItem pojoContractChangeNotice = new cdp4common.reportingdata.ContractChangeNotice();	    
@@ -647,14 +695,11 @@ public abstract class ModellingAnnotationItem {
         
         pojoContractChangeNotice.setTitle(emfThing.getTitle());
         		        
-        return pojoContractChangeNotice;   
-        
+        return pojoContractChangeNotice;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

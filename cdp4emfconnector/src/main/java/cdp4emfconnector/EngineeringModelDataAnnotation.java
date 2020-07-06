@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link EngineeringModelDataAnnotation} class.
+ */
 public abstract class EngineeringModelDataAnnotation {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.EngineeringModelDataAnnotation} to {@link CDP4.ReportingData.EngineeringModelDataAnnotation}
+     *
+     * @return Generated {@link CDP4.ReportingData.EngineeringModelDataAnnotation}
+     */
     public static CDP4.ReportingData.EngineeringModelDataAnnotation toEmf(cdp4common.reportingdata.EngineeringModelDataAnnotation thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -70,19 +78,22 @@ public abstract class EngineeringModelDataAnnotation {
         
         emfRequestForWaiver.setCreatedOn(thing.getCreatedOn());
         
+        emfRequestForWaiver.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequestForWaiver.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequestForWaiver.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForWaiver.setLanguageCode(thing.getLanguageCode());
         
         emfRequestForWaiver.setModifiedOn(thing.getModifiedOn());
         
         emfRequestForWaiver.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfRequestForWaiver.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForWaiver.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRequestForWaiver;   
-        
+        return emfRequestForWaiver;
         
         case "cdp4common.reportingdata.RequestForDeviation":
         CDP4.ReportingData.EngineeringModelDataAnnotation emfRequestForDeviation =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createRequestForDeviation();    
@@ -95,19 +106,22 @@ public abstract class EngineeringModelDataAnnotation {
         
         emfRequestForDeviation.setCreatedOn(thing.getCreatedOn());
         
+        emfRequestForDeviation.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequestForDeviation.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequestForDeviation.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForDeviation.setLanguageCode(thing.getLanguageCode());
         
         emfRequestForDeviation.setModifiedOn(thing.getModifiedOn());
         
         emfRequestForDeviation.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfRequestForDeviation.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForDeviation.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRequestForDeviation;   
-        
+        return emfRequestForDeviation;
         
         case "cdp4common.reportingdata.ChangeRequest":
         CDP4.ReportingData.EngineeringModelDataAnnotation emfChangeRequest =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createChangeRequest();    
@@ -120,19 +134,22 @@ public abstract class EngineeringModelDataAnnotation {
         
         emfChangeRequest.setCreatedOn(thing.getCreatedOn());
         
+        emfChangeRequest.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfChangeRequest.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfChangeRequest.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeRequest.setLanguageCode(thing.getLanguageCode());
         
         emfChangeRequest.setModifiedOn(thing.getModifiedOn());
         
         emfChangeRequest.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfChangeRequest.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeRequest.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfChangeRequest;   
-        
+        return emfChangeRequest;
         
         case "cdp4common.reportingdata.ReviewItemDiscrepancy":
         CDP4.ReportingData.EngineeringModelDataAnnotation emfReviewItemDiscrepancy =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createReviewItemDiscrepancy();    
@@ -145,19 +162,22 @@ public abstract class EngineeringModelDataAnnotation {
         
         emfReviewItemDiscrepancy.setCreatedOn(thing.getCreatedOn());
         
+        emfReviewItemDiscrepancy.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfReviewItemDiscrepancy.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfReviewItemDiscrepancy.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfReviewItemDiscrepancy.setLanguageCode(thing.getLanguageCode());
         
         emfReviewItemDiscrepancy.setModifiedOn(thing.getModifiedOn());
         
         emfReviewItemDiscrepancy.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfReviewItemDiscrepancy.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfReviewItemDiscrepancy.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfReviewItemDiscrepancy;   
-        
+        return emfReviewItemDiscrepancy;
         
         case "cdp4common.reportingdata.ActionItem":
         CDP4.ReportingData.EngineeringModelDataAnnotation emfActionItem =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createActionItem();    
@@ -170,19 +190,22 @@ public abstract class EngineeringModelDataAnnotation {
         
         emfActionItem.setCreatedOn(thing.getCreatedOn());
         
+        emfActionItem.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfActionItem.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfActionItem.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfActionItem.setLanguageCode(thing.getLanguageCode());
         
         emfActionItem.setModifiedOn(thing.getModifiedOn());
         
         emfActionItem.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfActionItem.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfActionItem.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfActionItem;   
-        
+        return emfActionItem;
         
         case "cdp4common.reportingdata.ChangeProposal":
         CDP4.ReportingData.EngineeringModelDataAnnotation emfChangeProposal =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createChangeProposal();    
@@ -195,19 +218,22 @@ public abstract class EngineeringModelDataAnnotation {
         
         emfChangeProposal.setCreatedOn(thing.getCreatedOn());
         
+        emfChangeProposal.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfChangeProposal.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfChangeProposal.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeProposal.setLanguageCode(thing.getLanguageCode());
         
         emfChangeProposal.setModifiedOn(thing.getModifiedOn());
         
         emfChangeProposal.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfChangeProposal.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeProposal.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfChangeProposal;   
-        
+        return emfChangeProposal;
         
         case "cdp4common.reportingdata.ContractChangeNotice":
         CDP4.ReportingData.EngineeringModelDataAnnotation emfContractChangeNotice =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createContractChangeNotice();    
@@ -220,19 +246,22 @@ public abstract class EngineeringModelDataAnnotation {
         
         emfContractChangeNotice.setCreatedOn(thing.getCreatedOn());
         
+        emfContractChangeNotice.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfContractChangeNotice.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfContractChangeNotice.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfContractChangeNotice.setLanguageCode(thing.getLanguageCode());
         
         emfContractChangeNotice.setModifiedOn(thing.getModifiedOn());
         
         emfContractChangeNotice.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfContractChangeNotice.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfContractChangeNotice.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfContractChangeNotice;   
-        
+        return emfContractChangeNotice;
         
         case "cdp4common.reportingdata.EngineeringModelDataNote":
         CDP4.ReportingData.EngineeringModelDataAnnotation emfEngineeringModelDataNote =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createEngineeringModelDataNote();    
@@ -245,27 +274,34 @@ public abstract class EngineeringModelDataAnnotation {
         
         emfEngineeringModelDataNote.setCreatedOn(thing.getCreatedOn());
         
+        emfEngineeringModelDataNote.getDiscussion().addAll(thing.getDiscussion().stream().map(item -> cdp4emfconnector.EngineeringModelDataDiscussionItem.toEmf(item)).collect(Collectors.toList()));
         
+        emfEngineeringModelDataNote.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEngineeringModelDataNote.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfEngineeringModelDataNote.setLanguageCode(thing.getLanguageCode());
         
         emfEngineeringModelDataNote.setModifiedOn(thing.getModifiedOn());
         
         emfEngineeringModelDataNote.setPrimaryAnnotatedThing(thing.getPrimaryAnnotatedThing() != null ? cdp4emfconnector.ModellingThingReference.toEmf(thing.getPrimaryAnnotatedThing()) : null);
+        emfEngineeringModelDataNote.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfEngineeringModelDataNote.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfEngineeringModelDataNote;   
-        
+        return emfEngineeringModelDataNote;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.reportingdata.EngineeringModelDataAnnotation toPojo(CDP4.ReportingData.EngineeringModelDataAnnotation emfThing) {
+    /**
+     * Convert from {@link CDP4.ReportingData.EngineeringModelDataAnnotation} to {@link cdp4common.reportingdata.EngineeringModelDataAnnotation}
+     *
+     * @return Generated {@link cdp4common.reportingdata.EngineeringModelDataAnnotation}
+     */
+    public static cdp4common.reportingdata.EngineeringModelDataAnnotation toPojo(CDP4.ReportingData.EngineeringModelDataAnnotation emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -297,8 +333,7 @@ public abstract class EngineeringModelDataAnnotation {
         
         pojoRequestForWaiver.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRequestForWaiver;   
-        
+        return pojoRequestForWaiver;
         
         case "CDP4.reportingdata.RequestForDeviation":                
         cdp4common.reportingdata.EngineeringModelDataAnnotation pojoRequestForDeviation = new cdp4common.reportingdata.RequestForDeviation();	    
@@ -326,8 +361,7 @@ public abstract class EngineeringModelDataAnnotation {
         
         pojoRequestForDeviation.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRequestForDeviation;   
-        
+        return pojoRequestForDeviation;
         
         case "CDP4.reportingdata.ChangeRequest":                
         cdp4common.reportingdata.EngineeringModelDataAnnotation pojoChangeRequest = new cdp4common.reportingdata.ChangeRequest();	    
@@ -355,8 +389,7 @@ public abstract class EngineeringModelDataAnnotation {
         
         pojoChangeRequest.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoChangeRequest;   
-        
+        return pojoChangeRequest;
         
         case "CDP4.reportingdata.ReviewItemDiscrepancy":                
         cdp4common.reportingdata.EngineeringModelDataAnnotation pojoReviewItemDiscrepancy = new cdp4common.reportingdata.ReviewItemDiscrepancy();	    
@@ -384,8 +417,7 @@ public abstract class EngineeringModelDataAnnotation {
         
         pojoReviewItemDiscrepancy.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoReviewItemDiscrepancy;   
-        
+        return pojoReviewItemDiscrepancy;
         
         case "CDP4.reportingdata.ActionItem":                
         cdp4common.reportingdata.EngineeringModelDataAnnotation pojoActionItem = new cdp4common.reportingdata.ActionItem();	    
@@ -413,8 +445,7 @@ public abstract class EngineeringModelDataAnnotation {
         
         pojoActionItem.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoActionItem;   
-        
+        return pojoActionItem;
         
         case "CDP4.reportingdata.ChangeProposal":                
         cdp4common.reportingdata.EngineeringModelDataAnnotation pojoChangeProposal = new cdp4common.reportingdata.ChangeProposal();	    
@@ -442,8 +473,7 @@ public abstract class EngineeringModelDataAnnotation {
         
         pojoChangeProposal.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoChangeProposal;   
-        
+        return pojoChangeProposal;
         
         case "CDP4.reportingdata.ContractChangeNotice":                
         cdp4common.reportingdata.EngineeringModelDataAnnotation pojoContractChangeNotice = new cdp4common.reportingdata.ContractChangeNotice();	    
@@ -471,8 +501,7 @@ public abstract class EngineeringModelDataAnnotation {
         
         pojoContractChangeNotice.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoContractChangeNotice;   
-        
+        return pojoContractChangeNotice;
         
         case "CDP4.reportingdata.EngineeringModelDataNote":                
         cdp4common.reportingdata.EngineeringModelDataAnnotation pojoEngineeringModelDataNote = new cdp4common.reportingdata.EngineeringModelDataNote();	    
@@ -500,14 +529,11 @@ public abstract class EngineeringModelDataAnnotation {
         
         pojoEngineeringModelDataNote.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoEngineeringModelDataNote;   
-        
+        return pojoEngineeringModelDataNote;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

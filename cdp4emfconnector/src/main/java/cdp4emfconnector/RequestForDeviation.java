@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link RequestForDeviation} class.
+ */
 public class RequestForDeviation {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.RequestForDeviation} to {@link CDP4.ReportingData.RequestForDeviation}
+     *
+     * @return Generated {@link CDP4.ReportingData.RequestForDeviation}
+     */
     public static CDP4.ReportingData.RequestForDeviation toEmf(cdp4common.reportingdata.RequestForDeviation thing) {       
-        
         
         CDP4.ReportingData.RequestForDeviation emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createRequestForDeviation();      
        
@@ -98,11 +105,14 @@ public class RequestForDeviation {
         emf.setTitle(thing.getTitle());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.RequestForDeviation toPojo(CDP4.ReportingData.RequestForDeviation emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.RequestForDeviation} to {@link cdp4common.reportingdata.RequestForDeviation}
+     *
+     * @return Generated {@link cdp4common.reportingdata.RequestForDeviation}
+     */
+    public static cdp4common.reportingdata.RequestForDeviation toPojo(CDP4.ReportingData.RequestForDeviation emfThing) {
         
         cdp4common.reportingdata.RequestForDeviation pojo = new cdp4common.reportingdata.RequestForDeviation();
         
@@ -146,10 +156,16 @@ public class RequestForDeviation {
         pojo.setTitle(emfThing.getTitle());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.RequestForDeviation} from a {@link CDP4.ReportingData.RequestForDeviation}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.RequestForDeviation}.
+    * @return A new {@link cdp4common.reportingdata.RequestForDeviation}
+    */
     public static cdp4common.reportingdata.RequestForDeviation instiatePojo(CDP4.ReportingData.RequestForDeviation thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.RequestForDeviation(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.RequestForDeviation(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

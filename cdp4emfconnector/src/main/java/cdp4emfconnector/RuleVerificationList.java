@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link RuleVerificationList} class.
+ */
 public class RuleVerificationList {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.RuleVerificationList} to {@link CDP4.EngineeringModelData.RuleVerificationList}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.RuleVerificationList}
+     */
     public static CDP4.EngineeringModelData.RuleVerificationList toEmf(cdp4common.engineeringmodeldata.RuleVerificationList thing) {       
-        
         
         CDP4.EngineeringModelData.RuleVerificationList emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRuleVerificationList();      
        
@@ -83,11 +90,14 @@ public class RuleVerificationList {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.RuleVerificationList toPojo(CDP4.EngineeringModelData.RuleVerificationList emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.RuleVerificationList} to {@link cdp4common.engineeringmodeldata.RuleVerificationList}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.RuleVerificationList}
+     */
+    public static cdp4common.engineeringmodeldata.RuleVerificationList toPojo(CDP4.EngineeringModelData.RuleVerificationList emfThing) {
         
         cdp4common.engineeringmodeldata.RuleVerificationList pojo = new cdp4common.engineeringmodeldata.RuleVerificationList();
         
@@ -116,10 +126,16 @@ public class RuleVerificationList {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.RuleVerificationList} from a {@link CDP4.EngineeringModelData.RuleVerificationList}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.RuleVerificationList}.
+    * @return A new {@link cdp4common.engineeringmodeldata.RuleVerificationList}
+    */
     public static cdp4common.engineeringmodeldata.RuleVerificationList instiatePojo(CDP4.EngineeringModelData.RuleVerificationList thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.RuleVerificationList(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.RuleVerificationList(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

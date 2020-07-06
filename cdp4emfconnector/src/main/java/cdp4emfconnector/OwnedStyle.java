@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link OwnedStyle} class.
+ */
 public class OwnedStyle {
-
+   
+    /**
+     * Convert from {@link cdp4common.diagramdata.OwnedStyle} to {@link CDP4.DiagramData.OwnedStyle}
+     *
+     * @return Generated {@link CDP4.DiagramData.OwnedStyle}
+     */
     public static CDP4.DiagramData.OwnedStyle toEmf(cdp4common.diagramdata.OwnedStyle thing) {       
-        
         
         CDP4.DiagramData.OwnedStyle emf =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createOwnedStyle();      
        
@@ -94,11 +101,14 @@ public class OwnedStyle {
         emf.getUsedColor().addAll(thing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.diagramdata.OwnedStyle toPojo(CDP4.DiagramData.OwnedStyle emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.DiagramData.OwnedStyle} to {@link cdp4common.diagramdata.OwnedStyle}
+     *
+     * @return Generated {@link cdp4common.diagramdata.OwnedStyle}
+     */
+    public static cdp4common.diagramdata.OwnedStyle toPojo(CDP4.DiagramData.OwnedStyle emfThing) {
         
         cdp4common.diagramdata.OwnedStyle pojo = new cdp4common.diagramdata.OwnedStyle();
         
@@ -138,10 +148,16 @@ public class OwnedStyle {
         pojo.getUsedColor().addAll(emfThing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.diagramdata.OwnedStyle} from a {@link CDP4.DiagramData.OwnedStyle}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.diagramdata.OwnedStyle}.
+    * @return A new {@link cdp4common.diagramdata.OwnedStyle}
+    */
     public static cdp4common.diagramdata.OwnedStyle instiatePojo(CDP4.DiagramData.OwnedStyle thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.diagramdata.OwnedStyle(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.diagramdata.OwnedStyle(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

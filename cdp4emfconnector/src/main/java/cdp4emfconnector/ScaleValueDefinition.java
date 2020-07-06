@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ScaleValueDefinition} class.
+ */
 public class ScaleValueDefinition {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.ScaleValueDefinition} to {@link CDP4.SiteDirectoryData.ScaleValueDefinition}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.ScaleValueDefinition}
+     */
     public static CDP4.SiteDirectoryData.ScaleValueDefinition toEmf(cdp4common.sitedirectorydata.ScaleValueDefinition thing) {       
-        
         
         CDP4.SiteDirectoryData.ScaleValueDefinition emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createScaleValueDefinition();      
        
@@ -81,11 +88,14 @@ public class ScaleValueDefinition {
         emf.setValue(thing.getValue());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.ScaleValueDefinition toPojo(CDP4.SiteDirectoryData.ScaleValueDefinition emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.ScaleValueDefinition} to {@link cdp4common.sitedirectorydata.ScaleValueDefinition}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.ScaleValueDefinition}
+     */
+    public static cdp4common.sitedirectorydata.ScaleValueDefinition toPojo(CDP4.SiteDirectoryData.ScaleValueDefinition emfThing) {
         
         cdp4common.sitedirectorydata.ScaleValueDefinition pojo = new cdp4common.sitedirectorydata.ScaleValueDefinition();
         
@@ -112,10 +122,16 @@ public class ScaleValueDefinition {
         pojo.setValue(emfThing.getValue());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.ScaleValueDefinition} from a {@link CDP4.SiteDirectoryData.ScaleValueDefinition}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.ScaleValueDefinition}.
+    * @return A new {@link cdp4common.sitedirectorydata.ScaleValueDefinition}
+    */
     public static cdp4common.sitedirectorydata.ScaleValueDefinition instiatePojo(CDP4.SiteDirectoryData.ScaleValueDefinition thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.ScaleValueDefinition(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.ScaleValueDefinition(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

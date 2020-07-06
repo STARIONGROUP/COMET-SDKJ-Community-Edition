@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link DiagramElementThing} class.
+ */
 public abstract class DiagramElementThing {
-
+   
+    /**
+     * Convert from {@link cdp4common.diagramdata.DiagramElementThing} to {@link CDP4.DiagramData.DiagramElementThing}
+     *
+     * @return Generated {@link CDP4.DiagramData.DiagramElementThing}
+     */
     public static CDP4.DiagramData.DiagramElementThing toEmf(cdp4common.diagramdata.DiagramElementThing thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,11 +70,16 @@ public abstract class DiagramElementThing {
         
         emfDiagramEdge.setIid(thing.getIid().toString()); 
         
+        emfDiagramEdge.setBounds(thing.getBounds().stream().map(item -> cdp4emfconnector.Bounds.toEmf(item)).collect(Collectors.toList()).get(0));
         
         emfDiagramEdge.setDepictedThing(thing.getDepictedThing() != null ? cdp4emfconnector.Thing.toEmf(thing.getDepictedThing()) : null);
+        emfDiagramEdge.getDiagramElement().addAll(thing.getDiagramElement().stream().map(item -> cdp4emfconnector.DiagramElementThing.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramEdge.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramEdge.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramEdge.setLocalStyle(thing.getLocalStyle().stream().map(item -> cdp4emfconnector.OwnedStyle.toEmf(item)).collect(Collectors.toList()).get(0));
         
         emfDiagramEdge.setModifiedOn(thing.getModifiedOn());
         
@@ -75,8 +88,7 @@ public abstract class DiagramElementThing {
         emfDiagramEdge.setRevisionNumber(thing.getRevisionNumber());
         
         emfDiagramEdge.setSharedStyle(thing.getSharedStyle() != null ? cdp4emfconnector.SharedStyle.toEmf(thing.getSharedStyle()) : null);
-        return emfDiagramEdge;   
-        
+        return emfDiagramEdge;
         
         
         case "cdp4common.diagramdata.DiagramObject":
@@ -84,11 +96,16 @@ public abstract class DiagramElementThing {
         
         emfDiagramObject.setIid(thing.getIid().toString()); 
         
+        emfDiagramObject.setBounds(thing.getBounds().stream().map(item -> cdp4emfconnector.Bounds.toEmf(item)).collect(Collectors.toList()).get(0));
         
         emfDiagramObject.setDepictedThing(thing.getDepictedThing() != null ? cdp4emfconnector.Thing.toEmf(thing.getDepictedThing()) : null);
+        emfDiagramObject.getDiagramElement().addAll(thing.getDiagramElement().stream().map(item -> cdp4emfconnector.DiagramElementThing.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramObject.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramObject.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramObject.setLocalStyle(thing.getLocalStyle().stream().map(item -> cdp4emfconnector.OwnedStyle.toEmf(item)).collect(Collectors.toList()).get(0));
         
         emfDiagramObject.setModifiedOn(thing.getModifiedOn());
         
@@ -97,16 +114,19 @@ public abstract class DiagramElementThing {
         emfDiagramObject.setRevisionNumber(thing.getRevisionNumber());
         
         emfDiagramObject.setSharedStyle(thing.getSharedStyle() != null ? cdp4emfconnector.SharedStyle.toEmf(thing.getSharedStyle()) : null);
-        return emfDiagramObject;   
-        
+        return emfDiagramObject;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.diagramdata.DiagramElementThing toPojo(CDP4.DiagramData.DiagramElementThing emfThing) {
+    /**
+     * Convert from {@link CDP4.DiagramData.DiagramElementThing} to {@link cdp4common.diagramdata.DiagramElementThing}
+     *
+     * @return Generated {@link cdp4common.diagramdata.DiagramElementThing}
+     */
+    public static cdp4common.diagramdata.DiagramElementThing toPojo(CDP4.DiagramData.DiagramElementThing emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -133,8 +153,7 @@ public abstract class DiagramElementThing {
         pojoDiagramEdge.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoDiagramEdge.setSharedStyle(emfThing.getSharedStyle() != null ? cdp4emfconnector.SharedStyle.toPojo(emfThing.getSharedStyle()) : null);
-        return pojoDiagramEdge;   
-        
+        return pojoDiagramEdge;
         
         
         case "CDP4.diagramdata.DiagramObject":                
@@ -160,14 +179,11 @@ public abstract class DiagramElementThing {
         pojoDiagramObject.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoDiagramObject.setSharedStyle(emfThing.getSharedStyle() != null ? cdp4emfconnector.SharedStyle.toPojo(emfThing.getSharedStyle()) : null);
-        return pojoDiagramObject;   
-        
+        return pojoDiagramObject;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

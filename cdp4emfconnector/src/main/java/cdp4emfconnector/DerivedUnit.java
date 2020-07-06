@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link DerivedUnit} class.
+ */
 public class DerivedUnit {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.DerivedUnit} to {@link CDP4.SiteDirectoryData.DerivedUnit}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.DerivedUnit}
+     */
     public static CDP4.SiteDirectoryData.DerivedUnit toEmf(cdp4common.sitedirectorydata.DerivedUnit thing) {       
-        
         
         CDP4.SiteDirectoryData.DerivedUnit emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDerivedUnit();      
        
@@ -83,11 +90,14 @@ public class DerivedUnit {
         emf.getUnitFactor().addAll(thing.getUnitFactor().stream().map(item -> cdp4emfconnector.UnitFactor.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.DerivedUnit toPojo(CDP4.SiteDirectoryData.DerivedUnit emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.DerivedUnit} to {@link cdp4common.sitedirectorydata.DerivedUnit}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.DerivedUnit}
+     */
+    public static cdp4common.sitedirectorydata.DerivedUnit toPojo(CDP4.SiteDirectoryData.DerivedUnit emfThing) {
         
         cdp4common.sitedirectorydata.DerivedUnit pojo = new cdp4common.sitedirectorydata.DerivedUnit();
         
@@ -116,10 +126,16 @@ public class DerivedUnit {
         pojo.getUnitFactor().addAll(emfThing.getUnitFactor().stream().map(item -> cdp4emfconnector.UnitFactor.toPojo(item)).collect(Collectors.toList()));
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.DerivedUnit} from a {@link CDP4.SiteDirectoryData.DerivedUnit}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.DerivedUnit}.
+    * @return A new {@link cdp4common.sitedirectorydata.DerivedUnit}
+    */
     public static cdp4common.sitedirectorydata.DerivedUnit instiatePojo(CDP4.SiteDirectoryData.DerivedUnit thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.DerivedUnit(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.DerivedUnit(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link RuleViolation} class.
+ */
 public class RuleViolation {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.RuleViolation} to {@link CDP4.EngineeringModelData.RuleViolation}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.RuleViolation}
+     */
     public static CDP4.EngineeringModelData.RuleViolation toEmf(cdp4common.engineeringmodeldata.RuleViolation thing) {       
-        
         
         CDP4.EngineeringModelData.RuleViolation emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRuleViolation();      
        
@@ -72,11 +79,14 @@ public class RuleViolation {
         
         thing.getViolatingThing().forEach(item -> emf.getViolatingThing().add(item.toString()));
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.RuleViolation toPojo(CDP4.EngineeringModelData.RuleViolation emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.RuleViolation} to {@link cdp4common.engineeringmodeldata.RuleViolation}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.RuleViolation}
+     */
+    public static cdp4common.engineeringmodeldata.RuleViolation toPojo(CDP4.EngineeringModelData.RuleViolation emfThing) {
         
         cdp4common.engineeringmodeldata.RuleViolation pojo = new cdp4common.engineeringmodeldata.RuleViolation();
         
@@ -94,10 +104,16 @@ public class RuleViolation {
         
         emfThing.getViolatingThing().forEach(item -> pojo.getViolatingThing().add(UUID.fromString(item.toString())));
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.RuleViolation} from a {@link CDP4.EngineeringModelData.RuleViolation}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.RuleViolation}.
+    * @return A new {@link cdp4common.engineeringmodeldata.RuleViolation}
+    */
     public static cdp4common.engineeringmodeldata.RuleViolation instiatePojo(CDP4.EngineeringModelData.RuleViolation thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.RuleViolation(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.RuleViolation(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

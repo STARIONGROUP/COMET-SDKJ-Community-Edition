@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link IterationSetup} class.
+ */
 public class IterationSetup {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.IterationSetup} to {@link CDP4.SiteDirectoryData.IterationSetup}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.IterationSetup}
+     */
     public static CDP4.SiteDirectoryData.IterationSetup toEmf(cdp4common.sitedirectorydata.IterationSetup thing) {       
-        
         
         CDP4.SiteDirectoryData.IterationSetup emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createIterationSetup();      
        
@@ -82,11 +89,14 @@ public class IterationSetup {
         
         emf.setSourceIterationSetup(thing.getSourceIterationSetup() != null ? cdp4emfconnector.IterationSetup.toEmf(thing.getSourceIterationSetup()) : null);
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.IterationSetup toPojo(CDP4.SiteDirectoryData.IterationSetup emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.IterationSetup} to {@link cdp4common.sitedirectorydata.IterationSetup}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.IterationSetup}
+     */
+    public static cdp4common.sitedirectorydata.IterationSetup toPojo(CDP4.SiteDirectoryData.IterationSetup emfThing) {
         
         cdp4common.sitedirectorydata.IterationSetup pojo = new cdp4common.sitedirectorydata.IterationSetup();
         
@@ -114,10 +124,16 @@ public class IterationSetup {
         
         pojo.setSourceIterationSetup(emfThing.getSourceIterationSetup() != null ? cdp4emfconnector.IterationSetup.toPojo(emfThing.getSourceIterationSetup()) : null);
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.IterationSetup} from a {@link CDP4.SiteDirectoryData.IterationSetup}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.IterationSetup}.
+    * @return A new {@link cdp4common.sitedirectorydata.IterationSetup}
+    */
     public static cdp4common.sitedirectorydata.IterationSetup instiatePojo(CDP4.SiteDirectoryData.IterationSetup thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.IterationSetup(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.IterationSetup(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

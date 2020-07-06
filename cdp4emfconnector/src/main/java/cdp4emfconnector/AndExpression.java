@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link AndExpression} class.
+ */
 public class AndExpression {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.AndExpression} to {@link CDP4.EngineeringModelData.AndExpression}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.AndExpression}
+     */
     public static CDP4.EngineeringModelData.AndExpression toEmf(cdp4common.engineeringmodeldata.AndExpression thing) {       
-        
         
         CDP4.EngineeringModelData.AndExpression emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createAndExpression();      
        
@@ -71,11 +78,14 @@ public class AndExpression {
         emf.getTerm().addAll(thing.getTerm().stream().map(item -> cdp4emfconnector.BooleanExpression.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.AndExpression toPojo(CDP4.EngineeringModelData.AndExpression emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.AndExpression} to {@link cdp4common.engineeringmodeldata.AndExpression}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.AndExpression}
+     */
+    public static cdp4common.engineeringmodeldata.AndExpression toPojo(CDP4.EngineeringModelData.AndExpression emfThing) {
         
         cdp4common.engineeringmodeldata.AndExpression pojo = new cdp4common.engineeringmodeldata.AndExpression();
         
@@ -92,10 +102,16 @@ public class AndExpression {
         pojo.getTerm().addAll(emfThing.getTerm().stream().map(item -> cdp4emfconnector.BooleanExpression.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.AndExpression} from a {@link CDP4.EngineeringModelData.AndExpression}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.AndExpression}.
+    * @return A new {@link cdp4common.engineeringmodeldata.AndExpression}
+    */
     public static cdp4common.engineeringmodeldata.AndExpression instiatePojo(CDP4.EngineeringModelData.AndExpression thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.AndExpression(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.AndExpression(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

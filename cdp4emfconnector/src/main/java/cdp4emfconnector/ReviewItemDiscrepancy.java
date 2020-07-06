@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ReviewItemDiscrepancy} class.
+ */
 public class ReviewItemDiscrepancy {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.ReviewItemDiscrepancy} to {@link CDP4.ReportingData.ReviewItemDiscrepancy}
+     *
+     * @return Generated {@link CDP4.ReportingData.ReviewItemDiscrepancy}
+     */
     public static CDP4.ReportingData.ReviewItemDiscrepancy toEmf(cdp4common.reportingdata.ReviewItemDiscrepancy thing) {       
-        
         
         CDP4.ReportingData.ReviewItemDiscrepancy emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createReviewItemDiscrepancy();      
        
@@ -100,11 +107,14 @@ public class ReviewItemDiscrepancy {
         emf.setTitle(thing.getTitle());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.ReviewItemDiscrepancy toPojo(CDP4.ReportingData.ReviewItemDiscrepancy emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.ReviewItemDiscrepancy} to {@link cdp4common.reportingdata.ReviewItemDiscrepancy}
+     *
+     * @return Generated {@link cdp4common.reportingdata.ReviewItemDiscrepancy}
+     */
+    public static cdp4common.reportingdata.ReviewItemDiscrepancy toPojo(CDP4.ReportingData.ReviewItemDiscrepancy emfThing) {
         
         cdp4common.reportingdata.ReviewItemDiscrepancy pojo = new cdp4common.reportingdata.ReviewItemDiscrepancy();
         
@@ -150,10 +160,16 @@ public class ReviewItemDiscrepancy {
         pojo.setTitle(emfThing.getTitle());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.ReviewItemDiscrepancy} from a {@link CDP4.ReportingData.ReviewItemDiscrepancy}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.ReviewItemDiscrepancy}.
+    * @return A new {@link cdp4common.reportingdata.ReviewItemDiscrepancy}
+    */
     public static cdp4common.reportingdata.ReviewItemDiscrepancy instiatePojo(CDP4.ReportingData.ReviewItemDiscrepancy thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.ReviewItemDiscrepancy(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.ReviewItemDiscrepancy(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

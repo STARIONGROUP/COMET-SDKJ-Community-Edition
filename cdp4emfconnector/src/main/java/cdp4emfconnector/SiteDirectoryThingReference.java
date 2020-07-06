@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link SiteDirectoryThingReference} class.
+ */
 public class SiteDirectoryThingReference {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.SiteDirectoryThingReference} to {@link CDP4.ReportingData.SiteDirectoryThingReference}
+     *
+     * @return Generated {@link CDP4.ReportingData.SiteDirectoryThingReference}
+     */
     public static CDP4.ReportingData.SiteDirectoryThingReference toEmf(cdp4common.reportingdata.SiteDirectoryThingReference thing) {       
-        
         
         CDP4.ReportingData.SiteDirectoryThingReference emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createSiteDirectoryThingReference();      
        
@@ -73,11 +80,14 @@ public class SiteDirectoryThingReference {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.SiteDirectoryThingReference toPojo(CDP4.ReportingData.SiteDirectoryThingReference emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.SiteDirectoryThingReference} to {@link cdp4common.reportingdata.SiteDirectoryThingReference}
+     *
+     * @return Generated {@link cdp4common.reportingdata.SiteDirectoryThingReference}
+     */
+    public static cdp4common.reportingdata.SiteDirectoryThingReference toPojo(CDP4.ReportingData.SiteDirectoryThingReference emfThing) {
         
         cdp4common.reportingdata.SiteDirectoryThingReference pojo = new cdp4common.reportingdata.SiteDirectoryThingReference();
         
@@ -96,10 +106,16 @@ public class SiteDirectoryThingReference {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.SiteDirectoryThingReference} from a {@link CDP4.ReportingData.SiteDirectoryThingReference}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.SiteDirectoryThingReference}.
+    * @return A new {@link cdp4common.reportingdata.SiteDirectoryThingReference}
+    */
     public static cdp4common.reportingdata.SiteDirectoryThingReference instiatePojo(CDP4.ReportingData.SiteDirectoryThingReference thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.SiteDirectoryThingReference(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.SiteDirectoryThingReference(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

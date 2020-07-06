@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link SiteDirectoryDataDiscussionItem} class.
+ */
 public class SiteDirectoryDataDiscussionItem {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.SiteDirectoryDataDiscussionItem} to {@link CDP4.ReportingData.SiteDirectoryDataDiscussionItem}
+     *
+     * @return Generated {@link CDP4.ReportingData.SiteDirectoryDataDiscussionItem}
+     */
     public static CDP4.ReportingData.SiteDirectoryDataDiscussionItem toEmf(cdp4common.reportingdata.SiteDirectoryDataDiscussionItem thing) {       
-        
         
         CDP4.ReportingData.SiteDirectoryDataDiscussionItem emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createSiteDirectoryDataDiscussionItem();      
        
@@ -78,11 +85,14 @@ public class SiteDirectoryDataDiscussionItem {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.SiteDirectoryDataDiscussionItem toPojo(CDP4.ReportingData.SiteDirectoryDataDiscussionItem emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.SiteDirectoryDataDiscussionItem} to {@link cdp4common.reportingdata.SiteDirectoryDataDiscussionItem}
+     *
+     * @return Generated {@link cdp4common.reportingdata.SiteDirectoryDataDiscussionItem}
+     */
+    public static cdp4common.reportingdata.SiteDirectoryDataDiscussionItem toPojo(CDP4.ReportingData.SiteDirectoryDataDiscussionItem emfThing) {
         
         cdp4common.reportingdata.SiteDirectoryDataDiscussionItem pojo = new cdp4common.reportingdata.SiteDirectoryDataDiscussionItem();
         
@@ -106,10 +116,16 @@ public class SiteDirectoryDataDiscussionItem {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.SiteDirectoryDataDiscussionItem} from a {@link CDP4.ReportingData.SiteDirectoryDataDiscussionItem}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.SiteDirectoryDataDiscussionItem}.
+    * @return A new {@link cdp4common.reportingdata.SiteDirectoryDataDiscussionItem}
+    */
     public static cdp4common.reportingdata.SiteDirectoryDataDiscussionItem instiatePojo(CDP4.ReportingData.SiteDirectoryDataDiscussionItem thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.SiteDirectoryDataDiscussionItem(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.SiteDirectoryDataDiscussionItem(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

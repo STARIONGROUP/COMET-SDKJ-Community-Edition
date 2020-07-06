@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ModelReferenceDataLibrary} class.
+ */
 public class ModelReferenceDataLibrary {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.ModelReferenceDataLibrary} to {@link CDP4.SiteDirectoryData.ModelReferenceDataLibrary}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.ModelReferenceDataLibrary}
+     */
     public static CDP4.SiteDirectoryData.ModelReferenceDataLibrary toEmf(cdp4common.sitedirectorydata.ModelReferenceDataLibrary thing) {       
-        
         
         CDP4.SiteDirectoryData.ModelReferenceDataLibrary emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createModelReferenceDataLibrary();      
        
@@ -104,11 +111,14 @@ public class ModelReferenceDataLibrary {
         emf.getUnitPrefix().addAll(thing.getUnitPrefix().stream().map(item -> cdp4emfconnector.UnitPrefix.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.ModelReferenceDataLibrary toPojo(CDP4.SiteDirectoryData.ModelReferenceDataLibrary emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.ModelReferenceDataLibrary} to {@link cdp4common.sitedirectorydata.ModelReferenceDataLibrary}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.ModelReferenceDataLibrary}
+     */
+    public static cdp4common.sitedirectorydata.ModelReferenceDataLibrary toPojo(CDP4.SiteDirectoryData.ModelReferenceDataLibrary emfThing) {
         
         cdp4common.sitedirectorydata.ModelReferenceDataLibrary pojo = new cdp4common.sitedirectorydata.ModelReferenceDataLibrary();
         
@@ -158,10 +168,16 @@ public class ModelReferenceDataLibrary {
         pojo.getUnitPrefix().addAll(emfThing.getUnitPrefix().stream().map(item -> cdp4emfconnector.UnitPrefix.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.ModelReferenceDataLibrary} from a {@link CDP4.SiteDirectoryData.ModelReferenceDataLibrary}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.ModelReferenceDataLibrary}.
+    * @return A new {@link cdp4common.sitedirectorydata.ModelReferenceDataLibrary}
+    */
     public static cdp4common.sitedirectorydata.ModelReferenceDataLibrary instiatePojo(CDP4.SiteDirectoryData.ModelReferenceDataLibrary thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.ModelReferenceDataLibrary(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.ModelReferenceDataLibrary(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

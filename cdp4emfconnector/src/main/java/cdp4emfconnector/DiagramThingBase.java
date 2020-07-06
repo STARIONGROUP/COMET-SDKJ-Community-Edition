@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link DiagramThingBase} class.
+ */
 public abstract class DiagramThingBase {
-
+   
+    /**
+     * Convert from {@link cdp4common.diagramdata.DiagramThingBase} to {@link CDP4.DiagramData.DiagramThingBase}
+     *
+     * @return Generated {@link CDP4.DiagramData.DiagramThingBase}
+     */
     public static CDP4.DiagramData.DiagramThingBase toEmf(cdp4common.diagramdata.DiagramThingBase thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,7 +70,9 @@ public abstract class DiagramThingBase {
         
         emfPoint.setIid(thing.getIid().toString()); 
         
+        emfPoint.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPoint.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfPoint.setModifiedOn(thing.getModifiedOn());
         
@@ -70,15 +80,16 @@ public abstract class DiagramThingBase {
         
         emfPoint.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfPoint;   
-        
+        return emfPoint;
         
         case "cdp4common.diagramdata.Bounds":
         CDP4.DiagramData.DiagramThingBase emfBounds =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createBounds();    
         
         emfBounds.setIid(thing.getIid().toString()); 
         
+        emfBounds.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBounds.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfBounds.setModifiedOn(thing.getModifiedOn());
         
@@ -86,15 +97,16 @@ public abstract class DiagramThingBase {
         
         emfBounds.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfBounds;   
-        
+        return emfBounds;
         
         case "cdp4common.diagramdata.Color":
         CDP4.DiagramData.DiagramThingBase emfColor =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createColor();    
         
         emfColor.setIid(thing.getIid().toString()); 
         
+        emfColor.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfColor.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfColor.setModifiedOn(thing.getModifiedOn());
         
@@ -102,8 +114,7 @@ public abstract class DiagramThingBase {
         
         emfColor.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfColor;   
-        
+        return emfColor;
         
         
         case "cdp4common.diagramdata.OwnedStyle":
@@ -111,7 +122,9 @@ public abstract class DiagramThingBase {
         
         emfOwnedStyle.setIid(thing.getIid().toString()); 
         
+        emfOwnedStyle.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfOwnedStyle.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfOwnedStyle.setModifiedOn(thing.getModifiedOn());
         
@@ -119,15 +132,16 @@ public abstract class DiagramThingBase {
         
         emfOwnedStyle.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfOwnedStyle;   
-        
+        return emfOwnedStyle;
         
         case "cdp4common.diagramdata.SharedStyle":
         CDP4.DiagramData.DiagramThingBase emfSharedStyle =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createSharedStyle();    
         
         emfSharedStyle.setIid(thing.getIid().toString()); 
         
+        emfSharedStyle.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSharedStyle.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSharedStyle.setModifiedOn(thing.getModifiedOn());
         
@@ -135,8 +149,7 @@ public abstract class DiagramThingBase {
         
         emfSharedStyle.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSharedStyle;   
-        
+        return emfSharedStyle;
         
         
         
@@ -145,7 +158,9 @@ public abstract class DiagramThingBase {
         
         emfDiagramEdge.setIid(thing.getIid().toString()); 
         
+        emfDiagramEdge.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramEdge.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDiagramEdge.setModifiedOn(thing.getModifiedOn());
         
@@ -153,8 +168,7 @@ public abstract class DiagramThingBase {
         
         emfDiagramEdge.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDiagramEdge;   
-        
+        return emfDiagramEdge;
         
         
         case "cdp4common.diagramdata.DiagramObject":
@@ -162,7 +176,9 @@ public abstract class DiagramThingBase {
         
         emfDiagramObject.setIid(thing.getIid().toString()); 
         
+        emfDiagramObject.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramObject.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDiagramObject.setModifiedOn(thing.getModifiedOn());
         
@@ -170,15 +186,16 @@ public abstract class DiagramThingBase {
         
         emfDiagramObject.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDiagramObject;   
-        
+        return emfDiagramObject;
         
         case "cdp4common.diagramdata.DiagramCanvas":
         CDP4.DiagramData.DiagramThingBase emfDiagramCanvas =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createDiagramCanvas();    
         
         emfDiagramCanvas.setIid(thing.getIid().toString()); 
         
+        emfDiagramCanvas.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramCanvas.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDiagramCanvas.setModifiedOn(thing.getModifiedOn());
         
@@ -186,16 +203,19 @@ public abstract class DiagramThingBase {
         
         emfDiagramCanvas.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDiagramCanvas;   
-        
+        return emfDiagramCanvas;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.diagramdata.DiagramThingBase toPojo(CDP4.DiagramData.DiagramThingBase emfThing) {
+    /**
+     * Convert from {@link CDP4.DiagramData.DiagramThingBase} to {@link cdp4common.diagramdata.DiagramThingBase}
+     *
+     * @return Generated {@link cdp4common.diagramdata.DiagramThingBase}
+     */
+    public static cdp4common.diagramdata.DiagramThingBase toPojo(CDP4.DiagramData.DiagramThingBase emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -214,8 +234,7 @@ public abstract class DiagramThingBase {
         
         pojoPoint.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoPoint;   
-        
+        return pojoPoint;
         
         case "CDP4.diagramdata.Bounds":                
         cdp4common.diagramdata.DiagramThingBase pojoBounds = new cdp4common.diagramdata.Bounds();	    
@@ -232,8 +251,7 @@ public abstract class DiagramThingBase {
         
         pojoBounds.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoBounds;   
-        
+        return pojoBounds;
         
         case "CDP4.diagramdata.Color":                
         cdp4common.diagramdata.DiagramThingBase pojoColor = new cdp4common.diagramdata.Color();	    
@@ -250,8 +268,7 @@ public abstract class DiagramThingBase {
         
         pojoColor.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoColor;   
-        
+        return pojoColor;
         
         
         case "CDP4.diagramdata.OwnedStyle":                
@@ -269,8 +286,7 @@ public abstract class DiagramThingBase {
         
         pojoOwnedStyle.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoOwnedStyle;   
-        
+        return pojoOwnedStyle;
         
         case "CDP4.diagramdata.SharedStyle":                
         cdp4common.diagramdata.DiagramThingBase pojoSharedStyle = new cdp4common.diagramdata.SharedStyle();	    
@@ -287,8 +303,7 @@ public abstract class DiagramThingBase {
         
         pojoSharedStyle.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSharedStyle;   
-        
+        return pojoSharedStyle;
         
         
         
@@ -307,8 +322,7 @@ public abstract class DiagramThingBase {
         
         pojoDiagramEdge.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDiagramEdge;   
-        
+        return pojoDiagramEdge;
         
         
         case "CDP4.diagramdata.DiagramObject":                
@@ -326,8 +340,7 @@ public abstract class DiagramThingBase {
         
         pojoDiagramObject.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDiagramObject;   
-        
+        return pojoDiagramObject;
         
         case "CDP4.diagramdata.DiagramCanvas":                
         cdp4common.diagramdata.DiagramThingBase pojoDiagramCanvas = new cdp4common.diagramdata.DiagramCanvas();	    
@@ -344,14 +357,11 @@ public abstract class DiagramThingBase {
         
         pojoDiagramCanvas.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDiagramCanvas;   
-        
+        return pojoDiagramCanvas;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Stakeholder} class.
+ */
 public class Stakeholder {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.Stakeholder} to {@link CDP4.EngineeringModelData.Stakeholder}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.Stakeholder}
+     */
     public static CDP4.EngineeringModelData.Stakeholder toEmf(cdp4common.engineeringmodeldata.Stakeholder thing) {       
-        
         
         CDP4.EngineeringModelData.Stakeholder emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createStakeholder();      
        
@@ -83,11 +90,14 @@ public class Stakeholder {
         emf.getStakeholderValue().addAll(thing.getStakeholderValue().stream().map(item -> cdp4emfconnector.StakeholderValue.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.Stakeholder toPojo(CDP4.EngineeringModelData.Stakeholder emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.Stakeholder} to {@link cdp4common.engineeringmodeldata.Stakeholder}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.Stakeholder}
+     */
+    public static cdp4common.engineeringmodeldata.Stakeholder toPojo(CDP4.EngineeringModelData.Stakeholder emfThing) {
         
         cdp4common.engineeringmodeldata.Stakeholder pojo = new cdp4common.engineeringmodeldata.Stakeholder();
         
@@ -116,10 +126,16 @@ public class Stakeholder {
         pojo.getStakeholderValue().addAll(emfThing.getStakeholderValue().stream().map(item -> cdp4emfconnector.StakeholderValue.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.Stakeholder} from a {@link CDP4.EngineeringModelData.Stakeholder}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.Stakeholder}.
+    * @return A new {@link cdp4common.engineeringmodeldata.Stakeholder}
+    */
     public static cdp4common.engineeringmodeldata.Stakeholder instiatePojo(CDP4.EngineeringModelData.Stakeholder thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.Stakeholder(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.Stakeholder(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

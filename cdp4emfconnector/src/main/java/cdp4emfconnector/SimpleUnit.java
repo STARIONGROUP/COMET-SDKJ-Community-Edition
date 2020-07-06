@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link SimpleUnit} class.
+ */
 public class SimpleUnit {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.SimpleUnit} to {@link CDP4.SiteDirectoryData.SimpleUnit}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.SimpleUnit}
+     */
     public static CDP4.SiteDirectoryData.SimpleUnit toEmf(cdp4common.sitedirectorydata.SimpleUnit thing) {       
-        
         
         CDP4.SiteDirectoryData.SimpleUnit emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createSimpleUnit();      
        
@@ -81,11 +88,14 @@ public class SimpleUnit {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.SimpleUnit toPojo(CDP4.SiteDirectoryData.SimpleUnit emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.SimpleUnit} to {@link cdp4common.sitedirectorydata.SimpleUnit}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.SimpleUnit}
+     */
+    public static cdp4common.sitedirectorydata.SimpleUnit toPojo(CDP4.SiteDirectoryData.SimpleUnit emfThing) {
         
         cdp4common.sitedirectorydata.SimpleUnit pojo = new cdp4common.sitedirectorydata.SimpleUnit();
         
@@ -112,10 +122,16 @@ public class SimpleUnit {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.SimpleUnit} from a {@link CDP4.SiteDirectoryData.SimpleUnit}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.SimpleUnit}.
+    * @return A new {@link cdp4common.sitedirectorydata.SimpleUnit}
+    */
     public static cdp4common.sitedirectorydata.SimpleUnit instiatePojo(CDP4.SiteDirectoryData.SimpleUnit thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.SimpleUnit(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.SimpleUnit(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

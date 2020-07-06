@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link BinaryNote} class.
+ */
 public class BinaryNote {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.BinaryNote} to {@link CDP4.ReportingData.BinaryNote}
+     *
+     * @return Generated {@link CDP4.ReportingData.BinaryNote}
+     */
     public static CDP4.ReportingData.BinaryNote toEmf(cdp4common.reportingdata.BinaryNote thing) {       
-        
         
         CDP4.ReportingData.BinaryNote emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createBinaryNote();      
        
@@ -83,11 +90,14 @@ public class BinaryNote {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.BinaryNote toPojo(CDP4.ReportingData.BinaryNote emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.BinaryNote} to {@link cdp4common.reportingdata.BinaryNote}
+     *
+     * @return Generated {@link cdp4common.reportingdata.BinaryNote}
+     */
+    public static cdp4common.reportingdata.BinaryNote toPojo(CDP4.ReportingData.BinaryNote emfThing) {
         
         cdp4common.reportingdata.BinaryNote pojo = new cdp4common.reportingdata.BinaryNote();
         
@@ -116,10 +126,16 @@ public class BinaryNote {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.BinaryNote} from a {@link CDP4.ReportingData.BinaryNote}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.BinaryNote}.
+    * @return A new {@link cdp4common.reportingdata.BinaryNote}
+    */
     public static cdp4common.reportingdata.BinaryNote instiatePojo(CDP4.ReportingData.BinaryNote thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.BinaryNote(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.BinaryNote(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

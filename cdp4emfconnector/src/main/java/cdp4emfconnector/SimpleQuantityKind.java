@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link SimpleQuantityKind} class.
+ */
 public class SimpleQuantityKind {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.SimpleQuantityKind} to {@link CDP4.SiteDirectoryData.SimpleQuantityKind}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.SimpleQuantityKind}
+     */
     public static CDP4.SiteDirectoryData.SimpleQuantityKind toEmf(cdp4common.sitedirectorydata.SimpleQuantityKind thing) {       
-        
         
         CDP4.SiteDirectoryData.SimpleQuantityKind emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createSimpleQuantityKind();      
        
@@ -91,11 +98,14 @@ public class SimpleQuantityKind {
         emf.setSymbol(thing.getSymbol());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.SimpleQuantityKind toPojo(CDP4.SiteDirectoryData.SimpleQuantityKind emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.SimpleQuantityKind} to {@link cdp4common.sitedirectorydata.SimpleQuantityKind}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.SimpleQuantityKind}
+     */
+    public static cdp4common.sitedirectorydata.SimpleQuantityKind toPojo(CDP4.SiteDirectoryData.SimpleQuantityKind emfThing) {
         
         cdp4common.sitedirectorydata.SimpleQuantityKind pojo = new cdp4common.sitedirectorydata.SimpleQuantityKind();
         
@@ -132,10 +142,16 @@ public class SimpleQuantityKind {
         pojo.setSymbol(emfThing.getSymbol());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.SimpleQuantityKind} from a {@link CDP4.SiteDirectoryData.SimpleQuantityKind}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.SimpleQuantityKind}.
+    * @return A new {@link cdp4common.sitedirectorydata.SimpleQuantityKind}
+    */
     public static cdp4common.sitedirectorydata.SimpleQuantityKind instiatePojo(CDP4.SiteDirectoryData.SimpleQuantityKind thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.SimpleQuantityKind(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.SimpleQuantityKind(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link EnumerationParameterType} class.
+ */
 public class EnumerationParameterType {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.EnumerationParameterType} to {@link CDP4.SiteDirectoryData.EnumerationParameterType}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.EnumerationParameterType}
+     */
     public static CDP4.SiteDirectoryData.EnumerationParameterType toEmf(cdp4common.sitedirectorydata.EnumerationParameterType thing) {       
-        
         
         CDP4.SiteDirectoryData.EnumerationParameterType emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createEnumerationParameterType();      
        
@@ -89,11 +96,14 @@ public class EnumerationParameterType {
         emf.getValueDefinition().addAll(thing.getValueDefinition().stream().map(item -> cdp4emfconnector.EnumerationValueDefinition.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.EnumerationParameterType toPojo(CDP4.SiteDirectoryData.EnumerationParameterType emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.EnumerationParameterType} to {@link cdp4common.sitedirectorydata.EnumerationParameterType}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.EnumerationParameterType}
+     */
+    public static cdp4common.sitedirectorydata.EnumerationParameterType toPojo(CDP4.SiteDirectoryData.EnumerationParameterType emfThing) {
         
         cdp4common.sitedirectorydata.EnumerationParameterType pojo = new cdp4common.sitedirectorydata.EnumerationParameterType();
         
@@ -128,10 +138,16 @@ public class EnumerationParameterType {
         pojo.getValueDefinition().addAll(emfThing.getValueDefinition().stream().map(item -> cdp4emfconnector.EnumerationValueDefinition.toPojo(item)).collect(Collectors.toList()));
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.EnumerationParameterType} from a {@link CDP4.SiteDirectoryData.EnumerationParameterType}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.EnumerationParameterType}.
+    * @return A new {@link cdp4common.sitedirectorydata.EnumerationParameterType}
+    */
     public static cdp4common.sitedirectorydata.EnumerationParameterType instiatePojo(CDP4.SiteDirectoryData.EnumerationParameterType thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.EnumerationParameterType(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.EnumerationParameterType(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

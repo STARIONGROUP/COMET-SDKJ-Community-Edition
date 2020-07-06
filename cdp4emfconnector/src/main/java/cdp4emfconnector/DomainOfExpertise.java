@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link DomainOfExpertise} class.
+ */
 public class DomainOfExpertise {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.DomainOfExpertise} to {@link CDP4.SiteDirectoryData.DomainOfExpertise}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.DomainOfExpertise}
+     */
     public static CDP4.SiteDirectoryData.DomainOfExpertise toEmf(cdp4common.sitedirectorydata.DomainOfExpertise thing) {       
-        
         
         CDP4.SiteDirectoryData.DomainOfExpertise emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDomainOfExpertise();      
        
@@ -83,11 +90,14 @@ public class DomainOfExpertise {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.DomainOfExpertise toPojo(CDP4.SiteDirectoryData.DomainOfExpertise emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.DomainOfExpertise} to {@link cdp4common.sitedirectorydata.DomainOfExpertise}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.DomainOfExpertise}
+     */
+    public static cdp4common.sitedirectorydata.DomainOfExpertise toPojo(CDP4.SiteDirectoryData.DomainOfExpertise emfThing) {
         
         cdp4common.sitedirectorydata.DomainOfExpertise pojo = new cdp4common.sitedirectorydata.DomainOfExpertise();
         
@@ -116,10 +126,16 @@ public class DomainOfExpertise {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.DomainOfExpertise} from a {@link CDP4.SiteDirectoryData.DomainOfExpertise}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.DomainOfExpertise}.
+    * @return A new {@link cdp4common.sitedirectorydata.DomainOfExpertise}
+    */
     public static cdp4common.sitedirectorydata.DomainOfExpertise instiatePojo(CDP4.SiteDirectoryData.DomainOfExpertise thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.DomainOfExpertise(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.DomainOfExpertise(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

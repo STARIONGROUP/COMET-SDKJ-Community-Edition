@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ParameterOrOverrideBase} class.
+ */
 public abstract class ParameterOrOverrideBase {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.ParameterOrOverrideBase} to {@link CDP4.EngineeringModelData.ParameterOrOverrideBase}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.ParameterOrOverrideBase}
+     */
     public static CDP4.EngineeringModelData.ParameterOrOverrideBase toEmf(cdp4common.engineeringmodeldata.ParameterOrOverrideBase thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,7 +70,9 @@ public abstract class ParameterOrOverrideBase {
         
         emfParameter.setIid(thing.getIid().toString()); 
         
+        emfParameter.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameter.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParameter.setGroup(thing.getGroup() != null ? cdp4emfconnector.ParameterGroup.toEmf(thing.getGroup()) : null);
         emfParameter.setIsOptionDependent(thing.isOptionDependent());
@@ -71,6 +81,7 @@ public abstract class ParameterOrOverrideBase {
         
         emfParameter.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
+        emfParameter.getParameterSubscription().addAll(thing.getParameterSubscription().stream().map(item -> cdp4emfconnector.ParameterSubscription.toEmf(item)).collect(Collectors.toList()));
         
         emfParameter.setParameterType(thing.getParameterType() != null ? cdp4emfconnector.ParameterType.toEmf(thing.getParameterType()) : null);        
         
@@ -78,15 +89,16 @@ public abstract class ParameterOrOverrideBase {
         
         emfParameter.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);
         emfParameter.setStateDependence(thing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toEmf(thing.getStateDependence()) : null);
-        return emfParameter;   
-        
+        return emfParameter;
         
         case "cdp4common.engineeringmodeldata.ParameterOverride":
         CDP4.EngineeringModelData.ParameterOrOverrideBase emfParameterOverride =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createParameterOverride();    
         
         emfParameterOverride.setIid(thing.getIid().toString()); 
         
+        emfParameterOverride.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterOverride.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParameterOverride.setGroup(thing.getGroup() != null ? cdp4emfconnector.ParameterGroup.toEmf(thing.getGroup()) : null);
         emfParameterOverride.setIsOptionDependent(thing.isOptionDependent());
@@ -95,6 +107,7 @@ public abstract class ParameterOrOverrideBase {
         
         emfParameterOverride.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
+        emfParameterOverride.getParameterSubscription().addAll(thing.getParameterSubscription().stream().map(item -> cdp4emfconnector.ParameterSubscription.toEmf(item)).collect(Collectors.toList()));
         
         emfParameterOverride.setParameterType(thing.getParameterType() != null ? cdp4emfconnector.ParameterType.toEmf(thing.getParameterType()) : null);        
         
@@ -102,16 +115,19 @@ public abstract class ParameterOrOverrideBase {
         
         emfParameterOverride.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);
         emfParameterOverride.setStateDependence(thing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toEmf(thing.getStateDependence()) : null);
-        return emfParameterOverride;   
-        
+        return emfParameterOverride;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.ParameterOrOverrideBase toPojo(CDP4.EngineeringModelData.ParameterOrOverrideBase emfThing) {
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.ParameterOrOverrideBase} to {@link cdp4common.engineeringmodeldata.ParameterOrOverrideBase}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.ParameterOrOverrideBase}
+     */
+    public static cdp4common.engineeringmodeldata.ParameterOrOverrideBase toPojo(CDP4.EngineeringModelData.ParameterOrOverrideBase emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -139,8 +155,7 @@ public abstract class ParameterOrOverrideBase {
         
         pojoParameter.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);
         pojoParameter.setStateDependence(emfThing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toPojo(emfThing.getStateDependence()) : null);
-        return pojoParameter;   
-        
+        return pojoParameter;
         
         case "CDP4.engineeringmodeldata.ParameterOverride":                
         cdp4common.engineeringmodeldata.ParameterOrOverrideBase pojoParameterOverride = new cdp4common.engineeringmodeldata.ParameterOverride();	    
@@ -166,14 +181,11 @@ public abstract class ParameterOrOverrideBase {
         
         pojoParameterOverride.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);
         pojoParameterOverride.setStateDependence(emfThing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toPojo(emfThing.getStateDependence()) : null);
-        return pojoParameterOverride;   
-        
+        return pojoParameterOverride;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link RatioScale} class.
+ */
 public class RatioScale {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.RatioScale} to {@link CDP4.SiteDirectoryData.RatioScale}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.RatioScale}
+     */
     public static CDP4.SiteDirectoryData.RatioScale toEmf(cdp4common.sitedirectorydata.RatioScale thing) {       
-        
         
         CDP4.SiteDirectoryData.RatioScale emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createRatioScale();      
        
@@ -101,11 +108,14 @@ public class RatioScale {
         emf.getValueDefinition().addAll(thing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.RatioScale toPojo(CDP4.SiteDirectoryData.RatioScale emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.RatioScale} to {@link cdp4common.sitedirectorydata.RatioScale}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.RatioScale}
+     */
+    public static cdp4common.sitedirectorydata.RatioScale toPojo(CDP4.SiteDirectoryData.RatioScale emfThing) {
         
         cdp4common.sitedirectorydata.RatioScale pojo = new cdp4common.sitedirectorydata.RatioScale();
         
@@ -152,10 +162,16 @@ public class RatioScale {
         pojo.getValueDefinition().addAll(emfThing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.RatioScale} from a {@link CDP4.SiteDirectoryData.RatioScale}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.RatioScale}.
+    * @return A new {@link cdp4common.sitedirectorydata.RatioScale}
+    */
     public static cdp4common.sitedirectorydata.RatioScale instiatePojo(CDP4.SiteDirectoryData.RatioScale thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.RatioScale(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.RatioScale(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

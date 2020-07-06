@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link EnumerationValueDefinition} class.
+ */
 public class EnumerationValueDefinition {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.EnumerationValueDefinition} to {@link CDP4.SiteDirectoryData.EnumerationValueDefinition}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.EnumerationValueDefinition}
+     */
     public static CDP4.SiteDirectoryData.EnumerationValueDefinition toEmf(cdp4common.sitedirectorydata.EnumerationValueDefinition thing) {       
-        
         
         CDP4.SiteDirectoryData.EnumerationValueDefinition emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createEnumerationValueDefinition();      
        
@@ -79,11 +86,14 @@ public class EnumerationValueDefinition {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.EnumerationValueDefinition toPojo(CDP4.SiteDirectoryData.EnumerationValueDefinition emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.EnumerationValueDefinition} to {@link cdp4common.sitedirectorydata.EnumerationValueDefinition}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.EnumerationValueDefinition}
+     */
+    public static cdp4common.sitedirectorydata.EnumerationValueDefinition toPojo(CDP4.SiteDirectoryData.EnumerationValueDefinition emfThing) {
         
         cdp4common.sitedirectorydata.EnumerationValueDefinition pojo = new cdp4common.sitedirectorydata.EnumerationValueDefinition();
         
@@ -108,10 +118,16 @@ public class EnumerationValueDefinition {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.EnumerationValueDefinition} from a {@link CDP4.SiteDirectoryData.EnumerationValueDefinition}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.EnumerationValueDefinition}.
+    * @return A new {@link cdp4common.sitedirectorydata.EnumerationValueDefinition}
+    */
     public static cdp4common.sitedirectorydata.EnumerationValueDefinition instiatePojo(CDP4.SiteDirectoryData.EnumerationValueDefinition thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.EnumerationValueDefinition(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.EnumerationValueDefinition(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

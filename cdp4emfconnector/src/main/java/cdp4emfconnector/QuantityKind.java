@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link QuantityKind} class.
+ */
 public abstract class QuantityKind {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.QuantityKind} to {@link CDP4.SiteDirectoryData.QuantityKind}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.QuantityKind}
+     */
     public static CDP4.SiteDirectoryData.QuantityKind toEmf(cdp4common.sitedirectorydata.QuantityKind thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,13 +70,19 @@ public abstract class QuantityKind {
         
         emfSpecializedQuantityKind.setIid(thing.getIid().toString()); 
         
+        emfSpecializedQuantityKind.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfSpecializedQuantityKind.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
         emfSpecializedQuantityKind.setDefaultScale(thing.getDefaultScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getDefaultScale()) : null);        
         
+        emfSpecializedQuantityKind.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfSpecializedQuantityKind.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSpecializedQuantityKind.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfSpecializedQuantityKind.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfSpecializedQuantityKind.setIsDeprecated(thing.isDeprecated());
         
@@ -76,6 +90,7 @@ public abstract class QuantityKind {
         
         emfSpecializedQuantityKind.setName(thing.getName());
         
+        emfSpecializedQuantityKind.getPossibleScale().addAll(thing.getPossibleScale().stream().map(item -> cdp4emfconnector.MeasurementScale.toEmf(item)).collect(Collectors.toList()));
         
         emfSpecializedQuantityKind.setQuantityDimensionSymbol(thing.getQuantityDimensionSymbol());
         
@@ -85,21 +100,26 @@ public abstract class QuantityKind {
         
         emfSpecializedQuantityKind.setSymbol(thing.getSymbol());
         		        
-        return emfSpecializedQuantityKind;   
-        
+        return emfSpecializedQuantityKind;
         
         case "cdp4common.sitedirectorydata.SimpleQuantityKind":
         CDP4.SiteDirectoryData.QuantityKind emfSimpleQuantityKind =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createSimpleQuantityKind();    
         
         emfSimpleQuantityKind.setIid(thing.getIid().toString()); 
         
+        emfSimpleQuantityKind.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleQuantityKind.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
         emfSimpleQuantityKind.setDefaultScale(thing.getDefaultScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getDefaultScale()) : null);        
         
+        emfSimpleQuantityKind.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleQuantityKind.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleQuantityKind.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleQuantityKind.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfSimpleQuantityKind.setIsDeprecated(thing.isDeprecated());
         
@@ -107,6 +127,7 @@ public abstract class QuantityKind {
         
         emfSimpleQuantityKind.setName(thing.getName());
         
+        emfSimpleQuantityKind.getPossibleScale().addAll(thing.getPossibleScale().stream().map(item -> cdp4emfconnector.MeasurementScale.toEmf(item)).collect(Collectors.toList()));
         
         emfSimpleQuantityKind.setQuantityDimensionSymbol(thing.getQuantityDimensionSymbol());
         
@@ -116,21 +137,26 @@ public abstract class QuantityKind {
         
         emfSimpleQuantityKind.setSymbol(thing.getSymbol());
         		        
-        return emfSimpleQuantityKind;   
-        
+        return emfSimpleQuantityKind;
         
         case "cdp4common.sitedirectorydata.DerivedQuantityKind":
         CDP4.SiteDirectoryData.QuantityKind emfDerivedQuantityKind =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDerivedQuantityKind();    
         
         emfDerivedQuantityKind.setIid(thing.getIid().toString()); 
         
+        emfDerivedQuantityKind.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedQuantityKind.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
         emfDerivedQuantityKind.setDefaultScale(thing.getDefaultScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getDefaultScale()) : null);        
         
+        emfDerivedQuantityKind.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedQuantityKind.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedQuantityKind.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedQuantityKind.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfDerivedQuantityKind.setIsDeprecated(thing.isDeprecated());
         
@@ -138,6 +164,7 @@ public abstract class QuantityKind {
         
         emfDerivedQuantityKind.setName(thing.getName());
         
+        emfDerivedQuantityKind.getPossibleScale().addAll(thing.getPossibleScale().stream().map(item -> cdp4emfconnector.MeasurementScale.toEmf(item)).collect(Collectors.toList()));
         
         emfDerivedQuantityKind.setQuantityDimensionSymbol(thing.getQuantityDimensionSymbol());
         
@@ -147,16 +174,19 @@ public abstract class QuantityKind {
         
         emfDerivedQuantityKind.setSymbol(thing.getSymbol());
         		        
-        return emfDerivedQuantityKind;   
-        
+        return emfDerivedQuantityKind;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.sitedirectorydata.QuantityKind toPojo(CDP4.SiteDirectoryData.QuantityKind emfThing) {
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.QuantityKind} to {@link cdp4common.sitedirectorydata.QuantityKind}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.QuantityKind}
+     */
+    public static cdp4common.sitedirectorydata.QuantityKind toPojo(CDP4.SiteDirectoryData.QuantityKind emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -195,8 +225,7 @@ public abstract class QuantityKind {
         
         pojoSpecializedQuantityKind.setSymbol(emfThing.getSymbol());
         		        
-        return pojoSpecializedQuantityKind;   
-        
+        return pojoSpecializedQuantityKind;
         
         case "CDP4.sitedirectorydata.SimpleQuantityKind":                
         cdp4common.sitedirectorydata.QuantityKind pojoSimpleQuantityKind = new cdp4common.sitedirectorydata.SimpleQuantityKind();	    
@@ -233,8 +262,7 @@ public abstract class QuantityKind {
         
         pojoSimpleQuantityKind.setSymbol(emfThing.getSymbol());
         		        
-        return pojoSimpleQuantityKind;   
-        
+        return pojoSimpleQuantityKind;
         
         case "CDP4.sitedirectorydata.DerivedQuantityKind":                
         cdp4common.sitedirectorydata.QuantityKind pojoDerivedQuantityKind = new cdp4common.sitedirectorydata.DerivedQuantityKind();	    
@@ -271,14 +299,11 @@ public abstract class QuantityKind {
         
         pojoDerivedQuantityKind.setSymbol(emfThing.getSymbol());
         		        
-        return pojoDerivedQuantityKind;   
-        
+        return pojoDerivedQuantityKind;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

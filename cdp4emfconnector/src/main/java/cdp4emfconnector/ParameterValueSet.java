@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ParameterValueSet} class.
+ */
 public class ParameterValueSet {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.ParameterValueSet} to {@link CDP4.EngineeringModelData.ParameterValueSet}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.ParameterValueSet}
+     */
     public static CDP4.EngineeringModelData.ParameterValueSet toEmf(cdp4common.engineeringmodeldata.ParameterValueSet thing) {       
-        
         
         CDP4.EngineeringModelData.ParameterValueSet emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createParameterValueSet();      
        
@@ -83,11 +90,14 @@ public class ParameterValueSet {
         if (thing.getValueSwitch() != null) {emf.setValueSwitch(CDP4.EngineeringModelData.ParameterSwitchKind.valueOf(thing.getValueSwitch().toString()));}                          
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.ParameterValueSet toPojo(CDP4.EngineeringModelData.ParameterValueSet emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.ParameterValueSet} to {@link cdp4common.engineeringmodeldata.ParameterValueSet}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.ParameterValueSet}
+     */
+    public static cdp4common.engineeringmodeldata.ParameterValueSet toPojo(CDP4.EngineeringModelData.ParameterValueSet emfThing) {
         
         cdp4common.engineeringmodeldata.ParameterValueSet pojo = new cdp4common.engineeringmodeldata.ParameterValueSet();
         
@@ -116,10 +126,16 @@ public class ParameterValueSet {
         if (emfThing.getValueSwitch() != null) {pojo.setValueSwitch(cdp4common.engineeringmodeldata.ParameterSwitchKind.valueOf(emfThing.getValueSwitch().toString()));}  
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.ParameterValueSet} from a {@link CDP4.EngineeringModelData.ParameterValueSet}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.ParameterValueSet}.
+    * @return A new {@link cdp4common.engineeringmodeldata.ParameterValueSet}
+    */
     public static cdp4common.engineeringmodeldata.ParameterValueSet instiatePojo(CDP4.EngineeringModelData.ParameterValueSet thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.ParameterValueSet(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.ParameterValueSet(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

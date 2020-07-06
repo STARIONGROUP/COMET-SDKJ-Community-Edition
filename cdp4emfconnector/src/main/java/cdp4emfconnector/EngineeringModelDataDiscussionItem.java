@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link EngineeringModelDataDiscussionItem} class.
+ */
 public class EngineeringModelDataDiscussionItem {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.EngineeringModelDataDiscussionItem} to {@link CDP4.ReportingData.EngineeringModelDataDiscussionItem}
+     *
+     * @return Generated {@link CDP4.ReportingData.EngineeringModelDataDiscussionItem}
+     */
     public static CDP4.ReportingData.EngineeringModelDataDiscussionItem toEmf(cdp4common.reportingdata.EngineeringModelDataDiscussionItem thing) {       
-        
         
         CDP4.ReportingData.EngineeringModelDataDiscussionItem emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createEngineeringModelDataDiscussionItem();      
        
@@ -78,11 +85,14 @@ public class EngineeringModelDataDiscussionItem {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.EngineeringModelDataDiscussionItem toPojo(CDP4.ReportingData.EngineeringModelDataDiscussionItem emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.EngineeringModelDataDiscussionItem} to {@link cdp4common.reportingdata.EngineeringModelDataDiscussionItem}
+     *
+     * @return Generated {@link cdp4common.reportingdata.EngineeringModelDataDiscussionItem}
+     */
+    public static cdp4common.reportingdata.EngineeringModelDataDiscussionItem toPojo(CDP4.ReportingData.EngineeringModelDataDiscussionItem emfThing) {
         
         cdp4common.reportingdata.EngineeringModelDataDiscussionItem pojo = new cdp4common.reportingdata.EngineeringModelDataDiscussionItem();
         
@@ -106,10 +116,16 @@ public class EngineeringModelDataDiscussionItem {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.EngineeringModelDataDiscussionItem} from a {@link CDP4.ReportingData.EngineeringModelDataDiscussionItem}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.EngineeringModelDataDiscussionItem}.
+    * @return A new {@link cdp4common.reportingdata.EngineeringModelDataDiscussionItem}
+    */
     public static cdp4common.reportingdata.EngineeringModelDataDiscussionItem instiatePojo(CDP4.ReportingData.EngineeringModelDataDiscussionItem thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.EngineeringModelDataDiscussionItem(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.EngineeringModelDataDiscussionItem(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

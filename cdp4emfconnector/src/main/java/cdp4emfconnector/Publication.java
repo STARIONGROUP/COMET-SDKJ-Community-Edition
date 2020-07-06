@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Publication} class.
+ */
 public class Publication {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.Publication} to {@link CDP4.EngineeringModelData.Publication}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.Publication}
+     */
     public static CDP4.EngineeringModelData.Publication toEmf(cdp4common.engineeringmodeldata.Publication thing) {       
-        
         
         CDP4.EngineeringModelData.Publication emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createPublication();      
        
@@ -75,11 +82,14 @@ public class Publication {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.Publication toPojo(CDP4.EngineeringModelData.Publication emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.Publication} to {@link cdp4common.engineeringmodeldata.Publication}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.Publication}
+     */
+    public static cdp4common.engineeringmodeldata.Publication toPojo(CDP4.EngineeringModelData.Publication emfThing) {
         
         cdp4common.engineeringmodeldata.Publication pojo = new cdp4common.engineeringmodeldata.Publication();
         
@@ -100,10 +110,16 @@ public class Publication {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.Publication} from a {@link CDP4.EngineeringModelData.Publication}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.Publication}.
+    * @return A new {@link cdp4common.engineeringmodeldata.Publication}
+    */
     public static cdp4common.engineeringmodeldata.Publication instiatePojo(CDP4.EngineeringModelData.Publication thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.Publication(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.Publication(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

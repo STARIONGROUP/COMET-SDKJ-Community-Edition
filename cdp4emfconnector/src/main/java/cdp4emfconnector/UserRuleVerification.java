@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link UserRuleVerification} class.
+ */
 public class UserRuleVerification {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.UserRuleVerification} to {@link CDP4.EngineeringModelData.UserRuleVerification}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.UserRuleVerification}
+     */
     public static CDP4.EngineeringModelData.UserRuleVerification toEmf(cdp4common.engineeringmodeldata.UserRuleVerification thing) {       
-        
         
         CDP4.EngineeringModelData.UserRuleVerification emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createUserRuleVerification();      
        
@@ -79,11 +86,14 @@ public class UserRuleVerification {
         emf.getViolation().addAll(thing.getViolation().stream().map(item -> cdp4emfconnector.RuleViolation.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.UserRuleVerification toPojo(CDP4.EngineeringModelData.UserRuleVerification emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.UserRuleVerification} to {@link cdp4common.engineeringmodeldata.UserRuleVerification}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.UserRuleVerification}
+     */
+    public static cdp4common.engineeringmodeldata.UserRuleVerification toPojo(CDP4.EngineeringModelData.UserRuleVerification emfThing) {
         
         cdp4common.engineeringmodeldata.UserRuleVerification pojo = new cdp4common.engineeringmodeldata.UserRuleVerification();
         
@@ -108,10 +118,16 @@ public class UserRuleVerification {
         pojo.getViolation().addAll(emfThing.getViolation().stream().map(item -> cdp4emfconnector.RuleViolation.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.UserRuleVerification} from a {@link CDP4.EngineeringModelData.UserRuleVerification}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.UserRuleVerification}.
+    * @return A new {@link cdp4common.engineeringmodeldata.UserRuleVerification}
+    */
     public static cdp4common.engineeringmodeldata.UserRuleVerification instiatePojo(CDP4.EngineeringModelData.UserRuleVerification thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.UserRuleVerification(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.UserRuleVerification(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

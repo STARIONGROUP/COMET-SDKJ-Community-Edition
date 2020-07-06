@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link File} class.
+ */
 public class File {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.File} to {@link CDP4.EngineeringModelData.File}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.File}
+     */
     public static CDP4.EngineeringModelData.File toEmf(cdp4common.engineeringmodeldata.File thing) {       
-        
         
         CDP4.EngineeringModelData.File emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createFile();      
        
@@ -76,11 +83,14 @@ public class File {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.File toPojo(CDP4.EngineeringModelData.File emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.File} to {@link cdp4common.engineeringmodeldata.File}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.File}
+     */
+    public static cdp4common.engineeringmodeldata.File toPojo(CDP4.EngineeringModelData.File emfThing) {
         
         cdp4common.engineeringmodeldata.File pojo = new cdp4common.engineeringmodeldata.File();
         
@@ -102,10 +112,16 @@ public class File {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.File} from a {@link CDP4.EngineeringModelData.File}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.File}.
+    * @return A new {@link cdp4common.engineeringmodeldata.File}
+    */
     public static cdp4common.engineeringmodeldata.File instiatePojo(CDP4.EngineeringModelData.File thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.File(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.File(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

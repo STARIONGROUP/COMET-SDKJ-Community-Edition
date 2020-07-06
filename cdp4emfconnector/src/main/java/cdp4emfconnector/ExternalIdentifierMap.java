@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ExternalIdentifierMap} class.
+ */
 public class ExternalIdentifierMap {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.ExternalIdentifierMap} to {@link CDP4.EngineeringModelData.ExternalIdentifierMap}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.ExternalIdentifierMap}
+     */
     public static CDP4.EngineeringModelData.ExternalIdentifierMap toEmf(cdp4common.engineeringmodeldata.ExternalIdentifierMap thing) {       
-        
         
         CDP4.EngineeringModelData.ExternalIdentifierMap emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createExternalIdentifierMap();      
        
@@ -82,11 +89,14 @@ public class ExternalIdentifierMap {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.ExternalIdentifierMap toPojo(CDP4.EngineeringModelData.ExternalIdentifierMap emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.ExternalIdentifierMap} to {@link cdp4common.engineeringmodeldata.ExternalIdentifierMap}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.ExternalIdentifierMap}
+     */
+    public static cdp4common.engineeringmodeldata.ExternalIdentifierMap toPojo(CDP4.EngineeringModelData.ExternalIdentifierMap emfThing) {
         
         cdp4common.engineeringmodeldata.ExternalIdentifierMap pojo = new cdp4common.engineeringmodeldata.ExternalIdentifierMap();
         
@@ -114,10 +124,16 @@ public class ExternalIdentifierMap {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.ExternalIdentifierMap} from a {@link CDP4.EngineeringModelData.ExternalIdentifierMap}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.ExternalIdentifierMap}.
+    * @return A new {@link cdp4common.engineeringmodeldata.ExternalIdentifierMap}
+    */
     public static cdp4common.engineeringmodeldata.ExternalIdentifierMap instiatePojo(CDP4.EngineeringModelData.ExternalIdentifierMap thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.ExternalIdentifierMap(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.ExternalIdentifierMap(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

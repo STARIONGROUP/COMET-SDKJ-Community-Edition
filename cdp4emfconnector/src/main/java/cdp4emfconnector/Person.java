@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Person} class.
+ */
 public class Person {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.Person} to {@link CDP4.SiteDirectoryData.Person}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.Person}
+     */
     public static CDP4.SiteDirectoryData.Person toEmf(cdp4common.sitedirectorydata.Person thing) {       
-        
         
         CDP4.SiteDirectoryData.Person emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createPerson();      
        
@@ -94,11 +101,14 @@ public class Person {
         emf.getUserPreference().addAll(thing.getUserPreference().stream().map(item -> cdp4emfconnector.UserPreference.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.Person toPojo(CDP4.SiteDirectoryData.Person emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.Person} to {@link cdp4common.sitedirectorydata.Person}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.Person}
+     */
+    public static cdp4common.sitedirectorydata.Person toPojo(CDP4.SiteDirectoryData.Person emfThing) {
         
         cdp4common.sitedirectorydata.Person pojo = new cdp4common.sitedirectorydata.Person();
         
@@ -138,10 +148,16 @@ public class Person {
         pojo.getUserPreference().addAll(emfThing.getUserPreference().stream().map(item -> cdp4emfconnector.UserPreference.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.Person} from a {@link CDP4.SiteDirectoryData.Person}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.Person}.
+    * @return A new {@link cdp4common.sitedirectorydata.Person}
+    */
     public static cdp4common.sitedirectorydata.Person instiatePojo(CDP4.SiteDirectoryData.Person thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.Person(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.Person(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

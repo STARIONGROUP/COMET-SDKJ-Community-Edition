@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link RequirementsContainerParameterValue} class.
+ */
 public class RequirementsContainerParameterValue {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.RequirementsContainerParameterValue} to {@link CDP4.EngineeringModelData.RequirementsContainerParameterValue}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.RequirementsContainerParameterValue}
+     */
     public static CDP4.EngineeringModelData.RequirementsContainerParameterValue toEmf(cdp4common.engineeringmodeldata.RequirementsContainerParameterValue thing) {       
-        
         
         CDP4.EngineeringModelData.RequirementsContainerParameterValue emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRequirementsContainerParameterValue();      
        
@@ -74,11 +81,14 @@ public class RequirementsContainerParameterValue {
         thing.getValue().forEach(item -> emf.getValue().add(item));	             
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.RequirementsContainerParameterValue toPojo(CDP4.EngineeringModelData.RequirementsContainerParameterValue emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.RequirementsContainerParameterValue} to {@link cdp4common.engineeringmodeldata.RequirementsContainerParameterValue}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.RequirementsContainerParameterValue}
+     */
+    public static cdp4common.engineeringmodeldata.RequirementsContainerParameterValue toPojo(CDP4.EngineeringModelData.RequirementsContainerParameterValue emfThing) {
         
         cdp4common.engineeringmodeldata.RequirementsContainerParameterValue pojo = new cdp4common.engineeringmodeldata.RequirementsContainerParameterValue();
         
@@ -98,10 +108,16 @@ public class RequirementsContainerParameterValue {
         emfThing.getValue().forEach(item -> pojo.getValue().set(item.indexOf(item), item));		      
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.RequirementsContainerParameterValue} from a {@link CDP4.EngineeringModelData.RequirementsContainerParameterValue}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.RequirementsContainerParameterValue}.
+    * @return A new {@link cdp4common.engineeringmodeldata.RequirementsContainerParameterValue}
+    */
     public static cdp4common.engineeringmodeldata.RequirementsContainerParameterValue instiatePojo(CDP4.EngineeringModelData.RequirementsContainerParameterValue thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.RequirementsContainerParameterValue(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.RequirementsContainerParameterValue(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

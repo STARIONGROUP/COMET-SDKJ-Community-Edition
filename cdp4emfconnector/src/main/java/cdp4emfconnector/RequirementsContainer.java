@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link RequirementsContainer} class.
+ */
 public abstract class RequirementsContainer {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.RequirementsContainer} to {@link CDP4.EngineeringModelData.RequirementsContainer}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.RequirementsContainer}
+     */
     public static CDP4.EngineeringModelData.RequirementsContainer toEmf(cdp4common.engineeringmodeldata.RequirementsContainer thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,12 +70,19 @@ public abstract class RequirementsContainer {
         
         emfRequirementsSpecification.setIid(thing.getIid().toString()); 
         
+        emfRequirementsSpecification.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsSpecification.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsSpecification.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsSpecification.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsSpecification.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsSpecification.getGroup().addAll(thing.getGroup().stream().map(item -> cdp4emfconnector.RequirementsGroup.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsSpecification.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfRequirementsSpecification.setModifiedOn(thing.getModifiedOn());
         
@@ -75,25 +90,32 @@ public abstract class RequirementsContainer {
         
         emfRequirementsSpecification.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
+        emfRequirementsSpecification.getParameterValue().addAll(thing.getParameterValue().stream().map(item -> cdp4emfconnector.RequirementsContainerParameterValue.toEmf(item)).collect(Collectors.toList()));
         
         emfRequirementsSpecification.setRevisionNumber(thing.getRevisionNumber());
         
         emfRequirementsSpecification.setShortName(thing.getShortName());
         		        
-        return emfRequirementsSpecification;   
-        
+        return emfRequirementsSpecification;
         
         case "cdp4common.engineeringmodeldata.RequirementsGroup":
         CDP4.EngineeringModelData.RequirementsContainer emfRequirementsGroup =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRequirementsGroup();    
         
         emfRequirementsGroup.setIid(thing.getIid().toString()); 
         
+        emfRequirementsGroup.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsGroup.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsGroup.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsGroup.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsGroup.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsGroup.getGroup().addAll(thing.getGroup().stream().map(item -> cdp4emfconnector.RequirementsGroup.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsGroup.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfRequirementsGroup.setModifiedOn(thing.getModifiedOn());
         
@@ -101,21 +123,25 @@ public abstract class RequirementsContainer {
         
         emfRequirementsGroup.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
+        emfRequirementsGroup.getParameterValue().addAll(thing.getParameterValue().stream().map(item -> cdp4emfconnector.RequirementsContainerParameterValue.toEmf(item)).collect(Collectors.toList()));
         
         emfRequirementsGroup.setRevisionNumber(thing.getRevisionNumber());
         
         emfRequirementsGroup.setShortName(thing.getShortName());
         		        
-        return emfRequirementsGroup;   
-        
+        return emfRequirementsGroup;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.RequirementsContainer toPojo(CDP4.EngineeringModelData.RequirementsContainer emfThing) {
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.RequirementsContainer} to {@link cdp4common.engineeringmodeldata.RequirementsContainer}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.RequirementsContainer}
+     */
+    public static cdp4common.engineeringmodeldata.RequirementsContainer toPojo(CDP4.EngineeringModelData.RequirementsContainer emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -150,8 +176,7 @@ public abstract class RequirementsContainer {
         
         pojoRequirementsSpecification.setShortName(emfThing.getShortName());
         		        
-        return pojoRequirementsSpecification;   
-        
+        return pojoRequirementsSpecification;
         
         case "CDP4.engineeringmodeldata.RequirementsGroup":                
         cdp4common.engineeringmodeldata.RequirementsContainer pojoRequirementsGroup = new cdp4common.engineeringmodeldata.RequirementsGroup();	    
@@ -184,14 +209,11 @@ public abstract class RequirementsContainer {
         
         pojoRequirementsGroup.setShortName(emfThing.getShortName());
         		        
-        return pojoRequirementsGroup;   
-        
+        return pojoRequirementsGroup;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

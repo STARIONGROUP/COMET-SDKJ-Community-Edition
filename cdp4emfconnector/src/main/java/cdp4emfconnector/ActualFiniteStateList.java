@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ActualFiniteStateList} class.
+ */
 public class ActualFiniteStateList {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.ActualFiniteStateList} to {@link CDP4.EngineeringModelData.ActualFiniteStateList}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.ActualFiniteStateList}
+     */
     public static CDP4.EngineeringModelData.ActualFiniteStateList toEmf(cdp4common.engineeringmodeldata.ActualFiniteStateList thing) {       
-        
         
         CDP4.EngineeringModelData.ActualFiniteStateList emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createActualFiniteStateList();      
        
@@ -77,11 +84,14 @@ public class ActualFiniteStateList {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.ActualFiniteStateList toPojo(CDP4.EngineeringModelData.ActualFiniteStateList emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.ActualFiniteStateList} to {@link cdp4common.engineeringmodeldata.ActualFiniteStateList}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.ActualFiniteStateList}
+     */
+    public static cdp4common.engineeringmodeldata.ActualFiniteStateList toPojo(CDP4.EngineeringModelData.ActualFiniteStateList emfThing) {
         
         cdp4common.engineeringmodeldata.ActualFiniteStateList pojo = new cdp4common.engineeringmodeldata.ActualFiniteStateList();
         
@@ -104,10 +114,16 @@ public class ActualFiniteStateList {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.ActualFiniteStateList} from a {@link CDP4.EngineeringModelData.ActualFiniteStateList}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.ActualFiniteStateList}.
+    * @return A new {@link cdp4common.engineeringmodeldata.ActualFiniteStateList}
+    */
     public static cdp4common.engineeringmodeldata.ActualFiniteStateList instiatePojo(CDP4.EngineeringModelData.ActualFiniteStateList thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.ActualFiniteStateList(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.ActualFiniteStateList(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

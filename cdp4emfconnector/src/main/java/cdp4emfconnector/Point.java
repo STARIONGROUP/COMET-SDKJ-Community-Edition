@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Point} class.
+ */
 public class Point {
-
+   
+    /**
+     * Convert from {@link cdp4common.diagramdata.Point} to {@link CDP4.DiagramData.Point}
+     *
+     * @return Generated {@link CDP4.DiagramData.Point}
+     */
     public static CDP4.DiagramData.Point toEmf(cdp4common.diagramdata.Point thing) {       
-        
         
         CDP4.DiagramData.Point emf =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createPoint();      
        
@@ -75,11 +82,14 @@ public class Point {
         emf.setY(thing.getY());
         
         return emf;
-        
     }
 
-    public static  cdp4common.diagramdata.Point toPojo(CDP4.DiagramData.Point emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.DiagramData.Point} to {@link cdp4common.diagramdata.Point}
+     *
+     * @return Generated {@link cdp4common.diagramdata.Point}
+     */
+    public static cdp4common.diagramdata.Point toPojo(CDP4.DiagramData.Point emfThing) {
         
         cdp4common.diagramdata.Point pojo = new cdp4common.diagramdata.Point();
         
@@ -100,10 +110,16 @@ public class Point {
         pojo.setY((float)emfThing.getY());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.diagramdata.Point} from a {@link CDP4.DiagramData.Point}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.diagramdata.Point}.
+    * @return A new {@link cdp4common.diagramdata.Point}
+    */
     public static cdp4common.diagramdata.Point instiatePojo(CDP4.DiagramData.Point thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.diagramdata.Point(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.diagramdata.Point(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

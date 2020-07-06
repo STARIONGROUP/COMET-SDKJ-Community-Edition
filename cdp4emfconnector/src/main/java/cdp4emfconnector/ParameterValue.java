@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ParameterValue} class.
+ */
 public abstract class ParameterValue {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.ParameterValue} to {@link CDP4.EngineeringModelData.ParameterValue}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.ParameterValue}
+     */
     public static CDP4.EngineeringModelData.ParameterValue toEmf(cdp4common.engineeringmodeldata.ParameterValue thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,7 +70,9 @@ public abstract class ParameterValue {
         
         emfRequirementsContainerParameterValue.setIid(thing.getIid().toString()); 
         
+        emfRequirementsContainerParameterValue.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsContainerParameterValue.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRequirementsContainerParameterValue.setModifiedOn(thing.getModifiedOn());
         
@@ -73,15 +83,16 @@ public abstract class ParameterValue {
         emfRequirementsContainerParameterValue.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);
         thing.getValue().forEach(item -> emfRequirementsContainerParameterValue.getValue().add(item));	      
         		        
-        return emfRequirementsContainerParameterValue;   
-        
+        return emfRequirementsContainerParameterValue;
         
         case "cdp4common.engineeringmodeldata.RelationshipParameterValue":
         CDP4.EngineeringModelData.ParameterValue emfRelationshipParameterValue =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRelationshipParameterValue();    
         
         emfRelationshipParameterValue.setIid(thing.getIid().toString()); 
         
+        emfRelationshipParameterValue.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRelationshipParameterValue.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRelationshipParameterValue.setModifiedOn(thing.getModifiedOn());
         
@@ -92,16 +103,19 @@ public abstract class ParameterValue {
         emfRelationshipParameterValue.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);
         thing.getValue().forEach(item -> emfRelationshipParameterValue.getValue().add(item));	      
         		        
-        return emfRelationshipParameterValue;   
-        
+        return emfRelationshipParameterValue;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.ParameterValue toPojo(CDP4.EngineeringModelData.ParameterValue emfThing) {
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.ParameterValue} to {@link cdp4common.engineeringmodeldata.ParameterValue}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.ParameterValue}
+     */
+    public static cdp4common.engineeringmodeldata.ParameterValue toPojo(CDP4.EngineeringModelData.ParameterValue emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -123,8 +137,7 @@ public abstract class ParameterValue {
         pojoRequirementsContainerParameterValue.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);
         emfThing.getValue().forEach(item -> pojoRequirementsContainerParameterValue.getValue().set(item.indexOf(item), item));		      
         		        
-        return pojoRequirementsContainerParameterValue;   
-        
+        return pojoRequirementsContainerParameterValue;
         
         case "CDP4.engineeringmodeldata.RelationshipParameterValue":                
         cdp4common.engineeringmodeldata.ParameterValue pojoRelationshipParameterValue = new cdp4common.engineeringmodeldata.RelationshipParameterValue();	    
@@ -144,14 +157,11 @@ public abstract class ParameterValue {
         pojoRelationshipParameterValue.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);
         emfThing.getValue().forEach(item -> pojoRelationshipParameterValue.getValue().set(item.indexOf(item), item));		      
         		        
-        return pojoRelationshipParameterValue;   
-        
+        return pojoRelationshipParameterValue;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

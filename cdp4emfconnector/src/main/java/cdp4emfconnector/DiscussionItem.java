@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link DiscussionItem} class.
+ */
 public abstract class DiscussionItem {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.DiscussionItem} to {@link CDP4.ReportingData.DiscussionItem}
+     *
+     * @return Generated {@link CDP4.ReportingData.DiscussionItem}
+     */
     public static CDP4.ReportingData.DiscussionItem toEmf(cdp4common.reportingdata.DiscussionItem thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -66,7 +74,9 @@ public abstract class DiscussionItem {
         
         emfEngineeringModelDataDiscussionItem.setCreatedOn(thing.getCreatedOn());
         
+        emfEngineeringModelDataDiscussionItem.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEngineeringModelDataDiscussionItem.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfEngineeringModelDataDiscussionItem.setLanguageCode(thing.getLanguageCode());
         
@@ -75,8 +85,7 @@ public abstract class DiscussionItem {
         emfEngineeringModelDataDiscussionItem.setReplyTo(thing.getReplyTo() != null ? cdp4emfconnector.DiscussionItem.toEmf(thing.getReplyTo()) : null);
         emfEngineeringModelDataDiscussionItem.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfEngineeringModelDataDiscussionItem;   
-        
+        return emfEngineeringModelDataDiscussionItem;
         
         case "cdp4common.reportingdata.SiteDirectoryDataDiscussionItem":
         CDP4.ReportingData.DiscussionItem emfSiteDirectoryDataDiscussionItem =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createSiteDirectoryDataDiscussionItem();    
@@ -87,7 +96,9 @@ public abstract class DiscussionItem {
         
         emfSiteDirectoryDataDiscussionItem.setCreatedOn(thing.getCreatedOn());
         
+        emfSiteDirectoryDataDiscussionItem.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteDirectoryDataDiscussionItem.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteDirectoryDataDiscussionItem.setLanguageCode(thing.getLanguageCode());
         
@@ -96,16 +107,19 @@ public abstract class DiscussionItem {
         emfSiteDirectoryDataDiscussionItem.setReplyTo(thing.getReplyTo() != null ? cdp4emfconnector.DiscussionItem.toEmf(thing.getReplyTo()) : null);
         emfSiteDirectoryDataDiscussionItem.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSiteDirectoryDataDiscussionItem;   
-        
+        return emfSiteDirectoryDataDiscussionItem;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.reportingdata.DiscussionItem toPojo(CDP4.ReportingData.DiscussionItem emfThing) {
+    /**
+     * Convert from {@link CDP4.ReportingData.DiscussionItem} to {@link cdp4common.reportingdata.DiscussionItem}
+     *
+     * @return Generated {@link cdp4common.reportingdata.DiscussionItem}
+     */
+    public static cdp4common.reportingdata.DiscussionItem toPojo(CDP4.ReportingData.DiscussionItem emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -129,8 +143,7 @@ public abstract class DiscussionItem {
         pojoEngineeringModelDataDiscussionItem.setReplyTo(emfThing.getReplyTo() != null ? cdp4emfconnector.DiscussionItem.toPojo(emfThing.getReplyTo()) : null);
         pojoEngineeringModelDataDiscussionItem.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoEngineeringModelDataDiscussionItem;   
-        
+        return pojoEngineeringModelDataDiscussionItem;
         
         case "CDP4.reportingdata.SiteDirectoryDataDiscussionItem":                
         cdp4common.reportingdata.DiscussionItem pojoSiteDirectoryDataDiscussionItem = new cdp4common.reportingdata.SiteDirectoryDataDiscussionItem();	    
@@ -152,14 +165,11 @@ public abstract class DiscussionItem {
         pojoSiteDirectoryDataDiscussionItem.setReplyTo(emfThing.getReplyTo() != null ? cdp4emfconnector.DiscussionItem.toPojo(emfThing.getReplyTo()) : null);
         pojoSiteDirectoryDataDiscussionItem.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSiteDirectoryDataDiscussionItem;   
-        
+        return pojoSiteDirectoryDataDiscussionItem;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

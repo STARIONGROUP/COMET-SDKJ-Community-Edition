@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link CyclicRatioScale} class.
+ */
 public class CyclicRatioScale {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.CyclicRatioScale} to {@link CDP4.SiteDirectoryData.CyclicRatioScale}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.CyclicRatioScale}
+     */
     public static CDP4.SiteDirectoryData.CyclicRatioScale toEmf(cdp4common.sitedirectorydata.CyclicRatioScale thing) {       
-        
         
         CDP4.SiteDirectoryData.CyclicRatioScale emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createCyclicRatioScale();      
        
@@ -103,11 +110,14 @@ public class CyclicRatioScale {
         emf.getValueDefinition().addAll(thing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.CyclicRatioScale toPojo(CDP4.SiteDirectoryData.CyclicRatioScale emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.CyclicRatioScale} to {@link cdp4common.sitedirectorydata.CyclicRatioScale}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.CyclicRatioScale}
+     */
+    public static cdp4common.sitedirectorydata.CyclicRatioScale toPojo(CDP4.SiteDirectoryData.CyclicRatioScale emfThing) {
         
         cdp4common.sitedirectorydata.CyclicRatioScale pojo = new cdp4common.sitedirectorydata.CyclicRatioScale();
         
@@ -156,10 +166,16 @@ public class CyclicRatioScale {
         pojo.getValueDefinition().addAll(emfThing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.CyclicRatioScale} from a {@link CDP4.SiteDirectoryData.CyclicRatioScale}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.CyclicRatioScale}.
+    * @return A new {@link cdp4common.sitedirectorydata.CyclicRatioScale}
+    */
     public static cdp4common.sitedirectorydata.CyclicRatioScale instiatePojo(CDP4.SiteDirectoryData.CyclicRatioScale thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.CyclicRatioScale(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.CyclicRatioScale(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

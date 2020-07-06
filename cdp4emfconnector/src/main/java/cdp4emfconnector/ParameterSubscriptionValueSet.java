@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ParameterSubscriptionValueSet} class.
+ */
 public class ParameterSubscriptionValueSet {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet} to {@link CDP4.EngineeringModelData.ParameterSubscriptionValueSet}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.ParameterSubscriptionValueSet}
+     */
     public static CDP4.EngineeringModelData.ParameterSubscriptionValueSet toEmf(cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet thing) {       
-        
         
         CDP4.EngineeringModelData.ParameterSubscriptionValueSet emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createParameterSubscriptionValueSet();      
        
@@ -75,11 +82,14 @@ public class ParameterSubscriptionValueSet {
         if (thing.getValueSwitch() != null) {emf.setValueSwitch(CDP4.EngineeringModelData.ParameterSwitchKind.valueOf(thing.getValueSwitch().toString()));}                          
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet toPojo(CDP4.EngineeringModelData.ParameterSubscriptionValueSet emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.ParameterSubscriptionValueSet} to {@link cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet}
+     */
+    public static cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet toPojo(CDP4.EngineeringModelData.ParameterSubscriptionValueSet emfThing) {
         
         cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet pojo = new cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet();
         
@@ -100,10 +110,16 @@ public class ParameterSubscriptionValueSet {
         if (emfThing.getValueSwitch() != null) {pojo.setValueSwitch(cdp4common.engineeringmodeldata.ParameterSwitchKind.valueOf(emfThing.getValueSwitch().toString()));}  
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet} from a {@link CDP4.EngineeringModelData.ParameterSubscriptionValueSet}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet}.
+    * @return A new {@link cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet}
+    */
     public static cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet instiatePojo(CDP4.EngineeringModelData.ParameterSubscriptionValueSet thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

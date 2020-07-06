@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link TextParameterType} class.
+ */
 public class TextParameterType {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.TextParameterType} to {@link CDP4.SiteDirectoryData.TextParameterType}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.TextParameterType}
+     */
     public static CDP4.SiteDirectoryData.TextParameterType toEmf(cdp4common.sitedirectorydata.TextParameterType thing) {       
-        
         
         CDP4.SiteDirectoryData.TextParameterType emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createTextParameterType();      
        
@@ -85,11 +92,14 @@ public class TextParameterType {
         emf.setSymbol(thing.getSymbol());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.TextParameterType toPojo(CDP4.SiteDirectoryData.TextParameterType emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.TextParameterType} to {@link cdp4common.sitedirectorydata.TextParameterType}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.TextParameterType}
+     */
+    public static cdp4common.sitedirectorydata.TextParameterType toPojo(CDP4.SiteDirectoryData.TextParameterType emfThing) {
         
         cdp4common.sitedirectorydata.TextParameterType pojo = new cdp4common.sitedirectorydata.TextParameterType();
         
@@ -120,10 +130,16 @@ public class TextParameterType {
         pojo.setSymbol(emfThing.getSymbol());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.TextParameterType} from a {@link CDP4.SiteDirectoryData.TextParameterType}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.TextParameterType}.
+    * @return A new {@link cdp4common.sitedirectorydata.TextParameterType}
+    */
     public static cdp4common.sitedirectorydata.TextParameterType instiatePojo(CDP4.SiteDirectoryData.TextParameterType thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.TextParameterType(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.TextParameterType(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

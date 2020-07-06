@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link RequirementsSpecification} class.
+ */
 public class RequirementsSpecification {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.RequirementsSpecification} to {@link CDP4.EngineeringModelData.RequirementsSpecification}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.RequirementsSpecification}
+     */
     public static CDP4.EngineeringModelData.RequirementsSpecification toEmf(cdp4common.engineeringmodeldata.RequirementsSpecification thing) {       
-        
         
         CDP4.EngineeringModelData.RequirementsSpecification emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRequirementsSpecification();      
        
@@ -91,11 +98,14 @@ public class RequirementsSpecification {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.RequirementsSpecification toPojo(CDP4.EngineeringModelData.RequirementsSpecification emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.RequirementsSpecification} to {@link cdp4common.engineeringmodeldata.RequirementsSpecification}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.RequirementsSpecification}
+     */
+    public static cdp4common.engineeringmodeldata.RequirementsSpecification toPojo(CDP4.EngineeringModelData.RequirementsSpecification emfThing) {
         
         cdp4common.engineeringmodeldata.RequirementsSpecification pojo = new cdp4common.engineeringmodeldata.RequirementsSpecification();
         
@@ -132,10 +142,16 @@ public class RequirementsSpecification {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.RequirementsSpecification} from a {@link CDP4.EngineeringModelData.RequirementsSpecification}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.RequirementsSpecification}.
+    * @return A new {@link cdp4common.engineeringmodeldata.RequirementsSpecification}
+    */
     public static cdp4common.engineeringmodeldata.RequirementsSpecification instiatePojo(CDP4.EngineeringModelData.RequirementsSpecification thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.RequirementsSpecification(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.RequirementsSpecification(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

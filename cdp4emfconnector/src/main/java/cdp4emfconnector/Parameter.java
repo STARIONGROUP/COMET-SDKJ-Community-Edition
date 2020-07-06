@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Parameter} class.
+ */
 public class Parameter {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.Parameter} to {@link CDP4.EngineeringModelData.Parameter}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.Parameter}
+     */
     public static CDP4.EngineeringModelData.Parameter toEmf(cdp4common.engineeringmodeldata.Parameter thing) {       
-        
         
         CDP4.EngineeringModelData.Parameter emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createParameter();      
        
@@ -87,11 +94,14 @@ public class Parameter {
         emf.getValueSet().addAll(thing.getValueSet().stream().map(item -> cdp4emfconnector.ParameterValueSet.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.Parameter toPojo(CDP4.EngineeringModelData.Parameter emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.Parameter} to {@link cdp4common.engineeringmodeldata.Parameter}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.Parameter}
+     */
+    public static cdp4common.engineeringmodeldata.Parameter toPojo(CDP4.EngineeringModelData.Parameter emfThing) {
         
         cdp4common.engineeringmodeldata.Parameter pojo = new cdp4common.engineeringmodeldata.Parameter();
         
@@ -124,10 +134,16 @@ public class Parameter {
         pojo.getValueSet().addAll(emfThing.getValueSet().stream().map(item -> cdp4emfconnector.ParameterValueSet.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.Parameter} from a {@link CDP4.EngineeringModelData.Parameter}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.Parameter}.
+    * @return A new {@link cdp4common.engineeringmodeldata.Parameter}
+    */
     public static cdp4common.engineeringmodeldata.Parameter instiatePojo(CDP4.EngineeringModelData.Parameter thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.Parameter(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.Parameter(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

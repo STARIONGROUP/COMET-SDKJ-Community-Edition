@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link BinaryRelationship} class.
+ */
 public class BinaryRelationship {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.BinaryRelationship} to {@link CDP4.EngineeringModelData.BinaryRelationship}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.BinaryRelationship}
+     */
     public static CDP4.EngineeringModelData.BinaryRelationship toEmf(cdp4common.engineeringmodeldata.BinaryRelationship thing) {       
-        
         
         CDP4.EngineeringModelData.BinaryRelationship emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createBinaryRelationship();      
        
@@ -79,11 +86,14 @@ public class BinaryRelationship {
         emf.setTarget(thing.getTarget() != null ? cdp4emfconnector.Thing.toEmf(thing.getTarget()) : null);        
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.BinaryRelationship toPojo(CDP4.EngineeringModelData.BinaryRelationship emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.BinaryRelationship} to {@link cdp4common.engineeringmodeldata.BinaryRelationship}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.BinaryRelationship}
+     */
+    public static cdp4common.engineeringmodeldata.BinaryRelationship toPojo(CDP4.EngineeringModelData.BinaryRelationship emfThing) {
         
         cdp4common.engineeringmodeldata.BinaryRelationship pojo = new cdp4common.engineeringmodeldata.BinaryRelationship();
         
@@ -108,10 +118,16 @@ public class BinaryRelationship {
         pojo.setTarget(emfThing.getTarget() != null ? cdp4emfconnector.Thing.toPojo(emfThing.getTarget()) : null);        
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.BinaryRelationship} from a {@link CDP4.EngineeringModelData.BinaryRelationship}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.BinaryRelationship}.
+    * @return A new {@link cdp4common.engineeringmodeldata.BinaryRelationship}
+    */
     public static cdp4common.engineeringmodeldata.BinaryRelationship instiatePojo(CDP4.EngineeringModelData.BinaryRelationship thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.BinaryRelationship(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.BinaryRelationship(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

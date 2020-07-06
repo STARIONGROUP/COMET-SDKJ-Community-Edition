@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ThingReference} class.
+ */
 public abstract class ThingReference {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.ThingReference} to {@link CDP4.ReportingData.ThingReference}
+     *
+     * @return Generated {@link CDP4.ReportingData.ThingReference}
+     */
     public static CDP4.ReportingData.ThingReference toEmf(cdp4common.reportingdata.ThingReference thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,7 +70,9 @@ public abstract class ThingReference {
         
         emfModellingThingReference.setIid(thing.getIid().toString()); 
         
+        emfModellingThingReference.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfModellingThingReference.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfModellingThingReference.setModifiedOn(thing.getModifiedOn());
         
@@ -72,15 +82,16 @@ public abstract class ThingReference {
         
         emfModellingThingReference.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfModellingThingReference;   
-        
+        return emfModellingThingReference;
         
         case "cdp4common.reportingdata.SiteDirectoryThingReference":
         CDP4.ReportingData.ThingReference emfSiteDirectoryThingReference =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createSiteDirectoryThingReference();    
         
         emfSiteDirectoryThingReference.setIid(thing.getIid().toString()); 
         
+        emfSiteDirectoryThingReference.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteDirectoryThingReference.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteDirectoryThingReference.setModifiedOn(thing.getModifiedOn());
         
@@ -90,16 +101,19 @@ public abstract class ThingReference {
         
         emfSiteDirectoryThingReference.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSiteDirectoryThingReference;   
-        
+        return emfSiteDirectoryThingReference;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.reportingdata.ThingReference toPojo(CDP4.ReportingData.ThingReference emfThing) {
+    /**
+     * Convert from {@link CDP4.ReportingData.ThingReference} to {@link cdp4common.reportingdata.ThingReference}
+     *
+     * @return Generated {@link cdp4common.reportingdata.ThingReference}
+     */
+    public static cdp4common.reportingdata.ThingReference toPojo(CDP4.ReportingData.ThingReference emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -120,8 +134,7 @@ public abstract class ThingReference {
         
         pojoModellingThingReference.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoModellingThingReference;   
-        
+        return pojoModellingThingReference;
         
         case "CDP4.reportingdata.SiteDirectoryThingReference":                
         cdp4common.reportingdata.ThingReference pojoSiteDirectoryThingReference = new cdp4common.reportingdata.SiteDirectoryThingReference();	    
@@ -140,14 +153,11 @@ public abstract class ThingReference {
         
         pojoSiteDirectoryThingReference.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSiteDirectoryThingReference;   
-        
+        return pojoSiteDirectoryThingReference;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

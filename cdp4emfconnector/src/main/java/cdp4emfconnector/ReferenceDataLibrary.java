@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ReferenceDataLibrary} class.
+ */
 public abstract class ReferenceDataLibrary {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.ReferenceDataLibrary} to {@link CDP4.SiteDirectoryData.ReferenceDataLibrary}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.ReferenceDataLibrary}
+     */
     public static CDP4.SiteDirectoryData.ReferenceDataLibrary toEmf(cdp4common.sitedirectorydata.ReferenceDataLibrary thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,78 +70,112 @@ public abstract class ReferenceDataLibrary {
         
         emfSiteReferenceDataLibrary.setIid(thing.getIid().toString()); 
         
+        emfSiteReferenceDataLibrary.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteReferenceDataLibrary.getBaseQuantityKind().addAll(thing.getBaseQuantityKind().stream().map(item -> cdp4emfconnector.QuantityKind.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getBaseUnit().addAll(thing.getBaseUnit().stream().map(item -> cdp4emfconnector.MeasurementUnit.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getConstant().addAll(thing.getConstant().stream().map(item -> cdp4emfconnector.Constant.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getDefinedCategory().addAll(thing.getDefinedCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getFileType().addAll(thing.getFileType().stream().map(item -> cdp4emfconnector.FileType.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getGlossary().addAll(thing.getGlossary().stream().map(item -> cdp4emfconnector.Glossary.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteReferenceDataLibrary.setModifiedOn(thing.getModifiedOn());
         
         emfSiteReferenceDataLibrary.setName(thing.getName());
         
+        emfSiteReferenceDataLibrary.getParameterType().addAll(thing.getParameterType().stream().map(item -> cdp4emfconnector.ParameterType.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getReferenceSource().addAll(thing.getReferenceSource().stream().map(item -> cdp4emfconnector.ReferenceSource.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteReferenceDataLibrary.setRequiredRdl(thing.getRequiredRdl() != null ? cdp4emfconnector.SiteReferenceDataLibrary.toEmf(thing.getRequiredRdl()) : null);
         emfSiteReferenceDataLibrary.setRevisionNumber(thing.getRevisionNumber());
         
+        emfSiteReferenceDataLibrary.getRule().addAll(thing.getRule().stream().map(item -> cdp4emfconnector.Rule.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getScale().addAll(thing.getScale().stream().map(item -> cdp4emfconnector.MeasurementScale.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteReferenceDataLibrary.setShortName(thing.getShortName());
         
+        emfSiteReferenceDataLibrary.getUnit().addAll(thing.getUnit().stream().map(item -> cdp4emfconnector.MeasurementUnit.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getUnitPrefix().addAll(thing.getUnitPrefix().stream().map(item -> cdp4emfconnector.UnitPrefix.toEmf(item)).collect(Collectors.toList()));
         		        
-        return emfSiteReferenceDataLibrary;   
-        
+        return emfSiteReferenceDataLibrary;
         
         case "cdp4common.sitedirectorydata.ModelReferenceDataLibrary":
         CDP4.SiteDirectoryData.ReferenceDataLibrary emfModelReferenceDataLibrary =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createModelReferenceDataLibrary();    
         
         emfModelReferenceDataLibrary.setIid(thing.getIid().toString()); 
         
+        emfModelReferenceDataLibrary.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
         emfModelReferenceDataLibrary.getBaseQuantityKind().addAll(thing.getBaseQuantityKind().stream().map(item -> cdp4emfconnector.QuantityKind.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getBaseUnit().addAll(thing.getBaseUnit().stream().map(item -> cdp4emfconnector.MeasurementUnit.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getConstant().addAll(thing.getConstant().stream().map(item -> cdp4emfconnector.Constant.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getDefinedCategory().addAll(thing.getDefinedCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getFileType().addAll(thing.getFileType().stream().map(item -> cdp4emfconnector.FileType.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getGlossary().addAll(thing.getGlossary().stream().map(item -> cdp4emfconnector.Glossary.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfModelReferenceDataLibrary.setModifiedOn(thing.getModifiedOn());
         
         emfModelReferenceDataLibrary.setName(thing.getName());
         
+        emfModelReferenceDataLibrary.getParameterType().addAll(thing.getParameterType().stream().map(item -> cdp4emfconnector.ParameterType.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getReferenceSource().addAll(thing.getReferenceSource().stream().map(item -> cdp4emfconnector.ReferenceSource.toEmf(item)).collect(Collectors.toList()));
         
         emfModelReferenceDataLibrary.setRequiredRdl(thing.getRequiredRdl() != null ? cdp4emfconnector.SiteReferenceDataLibrary.toEmf(thing.getRequiredRdl()) : null);
         emfModelReferenceDataLibrary.setRevisionNumber(thing.getRevisionNumber());
         
+        emfModelReferenceDataLibrary.getRule().addAll(thing.getRule().stream().map(item -> cdp4emfconnector.Rule.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getScale().addAll(thing.getScale().stream().map(item -> cdp4emfconnector.MeasurementScale.toEmf(item)).collect(Collectors.toList()));
         
         emfModelReferenceDataLibrary.setShortName(thing.getShortName());
         
+        emfModelReferenceDataLibrary.getUnit().addAll(thing.getUnit().stream().map(item -> cdp4emfconnector.MeasurementUnit.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getUnitPrefix().addAll(thing.getUnitPrefix().stream().map(item -> cdp4emfconnector.UnitPrefix.toEmf(item)).collect(Collectors.toList()));
         		        
-        return emfModelReferenceDataLibrary;   
-        
+        return emfModelReferenceDataLibrary;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.sitedirectorydata.ReferenceDataLibrary toPojo(CDP4.SiteDirectoryData.ReferenceDataLibrary emfThing) {
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.ReferenceDataLibrary} to {@link cdp4common.sitedirectorydata.ReferenceDataLibrary}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.ReferenceDataLibrary}
+     */
+    public static cdp4common.sitedirectorydata.ReferenceDataLibrary toPojo(CDP4.SiteDirectoryData.ReferenceDataLibrary emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -185,8 +227,7 @@ public abstract class ReferenceDataLibrary {
         
         pojoSiteReferenceDataLibrary.getUnitPrefix().addAll(emfThing.getUnitPrefix().stream().map(item -> cdp4emfconnector.UnitPrefix.toPojo(item)).collect(Collectors.toList()));              
         		        
-        return pojoSiteReferenceDataLibrary;   
-        
+        return pojoSiteReferenceDataLibrary;
         
         case "CDP4.sitedirectorydata.ModelReferenceDataLibrary":                
         cdp4common.sitedirectorydata.ReferenceDataLibrary pojoModelReferenceDataLibrary = new cdp4common.sitedirectorydata.ModelReferenceDataLibrary();	    
@@ -236,14 +277,11 @@ public abstract class ReferenceDataLibrary {
         
         pojoModelReferenceDataLibrary.getUnitPrefix().addAll(emfThing.getUnitPrefix().stream().map(item -> cdp4emfconnector.UnitPrefix.toPojo(item)).collect(Collectors.toList()));              
         		        
-        return pojoModelReferenceDataLibrary;   
-        
+        return pojoModelReferenceDataLibrary;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

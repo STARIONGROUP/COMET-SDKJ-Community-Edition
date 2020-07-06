@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Goal} class.
+ */
 public class Goal {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.Goal} to {@link CDP4.EngineeringModelData.Goal}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.Goal}
+     */
     public static CDP4.EngineeringModelData.Goal toEmf(cdp4common.engineeringmodeldata.Goal thing) {       
-        
         
         CDP4.EngineeringModelData.Goal emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createGoal();      
        
@@ -81,11 +88,14 @@ public class Goal {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.Goal toPojo(CDP4.EngineeringModelData.Goal emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.Goal} to {@link cdp4common.engineeringmodeldata.Goal}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.Goal}
+     */
+    public static cdp4common.engineeringmodeldata.Goal toPojo(CDP4.EngineeringModelData.Goal emfThing) {
         
         cdp4common.engineeringmodeldata.Goal pojo = new cdp4common.engineeringmodeldata.Goal();
         
@@ -112,10 +122,16 @@ public class Goal {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.Goal} from a {@link CDP4.EngineeringModelData.Goal}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.Goal}.
+    * @return A new {@link cdp4common.engineeringmodeldata.Goal}
+    */
     public static cdp4common.engineeringmodeldata.Goal instiatePojo(CDP4.EngineeringModelData.Goal thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.Goal(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.Goal(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ParticipantRole} class.
+ */
 public class ParticipantRole {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.ParticipantRole} to {@link CDP4.SiteDirectoryData.ParticipantRole}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.ParticipantRole}
+     */
     public static CDP4.SiteDirectoryData.ParticipantRole toEmf(cdp4common.sitedirectorydata.ParticipantRole thing) {       
-        
         
         CDP4.SiteDirectoryData.ParticipantRole emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createParticipantRole();      
        
@@ -83,11 +90,14 @@ public class ParticipantRole {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.ParticipantRole toPojo(CDP4.SiteDirectoryData.ParticipantRole emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.ParticipantRole} to {@link cdp4common.sitedirectorydata.ParticipantRole}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.ParticipantRole}
+     */
+    public static cdp4common.sitedirectorydata.ParticipantRole toPojo(CDP4.SiteDirectoryData.ParticipantRole emfThing) {
         
         cdp4common.sitedirectorydata.ParticipantRole pojo = new cdp4common.sitedirectorydata.ParticipantRole();
         
@@ -116,10 +126,16 @@ public class ParticipantRole {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.ParticipantRole} from a {@link CDP4.SiteDirectoryData.ParticipantRole}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.ParticipantRole}.
+    * @return A new {@link cdp4common.sitedirectorydata.ParticipantRole}
+    */
     public static cdp4common.sitedirectorydata.ParticipantRole instiatePojo(CDP4.SiteDirectoryData.ParticipantRole thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.ParticipantRole(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.ParticipantRole(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

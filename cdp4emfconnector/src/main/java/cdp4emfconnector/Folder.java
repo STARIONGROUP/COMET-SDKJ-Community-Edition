@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Folder} class.
+ */
 public class Folder {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.Folder} to {@link CDP4.EngineeringModelData.Folder}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.Folder}
+     */
     public static CDP4.EngineeringModelData.Folder toEmf(cdp4common.engineeringmodeldata.Folder thing) {       
-        
         
         CDP4.EngineeringModelData.Folder emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createFolder();      
        
@@ -78,11 +85,14 @@ public class Folder {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.Folder toPojo(CDP4.EngineeringModelData.Folder emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.Folder} to {@link cdp4common.engineeringmodeldata.Folder}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.Folder}
+     */
+    public static cdp4common.engineeringmodeldata.Folder toPojo(CDP4.EngineeringModelData.Folder emfThing) {
         
         cdp4common.engineeringmodeldata.Folder pojo = new cdp4common.engineeringmodeldata.Folder();
         
@@ -106,10 +116,16 @@ public class Folder {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.Folder} from a {@link CDP4.EngineeringModelData.Folder}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.Folder}.
+    * @return A new {@link cdp4common.engineeringmodeldata.Folder}
+    */
     public static cdp4common.engineeringmodeldata.Folder instiatePojo(CDP4.EngineeringModelData.Folder thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.Folder(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.Folder(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

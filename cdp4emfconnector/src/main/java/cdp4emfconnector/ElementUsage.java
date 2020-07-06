@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ElementUsage} class.
+ */
 public class ElementUsage {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.ElementUsage} to {@link CDP4.EngineeringModelData.ElementUsage}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.ElementUsage}
+     */
     public static CDP4.EngineeringModelData.ElementUsage toEmf(cdp4common.engineeringmodeldata.ElementUsage thing) {       
-        
         
         CDP4.EngineeringModelData.ElementUsage emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createElementUsage();      
        
@@ -91,11 +98,14 @@ public class ElementUsage {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.ElementUsage toPojo(CDP4.EngineeringModelData.ElementUsage emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.ElementUsage} to {@link cdp4common.engineeringmodeldata.ElementUsage}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.ElementUsage}
+     */
+    public static cdp4common.engineeringmodeldata.ElementUsage toPojo(CDP4.EngineeringModelData.ElementUsage emfThing) {
         
         cdp4common.engineeringmodeldata.ElementUsage pojo = new cdp4common.engineeringmodeldata.ElementUsage();
         
@@ -132,10 +142,16 @@ public class ElementUsage {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.ElementUsage} from a {@link CDP4.EngineeringModelData.ElementUsage}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.ElementUsage}.
+    * @return A new {@link cdp4common.engineeringmodeldata.ElementUsage}
+    */
     public static cdp4common.engineeringmodeldata.ElementUsage instiatePojo(CDP4.EngineeringModelData.ElementUsage thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.ElementUsage(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.ElementUsage(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

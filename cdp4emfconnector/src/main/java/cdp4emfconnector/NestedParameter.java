@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link NestedParameter} class.
+ */
 public class NestedParameter {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.NestedParameter} to {@link CDP4.EngineeringModelData.NestedParameter}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.NestedParameter}
+     */
     public static CDP4.EngineeringModelData.NestedParameter toEmf(cdp4common.engineeringmodeldata.NestedParameter thing) {       
-        
         
         CDP4.EngineeringModelData.NestedParameter emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createNestedParameter();      
        
@@ -80,11 +87,14 @@ public class NestedParameter {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.NestedParameter toPojo(CDP4.EngineeringModelData.NestedParameter emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.NestedParameter} to {@link cdp4common.engineeringmodeldata.NestedParameter}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.NestedParameter}
+     */
+    public static cdp4common.engineeringmodeldata.NestedParameter toPojo(CDP4.EngineeringModelData.NestedParameter emfThing) {
         
         cdp4common.engineeringmodeldata.NestedParameter pojo = new cdp4common.engineeringmodeldata.NestedParameter();
         
@@ -110,10 +120,16 @@ public class NestedParameter {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.NestedParameter} from a {@link CDP4.EngineeringModelData.NestedParameter}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.NestedParameter}.
+    * @return A new {@link cdp4common.engineeringmodeldata.NestedParameter}
+    */
     public static cdp4common.engineeringmodeldata.NestedParameter instiatePojo(CDP4.EngineeringModelData.NestedParameter thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.NestedParameter(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.NestedParameter(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

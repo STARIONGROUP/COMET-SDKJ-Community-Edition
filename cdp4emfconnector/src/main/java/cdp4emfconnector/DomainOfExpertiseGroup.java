@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link DomainOfExpertiseGroup} class.
+ */
 public class DomainOfExpertiseGroup {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.DomainOfExpertiseGroup} to {@link CDP4.SiteDirectoryData.DomainOfExpertiseGroup}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.DomainOfExpertiseGroup}
+     */
     public static CDP4.SiteDirectoryData.DomainOfExpertiseGroup toEmf(cdp4common.sitedirectorydata.DomainOfExpertiseGroup thing) {       
-        
         
         CDP4.SiteDirectoryData.DomainOfExpertiseGroup emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDomainOfExpertiseGroup();      
        
@@ -83,11 +90,14 @@ public class DomainOfExpertiseGroup {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.DomainOfExpertiseGroup toPojo(CDP4.SiteDirectoryData.DomainOfExpertiseGroup emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.DomainOfExpertiseGroup} to {@link cdp4common.sitedirectorydata.DomainOfExpertiseGroup}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.DomainOfExpertiseGroup}
+     */
+    public static cdp4common.sitedirectorydata.DomainOfExpertiseGroup toPojo(CDP4.SiteDirectoryData.DomainOfExpertiseGroup emfThing) {
         
         cdp4common.sitedirectorydata.DomainOfExpertiseGroup pojo = new cdp4common.sitedirectorydata.DomainOfExpertiseGroup();
         
@@ -116,10 +126,16 @@ public class DomainOfExpertiseGroup {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.DomainOfExpertiseGroup} from a {@link CDP4.SiteDirectoryData.DomainOfExpertiseGroup}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.DomainOfExpertiseGroup}.
+    * @return A new {@link cdp4common.sitedirectorydata.DomainOfExpertiseGroup}
+    */
     public static cdp4common.sitedirectorydata.DomainOfExpertiseGroup instiatePojo(CDP4.SiteDirectoryData.DomainOfExpertiseGroup thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.DomainOfExpertiseGroup(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.DomainOfExpertiseGroup(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

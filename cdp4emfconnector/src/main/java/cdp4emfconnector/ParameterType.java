@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ParameterType} class.
+ */
 public abstract class ParameterType {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.ParameterType} to {@link CDP4.SiteDirectoryData.ParameterType}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.ParameterType}
+     */
     public static CDP4.SiteDirectoryData.ParameterType toEmf(cdp4common.sitedirectorydata.ParameterType thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,11 +70,17 @@ public abstract class ParameterType {
         
         emfCompoundParameterType.setIid(thing.getIid().toString()); 
         
+        emfCompoundParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfCompoundParameterType.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfCompoundParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfCompoundParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfCompoundParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfCompoundParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfCompoundParameterType.setIsDeprecated(thing.isDeprecated());
         
@@ -80,19 +94,24 @@ public abstract class ParameterType {
         
         emfCompoundParameterType.setSymbol(thing.getSymbol());
         		        
-        return emfCompoundParameterType;   
-        
+        return emfCompoundParameterType;
         
         case "cdp4common.sitedirectorydata.ArrayParameterType":
         CDP4.SiteDirectoryData.ParameterType emfArrayParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createArrayParameterType();    
         
         emfArrayParameterType.setIid(thing.getIid().toString()); 
         
+        emfArrayParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfArrayParameterType.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfArrayParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfArrayParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfArrayParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfArrayParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfArrayParameterType.setIsDeprecated(thing.isDeprecated());
         
@@ -106,8 +125,7 @@ public abstract class ParameterType {
         
         emfArrayParameterType.setSymbol(thing.getSymbol());
         		        
-        return emfArrayParameterType;   
-        
+        return emfArrayParameterType;
         
         
         case "cdp4common.sitedirectorydata.EnumerationParameterType":
@@ -115,11 +133,17 @@ public abstract class ParameterType {
         
         emfEnumerationParameterType.setIid(thing.getIid().toString()); 
         
+        emfEnumerationParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationParameterType.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfEnumerationParameterType.setIsDeprecated(thing.isDeprecated());
         
@@ -133,19 +157,24 @@ public abstract class ParameterType {
         
         emfEnumerationParameterType.setSymbol(thing.getSymbol());
         		        
-        return emfEnumerationParameterType;   
-        
+        return emfEnumerationParameterType;
         
         case "cdp4common.sitedirectorydata.BooleanParameterType":
         CDP4.SiteDirectoryData.ParameterType emfBooleanParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createBooleanParameterType();    
         
         emfBooleanParameterType.setIid(thing.getIid().toString()); 
         
+        emfBooleanParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfBooleanParameterType.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfBooleanParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfBooleanParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBooleanParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfBooleanParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfBooleanParameterType.setIsDeprecated(thing.isDeprecated());
         
@@ -159,19 +188,24 @@ public abstract class ParameterType {
         
         emfBooleanParameterType.setSymbol(thing.getSymbol());
         		        
-        return emfBooleanParameterType;   
-        
+        return emfBooleanParameterType;
         
         case "cdp4common.sitedirectorydata.DateParameterType":
         CDP4.SiteDirectoryData.ParameterType emfDateParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDateParameterType();    
         
         emfDateParameterType.setIid(thing.getIid().toString()); 
         
+        emfDateParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateParameterType.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfDateParameterType.setIsDeprecated(thing.isDeprecated());
         
@@ -185,19 +219,24 @@ public abstract class ParameterType {
         
         emfDateParameterType.setSymbol(thing.getSymbol());
         		        
-        return emfDateParameterType;   
-        
+        return emfDateParameterType;
         
         case "cdp4common.sitedirectorydata.TextParameterType":
         CDP4.SiteDirectoryData.ParameterType emfTextParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createTextParameterType();    
         
         emfTextParameterType.setIid(thing.getIid().toString()); 
         
+        emfTextParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfTextParameterType.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfTextParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfTextParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfTextParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfTextParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfTextParameterType.setIsDeprecated(thing.isDeprecated());
         
@@ -211,19 +250,24 @@ public abstract class ParameterType {
         
         emfTextParameterType.setSymbol(thing.getSymbol());
         		        
-        return emfTextParameterType;   
-        
+        return emfTextParameterType;
         
         case "cdp4common.sitedirectorydata.DateTimeParameterType":
         CDP4.SiteDirectoryData.ParameterType emfDateTimeParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDateTimeParameterType();    
         
         emfDateTimeParameterType.setIid(thing.getIid().toString()); 
         
+        emfDateTimeParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateTimeParameterType.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateTimeParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateTimeParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateTimeParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateTimeParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfDateTimeParameterType.setIsDeprecated(thing.isDeprecated());
         
@@ -237,19 +281,24 @@ public abstract class ParameterType {
         
         emfDateTimeParameterType.setSymbol(thing.getSymbol());
         		        
-        return emfDateTimeParameterType;   
-        
+        return emfDateTimeParameterType;
         
         case "cdp4common.sitedirectorydata.TimeOfDayParameterType":
         CDP4.SiteDirectoryData.ParameterType emfTimeOfDayParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createTimeOfDayParameterType();    
         
         emfTimeOfDayParameterType.setIid(thing.getIid().toString()); 
         
+        emfTimeOfDayParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfTimeOfDayParameterType.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfTimeOfDayParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfTimeOfDayParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfTimeOfDayParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfTimeOfDayParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfTimeOfDayParameterType.setIsDeprecated(thing.isDeprecated());
         
@@ -263,8 +312,7 @@ public abstract class ParameterType {
         
         emfTimeOfDayParameterType.setSymbol(thing.getSymbol());
         		        
-        return emfTimeOfDayParameterType;   
-        
+        return emfTimeOfDayParameterType;
         
         
         case "cdp4common.sitedirectorydata.SpecializedQuantityKind":
@@ -272,11 +320,17 @@ public abstract class ParameterType {
         
         emfSpecializedQuantityKind.setIid(thing.getIid().toString()); 
         
+        emfSpecializedQuantityKind.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfSpecializedQuantityKind.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfSpecializedQuantityKind.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfSpecializedQuantityKind.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSpecializedQuantityKind.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfSpecializedQuantityKind.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfSpecializedQuantityKind.setIsDeprecated(thing.isDeprecated());
         
@@ -290,19 +344,24 @@ public abstract class ParameterType {
         
         emfSpecializedQuantityKind.setSymbol(thing.getSymbol());
         		        
-        return emfSpecializedQuantityKind;   
-        
+        return emfSpecializedQuantityKind;
         
         case "cdp4common.sitedirectorydata.SimpleQuantityKind":
         CDP4.SiteDirectoryData.ParameterType emfSimpleQuantityKind =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createSimpleQuantityKind();    
         
         emfSimpleQuantityKind.setIid(thing.getIid().toString()); 
         
+        emfSimpleQuantityKind.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleQuantityKind.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleQuantityKind.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleQuantityKind.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleQuantityKind.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleQuantityKind.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfSimpleQuantityKind.setIsDeprecated(thing.isDeprecated());
         
@@ -316,19 +375,24 @@ public abstract class ParameterType {
         
         emfSimpleQuantityKind.setSymbol(thing.getSymbol());
         		        
-        return emfSimpleQuantityKind;   
-        
+        return emfSimpleQuantityKind;
         
         case "cdp4common.sitedirectorydata.DerivedQuantityKind":
         CDP4.SiteDirectoryData.ParameterType emfDerivedQuantityKind =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDerivedQuantityKind();    
         
         emfDerivedQuantityKind.setIid(thing.getIid().toString()); 
         
+        emfDerivedQuantityKind.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedQuantityKind.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedQuantityKind.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedQuantityKind.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedQuantityKind.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedQuantityKind.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfDerivedQuantityKind.setIsDeprecated(thing.isDeprecated());
         
@@ -342,16 +406,19 @@ public abstract class ParameterType {
         
         emfDerivedQuantityKind.setSymbol(thing.getSymbol());
         		        
-        return emfDerivedQuantityKind;   
-        
+        return emfDerivedQuantityKind;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.sitedirectorydata.ParameterType toPojo(CDP4.SiteDirectoryData.ParameterType emfThing) {
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.ParameterType} to {@link cdp4common.sitedirectorydata.ParameterType}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.ParameterType}
+     */
+    public static cdp4common.sitedirectorydata.ParameterType toPojo(CDP4.SiteDirectoryData.ParameterType emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -384,8 +451,7 @@ public abstract class ParameterType {
         
         pojoCompoundParameterType.setSymbol(emfThing.getSymbol());
         		        
-        return pojoCompoundParameterType;   
-        
+        return pojoCompoundParameterType;
         
         case "CDP4.sitedirectorydata.ArrayParameterType":                
         cdp4common.sitedirectorydata.ParameterType pojoArrayParameterType = new cdp4common.sitedirectorydata.ArrayParameterType();	    
@@ -416,8 +482,7 @@ public abstract class ParameterType {
         
         pojoArrayParameterType.setSymbol(emfThing.getSymbol());
         		        
-        return pojoArrayParameterType;   
-        
+        return pojoArrayParameterType;
         
         
         case "CDP4.sitedirectorydata.EnumerationParameterType":                
@@ -449,8 +514,7 @@ public abstract class ParameterType {
         
         pojoEnumerationParameterType.setSymbol(emfThing.getSymbol());
         		        
-        return pojoEnumerationParameterType;   
-        
+        return pojoEnumerationParameterType;
         
         case "CDP4.sitedirectorydata.BooleanParameterType":                
         cdp4common.sitedirectorydata.ParameterType pojoBooleanParameterType = new cdp4common.sitedirectorydata.BooleanParameterType();	    
@@ -481,8 +545,7 @@ public abstract class ParameterType {
         
         pojoBooleanParameterType.setSymbol(emfThing.getSymbol());
         		        
-        return pojoBooleanParameterType;   
-        
+        return pojoBooleanParameterType;
         
         case "CDP4.sitedirectorydata.DateParameterType":                
         cdp4common.sitedirectorydata.ParameterType pojoDateParameterType = new cdp4common.sitedirectorydata.DateParameterType();	    
@@ -513,8 +576,7 @@ public abstract class ParameterType {
         
         pojoDateParameterType.setSymbol(emfThing.getSymbol());
         		        
-        return pojoDateParameterType;   
-        
+        return pojoDateParameterType;
         
         case "CDP4.sitedirectorydata.TextParameterType":                
         cdp4common.sitedirectorydata.ParameterType pojoTextParameterType = new cdp4common.sitedirectorydata.TextParameterType();	    
@@ -545,8 +607,7 @@ public abstract class ParameterType {
         
         pojoTextParameterType.setSymbol(emfThing.getSymbol());
         		        
-        return pojoTextParameterType;   
-        
+        return pojoTextParameterType;
         
         case "CDP4.sitedirectorydata.DateTimeParameterType":                
         cdp4common.sitedirectorydata.ParameterType pojoDateTimeParameterType = new cdp4common.sitedirectorydata.DateTimeParameterType();	    
@@ -577,8 +638,7 @@ public abstract class ParameterType {
         
         pojoDateTimeParameterType.setSymbol(emfThing.getSymbol());
         		        
-        return pojoDateTimeParameterType;   
-        
+        return pojoDateTimeParameterType;
         
         case "CDP4.sitedirectorydata.TimeOfDayParameterType":                
         cdp4common.sitedirectorydata.ParameterType pojoTimeOfDayParameterType = new cdp4common.sitedirectorydata.TimeOfDayParameterType();	    
@@ -609,8 +669,7 @@ public abstract class ParameterType {
         
         pojoTimeOfDayParameterType.setSymbol(emfThing.getSymbol());
         		        
-        return pojoTimeOfDayParameterType;   
-        
+        return pojoTimeOfDayParameterType;
         
         
         case "CDP4.sitedirectorydata.SpecializedQuantityKind":                
@@ -642,8 +701,7 @@ public abstract class ParameterType {
         
         pojoSpecializedQuantityKind.setSymbol(emfThing.getSymbol());
         		        
-        return pojoSpecializedQuantityKind;   
-        
+        return pojoSpecializedQuantityKind;
         
         case "CDP4.sitedirectorydata.SimpleQuantityKind":                
         cdp4common.sitedirectorydata.ParameterType pojoSimpleQuantityKind = new cdp4common.sitedirectorydata.SimpleQuantityKind();	    
@@ -674,8 +732,7 @@ public abstract class ParameterType {
         
         pojoSimpleQuantityKind.setSymbol(emfThing.getSymbol());
         		        
-        return pojoSimpleQuantityKind;   
-        
+        return pojoSimpleQuantityKind;
         
         case "CDP4.sitedirectorydata.DerivedQuantityKind":                
         cdp4common.sitedirectorydata.ParameterType pojoDerivedQuantityKind = new cdp4common.sitedirectorydata.DerivedQuantityKind();	    
@@ -706,14 +763,11 @@ public abstract class ParameterType {
         
         pojoDerivedQuantityKind.setSymbol(emfThing.getSymbol());
         		        
-        return pojoDerivedQuantityKind;   
-        
+        return pojoDerivedQuantityKind;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

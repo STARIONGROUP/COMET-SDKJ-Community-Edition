@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ValueGroup} class.
+ */
 public class ValueGroup {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.ValueGroup} to {@link CDP4.EngineeringModelData.ValueGroup}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.ValueGroup}
+     */
     public static CDP4.EngineeringModelData.ValueGroup toEmf(cdp4common.engineeringmodeldata.ValueGroup thing) {       
-        
         
         CDP4.EngineeringModelData.ValueGroup emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createValueGroup();      
        
@@ -81,11 +88,14 @@ public class ValueGroup {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.ValueGroup toPojo(CDP4.EngineeringModelData.ValueGroup emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.ValueGroup} to {@link cdp4common.engineeringmodeldata.ValueGroup}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.ValueGroup}
+     */
+    public static cdp4common.engineeringmodeldata.ValueGroup toPojo(CDP4.EngineeringModelData.ValueGroup emfThing) {
         
         cdp4common.engineeringmodeldata.ValueGroup pojo = new cdp4common.engineeringmodeldata.ValueGroup();
         
@@ -112,10 +122,16 @@ public class ValueGroup {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.ValueGroup} from a {@link CDP4.EngineeringModelData.ValueGroup}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.ValueGroup}.
+    * @return A new {@link cdp4common.engineeringmodeldata.ValueGroup}
+    */
     public static cdp4common.engineeringmodeldata.ValueGroup instiatePojo(CDP4.EngineeringModelData.ValueGroup thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.ValueGroup(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.ValueGroup(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

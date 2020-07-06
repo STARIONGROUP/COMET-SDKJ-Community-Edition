@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ParameterTypeComponent} class.
+ */
 public class ParameterTypeComponent {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.ParameterTypeComponent} to {@link CDP4.SiteDirectoryData.ParameterTypeComponent}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.ParameterTypeComponent}
+     */
     public static CDP4.SiteDirectoryData.ParameterTypeComponent toEmf(cdp4common.sitedirectorydata.ParameterTypeComponent thing) {       
-        
         
         CDP4.SiteDirectoryData.ParameterTypeComponent emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createParameterTypeComponent();      
        
@@ -74,11 +81,14 @@ public class ParameterTypeComponent {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.ParameterTypeComponent toPojo(CDP4.SiteDirectoryData.ParameterTypeComponent emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.ParameterTypeComponent} to {@link cdp4common.sitedirectorydata.ParameterTypeComponent}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.ParameterTypeComponent}
+     */
+    public static cdp4common.sitedirectorydata.ParameterTypeComponent toPojo(CDP4.SiteDirectoryData.ParameterTypeComponent emfThing) {
         
         cdp4common.sitedirectorydata.ParameterTypeComponent pojo = new cdp4common.sitedirectorydata.ParameterTypeComponent();
         
@@ -98,10 +108,16 @@ public class ParameterTypeComponent {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.ParameterTypeComponent} from a {@link CDP4.SiteDirectoryData.ParameterTypeComponent}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.ParameterTypeComponent}.
+    * @return A new {@link cdp4common.sitedirectorydata.ParameterTypeComponent}
+    */
     public static cdp4common.sitedirectorydata.ParameterTypeComponent instiatePojo(CDP4.SiteDirectoryData.ParameterTypeComponent thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.ParameterTypeComponent(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.ParameterTypeComponent(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

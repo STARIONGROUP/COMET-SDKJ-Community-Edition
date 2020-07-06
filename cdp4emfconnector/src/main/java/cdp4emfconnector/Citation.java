@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Citation} class.
+ */
 public class Citation {
-
+   
+    /**
+     * Convert from {@link cdp4common.commondata.Citation} to {@link CDP4.CommonData.Citation}
+     *
+     * @return Generated {@link CDP4.CommonData.Citation}
+     */
     public static CDP4.CommonData.Citation toEmf(cdp4common.commondata.Citation thing) {       
-        
         
         CDP4.CommonData.Citation emf =  CDP4.CommonData.impl.CommonDataFactoryImpl.eINSTANCE.createCitation();      
        
@@ -79,11 +86,14 @@ public class Citation {
         emf.setSource(thing.getSource() != null ? cdp4emfconnector.ReferenceSource.toEmf(thing.getSource()) : null);        
         
         return emf;
-        
     }
 
-    public static  cdp4common.commondata.Citation toPojo(CDP4.CommonData.Citation emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.CommonData.Citation} to {@link cdp4common.commondata.Citation}
+     *
+     * @return Generated {@link cdp4common.commondata.Citation}
+     */
+    public static cdp4common.commondata.Citation toPojo(CDP4.CommonData.Citation emfThing) {
         
         cdp4common.commondata.Citation pojo = new cdp4common.commondata.Citation();
         
@@ -108,10 +118,16 @@ public class Citation {
         pojo.setSource(emfThing.getSource() != null ? cdp4emfconnector.ReferenceSource.toPojo(emfThing.getSource()) : null);        
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.commondata.Citation} from a {@link CDP4.CommonData.Citation}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.commondata.Citation}.
+    * @return A new {@link cdp4common.commondata.Citation}
+    */
     public static cdp4common.commondata.Citation instiatePojo(CDP4.CommonData.Citation thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.commondata.Citation(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.commondata.Citation(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

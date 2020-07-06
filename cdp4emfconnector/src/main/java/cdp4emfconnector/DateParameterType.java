@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link DateParameterType} class.
+ */
 public class DateParameterType {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.DateParameterType} to {@link CDP4.SiteDirectoryData.DateParameterType}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.DateParameterType}
+     */
     public static CDP4.SiteDirectoryData.DateParameterType toEmf(cdp4common.sitedirectorydata.DateParameterType thing) {       
-        
         
         CDP4.SiteDirectoryData.DateParameterType emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDateParameterType();      
        
@@ -85,11 +92,14 @@ public class DateParameterType {
         emf.setSymbol(thing.getSymbol());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.DateParameterType toPojo(CDP4.SiteDirectoryData.DateParameterType emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.DateParameterType} to {@link cdp4common.sitedirectorydata.DateParameterType}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.DateParameterType}
+     */
+    public static cdp4common.sitedirectorydata.DateParameterType toPojo(CDP4.SiteDirectoryData.DateParameterType emfThing) {
         
         cdp4common.sitedirectorydata.DateParameterType pojo = new cdp4common.sitedirectorydata.DateParameterType();
         
@@ -120,10 +130,16 @@ public class DateParameterType {
         pojo.setSymbol(emfThing.getSymbol());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.DateParameterType} from a {@link CDP4.SiteDirectoryData.DateParameterType}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.DateParameterType}.
+    * @return A new {@link cdp4common.sitedirectorydata.DateParameterType}
+    */
     public static cdp4common.sitedirectorydata.DateParameterType instiatePojo(CDP4.SiteDirectoryData.DateParameterType thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.DateParameterType(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.DateParameterType(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

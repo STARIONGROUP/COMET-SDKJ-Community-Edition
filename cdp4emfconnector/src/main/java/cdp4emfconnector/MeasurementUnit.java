@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link MeasurementUnit} class.
+ */
 public abstract class MeasurementUnit {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.MeasurementUnit} to {@link CDP4.SiteDirectoryData.MeasurementUnit}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.MeasurementUnit}
+     */
     public static CDP4.SiteDirectoryData.MeasurementUnit toEmf(cdp4common.sitedirectorydata.MeasurementUnit thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,10 +70,15 @@ public abstract class MeasurementUnit {
         
         emfDerivedUnit.setIid(thing.getIid().toString()); 
         
+        emfDerivedUnit.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedUnit.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedUnit.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedUnit.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedUnit.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfDerivedUnit.setIsDeprecated(thing.isDeprecated());
         
@@ -77,8 +90,7 @@ public abstract class MeasurementUnit {
         
         emfDerivedUnit.setShortName(thing.getShortName());
         		        
-        return emfDerivedUnit;   
-        
+        return emfDerivedUnit;
         
         
         case "cdp4common.sitedirectorydata.LinearConversionUnit":
@@ -86,10 +98,15 @@ public abstract class MeasurementUnit {
         
         emfLinearConversionUnit.setIid(thing.getIid().toString()); 
         
+        emfLinearConversionUnit.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfLinearConversionUnit.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfLinearConversionUnit.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfLinearConversionUnit.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfLinearConversionUnit.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfLinearConversionUnit.setIsDeprecated(thing.isDeprecated());
         
@@ -101,18 +118,22 @@ public abstract class MeasurementUnit {
         
         emfLinearConversionUnit.setShortName(thing.getShortName());
         		        
-        return emfLinearConversionUnit;   
-        
+        return emfLinearConversionUnit;
         
         case "cdp4common.sitedirectorydata.PrefixedUnit":
         CDP4.SiteDirectoryData.MeasurementUnit emfPrefixedUnit =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createPrefixedUnit();    
         
         emfPrefixedUnit.setIid(thing.getIid().toString()); 
         
+        emfPrefixedUnit.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfPrefixedUnit.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfPrefixedUnit.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPrefixedUnit.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfPrefixedUnit.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfPrefixedUnit.setIsDeprecated(thing.isDeprecated());
         
@@ -124,18 +145,22 @@ public abstract class MeasurementUnit {
         
         emfPrefixedUnit.setShortName(thing.getShortName());
         		        
-        return emfPrefixedUnit;   
-        
+        return emfPrefixedUnit;
         
         case "cdp4common.sitedirectorydata.SimpleUnit":
         CDP4.SiteDirectoryData.MeasurementUnit emfSimpleUnit =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createSimpleUnit();    
         
         emfSimpleUnit.setIid(thing.getIid().toString()); 
         
+        emfSimpleUnit.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleUnit.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleUnit.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleUnit.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleUnit.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfSimpleUnit.setIsDeprecated(thing.isDeprecated());
         
@@ -147,16 +172,19 @@ public abstract class MeasurementUnit {
         
         emfSimpleUnit.setShortName(thing.getShortName());
         		        
-        return emfSimpleUnit;   
-        
+        return emfSimpleUnit;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.sitedirectorydata.MeasurementUnit toPojo(CDP4.SiteDirectoryData.MeasurementUnit emfThing) {
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.MeasurementUnit} to {@link cdp4common.sitedirectorydata.MeasurementUnit}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.MeasurementUnit}
+     */
+    public static cdp4common.sitedirectorydata.MeasurementUnit toPojo(CDP4.SiteDirectoryData.MeasurementUnit emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -185,8 +213,7 @@ public abstract class MeasurementUnit {
         
         pojoDerivedUnit.setShortName(emfThing.getShortName());
         		        
-        return pojoDerivedUnit;   
-        
+        return pojoDerivedUnit;
         
         
         case "CDP4.sitedirectorydata.LinearConversionUnit":                
@@ -214,8 +241,7 @@ public abstract class MeasurementUnit {
         
         pojoLinearConversionUnit.setShortName(emfThing.getShortName());
         		        
-        return pojoLinearConversionUnit;   
-        
+        return pojoLinearConversionUnit;
         
         case "CDP4.sitedirectorydata.PrefixedUnit":                
         cdp4common.sitedirectorydata.MeasurementUnit pojoPrefixedUnit = new cdp4common.sitedirectorydata.PrefixedUnit();	    
@@ -242,8 +268,7 @@ public abstract class MeasurementUnit {
         
         pojoPrefixedUnit.setShortName(emfThing.getShortName());
         		        
-        return pojoPrefixedUnit;   
-        
+        return pojoPrefixedUnit;
         
         case "CDP4.sitedirectorydata.SimpleUnit":                
         cdp4common.sitedirectorydata.MeasurementUnit pojoSimpleUnit = new cdp4common.sitedirectorydata.SimpleUnit();	    
@@ -270,14 +295,11 @@ public abstract class MeasurementUnit {
         
         pojoSimpleUnit.setShortName(emfThing.getShortName());
         		        
-        return pojoSimpleUnit;   
-        
+        return pojoSimpleUnit;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

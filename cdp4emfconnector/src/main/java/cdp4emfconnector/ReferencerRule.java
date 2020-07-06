@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ReferencerRule} class.
+ */
 public class ReferencerRule {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.ReferencerRule} to {@link CDP4.SiteDirectoryData.ReferencerRule}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.ReferencerRule}
+     */
     public static CDP4.SiteDirectoryData.ReferencerRule toEmf(cdp4common.sitedirectorydata.ReferencerRule thing) {       
-        
         
         CDP4.SiteDirectoryData.ReferencerRule emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createReferencerRule();      
        
@@ -89,11 +96,14 @@ public class ReferencerRule {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.ReferencerRule toPojo(CDP4.SiteDirectoryData.ReferencerRule emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.ReferencerRule} to {@link cdp4common.sitedirectorydata.ReferencerRule}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.ReferencerRule}
+     */
+    public static cdp4common.sitedirectorydata.ReferencerRule toPojo(CDP4.SiteDirectoryData.ReferencerRule emfThing) {
         
         cdp4common.sitedirectorydata.ReferencerRule pojo = new cdp4common.sitedirectorydata.ReferencerRule();
         
@@ -128,10 +138,16 @@ public class ReferencerRule {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.ReferencerRule} from a {@link CDP4.SiteDirectoryData.ReferencerRule}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.ReferencerRule}.
+    * @return A new {@link cdp4common.sitedirectorydata.ReferencerRule}
+    */
     public static cdp4common.sitedirectorydata.ReferencerRule instiatePojo(CDP4.SiteDirectoryData.ReferencerRule thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.ReferencerRule(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.ReferencerRule(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

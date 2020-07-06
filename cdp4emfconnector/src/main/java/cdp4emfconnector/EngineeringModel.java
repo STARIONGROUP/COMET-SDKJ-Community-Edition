@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link EngineeringModel} class.
+ */
 public class EngineeringModel {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.EngineeringModel} to {@link CDP4.EngineeringModelData.EngineeringModel}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.EngineeringModel}
+     */
     public static CDP4.EngineeringModelData.EngineeringModel toEmf(cdp4common.engineeringmodeldata.EngineeringModel thing) {       
-        
         
         CDP4.EngineeringModelData.EngineeringModel emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createEngineeringModel();      
        
@@ -85,11 +92,14 @@ public class EngineeringModel {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.EngineeringModel toPojo(CDP4.EngineeringModelData.EngineeringModel emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.EngineeringModel} to {@link cdp4common.engineeringmodeldata.EngineeringModel}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.EngineeringModel}
+     */
+    public static cdp4common.engineeringmodeldata.EngineeringModel toPojo(CDP4.EngineeringModelData.EngineeringModel emfThing) {
         
         cdp4common.engineeringmodeldata.EngineeringModel pojo = new cdp4common.engineeringmodeldata.EngineeringModel();
         
@@ -120,10 +130,16 @@ public class EngineeringModel {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.EngineeringModel} from a {@link CDP4.EngineeringModelData.EngineeringModel}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.EngineeringModel}.
+    * @return A new {@link cdp4common.engineeringmodeldata.EngineeringModel}
+    */
     public static cdp4common.engineeringmodeldata.EngineeringModel instiatePojo(CDP4.EngineeringModelData.EngineeringModel thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.EngineeringModel(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.EngineeringModel(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

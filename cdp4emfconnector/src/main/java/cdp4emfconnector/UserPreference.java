@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link UserPreference} class.
+ */
 public class UserPreference {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.UserPreference} to {@link CDP4.SiteDirectoryData.UserPreference}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.UserPreference}
+     */
     public static CDP4.SiteDirectoryData.UserPreference toEmf(cdp4common.sitedirectorydata.UserPreference thing) {       
-        
         
         CDP4.SiteDirectoryData.UserPreference emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createUserPreference();      
        
@@ -73,11 +80,14 @@ public class UserPreference {
         emf.setValue(thing.getValue());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.UserPreference toPojo(CDP4.SiteDirectoryData.UserPreference emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.UserPreference} to {@link cdp4common.sitedirectorydata.UserPreference}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.UserPreference}
+     */
+    public static cdp4common.sitedirectorydata.UserPreference toPojo(CDP4.SiteDirectoryData.UserPreference emfThing) {
         
         cdp4common.sitedirectorydata.UserPreference pojo = new cdp4common.sitedirectorydata.UserPreference();
         
@@ -96,10 +106,16 @@ public class UserPreference {
         pojo.setValue(emfThing.getValue());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.UserPreference} from a {@link CDP4.SiteDirectoryData.UserPreference}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.UserPreference}.
+    * @return A new {@link cdp4common.sitedirectorydata.UserPreference}
+    */
     public static cdp4common.sitedirectorydata.UserPreference instiatePojo(CDP4.SiteDirectoryData.UserPreference thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.UserPreference(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.UserPreference(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link DiagrammingStyle} class.
+ */
 public abstract class DiagrammingStyle {
-
+   
+    /**
+     * Convert from {@link cdp4common.diagramdata.DiagrammingStyle} to {@link CDP4.DiagramData.DiagrammingStyle}
+     *
+     * @return Generated {@link CDP4.DiagramData.DiagrammingStyle}
+     */
     public static CDP4.DiagramData.DiagrammingStyle toEmf(cdp4common.diagramdata.DiagrammingStyle thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,7 +70,9 @@ public abstract class DiagrammingStyle {
         
         emfOwnedStyle.setIid(thing.getIid().toString()); 
         
+        emfOwnedStyle.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfOwnedStyle.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfOwnedStyle.setFillColor(thing.getFillColor() != null ? cdp4emfconnector.Color.toEmf(thing.getFillColor()) : null);
         emfOwnedStyle.setFillOpacity(thing.getFillOpacity());
@@ -91,16 +101,18 @@ public abstract class DiagrammingStyle {
         
         emfOwnedStyle.setStrokeWidth(thing.getStrokeWidth());
         
+        emfOwnedStyle.getUsedColor().addAll(thing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toEmf(item)).collect(Collectors.toList()));
         		        
-        return emfOwnedStyle;   
-        
+        return emfOwnedStyle;
         
         case "cdp4common.diagramdata.SharedStyle":
         CDP4.DiagramData.DiagrammingStyle emfSharedStyle =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createSharedStyle();    
         
         emfSharedStyle.setIid(thing.getIid().toString()); 
         
+        emfSharedStyle.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSharedStyle.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSharedStyle.setFillColor(thing.getFillColor() != null ? cdp4emfconnector.Color.toEmf(thing.getFillColor()) : null);
         emfSharedStyle.setFillOpacity(thing.getFillOpacity());
@@ -129,17 +141,21 @@ public abstract class DiagrammingStyle {
         
         emfSharedStyle.setStrokeWidth(thing.getStrokeWidth());
         
+        emfSharedStyle.getUsedColor().addAll(thing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toEmf(item)).collect(Collectors.toList()));
         		        
-        return emfSharedStyle;   
-        
+        return emfSharedStyle;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.diagramdata.DiagrammingStyle toPojo(CDP4.DiagramData.DiagrammingStyle emfThing) {
+    /**
+     * Convert from {@link CDP4.DiagramData.DiagrammingStyle} to {@link cdp4common.diagramdata.DiagrammingStyle}
+     *
+     * @return Generated {@link cdp4common.diagramdata.DiagrammingStyle}
+     */
+    public static cdp4common.diagramdata.DiagrammingStyle toPojo(CDP4.DiagramData.DiagrammingStyle emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -181,8 +197,7 @@ public abstract class DiagrammingStyle {
         
         pojoOwnedStyle.getUsedColor().addAll(emfThing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toPojo(item)).collect(Collectors.toList()));              
         		        
-        return pojoOwnedStyle;   
-        
+        return pojoOwnedStyle;
         
         case "CDP4.diagramdata.SharedStyle":                
         cdp4common.diagramdata.DiagrammingStyle pojoSharedStyle = new cdp4common.diagramdata.SharedStyle();	    
@@ -222,14 +237,11 @@ public abstract class DiagrammingStyle {
         
         pojoSharedStyle.getUsedColor().addAll(emfThing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toPojo(item)).collect(Collectors.toList()));              
         		        
-        return pojoSharedStyle;   
-        
+        return pojoSharedStyle;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

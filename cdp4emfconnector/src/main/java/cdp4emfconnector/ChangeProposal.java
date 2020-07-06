@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ChangeProposal} class.
+ */
 public class ChangeProposal {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.ChangeProposal} to {@link CDP4.ReportingData.ChangeProposal}
+     *
+     * @return Generated {@link CDP4.ReportingData.ChangeProposal}
+     */
     public static CDP4.ReportingData.ChangeProposal toEmf(cdp4common.reportingdata.ChangeProposal thing) {       
-        
         
         CDP4.ReportingData.ChangeProposal emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createChangeProposal();      
        
@@ -100,11 +107,14 @@ public class ChangeProposal {
         emf.setTitle(thing.getTitle());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.ChangeProposal toPojo(CDP4.ReportingData.ChangeProposal emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.ChangeProposal} to {@link cdp4common.reportingdata.ChangeProposal}
+     *
+     * @return Generated {@link cdp4common.reportingdata.ChangeProposal}
+     */
+    public static cdp4common.reportingdata.ChangeProposal toPojo(CDP4.ReportingData.ChangeProposal emfThing) {
         
         cdp4common.reportingdata.ChangeProposal pojo = new cdp4common.reportingdata.ChangeProposal();
         
@@ -150,10 +160,16 @@ public class ChangeProposal {
         pojo.setTitle(emfThing.getTitle());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.ChangeProposal} from a {@link CDP4.ReportingData.ChangeProposal}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.ChangeProposal}.
+    * @return A new {@link cdp4common.reportingdata.ChangeProposal}
+    */
     public static cdp4common.reportingdata.ChangeProposal instiatePojo(CDP4.ReportingData.ChangeProposal thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.ChangeProposal(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.ChangeProposal(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

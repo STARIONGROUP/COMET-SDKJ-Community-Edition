@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ParameterValueSetBase} class.
+ */
 public abstract class ParameterValueSetBase {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.ParameterValueSetBase} to {@link CDP4.EngineeringModelData.ParameterValueSetBase}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.ParameterValueSetBase}
+     */
     public static CDP4.EngineeringModelData.ParameterValueSetBase toEmf(cdp4common.engineeringmodeldata.ParameterValueSetBase thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -66,7 +74,9 @@ public abstract class ParameterValueSetBase {
         emfParameterValueSet.setActualState(thing.getActualState() != null ? cdp4emfconnector.ActualFiniteState.toEmf(thing.getActualState()) : null);
         thing.getComputed().forEach(item -> emfParameterValueSet.getComputed().add(item));	      
         
+        emfParameterValueSet.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterValueSet.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         thing.getFormula().forEach(item -> emfParameterValueSet.getFormula().add(item));	      
         
@@ -82,8 +92,7 @@ public abstract class ParameterValueSetBase {
         
         if (thing.getValueSwitch() != null) {emfParameterValueSet.setValueSwitch(CDP4.EngineeringModelData.ParameterSwitchKind.valueOf(thing.getValueSwitch().toString()));}                        
         		        
-        return emfParameterValueSet;   
-        
+        return emfParameterValueSet;
         
         case "cdp4common.engineeringmodeldata.ParameterOverrideValueSet":
         CDP4.EngineeringModelData.ParameterValueSetBase emfParameterOverrideValueSet =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createParameterOverrideValueSet();    
@@ -94,7 +103,9 @@ public abstract class ParameterValueSetBase {
         emfParameterOverrideValueSet.setActualState(thing.getActualState() != null ? cdp4emfconnector.ActualFiniteState.toEmf(thing.getActualState()) : null);
         thing.getComputed().forEach(item -> emfParameterOverrideValueSet.getComputed().add(item));	      
         
+        emfParameterOverrideValueSet.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterOverrideValueSet.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         thing.getFormula().forEach(item -> emfParameterOverrideValueSet.getFormula().add(item));	      
         
@@ -110,16 +121,19 @@ public abstract class ParameterValueSetBase {
         
         if (thing.getValueSwitch() != null) {emfParameterOverrideValueSet.setValueSwitch(CDP4.EngineeringModelData.ParameterSwitchKind.valueOf(thing.getValueSwitch().toString()));}                        
         		        
-        return emfParameterOverrideValueSet;   
-        
+        return emfParameterOverrideValueSet;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.ParameterValueSetBase toPojo(CDP4.EngineeringModelData.ParameterValueSetBase emfThing) {
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.ParameterValueSetBase} to {@link cdp4common.engineeringmodeldata.ParameterValueSetBase}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.ParameterValueSetBase}
+     */
+    public static cdp4common.engineeringmodeldata.ParameterValueSetBase toPojo(CDP4.EngineeringModelData.ParameterValueSetBase emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -150,8 +164,7 @@ public abstract class ParameterValueSetBase {
         
         if (emfThing.getValueSwitch() != null) {pojoParameterValueSet.setValueSwitch(cdp4common.engineeringmodeldata.ParameterSwitchKind.valueOf(emfThing.getValueSwitch().toString()));}        
         		        
-        return pojoParameterValueSet;   
-        
+        return pojoParameterValueSet;
         
         case "CDP4.engineeringmodeldata.ParameterOverrideValueSet":                
         cdp4common.engineeringmodeldata.ParameterValueSetBase pojoParameterOverrideValueSet = new cdp4common.engineeringmodeldata.ParameterOverrideValueSet();	    
@@ -180,14 +193,11 @@ public abstract class ParameterValueSetBase {
         
         if (emfThing.getValueSwitch() != null) {pojoParameterOverrideValueSet.setValueSwitch(cdp4common.engineeringmodeldata.ParameterSwitchKind.valueOf(emfThing.getValueSwitch().toString()));}        
         		        
-        return pojoParameterOverrideValueSet;   
-        
+        return pojoParameterOverrideValueSet;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

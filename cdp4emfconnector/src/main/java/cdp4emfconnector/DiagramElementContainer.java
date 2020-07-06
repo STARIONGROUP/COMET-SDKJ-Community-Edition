@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link DiagramElementContainer} class.
+ */
 public abstract class DiagramElementContainer {
-
+   
+    /**
+     * Convert from {@link cdp4common.diagramdata.DiagramElementContainer} to {@link CDP4.DiagramData.DiagramElementContainer}
+     *
+     * @return Generated {@link CDP4.DiagramData.DiagramElementContainer}
+     */
     public static CDP4.DiagramData.DiagramElementContainer toEmf(cdp4common.diagramdata.DiagramElementContainer thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -63,9 +71,13 @@ public abstract class DiagramElementContainer {
         
         emfDiagramEdge.setIid(thing.getIid().toString()); 
         
+        emfDiagramEdge.setBounds(thing.getBounds().stream().map(item -> cdp4emfconnector.Bounds.toEmf(item)).collect(Collectors.toList()).get(0));
         
+        emfDiagramEdge.getDiagramElement().addAll(thing.getDiagramElement().stream().map(item -> cdp4emfconnector.DiagramElementThing.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramEdge.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramEdge.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDiagramEdge.setModifiedOn(thing.getModifiedOn());
         
@@ -73,8 +85,7 @@ public abstract class DiagramElementContainer {
         
         emfDiagramEdge.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDiagramEdge;   
-        
+        return emfDiagramEdge;
         
         
         case "cdp4common.diagramdata.DiagramObject":
@@ -82,9 +93,13 @@ public abstract class DiagramElementContainer {
         
         emfDiagramObject.setIid(thing.getIid().toString()); 
         
+        emfDiagramObject.setBounds(thing.getBounds().stream().map(item -> cdp4emfconnector.Bounds.toEmf(item)).collect(Collectors.toList()).get(0));
         
+        emfDiagramObject.getDiagramElement().addAll(thing.getDiagramElement().stream().map(item -> cdp4emfconnector.DiagramElementThing.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramObject.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramObject.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDiagramObject.setModifiedOn(thing.getModifiedOn());
         
@@ -92,17 +107,20 @@ public abstract class DiagramElementContainer {
         
         emfDiagramObject.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDiagramObject;   
-        
+        return emfDiagramObject;
         
         case "cdp4common.diagramdata.DiagramCanvas":
         CDP4.DiagramData.DiagramElementContainer emfDiagramCanvas =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createDiagramCanvas();    
         
         emfDiagramCanvas.setIid(thing.getIid().toString()); 
         
+        emfDiagramCanvas.setBounds(thing.getBounds().stream().map(item -> cdp4emfconnector.Bounds.toEmf(item)).collect(Collectors.toList()).get(0));
         
+        emfDiagramCanvas.getDiagramElement().addAll(thing.getDiagramElement().stream().map(item -> cdp4emfconnector.DiagramElementThing.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramCanvas.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramCanvas.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDiagramCanvas.setModifiedOn(thing.getModifiedOn());
         
@@ -110,16 +128,19 @@ public abstract class DiagramElementContainer {
         
         emfDiagramCanvas.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDiagramCanvas;   
-        
+        return emfDiagramCanvas;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.diagramdata.DiagramElementContainer toPojo(CDP4.DiagramData.DiagramElementContainer emfThing) {
+    /**
+     * Convert from {@link CDP4.DiagramData.DiagramElementContainer} to {@link cdp4common.diagramdata.DiagramElementContainer}
+     *
+     * @return Generated {@link cdp4common.diagramdata.DiagramElementContainer}
+     */
+    public static cdp4common.diagramdata.DiagramElementContainer toPojo(CDP4.DiagramData.DiagramElementContainer emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -143,8 +164,7 @@ public abstract class DiagramElementContainer {
         
         pojoDiagramEdge.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDiagramEdge;   
-        
+        return pojoDiagramEdge;
         
         
         case "CDP4.diagramdata.DiagramObject":                
@@ -166,8 +186,7 @@ public abstract class DiagramElementContainer {
         
         pojoDiagramObject.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDiagramObject;   
-        
+        return pojoDiagramObject;
         
         case "CDP4.diagramdata.DiagramCanvas":                
         cdp4common.diagramdata.DiagramElementContainer pojoDiagramCanvas = new cdp4common.diagramdata.DiagramCanvas();	    
@@ -188,14 +207,11 @@ public abstract class DiagramElementContainer {
         
         pojoDiagramCanvas.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDiagramCanvas;   
-        
+        return pojoDiagramCanvas;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

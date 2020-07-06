@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Category} class.
+ */
 public class Category {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.Category} to {@link CDP4.SiteDirectoryData.Category}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.Category}
+     */
     public static CDP4.SiteDirectoryData.Category toEmf(cdp4common.sitedirectorydata.Category thing) {       
-        
         
         CDP4.SiteDirectoryData.Category emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createCategory();      
        
@@ -87,11 +94,14 @@ public class Category {
         emf.getSuperCategory().addAll(thing.getSuperCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.Category toPojo(CDP4.SiteDirectoryData.Category emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.Category} to {@link cdp4common.sitedirectorydata.Category}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.Category}
+     */
+    public static cdp4common.sitedirectorydata.Category toPojo(CDP4.SiteDirectoryData.Category emfThing) {
         
         cdp4common.sitedirectorydata.Category pojo = new cdp4common.sitedirectorydata.Category();
         
@@ -124,10 +134,16 @@ public class Category {
         pojo.getSuperCategory().addAll(emfThing.getSuperCategory().stream().map(item -> cdp4emfconnector.Category.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.Category} from a {@link CDP4.SiteDirectoryData.Category}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.Category}.
+    * @return A new {@link cdp4common.sitedirectorydata.Category}
+    */
     public static cdp4common.sitedirectorydata.Category instiatePojo(CDP4.SiteDirectoryData.Category thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.Category(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.Category(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

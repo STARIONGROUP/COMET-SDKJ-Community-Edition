@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Organization} class.
+ */
 public class Organization {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.Organization} to {@link CDP4.SiteDirectoryData.Organization}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.Organization}
+     */
     public static CDP4.SiteDirectoryData.Organization toEmf(cdp4common.sitedirectorydata.Organization thing) {       
-        
         
         CDP4.SiteDirectoryData.Organization emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createOrganization();      
        
@@ -75,11 +82,14 @@ public class Organization {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.Organization toPojo(CDP4.SiteDirectoryData.Organization emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.Organization} to {@link cdp4common.sitedirectorydata.Organization}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.Organization}
+     */
+    public static cdp4common.sitedirectorydata.Organization toPojo(CDP4.SiteDirectoryData.Organization emfThing) {
         
         cdp4common.sitedirectorydata.Organization pojo = new cdp4common.sitedirectorydata.Organization();
         
@@ -100,10 +110,16 @@ public class Organization {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.Organization} from a {@link CDP4.SiteDirectoryData.Organization}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.Organization}.
+    * @return A new {@link cdp4common.sitedirectorydata.Organization}
+    */
     public static cdp4common.sitedirectorydata.Organization instiatePojo(CDP4.SiteDirectoryData.Organization thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.Organization(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.Organization(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

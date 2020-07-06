@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link DefinedThing} class.
+ */
 public abstract class DefinedThing {
-
+   
+    /**
+     * Convert from {@link cdp4common.commondata.DefinedThing} to {@link CDP4.CommonData.DefinedThing}
+     *
+     * @return Generated {@link CDP4.CommonData.DefinedThing}
+     */
     public static CDP4.CommonData.DefinedThing toEmf(cdp4common.commondata.DefinedThing thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,10 +70,15 @@ public abstract class DefinedThing {
         
         emfParticipantRole.setIid(thing.getIid().toString()); 
         
+        emfParticipantRole.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfParticipantRole.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfParticipantRole.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParticipantRole.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfParticipantRole.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfParticipantRole.setModifiedOn(thing.getModifiedOn());
         
@@ -75,18 +88,22 @@ public abstract class DefinedThing {
         
         emfParticipantRole.setShortName(thing.getShortName());
         		        
-        return emfParticipantRole;   
-        
+        return emfParticipantRole;
         
         case "cdp4common.sitedirectorydata.EngineeringModelSetup":
         CDP4.CommonData.DefinedThing emfEngineeringModelSetup =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createEngineeringModelSetup();    
         
         emfEngineeringModelSetup.setIid(thing.getIid().toString()); 
         
+        emfEngineeringModelSetup.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfEngineeringModelSetup.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfEngineeringModelSetup.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEngineeringModelSetup.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfEngineeringModelSetup.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfEngineeringModelSetup.setModifiedOn(thing.getModifiedOn());
         
@@ -96,18 +113,22 @@ public abstract class DefinedThing {
         
         emfEngineeringModelSetup.setShortName(thing.getShortName());
         		        
-        return emfEngineeringModelSetup;   
-        
+        return emfEngineeringModelSetup;
         
         case "cdp4common.sitedirectorydata.Glossary":
         CDP4.CommonData.DefinedThing emfGlossary =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createGlossary();    
         
         emfGlossary.setIid(thing.getIid().toString()); 
         
+        emfGlossary.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfGlossary.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfGlossary.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfGlossary.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfGlossary.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfGlossary.setModifiedOn(thing.getModifiedOn());
         
@@ -117,8 +138,7 @@ public abstract class DefinedThing {
         
         emfGlossary.setShortName(thing.getShortName());
         		        
-        return emfGlossary;   
-        
+        return emfGlossary;
         
         
         case "cdp4common.sitedirectorydata.SiteReferenceDataLibrary":
@@ -126,10 +146,15 @@ public abstract class DefinedThing {
         
         emfSiteReferenceDataLibrary.setIid(thing.getIid().toString()); 
         
+        emfSiteReferenceDataLibrary.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteReferenceDataLibrary.setModifiedOn(thing.getModifiedOn());
         
@@ -139,18 +164,22 @@ public abstract class DefinedThing {
         
         emfSiteReferenceDataLibrary.setShortName(thing.getShortName());
         		        
-        return emfSiteReferenceDataLibrary;   
-        
+        return emfSiteReferenceDataLibrary;
         
         case "cdp4common.sitedirectorydata.ModelReferenceDataLibrary":
         CDP4.CommonData.DefinedThing emfModelReferenceDataLibrary =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createModelReferenceDataLibrary();    
         
         emfModelReferenceDataLibrary.setIid(thing.getIid().toString()); 
         
+        emfModelReferenceDataLibrary.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfModelReferenceDataLibrary.setModifiedOn(thing.getModifiedOn());
         
@@ -160,18 +189,22 @@ public abstract class DefinedThing {
         
         emfModelReferenceDataLibrary.setShortName(thing.getShortName());
         		        
-        return emfModelReferenceDataLibrary;   
-        
+        return emfModelReferenceDataLibrary;
         
         case "cdp4common.sitedirectorydata.Term":
         CDP4.CommonData.DefinedThing emfTerm =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createTerm();    
         
         emfTerm.setIid(thing.getIid().toString()); 
         
+        emfTerm.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfTerm.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfTerm.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfTerm.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfTerm.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfTerm.setModifiedOn(thing.getModifiedOn());
         
@@ -181,18 +214,22 @@ public abstract class DefinedThing {
         
         emfTerm.setShortName(thing.getShortName());
         		        
-        return emfTerm;   
-        
+        return emfTerm;
         
         case "cdp4common.sitedirectorydata.FileType":
         CDP4.CommonData.DefinedThing emfFileType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createFileType();    
         
         emfFileType.setIid(thing.getIid().toString()); 
         
+        emfFileType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfFileType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfFileType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfFileType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfFileType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfFileType.setModifiedOn(thing.getModifiedOn());
         
@@ -202,8 +239,7 @@ public abstract class DefinedThing {
         
         emfFileType.setShortName(thing.getShortName());
         		        
-        return emfFileType;   
-        
+        return emfFileType;
         
         
         case "cdp4common.sitedirectorydata.OrdinalScale":
@@ -211,10 +247,15 @@ public abstract class DefinedThing {
         
         emfOrdinalScale.setIid(thing.getIid().toString()); 
         
+        emfOrdinalScale.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfOrdinalScale.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfOrdinalScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfOrdinalScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfOrdinalScale.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfOrdinalScale.setModifiedOn(thing.getModifiedOn());
         
@@ -224,18 +265,22 @@ public abstract class DefinedThing {
         
         emfOrdinalScale.setShortName(thing.getShortName());
         		        
-        return emfOrdinalScale;   
-        
+        return emfOrdinalScale;
         
         case "cdp4common.sitedirectorydata.RatioScale":
         CDP4.CommonData.DefinedThing emfRatioScale =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createRatioScale();    
         
         emfRatioScale.setIid(thing.getIid().toString()); 
         
+        emfRatioScale.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfRatioScale.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfRatioScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRatioScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfRatioScale.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfRatioScale.setModifiedOn(thing.getModifiedOn());
         
@@ -245,18 +290,22 @@ public abstract class DefinedThing {
         
         emfRatioScale.setShortName(thing.getShortName());
         		        
-        return emfRatioScale;   
-        
+        return emfRatioScale;
         
         case "cdp4common.sitedirectorydata.CyclicRatioScale":
         CDP4.CommonData.DefinedThing emfCyclicRatioScale =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createCyclicRatioScale();    
         
         emfCyclicRatioScale.setIid(thing.getIid().toString()); 
         
+        emfCyclicRatioScale.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfCyclicRatioScale.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfCyclicRatioScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfCyclicRatioScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfCyclicRatioScale.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfCyclicRatioScale.setModifiedOn(thing.getModifiedOn());
         
@@ -266,18 +315,22 @@ public abstract class DefinedThing {
         
         emfCyclicRatioScale.setShortName(thing.getShortName());
         		        
-        return emfCyclicRatioScale;   
-        
+        return emfCyclicRatioScale;
         
         case "cdp4common.sitedirectorydata.IntervalScale":
         CDP4.CommonData.DefinedThing emfIntervalScale =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createIntervalScale();    
         
         emfIntervalScale.setIid(thing.getIid().toString()); 
         
+        emfIntervalScale.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfIntervalScale.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfIntervalScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfIntervalScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfIntervalScale.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfIntervalScale.setModifiedOn(thing.getModifiedOn());
         
@@ -287,18 +340,22 @@ public abstract class DefinedThing {
         
         emfIntervalScale.setShortName(thing.getShortName());
         		        
-        return emfIntervalScale;   
-        
+        return emfIntervalScale;
         
         case "cdp4common.sitedirectorydata.LogarithmicScale":
         CDP4.CommonData.DefinedThing emfLogarithmicScale =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createLogarithmicScale();    
         
         emfLogarithmicScale.setIid(thing.getIid().toString()); 
         
+        emfLogarithmicScale.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfLogarithmicScale.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfLogarithmicScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfLogarithmicScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfLogarithmicScale.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfLogarithmicScale.setModifiedOn(thing.getModifiedOn());
         
@@ -308,18 +365,22 @@ public abstract class DefinedThing {
         
         emfLogarithmicScale.setShortName(thing.getShortName());
         		        
-        return emfLogarithmicScale;   
-        
+        return emfLogarithmicScale;
         
         case "cdp4common.sitedirectorydata.DomainOfExpertise":
         CDP4.CommonData.DefinedThing emfDomainOfExpertise =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDomainOfExpertise();    
         
         emfDomainOfExpertise.setIid(thing.getIid().toString()); 
         
+        emfDomainOfExpertise.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfDomainOfExpertise.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfDomainOfExpertise.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDomainOfExpertise.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDomainOfExpertise.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfDomainOfExpertise.setModifiedOn(thing.getModifiedOn());
         
@@ -329,8 +390,7 @@ public abstract class DefinedThing {
         
         emfDomainOfExpertise.setShortName(thing.getShortName());
         		        
-        return emfDomainOfExpertise;   
-        
+        return emfDomainOfExpertise;
         
         
         case "cdp4common.sitedirectorydata.CompoundParameterType":
@@ -338,10 +398,15 @@ public abstract class DefinedThing {
         
         emfCompoundParameterType.setIid(thing.getIid().toString()); 
         
+        emfCompoundParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfCompoundParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfCompoundParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfCompoundParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfCompoundParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfCompoundParameterType.setModifiedOn(thing.getModifiedOn());
         
@@ -351,18 +416,22 @@ public abstract class DefinedThing {
         
         emfCompoundParameterType.setShortName(thing.getShortName());
         		        
-        return emfCompoundParameterType;   
-        
+        return emfCompoundParameterType;
         
         case "cdp4common.sitedirectorydata.ArrayParameterType":
         CDP4.CommonData.DefinedThing emfArrayParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createArrayParameterType();    
         
         emfArrayParameterType.setIid(thing.getIid().toString()); 
         
+        emfArrayParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfArrayParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfArrayParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfArrayParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfArrayParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfArrayParameterType.setModifiedOn(thing.getModifiedOn());
         
@@ -372,8 +441,7 @@ public abstract class DefinedThing {
         
         emfArrayParameterType.setShortName(thing.getShortName());
         		        
-        return emfArrayParameterType;   
-        
+        return emfArrayParameterType;
         
         
         case "cdp4common.sitedirectorydata.EnumerationParameterType":
@@ -381,10 +449,15 @@ public abstract class DefinedThing {
         
         emfEnumerationParameterType.setIid(thing.getIid().toString()); 
         
+        emfEnumerationParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfEnumerationParameterType.setModifiedOn(thing.getModifiedOn());
         
@@ -394,18 +467,22 @@ public abstract class DefinedThing {
         
         emfEnumerationParameterType.setShortName(thing.getShortName());
         		        
-        return emfEnumerationParameterType;   
-        
+        return emfEnumerationParameterType;
         
         case "cdp4common.sitedirectorydata.BooleanParameterType":
         CDP4.CommonData.DefinedThing emfBooleanParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createBooleanParameterType();    
         
         emfBooleanParameterType.setIid(thing.getIid().toString()); 
         
+        emfBooleanParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfBooleanParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfBooleanParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBooleanParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfBooleanParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfBooleanParameterType.setModifiedOn(thing.getModifiedOn());
         
@@ -415,18 +492,22 @@ public abstract class DefinedThing {
         
         emfBooleanParameterType.setShortName(thing.getShortName());
         		        
-        return emfBooleanParameterType;   
-        
+        return emfBooleanParameterType;
         
         case "cdp4common.sitedirectorydata.DateParameterType":
         CDP4.CommonData.DefinedThing emfDateParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDateParameterType();    
         
         emfDateParameterType.setIid(thing.getIid().toString()); 
         
+        emfDateParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfDateParameterType.setModifiedOn(thing.getModifiedOn());
         
@@ -436,18 +517,22 @@ public abstract class DefinedThing {
         
         emfDateParameterType.setShortName(thing.getShortName());
         		        
-        return emfDateParameterType;   
-        
+        return emfDateParameterType;
         
         case "cdp4common.sitedirectorydata.TextParameterType":
         CDP4.CommonData.DefinedThing emfTextParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createTextParameterType();    
         
         emfTextParameterType.setIid(thing.getIid().toString()); 
         
+        emfTextParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfTextParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfTextParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfTextParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfTextParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfTextParameterType.setModifiedOn(thing.getModifiedOn());
         
@@ -457,18 +542,22 @@ public abstract class DefinedThing {
         
         emfTextParameterType.setShortName(thing.getShortName());
         		        
-        return emfTextParameterType;   
-        
+        return emfTextParameterType;
         
         case "cdp4common.sitedirectorydata.DateTimeParameterType":
         CDP4.CommonData.DefinedThing emfDateTimeParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDateTimeParameterType();    
         
         emfDateTimeParameterType.setIid(thing.getIid().toString()); 
         
+        emfDateTimeParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateTimeParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateTimeParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateTimeParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateTimeParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfDateTimeParameterType.setModifiedOn(thing.getModifiedOn());
         
@@ -478,18 +567,22 @@ public abstract class DefinedThing {
         
         emfDateTimeParameterType.setShortName(thing.getShortName());
         		        
-        return emfDateTimeParameterType;   
-        
+        return emfDateTimeParameterType;
         
         case "cdp4common.sitedirectorydata.TimeOfDayParameterType":
         CDP4.CommonData.DefinedThing emfTimeOfDayParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createTimeOfDayParameterType();    
         
         emfTimeOfDayParameterType.setIid(thing.getIid().toString()); 
         
+        emfTimeOfDayParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfTimeOfDayParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfTimeOfDayParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfTimeOfDayParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfTimeOfDayParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfTimeOfDayParameterType.setModifiedOn(thing.getModifiedOn());
         
@@ -499,8 +592,7 @@ public abstract class DefinedThing {
         
         emfTimeOfDayParameterType.setShortName(thing.getShortName());
         		        
-        return emfTimeOfDayParameterType;   
-        
+        return emfTimeOfDayParameterType;
         
         
         case "cdp4common.sitedirectorydata.SpecializedQuantityKind":
@@ -508,10 +600,15 @@ public abstract class DefinedThing {
         
         emfSpecializedQuantityKind.setIid(thing.getIid().toString()); 
         
+        emfSpecializedQuantityKind.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfSpecializedQuantityKind.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfSpecializedQuantityKind.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSpecializedQuantityKind.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfSpecializedQuantityKind.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfSpecializedQuantityKind.setModifiedOn(thing.getModifiedOn());
         
@@ -521,18 +618,22 @@ public abstract class DefinedThing {
         
         emfSpecializedQuantityKind.setShortName(thing.getShortName());
         		        
-        return emfSpecializedQuantityKind;   
-        
+        return emfSpecializedQuantityKind;
         
         case "cdp4common.sitedirectorydata.SimpleQuantityKind":
         CDP4.CommonData.DefinedThing emfSimpleQuantityKind =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createSimpleQuantityKind();    
         
         emfSimpleQuantityKind.setIid(thing.getIid().toString()); 
         
+        emfSimpleQuantityKind.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleQuantityKind.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleQuantityKind.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleQuantityKind.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleQuantityKind.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfSimpleQuantityKind.setModifiedOn(thing.getModifiedOn());
         
@@ -542,18 +643,22 @@ public abstract class DefinedThing {
         
         emfSimpleQuantityKind.setShortName(thing.getShortName());
         		        
-        return emfSimpleQuantityKind;   
-        
+        return emfSimpleQuantityKind;
         
         case "cdp4common.sitedirectorydata.DerivedQuantityKind":
         CDP4.CommonData.DefinedThing emfDerivedQuantityKind =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDerivedQuantityKind();    
         
         emfDerivedQuantityKind.setIid(thing.getIid().toString()); 
         
+        emfDerivedQuantityKind.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedQuantityKind.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedQuantityKind.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedQuantityKind.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedQuantityKind.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfDerivedQuantityKind.setModifiedOn(thing.getModifiedOn());
         
@@ -563,18 +668,22 @@ public abstract class DefinedThing {
         
         emfDerivedQuantityKind.setShortName(thing.getShortName());
         		        
-        return emfDerivedQuantityKind;   
-        
+        return emfDerivedQuantityKind;
         
         case "cdp4common.sitedirectorydata.ScaleValueDefinition":
         CDP4.CommonData.DefinedThing emfScaleValueDefinition =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createScaleValueDefinition();    
         
         emfScaleValueDefinition.setIid(thing.getIid().toString()); 
         
+        emfScaleValueDefinition.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfScaleValueDefinition.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfScaleValueDefinition.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfScaleValueDefinition.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfScaleValueDefinition.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfScaleValueDefinition.setModifiedOn(thing.getModifiedOn());
         
@@ -584,8 +693,7 @@ public abstract class DefinedThing {
         
         emfScaleValueDefinition.setShortName(thing.getShortName());
         		        
-        return emfScaleValueDefinition;   
-        
+        return emfScaleValueDefinition;
         
         
         case "cdp4common.sitedirectorydata.DerivedUnit":
@@ -593,10 +701,15 @@ public abstract class DefinedThing {
         
         emfDerivedUnit.setIid(thing.getIid().toString()); 
         
+        emfDerivedUnit.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedUnit.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedUnit.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedUnit.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedUnit.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfDerivedUnit.setModifiedOn(thing.getModifiedOn());
         
@@ -606,8 +719,7 @@ public abstract class DefinedThing {
         
         emfDerivedUnit.setShortName(thing.getShortName());
         		        
-        return emfDerivedUnit;   
-        
+        return emfDerivedUnit;
         
         
         case "cdp4common.sitedirectorydata.LinearConversionUnit":
@@ -615,10 +727,15 @@ public abstract class DefinedThing {
         
         emfLinearConversionUnit.setIid(thing.getIid().toString()); 
         
+        emfLinearConversionUnit.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfLinearConversionUnit.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfLinearConversionUnit.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfLinearConversionUnit.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfLinearConversionUnit.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfLinearConversionUnit.setModifiedOn(thing.getModifiedOn());
         
@@ -628,18 +745,22 @@ public abstract class DefinedThing {
         
         emfLinearConversionUnit.setShortName(thing.getShortName());
         		        
-        return emfLinearConversionUnit;   
-        
+        return emfLinearConversionUnit;
         
         case "cdp4common.sitedirectorydata.PrefixedUnit":
         CDP4.CommonData.DefinedThing emfPrefixedUnit =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createPrefixedUnit();    
         
         emfPrefixedUnit.setIid(thing.getIid().toString()); 
         
+        emfPrefixedUnit.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfPrefixedUnit.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfPrefixedUnit.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPrefixedUnit.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfPrefixedUnit.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfPrefixedUnit.setModifiedOn(thing.getModifiedOn());
         
@@ -649,18 +770,22 @@ public abstract class DefinedThing {
         
         emfPrefixedUnit.setShortName(thing.getShortName());
         		        
-        return emfPrefixedUnit;   
-        
+        return emfPrefixedUnit;
         
         case "cdp4common.sitedirectorydata.SimpleUnit":
         CDP4.CommonData.DefinedThing emfSimpleUnit =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createSimpleUnit();    
         
         emfSimpleUnit.setIid(thing.getIid().toString()); 
         
+        emfSimpleUnit.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleUnit.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleUnit.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleUnit.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleUnit.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfSimpleUnit.setModifiedOn(thing.getModifiedOn());
         
@@ -670,18 +795,22 @@ public abstract class DefinedThing {
         
         emfSimpleUnit.setShortName(thing.getShortName());
         		        
-        return emfSimpleUnit;   
-        
+        return emfSimpleUnit;
         
         case "cdp4common.sitedirectorydata.Category":
         CDP4.CommonData.DefinedThing emfCategory =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createCategory();    
         
         emfCategory.setIid(thing.getIid().toString()); 
         
+        emfCategory.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfCategory.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfCategory.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfCategory.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfCategory.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfCategory.setModifiedOn(thing.getModifiedOn());
         
@@ -691,18 +820,22 @@ public abstract class DefinedThing {
         
         emfCategory.setShortName(thing.getShortName());
         		        
-        return emfCategory;   
-        
+        return emfCategory;
         
         case "cdp4common.sitedirectorydata.UnitPrefix":
         CDP4.CommonData.DefinedThing emfUnitPrefix =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createUnitPrefix();    
         
         emfUnitPrefix.setIid(thing.getIid().toString()); 
         
+        emfUnitPrefix.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfUnitPrefix.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfUnitPrefix.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfUnitPrefix.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfUnitPrefix.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfUnitPrefix.setModifiedOn(thing.getModifiedOn());
         
@@ -712,8 +845,7 @@ public abstract class DefinedThing {
         
         emfUnitPrefix.setShortName(thing.getShortName());
         		        
-        return emfUnitPrefix;   
-        
+        return emfUnitPrefix;
         
         
         case "cdp4common.sitedirectorydata.ReferencerRule":
@@ -721,10 +853,15 @@ public abstract class DefinedThing {
         
         emfReferencerRule.setIid(thing.getIid().toString()); 
         
+        emfReferencerRule.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfReferencerRule.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfReferencerRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfReferencerRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfReferencerRule.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfReferencerRule.setModifiedOn(thing.getModifiedOn());
         
@@ -734,18 +871,22 @@ public abstract class DefinedThing {
         
         emfReferencerRule.setShortName(thing.getShortName());
         		        
-        return emfReferencerRule;   
-        
+        return emfReferencerRule;
         
         case "cdp4common.sitedirectorydata.BinaryRelationshipRule":
         CDP4.CommonData.DefinedThing emfBinaryRelationshipRule =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createBinaryRelationshipRule();    
         
         emfBinaryRelationshipRule.setIid(thing.getIid().toString()); 
         
+        emfBinaryRelationshipRule.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfBinaryRelationshipRule.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfBinaryRelationshipRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBinaryRelationshipRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfBinaryRelationshipRule.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfBinaryRelationshipRule.setModifiedOn(thing.getModifiedOn());
         
@@ -755,18 +896,22 @@ public abstract class DefinedThing {
         
         emfBinaryRelationshipRule.setShortName(thing.getShortName());
         		        
-        return emfBinaryRelationshipRule;   
-        
+        return emfBinaryRelationshipRule;
         
         case "cdp4common.sitedirectorydata.MultiRelationshipRule":
         CDP4.CommonData.DefinedThing emfMultiRelationshipRule =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createMultiRelationshipRule();    
         
         emfMultiRelationshipRule.setIid(thing.getIid().toString()); 
         
+        emfMultiRelationshipRule.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfMultiRelationshipRule.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfMultiRelationshipRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfMultiRelationshipRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfMultiRelationshipRule.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfMultiRelationshipRule.setModifiedOn(thing.getModifiedOn());
         
@@ -776,18 +921,22 @@ public abstract class DefinedThing {
         
         emfMultiRelationshipRule.setShortName(thing.getShortName());
         		        
-        return emfMultiRelationshipRule;   
-        
+        return emfMultiRelationshipRule;
         
         case "cdp4common.sitedirectorydata.DecompositionRule":
         CDP4.CommonData.DefinedThing emfDecompositionRule =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDecompositionRule();    
         
         emfDecompositionRule.setIid(thing.getIid().toString()); 
         
+        emfDecompositionRule.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfDecompositionRule.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfDecompositionRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDecompositionRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDecompositionRule.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfDecompositionRule.setModifiedOn(thing.getModifiedOn());
         
@@ -797,18 +946,22 @@ public abstract class DefinedThing {
         
         emfDecompositionRule.setShortName(thing.getShortName());
         		        
-        return emfDecompositionRule;   
-        
+        return emfDecompositionRule;
         
         case "cdp4common.sitedirectorydata.ParameterizedCategoryRule":
         CDP4.CommonData.DefinedThing emfParameterizedCategoryRule =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createParameterizedCategoryRule();    
         
         emfParameterizedCategoryRule.setIid(thing.getIid().toString()); 
         
+        emfParameterizedCategoryRule.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterizedCategoryRule.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterizedCategoryRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterizedCategoryRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterizedCategoryRule.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfParameterizedCategoryRule.setModifiedOn(thing.getModifiedOn());
         
@@ -818,18 +971,22 @@ public abstract class DefinedThing {
         
         emfParameterizedCategoryRule.setShortName(thing.getShortName());
         		        
-        return emfParameterizedCategoryRule;   
-        
+        return emfParameterizedCategoryRule;
         
         case "cdp4common.sitedirectorydata.EnumerationValueDefinition":
         CDP4.CommonData.DefinedThing emfEnumerationValueDefinition =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createEnumerationValueDefinition();    
         
         emfEnumerationValueDefinition.setIid(thing.getIid().toString()); 
         
+        emfEnumerationValueDefinition.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationValueDefinition.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationValueDefinition.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationValueDefinition.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationValueDefinition.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfEnumerationValueDefinition.setModifiedOn(thing.getModifiedOn());
         
@@ -839,18 +996,22 @@ public abstract class DefinedThing {
         
         emfEnumerationValueDefinition.setShortName(thing.getShortName());
         		        
-        return emfEnumerationValueDefinition;   
-        
+        return emfEnumerationValueDefinition;
         
         case "cdp4common.sitedirectorydata.PersonRole":
         CDP4.CommonData.DefinedThing emfPersonRole =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createPersonRole();    
         
         emfPersonRole.setIid(thing.getIid().toString()); 
         
+        emfPersonRole.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfPersonRole.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfPersonRole.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPersonRole.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfPersonRole.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfPersonRole.setModifiedOn(thing.getModifiedOn());
         
@@ -860,18 +1021,22 @@ public abstract class DefinedThing {
         
         emfPersonRole.setShortName(thing.getShortName());
         		        
-        return emfPersonRole;   
-        
+        return emfPersonRole;
         
         case "cdp4common.sitedirectorydata.DomainOfExpertiseGroup":
         CDP4.CommonData.DefinedThing emfDomainOfExpertiseGroup =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDomainOfExpertiseGroup();    
         
         emfDomainOfExpertiseGroup.setIid(thing.getIid().toString()); 
         
+        emfDomainOfExpertiseGroup.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfDomainOfExpertiseGroup.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfDomainOfExpertiseGroup.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDomainOfExpertiseGroup.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDomainOfExpertiseGroup.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfDomainOfExpertiseGroup.setModifiedOn(thing.getModifiedOn());
         
@@ -881,18 +1046,22 @@ public abstract class DefinedThing {
         
         emfDomainOfExpertiseGroup.setShortName(thing.getShortName());
         		        
-        return emfDomainOfExpertiseGroup;   
-        
+        return emfDomainOfExpertiseGroup;
         
         case "cdp4common.sitedirectorydata.ReferenceSource":
         CDP4.CommonData.DefinedThing emfReferenceSource =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createReferenceSource();    
         
         emfReferenceSource.setIid(thing.getIid().toString()); 
         
+        emfReferenceSource.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfReferenceSource.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfReferenceSource.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfReferenceSource.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfReferenceSource.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfReferenceSource.setModifiedOn(thing.getModifiedOn());
         
@@ -902,18 +1071,22 @@ public abstract class DefinedThing {
         
         emfReferenceSource.setShortName(thing.getShortName());
         		        
-        return emfReferenceSource;   
-        
+        return emfReferenceSource;
         
         case "cdp4common.sitedirectorydata.Constant":
         CDP4.CommonData.DefinedThing emfConstant =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createConstant();    
         
         emfConstant.setIid(thing.getIid().toString()); 
         
+        emfConstant.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfConstant.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfConstant.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfConstant.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfConstant.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfConstant.setModifiedOn(thing.getModifiedOn());
         
@@ -923,18 +1096,22 @@ public abstract class DefinedThing {
         
         emfConstant.setShortName(thing.getShortName());
         		        
-        return emfConstant;   
-        
+        return emfConstant;
         
         case "cdp4common.engineeringmodeldata.PossibleFiniteState":
         CDP4.CommonData.DefinedThing emfPossibleFiniteState =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createPossibleFiniteState();    
         
         emfPossibleFiniteState.setIid(thing.getIid().toString()); 
         
+        emfPossibleFiniteState.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfPossibleFiniteState.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfPossibleFiniteState.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPossibleFiniteState.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfPossibleFiniteState.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfPossibleFiniteState.setModifiedOn(thing.getModifiedOn());
         
@@ -944,18 +1121,22 @@ public abstract class DefinedThing {
         
         emfPossibleFiniteState.setShortName(thing.getShortName());
         		        
-        return emfPossibleFiniteState;   
-        
+        return emfPossibleFiniteState;
         
         case "cdp4common.engineeringmodeldata.Option":
         CDP4.CommonData.DefinedThing emfOption =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createOption();    
         
         emfOption.setIid(thing.getIid().toString()); 
         
+        emfOption.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfOption.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfOption.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfOption.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfOption.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfOption.setModifiedOn(thing.getModifiedOn());
         
@@ -965,18 +1146,22 @@ public abstract class DefinedThing {
         
         emfOption.setShortName(thing.getShortName());
         		        
-        return emfOption;   
-        
+        return emfOption;
         
         case "cdp4common.engineeringmodeldata.PossibleFiniteStateList":
         CDP4.CommonData.DefinedThing emfPossibleFiniteStateList =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createPossibleFiniteStateList();    
         
         emfPossibleFiniteStateList.setIid(thing.getIid().toString()); 
         
+        emfPossibleFiniteStateList.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfPossibleFiniteStateList.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfPossibleFiniteStateList.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPossibleFiniteStateList.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfPossibleFiniteStateList.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfPossibleFiniteStateList.setModifiedOn(thing.getModifiedOn());
         
@@ -986,8 +1171,7 @@ public abstract class DefinedThing {
         
         emfPossibleFiniteStateList.setShortName(thing.getShortName());
         		        
-        return emfPossibleFiniteStateList;   
-        
+        return emfPossibleFiniteStateList;
         
         
         case "cdp4common.engineeringmodeldata.ElementDefinition":
@@ -995,10 +1179,15 @@ public abstract class DefinedThing {
         
         emfElementDefinition.setIid(thing.getIid().toString()); 
         
+        emfElementDefinition.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementDefinition.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementDefinition.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementDefinition.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementDefinition.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfElementDefinition.setModifiedOn(thing.getModifiedOn());
         
@@ -1008,18 +1197,22 @@ public abstract class DefinedThing {
         
         emfElementDefinition.setShortName(thing.getShortName());
         		        
-        return emfElementDefinition;   
-        
+        return emfElementDefinition;
         
         case "cdp4common.engineeringmodeldata.ElementUsage":
         CDP4.CommonData.DefinedThing emfElementUsage =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createElementUsage();    
         
         emfElementUsage.setIid(thing.getIid().toString()); 
         
+        emfElementUsage.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementUsage.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementUsage.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementUsage.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementUsage.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfElementUsage.setModifiedOn(thing.getModifiedOn());
         
@@ -1029,8 +1222,7 @@ public abstract class DefinedThing {
         
         emfElementUsage.setShortName(thing.getShortName());
         		        
-        return emfElementUsage;   
-        
+        return emfElementUsage;
         
         
         case "cdp4common.engineeringmodeldata.RequirementsSpecification":
@@ -1038,10 +1230,15 @@ public abstract class DefinedThing {
         
         emfRequirementsSpecification.setIid(thing.getIid().toString()); 
         
+        emfRequirementsSpecification.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsSpecification.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsSpecification.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsSpecification.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsSpecification.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfRequirementsSpecification.setModifiedOn(thing.getModifiedOn());
         
@@ -1051,18 +1248,22 @@ public abstract class DefinedThing {
         
         emfRequirementsSpecification.setShortName(thing.getShortName());
         		        
-        return emfRequirementsSpecification;   
-        
+        return emfRequirementsSpecification;
         
         case "cdp4common.engineeringmodeldata.RequirementsGroup":
         CDP4.CommonData.DefinedThing emfRequirementsGroup =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRequirementsGroup();    
         
         emfRequirementsGroup.setIid(thing.getIid().toString()); 
         
+        emfRequirementsGroup.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsGroup.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsGroup.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsGroup.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsGroup.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfRequirementsGroup.setModifiedOn(thing.getModifiedOn());
         
@@ -1072,8 +1273,7 @@ public abstract class DefinedThing {
         
         emfRequirementsGroup.setShortName(thing.getShortName());
         		        
-        return emfRequirementsGroup;   
-        
+        return emfRequirementsGroup;
         
         
         case "cdp4common.engineeringmodeldata.Requirement":
@@ -1081,10 +1281,15 @@ public abstract class DefinedThing {
         
         emfRequirement.setIid(thing.getIid().toString()); 
         
+        emfRequirement.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirement.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirement.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirement.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirement.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfRequirement.setModifiedOn(thing.getModifiedOn());
         
@@ -1094,18 +1299,22 @@ public abstract class DefinedThing {
         
         emfRequirement.setShortName(thing.getShortName());
         		        
-        return emfRequirement;   
-        
+        return emfRequirement;
         
         case "cdp4common.engineeringmodeldata.RuleVerificationList":
         CDP4.CommonData.DefinedThing emfRuleVerificationList =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRuleVerificationList();    
         
         emfRuleVerificationList.setIid(thing.getIid().toString()); 
         
+        emfRuleVerificationList.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfRuleVerificationList.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfRuleVerificationList.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRuleVerificationList.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfRuleVerificationList.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfRuleVerificationList.setModifiedOn(thing.getModifiedOn());
         
@@ -1115,18 +1324,22 @@ public abstract class DefinedThing {
         
         emfRuleVerificationList.setShortName(thing.getShortName());
         		        
-        return emfRuleVerificationList;   
-        
+        return emfRuleVerificationList;
         
         case "cdp4common.engineeringmodeldata.Goal":
         CDP4.CommonData.DefinedThing emfGoal =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createGoal();    
         
         emfGoal.setIid(thing.getIid().toString()); 
         
+        emfGoal.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfGoal.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfGoal.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfGoal.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfGoal.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfGoal.setModifiedOn(thing.getModifiedOn());
         
@@ -1136,18 +1349,22 @@ public abstract class DefinedThing {
         
         emfGoal.setShortName(thing.getShortName());
         		        
-        return emfGoal;   
-        
+        return emfGoal;
         
         case "cdp4common.engineeringmodeldata.Stakeholder":
         CDP4.CommonData.DefinedThing emfStakeholder =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createStakeholder();    
         
         emfStakeholder.setIid(thing.getIid().toString()); 
         
+        emfStakeholder.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeholder.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeholder.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeholder.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeholder.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfStakeholder.setModifiedOn(thing.getModifiedOn());
         
@@ -1157,18 +1374,22 @@ public abstract class DefinedThing {
         
         emfStakeholder.setShortName(thing.getShortName());
         		        
-        return emfStakeholder;   
-        
+        return emfStakeholder;
         
         case "cdp4common.engineeringmodeldata.ValueGroup":
         CDP4.CommonData.DefinedThing emfValueGroup =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createValueGroup();    
         
         emfValueGroup.setIid(thing.getIid().toString()); 
         
+        emfValueGroup.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfValueGroup.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfValueGroup.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfValueGroup.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfValueGroup.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfValueGroup.setModifiedOn(thing.getModifiedOn());
         
@@ -1178,18 +1399,22 @@ public abstract class DefinedThing {
         
         emfValueGroup.setShortName(thing.getShortName());
         		        
-        return emfValueGroup;   
-        
+        return emfValueGroup;
         
         case "cdp4common.engineeringmodeldata.StakeholderValue":
         CDP4.CommonData.DefinedThing emfStakeholderValue =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createStakeholderValue();    
         
         emfStakeholderValue.setIid(thing.getIid().toString()); 
         
+        emfStakeholderValue.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeholderValue.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeholderValue.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeholderValue.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeholderValue.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfStakeholderValue.setModifiedOn(thing.getModifiedOn());
         
@@ -1199,18 +1424,22 @@ public abstract class DefinedThing {
         
         emfStakeholderValue.setShortName(thing.getShortName());
         		        
-        return emfStakeholderValue;   
-        
+        return emfStakeholderValue;
         
         case "cdp4common.engineeringmodeldata.StakeHolderValueMap":
         CDP4.CommonData.DefinedThing emfStakeHolderValueMap =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createStakeHolderValueMap();    
         
         emfStakeHolderValueMap.setIid(thing.getIid().toString()); 
         
+        emfStakeHolderValueMap.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeHolderValueMap.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeHolderValueMap.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeHolderValueMap.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeHolderValueMap.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfStakeHolderValueMap.setModifiedOn(thing.getModifiedOn());
         
@@ -1220,16 +1449,19 @@ public abstract class DefinedThing {
         
         emfStakeHolderValueMap.setShortName(thing.getShortName());
         		        
-        return emfStakeHolderValueMap;   
-        
+        return emfStakeHolderValueMap;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.commondata.DefinedThing toPojo(CDP4.CommonData.DefinedThing emfThing) {
+    /**
+     * Convert from {@link CDP4.CommonData.DefinedThing} to {@link cdp4common.commondata.DefinedThing}
+     *
+     * @return Generated {@link cdp4common.commondata.DefinedThing}
+     */
+    public static cdp4common.commondata.DefinedThing toPojo(CDP4.CommonData.DefinedThing emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -1256,8 +1488,7 @@ public abstract class DefinedThing {
         
         pojoParticipantRole.setShortName(emfThing.getShortName());
         		        
-        return pojoParticipantRole;   
-        
+        return pojoParticipantRole;
         
         case "CDP4.sitedirectorydata.EngineeringModelSetup":                
         cdp4common.commondata.DefinedThing pojoEngineeringModelSetup = new cdp4common.sitedirectorydata.EngineeringModelSetup();	    
@@ -1282,8 +1513,7 @@ public abstract class DefinedThing {
         
         pojoEngineeringModelSetup.setShortName(emfThing.getShortName());
         		        
-        return pojoEngineeringModelSetup;   
-        
+        return pojoEngineeringModelSetup;
         
         case "CDP4.sitedirectorydata.Glossary":                
         cdp4common.commondata.DefinedThing pojoGlossary = new cdp4common.sitedirectorydata.Glossary();	    
@@ -1308,8 +1538,7 @@ public abstract class DefinedThing {
         
         pojoGlossary.setShortName(emfThing.getShortName());
         		        
-        return pojoGlossary;   
-        
+        return pojoGlossary;
         
         
         case "CDP4.sitedirectorydata.SiteReferenceDataLibrary":                
@@ -1335,8 +1564,7 @@ public abstract class DefinedThing {
         
         pojoSiteReferenceDataLibrary.setShortName(emfThing.getShortName());
         		        
-        return pojoSiteReferenceDataLibrary;   
-        
+        return pojoSiteReferenceDataLibrary;
         
         case "CDP4.sitedirectorydata.ModelReferenceDataLibrary":                
         cdp4common.commondata.DefinedThing pojoModelReferenceDataLibrary = new cdp4common.sitedirectorydata.ModelReferenceDataLibrary();	    
@@ -1361,8 +1589,7 @@ public abstract class DefinedThing {
         
         pojoModelReferenceDataLibrary.setShortName(emfThing.getShortName());
         		        
-        return pojoModelReferenceDataLibrary;   
-        
+        return pojoModelReferenceDataLibrary;
         
         case "CDP4.sitedirectorydata.Term":                
         cdp4common.commondata.DefinedThing pojoTerm = new cdp4common.sitedirectorydata.Term();	    
@@ -1387,8 +1614,7 @@ public abstract class DefinedThing {
         
         pojoTerm.setShortName(emfThing.getShortName());
         		        
-        return pojoTerm;   
-        
+        return pojoTerm;
         
         case "CDP4.sitedirectorydata.FileType":                
         cdp4common.commondata.DefinedThing pojoFileType = new cdp4common.sitedirectorydata.FileType();	    
@@ -1413,8 +1639,7 @@ public abstract class DefinedThing {
         
         pojoFileType.setShortName(emfThing.getShortName());
         		        
-        return pojoFileType;   
-        
+        return pojoFileType;
         
         
         case "CDP4.sitedirectorydata.OrdinalScale":                
@@ -1440,8 +1665,7 @@ public abstract class DefinedThing {
         
         pojoOrdinalScale.setShortName(emfThing.getShortName());
         		        
-        return pojoOrdinalScale;   
-        
+        return pojoOrdinalScale;
         
         case "CDP4.sitedirectorydata.RatioScale":                
         cdp4common.commondata.DefinedThing pojoRatioScale = new cdp4common.sitedirectorydata.RatioScale();	    
@@ -1466,8 +1690,7 @@ public abstract class DefinedThing {
         
         pojoRatioScale.setShortName(emfThing.getShortName());
         		        
-        return pojoRatioScale;   
-        
+        return pojoRatioScale;
         
         case "CDP4.sitedirectorydata.CyclicRatioScale":                
         cdp4common.commondata.DefinedThing pojoCyclicRatioScale = new cdp4common.sitedirectorydata.CyclicRatioScale();	    
@@ -1492,8 +1715,7 @@ public abstract class DefinedThing {
         
         pojoCyclicRatioScale.setShortName(emfThing.getShortName());
         		        
-        return pojoCyclicRatioScale;   
-        
+        return pojoCyclicRatioScale;
         
         case "CDP4.sitedirectorydata.IntervalScale":                
         cdp4common.commondata.DefinedThing pojoIntervalScale = new cdp4common.sitedirectorydata.IntervalScale();	    
@@ -1518,8 +1740,7 @@ public abstract class DefinedThing {
         
         pojoIntervalScale.setShortName(emfThing.getShortName());
         		        
-        return pojoIntervalScale;   
-        
+        return pojoIntervalScale;
         
         case "CDP4.sitedirectorydata.LogarithmicScale":                
         cdp4common.commondata.DefinedThing pojoLogarithmicScale = new cdp4common.sitedirectorydata.LogarithmicScale();	    
@@ -1544,8 +1765,7 @@ public abstract class DefinedThing {
         
         pojoLogarithmicScale.setShortName(emfThing.getShortName());
         		        
-        return pojoLogarithmicScale;   
-        
+        return pojoLogarithmicScale;
         
         case "CDP4.sitedirectorydata.DomainOfExpertise":                
         cdp4common.commondata.DefinedThing pojoDomainOfExpertise = new cdp4common.sitedirectorydata.DomainOfExpertise();	    
@@ -1570,8 +1790,7 @@ public abstract class DefinedThing {
         
         pojoDomainOfExpertise.setShortName(emfThing.getShortName());
         		        
-        return pojoDomainOfExpertise;   
-        
+        return pojoDomainOfExpertise;
         
         
         case "CDP4.sitedirectorydata.CompoundParameterType":                
@@ -1597,8 +1816,7 @@ public abstract class DefinedThing {
         
         pojoCompoundParameterType.setShortName(emfThing.getShortName());
         		        
-        return pojoCompoundParameterType;   
-        
+        return pojoCompoundParameterType;
         
         case "CDP4.sitedirectorydata.ArrayParameterType":                
         cdp4common.commondata.DefinedThing pojoArrayParameterType = new cdp4common.sitedirectorydata.ArrayParameterType();	    
@@ -1623,8 +1841,7 @@ public abstract class DefinedThing {
         
         pojoArrayParameterType.setShortName(emfThing.getShortName());
         		        
-        return pojoArrayParameterType;   
-        
+        return pojoArrayParameterType;
         
         
         case "CDP4.sitedirectorydata.EnumerationParameterType":                
@@ -1650,8 +1867,7 @@ public abstract class DefinedThing {
         
         pojoEnumerationParameterType.setShortName(emfThing.getShortName());
         		        
-        return pojoEnumerationParameterType;   
-        
+        return pojoEnumerationParameterType;
         
         case "CDP4.sitedirectorydata.BooleanParameterType":                
         cdp4common.commondata.DefinedThing pojoBooleanParameterType = new cdp4common.sitedirectorydata.BooleanParameterType();	    
@@ -1676,8 +1892,7 @@ public abstract class DefinedThing {
         
         pojoBooleanParameterType.setShortName(emfThing.getShortName());
         		        
-        return pojoBooleanParameterType;   
-        
+        return pojoBooleanParameterType;
         
         case "CDP4.sitedirectorydata.DateParameterType":                
         cdp4common.commondata.DefinedThing pojoDateParameterType = new cdp4common.sitedirectorydata.DateParameterType();	    
@@ -1702,8 +1917,7 @@ public abstract class DefinedThing {
         
         pojoDateParameterType.setShortName(emfThing.getShortName());
         		        
-        return pojoDateParameterType;   
-        
+        return pojoDateParameterType;
         
         case "CDP4.sitedirectorydata.TextParameterType":                
         cdp4common.commondata.DefinedThing pojoTextParameterType = new cdp4common.sitedirectorydata.TextParameterType();	    
@@ -1728,8 +1942,7 @@ public abstract class DefinedThing {
         
         pojoTextParameterType.setShortName(emfThing.getShortName());
         		        
-        return pojoTextParameterType;   
-        
+        return pojoTextParameterType;
         
         case "CDP4.sitedirectorydata.DateTimeParameterType":                
         cdp4common.commondata.DefinedThing pojoDateTimeParameterType = new cdp4common.sitedirectorydata.DateTimeParameterType();	    
@@ -1754,8 +1967,7 @@ public abstract class DefinedThing {
         
         pojoDateTimeParameterType.setShortName(emfThing.getShortName());
         		        
-        return pojoDateTimeParameterType;   
-        
+        return pojoDateTimeParameterType;
         
         case "CDP4.sitedirectorydata.TimeOfDayParameterType":                
         cdp4common.commondata.DefinedThing pojoTimeOfDayParameterType = new cdp4common.sitedirectorydata.TimeOfDayParameterType();	    
@@ -1780,8 +1992,7 @@ public abstract class DefinedThing {
         
         pojoTimeOfDayParameterType.setShortName(emfThing.getShortName());
         		        
-        return pojoTimeOfDayParameterType;   
-        
+        return pojoTimeOfDayParameterType;
         
         
         case "CDP4.sitedirectorydata.SpecializedQuantityKind":                
@@ -1807,8 +2018,7 @@ public abstract class DefinedThing {
         
         pojoSpecializedQuantityKind.setShortName(emfThing.getShortName());
         		        
-        return pojoSpecializedQuantityKind;   
-        
+        return pojoSpecializedQuantityKind;
         
         case "CDP4.sitedirectorydata.SimpleQuantityKind":                
         cdp4common.commondata.DefinedThing pojoSimpleQuantityKind = new cdp4common.sitedirectorydata.SimpleQuantityKind();	    
@@ -1833,8 +2043,7 @@ public abstract class DefinedThing {
         
         pojoSimpleQuantityKind.setShortName(emfThing.getShortName());
         		        
-        return pojoSimpleQuantityKind;   
-        
+        return pojoSimpleQuantityKind;
         
         case "CDP4.sitedirectorydata.DerivedQuantityKind":                
         cdp4common.commondata.DefinedThing pojoDerivedQuantityKind = new cdp4common.sitedirectorydata.DerivedQuantityKind();	    
@@ -1859,8 +2068,7 @@ public abstract class DefinedThing {
         
         pojoDerivedQuantityKind.setShortName(emfThing.getShortName());
         		        
-        return pojoDerivedQuantityKind;   
-        
+        return pojoDerivedQuantityKind;
         
         case "CDP4.sitedirectorydata.ScaleValueDefinition":                
         cdp4common.commondata.DefinedThing pojoScaleValueDefinition = new cdp4common.sitedirectorydata.ScaleValueDefinition();	    
@@ -1885,8 +2093,7 @@ public abstract class DefinedThing {
         
         pojoScaleValueDefinition.setShortName(emfThing.getShortName());
         		        
-        return pojoScaleValueDefinition;   
-        
+        return pojoScaleValueDefinition;
         
         
         case "CDP4.sitedirectorydata.DerivedUnit":                
@@ -1912,8 +2119,7 @@ public abstract class DefinedThing {
         
         pojoDerivedUnit.setShortName(emfThing.getShortName());
         		        
-        return pojoDerivedUnit;   
-        
+        return pojoDerivedUnit;
         
         
         case "CDP4.sitedirectorydata.LinearConversionUnit":                
@@ -1939,8 +2145,7 @@ public abstract class DefinedThing {
         
         pojoLinearConversionUnit.setShortName(emfThing.getShortName());
         		        
-        return pojoLinearConversionUnit;   
-        
+        return pojoLinearConversionUnit;
         
         case "CDP4.sitedirectorydata.PrefixedUnit":                
         cdp4common.commondata.DefinedThing pojoPrefixedUnit = new cdp4common.sitedirectorydata.PrefixedUnit();	    
@@ -1965,8 +2170,7 @@ public abstract class DefinedThing {
         
         pojoPrefixedUnit.setShortName(emfThing.getShortName());
         		        
-        return pojoPrefixedUnit;   
-        
+        return pojoPrefixedUnit;
         
         case "CDP4.sitedirectorydata.SimpleUnit":                
         cdp4common.commondata.DefinedThing pojoSimpleUnit = new cdp4common.sitedirectorydata.SimpleUnit();	    
@@ -1991,8 +2195,7 @@ public abstract class DefinedThing {
         
         pojoSimpleUnit.setShortName(emfThing.getShortName());
         		        
-        return pojoSimpleUnit;   
-        
+        return pojoSimpleUnit;
         
         case "CDP4.sitedirectorydata.Category":                
         cdp4common.commondata.DefinedThing pojoCategory = new cdp4common.sitedirectorydata.Category();	    
@@ -2017,8 +2220,7 @@ public abstract class DefinedThing {
         
         pojoCategory.setShortName(emfThing.getShortName());
         		        
-        return pojoCategory;   
-        
+        return pojoCategory;
         
         case "CDP4.sitedirectorydata.UnitPrefix":                
         cdp4common.commondata.DefinedThing pojoUnitPrefix = new cdp4common.sitedirectorydata.UnitPrefix();	    
@@ -2043,8 +2245,7 @@ public abstract class DefinedThing {
         
         pojoUnitPrefix.setShortName(emfThing.getShortName());
         		        
-        return pojoUnitPrefix;   
-        
+        return pojoUnitPrefix;
         
         
         case "CDP4.sitedirectorydata.ReferencerRule":                
@@ -2070,8 +2271,7 @@ public abstract class DefinedThing {
         
         pojoReferencerRule.setShortName(emfThing.getShortName());
         		        
-        return pojoReferencerRule;   
-        
+        return pojoReferencerRule;
         
         case "CDP4.sitedirectorydata.BinaryRelationshipRule":                
         cdp4common.commondata.DefinedThing pojoBinaryRelationshipRule = new cdp4common.sitedirectorydata.BinaryRelationshipRule();	    
@@ -2096,8 +2296,7 @@ public abstract class DefinedThing {
         
         pojoBinaryRelationshipRule.setShortName(emfThing.getShortName());
         		        
-        return pojoBinaryRelationshipRule;   
-        
+        return pojoBinaryRelationshipRule;
         
         case "CDP4.sitedirectorydata.MultiRelationshipRule":                
         cdp4common.commondata.DefinedThing pojoMultiRelationshipRule = new cdp4common.sitedirectorydata.MultiRelationshipRule();	    
@@ -2122,8 +2321,7 @@ public abstract class DefinedThing {
         
         pojoMultiRelationshipRule.setShortName(emfThing.getShortName());
         		        
-        return pojoMultiRelationshipRule;   
-        
+        return pojoMultiRelationshipRule;
         
         case "CDP4.sitedirectorydata.DecompositionRule":                
         cdp4common.commondata.DefinedThing pojoDecompositionRule = new cdp4common.sitedirectorydata.DecompositionRule();	    
@@ -2148,8 +2346,7 @@ public abstract class DefinedThing {
         
         pojoDecompositionRule.setShortName(emfThing.getShortName());
         		        
-        return pojoDecompositionRule;   
-        
+        return pojoDecompositionRule;
         
         case "CDP4.sitedirectorydata.ParameterizedCategoryRule":                
         cdp4common.commondata.DefinedThing pojoParameterizedCategoryRule = new cdp4common.sitedirectorydata.ParameterizedCategoryRule();	    
@@ -2174,8 +2371,7 @@ public abstract class DefinedThing {
         
         pojoParameterizedCategoryRule.setShortName(emfThing.getShortName());
         		        
-        return pojoParameterizedCategoryRule;   
-        
+        return pojoParameterizedCategoryRule;
         
         case "CDP4.sitedirectorydata.EnumerationValueDefinition":                
         cdp4common.commondata.DefinedThing pojoEnumerationValueDefinition = new cdp4common.sitedirectorydata.EnumerationValueDefinition();	    
@@ -2200,8 +2396,7 @@ public abstract class DefinedThing {
         
         pojoEnumerationValueDefinition.setShortName(emfThing.getShortName());
         		        
-        return pojoEnumerationValueDefinition;   
-        
+        return pojoEnumerationValueDefinition;
         
         case "CDP4.sitedirectorydata.PersonRole":                
         cdp4common.commondata.DefinedThing pojoPersonRole = new cdp4common.sitedirectorydata.PersonRole();	    
@@ -2226,8 +2421,7 @@ public abstract class DefinedThing {
         
         pojoPersonRole.setShortName(emfThing.getShortName());
         		        
-        return pojoPersonRole;   
-        
+        return pojoPersonRole;
         
         case "CDP4.sitedirectorydata.DomainOfExpertiseGroup":                
         cdp4common.commondata.DefinedThing pojoDomainOfExpertiseGroup = new cdp4common.sitedirectorydata.DomainOfExpertiseGroup();	    
@@ -2252,8 +2446,7 @@ public abstract class DefinedThing {
         
         pojoDomainOfExpertiseGroup.setShortName(emfThing.getShortName());
         		        
-        return pojoDomainOfExpertiseGroup;   
-        
+        return pojoDomainOfExpertiseGroup;
         
         case "CDP4.sitedirectorydata.ReferenceSource":                
         cdp4common.commondata.DefinedThing pojoReferenceSource = new cdp4common.sitedirectorydata.ReferenceSource();	    
@@ -2278,8 +2471,7 @@ public abstract class DefinedThing {
         
         pojoReferenceSource.setShortName(emfThing.getShortName());
         		        
-        return pojoReferenceSource;   
-        
+        return pojoReferenceSource;
         
         case "CDP4.sitedirectorydata.Constant":                
         cdp4common.commondata.DefinedThing pojoConstant = new cdp4common.sitedirectorydata.Constant();	    
@@ -2304,8 +2496,7 @@ public abstract class DefinedThing {
         
         pojoConstant.setShortName(emfThing.getShortName());
         		        
-        return pojoConstant;   
-        
+        return pojoConstant;
         
         case "CDP4.engineeringmodeldata.PossibleFiniteState":                
         cdp4common.commondata.DefinedThing pojoPossibleFiniteState = new cdp4common.engineeringmodeldata.PossibleFiniteState();	    
@@ -2330,8 +2521,7 @@ public abstract class DefinedThing {
         
         pojoPossibleFiniteState.setShortName(emfThing.getShortName());
         		        
-        return pojoPossibleFiniteState;   
-        
+        return pojoPossibleFiniteState;
         
         case "CDP4.engineeringmodeldata.Option":                
         cdp4common.commondata.DefinedThing pojoOption = new cdp4common.engineeringmodeldata.Option();	    
@@ -2356,8 +2546,7 @@ public abstract class DefinedThing {
         
         pojoOption.setShortName(emfThing.getShortName());
         		        
-        return pojoOption;   
-        
+        return pojoOption;
         
         case "CDP4.engineeringmodeldata.PossibleFiniteStateList":                
         cdp4common.commondata.DefinedThing pojoPossibleFiniteStateList = new cdp4common.engineeringmodeldata.PossibleFiniteStateList();	    
@@ -2382,8 +2571,7 @@ public abstract class DefinedThing {
         
         pojoPossibleFiniteStateList.setShortName(emfThing.getShortName());
         		        
-        return pojoPossibleFiniteStateList;   
-        
+        return pojoPossibleFiniteStateList;
         
         
         case "CDP4.engineeringmodeldata.ElementDefinition":                
@@ -2409,8 +2597,7 @@ public abstract class DefinedThing {
         
         pojoElementDefinition.setShortName(emfThing.getShortName());
         		        
-        return pojoElementDefinition;   
-        
+        return pojoElementDefinition;
         
         case "CDP4.engineeringmodeldata.ElementUsage":                
         cdp4common.commondata.DefinedThing pojoElementUsage = new cdp4common.engineeringmodeldata.ElementUsage();	    
@@ -2435,8 +2622,7 @@ public abstract class DefinedThing {
         
         pojoElementUsage.setShortName(emfThing.getShortName());
         		        
-        return pojoElementUsage;   
-        
+        return pojoElementUsage;
         
         
         case "CDP4.engineeringmodeldata.RequirementsSpecification":                
@@ -2462,8 +2648,7 @@ public abstract class DefinedThing {
         
         pojoRequirementsSpecification.setShortName(emfThing.getShortName());
         		        
-        return pojoRequirementsSpecification;   
-        
+        return pojoRequirementsSpecification;
         
         case "CDP4.engineeringmodeldata.RequirementsGroup":                
         cdp4common.commondata.DefinedThing pojoRequirementsGroup = new cdp4common.engineeringmodeldata.RequirementsGroup();	    
@@ -2488,8 +2673,7 @@ public abstract class DefinedThing {
         
         pojoRequirementsGroup.setShortName(emfThing.getShortName());
         		        
-        return pojoRequirementsGroup;   
-        
+        return pojoRequirementsGroup;
         
         
         case "CDP4.engineeringmodeldata.Requirement":                
@@ -2515,8 +2699,7 @@ public abstract class DefinedThing {
         
         pojoRequirement.setShortName(emfThing.getShortName());
         		        
-        return pojoRequirement;   
-        
+        return pojoRequirement;
         
         case "CDP4.engineeringmodeldata.RuleVerificationList":                
         cdp4common.commondata.DefinedThing pojoRuleVerificationList = new cdp4common.engineeringmodeldata.RuleVerificationList();	    
@@ -2541,8 +2724,7 @@ public abstract class DefinedThing {
         
         pojoRuleVerificationList.setShortName(emfThing.getShortName());
         		        
-        return pojoRuleVerificationList;   
-        
+        return pojoRuleVerificationList;
         
         case "CDP4.engineeringmodeldata.Goal":                
         cdp4common.commondata.DefinedThing pojoGoal = new cdp4common.engineeringmodeldata.Goal();	    
@@ -2567,8 +2749,7 @@ public abstract class DefinedThing {
         
         pojoGoal.setShortName(emfThing.getShortName());
         		        
-        return pojoGoal;   
-        
+        return pojoGoal;
         
         case "CDP4.engineeringmodeldata.Stakeholder":                
         cdp4common.commondata.DefinedThing pojoStakeholder = new cdp4common.engineeringmodeldata.Stakeholder();	    
@@ -2593,8 +2774,7 @@ public abstract class DefinedThing {
         
         pojoStakeholder.setShortName(emfThing.getShortName());
         		        
-        return pojoStakeholder;   
-        
+        return pojoStakeholder;
         
         case "CDP4.engineeringmodeldata.ValueGroup":                
         cdp4common.commondata.DefinedThing pojoValueGroup = new cdp4common.engineeringmodeldata.ValueGroup();	    
@@ -2619,8 +2799,7 @@ public abstract class DefinedThing {
         
         pojoValueGroup.setShortName(emfThing.getShortName());
         		        
-        return pojoValueGroup;   
-        
+        return pojoValueGroup;
         
         case "CDP4.engineeringmodeldata.StakeholderValue":                
         cdp4common.commondata.DefinedThing pojoStakeholderValue = new cdp4common.engineeringmodeldata.StakeholderValue();	    
@@ -2645,8 +2824,7 @@ public abstract class DefinedThing {
         
         pojoStakeholderValue.setShortName(emfThing.getShortName());
         		        
-        return pojoStakeholderValue;   
-        
+        return pojoStakeholderValue;
         
         case "CDP4.engineeringmodeldata.StakeHolderValueMap":                
         cdp4common.commondata.DefinedThing pojoStakeHolderValueMap = new cdp4common.engineeringmodeldata.StakeHolderValueMap();	    
@@ -2671,14 +2849,11 @@ public abstract class DefinedThing {
         
         pojoStakeHolderValueMap.setShortName(emfThing.getShortName());
         		        
-        return pojoStakeHolderValueMap;   
-        
+        return pojoStakeHolderValueMap;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

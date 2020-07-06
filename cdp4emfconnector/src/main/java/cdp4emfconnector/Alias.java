@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Alias} class.
+ */
 public class Alias {
-
+   
+    /**
+     * Convert from {@link cdp4common.commondata.Alias} to {@link CDP4.CommonData.Alias}
+     *
+     * @return Generated {@link CDP4.CommonData.Alias}
+     */
     public static CDP4.CommonData.Alias toEmf(cdp4common.commondata.Alias thing) {       
-        
         
         CDP4.CommonData.Alias emf =  CDP4.CommonData.impl.CommonDataFactoryImpl.eINSTANCE.createAlias();      
        
@@ -75,11 +82,14 @@ public class Alias {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.commondata.Alias toPojo(CDP4.CommonData.Alias emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.CommonData.Alias} to {@link cdp4common.commondata.Alias}
+     *
+     * @return Generated {@link cdp4common.commondata.Alias}
+     */
+    public static cdp4common.commondata.Alias toPojo(CDP4.CommonData.Alias emfThing) {
         
         cdp4common.commondata.Alias pojo = new cdp4common.commondata.Alias();
         
@@ -100,10 +110,16 @@ public class Alias {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.commondata.Alias} from a {@link CDP4.CommonData.Alias}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.commondata.Alias}.
+    * @return A new {@link cdp4common.commondata.Alias}
+    */
     public static cdp4common.commondata.Alias instiatePojo(CDP4.CommonData.Alias thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.commondata.Alias(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.commondata.Alias(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

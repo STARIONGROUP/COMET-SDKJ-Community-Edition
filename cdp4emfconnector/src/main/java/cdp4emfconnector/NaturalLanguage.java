@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link NaturalLanguage} class.
+ */
 public class NaturalLanguage {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.NaturalLanguage} to {@link CDP4.SiteDirectoryData.NaturalLanguage}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.NaturalLanguage}
+     */
     public static CDP4.SiteDirectoryData.NaturalLanguage toEmf(cdp4common.sitedirectorydata.NaturalLanguage thing) {       
-        
         
         CDP4.SiteDirectoryData.NaturalLanguage emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createNaturalLanguage();      
        
@@ -75,11 +82,14 @@ public class NaturalLanguage {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.NaturalLanguage toPojo(CDP4.SiteDirectoryData.NaturalLanguage emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.NaturalLanguage} to {@link cdp4common.sitedirectorydata.NaturalLanguage}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.NaturalLanguage}
+     */
+    public static cdp4common.sitedirectorydata.NaturalLanguage toPojo(CDP4.SiteDirectoryData.NaturalLanguage emfThing) {
         
         cdp4common.sitedirectorydata.NaturalLanguage pojo = new cdp4common.sitedirectorydata.NaturalLanguage();
         
@@ -100,10 +110,16 @@ public class NaturalLanguage {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.NaturalLanguage} from a {@link CDP4.SiteDirectoryData.NaturalLanguage}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.NaturalLanguage}.
+    * @return A new {@link cdp4common.sitedirectorydata.NaturalLanguage}
+    */
     public static cdp4common.sitedirectorydata.NaturalLanguage instiatePojo(CDP4.SiteDirectoryData.NaturalLanguage thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.NaturalLanguage(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.NaturalLanguage(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

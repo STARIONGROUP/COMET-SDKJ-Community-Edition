@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link MultiRelationship} class.
+ */
 public class MultiRelationship {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.MultiRelationship} to {@link CDP4.EngineeringModelData.MultiRelationship}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.MultiRelationship}
+     */
     public static CDP4.EngineeringModelData.MultiRelationship toEmf(cdp4common.engineeringmodeldata.MultiRelationship thing) {       
-        
         
         CDP4.EngineeringModelData.MultiRelationship emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createMultiRelationship();      
        
@@ -77,11 +84,14 @@ public class MultiRelationship {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.MultiRelationship toPojo(CDP4.EngineeringModelData.MultiRelationship emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.MultiRelationship} to {@link cdp4common.engineeringmodeldata.MultiRelationship}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.MultiRelationship}
+     */
+    public static cdp4common.engineeringmodeldata.MultiRelationship toPojo(CDP4.EngineeringModelData.MultiRelationship emfThing) {
         
         cdp4common.engineeringmodeldata.MultiRelationship pojo = new cdp4common.engineeringmodeldata.MultiRelationship();
         
@@ -104,10 +114,16 @@ public class MultiRelationship {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.MultiRelationship} from a {@link CDP4.EngineeringModelData.MultiRelationship}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.MultiRelationship}.
+    * @return A new {@link cdp4common.engineeringmodeldata.MultiRelationship}
+    */
     public static cdp4common.engineeringmodeldata.MultiRelationship instiatePojo(CDP4.EngineeringModelData.MultiRelationship thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.MultiRelationship(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.MultiRelationship(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

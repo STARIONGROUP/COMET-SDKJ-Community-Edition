@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Color} class.
+ */
 public class Color {
-
+   
+    /**
+     * Convert from {@link cdp4common.diagramdata.Color} to {@link CDP4.DiagramData.Color}
+     *
+     * @return Generated {@link CDP4.DiagramData.Color}
+     */
     public static CDP4.DiagramData.Color toEmf(cdp4common.diagramdata.Color thing) {       
-        
         
         CDP4.DiagramData.Color emf =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createColor();      
        
@@ -77,11 +84,14 @@ public class Color {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.diagramdata.Color toPojo(CDP4.DiagramData.Color emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.DiagramData.Color} to {@link cdp4common.diagramdata.Color}
+     *
+     * @return Generated {@link cdp4common.diagramdata.Color}
+     */
+    public static cdp4common.diagramdata.Color toPojo(CDP4.DiagramData.Color emfThing) {
         
         cdp4common.diagramdata.Color pojo = new cdp4common.diagramdata.Color();
         
@@ -104,10 +114,16 @@ public class Color {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.diagramdata.Color} from a {@link CDP4.DiagramData.Color}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.diagramdata.Color}.
+    * @return A new {@link cdp4common.diagramdata.Color}
+    */
     public static cdp4common.diagramdata.Color instiatePojo(CDP4.DiagramData.Color thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.diagramdata.Color(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.diagramdata.Color(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

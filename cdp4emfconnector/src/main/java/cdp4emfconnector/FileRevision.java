@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link FileRevision} class.
+ */
 public class FileRevision {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.FileRevision} to {@link CDP4.EngineeringModelData.FileRevision}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.FileRevision}
+     */
     public static CDP4.EngineeringModelData.FileRevision toEmf(cdp4common.engineeringmodeldata.FileRevision thing) {       
-        
         
         CDP4.EngineeringModelData.FileRevision emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createFileRevision();      
        
@@ -80,11 +87,14 @@ public class FileRevision {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.FileRevision toPojo(CDP4.EngineeringModelData.FileRevision emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.FileRevision} to {@link cdp4common.engineeringmodeldata.FileRevision}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.FileRevision}
+     */
+    public static cdp4common.engineeringmodeldata.FileRevision toPojo(CDP4.EngineeringModelData.FileRevision emfThing) {
         
         cdp4common.engineeringmodeldata.FileRevision pojo = new cdp4common.engineeringmodeldata.FileRevision();
         
@@ -110,10 +120,16 @@ public class FileRevision {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.FileRevision} from a {@link CDP4.EngineeringModelData.FileRevision}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.FileRevision}.
+    * @return A new {@link cdp4common.engineeringmodeldata.FileRevision}
+    */
     public static cdp4common.engineeringmodeldata.FileRevision instiatePojo(CDP4.EngineeringModelData.FileRevision thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.FileRevision(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.FileRevision(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

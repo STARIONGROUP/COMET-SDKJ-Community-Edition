@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link IntervalScale} class.
+ */
 public class IntervalScale {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.IntervalScale} to {@link CDP4.SiteDirectoryData.IntervalScale}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.IntervalScale}
+     */
     public static CDP4.SiteDirectoryData.IntervalScale toEmf(cdp4common.sitedirectorydata.IntervalScale thing) {       
-        
         
         CDP4.SiteDirectoryData.IntervalScale emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createIntervalScale();      
        
@@ -101,11 +108,14 @@ public class IntervalScale {
         emf.getValueDefinition().addAll(thing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.IntervalScale toPojo(CDP4.SiteDirectoryData.IntervalScale emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.IntervalScale} to {@link cdp4common.sitedirectorydata.IntervalScale}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.IntervalScale}
+     */
+    public static cdp4common.sitedirectorydata.IntervalScale toPojo(CDP4.SiteDirectoryData.IntervalScale emfThing) {
         
         cdp4common.sitedirectorydata.IntervalScale pojo = new cdp4common.sitedirectorydata.IntervalScale();
         
@@ -152,10 +162,16 @@ public class IntervalScale {
         pojo.getValueDefinition().addAll(emfThing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.IntervalScale} from a {@link CDP4.SiteDirectoryData.IntervalScale}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.IntervalScale}.
+    * @return A new {@link cdp4common.sitedirectorydata.IntervalScale}
+    */
     public static cdp4common.sitedirectorydata.IntervalScale instiatePojo(CDP4.SiteDirectoryData.IntervalScale thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.IntervalScale(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.IntervalScale(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

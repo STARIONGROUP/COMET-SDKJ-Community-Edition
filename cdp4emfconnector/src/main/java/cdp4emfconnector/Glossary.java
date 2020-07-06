@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Glossary} class.
+ */
 public class Glossary {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.Glossary} to {@link CDP4.SiteDirectoryData.Glossary}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.Glossary}
+     */
     public static CDP4.SiteDirectoryData.Glossary toEmf(cdp4common.sitedirectorydata.Glossary thing) {       
-        
         
         CDP4.SiteDirectoryData.Glossary emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createGlossary();      
        
@@ -85,11 +92,14 @@ public class Glossary {
         emf.getTerm().addAll(thing.getTerm().stream().map(item -> cdp4emfconnector.Term.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.Glossary toPojo(CDP4.SiteDirectoryData.Glossary emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.Glossary} to {@link cdp4common.sitedirectorydata.Glossary}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.Glossary}
+     */
+    public static cdp4common.sitedirectorydata.Glossary toPojo(CDP4.SiteDirectoryData.Glossary emfThing) {
         
         cdp4common.sitedirectorydata.Glossary pojo = new cdp4common.sitedirectorydata.Glossary();
         
@@ -120,10 +130,16 @@ public class Glossary {
         pojo.getTerm().addAll(emfThing.getTerm().stream().map(item -> cdp4emfconnector.Term.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.Glossary} from a {@link CDP4.SiteDirectoryData.Glossary}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.Glossary}.
+    * @return A new {@link cdp4common.sitedirectorydata.Glossary}
+    */
     public static cdp4common.sitedirectorydata.Glossary instiatePojo(CDP4.SiteDirectoryData.Glossary thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.Glossary(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.Glossary(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

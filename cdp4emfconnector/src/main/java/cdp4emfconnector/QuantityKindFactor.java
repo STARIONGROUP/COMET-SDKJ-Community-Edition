@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link QuantityKindFactor} class.
+ */
 public class QuantityKindFactor {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.QuantityKindFactor} to {@link CDP4.SiteDirectoryData.QuantityKindFactor}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.QuantityKindFactor}
+     */
     public static CDP4.SiteDirectoryData.QuantityKindFactor toEmf(cdp4common.sitedirectorydata.QuantityKindFactor thing) {       
-        
         
         CDP4.SiteDirectoryData.QuantityKindFactor emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createQuantityKindFactor();      
        
@@ -73,11 +80,14 @@ public class QuantityKindFactor {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.QuantityKindFactor toPojo(CDP4.SiteDirectoryData.QuantityKindFactor emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.QuantityKindFactor} to {@link cdp4common.sitedirectorydata.QuantityKindFactor}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.QuantityKindFactor}
+     */
+    public static cdp4common.sitedirectorydata.QuantityKindFactor toPojo(CDP4.SiteDirectoryData.QuantityKindFactor emfThing) {
         
         cdp4common.sitedirectorydata.QuantityKindFactor pojo = new cdp4common.sitedirectorydata.QuantityKindFactor();
         
@@ -96,10 +106,16 @@ public class QuantityKindFactor {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.QuantityKindFactor} from a {@link CDP4.SiteDirectoryData.QuantityKindFactor}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.QuantityKindFactor}.
+    * @return A new {@link cdp4common.sitedirectorydata.QuantityKindFactor}
+    */
     public static cdp4common.sitedirectorydata.QuantityKindFactor instiatePojo(CDP4.SiteDirectoryData.QuantityKindFactor thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.QuantityKindFactor(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.QuantityKindFactor(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

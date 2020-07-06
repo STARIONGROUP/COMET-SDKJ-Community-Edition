@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ConversionBasedUnit} class.
+ */
 public abstract class ConversionBasedUnit {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.ConversionBasedUnit} to {@link CDP4.SiteDirectoryData.ConversionBasedUnit}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.ConversionBasedUnit}
+     */
     public static CDP4.SiteDirectoryData.ConversionBasedUnit toEmf(cdp4common.sitedirectorydata.ConversionBasedUnit thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,12 +70,17 @@ public abstract class ConversionBasedUnit {
         
         emfLinearConversionUnit.setIid(thing.getIid().toString()); 
         
+        emfLinearConversionUnit.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
         emfLinearConversionUnit.setConversionFactor(thing.getConversionFactor());
         
+        emfLinearConversionUnit.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfLinearConversionUnit.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfLinearConversionUnit.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfLinearConversionUnit.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfLinearConversionUnit.setIsDeprecated(thing.isDeprecated());
         
@@ -81,20 +94,24 @@ public abstract class ConversionBasedUnit {
         
         emfLinearConversionUnit.setShortName(thing.getShortName());
         		        
-        return emfLinearConversionUnit;   
-        
+        return emfLinearConversionUnit;
         
         case "cdp4common.sitedirectorydata.PrefixedUnit":
         CDP4.SiteDirectoryData.ConversionBasedUnit emfPrefixedUnit =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createPrefixedUnit();    
         
         emfPrefixedUnit.setIid(thing.getIid().toString()); 
         
+        emfPrefixedUnit.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
         emfPrefixedUnit.setConversionFactor(thing.getConversionFactor());
         
+        emfPrefixedUnit.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfPrefixedUnit.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPrefixedUnit.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfPrefixedUnit.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfPrefixedUnit.setIsDeprecated(thing.isDeprecated());
         
@@ -108,16 +125,19 @@ public abstract class ConversionBasedUnit {
         
         emfPrefixedUnit.setShortName(thing.getShortName());
         		        
-        return emfPrefixedUnit;   
-        
+        return emfPrefixedUnit;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.sitedirectorydata.ConversionBasedUnit toPojo(CDP4.SiteDirectoryData.ConversionBasedUnit emfThing) {
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.ConversionBasedUnit} to {@link cdp4common.sitedirectorydata.ConversionBasedUnit}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.ConversionBasedUnit}
+     */
+    public static cdp4common.sitedirectorydata.ConversionBasedUnit toPojo(CDP4.SiteDirectoryData.ConversionBasedUnit emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -150,8 +170,7 @@ public abstract class ConversionBasedUnit {
         
         pojoLinearConversionUnit.setShortName(emfThing.getShortName());
         		        
-        return pojoLinearConversionUnit;   
-        
+        return pojoLinearConversionUnit;
         
         case "CDP4.sitedirectorydata.PrefixedUnit":                
         cdp4common.sitedirectorydata.ConversionBasedUnit pojoPrefixedUnit = new cdp4common.sitedirectorydata.PrefixedUnit();	    
@@ -182,14 +201,11 @@ public abstract class ConversionBasedUnit {
         
         pojoPrefixedUnit.setShortName(emfThing.getShortName());
         		        
-        return pojoPrefixedUnit;   
-        
+        return pojoPrefixedUnit;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

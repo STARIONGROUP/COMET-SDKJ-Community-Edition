@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link SharedStyle} class.
+ */
 public class SharedStyle {
-
+   
+    /**
+     * Convert from {@link cdp4common.diagramdata.SharedStyle} to {@link CDP4.DiagramData.SharedStyle}
+     *
+     * @return Generated {@link CDP4.DiagramData.SharedStyle}
+     */
     public static CDP4.DiagramData.SharedStyle toEmf(cdp4common.diagramdata.SharedStyle thing) {       
-        
         
         CDP4.DiagramData.SharedStyle emf =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createSharedStyle();      
        
@@ -94,11 +101,14 @@ public class SharedStyle {
         emf.getUsedColor().addAll(thing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.diagramdata.SharedStyle toPojo(CDP4.DiagramData.SharedStyle emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.DiagramData.SharedStyle} to {@link cdp4common.diagramdata.SharedStyle}
+     *
+     * @return Generated {@link cdp4common.diagramdata.SharedStyle}
+     */
+    public static cdp4common.diagramdata.SharedStyle toPojo(CDP4.DiagramData.SharedStyle emfThing) {
         
         cdp4common.diagramdata.SharedStyle pojo = new cdp4common.diagramdata.SharedStyle();
         
@@ -138,10 +148,16 @@ public class SharedStyle {
         pojo.getUsedColor().addAll(emfThing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.diagramdata.SharedStyle} from a {@link CDP4.DiagramData.SharedStyle}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.diagramdata.SharedStyle}.
+    * @return A new {@link cdp4common.diagramdata.SharedStyle}
+    */
     public static cdp4common.diagramdata.SharedStyle instiatePojo(CDP4.DiagramData.SharedStyle thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.diagramdata.SharedStyle(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.diagramdata.SharedStyle(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

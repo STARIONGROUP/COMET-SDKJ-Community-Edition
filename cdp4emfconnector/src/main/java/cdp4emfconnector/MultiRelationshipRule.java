@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link MultiRelationshipRule} class.
+ */
 public class MultiRelationshipRule {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.MultiRelationshipRule} to {@link CDP4.SiteDirectoryData.MultiRelationshipRule}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.MultiRelationshipRule}
+     */
     public static CDP4.SiteDirectoryData.MultiRelationshipRule toEmf(cdp4common.sitedirectorydata.MultiRelationshipRule thing) {       
-        
         
         CDP4.SiteDirectoryData.MultiRelationshipRule emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createMultiRelationshipRule();      
        
@@ -89,11 +96,14 @@ public class MultiRelationshipRule {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.MultiRelationshipRule toPojo(CDP4.SiteDirectoryData.MultiRelationshipRule emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.MultiRelationshipRule} to {@link cdp4common.sitedirectorydata.MultiRelationshipRule}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.MultiRelationshipRule}
+     */
+    public static cdp4common.sitedirectorydata.MultiRelationshipRule toPojo(CDP4.SiteDirectoryData.MultiRelationshipRule emfThing) {
         
         cdp4common.sitedirectorydata.MultiRelationshipRule pojo = new cdp4common.sitedirectorydata.MultiRelationshipRule();
         
@@ -128,10 +138,16 @@ public class MultiRelationshipRule {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.MultiRelationshipRule} from a {@link CDP4.SiteDirectoryData.MultiRelationshipRule}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.MultiRelationshipRule}.
+    * @return A new {@link cdp4common.sitedirectorydata.MultiRelationshipRule}
+    */
     public static cdp4common.sitedirectorydata.MultiRelationshipRule instiatePojo(CDP4.SiteDirectoryData.MultiRelationshipRule thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.MultiRelationshipRule(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.MultiRelationshipRule(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Thing} class.
+ */
 public abstract class Thing {
-
+   
+    /**
+     * Convert from {@link cdp4common.commondata.Thing} to {@link CDP4.CommonData.Thing}
+     *
+     * @return Generated {@link CDP4.CommonData.Thing}
+     */
     public static CDP4.CommonData.Thing toEmf(cdp4common.commondata.Thing thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,224 +70,240 @@ public abstract class Thing {
         
         emfParticipantPermission.setIid(thing.getIid().toString()); 
         
+        emfParticipantPermission.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParticipantPermission.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParticipantPermission.setModifiedOn(thing.getModifiedOn());
         
         emfParticipantPermission.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfParticipantPermission;   
-        
+        return emfParticipantPermission;
         
         case "cdp4common.sitedirectorydata.Person":
         CDP4.CommonData.Thing emfPerson =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createPerson();    
         
         emfPerson.setIid(thing.getIid().toString()); 
         
+        emfPerson.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPerson.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfPerson.setModifiedOn(thing.getModifiedOn());
         
         emfPerson.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfPerson;   
-        
+        return emfPerson;
         
         case "cdp4common.sitedirectorydata.Organization":
         CDP4.CommonData.Thing emfOrganization =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createOrganization();    
         
         emfOrganization.setIid(thing.getIid().toString()); 
         
+        emfOrganization.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfOrganization.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfOrganization.setModifiedOn(thing.getModifiedOn());
         
         emfOrganization.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfOrganization;   
-        
+        return emfOrganization;
         
         case "cdp4common.sitedirectorydata.Participant":
         CDP4.CommonData.Thing emfParticipant =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createParticipant();    
         
         emfParticipant.setIid(thing.getIid().toString()); 
         
+        emfParticipant.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParticipant.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParticipant.setModifiedOn(thing.getModifiedOn());
         
         emfParticipant.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfParticipant;   
-        
+        return emfParticipant;
         
         case "cdp4common.sitedirectorydata.ScaleReferenceQuantityValue":
         CDP4.CommonData.Thing emfScaleReferenceQuantityValue =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createScaleReferenceQuantityValue();    
         
         emfScaleReferenceQuantityValue.setIid(thing.getIid().toString()); 
         
+        emfScaleReferenceQuantityValue.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfScaleReferenceQuantityValue.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfScaleReferenceQuantityValue.setModifiedOn(thing.getModifiedOn());
         
         emfScaleReferenceQuantityValue.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfScaleReferenceQuantityValue;   
-        
+        return emfScaleReferenceQuantityValue;
         
         case "cdp4common.sitedirectorydata.MappingToReferenceScale":
         CDP4.CommonData.Thing emfMappingToReferenceScale =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createMappingToReferenceScale();    
         
         emfMappingToReferenceScale.setIid(thing.getIid().toString()); 
         
+        emfMappingToReferenceScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfMappingToReferenceScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfMappingToReferenceScale.setModifiedOn(thing.getModifiedOn());
         
         emfMappingToReferenceScale.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfMappingToReferenceScale;   
-        
+        return emfMappingToReferenceScale;
         
         case "cdp4common.sitedirectorydata.QuantityKindFactor":
         CDP4.CommonData.Thing emfQuantityKindFactor =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createQuantityKindFactor();    
         
         emfQuantityKindFactor.setIid(thing.getIid().toString()); 
         
+        emfQuantityKindFactor.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfQuantityKindFactor.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfQuantityKindFactor.setModifiedOn(thing.getModifiedOn());
         
         emfQuantityKindFactor.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfQuantityKindFactor;   
-        
+        return emfQuantityKindFactor;
         
         case "cdp4common.sitedirectorydata.UnitFactor":
         CDP4.CommonData.Thing emfUnitFactor =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createUnitFactor();    
         
         emfUnitFactor.setIid(thing.getIid().toString()); 
         
+        emfUnitFactor.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfUnitFactor.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfUnitFactor.setModifiedOn(thing.getModifiedOn());
         
         emfUnitFactor.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfUnitFactor;   
-        
+        return emfUnitFactor;
         
         case "cdp4common.sitedirectorydata.ParameterTypeComponent":
         CDP4.CommonData.Thing emfParameterTypeComponent =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createParameterTypeComponent();    
         
         emfParameterTypeComponent.setIid(thing.getIid().toString()); 
         
+        emfParameterTypeComponent.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterTypeComponent.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParameterTypeComponent.setModifiedOn(thing.getModifiedOn());
         
         emfParameterTypeComponent.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfParameterTypeComponent;   
-        
+        return emfParameterTypeComponent;
         
         case "cdp4common.sitedirectorydata.PersonPermission":
         CDP4.CommonData.Thing emfPersonPermission =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createPersonPermission();    
         
         emfPersonPermission.setIid(thing.getIid().toString()); 
         
+        emfPersonPermission.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPersonPermission.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfPersonPermission.setModifiedOn(thing.getModifiedOn());
         
         emfPersonPermission.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfPersonPermission;   
-        
+        return emfPersonPermission;
         
         case "cdp4common.sitedirectorydata.SiteLogEntry":
         CDP4.CommonData.Thing emfSiteLogEntry =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createSiteLogEntry();    
         
         emfSiteLogEntry.setIid(thing.getIid().toString()); 
         
+        emfSiteLogEntry.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteLogEntry.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteLogEntry.setModifiedOn(thing.getModifiedOn());
         
         emfSiteLogEntry.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSiteLogEntry;   
-        
+        return emfSiteLogEntry;
         
         case "cdp4common.sitedirectorydata.IterationSetup":
         CDP4.CommonData.Thing emfIterationSetup =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createIterationSetup();    
         
         emfIterationSetup.setIid(thing.getIid().toString()); 
         
+        emfIterationSetup.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfIterationSetup.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfIterationSetup.setModifiedOn(thing.getModifiedOn());
         
         emfIterationSetup.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfIterationSetup;   
-        
+        return emfIterationSetup;
         
         case "cdp4common.sitedirectorydata.TelephoneNumber":
         CDP4.CommonData.Thing emfTelephoneNumber =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createTelephoneNumber();    
         
         emfTelephoneNumber.setIid(thing.getIid().toString()); 
         
+        emfTelephoneNumber.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfTelephoneNumber.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfTelephoneNumber.setModifiedOn(thing.getModifiedOn());
         
         emfTelephoneNumber.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfTelephoneNumber;   
-        
+        return emfTelephoneNumber;
         
         case "cdp4common.sitedirectorydata.EmailAddress":
         CDP4.CommonData.Thing emfEmailAddress =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createEmailAddress();    
         
         emfEmailAddress.setIid(thing.getIid().toString()); 
         
+        emfEmailAddress.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEmailAddress.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfEmailAddress.setModifiedOn(thing.getModifiedOn());
         
         emfEmailAddress.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfEmailAddress;   
-        
+        return emfEmailAddress;
         
         case "cdp4common.sitedirectorydata.UserPreference":
         CDP4.CommonData.Thing emfUserPreference =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createUserPreference();    
         
         emfUserPreference.setIid(thing.getIid().toString()); 
         
+        emfUserPreference.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfUserPreference.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfUserPreference.setModifiedOn(thing.getModifiedOn());
         
         emfUserPreference.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfUserPreference;   
-        
+        return emfUserPreference;
         
         case "cdp4common.sitedirectorydata.NaturalLanguage":
         CDP4.CommonData.Thing emfNaturalLanguage =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createNaturalLanguage();    
         
         emfNaturalLanguage.setIid(thing.getIid().toString()); 
         
+        emfNaturalLanguage.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfNaturalLanguage.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfNaturalLanguage.setModifiedOn(thing.getModifiedOn());
         
         emfNaturalLanguage.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfNaturalLanguage;   
-        
+        return emfNaturalLanguage;
         
         
         case "cdp4common.sitedirectorydata.ParticipantRole":
@@ -287,42 +311,45 @@ public abstract class Thing {
         
         emfParticipantRole.setIid(thing.getIid().toString()); 
         
+        emfParticipantRole.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParticipantRole.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParticipantRole.setModifiedOn(thing.getModifiedOn());
         
         emfParticipantRole.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfParticipantRole;   
-        
+        return emfParticipantRole;
         
         case "cdp4common.sitedirectorydata.EngineeringModelSetup":
         CDP4.CommonData.Thing emfEngineeringModelSetup =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createEngineeringModelSetup();    
         
         emfEngineeringModelSetup.setIid(thing.getIid().toString()); 
         
+        emfEngineeringModelSetup.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEngineeringModelSetup.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfEngineeringModelSetup.setModifiedOn(thing.getModifiedOn());
         
         emfEngineeringModelSetup.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfEngineeringModelSetup;   
-        
+        return emfEngineeringModelSetup;
         
         case "cdp4common.sitedirectorydata.Glossary":
         CDP4.CommonData.Thing emfGlossary =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createGlossary();    
         
         emfGlossary.setIid(thing.getIid().toString()); 
         
+        emfGlossary.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfGlossary.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfGlossary.setModifiedOn(thing.getModifiedOn());
         
         emfGlossary.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfGlossary;   
-        
+        return emfGlossary;
         
         
         case "cdp4common.sitedirectorydata.SiteReferenceDataLibrary":
@@ -330,56 +357,60 @@ public abstract class Thing {
         
         emfSiteReferenceDataLibrary.setIid(thing.getIid().toString()); 
         
+        emfSiteReferenceDataLibrary.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteReferenceDataLibrary.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteReferenceDataLibrary.setModifiedOn(thing.getModifiedOn());
         
         emfSiteReferenceDataLibrary.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSiteReferenceDataLibrary;   
-        
+        return emfSiteReferenceDataLibrary;
         
         case "cdp4common.sitedirectorydata.ModelReferenceDataLibrary":
         CDP4.CommonData.Thing emfModelReferenceDataLibrary =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createModelReferenceDataLibrary();    
         
         emfModelReferenceDataLibrary.setIid(thing.getIid().toString()); 
         
+        emfModelReferenceDataLibrary.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelReferenceDataLibrary.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfModelReferenceDataLibrary.setModifiedOn(thing.getModifiedOn());
         
         emfModelReferenceDataLibrary.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfModelReferenceDataLibrary;   
-        
+        return emfModelReferenceDataLibrary;
         
         case "cdp4common.sitedirectorydata.Term":
         CDP4.CommonData.Thing emfTerm =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createTerm();    
         
         emfTerm.setIid(thing.getIid().toString()); 
         
+        emfTerm.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfTerm.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfTerm.setModifiedOn(thing.getModifiedOn());
         
         emfTerm.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfTerm;   
-        
+        return emfTerm;
         
         case "cdp4common.sitedirectorydata.FileType":
         CDP4.CommonData.Thing emfFileType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createFileType();    
         
         emfFileType.setIid(thing.getIid().toString()); 
         
+        emfFileType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfFileType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfFileType.setModifiedOn(thing.getModifiedOn());
         
         emfFileType.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfFileType;   
-        
+        return emfFileType;
         
         
         case "cdp4common.sitedirectorydata.OrdinalScale":
@@ -387,84 +418,90 @@ public abstract class Thing {
         
         emfOrdinalScale.setIid(thing.getIid().toString()); 
         
+        emfOrdinalScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfOrdinalScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfOrdinalScale.setModifiedOn(thing.getModifiedOn());
         
         emfOrdinalScale.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfOrdinalScale;   
-        
+        return emfOrdinalScale;
         
         case "cdp4common.sitedirectorydata.RatioScale":
         CDP4.CommonData.Thing emfRatioScale =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createRatioScale();    
         
         emfRatioScale.setIid(thing.getIid().toString()); 
         
+        emfRatioScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRatioScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRatioScale.setModifiedOn(thing.getModifiedOn());
         
         emfRatioScale.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRatioScale;   
-        
+        return emfRatioScale;
         
         case "cdp4common.sitedirectorydata.CyclicRatioScale":
         CDP4.CommonData.Thing emfCyclicRatioScale =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createCyclicRatioScale();    
         
         emfCyclicRatioScale.setIid(thing.getIid().toString()); 
         
+        emfCyclicRatioScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfCyclicRatioScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfCyclicRatioScale.setModifiedOn(thing.getModifiedOn());
         
         emfCyclicRatioScale.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfCyclicRatioScale;   
-        
+        return emfCyclicRatioScale;
         
         case "cdp4common.sitedirectorydata.IntervalScale":
         CDP4.CommonData.Thing emfIntervalScale =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createIntervalScale();    
         
         emfIntervalScale.setIid(thing.getIid().toString()); 
         
+        emfIntervalScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfIntervalScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfIntervalScale.setModifiedOn(thing.getModifiedOn());
         
         emfIntervalScale.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfIntervalScale;   
-        
+        return emfIntervalScale;
         
         case "cdp4common.sitedirectorydata.LogarithmicScale":
         CDP4.CommonData.Thing emfLogarithmicScale =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createLogarithmicScale();    
         
         emfLogarithmicScale.setIid(thing.getIid().toString()); 
         
+        emfLogarithmicScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfLogarithmicScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfLogarithmicScale.setModifiedOn(thing.getModifiedOn());
         
         emfLogarithmicScale.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfLogarithmicScale;   
-        
+        return emfLogarithmicScale;
         
         case "cdp4common.sitedirectorydata.DomainOfExpertise":
         CDP4.CommonData.Thing emfDomainOfExpertise =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDomainOfExpertise();    
         
         emfDomainOfExpertise.setIid(thing.getIid().toString()); 
         
+        emfDomainOfExpertise.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDomainOfExpertise.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDomainOfExpertise.setModifiedOn(thing.getModifiedOn());
         
         emfDomainOfExpertise.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDomainOfExpertise;   
-        
+        return emfDomainOfExpertise;
         
         
         case "cdp4common.sitedirectorydata.CompoundParameterType":
@@ -472,28 +509,30 @@ public abstract class Thing {
         
         emfCompoundParameterType.setIid(thing.getIid().toString()); 
         
+        emfCompoundParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfCompoundParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfCompoundParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfCompoundParameterType.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfCompoundParameterType;   
-        
+        return emfCompoundParameterType;
         
         case "cdp4common.sitedirectorydata.ArrayParameterType":
         CDP4.CommonData.Thing emfArrayParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createArrayParameterType();    
         
         emfArrayParameterType.setIid(thing.getIid().toString()); 
         
+        emfArrayParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfArrayParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfArrayParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfArrayParameterType.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfArrayParameterType;   
-        
+        return emfArrayParameterType;
         
         
         case "cdp4common.sitedirectorydata.EnumerationParameterType":
@@ -501,84 +540,90 @@ public abstract class Thing {
         
         emfEnumerationParameterType.setIid(thing.getIid().toString()); 
         
+        emfEnumerationParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfEnumerationParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfEnumerationParameterType.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfEnumerationParameterType;   
-        
+        return emfEnumerationParameterType;
         
         case "cdp4common.sitedirectorydata.BooleanParameterType":
         CDP4.CommonData.Thing emfBooleanParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createBooleanParameterType();    
         
         emfBooleanParameterType.setIid(thing.getIid().toString()); 
         
+        emfBooleanParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBooleanParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfBooleanParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfBooleanParameterType.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfBooleanParameterType;   
-        
+        return emfBooleanParameterType;
         
         case "cdp4common.sitedirectorydata.DateParameterType":
         CDP4.CommonData.Thing emfDateParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDateParameterType();    
         
         emfDateParameterType.setIid(thing.getIid().toString()); 
         
+        emfDateParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDateParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfDateParameterType.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDateParameterType;   
-        
+        return emfDateParameterType;
         
         case "cdp4common.sitedirectorydata.TextParameterType":
         CDP4.CommonData.Thing emfTextParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createTextParameterType();    
         
         emfTextParameterType.setIid(thing.getIid().toString()); 
         
+        emfTextParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfTextParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfTextParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfTextParameterType.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfTextParameterType;   
-        
+        return emfTextParameterType;
         
         case "cdp4common.sitedirectorydata.DateTimeParameterType":
         CDP4.CommonData.Thing emfDateTimeParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDateTimeParameterType();    
         
         emfDateTimeParameterType.setIid(thing.getIid().toString()); 
         
+        emfDateTimeParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDateTimeParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDateTimeParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfDateTimeParameterType.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDateTimeParameterType;   
-        
+        return emfDateTimeParameterType;
         
         case "cdp4common.sitedirectorydata.TimeOfDayParameterType":
         CDP4.CommonData.Thing emfTimeOfDayParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createTimeOfDayParameterType();    
         
         emfTimeOfDayParameterType.setIid(thing.getIid().toString()); 
         
+        emfTimeOfDayParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfTimeOfDayParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfTimeOfDayParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfTimeOfDayParameterType.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfTimeOfDayParameterType;   
-        
+        return emfTimeOfDayParameterType;
         
         
         case "cdp4common.sitedirectorydata.SpecializedQuantityKind":
@@ -586,56 +631,60 @@ public abstract class Thing {
         
         emfSpecializedQuantityKind.setIid(thing.getIid().toString()); 
         
+        emfSpecializedQuantityKind.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSpecializedQuantityKind.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSpecializedQuantityKind.setModifiedOn(thing.getModifiedOn());
         
         emfSpecializedQuantityKind.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSpecializedQuantityKind;   
-        
+        return emfSpecializedQuantityKind;
         
         case "cdp4common.sitedirectorydata.SimpleQuantityKind":
         CDP4.CommonData.Thing emfSimpleQuantityKind =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createSimpleQuantityKind();    
         
         emfSimpleQuantityKind.setIid(thing.getIid().toString()); 
         
+        emfSimpleQuantityKind.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleQuantityKind.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSimpleQuantityKind.setModifiedOn(thing.getModifiedOn());
         
         emfSimpleQuantityKind.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSimpleQuantityKind;   
-        
+        return emfSimpleQuantityKind;
         
         case "cdp4common.sitedirectorydata.DerivedQuantityKind":
         CDP4.CommonData.Thing emfDerivedQuantityKind =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDerivedQuantityKind();    
         
         emfDerivedQuantityKind.setIid(thing.getIid().toString()); 
         
+        emfDerivedQuantityKind.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedQuantityKind.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDerivedQuantityKind.setModifiedOn(thing.getModifiedOn());
         
         emfDerivedQuantityKind.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDerivedQuantityKind;   
-        
+        return emfDerivedQuantityKind;
         
         case "cdp4common.sitedirectorydata.ScaleValueDefinition":
         CDP4.CommonData.Thing emfScaleValueDefinition =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createScaleValueDefinition();    
         
         emfScaleValueDefinition.setIid(thing.getIid().toString()); 
         
+        emfScaleValueDefinition.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfScaleValueDefinition.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfScaleValueDefinition.setModifiedOn(thing.getModifiedOn());
         
         emfScaleValueDefinition.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfScaleValueDefinition;   
-        
+        return emfScaleValueDefinition;
         
         
         case "cdp4common.sitedirectorydata.DerivedUnit":
@@ -643,14 +692,15 @@ public abstract class Thing {
         
         emfDerivedUnit.setIid(thing.getIid().toString()); 
         
+        emfDerivedUnit.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDerivedUnit.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDerivedUnit.setModifiedOn(thing.getModifiedOn());
         
         emfDerivedUnit.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDerivedUnit;   
-        
+        return emfDerivedUnit;
         
         
         case "cdp4common.sitedirectorydata.LinearConversionUnit":
@@ -658,70 +708,75 @@ public abstract class Thing {
         
         emfLinearConversionUnit.setIid(thing.getIid().toString()); 
         
+        emfLinearConversionUnit.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfLinearConversionUnit.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfLinearConversionUnit.setModifiedOn(thing.getModifiedOn());
         
         emfLinearConversionUnit.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfLinearConversionUnit;   
-        
+        return emfLinearConversionUnit;
         
         case "cdp4common.sitedirectorydata.PrefixedUnit":
         CDP4.CommonData.Thing emfPrefixedUnit =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createPrefixedUnit();    
         
         emfPrefixedUnit.setIid(thing.getIid().toString()); 
         
+        emfPrefixedUnit.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPrefixedUnit.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfPrefixedUnit.setModifiedOn(thing.getModifiedOn());
         
         emfPrefixedUnit.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfPrefixedUnit;   
-        
+        return emfPrefixedUnit;
         
         case "cdp4common.sitedirectorydata.SimpleUnit":
         CDP4.CommonData.Thing emfSimpleUnit =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createSimpleUnit();    
         
         emfSimpleUnit.setIid(thing.getIid().toString()); 
         
+        emfSimpleUnit.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleUnit.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSimpleUnit.setModifiedOn(thing.getModifiedOn());
         
         emfSimpleUnit.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSimpleUnit;   
-        
+        return emfSimpleUnit;
         
         case "cdp4common.sitedirectorydata.Category":
         CDP4.CommonData.Thing emfCategory =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createCategory();    
         
         emfCategory.setIid(thing.getIid().toString()); 
         
+        emfCategory.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfCategory.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfCategory.setModifiedOn(thing.getModifiedOn());
         
         emfCategory.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfCategory;   
-        
+        return emfCategory;
         
         case "cdp4common.sitedirectorydata.UnitPrefix":
         CDP4.CommonData.Thing emfUnitPrefix =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createUnitPrefix();    
         
         emfUnitPrefix.setIid(thing.getIid().toString()); 
         
+        emfUnitPrefix.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfUnitPrefix.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfUnitPrefix.setModifiedOn(thing.getModifiedOn());
         
         emfUnitPrefix.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfUnitPrefix;   
-        
+        return emfUnitPrefix;
         
         
         case "cdp4common.sitedirectorydata.ReferencerRule":
@@ -729,182 +784,195 @@ public abstract class Thing {
         
         emfReferencerRule.setIid(thing.getIid().toString()); 
         
+        emfReferencerRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfReferencerRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfReferencerRule.setModifiedOn(thing.getModifiedOn());
         
         emfReferencerRule.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfReferencerRule;   
-        
+        return emfReferencerRule;
         
         case "cdp4common.sitedirectorydata.BinaryRelationshipRule":
         CDP4.CommonData.Thing emfBinaryRelationshipRule =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createBinaryRelationshipRule();    
         
         emfBinaryRelationshipRule.setIid(thing.getIid().toString()); 
         
+        emfBinaryRelationshipRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBinaryRelationshipRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfBinaryRelationshipRule.setModifiedOn(thing.getModifiedOn());
         
         emfBinaryRelationshipRule.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfBinaryRelationshipRule;   
-        
+        return emfBinaryRelationshipRule;
         
         case "cdp4common.sitedirectorydata.MultiRelationshipRule":
         CDP4.CommonData.Thing emfMultiRelationshipRule =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createMultiRelationshipRule();    
         
         emfMultiRelationshipRule.setIid(thing.getIid().toString()); 
         
+        emfMultiRelationshipRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfMultiRelationshipRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfMultiRelationshipRule.setModifiedOn(thing.getModifiedOn());
         
         emfMultiRelationshipRule.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfMultiRelationshipRule;   
-        
+        return emfMultiRelationshipRule;
         
         case "cdp4common.sitedirectorydata.DecompositionRule":
         CDP4.CommonData.Thing emfDecompositionRule =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDecompositionRule();    
         
         emfDecompositionRule.setIid(thing.getIid().toString()); 
         
+        emfDecompositionRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDecompositionRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDecompositionRule.setModifiedOn(thing.getModifiedOn());
         
         emfDecompositionRule.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDecompositionRule;   
-        
+        return emfDecompositionRule;
         
         case "cdp4common.sitedirectorydata.ParameterizedCategoryRule":
         CDP4.CommonData.Thing emfParameterizedCategoryRule =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createParameterizedCategoryRule();    
         
         emfParameterizedCategoryRule.setIid(thing.getIid().toString()); 
         
+        emfParameterizedCategoryRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterizedCategoryRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParameterizedCategoryRule.setModifiedOn(thing.getModifiedOn());
         
         emfParameterizedCategoryRule.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfParameterizedCategoryRule;   
-        
+        return emfParameterizedCategoryRule;
         
         case "cdp4common.sitedirectorydata.EnumerationValueDefinition":
         CDP4.CommonData.Thing emfEnumerationValueDefinition =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createEnumerationValueDefinition();    
         
         emfEnumerationValueDefinition.setIid(thing.getIid().toString()); 
         
+        emfEnumerationValueDefinition.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEnumerationValueDefinition.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfEnumerationValueDefinition.setModifiedOn(thing.getModifiedOn());
         
         emfEnumerationValueDefinition.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfEnumerationValueDefinition;   
-        
+        return emfEnumerationValueDefinition;
         
         case "cdp4common.sitedirectorydata.PersonRole":
         CDP4.CommonData.Thing emfPersonRole =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createPersonRole();    
         
         emfPersonRole.setIid(thing.getIid().toString()); 
         
+        emfPersonRole.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPersonRole.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfPersonRole.setModifiedOn(thing.getModifiedOn());
         
         emfPersonRole.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfPersonRole;   
-        
+        return emfPersonRole;
         
         case "cdp4common.sitedirectorydata.DomainOfExpertiseGroup":
         CDP4.CommonData.Thing emfDomainOfExpertiseGroup =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDomainOfExpertiseGroup();    
         
         emfDomainOfExpertiseGroup.setIid(thing.getIid().toString()); 
         
+        emfDomainOfExpertiseGroup.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDomainOfExpertiseGroup.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDomainOfExpertiseGroup.setModifiedOn(thing.getModifiedOn());
         
         emfDomainOfExpertiseGroup.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDomainOfExpertiseGroup;   
-        
+        return emfDomainOfExpertiseGroup;
         
         case "cdp4common.sitedirectorydata.ReferenceSource":
         CDP4.CommonData.Thing emfReferenceSource =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createReferenceSource();    
         
         emfReferenceSource.setIid(thing.getIid().toString()); 
         
+        emfReferenceSource.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfReferenceSource.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfReferenceSource.setModifiedOn(thing.getModifiedOn());
         
         emfReferenceSource.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfReferenceSource;   
-        
+        return emfReferenceSource;
         
         case "cdp4common.sitedirectorydata.Constant":
         CDP4.CommonData.Thing emfConstant =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createConstant();    
         
         emfConstant.setIid(thing.getIid().toString()); 
         
+        emfConstant.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfConstant.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfConstant.setModifiedOn(thing.getModifiedOn());
         
         emfConstant.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfConstant;   
-        
+        return emfConstant;
         
         case "cdp4common.engineeringmodeldata.PossibleFiniteState":
         CDP4.CommonData.Thing emfPossibleFiniteState =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createPossibleFiniteState();    
         
         emfPossibleFiniteState.setIid(thing.getIid().toString()); 
         
+        emfPossibleFiniteState.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPossibleFiniteState.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfPossibleFiniteState.setModifiedOn(thing.getModifiedOn());
         
         emfPossibleFiniteState.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfPossibleFiniteState;   
-        
+        return emfPossibleFiniteState;
         
         case "cdp4common.engineeringmodeldata.Option":
         CDP4.CommonData.Thing emfOption =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createOption();    
         
         emfOption.setIid(thing.getIid().toString()); 
         
+        emfOption.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfOption.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfOption.setModifiedOn(thing.getModifiedOn());
         
         emfOption.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfOption;   
-        
+        return emfOption;
         
         case "cdp4common.engineeringmodeldata.PossibleFiniteStateList":
         CDP4.CommonData.Thing emfPossibleFiniteStateList =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createPossibleFiniteStateList();    
         
         emfPossibleFiniteStateList.setIid(thing.getIid().toString()); 
         
+        emfPossibleFiniteStateList.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPossibleFiniteStateList.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfPossibleFiniteStateList.setModifiedOn(thing.getModifiedOn());
         
         emfPossibleFiniteStateList.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfPossibleFiniteStateList;   
-        
+        return emfPossibleFiniteStateList;
         
         
         case "cdp4common.engineeringmodeldata.ElementDefinition":
@@ -912,28 +980,30 @@ public abstract class Thing {
         
         emfElementDefinition.setIid(thing.getIid().toString()); 
         
+        emfElementDefinition.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementDefinition.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfElementDefinition.setModifiedOn(thing.getModifiedOn());
         
         emfElementDefinition.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfElementDefinition;   
-        
+        return emfElementDefinition;
         
         case "cdp4common.engineeringmodeldata.ElementUsage":
         CDP4.CommonData.Thing emfElementUsage =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createElementUsage();    
         
         emfElementUsage.setIid(thing.getIid().toString()); 
         
+        emfElementUsage.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfElementUsage.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfElementUsage.setModifiedOn(thing.getModifiedOn());
         
         emfElementUsage.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfElementUsage;   
-        
+        return emfElementUsage;
         
         
         case "cdp4common.engineeringmodeldata.RequirementsSpecification":
@@ -941,28 +1011,30 @@ public abstract class Thing {
         
         emfRequirementsSpecification.setIid(thing.getIid().toString()); 
         
+        emfRequirementsSpecification.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsSpecification.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRequirementsSpecification.setModifiedOn(thing.getModifiedOn());
         
         emfRequirementsSpecification.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRequirementsSpecification;   
-        
+        return emfRequirementsSpecification;
         
         case "cdp4common.engineeringmodeldata.RequirementsGroup":
         CDP4.CommonData.Thing emfRequirementsGroup =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRequirementsGroup();    
         
         emfRequirementsGroup.setIid(thing.getIid().toString()); 
         
+        emfRequirementsGroup.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsGroup.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRequirementsGroup.setModifiedOn(thing.getModifiedOn());
         
         emfRequirementsGroup.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRequirementsGroup;   
-        
+        return emfRequirementsGroup;
         
         
         case "cdp4common.engineeringmodeldata.Requirement":
@@ -970,154 +1042,165 @@ public abstract class Thing {
         
         emfRequirement.setIid(thing.getIid().toString()); 
         
+        emfRequirement.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirement.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRequirement.setModifiedOn(thing.getModifiedOn());
         
         emfRequirement.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRequirement;   
-        
+        return emfRequirement;
         
         case "cdp4common.engineeringmodeldata.RuleVerificationList":
         CDP4.CommonData.Thing emfRuleVerificationList =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRuleVerificationList();    
         
         emfRuleVerificationList.setIid(thing.getIid().toString()); 
         
+        emfRuleVerificationList.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRuleVerificationList.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRuleVerificationList.setModifiedOn(thing.getModifiedOn());
         
         emfRuleVerificationList.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRuleVerificationList;   
-        
+        return emfRuleVerificationList;
         
         case "cdp4common.engineeringmodeldata.Goal":
         CDP4.CommonData.Thing emfGoal =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createGoal();    
         
         emfGoal.setIid(thing.getIid().toString()); 
         
+        emfGoal.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfGoal.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfGoal.setModifiedOn(thing.getModifiedOn());
         
         emfGoal.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfGoal;   
-        
+        return emfGoal;
         
         case "cdp4common.engineeringmodeldata.Stakeholder":
         CDP4.CommonData.Thing emfStakeholder =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createStakeholder();    
         
         emfStakeholder.setIid(thing.getIid().toString()); 
         
+        emfStakeholder.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeholder.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfStakeholder.setModifiedOn(thing.getModifiedOn());
         
         emfStakeholder.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfStakeholder;   
-        
+        return emfStakeholder;
         
         case "cdp4common.engineeringmodeldata.ValueGroup":
         CDP4.CommonData.Thing emfValueGroup =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createValueGroup();    
         
         emfValueGroup.setIid(thing.getIid().toString()); 
         
+        emfValueGroup.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfValueGroup.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfValueGroup.setModifiedOn(thing.getModifiedOn());
         
         emfValueGroup.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfValueGroup;   
-        
+        return emfValueGroup;
         
         case "cdp4common.engineeringmodeldata.StakeholderValue":
         CDP4.CommonData.Thing emfStakeholderValue =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createStakeholderValue();    
         
         emfStakeholderValue.setIid(thing.getIid().toString()); 
         
+        emfStakeholderValue.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeholderValue.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfStakeholderValue.setModifiedOn(thing.getModifiedOn());
         
         emfStakeholderValue.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfStakeholderValue;   
-        
+        return emfStakeholderValue;
         
         case "cdp4common.engineeringmodeldata.StakeHolderValueMap":
         CDP4.CommonData.Thing emfStakeHolderValueMap =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createStakeHolderValueMap();    
         
         emfStakeHolderValueMap.setIid(thing.getIid().toString()); 
         
+        emfStakeHolderValueMap.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeHolderValueMap.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfStakeHolderValueMap.setModifiedOn(thing.getModifiedOn());
         
         emfStakeHolderValueMap.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfStakeHolderValueMap;   
-        
+        return emfStakeHolderValueMap;
         
         case "cdp4common.commondata.HyperLink":
         CDP4.CommonData.Thing emfHyperLink =  CDP4.CommonData.impl.CommonDataFactoryImpl.eINSTANCE.createHyperLink();    
         
         emfHyperLink.setIid(thing.getIid().toString()); 
         
+        emfHyperLink.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfHyperLink.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfHyperLink.setModifiedOn(thing.getModifiedOn());
         
         emfHyperLink.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfHyperLink;   
-        
+        return emfHyperLink;
         
         case "cdp4common.commondata.Definition":
         CDP4.CommonData.Thing emfDefinition =  CDP4.CommonData.impl.CommonDataFactoryImpl.eINSTANCE.createDefinition();    
         
         emfDefinition.setIid(thing.getIid().toString()); 
         
+        emfDefinition.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDefinition.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDefinition.setModifiedOn(thing.getModifiedOn());
         
         emfDefinition.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDefinition;   
-        
+        return emfDefinition;
         
         case "cdp4common.commondata.Alias":
         CDP4.CommonData.Thing emfAlias =  CDP4.CommonData.impl.CommonDataFactoryImpl.eINSTANCE.createAlias();    
         
         emfAlias.setIid(thing.getIid().toString()); 
         
+        emfAlias.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfAlias.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfAlias.setModifiedOn(thing.getModifiedOn());
         
         emfAlias.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfAlias;   
-        
+        return emfAlias;
         
         case "cdp4common.commondata.Citation":
         CDP4.CommonData.Thing emfCitation =  CDP4.CommonData.impl.CommonDataFactoryImpl.eINSTANCE.createCitation();    
         
         emfCitation.setIid(thing.getIid().toString()); 
         
+        emfCitation.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfCitation.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfCitation.setModifiedOn(thing.getModifiedOn());
         
         emfCitation.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfCitation;   
-        
+        return emfCitation;
         
         
         case "cdp4common.sitedirectorydata.SiteDirectory":
@@ -1125,28 +1208,30 @@ public abstract class Thing {
         
         emfSiteDirectory.setIid(thing.getIid().toString()); 
         
+        emfSiteDirectory.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteDirectory.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteDirectory.setModifiedOn(thing.getModifiedOn());
         
         emfSiteDirectory.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSiteDirectory;   
-        
+        return emfSiteDirectory;
         
         case "cdp4common.engineeringmodeldata.EngineeringModel":
         CDP4.CommonData.Thing emfEngineeringModel =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createEngineeringModel();    
         
         emfEngineeringModel.setIid(thing.getIid().toString()); 
         
+        emfEngineeringModel.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEngineeringModel.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfEngineeringModel.setModifiedOn(thing.getModifiedOn());
         
         emfEngineeringModel.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfEngineeringModel;   
-        
+        return emfEngineeringModel;
         
         
         case "cdp4common.engineeringmodeldata.ParameterSubscription":
@@ -1154,14 +1239,15 @@ public abstract class Thing {
         
         emfParameterSubscription.setIid(thing.getIid().toString()); 
         
+        emfParameterSubscription.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterSubscription.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParameterSubscription.setModifiedOn(thing.getModifiedOn());
         
         emfParameterSubscription.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfParameterSubscription;   
-        
+        return emfParameterSubscription;
         
         
         case "cdp4common.engineeringmodeldata.Parameter":
@@ -1169,28 +1255,30 @@ public abstract class Thing {
         
         emfParameter.setIid(thing.getIid().toString()); 
         
+        emfParameter.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameter.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParameter.setModifiedOn(thing.getModifiedOn());
         
         emfParameter.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfParameter;   
-        
+        return emfParameter;
         
         case "cdp4common.engineeringmodeldata.ParameterOverride":
         CDP4.CommonData.Thing emfParameterOverride =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createParameterOverride();    
         
         emfParameterOverride.setIid(thing.getIid().toString()); 
         
+        emfParameterOverride.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterOverride.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParameterOverride.setModifiedOn(thing.getModifiedOn());
         
         emfParameterOverride.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfParameterOverride;   
-        
+        return emfParameterOverride;
         
         
         case "cdp4common.engineeringmodeldata.CommonFileStore":
@@ -1198,140 +1286,150 @@ public abstract class Thing {
         
         emfCommonFileStore.setIid(thing.getIid().toString()); 
         
+        emfCommonFileStore.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfCommonFileStore.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfCommonFileStore.setModifiedOn(thing.getModifiedOn());
         
         emfCommonFileStore.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfCommonFileStore;   
-        
+        return emfCommonFileStore;
         
         case "cdp4common.engineeringmodeldata.DomainFileStore":
         CDP4.CommonData.Thing emfDomainFileStore =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createDomainFileStore();    
         
         emfDomainFileStore.setIid(thing.getIid().toString()); 
         
+        emfDomainFileStore.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDomainFileStore.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDomainFileStore.setModifiedOn(thing.getModifiedOn());
         
         emfDomainFileStore.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDomainFileStore;   
-        
+        return emfDomainFileStore;
         
         case "cdp4common.engineeringmodeldata.ParameterGroup":
         CDP4.CommonData.Thing emfParameterGroup =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createParameterGroup();    
         
         emfParameterGroup.setIid(thing.getIid().toString()); 
         
+        emfParameterGroup.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterGroup.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParameterGroup.setModifiedOn(thing.getModifiedOn());
         
         emfParameterGroup.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfParameterGroup;   
-        
+        return emfParameterGroup;
         
         case "cdp4common.engineeringmodeldata.Publication":
         CDP4.CommonData.Thing emfPublication =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createPublication();    
         
         emfPublication.setIid(thing.getIid().toString()); 
         
+        emfPublication.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPublication.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfPublication.setModifiedOn(thing.getModifiedOn());
         
         emfPublication.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfPublication;   
-        
+        return emfPublication;
         
         case "cdp4common.engineeringmodeldata.File":
         CDP4.CommonData.Thing emfFile =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createFile();    
         
         emfFile.setIid(thing.getIid().toString()); 
         
+        emfFile.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfFile.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfFile.setModifiedOn(thing.getModifiedOn());
         
         emfFile.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfFile;   
-        
+        return emfFile;
         
         case "cdp4common.engineeringmodeldata.ParametricConstraint":
         CDP4.CommonData.Thing emfParametricConstraint =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createParametricConstraint();    
         
         emfParametricConstraint.setIid(thing.getIid().toString()); 
         
+        emfParametricConstraint.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParametricConstraint.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParametricConstraint.setModifiedOn(thing.getModifiedOn());
         
         emfParametricConstraint.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfParametricConstraint;   
-        
+        return emfParametricConstraint;
         
         case "cdp4common.engineeringmodeldata.ExternalIdentifierMap":
         CDP4.CommonData.Thing emfExternalIdentifierMap =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createExternalIdentifierMap();    
         
         emfExternalIdentifierMap.setIid(thing.getIid().toString()); 
         
+        emfExternalIdentifierMap.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfExternalIdentifierMap.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfExternalIdentifierMap.setModifiedOn(thing.getModifiedOn());
         
         emfExternalIdentifierMap.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfExternalIdentifierMap;   
-        
+        return emfExternalIdentifierMap;
         
         case "cdp4common.engineeringmodeldata.NestedElement":
         CDP4.CommonData.Thing emfNestedElement =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createNestedElement();    
         
         emfNestedElement.setIid(thing.getIid().toString()); 
         
+        emfNestedElement.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfNestedElement.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfNestedElement.setModifiedOn(thing.getModifiedOn());
         
         emfNestedElement.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfNestedElement;   
-        
+        return emfNestedElement;
         
         case "cdp4common.engineeringmodeldata.Folder":
         CDP4.CommonData.Thing emfFolder =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createFolder();    
         
         emfFolder.setIid(thing.getIid().toString()); 
         
+        emfFolder.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfFolder.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfFolder.setModifiedOn(thing.getModifiedOn());
         
         emfFolder.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfFolder;   
-        
+        return emfFolder;
         
         case "cdp4common.engineeringmodeldata.IdCorrespondence":
         CDP4.CommonData.Thing emfIdCorrespondence =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createIdCorrespondence();    
         
         emfIdCorrespondence.setIid(thing.getIid().toString()); 
         
+        emfIdCorrespondence.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfIdCorrespondence.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfIdCorrespondence.setModifiedOn(thing.getModifiedOn());
         
         emfIdCorrespondence.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfIdCorrespondence;   
-        
+        return emfIdCorrespondence;
         
         
         case "cdp4common.engineeringmodeldata.MultiRelationship":
@@ -1339,112 +1437,120 @@ public abstract class Thing {
         
         emfMultiRelationship.setIid(thing.getIid().toString()); 
         
+        emfMultiRelationship.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfMultiRelationship.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfMultiRelationship.setModifiedOn(thing.getModifiedOn());
         
         emfMultiRelationship.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfMultiRelationship;   
-        
+        return emfMultiRelationship;
         
         case "cdp4common.engineeringmodeldata.BinaryRelationship":
         CDP4.CommonData.Thing emfBinaryRelationship =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createBinaryRelationship();    
         
         emfBinaryRelationship.setIid(thing.getIid().toString()); 
         
+        emfBinaryRelationship.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBinaryRelationship.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfBinaryRelationship.setModifiedOn(thing.getModifiedOn());
         
         emfBinaryRelationship.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfBinaryRelationship;   
-        
+        return emfBinaryRelationship;
         
         case "cdp4common.engineeringmodeldata.SimpleParameterValue":
         CDP4.CommonData.Thing emfSimpleParameterValue =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createSimpleParameterValue();    
         
         emfSimpleParameterValue.setIid(thing.getIid().toString()); 
         
+        emfSimpleParameterValue.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSimpleParameterValue.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSimpleParameterValue.setModifiedOn(thing.getModifiedOn());
         
         emfSimpleParameterValue.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSimpleParameterValue;   
-        
+        return emfSimpleParameterValue;
         
         case "cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet":
         CDP4.CommonData.Thing emfParameterSubscriptionValueSet =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createParameterSubscriptionValueSet();    
         
         emfParameterSubscriptionValueSet.setIid(thing.getIid().toString()); 
         
+        emfParameterSubscriptionValueSet.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterSubscriptionValueSet.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParameterSubscriptionValueSet.setModifiedOn(thing.getModifiedOn());
         
         emfParameterSubscriptionValueSet.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfParameterSubscriptionValueSet;   
-        
+        return emfParameterSubscriptionValueSet;
         
         case "cdp4common.engineeringmodeldata.ActualFiniteState":
         CDP4.CommonData.Thing emfActualFiniteState =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createActualFiniteState();    
         
         emfActualFiniteState.setIid(thing.getIid().toString()); 
         
+        emfActualFiniteState.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfActualFiniteState.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfActualFiniteState.setModifiedOn(thing.getModifiedOn());
         
         emfActualFiniteState.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfActualFiniteState;   
-        
+        return emfActualFiniteState;
         
         case "cdp4common.engineeringmodeldata.ModelLogEntry":
         CDP4.CommonData.Thing emfModelLogEntry =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createModelLogEntry();    
         
         emfModelLogEntry.setIid(thing.getIid().toString()); 
         
+        emfModelLogEntry.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfModelLogEntry.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfModelLogEntry.setModifiedOn(thing.getModifiedOn());
         
         emfModelLogEntry.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfModelLogEntry;   
-        
+        return emfModelLogEntry;
         
         case "cdp4common.engineeringmodeldata.Iteration":
         CDP4.CommonData.Thing emfIteration =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createIteration();    
         
         emfIteration.setIid(thing.getIid().toString()); 
         
+        emfIteration.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfIteration.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfIteration.setModifiedOn(thing.getModifiedOn());
         
         emfIteration.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfIteration;   
-        
+        return emfIteration;
         
         case "cdp4common.engineeringmodeldata.ActualFiniteStateList":
         CDP4.CommonData.Thing emfActualFiniteStateList =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createActualFiniteStateList();    
         
         emfActualFiniteStateList.setIid(thing.getIid().toString()); 
         
+        emfActualFiniteStateList.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfActualFiniteStateList.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfActualFiniteStateList.setModifiedOn(thing.getModifiedOn());
         
         emfActualFiniteStateList.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfActualFiniteStateList;   
-        
+        return emfActualFiniteStateList;
         
         
         case "cdp4common.engineeringmodeldata.OrExpression":
@@ -1452,70 +1558,75 @@ public abstract class Thing {
         
         emfOrExpression.setIid(thing.getIid().toString()); 
         
+        emfOrExpression.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfOrExpression.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfOrExpression.setModifiedOn(thing.getModifiedOn());
         
         emfOrExpression.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfOrExpression;   
-        
+        return emfOrExpression;
         
         case "cdp4common.engineeringmodeldata.NotExpression":
         CDP4.CommonData.Thing emfNotExpression =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createNotExpression();    
         
         emfNotExpression.setIid(thing.getIid().toString()); 
         
+        emfNotExpression.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfNotExpression.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfNotExpression.setModifiedOn(thing.getModifiedOn());
         
         emfNotExpression.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfNotExpression;   
-        
+        return emfNotExpression;
         
         case "cdp4common.engineeringmodeldata.AndExpression":
         CDP4.CommonData.Thing emfAndExpression =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createAndExpression();    
         
         emfAndExpression.setIid(thing.getIid().toString()); 
         
+        emfAndExpression.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfAndExpression.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfAndExpression.setModifiedOn(thing.getModifiedOn());
         
         emfAndExpression.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfAndExpression;   
-        
+        return emfAndExpression;
         
         case "cdp4common.engineeringmodeldata.ExclusiveOrExpression":
         CDP4.CommonData.Thing emfExclusiveOrExpression =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createExclusiveOrExpression();    
         
         emfExclusiveOrExpression.setIid(thing.getIid().toString()); 
         
+        emfExclusiveOrExpression.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfExclusiveOrExpression.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfExclusiveOrExpression.setModifiedOn(thing.getModifiedOn());
         
         emfExclusiveOrExpression.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfExclusiveOrExpression;   
-        
+        return emfExclusiveOrExpression;
         
         case "cdp4common.engineeringmodeldata.RelationalExpression":
         CDP4.CommonData.Thing emfRelationalExpression =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRelationalExpression();    
         
         emfRelationalExpression.setIid(thing.getIid().toString()); 
         
+        emfRelationalExpression.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRelationalExpression.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRelationalExpression.setModifiedOn(thing.getModifiedOn());
         
         emfRelationalExpression.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRelationalExpression;   
-        
+        return emfRelationalExpression;
         
         
         case "cdp4common.engineeringmodeldata.ParameterValueSet":
@@ -1523,56 +1634,60 @@ public abstract class Thing {
         
         emfParameterValueSet.setIid(thing.getIid().toString()); 
         
+        emfParameterValueSet.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterValueSet.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParameterValueSet.setModifiedOn(thing.getModifiedOn());
         
         emfParameterValueSet.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfParameterValueSet;   
-        
+        return emfParameterValueSet;
         
         case "cdp4common.engineeringmodeldata.ParameterOverrideValueSet":
         CDP4.CommonData.Thing emfParameterOverrideValueSet =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createParameterOverrideValueSet();    
         
         emfParameterOverrideValueSet.setIid(thing.getIid().toString()); 
         
+        emfParameterOverrideValueSet.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterOverrideValueSet.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfParameterOverrideValueSet.setModifiedOn(thing.getModifiedOn());
         
         emfParameterOverrideValueSet.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfParameterOverrideValueSet;   
-        
+        return emfParameterOverrideValueSet;
         
         case "cdp4common.engineeringmodeldata.NestedParameter":
         CDP4.CommonData.Thing emfNestedParameter =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createNestedParameter();    
         
         emfNestedParameter.setIid(thing.getIid().toString()); 
         
+        emfNestedParameter.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfNestedParameter.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfNestedParameter.setModifiedOn(thing.getModifiedOn());
         
         emfNestedParameter.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfNestedParameter;   
-        
+        return emfNestedParameter;
         
         case "cdp4common.engineeringmodeldata.FileRevision":
         CDP4.CommonData.Thing emfFileRevision =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createFileRevision();    
         
         emfFileRevision.setIid(thing.getIid().toString()); 
         
+        emfFileRevision.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfFileRevision.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfFileRevision.setModifiedOn(thing.getModifiedOn());
         
         emfFileRevision.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfFileRevision;   
-        
+        return emfFileRevision;
         
         
         case "cdp4common.engineeringmodeldata.UserRuleVerification":
@@ -1580,56 +1695,60 @@ public abstract class Thing {
         
         emfUserRuleVerification.setIid(thing.getIid().toString()); 
         
+        emfUserRuleVerification.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfUserRuleVerification.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfUserRuleVerification.setModifiedOn(thing.getModifiedOn());
         
         emfUserRuleVerification.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfUserRuleVerification;   
-        
+        return emfUserRuleVerification;
         
         case "cdp4common.engineeringmodeldata.BuiltInRuleVerification":
         CDP4.CommonData.Thing emfBuiltInRuleVerification =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createBuiltInRuleVerification();    
         
         emfBuiltInRuleVerification.setIid(thing.getIid().toString()); 
         
+        emfBuiltInRuleVerification.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBuiltInRuleVerification.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfBuiltInRuleVerification.setModifiedOn(thing.getModifiedOn());
         
         emfBuiltInRuleVerification.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfBuiltInRuleVerification;   
-        
+        return emfBuiltInRuleVerification;
         
         case "cdp4common.engineeringmodeldata.RuleViolation":
         CDP4.CommonData.Thing emfRuleViolation =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRuleViolation();    
         
         emfRuleViolation.setIid(thing.getIid().toString()); 
         
+        emfRuleViolation.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRuleViolation.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRuleViolation.setModifiedOn(thing.getModifiedOn());
         
         emfRuleViolation.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRuleViolation;   
-        
+        return emfRuleViolation;
         
         case "cdp4common.engineeringmodeldata.StakeHolderValueMapSettings":
         CDP4.CommonData.Thing emfStakeHolderValueMapSettings =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createStakeHolderValueMapSettings();    
         
         emfStakeHolderValueMapSettings.setIid(thing.getIid().toString()); 
         
+        emfStakeHolderValueMapSettings.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfStakeHolderValueMapSettings.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfStakeHolderValueMapSettings.setModifiedOn(thing.getModifiedOn());
         
         emfStakeHolderValueMapSettings.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfStakeHolderValueMapSettings;   
-        
+        return emfStakeHolderValueMapSettings;
         
         
         case "cdp4common.engineeringmodeldata.RequirementsContainerParameterValue":
@@ -1637,70 +1756,75 @@ public abstract class Thing {
         
         emfRequirementsContainerParameterValue.setIid(thing.getIid().toString()); 
         
+        emfRequirementsContainerParameterValue.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirementsContainerParameterValue.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRequirementsContainerParameterValue.setModifiedOn(thing.getModifiedOn());
         
         emfRequirementsContainerParameterValue.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRequirementsContainerParameterValue;   
-        
+        return emfRequirementsContainerParameterValue;
         
         case "cdp4common.engineeringmodeldata.RelationshipParameterValue":
         CDP4.CommonData.Thing emfRelationshipParameterValue =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRelationshipParameterValue();    
         
         emfRelationshipParameterValue.setIid(thing.getIid().toString()); 
         
+        emfRelationshipParameterValue.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRelationshipParameterValue.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRelationshipParameterValue.setModifiedOn(thing.getModifiedOn());
         
         emfRelationshipParameterValue.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRelationshipParameterValue;   
-        
+        return emfRelationshipParameterValue;
         
         case "cdp4common.reportingdata.Book":
         CDP4.CommonData.Thing emfBook =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createBook();    
         
         emfBook.setIid(thing.getIid().toString()); 
         
+        emfBook.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBook.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfBook.setModifiedOn(thing.getModifiedOn());
         
         emfBook.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfBook;   
-        
+        return emfBook;
         
         case "cdp4common.reportingdata.Section":
         CDP4.CommonData.Thing emfSection =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createSection();    
         
         emfSection.setIid(thing.getIid().toString()); 
         
+        emfSection.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSection.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSection.setModifiedOn(thing.getModifiedOn());
         
         emfSection.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSection;   
-        
+        return emfSection;
         
         case "cdp4common.reportingdata.Page":
         CDP4.CommonData.Thing emfPage =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createPage();    
         
         emfPage.setIid(thing.getIid().toString()); 
         
+        emfPage.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPage.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfPage.setModifiedOn(thing.getModifiedOn());
         
         emfPage.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfPage;   
-        
+        return emfPage;
         
         
         case "cdp4common.reportingdata.BinaryNote":
@@ -1708,28 +1832,30 @@ public abstract class Thing {
         
         emfBinaryNote.setIid(thing.getIid().toString()); 
         
+        emfBinaryNote.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBinaryNote.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfBinaryNote.setModifiedOn(thing.getModifiedOn());
         
         emfBinaryNote.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfBinaryNote;   
-        
+        return emfBinaryNote;
         
         case "cdp4common.reportingdata.TextualNote":
         CDP4.CommonData.Thing emfTextualNote =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createTextualNote();    
         
         emfTextualNote.setIid(thing.getIid().toString()); 
         
+        emfTextualNote.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfTextualNote.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfTextualNote.setModifiedOn(thing.getModifiedOn());
         
         emfTextualNote.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfTextualNote;   
-        
+        return emfTextualNote;
         
         
         case "cdp4common.reportingdata.ModellingThingReference":
@@ -1737,28 +1863,30 @@ public abstract class Thing {
         
         emfModellingThingReference.setIid(thing.getIid().toString()); 
         
+        emfModellingThingReference.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfModellingThingReference.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfModellingThingReference.setModifiedOn(thing.getModifiedOn());
         
         emfModellingThingReference.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfModellingThingReference;   
-        
+        return emfModellingThingReference;
         
         case "cdp4common.reportingdata.SiteDirectoryThingReference":
         CDP4.CommonData.Thing emfSiteDirectoryThingReference =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createSiteDirectoryThingReference();    
         
         emfSiteDirectoryThingReference.setIid(thing.getIid().toString()); 
         
+        emfSiteDirectoryThingReference.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteDirectoryThingReference.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteDirectoryThingReference.setModifiedOn(thing.getModifiedOn());
         
         emfSiteDirectoryThingReference.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSiteDirectoryThingReference;   
-        
+        return emfSiteDirectoryThingReference;
         
         
         case "cdp4common.reportingdata.Solution":
@@ -1766,28 +1894,30 @@ public abstract class Thing {
         
         emfSolution.setIid(thing.getIid().toString()); 
         
+        emfSolution.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSolution.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSolution.setModifiedOn(thing.getModifiedOn());
         
         emfSolution.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSolution;   
-        
+        return emfSolution;
         
         case "cdp4common.reportingdata.SiteDirectoryDataAnnotation":
         CDP4.CommonData.Thing emfSiteDirectoryDataAnnotation =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createSiteDirectoryDataAnnotation();    
         
         emfSiteDirectoryDataAnnotation.setIid(thing.getIid().toString()); 
         
+        emfSiteDirectoryDataAnnotation.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteDirectoryDataAnnotation.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteDirectoryDataAnnotation.setModifiedOn(thing.getModifiedOn());
         
         emfSiteDirectoryDataAnnotation.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSiteDirectoryDataAnnotation;   
-        
+        return emfSiteDirectoryDataAnnotation;
         
         
         
@@ -1797,126 +1927,135 @@ public abstract class Thing {
         
         emfRequestForWaiver.setIid(thing.getIid().toString()); 
         
+        emfRequestForWaiver.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequestForWaiver.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForWaiver.setModifiedOn(thing.getModifiedOn());
         
         emfRequestForWaiver.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRequestForWaiver;   
-        
+        return emfRequestForWaiver;
         
         case "cdp4common.reportingdata.RequestForDeviation":
         CDP4.CommonData.Thing emfRequestForDeviation =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createRequestForDeviation();    
         
         emfRequestForDeviation.setIid(thing.getIid().toString()); 
         
+        emfRequestForDeviation.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequestForDeviation.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForDeviation.setModifiedOn(thing.getModifiedOn());
         
         emfRequestForDeviation.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRequestForDeviation;   
-        
+        return emfRequestForDeviation;
         
         case "cdp4common.reportingdata.ChangeRequest":
         CDP4.CommonData.Thing emfChangeRequest =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createChangeRequest();    
         
         emfChangeRequest.setIid(thing.getIid().toString()); 
         
+        emfChangeRequest.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfChangeRequest.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeRequest.setModifiedOn(thing.getModifiedOn());
         
         emfChangeRequest.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfChangeRequest;   
-        
+        return emfChangeRequest;
         
         case "cdp4common.reportingdata.ReviewItemDiscrepancy":
         CDP4.CommonData.Thing emfReviewItemDiscrepancy =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createReviewItemDiscrepancy();    
         
         emfReviewItemDiscrepancy.setIid(thing.getIid().toString()); 
         
+        emfReviewItemDiscrepancy.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfReviewItemDiscrepancy.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfReviewItemDiscrepancy.setModifiedOn(thing.getModifiedOn());
         
         emfReviewItemDiscrepancy.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfReviewItemDiscrepancy;   
-        
+        return emfReviewItemDiscrepancy;
         
         case "cdp4common.reportingdata.ActionItem":
         CDP4.CommonData.Thing emfActionItem =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createActionItem();    
         
         emfActionItem.setIid(thing.getIid().toString()); 
         
+        emfActionItem.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfActionItem.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfActionItem.setModifiedOn(thing.getModifiedOn());
         
         emfActionItem.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfActionItem;   
-        
+        return emfActionItem;
         
         case "cdp4common.reportingdata.ChangeProposal":
         CDP4.CommonData.Thing emfChangeProposal =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createChangeProposal();    
         
         emfChangeProposal.setIid(thing.getIid().toString()); 
         
+        emfChangeProposal.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfChangeProposal.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeProposal.setModifiedOn(thing.getModifiedOn());
         
         emfChangeProposal.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfChangeProposal;   
-        
+        return emfChangeProposal;
         
         case "cdp4common.reportingdata.ContractChangeNotice":
         CDP4.CommonData.Thing emfContractChangeNotice =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createContractChangeNotice();    
         
         emfContractChangeNotice.setIid(thing.getIid().toString()); 
         
+        emfContractChangeNotice.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfContractChangeNotice.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfContractChangeNotice.setModifiedOn(thing.getModifiedOn());
         
         emfContractChangeNotice.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfContractChangeNotice;   
-        
+        return emfContractChangeNotice;
         
         case "cdp4common.reportingdata.EngineeringModelDataNote":
         CDP4.CommonData.Thing emfEngineeringModelDataNote =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createEngineeringModelDataNote();    
         
         emfEngineeringModelDataNote.setIid(thing.getIid().toString()); 
         
+        emfEngineeringModelDataNote.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEngineeringModelDataNote.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfEngineeringModelDataNote.setModifiedOn(thing.getModifiedOn());
         
         emfEngineeringModelDataNote.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfEngineeringModelDataNote;   
-        
+        return emfEngineeringModelDataNote;
         
         case "cdp4common.reportingdata.Approval":
         CDP4.CommonData.Thing emfApproval =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createApproval();    
         
         emfApproval.setIid(thing.getIid().toString()); 
         
+        emfApproval.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfApproval.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfApproval.setModifiedOn(thing.getModifiedOn());
         
         emfApproval.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfApproval;   
-        
+        return emfApproval;
         
         
         case "cdp4common.reportingdata.EngineeringModelDataDiscussionItem":
@@ -1924,28 +2063,30 @@ public abstract class Thing {
         
         emfEngineeringModelDataDiscussionItem.setIid(thing.getIid().toString()); 
         
+        emfEngineeringModelDataDiscussionItem.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEngineeringModelDataDiscussionItem.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfEngineeringModelDataDiscussionItem.setModifiedOn(thing.getModifiedOn());
         
         emfEngineeringModelDataDiscussionItem.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfEngineeringModelDataDiscussionItem;   
-        
+        return emfEngineeringModelDataDiscussionItem;
         
         case "cdp4common.reportingdata.SiteDirectoryDataDiscussionItem":
         CDP4.CommonData.Thing emfSiteDirectoryDataDiscussionItem =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createSiteDirectoryDataDiscussionItem();    
         
         emfSiteDirectoryDataDiscussionItem.setIid(thing.getIid().toString()); 
         
+        emfSiteDirectoryDataDiscussionItem.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteDirectoryDataDiscussionItem.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteDirectoryDataDiscussionItem.setModifiedOn(thing.getModifiedOn());
         
         emfSiteDirectoryDataDiscussionItem.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSiteDirectoryDataDiscussionItem;   
-        
+        return emfSiteDirectoryDataDiscussionItem;
         
         
         case "cdp4common.diagramdata.Point":
@@ -1953,42 +2094,45 @@ public abstract class Thing {
         
         emfPoint.setIid(thing.getIid().toString()); 
         
+        emfPoint.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfPoint.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfPoint.setModifiedOn(thing.getModifiedOn());
         
         emfPoint.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfPoint;   
-        
+        return emfPoint;
         
         case "cdp4common.diagramdata.Bounds":
         CDP4.CommonData.Thing emfBounds =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createBounds();    
         
         emfBounds.setIid(thing.getIid().toString()); 
         
+        emfBounds.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBounds.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfBounds.setModifiedOn(thing.getModifiedOn());
         
         emfBounds.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfBounds;   
-        
+        return emfBounds;
         
         case "cdp4common.diagramdata.Color":
         CDP4.CommonData.Thing emfColor =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createColor();    
         
         emfColor.setIid(thing.getIid().toString()); 
         
+        emfColor.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfColor.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfColor.setModifiedOn(thing.getModifiedOn());
         
         emfColor.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfColor;   
-        
+        return emfColor;
         
         
         case "cdp4common.diagramdata.OwnedStyle":
@@ -1996,28 +2140,30 @@ public abstract class Thing {
         
         emfOwnedStyle.setIid(thing.getIid().toString()); 
         
+        emfOwnedStyle.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfOwnedStyle.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfOwnedStyle.setModifiedOn(thing.getModifiedOn());
         
         emfOwnedStyle.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfOwnedStyle;   
-        
+        return emfOwnedStyle;
         
         case "cdp4common.diagramdata.SharedStyle":
         CDP4.CommonData.Thing emfSharedStyle =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createSharedStyle();    
         
         emfSharedStyle.setIid(thing.getIid().toString()); 
         
+        emfSharedStyle.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSharedStyle.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSharedStyle.setModifiedOn(thing.getModifiedOn());
         
         emfSharedStyle.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSharedStyle;   
-        
+        return emfSharedStyle;
         
         
         
@@ -2026,14 +2172,15 @@ public abstract class Thing {
         
         emfDiagramEdge.setIid(thing.getIid().toString()); 
         
+        emfDiagramEdge.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramEdge.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDiagramEdge.setModifiedOn(thing.getModifiedOn());
         
         emfDiagramEdge.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDiagramEdge;   
-        
+        return emfDiagramEdge;
         
         
         case "cdp4common.diagramdata.DiagramObject":
@@ -2041,36 +2188,42 @@ public abstract class Thing {
         
         emfDiagramObject.setIid(thing.getIid().toString()); 
         
+        emfDiagramObject.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramObject.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDiagramObject.setModifiedOn(thing.getModifiedOn());
         
         emfDiagramObject.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDiagramObject;   
-        
+        return emfDiagramObject;
         
         case "cdp4common.diagramdata.DiagramCanvas":
         CDP4.CommonData.Thing emfDiagramCanvas =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createDiagramCanvas();    
         
         emfDiagramCanvas.setIid(thing.getIid().toString()); 
         
+        emfDiagramCanvas.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDiagramCanvas.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfDiagramCanvas.setModifiedOn(thing.getModifiedOn());
         
         emfDiagramCanvas.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfDiagramCanvas;   
-        
+        return emfDiagramCanvas;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.commondata.Thing toPojo(CDP4.CommonData.Thing emfThing) {
+    /**
+     * Convert from {@link CDP4.CommonData.Thing} to {@link cdp4common.commondata.Thing}
+     *
+     * @return Generated {@link cdp4common.commondata.Thing}
+     */
+    public static cdp4common.commondata.Thing toPojo(CDP4.CommonData.Thing emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -2087,8 +2240,7 @@ public abstract class Thing {
         
         pojoParticipantPermission.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoParticipantPermission;   
-        
+        return pojoParticipantPermission;
         
         case "CDP4.sitedirectorydata.Person":                
         cdp4common.commondata.Thing pojoPerson = new cdp4common.sitedirectorydata.Person();	    
@@ -2103,8 +2255,7 @@ public abstract class Thing {
         
         pojoPerson.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoPerson;   
-        
+        return pojoPerson;
         
         case "CDP4.sitedirectorydata.Organization":                
         cdp4common.commondata.Thing pojoOrganization = new cdp4common.sitedirectorydata.Organization();	    
@@ -2119,8 +2270,7 @@ public abstract class Thing {
         
         pojoOrganization.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoOrganization;   
-        
+        return pojoOrganization;
         
         case "CDP4.sitedirectorydata.Participant":                
         cdp4common.commondata.Thing pojoParticipant = new cdp4common.sitedirectorydata.Participant();	    
@@ -2135,8 +2285,7 @@ public abstract class Thing {
         
         pojoParticipant.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoParticipant;   
-        
+        return pojoParticipant;
         
         case "CDP4.sitedirectorydata.ScaleReferenceQuantityValue":                
         cdp4common.commondata.Thing pojoScaleReferenceQuantityValue = new cdp4common.sitedirectorydata.ScaleReferenceQuantityValue();	    
@@ -2151,8 +2300,7 @@ public abstract class Thing {
         
         pojoScaleReferenceQuantityValue.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoScaleReferenceQuantityValue;   
-        
+        return pojoScaleReferenceQuantityValue;
         
         case "CDP4.sitedirectorydata.MappingToReferenceScale":                
         cdp4common.commondata.Thing pojoMappingToReferenceScale = new cdp4common.sitedirectorydata.MappingToReferenceScale();	    
@@ -2167,8 +2315,7 @@ public abstract class Thing {
         
         pojoMappingToReferenceScale.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoMappingToReferenceScale;   
-        
+        return pojoMappingToReferenceScale;
         
         case "CDP4.sitedirectorydata.QuantityKindFactor":                
         cdp4common.commondata.Thing pojoQuantityKindFactor = new cdp4common.sitedirectorydata.QuantityKindFactor();	    
@@ -2183,8 +2330,7 @@ public abstract class Thing {
         
         pojoQuantityKindFactor.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoQuantityKindFactor;   
-        
+        return pojoQuantityKindFactor;
         
         case "CDP4.sitedirectorydata.UnitFactor":                
         cdp4common.commondata.Thing pojoUnitFactor = new cdp4common.sitedirectorydata.UnitFactor();	    
@@ -2199,8 +2345,7 @@ public abstract class Thing {
         
         pojoUnitFactor.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoUnitFactor;   
-        
+        return pojoUnitFactor;
         
         case "CDP4.sitedirectorydata.ParameterTypeComponent":                
         cdp4common.commondata.Thing pojoParameterTypeComponent = new cdp4common.sitedirectorydata.ParameterTypeComponent();	    
@@ -2215,8 +2360,7 @@ public abstract class Thing {
         
         pojoParameterTypeComponent.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoParameterTypeComponent;   
-        
+        return pojoParameterTypeComponent;
         
         case "CDP4.sitedirectorydata.PersonPermission":                
         cdp4common.commondata.Thing pojoPersonPermission = new cdp4common.sitedirectorydata.PersonPermission();	    
@@ -2231,8 +2375,7 @@ public abstract class Thing {
         
         pojoPersonPermission.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoPersonPermission;   
-        
+        return pojoPersonPermission;
         
         case "CDP4.sitedirectorydata.SiteLogEntry":                
         cdp4common.commondata.Thing pojoSiteLogEntry = new cdp4common.sitedirectorydata.SiteLogEntry();	    
@@ -2247,8 +2390,7 @@ public abstract class Thing {
         
         pojoSiteLogEntry.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSiteLogEntry;   
-        
+        return pojoSiteLogEntry;
         
         case "CDP4.sitedirectorydata.IterationSetup":                
         cdp4common.commondata.Thing pojoIterationSetup = new cdp4common.sitedirectorydata.IterationSetup();	    
@@ -2263,8 +2405,7 @@ public abstract class Thing {
         
         pojoIterationSetup.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoIterationSetup;   
-        
+        return pojoIterationSetup;
         
         case "CDP4.sitedirectorydata.TelephoneNumber":                
         cdp4common.commondata.Thing pojoTelephoneNumber = new cdp4common.sitedirectorydata.TelephoneNumber();	    
@@ -2279,8 +2420,7 @@ public abstract class Thing {
         
         pojoTelephoneNumber.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoTelephoneNumber;   
-        
+        return pojoTelephoneNumber;
         
         case "CDP4.sitedirectorydata.EmailAddress":                
         cdp4common.commondata.Thing pojoEmailAddress = new cdp4common.sitedirectorydata.EmailAddress();	    
@@ -2295,8 +2435,7 @@ public abstract class Thing {
         
         pojoEmailAddress.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoEmailAddress;   
-        
+        return pojoEmailAddress;
         
         case "CDP4.sitedirectorydata.UserPreference":                
         cdp4common.commondata.Thing pojoUserPreference = new cdp4common.sitedirectorydata.UserPreference();	    
@@ -2311,8 +2450,7 @@ public abstract class Thing {
         
         pojoUserPreference.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoUserPreference;   
-        
+        return pojoUserPreference;
         
         case "CDP4.sitedirectorydata.NaturalLanguage":                
         cdp4common.commondata.Thing pojoNaturalLanguage = new cdp4common.sitedirectorydata.NaturalLanguage();	    
@@ -2327,8 +2465,7 @@ public abstract class Thing {
         
         pojoNaturalLanguage.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoNaturalLanguage;   
-        
+        return pojoNaturalLanguage;
         
         
         case "CDP4.sitedirectorydata.ParticipantRole":                
@@ -2344,8 +2481,7 @@ public abstract class Thing {
         
         pojoParticipantRole.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoParticipantRole;   
-        
+        return pojoParticipantRole;
         
         case "CDP4.sitedirectorydata.EngineeringModelSetup":                
         cdp4common.commondata.Thing pojoEngineeringModelSetup = new cdp4common.sitedirectorydata.EngineeringModelSetup();	    
@@ -2360,8 +2496,7 @@ public abstract class Thing {
         
         pojoEngineeringModelSetup.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoEngineeringModelSetup;   
-        
+        return pojoEngineeringModelSetup;
         
         case "CDP4.sitedirectorydata.Glossary":                
         cdp4common.commondata.Thing pojoGlossary = new cdp4common.sitedirectorydata.Glossary();	    
@@ -2376,8 +2511,7 @@ public abstract class Thing {
         
         pojoGlossary.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoGlossary;   
-        
+        return pojoGlossary;
         
         
         case "CDP4.sitedirectorydata.SiteReferenceDataLibrary":                
@@ -2393,8 +2527,7 @@ public abstract class Thing {
         
         pojoSiteReferenceDataLibrary.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSiteReferenceDataLibrary;   
-        
+        return pojoSiteReferenceDataLibrary;
         
         case "CDP4.sitedirectorydata.ModelReferenceDataLibrary":                
         cdp4common.commondata.Thing pojoModelReferenceDataLibrary = new cdp4common.sitedirectorydata.ModelReferenceDataLibrary();	    
@@ -2409,8 +2542,7 @@ public abstract class Thing {
         
         pojoModelReferenceDataLibrary.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoModelReferenceDataLibrary;   
-        
+        return pojoModelReferenceDataLibrary;
         
         case "CDP4.sitedirectorydata.Term":                
         cdp4common.commondata.Thing pojoTerm = new cdp4common.sitedirectorydata.Term();	    
@@ -2425,8 +2557,7 @@ public abstract class Thing {
         
         pojoTerm.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoTerm;   
-        
+        return pojoTerm;
         
         case "CDP4.sitedirectorydata.FileType":                
         cdp4common.commondata.Thing pojoFileType = new cdp4common.sitedirectorydata.FileType();	    
@@ -2441,8 +2572,7 @@ public abstract class Thing {
         
         pojoFileType.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoFileType;   
-        
+        return pojoFileType;
         
         
         case "CDP4.sitedirectorydata.OrdinalScale":                
@@ -2458,8 +2588,7 @@ public abstract class Thing {
         
         pojoOrdinalScale.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoOrdinalScale;   
-        
+        return pojoOrdinalScale;
         
         case "CDP4.sitedirectorydata.RatioScale":                
         cdp4common.commondata.Thing pojoRatioScale = new cdp4common.sitedirectorydata.RatioScale();	    
@@ -2474,8 +2603,7 @@ public abstract class Thing {
         
         pojoRatioScale.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRatioScale;   
-        
+        return pojoRatioScale;
         
         case "CDP4.sitedirectorydata.CyclicRatioScale":                
         cdp4common.commondata.Thing pojoCyclicRatioScale = new cdp4common.sitedirectorydata.CyclicRatioScale();	    
@@ -2490,8 +2618,7 @@ public abstract class Thing {
         
         pojoCyclicRatioScale.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoCyclicRatioScale;   
-        
+        return pojoCyclicRatioScale;
         
         case "CDP4.sitedirectorydata.IntervalScale":                
         cdp4common.commondata.Thing pojoIntervalScale = new cdp4common.sitedirectorydata.IntervalScale();	    
@@ -2506,8 +2633,7 @@ public abstract class Thing {
         
         pojoIntervalScale.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoIntervalScale;   
-        
+        return pojoIntervalScale;
         
         case "CDP4.sitedirectorydata.LogarithmicScale":                
         cdp4common.commondata.Thing pojoLogarithmicScale = new cdp4common.sitedirectorydata.LogarithmicScale();	    
@@ -2522,8 +2648,7 @@ public abstract class Thing {
         
         pojoLogarithmicScale.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoLogarithmicScale;   
-        
+        return pojoLogarithmicScale;
         
         case "CDP4.sitedirectorydata.DomainOfExpertise":                
         cdp4common.commondata.Thing pojoDomainOfExpertise = new cdp4common.sitedirectorydata.DomainOfExpertise();	    
@@ -2538,8 +2663,7 @@ public abstract class Thing {
         
         pojoDomainOfExpertise.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDomainOfExpertise;   
-        
+        return pojoDomainOfExpertise;
         
         
         case "CDP4.sitedirectorydata.CompoundParameterType":                
@@ -2555,8 +2679,7 @@ public abstract class Thing {
         
         pojoCompoundParameterType.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoCompoundParameterType;   
-        
+        return pojoCompoundParameterType;
         
         case "CDP4.sitedirectorydata.ArrayParameterType":                
         cdp4common.commondata.Thing pojoArrayParameterType = new cdp4common.sitedirectorydata.ArrayParameterType();	    
@@ -2571,8 +2694,7 @@ public abstract class Thing {
         
         pojoArrayParameterType.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoArrayParameterType;   
-        
+        return pojoArrayParameterType;
         
         
         case "CDP4.sitedirectorydata.EnumerationParameterType":                
@@ -2588,8 +2710,7 @@ public abstract class Thing {
         
         pojoEnumerationParameterType.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoEnumerationParameterType;   
-        
+        return pojoEnumerationParameterType;
         
         case "CDP4.sitedirectorydata.BooleanParameterType":                
         cdp4common.commondata.Thing pojoBooleanParameterType = new cdp4common.sitedirectorydata.BooleanParameterType();	    
@@ -2604,8 +2725,7 @@ public abstract class Thing {
         
         pojoBooleanParameterType.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoBooleanParameterType;   
-        
+        return pojoBooleanParameterType;
         
         case "CDP4.sitedirectorydata.DateParameterType":                
         cdp4common.commondata.Thing pojoDateParameterType = new cdp4common.sitedirectorydata.DateParameterType();	    
@@ -2620,8 +2740,7 @@ public abstract class Thing {
         
         pojoDateParameterType.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDateParameterType;   
-        
+        return pojoDateParameterType;
         
         case "CDP4.sitedirectorydata.TextParameterType":                
         cdp4common.commondata.Thing pojoTextParameterType = new cdp4common.sitedirectorydata.TextParameterType();	    
@@ -2636,8 +2755,7 @@ public abstract class Thing {
         
         pojoTextParameterType.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoTextParameterType;   
-        
+        return pojoTextParameterType;
         
         case "CDP4.sitedirectorydata.DateTimeParameterType":                
         cdp4common.commondata.Thing pojoDateTimeParameterType = new cdp4common.sitedirectorydata.DateTimeParameterType();	    
@@ -2652,8 +2770,7 @@ public abstract class Thing {
         
         pojoDateTimeParameterType.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDateTimeParameterType;   
-        
+        return pojoDateTimeParameterType;
         
         case "CDP4.sitedirectorydata.TimeOfDayParameterType":                
         cdp4common.commondata.Thing pojoTimeOfDayParameterType = new cdp4common.sitedirectorydata.TimeOfDayParameterType();	    
@@ -2668,8 +2785,7 @@ public abstract class Thing {
         
         pojoTimeOfDayParameterType.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoTimeOfDayParameterType;   
-        
+        return pojoTimeOfDayParameterType;
         
         
         case "CDP4.sitedirectorydata.SpecializedQuantityKind":                
@@ -2685,8 +2801,7 @@ public abstract class Thing {
         
         pojoSpecializedQuantityKind.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSpecializedQuantityKind;   
-        
+        return pojoSpecializedQuantityKind;
         
         case "CDP4.sitedirectorydata.SimpleQuantityKind":                
         cdp4common.commondata.Thing pojoSimpleQuantityKind = new cdp4common.sitedirectorydata.SimpleQuantityKind();	    
@@ -2701,8 +2816,7 @@ public abstract class Thing {
         
         pojoSimpleQuantityKind.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSimpleQuantityKind;   
-        
+        return pojoSimpleQuantityKind;
         
         case "CDP4.sitedirectorydata.DerivedQuantityKind":                
         cdp4common.commondata.Thing pojoDerivedQuantityKind = new cdp4common.sitedirectorydata.DerivedQuantityKind();	    
@@ -2717,8 +2831,7 @@ public abstract class Thing {
         
         pojoDerivedQuantityKind.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDerivedQuantityKind;   
-        
+        return pojoDerivedQuantityKind;
         
         case "CDP4.sitedirectorydata.ScaleValueDefinition":                
         cdp4common.commondata.Thing pojoScaleValueDefinition = new cdp4common.sitedirectorydata.ScaleValueDefinition();	    
@@ -2733,8 +2846,7 @@ public abstract class Thing {
         
         pojoScaleValueDefinition.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoScaleValueDefinition;   
-        
+        return pojoScaleValueDefinition;
         
         
         case "CDP4.sitedirectorydata.DerivedUnit":                
@@ -2750,8 +2862,7 @@ public abstract class Thing {
         
         pojoDerivedUnit.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDerivedUnit;   
-        
+        return pojoDerivedUnit;
         
         
         case "CDP4.sitedirectorydata.LinearConversionUnit":                
@@ -2767,8 +2878,7 @@ public abstract class Thing {
         
         pojoLinearConversionUnit.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoLinearConversionUnit;   
-        
+        return pojoLinearConversionUnit;
         
         case "CDP4.sitedirectorydata.PrefixedUnit":                
         cdp4common.commondata.Thing pojoPrefixedUnit = new cdp4common.sitedirectorydata.PrefixedUnit();	    
@@ -2783,8 +2893,7 @@ public abstract class Thing {
         
         pojoPrefixedUnit.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoPrefixedUnit;   
-        
+        return pojoPrefixedUnit;
         
         case "CDP4.sitedirectorydata.SimpleUnit":                
         cdp4common.commondata.Thing pojoSimpleUnit = new cdp4common.sitedirectorydata.SimpleUnit();	    
@@ -2799,8 +2908,7 @@ public abstract class Thing {
         
         pojoSimpleUnit.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSimpleUnit;   
-        
+        return pojoSimpleUnit;
         
         case "CDP4.sitedirectorydata.Category":                
         cdp4common.commondata.Thing pojoCategory = new cdp4common.sitedirectorydata.Category();	    
@@ -2815,8 +2923,7 @@ public abstract class Thing {
         
         pojoCategory.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoCategory;   
-        
+        return pojoCategory;
         
         case "CDP4.sitedirectorydata.UnitPrefix":                
         cdp4common.commondata.Thing pojoUnitPrefix = new cdp4common.sitedirectorydata.UnitPrefix();	    
@@ -2831,8 +2938,7 @@ public abstract class Thing {
         
         pojoUnitPrefix.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoUnitPrefix;   
-        
+        return pojoUnitPrefix;
         
         
         case "CDP4.sitedirectorydata.ReferencerRule":                
@@ -2848,8 +2954,7 @@ public abstract class Thing {
         
         pojoReferencerRule.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoReferencerRule;   
-        
+        return pojoReferencerRule;
         
         case "CDP4.sitedirectorydata.BinaryRelationshipRule":                
         cdp4common.commondata.Thing pojoBinaryRelationshipRule = new cdp4common.sitedirectorydata.BinaryRelationshipRule();	    
@@ -2864,8 +2969,7 @@ public abstract class Thing {
         
         pojoBinaryRelationshipRule.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoBinaryRelationshipRule;   
-        
+        return pojoBinaryRelationshipRule;
         
         case "CDP4.sitedirectorydata.MultiRelationshipRule":                
         cdp4common.commondata.Thing pojoMultiRelationshipRule = new cdp4common.sitedirectorydata.MultiRelationshipRule();	    
@@ -2880,8 +2984,7 @@ public abstract class Thing {
         
         pojoMultiRelationshipRule.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoMultiRelationshipRule;   
-        
+        return pojoMultiRelationshipRule;
         
         case "CDP4.sitedirectorydata.DecompositionRule":                
         cdp4common.commondata.Thing pojoDecompositionRule = new cdp4common.sitedirectorydata.DecompositionRule();	    
@@ -2896,8 +2999,7 @@ public abstract class Thing {
         
         pojoDecompositionRule.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDecompositionRule;   
-        
+        return pojoDecompositionRule;
         
         case "CDP4.sitedirectorydata.ParameterizedCategoryRule":                
         cdp4common.commondata.Thing pojoParameterizedCategoryRule = new cdp4common.sitedirectorydata.ParameterizedCategoryRule();	    
@@ -2912,8 +3014,7 @@ public abstract class Thing {
         
         pojoParameterizedCategoryRule.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoParameterizedCategoryRule;   
-        
+        return pojoParameterizedCategoryRule;
         
         case "CDP4.sitedirectorydata.EnumerationValueDefinition":                
         cdp4common.commondata.Thing pojoEnumerationValueDefinition = new cdp4common.sitedirectorydata.EnumerationValueDefinition();	    
@@ -2928,8 +3029,7 @@ public abstract class Thing {
         
         pojoEnumerationValueDefinition.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoEnumerationValueDefinition;   
-        
+        return pojoEnumerationValueDefinition;
         
         case "CDP4.sitedirectorydata.PersonRole":                
         cdp4common.commondata.Thing pojoPersonRole = new cdp4common.sitedirectorydata.PersonRole();	    
@@ -2944,8 +3044,7 @@ public abstract class Thing {
         
         pojoPersonRole.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoPersonRole;   
-        
+        return pojoPersonRole;
         
         case "CDP4.sitedirectorydata.DomainOfExpertiseGroup":                
         cdp4common.commondata.Thing pojoDomainOfExpertiseGroup = new cdp4common.sitedirectorydata.DomainOfExpertiseGroup();	    
@@ -2960,8 +3059,7 @@ public abstract class Thing {
         
         pojoDomainOfExpertiseGroup.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDomainOfExpertiseGroup;   
-        
+        return pojoDomainOfExpertiseGroup;
         
         case "CDP4.sitedirectorydata.ReferenceSource":                
         cdp4common.commondata.Thing pojoReferenceSource = new cdp4common.sitedirectorydata.ReferenceSource();	    
@@ -2976,8 +3074,7 @@ public abstract class Thing {
         
         pojoReferenceSource.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoReferenceSource;   
-        
+        return pojoReferenceSource;
         
         case "CDP4.sitedirectorydata.Constant":                
         cdp4common.commondata.Thing pojoConstant = new cdp4common.sitedirectorydata.Constant();	    
@@ -2992,8 +3089,7 @@ public abstract class Thing {
         
         pojoConstant.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoConstant;   
-        
+        return pojoConstant;
         
         case "CDP4.engineeringmodeldata.PossibleFiniteState":                
         cdp4common.commondata.Thing pojoPossibleFiniteState = new cdp4common.engineeringmodeldata.PossibleFiniteState();	    
@@ -3008,8 +3104,7 @@ public abstract class Thing {
         
         pojoPossibleFiniteState.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoPossibleFiniteState;   
-        
+        return pojoPossibleFiniteState;
         
         case "CDP4.engineeringmodeldata.Option":                
         cdp4common.commondata.Thing pojoOption = new cdp4common.engineeringmodeldata.Option();	    
@@ -3024,8 +3119,7 @@ public abstract class Thing {
         
         pojoOption.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoOption;   
-        
+        return pojoOption;
         
         case "CDP4.engineeringmodeldata.PossibleFiniteStateList":                
         cdp4common.commondata.Thing pojoPossibleFiniteStateList = new cdp4common.engineeringmodeldata.PossibleFiniteStateList();	    
@@ -3040,8 +3134,7 @@ public abstract class Thing {
         
         pojoPossibleFiniteStateList.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoPossibleFiniteStateList;   
-        
+        return pojoPossibleFiniteStateList;
         
         
         case "CDP4.engineeringmodeldata.ElementDefinition":                
@@ -3057,8 +3150,7 @@ public abstract class Thing {
         
         pojoElementDefinition.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoElementDefinition;   
-        
+        return pojoElementDefinition;
         
         case "CDP4.engineeringmodeldata.ElementUsage":                
         cdp4common.commondata.Thing pojoElementUsage = new cdp4common.engineeringmodeldata.ElementUsage();	    
@@ -3073,8 +3165,7 @@ public abstract class Thing {
         
         pojoElementUsage.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoElementUsage;   
-        
+        return pojoElementUsage;
         
         
         case "CDP4.engineeringmodeldata.RequirementsSpecification":                
@@ -3090,8 +3181,7 @@ public abstract class Thing {
         
         pojoRequirementsSpecification.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRequirementsSpecification;   
-        
+        return pojoRequirementsSpecification;
         
         case "CDP4.engineeringmodeldata.RequirementsGroup":                
         cdp4common.commondata.Thing pojoRequirementsGroup = new cdp4common.engineeringmodeldata.RequirementsGroup();	    
@@ -3106,8 +3196,7 @@ public abstract class Thing {
         
         pojoRequirementsGroup.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRequirementsGroup;   
-        
+        return pojoRequirementsGroup;
         
         
         case "CDP4.engineeringmodeldata.Requirement":                
@@ -3123,8 +3212,7 @@ public abstract class Thing {
         
         pojoRequirement.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRequirement;   
-        
+        return pojoRequirement;
         
         case "CDP4.engineeringmodeldata.RuleVerificationList":                
         cdp4common.commondata.Thing pojoRuleVerificationList = new cdp4common.engineeringmodeldata.RuleVerificationList();	    
@@ -3139,8 +3227,7 @@ public abstract class Thing {
         
         pojoRuleVerificationList.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRuleVerificationList;   
-        
+        return pojoRuleVerificationList;
         
         case "CDP4.engineeringmodeldata.Goal":                
         cdp4common.commondata.Thing pojoGoal = new cdp4common.engineeringmodeldata.Goal();	    
@@ -3155,8 +3242,7 @@ public abstract class Thing {
         
         pojoGoal.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoGoal;   
-        
+        return pojoGoal;
         
         case "CDP4.engineeringmodeldata.Stakeholder":                
         cdp4common.commondata.Thing pojoStakeholder = new cdp4common.engineeringmodeldata.Stakeholder();	    
@@ -3171,8 +3257,7 @@ public abstract class Thing {
         
         pojoStakeholder.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoStakeholder;   
-        
+        return pojoStakeholder;
         
         case "CDP4.engineeringmodeldata.ValueGroup":                
         cdp4common.commondata.Thing pojoValueGroup = new cdp4common.engineeringmodeldata.ValueGroup();	    
@@ -3187,8 +3272,7 @@ public abstract class Thing {
         
         pojoValueGroup.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoValueGroup;   
-        
+        return pojoValueGroup;
         
         case "CDP4.engineeringmodeldata.StakeholderValue":                
         cdp4common.commondata.Thing pojoStakeholderValue = new cdp4common.engineeringmodeldata.StakeholderValue();	    
@@ -3203,8 +3287,7 @@ public abstract class Thing {
         
         pojoStakeholderValue.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoStakeholderValue;   
-        
+        return pojoStakeholderValue;
         
         case "CDP4.engineeringmodeldata.StakeHolderValueMap":                
         cdp4common.commondata.Thing pojoStakeHolderValueMap = new cdp4common.engineeringmodeldata.StakeHolderValueMap();	    
@@ -3219,8 +3302,7 @@ public abstract class Thing {
         
         pojoStakeHolderValueMap.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoStakeHolderValueMap;   
-        
+        return pojoStakeHolderValueMap;
         
         case "CDP4.commondata.HyperLink":                
         cdp4common.commondata.Thing pojoHyperLink = new cdp4common.commondata.HyperLink();	    
@@ -3235,8 +3317,7 @@ public abstract class Thing {
         
         pojoHyperLink.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoHyperLink;   
-        
+        return pojoHyperLink;
         
         case "CDP4.commondata.Definition":                
         cdp4common.commondata.Thing pojoDefinition = new cdp4common.commondata.Definition();	    
@@ -3251,8 +3332,7 @@ public abstract class Thing {
         
         pojoDefinition.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDefinition;   
-        
+        return pojoDefinition;
         
         case "CDP4.commondata.Alias":                
         cdp4common.commondata.Thing pojoAlias = new cdp4common.commondata.Alias();	    
@@ -3267,8 +3347,7 @@ public abstract class Thing {
         
         pojoAlias.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoAlias;   
-        
+        return pojoAlias;
         
         case "CDP4.commondata.Citation":                
         cdp4common.commondata.Thing pojoCitation = new cdp4common.commondata.Citation();	    
@@ -3283,8 +3362,7 @@ public abstract class Thing {
         
         pojoCitation.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoCitation;   
-        
+        return pojoCitation;
         
         
         case "CDP4.sitedirectorydata.SiteDirectory":                
@@ -3300,8 +3378,7 @@ public abstract class Thing {
         
         pojoSiteDirectory.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSiteDirectory;   
-        
+        return pojoSiteDirectory;
         
         case "CDP4.engineeringmodeldata.EngineeringModel":                
         cdp4common.commondata.Thing pojoEngineeringModel = new cdp4common.engineeringmodeldata.EngineeringModel();	    
@@ -3316,8 +3393,7 @@ public abstract class Thing {
         
         pojoEngineeringModel.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoEngineeringModel;   
-        
+        return pojoEngineeringModel;
         
         
         case "CDP4.engineeringmodeldata.ParameterSubscription":                
@@ -3333,8 +3409,7 @@ public abstract class Thing {
         
         pojoParameterSubscription.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoParameterSubscription;   
-        
+        return pojoParameterSubscription;
         
         
         case "CDP4.engineeringmodeldata.Parameter":                
@@ -3350,8 +3425,7 @@ public abstract class Thing {
         
         pojoParameter.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoParameter;   
-        
+        return pojoParameter;
         
         case "CDP4.engineeringmodeldata.ParameterOverride":                
         cdp4common.commondata.Thing pojoParameterOverride = new cdp4common.engineeringmodeldata.ParameterOverride();	    
@@ -3366,8 +3440,7 @@ public abstract class Thing {
         
         pojoParameterOverride.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoParameterOverride;   
-        
+        return pojoParameterOverride;
         
         
         case "CDP4.engineeringmodeldata.CommonFileStore":                
@@ -3383,8 +3456,7 @@ public abstract class Thing {
         
         pojoCommonFileStore.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoCommonFileStore;   
-        
+        return pojoCommonFileStore;
         
         case "CDP4.engineeringmodeldata.DomainFileStore":                
         cdp4common.commondata.Thing pojoDomainFileStore = new cdp4common.engineeringmodeldata.DomainFileStore();	    
@@ -3399,8 +3471,7 @@ public abstract class Thing {
         
         pojoDomainFileStore.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDomainFileStore;   
-        
+        return pojoDomainFileStore;
         
         case "CDP4.engineeringmodeldata.ParameterGroup":                
         cdp4common.commondata.Thing pojoParameterGroup = new cdp4common.engineeringmodeldata.ParameterGroup();	    
@@ -3415,8 +3486,7 @@ public abstract class Thing {
         
         pojoParameterGroup.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoParameterGroup;   
-        
+        return pojoParameterGroup;
         
         case "CDP4.engineeringmodeldata.Publication":                
         cdp4common.commondata.Thing pojoPublication = new cdp4common.engineeringmodeldata.Publication();	    
@@ -3431,8 +3501,7 @@ public abstract class Thing {
         
         pojoPublication.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoPublication;   
-        
+        return pojoPublication;
         
         case "CDP4.engineeringmodeldata.File":                
         cdp4common.commondata.Thing pojoFile = new cdp4common.engineeringmodeldata.File();	    
@@ -3447,8 +3516,7 @@ public abstract class Thing {
         
         pojoFile.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoFile;   
-        
+        return pojoFile;
         
         case "CDP4.engineeringmodeldata.ParametricConstraint":                
         cdp4common.commondata.Thing pojoParametricConstraint = new cdp4common.engineeringmodeldata.ParametricConstraint();	    
@@ -3463,8 +3531,7 @@ public abstract class Thing {
         
         pojoParametricConstraint.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoParametricConstraint;   
-        
+        return pojoParametricConstraint;
         
         case "CDP4.engineeringmodeldata.ExternalIdentifierMap":                
         cdp4common.commondata.Thing pojoExternalIdentifierMap = new cdp4common.engineeringmodeldata.ExternalIdentifierMap();	    
@@ -3479,8 +3546,7 @@ public abstract class Thing {
         
         pojoExternalIdentifierMap.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoExternalIdentifierMap;   
-        
+        return pojoExternalIdentifierMap;
         
         case "CDP4.engineeringmodeldata.NestedElement":                
         cdp4common.commondata.Thing pojoNestedElement = new cdp4common.engineeringmodeldata.NestedElement();	    
@@ -3495,8 +3561,7 @@ public abstract class Thing {
         
         pojoNestedElement.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoNestedElement;   
-        
+        return pojoNestedElement;
         
         case "CDP4.engineeringmodeldata.Folder":                
         cdp4common.commondata.Thing pojoFolder = new cdp4common.engineeringmodeldata.Folder();	    
@@ -3511,8 +3576,7 @@ public abstract class Thing {
         
         pojoFolder.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoFolder;   
-        
+        return pojoFolder;
         
         case "CDP4.engineeringmodeldata.IdCorrespondence":                
         cdp4common.commondata.Thing pojoIdCorrespondence = new cdp4common.engineeringmodeldata.IdCorrespondence();	    
@@ -3527,8 +3591,7 @@ public abstract class Thing {
         
         pojoIdCorrespondence.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoIdCorrespondence;   
-        
+        return pojoIdCorrespondence;
         
         
         case "CDP4.engineeringmodeldata.MultiRelationship":                
@@ -3544,8 +3607,7 @@ public abstract class Thing {
         
         pojoMultiRelationship.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoMultiRelationship;   
-        
+        return pojoMultiRelationship;
         
         case "CDP4.engineeringmodeldata.BinaryRelationship":                
         cdp4common.commondata.Thing pojoBinaryRelationship = new cdp4common.engineeringmodeldata.BinaryRelationship();	    
@@ -3560,8 +3622,7 @@ public abstract class Thing {
         
         pojoBinaryRelationship.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoBinaryRelationship;   
-        
+        return pojoBinaryRelationship;
         
         case "CDP4.engineeringmodeldata.SimpleParameterValue":                
         cdp4common.commondata.Thing pojoSimpleParameterValue = new cdp4common.engineeringmodeldata.SimpleParameterValue();	    
@@ -3576,8 +3637,7 @@ public abstract class Thing {
         
         pojoSimpleParameterValue.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSimpleParameterValue;   
-        
+        return pojoSimpleParameterValue;
         
         case "CDP4.engineeringmodeldata.ParameterSubscriptionValueSet":                
         cdp4common.commondata.Thing pojoParameterSubscriptionValueSet = new cdp4common.engineeringmodeldata.ParameterSubscriptionValueSet();	    
@@ -3592,8 +3652,7 @@ public abstract class Thing {
         
         pojoParameterSubscriptionValueSet.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoParameterSubscriptionValueSet;   
-        
+        return pojoParameterSubscriptionValueSet;
         
         case "CDP4.engineeringmodeldata.ActualFiniteState":                
         cdp4common.commondata.Thing pojoActualFiniteState = new cdp4common.engineeringmodeldata.ActualFiniteState();	    
@@ -3608,8 +3667,7 @@ public abstract class Thing {
         
         pojoActualFiniteState.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoActualFiniteState;   
-        
+        return pojoActualFiniteState;
         
         case "CDP4.engineeringmodeldata.ModelLogEntry":                
         cdp4common.commondata.Thing pojoModelLogEntry = new cdp4common.engineeringmodeldata.ModelLogEntry();	    
@@ -3624,8 +3682,7 @@ public abstract class Thing {
         
         pojoModelLogEntry.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoModelLogEntry;   
-        
+        return pojoModelLogEntry;
         
         case "CDP4.engineeringmodeldata.Iteration":                
         cdp4common.commondata.Thing pojoIteration = new cdp4common.engineeringmodeldata.Iteration();	    
@@ -3640,8 +3697,7 @@ public abstract class Thing {
         
         pojoIteration.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoIteration;   
-        
+        return pojoIteration;
         
         case "CDP4.engineeringmodeldata.ActualFiniteStateList":                
         cdp4common.commondata.Thing pojoActualFiniteStateList = new cdp4common.engineeringmodeldata.ActualFiniteStateList();	    
@@ -3656,8 +3712,7 @@ public abstract class Thing {
         
         pojoActualFiniteStateList.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoActualFiniteStateList;   
-        
+        return pojoActualFiniteStateList;
         
         
         case "CDP4.engineeringmodeldata.OrExpression":                
@@ -3673,8 +3728,7 @@ public abstract class Thing {
         
         pojoOrExpression.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoOrExpression;   
-        
+        return pojoOrExpression;
         
         case "CDP4.engineeringmodeldata.NotExpression":                
         cdp4common.commondata.Thing pojoNotExpression = new cdp4common.engineeringmodeldata.NotExpression();	    
@@ -3689,8 +3743,7 @@ public abstract class Thing {
         
         pojoNotExpression.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoNotExpression;   
-        
+        return pojoNotExpression;
         
         case "CDP4.engineeringmodeldata.AndExpression":                
         cdp4common.commondata.Thing pojoAndExpression = new cdp4common.engineeringmodeldata.AndExpression();	    
@@ -3705,8 +3758,7 @@ public abstract class Thing {
         
         pojoAndExpression.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoAndExpression;   
-        
+        return pojoAndExpression;
         
         case "CDP4.engineeringmodeldata.ExclusiveOrExpression":                
         cdp4common.commondata.Thing pojoExclusiveOrExpression = new cdp4common.engineeringmodeldata.ExclusiveOrExpression();	    
@@ -3721,8 +3773,7 @@ public abstract class Thing {
         
         pojoExclusiveOrExpression.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoExclusiveOrExpression;   
-        
+        return pojoExclusiveOrExpression;
         
         case "CDP4.engineeringmodeldata.RelationalExpression":                
         cdp4common.commondata.Thing pojoRelationalExpression = new cdp4common.engineeringmodeldata.RelationalExpression();	    
@@ -3737,8 +3788,7 @@ public abstract class Thing {
         
         pojoRelationalExpression.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRelationalExpression;   
-        
+        return pojoRelationalExpression;
         
         
         case "CDP4.engineeringmodeldata.ParameterValueSet":                
@@ -3754,8 +3804,7 @@ public abstract class Thing {
         
         pojoParameterValueSet.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoParameterValueSet;   
-        
+        return pojoParameterValueSet;
         
         case "CDP4.engineeringmodeldata.ParameterOverrideValueSet":                
         cdp4common.commondata.Thing pojoParameterOverrideValueSet = new cdp4common.engineeringmodeldata.ParameterOverrideValueSet();	    
@@ -3770,8 +3819,7 @@ public abstract class Thing {
         
         pojoParameterOverrideValueSet.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoParameterOverrideValueSet;   
-        
+        return pojoParameterOverrideValueSet;
         
         case "CDP4.engineeringmodeldata.NestedParameter":                
         cdp4common.commondata.Thing pojoNestedParameter = new cdp4common.engineeringmodeldata.NestedParameter();	    
@@ -3786,8 +3834,7 @@ public abstract class Thing {
         
         pojoNestedParameter.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoNestedParameter;   
-        
+        return pojoNestedParameter;
         
         case "CDP4.engineeringmodeldata.FileRevision":                
         cdp4common.commondata.Thing pojoFileRevision = new cdp4common.engineeringmodeldata.FileRevision();	    
@@ -3802,8 +3849,7 @@ public abstract class Thing {
         
         pojoFileRevision.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoFileRevision;   
-        
+        return pojoFileRevision;
         
         
         case "CDP4.engineeringmodeldata.UserRuleVerification":                
@@ -3819,8 +3865,7 @@ public abstract class Thing {
         
         pojoUserRuleVerification.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoUserRuleVerification;   
-        
+        return pojoUserRuleVerification;
         
         case "CDP4.engineeringmodeldata.BuiltInRuleVerification":                
         cdp4common.commondata.Thing pojoBuiltInRuleVerification = new cdp4common.engineeringmodeldata.BuiltInRuleVerification();	    
@@ -3835,8 +3880,7 @@ public abstract class Thing {
         
         pojoBuiltInRuleVerification.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoBuiltInRuleVerification;   
-        
+        return pojoBuiltInRuleVerification;
         
         case "CDP4.engineeringmodeldata.RuleViolation":                
         cdp4common.commondata.Thing pojoRuleViolation = new cdp4common.engineeringmodeldata.RuleViolation();	    
@@ -3851,8 +3895,7 @@ public abstract class Thing {
         
         pojoRuleViolation.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRuleViolation;   
-        
+        return pojoRuleViolation;
         
         case "CDP4.engineeringmodeldata.StakeHolderValueMapSettings":                
         cdp4common.commondata.Thing pojoStakeHolderValueMapSettings = new cdp4common.engineeringmodeldata.StakeHolderValueMapSettings();	    
@@ -3867,8 +3910,7 @@ public abstract class Thing {
         
         pojoStakeHolderValueMapSettings.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoStakeHolderValueMapSettings;   
-        
+        return pojoStakeHolderValueMapSettings;
         
         
         case "CDP4.engineeringmodeldata.RequirementsContainerParameterValue":                
@@ -3884,8 +3926,7 @@ public abstract class Thing {
         
         pojoRequirementsContainerParameterValue.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRequirementsContainerParameterValue;   
-        
+        return pojoRequirementsContainerParameterValue;
         
         case "CDP4.engineeringmodeldata.RelationshipParameterValue":                
         cdp4common.commondata.Thing pojoRelationshipParameterValue = new cdp4common.engineeringmodeldata.RelationshipParameterValue();	    
@@ -3900,8 +3941,7 @@ public abstract class Thing {
         
         pojoRelationshipParameterValue.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRelationshipParameterValue;   
-        
+        return pojoRelationshipParameterValue;
         
         case "CDP4.reportingdata.Book":                
         cdp4common.commondata.Thing pojoBook = new cdp4common.reportingdata.Book();	    
@@ -3916,8 +3956,7 @@ public abstract class Thing {
         
         pojoBook.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoBook;   
-        
+        return pojoBook;
         
         case "CDP4.reportingdata.Section":                
         cdp4common.commondata.Thing pojoSection = new cdp4common.reportingdata.Section();	    
@@ -3932,8 +3971,7 @@ public abstract class Thing {
         
         pojoSection.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSection;   
-        
+        return pojoSection;
         
         case "CDP4.reportingdata.Page":                
         cdp4common.commondata.Thing pojoPage = new cdp4common.reportingdata.Page();	    
@@ -3948,8 +3986,7 @@ public abstract class Thing {
         
         pojoPage.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoPage;   
-        
+        return pojoPage;
         
         
         case "CDP4.reportingdata.BinaryNote":                
@@ -3965,8 +4002,7 @@ public abstract class Thing {
         
         pojoBinaryNote.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoBinaryNote;   
-        
+        return pojoBinaryNote;
         
         case "CDP4.reportingdata.TextualNote":                
         cdp4common.commondata.Thing pojoTextualNote = new cdp4common.reportingdata.TextualNote();	    
@@ -3981,8 +4017,7 @@ public abstract class Thing {
         
         pojoTextualNote.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoTextualNote;   
-        
+        return pojoTextualNote;
         
         
         case "CDP4.reportingdata.ModellingThingReference":                
@@ -3998,8 +4033,7 @@ public abstract class Thing {
         
         pojoModellingThingReference.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoModellingThingReference;   
-        
+        return pojoModellingThingReference;
         
         case "CDP4.reportingdata.SiteDirectoryThingReference":                
         cdp4common.commondata.Thing pojoSiteDirectoryThingReference = new cdp4common.reportingdata.SiteDirectoryThingReference();	    
@@ -4014,8 +4048,7 @@ public abstract class Thing {
         
         pojoSiteDirectoryThingReference.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSiteDirectoryThingReference;   
-        
+        return pojoSiteDirectoryThingReference;
         
         
         case "CDP4.reportingdata.Solution":                
@@ -4031,8 +4064,7 @@ public abstract class Thing {
         
         pojoSolution.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSolution;   
-        
+        return pojoSolution;
         
         case "CDP4.reportingdata.SiteDirectoryDataAnnotation":                
         cdp4common.commondata.Thing pojoSiteDirectoryDataAnnotation = new cdp4common.reportingdata.SiteDirectoryDataAnnotation();	    
@@ -4047,8 +4079,7 @@ public abstract class Thing {
         
         pojoSiteDirectoryDataAnnotation.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSiteDirectoryDataAnnotation;   
-        
+        return pojoSiteDirectoryDataAnnotation;
         
         
         
@@ -4066,8 +4097,7 @@ public abstract class Thing {
         
         pojoRequestForWaiver.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRequestForWaiver;   
-        
+        return pojoRequestForWaiver;
         
         case "CDP4.reportingdata.RequestForDeviation":                
         cdp4common.commondata.Thing pojoRequestForDeviation = new cdp4common.reportingdata.RequestForDeviation();	    
@@ -4082,8 +4112,7 @@ public abstract class Thing {
         
         pojoRequestForDeviation.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRequestForDeviation;   
-        
+        return pojoRequestForDeviation;
         
         case "CDP4.reportingdata.ChangeRequest":                
         cdp4common.commondata.Thing pojoChangeRequest = new cdp4common.reportingdata.ChangeRequest();	    
@@ -4098,8 +4127,7 @@ public abstract class Thing {
         
         pojoChangeRequest.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoChangeRequest;   
-        
+        return pojoChangeRequest;
         
         case "CDP4.reportingdata.ReviewItemDiscrepancy":                
         cdp4common.commondata.Thing pojoReviewItemDiscrepancy = new cdp4common.reportingdata.ReviewItemDiscrepancy();	    
@@ -4114,8 +4142,7 @@ public abstract class Thing {
         
         pojoReviewItemDiscrepancy.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoReviewItemDiscrepancy;   
-        
+        return pojoReviewItemDiscrepancy;
         
         case "CDP4.reportingdata.ActionItem":                
         cdp4common.commondata.Thing pojoActionItem = new cdp4common.reportingdata.ActionItem();	    
@@ -4130,8 +4157,7 @@ public abstract class Thing {
         
         pojoActionItem.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoActionItem;   
-        
+        return pojoActionItem;
         
         case "CDP4.reportingdata.ChangeProposal":                
         cdp4common.commondata.Thing pojoChangeProposal = new cdp4common.reportingdata.ChangeProposal();	    
@@ -4146,8 +4172,7 @@ public abstract class Thing {
         
         pojoChangeProposal.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoChangeProposal;   
-        
+        return pojoChangeProposal;
         
         case "CDP4.reportingdata.ContractChangeNotice":                
         cdp4common.commondata.Thing pojoContractChangeNotice = new cdp4common.reportingdata.ContractChangeNotice();	    
@@ -4162,8 +4187,7 @@ public abstract class Thing {
         
         pojoContractChangeNotice.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoContractChangeNotice;   
-        
+        return pojoContractChangeNotice;
         
         case "CDP4.reportingdata.EngineeringModelDataNote":                
         cdp4common.commondata.Thing pojoEngineeringModelDataNote = new cdp4common.reportingdata.EngineeringModelDataNote();	    
@@ -4178,8 +4202,7 @@ public abstract class Thing {
         
         pojoEngineeringModelDataNote.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoEngineeringModelDataNote;   
-        
+        return pojoEngineeringModelDataNote;
         
         case "CDP4.reportingdata.Approval":                
         cdp4common.commondata.Thing pojoApproval = new cdp4common.reportingdata.Approval();	    
@@ -4194,8 +4217,7 @@ public abstract class Thing {
         
         pojoApproval.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoApproval;   
-        
+        return pojoApproval;
         
         
         case "CDP4.reportingdata.EngineeringModelDataDiscussionItem":                
@@ -4211,8 +4233,7 @@ public abstract class Thing {
         
         pojoEngineeringModelDataDiscussionItem.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoEngineeringModelDataDiscussionItem;   
-        
+        return pojoEngineeringModelDataDiscussionItem;
         
         case "CDP4.reportingdata.SiteDirectoryDataDiscussionItem":                
         cdp4common.commondata.Thing pojoSiteDirectoryDataDiscussionItem = new cdp4common.reportingdata.SiteDirectoryDataDiscussionItem();	    
@@ -4227,8 +4248,7 @@ public abstract class Thing {
         
         pojoSiteDirectoryDataDiscussionItem.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSiteDirectoryDataDiscussionItem;   
-        
+        return pojoSiteDirectoryDataDiscussionItem;
         
         
         case "CDP4.diagramdata.Point":                
@@ -4244,8 +4264,7 @@ public abstract class Thing {
         
         pojoPoint.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoPoint;   
-        
+        return pojoPoint;
         
         case "CDP4.diagramdata.Bounds":                
         cdp4common.commondata.Thing pojoBounds = new cdp4common.diagramdata.Bounds();	    
@@ -4260,8 +4279,7 @@ public abstract class Thing {
         
         pojoBounds.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoBounds;   
-        
+        return pojoBounds;
         
         case "CDP4.diagramdata.Color":                
         cdp4common.commondata.Thing pojoColor = new cdp4common.diagramdata.Color();	    
@@ -4276,8 +4294,7 @@ public abstract class Thing {
         
         pojoColor.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoColor;   
-        
+        return pojoColor;
         
         
         case "CDP4.diagramdata.OwnedStyle":                
@@ -4293,8 +4310,7 @@ public abstract class Thing {
         
         pojoOwnedStyle.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoOwnedStyle;   
-        
+        return pojoOwnedStyle;
         
         case "CDP4.diagramdata.SharedStyle":                
         cdp4common.commondata.Thing pojoSharedStyle = new cdp4common.diagramdata.SharedStyle();	    
@@ -4309,8 +4325,7 @@ public abstract class Thing {
         
         pojoSharedStyle.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSharedStyle;   
-        
+        return pojoSharedStyle;
         
         
         
@@ -4327,8 +4342,7 @@ public abstract class Thing {
         
         pojoDiagramEdge.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDiagramEdge;   
-        
+        return pojoDiagramEdge;
         
         
         case "CDP4.diagramdata.DiagramObject":                
@@ -4344,8 +4358,7 @@ public abstract class Thing {
         
         pojoDiagramObject.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDiagramObject;   
-        
+        return pojoDiagramObject;
         
         case "CDP4.diagramdata.DiagramCanvas":                
         cdp4common.commondata.Thing pojoDiagramCanvas = new cdp4common.diagramdata.DiagramCanvas();	    
@@ -4360,14 +4373,11 @@ public abstract class Thing {
         
         pojoDiagramCanvas.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoDiagramCanvas;   
-        
+        return pojoDiagramCanvas;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

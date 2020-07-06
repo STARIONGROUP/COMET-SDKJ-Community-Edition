@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Relationship} class.
+ */
 public abstract class Relationship {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.Relationship} to {@link CDP4.EngineeringModelData.Relationship}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.Relationship}
+     */
     public static CDP4.EngineeringModelData.Relationship toEmf(cdp4common.engineeringmodeldata.Relationship thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,44 +70,54 @@ public abstract class Relationship {
         
         emfMultiRelationship.setIid(thing.getIid().toString()); 
         
+        emfMultiRelationship.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfMultiRelationship.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfMultiRelationship.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfMultiRelationship.setModifiedOn(thing.getModifiedOn());
         
         emfMultiRelationship.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
+        emfMultiRelationship.getParameterValue().addAll(thing.getParameterValue().stream().map(item -> cdp4emfconnector.RelationshipParameterValue.toEmf(item)).collect(Collectors.toList()));
         
         emfMultiRelationship.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfMultiRelationship;   
-        
+        return emfMultiRelationship;
         
         case "cdp4common.engineeringmodeldata.BinaryRelationship":
         CDP4.EngineeringModelData.Relationship emfBinaryRelationship =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createBinaryRelationship();    
         
         emfBinaryRelationship.setIid(thing.getIid().toString()); 
         
+        emfBinaryRelationship.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emfBinaryRelationship.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBinaryRelationship.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfBinaryRelationship.setModifiedOn(thing.getModifiedOn());
         
         emfBinaryRelationship.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
+        emfBinaryRelationship.getParameterValue().addAll(thing.getParameterValue().stream().map(item -> cdp4emfconnector.RelationshipParameterValue.toEmf(item)).collect(Collectors.toList()));
         
         emfBinaryRelationship.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfBinaryRelationship;   
-        
+        return emfBinaryRelationship;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.Relationship toPojo(CDP4.EngineeringModelData.Relationship emfThing) {
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.Relationship} to {@link cdp4common.engineeringmodeldata.Relationship}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.Relationship}
+     */
+    public static cdp4common.engineeringmodeldata.Relationship toPojo(CDP4.EngineeringModelData.Relationship emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -122,8 +140,7 @@ public abstract class Relationship {
         
         pojoMultiRelationship.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoMultiRelationship;   
-        
+        return pojoMultiRelationship;
         
         case "CDP4.engineeringmodeldata.BinaryRelationship":                
         cdp4common.engineeringmodeldata.Relationship pojoBinaryRelationship = new cdp4common.engineeringmodeldata.BinaryRelationship();	    
@@ -144,14 +161,11 @@ public abstract class Relationship {
         
         pojoBinaryRelationship.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoBinaryRelationship;   
-        
+        return pojoBinaryRelationship;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

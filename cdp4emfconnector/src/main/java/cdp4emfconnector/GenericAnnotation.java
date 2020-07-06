@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link GenericAnnotation} class.
+ */
 public abstract class GenericAnnotation {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.GenericAnnotation} to {@link CDP4.ReportingData.GenericAnnotation}
+     *
+     * @return Generated {@link CDP4.ReportingData.GenericAnnotation}
+     */
     public static CDP4.ReportingData.GenericAnnotation toEmf(cdp4common.reportingdata.GenericAnnotation thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -66,7 +74,9 @@ public abstract class GenericAnnotation {
         
         emfSolution.setCreatedOn(thing.getCreatedOn());
         
+        emfSolution.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSolution.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSolution.setLanguageCode(thing.getLanguageCode());
         
@@ -74,8 +84,7 @@ public abstract class GenericAnnotation {
         
         emfSolution.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSolution;   
-        
+        return emfSolution;
         
         case "cdp4common.reportingdata.SiteDirectoryDataAnnotation":
         CDP4.ReportingData.GenericAnnotation emfSiteDirectoryDataAnnotation =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createSiteDirectoryDataAnnotation();    
@@ -86,7 +95,9 @@ public abstract class GenericAnnotation {
         
         emfSiteDirectoryDataAnnotation.setCreatedOn(thing.getCreatedOn());
         
+        emfSiteDirectoryDataAnnotation.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteDirectoryDataAnnotation.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteDirectoryDataAnnotation.setLanguageCode(thing.getLanguageCode());
         
@@ -94,8 +105,7 @@ public abstract class GenericAnnotation {
         
         emfSiteDirectoryDataAnnotation.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSiteDirectoryDataAnnotation;   
-        
+        return emfSiteDirectoryDataAnnotation;
         
         
         
@@ -109,7 +119,9 @@ public abstract class GenericAnnotation {
         
         emfRequestForWaiver.setCreatedOn(thing.getCreatedOn());
         
+        emfRequestForWaiver.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequestForWaiver.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForWaiver.setLanguageCode(thing.getLanguageCode());
         
@@ -117,8 +129,7 @@ public abstract class GenericAnnotation {
         
         emfRequestForWaiver.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRequestForWaiver;   
-        
+        return emfRequestForWaiver;
         
         case "cdp4common.reportingdata.RequestForDeviation":
         CDP4.ReportingData.GenericAnnotation emfRequestForDeviation =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createRequestForDeviation();    
@@ -129,7 +140,9 @@ public abstract class GenericAnnotation {
         
         emfRequestForDeviation.setCreatedOn(thing.getCreatedOn());
         
+        emfRequestForDeviation.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequestForDeviation.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForDeviation.setLanguageCode(thing.getLanguageCode());
         
@@ -137,8 +150,7 @@ public abstract class GenericAnnotation {
         
         emfRequestForDeviation.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRequestForDeviation;   
-        
+        return emfRequestForDeviation;
         
         case "cdp4common.reportingdata.ChangeRequest":
         CDP4.ReportingData.GenericAnnotation emfChangeRequest =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createChangeRequest();    
@@ -149,7 +161,9 @@ public abstract class GenericAnnotation {
         
         emfChangeRequest.setCreatedOn(thing.getCreatedOn());
         
+        emfChangeRequest.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfChangeRequest.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeRequest.setLanguageCode(thing.getLanguageCode());
         
@@ -157,8 +171,7 @@ public abstract class GenericAnnotation {
         
         emfChangeRequest.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfChangeRequest;   
-        
+        return emfChangeRequest;
         
         case "cdp4common.reportingdata.ReviewItemDiscrepancy":
         CDP4.ReportingData.GenericAnnotation emfReviewItemDiscrepancy =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createReviewItemDiscrepancy();    
@@ -169,7 +182,9 @@ public abstract class GenericAnnotation {
         
         emfReviewItemDiscrepancy.setCreatedOn(thing.getCreatedOn());
         
+        emfReviewItemDiscrepancy.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfReviewItemDiscrepancy.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfReviewItemDiscrepancy.setLanguageCode(thing.getLanguageCode());
         
@@ -177,8 +192,7 @@ public abstract class GenericAnnotation {
         
         emfReviewItemDiscrepancy.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfReviewItemDiscrepancy;   
-        
+        return emfReviewItemDiscrepancy;
         
         case "cdp4common.reportingdata.ActionItem":
         CDP4.ReportingData.GenericAnnotation emfActionItem =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createActionItem();    
@@ -189,7 +203,9 @@ public abstract class GenericAnnotation {
         
         emfActionItem.setCreatedOn(thing.getCreatedOn());
         
+        emfActionItem.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfActionItem.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfActionItem.setLanguageCode(thing.getLanguageCode());
         
@@ -197,8 +213,7 @@ public abstract class GenericAnnotation {
         
         emfActionItem.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfActionItem;   
-        
+        return emfActionItem;
         
         case "cdp4common.reportingdata.ChangeProposal":
         CDP4.ReportingData.GenericAnnotation emfChangeProposal =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createChangeProposal();    
@@ -209,7 +224,9 @@ public abstract class GenericAnnotation {
         
         emfChangeProposal.setCreatedOn(thing.getCreatedOn());
         
+        emfChangeProposal.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfChangeProposal.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeProposal.setLanguageCode(thing.getLanguageCode());
         
@@ -217,8 +234,7 @@ public abstract class GenericAnnotation {
         
         emfChangeProposal.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfChangeProposal;   
-        
+        return emfChangeProposal;
         
         case "cdp4common.reportingdata.ContractChangeNotice":
         CDP4.ReportingData.GenericAnnotation emfContractChangeNotice =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createContractChangeNotice();    
@@ -229,7 +245,9 @@ public abstract class GenericAnnotation {
         
         emfContractChangeNotice.setCreatedOn(thing.getCreatedOn());
         
+        emfContractChangeNotice.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfContractChangeNotice.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfContractChangeNotice.setLanguageCode(thing.getLanguageCode());
         
@@ -237,8 +255,7 @@ public abstract class GenericAnnotation {
         
         emfContractChangeNotice.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfContractChangeNotice;   
-        
+        return emfContractChangeNotice;
         
         case "cdp4common.reportingdata.EngineeringModelDataNote":
         CDP4.ReportingData.GenericAnnotation emfEngineeringModelDataNote =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createEngineeringModelDataNote();    
@@ -249,7 +266,9 @@ public abstract class GenericAnnotation {
         
         emfEngineeringModelDataNote.setCreatedOn(thing.getCreatedOn());
         
+        emfEngineeringModelDataNote.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEngineeringModelDataNote.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfEngineeringModelDataNote.setLanguageCode(thing.getLanguageCode());
         
@@ -257,8 +276,7 @@ public abstract class GenericAnnotation {
         
         emfEngineeringModelDataNote.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfEngineeringModelDataNote;   
-        
+        return emfEngineeringModelDataNote;
         
         case "cdp4common.reportingdata.Approval":
         CDP4.ReportingData.GenericAnnotation emfApproval =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createApproval();    
@@ -269,7 +287,9 @@ public abstract class GenericAnnotation {
         
         emfApproval.setCreatedOn(thing.getCreatedOn());
         
+        emfApproval.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfApproval.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfApproval.setLanguageCode(thing.getLanguageCode());
         
@@ -277,8 +297,7 @@ public abstract class GenericAnnotation {
         
         emfApproval.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfApproval;   
-        
+        return emfApproval;
         
         
         case "cdp4common.reportingdata.EngineeringModelDataDiscussionItem":
@@ -290,7 +309,9 @@ public abstract class GenericAnnotation {
         
         emfEngineeringModelDataDiscussionItem.setCreatedOn(thing.getCreatedOn());
         
+        emfEngineeringModelDataDiscussionItem.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfEngineeringModelDataDiscussionItem.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfEngineeringModelDataDiscussionItem.setLanguageCode(thing.getLanguageCode());
         
@@ -298,8 +319,7 @@ public abstract class GenericAnnotation {
         
         emfEngineeringModelDataDiscussionItem.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfEngineeringModelDataDiscussionItem;   
-        
+        return emfEngineeringModelDataDiscussionItem;
         
         case "cdp4common.reportingdata.SiteDirectoryDataDiscussionItem":
         CDP4.ReportingData.GenericAnnotation emfSiteDirectoryDataDiscussionItem =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createSiteDirectoryDataDiscussionItem();    
@@ -310,7 +330,9 @@ public abstract class GenericAnnotation {
         
         emfSiteDirectoryDataDiscussionItem.setCreatedOn(thing.getCreatedOn());
         
+        emfSiteDirectoryDataDiscussionItem.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfSiteDirectoryDataDiscussionItem.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteDirectoryDataDiscussionItem.setLanguageCode(thing.getLanguageCode());
         
@@ -318,16 +340,19 @@ public abstract class GenericAnnotation {
         
         emfSiteDirectoryDataDiscussionItem.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfSiteDirectoryDataDiscussionItem;   
-        
+        return emfSiteDirectoryDataDiscussionItem;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.reportingdata.GenericAnnotation toPojo(CDP4.ReportingData.GenericAnnotation emfThing) {
+    /**
+     * Convert from {@link CDP4.ReportingData.GenericAnnotation} to {@link cdp4common.reportingdata.GenericAnnotation}
+     *
+     * @return Generated {@link cdp4common.reportingdata.GenericAnnotation}
+     */
+    public static cdp4common.reportingdata.GenericAnnotation toPojo(CDP4.ReportingData.GenericAnnotation emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -350,8 +375,7 @@ public abstract class GenericAnnotation {
         
         pojoSolution.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSolution;   
-        
+        return pojoSolution;
         
         case "CDP4.reportingdata.SiteDirectoryDataAnnotation":                
         cdp4common.reportingdata.GenericAnnotation pojoSiteDirectoryDataAnnotation = new cdp4common.reportingdata.SiteDirectoryDataAnnotation();	    
@@ -372,8 +396,7 @@ public abstract class GenericAnnotation {
         
         pojoSiteDirectoryDataAnnotation.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSiteDirectoryDataAnnotation;   
-        
+        return pojoSiteDirectoryDataAnnotation;
         
         
         
@@ -397,8 +420,7 @@ public abstract class GenericAnnotation {
         
         pojoRequestForWaiver.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRequestForWaiver;   
-        
+        return pojoRequestForWaiver;
         
         case "CDP4.reportingdata.RequestForDeviation":                
         cdp4common.reportingdata.GenericAnnotation pojoRequestForDeviation = new cdp4common.reportingdata.RequestForDeviation();	    
@@ -419,8 +441,7 @@ public abstract class GenericAnnotation {
         
         pojoRequestForDeviation.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRequestForDeviation;   
-        
+        return pojoRequestForDeviation;
         
         case "CDP4.reportingdata.ChangeRequest":                
         cdp4common.reportingdata.GenericAnnotation pojoChangeRequest = new cdp4common.reportingdata.ChangeRequest();	    
@@ -441,8 +462,7 @@ public abstract class GenericAnnotation {
         
         pojoChangeRequest.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoChangeRequest;   
-        
+        return pojoChangeRequest;
         
         case "CDP4.reportingdata.ReviewItemDiscrepancy":                
         cdp4common.reportingdata.GenericAnnotation pojoReviewItemDiscrepancy = new cdp4common.reportingdata.ReviewItemDiscrepancy();	    
@@ -463,8 +483,7 @@ public abstract class GenericAnnotation {
         
         pojoReviewItemDiscrepancy.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoReviewItemDiscrepancy;   
-        
+        return pojoReviewItemDiscrepancy;
         
         case "CDP4.reportingdata.ActionItem":                
         cdp4common.reportingdata.GenericAnnotation pojoActionItem = new cdp4common.reportingdata.ActionItem();	    
@@ -485,8 +504,7 @@ public abstract class GenericAnnotation {
         
         pojoActionItem.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoActionItem;   
-        
+        return pojoActionItem;
         
         case "CDP4.reportingdata.ChangeProposal":                
         cdp4common.reportingdata.GenericAnnotation pojoChangeProposal = new cdp4common.reportingdata.ChangeProposal();	    
@@ -507,8 +525,7 @@ public abstract class GenericAnnotation {
         
         pojoChangeProposal.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoChangeProposal;   
-        
+        return pojoChangeProposal;
         
         case "CDP4.reportingdata.ContractChangeNotice":                
         cdp4common.reportingdata.GenericAnnotation pojoContractChangeNotice = new cdp4common.reportingdata.ContractChangeNotice();	    
@@ -529,8 +546,7 @@ public abstract class GenericAnnotation {
         
         pojoContractChangeNotice.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoContractChangeNotice;   
-        
+        return pojoContractChangeNotice;
         
         case "CDP4.reportingdata.EngineeringModelDataNote":                
         cdp4common.reportingdata.GenericAnnotation pojoEngineeringModelDataNote = new cdp4common.reportingdata.EngineeringModelDataNote();	    
@@ -551,8 +567,7 @@ public abstract class GenericAnnotation {
         
         pojoEngineeringModelDataNote.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoEngineeringModelDataNote;   
-        
+        return pojoEngineeringModelDataNote;
         
         case "CDP4.reportingdata.Approval":                
         cdp4common.reportingdata.GenericAnnotation pojoApproval = new cdp4common.reportingdata.Approval();	    
@@ -573,8 +588,7 @@ public abstract class GenericAnnotation {
         
         pojoApproval.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoApproval;   
-        
+        return pojoApproval;
         
         
         case "CDP4.reportingdata.EngineeringModelDataDiscussionItem":                
@@ -596,8 +610,7 @@ public abstract class GenericAnnotation {
         
         pojoEngineeringModelDataDiscussionItem.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoEngineeringModelDataDiscussionItem;   
-        
+        return pojoEngineeringModelDataDiscussionItem;
         
         case "CDP4.reportingdata.SiteDirectoryDataDiscussionItem":                
         cdp4common.reportingdata.GenericAnnotation pojoSiteDirectoryDataDiscussionItem = new cdp4common.reportingdata.SiteDirectoryDataDiscussionItem();	    
@@ -618,14 +631,11 @@ public abstract class GenericAnnotation {
         
         pojoSiteDirectoryDataDiscussionItem.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoSiteDirectoryDataDiscussionItem;   
-        
+        return pojoSiteDirectoryDataDiscussionItem;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

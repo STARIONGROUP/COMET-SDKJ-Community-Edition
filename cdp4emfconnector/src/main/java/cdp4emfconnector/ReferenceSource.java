@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ReferenceSource} class.
+ */
 public class ReferenceSource {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.ReferenceSource} to {@link CDP4.SiteDirectoryData.ReferenceSource}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.ReferenceSource}
+     */
     public static CDP4.SiteDirectoryData.ReferenceSource toEmf(cdp4common.sitedirectorydata.ReferenceSource thing) {       
-        
         
         CDP4.SiteDirectoryData.ReferenceSource emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createReferenceSource();      
        
@@ -95,11 +102,14 @@ public class ReferenceSource {
         emf.setVersionIdentifier(thing.getVersionIdentifier());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.ReferenceSource toPojo(CDP4.SiteDirectoryData.ReferenceSource emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.ReferenceSource} to {@link cdp4common.sitedirectorydata.ReferenceSource}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.ReferenceSource}
+     */
+    public static cdp4common.sitedirectorydata.ReferenceSource toPojo(CDP4.SiteDirectoryData.ReferenceSource emfThing) {
         
         cdp4common.sitedirectorydata.ReferenceSource pojo = new cdp4common.sitedirectorydata.ReferenceSource();
         
@@ -140,10 +150,16 @@ public class ReferenceSource {
         pojo.setVersionIdentifier(emfThing.getVersionIdentifier());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.ReferenceSource} from a {@link CDP4.SiteDirectoryData.ReferenceSource}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.ReferenceSource}.
+    * @return A new {@link cdp4common.sitedirectorydata.ReferenceSource}
+    */
     public static cdp4common.sitedirectorydata.ReferenceSource instiatePojo(CDP4.SiteDirectoryData.ReferenceSource thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.ReferenceSource(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.ReferenceSource(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

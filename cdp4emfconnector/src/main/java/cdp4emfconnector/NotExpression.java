@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link NotExpression} class.
+ */
 public class NotExpression {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.NotExpression} to {@link CDP4.EngineeringModelData.NotExpression}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.NotExpression}
+     */
     public static CDP4.EngineeringModelData.NotExpression toEmf(cdp4common.engineeringmodeldata.NotExpression thing) {       
-        
         
         CDP4.EngineeringModelData.NotExpression emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createNotExpression();      
        
@@ -71,11 +78,14 @@ public class NotExpression {
         emf.setTerm(thing.getTerm() != null ? cdp4emfconnector.BooleanExpression.toEmf(thing.getTerm()) : null);        
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.NotExpression toPojo(CDP4.EngineeringModelData.NotExpression emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.NotExpression} to {@link cdp4common.engineeringmodeldata.NotExpression}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.NotExpression}
+     */
+    public static cdp4common.engineeringmodeldata.NotExpression toPojo(CDP4.EngineeringModelData.NotExpression emfThing) {
         
         cdp4common.engineeringmodeldata.NotExpression pojo = new cdp4common.engineeringmodeldata.NotExpression();
         
@@ -92,10 +102,16 @@ public class NotExpression {
         pojo.setTerm(emfThing.getTerm() != null ? cdp4emfconnector.BooleanExpression.toPojo(emfThing.getTerm()) : null);        
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.NotExpression} from a {@link CDP4.EngineeringModelData.NotExpression}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.NotExpression}.
+    * @return A new {@link cdp4common.engineeringmodeldata.NotExpression}
+    */
     public static cdp4common.engineeringmodeldata.NotExpression instiatePojo(CDP4.EngineeringModelData.NotExpression thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.NotExpression(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.NotExpression(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

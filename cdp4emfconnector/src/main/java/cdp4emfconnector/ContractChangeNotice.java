@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ContractChangeNotice} class.
+ */
 public class ContractChangeNotice {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.ContractChangeNotice} to {@link CDP4.ReportingData.ContractChangeNotice}
+     *
+     * @return Generated {@link CDP4.ReportingData.ContractChangeNotice}
+     */
     public static CDP4.ReportingData.ContractChangeNotice toEmf(cdp4common.reportingdata.ContractChangeNotice thing) {       
-        
         
         CDP4.ReportingData.ContractChangeNotice emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createContractChangeNotice();      
        
@@ -100,11 +107,14 @@ public class ContractChangeNotice {
         emf.setTitle(thing.getTitle());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.ContractChangeNotice toPojo(CDP4.ReportingData.ContractChangeNotice emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.ContractChangeNotice} to {@link cdp4common.reportingdata.ContractChangeNotice}
+     *
+     * @return Generated {@link cdp4common.reportingdata.ContractChangeNotice}
+     */
+    public static cdp4common.reportingdata.ContractChangeNotice toPojo(CDP4.ReportingData.ContractChangeNotice emfThing) {
         
         cdp4common.reportingdata.ContractChangeNotice pojo = new cdp4common.reportingdata.ContractChangeNotice();
         
@@ -150,10 +160,16 @@ public class ContractChangeNotice {
         pojo.setTitle(emfThing.getTitle());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.ContractChangeNotice} from a {@link CDP4.ReportingData.ContractChangeNotice}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.ContractChangeNotice}.
+    * @return A new {@link cdp4common.reportingdata.ContractChangeNotice}
+    */
     public static cdp4common.reportingdata.ContractChangeNotice instiatePojo(CDP4.ReportingData.ContractChangeNotice thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.ContractChangeNotice(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.ContractChangeNotice(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

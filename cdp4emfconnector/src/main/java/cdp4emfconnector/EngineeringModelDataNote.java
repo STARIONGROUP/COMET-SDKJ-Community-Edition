@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link EngineeringModelDataNote} class.
+ */
 public class EngineeringModelDataNote {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.EngineeringModelDataNote} to {@link CDP4.ReportingData.EngineeringModelDataNote}
+     *
+     * @return Generated {@link CDP4.ReportingData.EngineeringModelDataNote}
+     */
     public static CDP4.ReportingData.EngineeringModelDataNote toEmf(cdp4common.reportingdata.EngineeringModelDataNote thing) {       
-        
         
         CDP4.ReportingData.EngineeringModelDataNote emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createEngineeringModelDataNote();      
        
@@ -82,11 +89,14 @@ public class EngineeringModelDataNote {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.EngineeringModelDataNote toPojo(CDP4.ReportingData.EngineeringModelDataNote emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.EngineeringModelDataNote} to {@link cdp4common.reportingdata.EngineeringModelDataNote}
+     *
+     * @return Generated {@link cdp4common.reportingdata.EngineeringModelDataNote}
+     */
+    public static cdp4common.reportingdata.EngineeringModelDataNote toPojo(CDP4.ReportingData.EngineeringModelDataNote emfThing) {
         
         cdp4common.reportingdata.EngineeringModelDataNote pojo = new cdp4common.reportingdata.EngineeringModelDataNote();
         
@@ -114,10 +124,16 @@ public class EngineeringModelDataNote {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.EngineeringModelDataNote} from a {@link CDP4.ReportingData.EngineeringModelDataNote}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.EngineeringModelDataNote}.
+    * @return A new {@link cdp4common.reportingdata.EngineeringModelDataNote}
+    */
     public static cdp4common.reportingdata.EngineeringModelDataNote instiatePojo(CDP4.ReportingData.EngineeringModelDataNote thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.EngineeringModelDataNote(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.EngineeringModelDataNote(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

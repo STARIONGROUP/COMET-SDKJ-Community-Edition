@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link SiteDirectoryDataAnnotation} class.
+ */
 public class SiteDirectoryDataAnnotation {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.SiteDirectoryDataAnnotation} to {@link CDP4.ReportingData.SiteDirectoryDataAnnotation}
+     *
+     * @return Generated {@link CDP4.ReportingData.SiteDirectoryDataAnnotation}
+     */
     public static CDP4.ReportingData.SiteDirectoryDataAnnotation toEmf(cdp4common.reportingdata.SiteDirectoryDataAnnotation thing) {       
-        
         
         CDP4.ReportingData.SiteDirectoryDataAnnotation emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createSiteDirectoryDataAnnotation();      
        
@@ -83,11 +90,14 @@ public class SiteDirectoryDataAnnotation {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.SiteDirectoryDataAnnotation toPojo(CDP4.ReportingData.SiteDirectoryDataAnnotation emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.SiteDirectoryDataAnnotation} to {@link cdp4common.reportingdata.SiteDirectoryDataAnnotation}
+     *
+     * @return Generated {@link cdp4common.reportingdata.SiteDirectoryDataAnnotation}
+     */
+    public static cdp4common.reportingdata.SiteDirectoryDataAnnotation toPojo(CDP4.ReportingData.SiteDirectoryDataAnnotation emfThing) {
         
         cdp4common.reportingdata.SiteDirectoryDataAnnotation pojo = new cdp4common.reportingdata.SiteDirectoryDataAnnotation();
         
@@ -116,10 +126,16 @@ public class SiteDirectoryDataAnnotation {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.SiteDirectoryDataAnnotation} from a {@link CDP4.ReportingData.SiteDirectoryDataAnnotation}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.SiteDirectoryDataAnnotation}.
+    * @return A new {@link cdp4common.reportingdata.SiteDirectoryDataAnnotation}
+    */
     public static cdp4common.reportingdata.SiteDirectoryDataAnnotation instiatePojo(CDP4.ReportingData.SiteDirectoryDataAnnotation thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.SiteDirectoryDataAnnotation(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.SiteDirectoryDataAnnotation(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Approval} class.
+ */
 public class Approval {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.Approval} to {@link CDP4.ReportingData.Approval}
+     *
+     * @return Generated {@link CDP4.ReportingData.Approval}
+     */
     public static CDP4.ReportingData.Approval toEmf(cdp4common.reportingdata.Approval thing) {       
-        
         
         CDP4.ReportingData.Approval emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createApproval();      
        
@@ -81,11 +88,14 @@ public class Approval {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.Approval toPojo(CDP4.ReportingData.Approval emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.Approval} to {@link cdp4common.reportingdata.Approval}
+     *
+     * @return Generated {@link cdp4common.reportingdata.Approval}
+     */
+    public static cdp4common.reportingdata.Approval toPojo(CDP4.ReportingData.Approval emfThing) {
         
         cdp4common.reportingdata.Approval pojo = new cdp4common.reportingdata.Approval();
         
@@ -112,10 +122,16 @@ public class Approval {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.Approval} from a {@link CDP4.ReportingData.Approval}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.Approval}.
+    * @return A new {@link cdp4common.reportingdata.Approval}
+    */
     public static cdp4common.reportingdata.Approval instiatePojo(CDP4.ReportingData.Approval thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.Approval(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.Approval(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

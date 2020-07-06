@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link DomainFileStore} class.
+ */
 public class DomainFileStore {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.DomainFileStore} to {@link CDP4.EngineeringModelData.DomainFileStore}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.DomainFileStore}
+     */
     public static CDP4.EngineeringModelData.DomainFileStore toEmf(cdp4common.engineeringmodeldata.DomainFileStore thing) {       
-        
         
         CDP4.EngineeringModelData.DomainFileStore emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createDomainFileStore();      
        
@@ -81,11 +88,14 @@ public class DomainFileStore {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.DomainFileStore toPojo(CDP4.EngineeringModelData.DomainFileStore emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.DomainFileStore} to {@link cdp4common.engineeringmodeldata.DomainFileStore}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.DomainFileStore}
+     */
+    public static cdp4common.engineeringmodeldata.DomainFileStore toPojo(CDP4.EngineeringModelData.DomainFileStore emfThing) {
         
         cdp4common.engineeringmodeldata.DomainFileStore pojo = new cdp4common.engineeringmodeldata.DomainFileStore();
         
@@ -112,10 +122,16 @@ public class DomainFileStore {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.DomainFileStore} from a {@link CDP4.EngineeringModelData.DomainFileStore}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.DomainFileStore}.
+    * @return A new {@link cdp4common.engineeringmodeldata.DomainFileStore}
+    */
     public static cdp4common.engineeringmodeldata.DomainFileStore instiatePojo(CDP4.EngineeringModelData.DomainFileStore thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.DomainFileStore(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.DomainFileStore(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Note} class.
+ */
 public abstract class Note {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.Note} to {@link CDP4.ReportingData.Note}
+     *
+     * @return Generated {@link CDP4.ReportingData.Note}
+     */
     public static CDP4.ReportingData.Note toEmf(cdp4common.reportingdata.Note thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,10 +70,13 @@ public abstract class Note {
         
         emfBinaryNote.setIid(thing.getIid().toString()); 
         
+        emfBinaryNote.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
         emfBinaryNote.setCreatedOn(thing.getCreatedOn());
         
+        emfBinaryNote.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBinaryNote.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfBinaryNote.setModifiedOn(thing.getModifiedOn());
         
@@ -77,18 +88,20 @@ public abstract class Note {
         
         emfBinaryNote.setShortName(thing.getShortName());
         		        
-        return emfBinaryNote;   
-        
+        return emfBinaryNote;
         
         case "cdp4common.reportingdata.TextualNote":
         CDP4.ReportingData.Note emfTextualNote =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createTextualNote();    
         
         emfTextualNote.setIid(thing.getIid().toString()); 
         
+        emfTextualNote.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
         emfTextualNote.setCreatedOn(thing.getCreatedOn());
         
+        emfTextualNote.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfTextualNote.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfTextualNote.setModifiedOn(thing.getModifiedOn());
         
@@ -100,16 +113,19 @@ public abstract class Note {
         
         emfTextualNote.setShortName(thing.getShortName());
         		        
-        return emfTextualNote;   
-        
+        return emfTextualNote;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.reportingdata.Note toPojo(CDP4.ReportingData.Note emfThing) {
+    /**
+     * Convert from {@link CDP4.ReportingData.Note} to {@link cdp4common.reportingdata.Note}
+     *
+     * @return Generated {@link cdp4common.reportingdata.Note}
+     */
+    public static cdp4common.reportingdata.Note toPojo(CDP4.ReportingData.Note emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -136,8 +152,7 @@ public abstract class Note {
         
         pojoBinaryNote.setShortName(emfThing.getShortName());
         		        
-        return pojoBinaryNote;   
-        
+        return pojoBinaryNote;
         
         case "CDP4.reportingdata.TextualNote":                
         cdp4common.reportingdata.Note pojoTextualNote = new cdp4common.reportingdata.TextualNote();	    
@@ -162,14 +177,11 @@ public abstract class Note {
         
         pojoTextualNote.setShortName(emfThing.getShortName());
         		        
-        return pojoTextualNote;   
-        
+        return pojoTextualNote;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

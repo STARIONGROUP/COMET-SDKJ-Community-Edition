@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link RuleVerification} class.
+ */
 public abstract class RuleVerification {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.RuleVerification} to {@link CDP4.EngineeringModelData.RuleVerification}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.RuleVerification}
+     */
     public static CDP4.EngineeringModelData.RuleVerification toEmf(cdp4common.engineeringmodeldata.RuleVerification thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,7 +70,9 @@ public abstract class RuleVerification {
         
         emfUserRuleVerification.setIid(thing.getIid().toString()); 
         
+        emfUserRuleVerification.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfUserRuleVerification.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfUserRuleVerification.setExecutedOn(thing.getExecutedOn());
         
@@ -76,16 +86,18 @@ public abstract class RuleVerification {
         
         if (thing.getStatus() != null) {emfUserRuleVerification.setStatus(CDP4.EngineeringModelData.RuleVerificationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
+        emfUserRuleVerification.getViolation().addAll(thing.getViolation().stream().map(item -> cdp4emfconnector.RuleViolation.toEmf(item)).collect(Collectors.toList()));
         		        
-        return emfUserRuleVerification;   
-        
+        return emfUserRuleVerification;
         
         case "cdp4common.engineeringmodeldata.BuiltInRuleVerification":
         CDP4.EngineeringModelData.RuleVerification emfBuiltInRuleVerification =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createBuiltInRuleVerification();    
         
         emfBuiltInRuleVerification.setIid(thing.getIid().toString()); 
         
+        emfBuiltInRuleVerification.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBuiltInRuleVerification.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfBuiltInRuleVerification.setExecutedOn(thing.getExecutedOn());
         
@@ -99,17 +111,21 @@ public abstract class RuleVerification {
         
         if (thing.getStatus() != null) {emfBuiltInRuleVerification.setStatus(CDP4.EngineeringModelData.RuleVerificationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
+        emfBuiltInRuleVerification.getViolation().addAll(thing.getViolation().stream().map(item -> cdp4emfconnector.RuleViolation.toEmf(item)).collect(Collectors.toList()));
         		        
-        return emfBuiltInRuleVerification;   
-        
+        return emfBuiltInRuleVerification;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.RuleVerification toPojo(CDP4.EngineeringModelData.RuleVerification emfThing) {
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.RuleVerification} to {@link cdp4common.engineeringmodeldata.RuleVerification}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.RuleVerification}
+     */
+    public static cdp4common.engineeringmodeldata.RuleVerification toPojo(CDP4.EngineeringModelData.RuleVerification emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -136,8 +152,7 @@ public abstract class RuleVerification {
         
         pojoUserRuleVerification.getViolation().addAll(emfThing.getViolation().stream().map(item -> cdp4emfconnector.RuleViolation.toPojo(item)).collect(Collectors.toList()));              
         		        
-        return pojoUserRuleVerification;   
-        
+        return pojoUserRuleVerification;
         
         case "CDP4.engineeringmodeldata.BuiltInRuleVerification":                
         cdp4common.engineeringmodeldata.RuleVerification pojoBuiltInRuleVerification = new cdp4common.engineeringmodeldata.BuiltInRuleVerification();	    
@@ -162,14 +177,11 @@ public abstract class RuleVerification {
         
         pojoBuiltInRuleVerification.getViolation().addAll(emfThing.getViolation().stream().map(item -> cdp4emfconnector.RuleViolation.toPojo(item)).collect(Collectors.toList()));              
         		        
-        return pojoBuiltInRuleVerification;   
-        
+        return pojoBuiltInRuleVerification;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

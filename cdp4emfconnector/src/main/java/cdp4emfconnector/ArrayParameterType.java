@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ArrayParameterType} class.
+ */
 public class ArrayParameterType {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.ArrayParameterType} to {@link CDP4.SiteDirectoryData.ArrayParameterType}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.ArrayParameterType}
+     */
     public static CDP4.SiteDirectoryData.ArrayParameterType toEmf(cdp4common.sitedirectorydata.ArrayParameterType thing) {       
-        
         
         CDP4.SiteDirectoryData.ArrayParameterType emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createArrayParameterType();      
        
@@ -93,11 +100,14 @@ public class ArrayParameterType {
         emf.setSymbol(thing.getSymbol());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.ArrayParameterType toPojo(CDP4.SiteDirectoryData.ArrayParameterType emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.ArrayParameterType} to {@link cdp4common.sitedirectorydata.ArrayParameterType}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.ArrayParameterType}
+     */
+    public static cdp4common.sitedirectorydata.ArrayParameterType toPojo(CDP4.SiteDirectoryData.ArrayParameterType emfThing) {
         
         cdp4common.sitedirectorydata.ArrayParameterType pojo = new cdp4common.sitedirectorydata.ArrayParameterType();
         
@@ -136,10 +146,16 @@ public class ArrayParameterType {
         pojo.setSymbol(emfThing.getSymbol());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.ArrayParameterType} from a {@link CDP4.SiteDirectoryData.ArrayParameterType}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.ArrayParameterType}.
+    * @return A new {@link cdp4common.sitedirectorydata.ArrayParameterType}
+    */
     public static cdp4common.sitedirectorydata.ArrayParameterType instiatePojo(CDP4.SiteDirectoryData.ArrayParameterType thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.ArrayParameterType(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.ArrayParameterType(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

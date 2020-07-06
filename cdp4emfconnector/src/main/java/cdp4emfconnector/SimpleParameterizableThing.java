@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link SimpleParameterizableThing} class.
+ */
 public abstract class SimpleParameterizableThing {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.SimpleParameterizableThing} to {@link CDP4.EngineeringModelData.SimpleParameterizableThing}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.SimpleParameterizableThing}
+     */
     public static CDP4.EngineeringModelData.SimpleParameterizableThing toEmf(cdp4common.engineeringmodeldata.SimpleParameterizableThing thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,10 +70,15 @@ public abstract class SimpleParameterizableThing {
         
         emfRequirement.setIid(thing.getIid().toString()); 
         
+        emfRequirement.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirement.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirement.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirement.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfRequirement.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfRequirement.setModifiedOn(thing.getModifiedOn());
         
@@ -73,21 +86,25 @@ public abstract class SimpleParameterizableThing {
         
         emfRequirement.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
+        emfRequirement.getParameterValue().addAll(thing.getParameterValue().stream().map(item -> cdp4emfconnector.SimpleParameterValue.toEmf(item)).collect(Collectors.toList()));
         
         emfRequirement.setRevisionNumber(thing.getRevisionNumber());
         
         emfRequirement.setShortName(thing.getShortName());
         		        
-        return emfRequirement;   
-        
+        return emfRequirement;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.SimpleParameterizableThing toPojo(CDP4.EngineeringModelData.SimpleParameterizableThing emfThing) {
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.SimpleParameterizableThing} to {@link cdp4common.engineeringmodeldata.SimpleParameterizableThing}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.SimpleParameterizableThing}
+     */
+    public static cdp4common.engineeringmodeldata.SimpleParameterizableThing toPojo(CDP4.EngineeringModelData.SimpleParameterizableThing emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -118,14 +135,11 @@ public abstract class SimpleParameterizableThing {
         
         pojoRequirement.setShortName(emfThing.getShortName());
         		        
-        return pojoRequirement;   
-        
+        return pojoRequirement;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

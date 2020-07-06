@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ModellingThingReference} class.
+ */
 public class ModellingThingReference {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.ModellingThingReference} to {@link CDP4.ReportingData.ModellingThingReference}
+     *
+     * @return Generated {@link CDP4.ReportingData.ModellingThingReference}
+     */
     public static CDP4.ReportingData.ModellingThingReference toEmf(cdp4common.reportingdata.ModellingThingReference thing) {       
-        
         
         CDP4.ReportingData.ModellingThingReference emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createModellingThingReference();      
        
@@ -73,11 +80,14 @@ public class ModellingThingReference {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.ModellingThingReference toPojo(CDP4.ReportingData.ModellingThingReference emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.ModellingThingReference} to {@link cdp4common.reportingdata.ModellingThingReference}
+     *
+     * @return Generated {@link cdp4common.reportingdata.ModellingThingReference}
+     */
+    public static cdp4common.reportingdata.ModellingThingReference toPojo(CDP4.ReportingData.ModellingThingReference emfThing) {
         
         cdp4common.reportingdata.ModellingThingReference pojo = new cdp4common.reportingdata.ModellingThingReference();
         
@@ -96,10 +106,16 @@ public class ModellingThingReference {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.ModellingThingReference} from a {@link CDP4.ReportingData.ModellingThingReference}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.ModellingThingReference}.
+    * @return A new {@link cdp4common.reportingdata.ModellingThingReference}
+    */
     public static cdp4common.reportingdata.ModellingThingReference instiatePojo(CDP4.ReportingData.ModellingThingReference thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.ModellingThingReference(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.ModellingThingReference(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

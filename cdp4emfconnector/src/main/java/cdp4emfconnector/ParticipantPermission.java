@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ParticipantPermission} class.
+ */
 public class ParticipantPermission {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.ParticipantPermission} to {@link CDP4.SiteDirectoryData.ParticipantPermission}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.ParticipantPermission}
+     */
     public static CDP4.SiteDirectoryData.ParticipantPermission toEmf(cdp4common.sitedirectorydata.ParticipantPermission thing) {       
-        
         
         CDP4.SiteDirectoryData.ParticipantPermission emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createParticipantPermission();      
        
@@ -75,11 +82,14 @@ public class ParticipantPermission {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.ParticipantPermission toPojo(CDP4.SiteDirectoryData.ParticipantPermission emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.ParticipantPermission} to {@link cdp4common.sitedirectorydata.ParticipantPermission}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.ParticipantPermission}
+     */
+    public static cdp4common.sitedirectorydata.ParticipantPermission toPojo(CDP4.SiteDirectoryData.ParticipantPermission emfThing) {
         
         cdp4common.sitedirectorydata.ParticipantPermission pojo = new cdp4common.sitedirectorydata.ParticipantPermission();
         
@@ -100,10 +110,16 @@ public class ParticipantPermission {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.ParticipantPermission} from a {@link CDP4.SiteDirectoryData.ParticipantPermission}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.ParticipantPermission}.
+    * @return A new {@link cdp4common.sitedirectorydata.ParticipantPermission}
+    */
     public static cdp4common.sitedirectorydata.ParticipantPermission instiatePojo(CDP4.SiteDirectoryData.ParticipantPermission thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.ParticipantPermission(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.ParticipantPermission(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

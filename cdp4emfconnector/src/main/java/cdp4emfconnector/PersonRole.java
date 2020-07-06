@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link PersonRole} class.
+ */
 public class PersonRole {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.PersonRole} to {@link CDP4.SiteDirectoryData.PersonRole}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.PersonRole}
+     */
     public static CDP4.SiteDirectoryData.PersonRole toEmf(cdp4common.sitedirectorydata.PersonRole thing) {       
-        
         
         CDP4.SiteDirectoryData.PersonRole emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createPersonRole();      
        
@@ -83,11 +90,14 @@ public class PersonRole {
         emf.setShortName(thing.getShortName());
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.PersonRole toPojo(CDP4.SiteDirectoryData.PersonRole emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.PersonRole} to {@link cdp4common.sitedirectorydata.PersonRole}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.PersonRole}
+     */
+    public static cdp4common.sitedirectorydata.PersonRole toPojo(CDP4.SiteDirectoryData.PersonRole emfThing) {
         
         cdp4common.sitedirectorydata.PersonRole pojo = new cdp4common.sitedirectorydata.PersonRole();
         
@@ -116,10 +126,16 @@ public class PersonRole {
         pojo.setShortName(emfThing.getShortName());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.PersonRole} from a {@link CDP4.SiteDirectoryData.PersonRole}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.PersonRole}.
+    * @return A new {@link cdp4common.sitedirectorydata.PersonRole}
+    */
     public static cdp4common.sitedirectorydata.PersonRole instiatePojo(CDP4.SiteDirectoryData.PersonRole thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.PersonRole(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.PersonRole(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link MeasurementScale} class.
+ */
 public abstract class MeasurementScale {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.MeasurementScale} to {@link CDP4.SiteDirectoryData.MeasurementScale}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.MeasurementScale}
+     */
     public static CDP4.SiteDirectoryData.MeasurementScale toEmf(cdp4common.sitedirectorydata.MeasurementScale thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,10 +70,15 @@ public abstract class MeasurementScale {
         
         emfOrdinalScale.setIid(thing.getIid().toString()); 
         
+        emfOrdinalScale.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfOrdinalScale.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfOrdinalScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfOrdinalScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfOrdinalScale.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfOrdinalScale.setIsDeprecated(thing.isDeprecated());
         
@@ -73,6 +86,7 @@ public abstract class MeasurementScale {
         
         emfOrdinalScale.setIsMinimumInclusive(thing.isMinimumInclusive());
         
+        emfOrdinalScale.getMappingToReferenceScale().addAll(thing.getMappingToReferenceScale().stream().map(item -> cdp4emfconnector.MappingToReferenceScale.toEmf(item)).collect(Collectors.toList()));
         
         emfOrdinalScale.setMaximumPermissibleValue(thing.getMaximumPermissibleValue());
         
@@ -94,19 +108,24 @@ public abstract class MeasurementScale {
         
         emfOrdinalScale.setUnit(thing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toEmf(thing.getUnit()) : null);        
         
+        emfOrdinalScale.getValueDefinition().addAll(thing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toEmf(item)).collect(Collectors.toList()));
         		        
-        return emfOrdinalScale;   
-        
+        return emfOrdinalScale;
         
         case "cdp4common.sitedirectorydata.RatioScale":
         CDP4.SiteDirectoryData.MeasurementScale emfRatioScale =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createRatioScale();    
         
         emfRatioScale.setIid(thing.getIid().toString()); 
         
+        emfRatioScale.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfRatioScale.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfRatioScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRatioScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfRatioScale.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfRatioScale.setIsDeprecated(thing.isDeprecated());
         
@@ -114,6 +133,7 @@ public abstract class MeasurementScale {
         
         emfRatioScale.setIsMinimumInclusive(thing.isMinimumInclusive());
         
+        emfRatioScale.getMappingToReferenceScale().addAll(thing.getMappingToReferenceScale().stream().map(item -> cdp4emfconnector.MappingToReferenceScale.toEmf(item)).collect(Collectors.toList()));
         
         emfRatioScale.setMaximumPermissibleValue(thing.getMaximumPermissibleValue());
         
@@ -135,19 +155,24 @@ public abstract class MeasurementScale {
         
         emfRatioScale.setUnit(thing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toEmf(thing.getUnit()) : null);        
         
+        emfRatioScale.getValueDefinition().addAll(thing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toEmf(item)).collect(Collectors.toList()));
         		        
-        return emfRatioScale;   
-        
+        return emfRatioScale;
         
         case "cdp4common.sitedirectorydata.CyclicRatioScale":
         CDP4.SiteDirectoryData.MeasurementScale emfCyclicRatioScale =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createCyclicRatioScale();    
         
         emfCyclicRatioScale.setIid(thing.getIid().toString()); 
         
+        emfCyclicRatioScale.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfCyclicRatioScale.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfCyclicRatioScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfCyclicRatioScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfCyclicRatioScale.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfCyclicRatioScale.setIsDeprecated(thing.isDeprecated());
         
@@ -155,6 +180,7 @@ public abstract class MeasurementScale {
         
         emfCyclicRatioScale.setIsMinimumInclusive(thing.isMinimumInclusive());
         
+        emfCyclicRatioScale.getMappingToReferenceScale().addAll(thing.getMappingToReferenceScale().stream().map(item -> cdp4emfconnector.MappingToReferenceScale.toEmf(item)).collect(Collectors.toList()));
         
         emfCyclicRatioScale.setMaximumPermissibleValue(thing.getMaximumPermissibleValue());
         
@@ -176,19 +202,24 @@ public abstract class MeasurementScale {
         
         emfCyclicRatioScale.setUnit(thing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toEmf(thing.getUnit()) : null);        
         
+        emfCyclicRatioScale.getValueDefinition().addAll(thing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toEmf(item)).collect(Collectors.toList()));
         		        
-        return emfCyclicRatioScale;   
-        
+        return emfCyclicRatioScale;
         
         case "cdp4common.sitedirectorydata.IntervalScale":
         CDP4.SiteDirectoryData.MeasurementScale emfIntervalScale =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createIntervalScale();    
         
         emfIntervalScale.setIid(thing.getIid().toString()); 
         
+        emfIntervalScale.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfIntervalScale.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfIntervalScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfIntervalScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfIntervalScale.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfIntervalScale.setIsDeprecated(thing.isDeprecated());
         
@@ -196,6 +227,7 @@ public abstract class MeasurementScale {
         
         emfIntervalScale.setIsMinimumInclusive(thing.isMinimumInclusive());
         
+        emfIntervalScale.getMappingToReferenceScale().addAll(thing.getMappingToReferenceScale().stream().map(item -> cdp4emfconnector.MappingToReferenceScale.toEmf(item)).collect(Collectors.toList()));
         
         emfIntervalScale.setMaximumPermissibleValue(thing.getMaximumPermissibleValue());
         
@@ -217,19 +249,24 @@ public abstract class MeasurementScale {
         
         emfIntervalScale.setUnit(thing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toEmf(thing.getUnit()) : null);        
         
+        emfIntervalScale.getValueDefinition().addAll(thing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toEmf(item)).collect(Collectors.toList()));
         		        
-        return emfIntervalScale;   
-        
+        return emfIntervalScale;
         
         case "cdp4common.sitedirectorydata.LogarithmicScale":
         CDP4.SiteDirectoryData.MeasurementScale emfLogarithmicScale =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createLogarithmicScale();    
         
         emfLogarithmicScale.setIid(thing.getIid().toString()); 
         
+        emfLogarithmicScale.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfLogarithmicScale.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfLogarithmicScale.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfLogarithmicScale.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfLogarithmicScale.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfLogarithmicScale.setIsDeprecated(thing.isDeprecated());
         
@@ -237,6 +274,7 @@ public abstract class MeasurementScale {
         
         emfLogarithmicScale.setIsMinimumInclusive(thing.isMinimumInclusive());
         
+        emfLogarithmicScale.getMappingToReferenceScale().addAll(thing.getMappingToReferenceScale().stream().map(item -> cdp4emfconnector.MappingToReferenceScale.toEmf(item)).collect(Collectors.toList()));
         
         emfLogarithmicScale.setMaximumPermissibleValue(thing.getMaximumPermissibleValue());
         
@@ -258,17 +296,21 @@ public abstract class MeasurementScale {
         
         emfLogarithmicScale.setUnit(thing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toEmf(thing.getUnit()) : null);        
         
+        emfLogarithmicScale.getValueDefinition().addAll(thing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toEmf(item)).collect(Collectors.toList()));
         		        
-        return emfLogarithmicScale;   
-        
+        return emfLogarithmicScale;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.sitedirectorydata.MeasurementScale toPojo(CDP4.SiteDirectoryData.MeasurementScale emfThing) {
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.MeasurementScale} to {@link cdp4common.sitedirectorydata.MeasurementScale}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.MeasurementScale}
+     */
+    public static cdp4common.sitedirectorydata.MeasurementScale toPojo(CDP4.SiteDirectoryData.MeasurementScale emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -317,8 +359,7 @@ public abstract class MeasurementScale {
         
         pojoOrdinalScale.getValueDefinition().addAll(emfThing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toPojo(item)).collect(Collectors.toList()));              
         		        
-        return pojoOrdinalScale;   
-        
+        return pojoOrdinalScale;
         
         case "CDP4.sitedirectorydata.RatioScale":                
         cdp4common.sitedirectorydata.MeasurementScale pojoRatioScale = new cdp4common.sitedirectorydata.RatioScale();	    
@@ -365,8 +406,7 @@ public abstract class MeasurementScale {
         
         pojoRatioScale.getValueDefinition().addAll(emfThing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toPojo(item)).collect(Collectors.toList()));              
         		        
-        return pojoRatioScale;   
-        
+        return pojoRatioScale;
         
         case "CDP4.sitedirectorydata.CyclicRatioScale":                
         cdp4common.sitedirectorydata.MeasurementScale pojoCyclicRatioScale = new cdp4common.sitedirectorydata.CyclicRatioScale();	    
@@ -413,8 +453,7 @@ public abstract class MeasurementScale {
         
         pojoCyclicRatioScale.getValueDefinition().addAll(emfThing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toPojo(item)).collect(Collectors.toList()));              
         		        
-        return pojoCyclicRatioScale;   
-        
+        return pojoCyclicRatioScale;
         
         case "CDP4.sitedirectorydata.IntervalScale":                
         cdp4common.sitedirectorydata.MeasurementScale pojoIntervalScale = new cdp4common.sitedirectorydata.IntervalScale();	    
@@ -461,8 +500,7 @@ public abstract class MeasurementScale {
         
         pojoIntervalScale.getValueDefinition().addAll(emfThing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toPojo(item)).collect(Collectors.toList()));              
         		        
-        return pojoIntervalScale;   
-        
+        return pojoIntervalScale;
         
         case "CDP4.sitedirectorydata.LogarithmicScale":                
         cdp4common.sitedirectorydata.MeasurementScale pojoLogarithmicScale = new cdp4common.sitedirectorydata.LogarithmicScale();	    
@@ -509,14 +547,11 @@ public abstract class MeasurementScale {
         
         pojoLogarithmicScale.getValueDefinition().addAll(emfThing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toPojo(item)).collect(Collectors.toList()));              
         		        
-        return pojoLogarithmicScale;   
-        
+        return pojoLogarithmicScale;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

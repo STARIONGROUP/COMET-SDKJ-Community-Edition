@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link StakeHolderValueMap} class.
+ */
 public class StakeHolderValueMap {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.StakeHolderValueMap} to {@link CDP4.EngineeringModelData.StakeHolderValueMap}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.StakeHolderValueMap}
+     */
     public static CDP4.EngineeringModelData.StakeHolderValueMap toEmf(cdp4common.engineeringmodeldata.StakeHolderValueMap thing) {       
-        
         
         CDP4.EngineeringModelData.StakeHolderValueMap emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createStakeHolderValueMap();      
        
@@ -91,11 +98,14 @@ public class StakeHolderValueMap {
         emf.getValueGroup().addAll(thing.getValueGroup().stream().map(item -> cdp4emfconnector.ValueGroup.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.StakeHolderValueMap toPojo(CDP4.EngineeringModelData.StakeHolderValueMap emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.StakeHolderValueMap} to {@link cdp4common.engineeringmodeldata.StakeHolderValueMap}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.StakeHolderValueMap}
+     */
+    public static cdp4common.engineeringmodeldata.StakeHolderValueMap toPojo(CDP4.EngineeringModelData.StakeHolderValueMap emfThing) {
         
         cdp4common.engineeringmodeldata.StakeHolderValueMap pojo = new cdp4common.engineeringmodeldata.StakeHolderValueMap();
         
@@ -132,10 +142,16 @@ public class StakeHolderValueMap {
         pojo.getValueGroup().addAll(emfThing.getValueGroup().stream().map(item -> cdp4emfconnector.ValueGroup.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.StakeHolderValueMap} from a {@link CDP4.EngineeringModelData.StakeHolderValueMap}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.StakeHolderValueMap}.
+    * @return A new {@link cdp4common.engineeringmodeldata.StakeHolderValueMap}
+    */
     public static cdp4common.engineeringmodeldata.StakeHolderValueMap instiatePojo(CDP4.EngineeringModelData.StakeHolderValueMap thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.StakeHolderValueMap(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.StakeHolderValueMap(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

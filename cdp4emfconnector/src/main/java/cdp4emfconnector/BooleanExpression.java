@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link BooleanExpression} class.
+ */
 public abstract class BooleanExpression {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.BooleanExpression} to {@link CDP4.EngineeringModelData.BooleanExpression}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.BooleanExpression}
+     */
     public static CDP4.EngineeringModelData.BooleanExpression toEmf(cdp4common.engineeringmodeldata.BooleanExpression thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,78 +70,87 @@ public abstract class BooleanExpression {
         
         emfOrExpression.setIid(thing.getIid().toString()); 
         
+        emfOrExpression.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfOrExpression.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfOrExpression.setModifiedOn(thing.getModifiedOn());
         
         emfOrExpression.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfOrExpression;   
-        
+        return emfOrExpression;
         
         case "cdp4common.engineeringmodeldata.NotExpression":
         CDP4.EngineeringModelData.BooleanExpression emfNotExpression =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createNotExpression();    
         
         emfNotExpression.setIid(thing.getIid().toString()); 
         
+        emfNotExpression.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfNotExpression.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfNotExpression.setModifiedOn(thing.getModifiedOn());
         
         emfNotExpression.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfNotExpression;   
-        
+        return emfNotExpression;
         
         case "cdp4common.engineeringmodeldata.AndExpression":
         CDP4.EngineeringModelData.BooleanExpression emfAndExpression =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createAndExpression();    
         
         emfAndExpression.setIid(thing.getIid().toString()); 
         
+        emfAndExpression.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfAndExpression.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfAndExpression.setModifiedOn(thing.getModifiedOn());
         
         emfAndExpression.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfAndExpression;   
-        
+        return emfAndExpression;
         
         case "cdp4common.engineeringmodeldata.ExclusiveOrExpression":
         CDP4.EngineeringModelData.BooleanExpression emfExclusiveOrExpression =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createExclusiveOrExpression();    
         
         emfExclusiveOrExpression.setIid(thing.getIid().toString()); 
         
+        emfExclusiveOrExpression.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfExclusiveOrExpression.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfExclusiveOrExpression.setModifiedOn(thing.getModifiedOn());
         
         emfExclusiveOrExpression.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfExclusiveOrExpression;   
-        
+        return emfExclusiveOrExpression;
         
         case "cdp4common.engineeringmodeldata.RelationalExpression":
         CDP4.EngineeringModelData.BooleanExpression emfRelationalExpression =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createRelationalExpression();    
         
         emfRelationalExpression.setIid(thing.getIid().toString()); 
         
+        emfRelationalExpression.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfRelationalExpression.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
         emfRelationalExpression.setModifiedOn(thing.getModifiedOn());
         
         emfRelationalExpression.setRevisionNumber(thing.getRevisionNumber());
         		        
-        return emfRelationalExpression;   
-        
+        return emfRelationalExpression;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.BooleanExpression toPojo(CDP4.EngineeringModelData.BooleanExpression emfThing) {
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.BooleanExpression} to {@link cdp4common.engineeringmodeldata.BooleanExpression}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.BooleanExpression}
+     */
+    public static cdp4common.engineeringmodeldata.BooleanExpression toPojo(CDP4.EngineeringModelData.BooleanExpression emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -150,8 +167,7 @@ public abstract class BooleanExpression {
         
         pojoOrExpression.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoOrExpression;   
-        
+        return pojoOrExpression;
         
         case "CDP4.engineeringmodeldata.NotExpression":                
         cdp4common.engineeringmodeldata.BooleanExpression pojoNotExpression = new cdp4common.engineeringmodeldata.NotExpression();	    
@@ -166,8 +182,7 @@ public abstract class BooleanExpression {
         
         pojoNotExpression.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoNotExpression;   
-        
+        return pojoNotExpression;
         
         case "CDP4.engineeringmodeldata.AndExpression":                
         cdp4common.engineeringmodeldata.BooleanExpression pojoAndExpression = new cdp4common.engineeringmodeldata.AndExpression();	    
@@ -182,8 +197,7 @@ public abstract class BooleanExpression {
         
         pojoAndExpression.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoAndExpression;   
-        
+        return pojoAndExpression;
         
         case "CDP4.engineeringmodeldata.ExclusiveOrExpression":                
         cdp4common.engineeringmodeldata.BooleanExpression pojoExclusiveOrExpression = new cdp4common.engineeringmodeldata.ExclusiveOrExpression();	    
@@ -198,8 +212,7 @@ public abstract class BooleanExpression {
         
         pojoExclusiveOrExpression.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoExclusiveOrExpression;   
-        
+        return pojoExclusiveOrExpression;
         
         case "CDP4.engineeringmodeldata.RelationalExpression":                
         cdp4common.engineeringmodeldata.BooleanExpression pojoRelationalExpression = new cdp4common.engineeringmodeldata.RelationalExpression();	    
@@ -214,14 +227,11 @@ public abstract class BooleanExpression {
         
         pojoRelationalExpression.setRevisionNumber(emfThing.getRevisionNumber());
         		        
-        return pojoRelationalExpression;   
-        
+        return pojoRelationalExpression;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

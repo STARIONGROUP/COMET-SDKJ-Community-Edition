@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ParameterOverride} class.
+ */
 public class ParameterOverride {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.ParameterOverride} to {@link CDP4.EngineeringModelData.ParameterOverride}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.ParameterOverride}
+     */
     public static CDP4.EngineeringModelData.ParameterOverride toEmf(cdp4common.engineeringmodeldata.ParameterOverride thing) {       
-        
         
         CDP4.EngineeringModelData.ParameterOverride emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createParameterOverride();      
        
@@ -77,11 +84,14 @@ public class ParameterOverride {
         emf.getValueSet().addAll(thing.getValueSet().stream().map(item -> cdp4emfconnector.ParameterOverrideValueSet.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.ParameterOverride toPojo(CDP4.EngineeringModelData.ParameterOverride emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.ParameterOverride} to {@link cdp4common.engineeringmodeldata.ParameterOverride}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.ParameterOverride}
+     */
+    public static cdp4common.engineeringmodeldata.ParameterOverride toPojo(CDP4.EngineeringModelData.ParameterOverride emfThing) {
         
         cdp4common.engineeringmodeldata.ParameterOverride pojo = new cdp4common.engineeringmodeldata.ParameterOverride();
         
@@ -104,10 +114,16 @@ public class ParameterOverride {
         pojo.getValueSet().addAll(emfThing.getValueSet().stream().map(item -> cdp4emfconnector.ParameterOverrideValueSet.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.ParameterOverride} from a {@link CDP4.EngineeringModelData.ParameterOverride}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.ParameterOverride}.
+    * @return A new {@link cdp4common.engineeringmodeldata.ParameterOverride}
+    */
     public static cdp4common.engineeringmodeldata.ParameterOverride instiatePojo(CDP4.EngineeringModelData.ParameterOverride thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.ParameterOverride(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.ParameterOverride(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

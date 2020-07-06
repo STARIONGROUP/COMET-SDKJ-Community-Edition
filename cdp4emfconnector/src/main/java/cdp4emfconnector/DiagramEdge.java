@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link DiagramEdge} class.
+ */
 public class DiagramEdge {
-
+   
+    /**
+     * Convert from {@link cdp4common.diagramdata.DiagramEdge} to {@link CDP4.DiagramData.DiagramEdge}
+     *
+     * @return Generated {@link CDP4.DiagramData.DiagramEdge}
+     */
     public static CDP4.DiagramData.DiagramEdge toEmf(cdp4common.diagramdata.DiagramEdge thing) {       
-        
         
         CDP4.DiagramData.DiagramEdge emf =  CDP4.DiagramData.impl.DiagramDataFactoryImpl.eINSTANCE.createDiagramEdge();      
        
@@ -85,11 +92,14 @@ public class DiagramEdge {
         emf.setTarget(thing.getTarget() != null ? cdp4emfconnector.DiagramElementThing.toEmf(thing.getTarget()) : null);        
         
         return emf;
-        
     }
 
-    public static  cdp4common.diagramdata.DiagramEdge toPojo(CDP4.DiagramData.DiagramEdge emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.DiagramData.DiagramEdge} to {@link cdp4common.diagramdata.DiagramEdge}
+     *
+     * @return Generated {@link cdp4common.diagramdata.DiagramEdge}
+     */
+    public static cdp4common.diagramdata.DiagramEdge toPojo(CDP4.DiagramData.DiagramEdge emfThing) {
         
         cdp4common.diagramdata.DiagramEdge pojo = new cdp4common.diagramdata.DiagramEdge();
         
@@ -120,10 +130,16 @@ public class DiagramEdge {
         pojo.setTarget(emfThing.getTarget() != null ? cdp4emfconnector.DiagramElementThing.toPojo(emfThing.getTarget()) : null);        
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.diagramdata.DiagramEdge} from a {@link CDP4.DiagramData.DiagramEdge}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.diagramdata.DiagramEdge}.
+    * @return A new {@link cdp4common.diagramdata.DiagramEdge}
+    */
     public static cdp4common.diagramdata.DiagramEdge instiatePojo(CDP4.DiagramData.DiagramEdge thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.diagramdata.DiagramEdge(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.diagramdata.DiagramEdge(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

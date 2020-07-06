@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Solution} class.
+ */
 public class Solution {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.Solution} to {@link CDP4.ReportingData.Solution}
+     *
+     * @return Generated {@link CDP4.ReportingData.Solution}
+     */
     public static CDP4.ReportingData.Solution toEmf(cdp4common.reportingdata.Solution thing) {       
-        
         
         CDP4.ReportingData.Solution emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createSolution();      
        
@@ -79,11 +86,14 @@ public class Solution {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.Solution toPojo(CDP4.ReportingData.Solution emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.Solution} to {@link cdp4common.reportingdata.Solution}
+     *
+     * @return Generated {@link cdp4common.reportingdata.Solution}
+     */
+    public static cdp4common.reportingdata.Solution toPojo(CDP4.ReportingData.Solution emfThing) {
         
         cdp4common.reportingdata.Solution pojo = new cdp4common.reportingdata.Solution();
         
@@ -108,10 +118,16 @@ public class Solution {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.Solution} from a {@link CDP4.ReportingData.Solution}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.Solution}.
+    * @return A new {@link cdp4common.reportingdata.Solution}
+    */
     public static cdp4common.reportingdata.Solution instiatePojo(CDP4.ReportingData.Solution thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.Solution(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.Solution(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

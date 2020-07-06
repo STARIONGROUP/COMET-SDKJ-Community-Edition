@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Participant} class.
+ */
 public class Participant {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.Participant} to {@link CDP4.SiteDirectoryData.Participant}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.Participant}
+     */
     public static CDP4.SiteDirectoryData.Participant toEmf(cdp4common.sitedirectorydata.Participant thing) {       
-        
         
         CDP4.SiteDirectoryData.Participant emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createParticipant();      
        
@@ -79,11 +86,14 @@ public class Participant {
         emf.setSelectedDomain(thing.getSelectedDomain() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getSelectedDomain()) : null);        
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.Participant toPojo(CDP4.SiteDirectoryData.Participant emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.Participant} to {@link cdp4common.sitedirectorydata.Participant}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.Participant}
+     */
+    public static cdp4common.sitedirectorydata.Participant toPojo(CDP4.SiteDirectoryData.Participant emfThing) {
         
         cdp4common.sitedirectorydata.Participant pojo = new cdp4common.sitedirectorydata.Participant();
         
@@ -108,10 +118,16 @@ public class Participant {
         pojo.setSelectedDomain(emfThing.getSelectedDomain() != null ? cdp4emfconnector.DomainOfExpertise.toPojo(emfThing.getSelectedDomain()) : null);        
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.Participant} from a {@link CDP4.SiteDirectoryData.Participant}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.Participant}.
+    * @return A new {@link cdp4common.sitedirectorydata.Participant}
+    */
     public static cdp4common.sitedirectorydata.Participant instiatePojo(CDP4.SiteDirectoryData.Participant thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.Participant(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.Participant(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ModelLogEntry} class.
+ */
 public class ModelLogEntry {
-
+   
+    /**
+     * Convert from {@link cdp4common.engineeringmodeldata.ModelLogEntry} to {@link CDP4.EngineeringModelData.ModelLogEntry}
+     *
+     * @return Generated {@link CDP4.EngineeringModelData.ModelLogEntry}
+     */
     public static CDP4.EngineeringModelData.ModelLogEntry toEmf(cdp4common.engineeringmodeldata.ModelLogEntry thing) {       
-        
         
         CDP4.EngineeringModelData.ModelLogEntry emf =  CDP4.EngineeringModelData.impl.EngineeringModelDataFactoryImpl.eINSTANCE.createModelLogEntry();      
        
@@ -81,11 +88,14 @@ public class ModelLogEntry {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         return emf;
-        
     }
 
-    public static  cdp4common.engineeringmodeldata.ModelLogEntry toPojo(CDP4.EngineeringModelData.ModelLogEntry emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.EngineeringModelData.ModelLogEntry} to {@link cdp4common.engineeringmodeldata.ModelLogEntry}
+     *
+     * @return Generated {@link cdp4common.engineeringmodeldata.ModelLogEntry}
+     */
+    public static cdp4common.engineeringmodeldata.ModelLogEntry toPojo(CDP4.EngineeringModelData.ModelLogEntry emfThing) {
         
         cdp4common.engineeringmodeldata.ModelLogEntry pojo = new cdp4common.engineeringmodeldata.ModelLogEntry();
         
@@ -112,10 +122,16 @@ public class ModelLogEntry {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.engineeringmodeldata.ModelLogEntry} from a {@link CDP4.EngineeringModelData.ModelLogEntry}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.engineeringmodeldata.ModelLogEntry}.
+    * @return A new {@link cdp4common.engineeringmodeldata.ModelLogEntry}
+    */
     public static cdp4common.engineeringmodeldata.ModelLogEntry instiatePojo(CDP4.EngineeringModelData.ModelLogEntry thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.engineeringmodeldata.ModelLogEntry(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.engineeringmodeldata.ModelLogEntry(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

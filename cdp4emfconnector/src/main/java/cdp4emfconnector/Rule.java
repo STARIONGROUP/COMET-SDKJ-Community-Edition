@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,8 +51,16 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Rule} class.
+ */
 public abstract class Rule {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.Rule} to {@link CDP4.SiteDirectoryData.Rule}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.Rule}
+     */
     public static CDP4.SiteDirectoryData.Rule toEmf(cdp4common.sitedirectorydata.Rule thing) {       
             
         switch (thing.getClass().getTypeName()){
@@ -62,10 +70,15 @@ public abstract class Rule {
         
         emfReferencerRule.setIid(thing.getIid().toString()); 
         
+        emfReferencerRule.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfReferencerRule.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfReferencerRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfReferencerRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfReferencerRule.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfReferencerRule.setIsDeprecated(thing.isDeprecated());
         
@@ -77,18 +90,22 @@ public abstract class Rule {
         
         emfReferencerRule.setShortName(thing.getShortName());
         		        
-        return emfReferencerRule;   
-        
+        return emfReferencerRule;
         
         case "cdp4common.sitedirectorydata.BinaryRelationshipRule":
         CDP4.SiteDirectoryData.Rule emfBinaryRelationshipRule =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createBinaryRelationshipRule();    
         
         emfBinaryRelationshipRule.setIid(thing.getIid().toString()); 
         
+        emfBinaryRelationshipRule.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfBinaryRelationshipRule.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfBinaryRelationshipRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfBinaryRelationshipRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfBinaryRelationshipRule.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfBinaryRelationshipRule.setIsDeprecated(thing.isDeprecated());
         
@@ -100,18 +117,22 @@ public abstract class Rule {
         
         emfBinaryRelationshipRule.setShortName(thing.getShortName());
         		        
-        return emfBinaryRelationshipRule;   
-        
+        return emfBinaryRelationshipRule;
         
         case "cdp4common.sitedirectorydata.MultiRelationshipRule":
         CDP4.SiteDirectoryData.Rule emfMultiRelationshipRule =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createMultiRelationshipRule();    
         
         emfMultiRelationshipRule.setIid(thing.getIid().toString()); 
         
+        emfMultiRelationshipRule.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfMultiRelationshipRule.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfMultiRelationshipRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfMultiRelationshipRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfMultiRelationshipRule.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfMultiRelationshipRule.setIsDeprecated(thing.isDeprecated());
         
@@ -123,18 +144,22 @@ public abstract class Rule {
         
         emfMultiRelationshipRule.setShortName(thing.getShortName());
         		        
-        return emfMultiRelationshipRule;   
-        
+        return emfMultiRelationshipRule;
         
         case "cdp4common.sitedirectorydata.DecompositionRule":
         CDP4.SiteDirectoryData.Rule emfDecompositionRule =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDecompositionRule();    
         
         emfDecompositionRule.setIid(thing.getIid().toString()); 
         
+        emfDecompositionRule.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfDecompositionRule.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfDecompositionRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfDecompositionRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfDecompositionRule.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfDecompositionRule.setIsDeprecated(thing.isDeprecated());
         
@@ -146,18 +171,22 @@ public abstract class Rule {
         
         emfDecompositionRule.setShortName(thing.getShortName());
         		        
-        return emfDecompositionRule;   
-        
+        return emfDecompositionRule;
         
         case "cdp4common.sitedirectorydata.ParameterizedCategoryRule":
         CDP4.SiteDirectoryData.Rule emfParameterizedCategoryRule =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createParameterizedCategoryRule();    
         
         emfParameterizedCategoryRule.setIid(thing.getIid().toString()); 
         
+        emfParameterizedCategoryRule.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterizedCategoryRule.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterizedCategoryRule.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterizedCategoryRule.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
         
+        emfParameterizedCategoryRule.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
         
         emfParameterizedCategoryRule.setIsDeprecated(thing.isDeprecated());
         
@@ -169,16 +198,19 @@ public abstract class Rule {
         
         emfParameterizedCategoryRule.setShortName(thing.getShortName());
         		        
-        return emfParameterizedCategoryRule;   
-        
+        return emfParameterizedCategoryRule;
         	
         }
+
         return null;
-        
-        
     }
 
-    public static  cdp4common.sitedirectorydata.Rule toPojo(CDP4.SiteDirectoryData.Rule emfThing) {
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.Rule} to {@link cdp4common.sitedirectorydata.Rule}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.Rule}
+     */
+    public static cdp4common.sitedirectorydata.Rule toPojo(CDP4.SiteDirectoryData.Rule emfThing) {
             
         switch (emfThing.getClass().getTypeName()){
         
@@ -207,8 +239,7 @@ public abstract class Rule {
         
         pojoReferencerRule.setShortName(emfThing.getShortName());
         		        
-        return pojoReferencerRule;   
-        
+        return pojoReferencerRule;
         
         case "CDP4.sitedirectorydata.BinaryRelationshipRule":                
         cdp4common.sitedirectorydata.Rule pojoBinaryRelationshipRule = new cdp4common.sitedirectorydata.BinaryRelationshipRule();	    
@@ -235,8 +266,7 @@ public abstract class Rule {
         
         pojoBinaryRelationshipRule.setShortName(emfThing.getShortName());
         		        
-        return pojoBinaryRelationshipRule;   
-        
+        return pojoBinaryRelationshipRule;
         
         case "CDP4.sitedirectorydata.MultiRelationshipRule":                
         cdp4common.sitedirectorydata.Rule pojoMultiRelationshipRule = new cdp4common.sitedirectorydata.MultiRelationshipRule();	    
@@ -263,8 +293,7 @@ public abstract class Rule {
         
         pojoMultiRelationshipRule.setShortName(emfThing.getShortName());
         		        
-        return pojoMultiRelationshipRule;   
-        
+        return pojoMultiRelationshipRule;
         
         case "CDP4.sitedirectorydata.DecompositionRule":                
         cdp4common.sitedirectorydata.Rule pojoDecompositionRule = new cdp4common.sitedirectorydata.DecompositionRule();	    
@@ -291,8 +320,7 @@ public abstract class Rule {
         
         pojoDecompositionRule.setShortName(emfThing.getShortName());
         		        
-        return pojoDecompositionRule;   
-        
+        return pojoDecompositionRule;
         
         case "CDP4.sitedirectorydata.ParameterizedCategoryRule":                
         cdp4common.sitedirectorydata.Rule pojoParameterizedCategoryRule = new cdp4common.sitedirectorydata.ParameterizedCategoryRule();	    
@@ -319,14 +347,11 @@ public abstract class Rule {
         
         pojoParameterizedCategoryRule.setShortName(emfThing.getShortName());
         		        
-        return pojoParameterizedCategoryRule;   
-        
+        return pojoParameterizedCategoryRule;
         	
-    }
-        return null;
-        
-        
-     }
+        }
 
-        
+        return null;
+    }
+    
 }

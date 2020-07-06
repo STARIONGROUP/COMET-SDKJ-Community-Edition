@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link Constant} class.
+ */
 public class Constant {
-
+   
+    /**
+     * Convert from {@link cdp4common.sitedirectorydata.Constant} to {@link CDP4.SiteDirectoryData.Constant}
+     *
+     * @return Generated {@link CDP4.SiteDirectoryData.Constant}
+     */
     public static CDP4.SiteDirectoryData.Constant toEmf(cdp4common.sitedirectorydata.Constant thing) {       
-        
         
         CDP4.SiteDirectoryData.Constant emf =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createConstant();      
        
@@ -88,11 +95,14 @@ public class Constant {
         thing.getValue().forEach(item -> emf.getValue().add(item));	             
         
         return emf;
-        
     }
 
-    public static  cdp4common.sitedirectorydata.Constant toPojo(CDP4.SiteDirectoryData.Constant emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.SiteDirectoryData.Constant} to {@link cdp4common.sitedirectorydata.Constant}
+     *
+     * @return Generated {@link cdp4common.sitedirectorydata.Constant}
+     */
+    public static cdp4common.sitedirectorydata.Constant toPojo(CDP4.SiteDirectoryData.Constant emfThing) {
         
         cdp4common.sitedirectorydata.Constant pojo = new cdp4common.sitedirectorydata.Constant();
         
@@ -126,10 +136,16 @@ public class Constant {
         emfThing.getValue().forEach(item -> pojo.getValue().set(item.indexOf(item), item));		      
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.sitedirectorydata.Constant} from a {@link CDP4.SiteDirectoryData.Constant}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.sitedirectorydata.Constant}.
+    * @return A new {@link cdp4common.sitedirectorydata.Constant}
+    */
     public static cdp4common.sitedirectorydata.Constant instiatePojo(CDP4.SiteDirectoryData.Constant thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.sitedirectorydata.Constant(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.sitedirectorydata.Constant(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }

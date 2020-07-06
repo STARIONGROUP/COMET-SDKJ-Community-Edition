@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015-2020 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -51,10 +51,17 @@ import com.google.common.collect.MoreCollectors;
 import com.google.common.cache.Cache;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Static resource that allows to change representation of the {@link ChangeRequest} class.
+ */
 public class ChangeRequest {
-
+   
+    /**
+     * Convert from {@link cdp4common.reportingdata.ChangeRequest} to {@link CDP4.ReportingData.ChangeRequest}
+     *
+     * @return Generated {@link CDP4.ReportingData.ChangeRequest}
+     */
     public static CDP4.ReportingData.ChangeRequest toEmf(cdp4common.reportingdata.ChangeRequest thing) {       
-        
         
         CDP4.ReportingData.ChangeRequest emf =  CDP4.ReportingData.impl.ReportingDataFactoryImpl.eINSTANCE.createChangeRequest();      
        
@@ -98,11 +105,14 @@ public class ChangeRequest {
         emf.setTitle(thing.getTitle());
         
         return emf;
-        
     }
 
-    public static  cdp4common.reportingdata.ChangeRequest toPojo(CDP4.ReportingData.ChangeRequest emfThing) {
-        
+    /**
+     * Convert from {@link CDP4.ReportingData.ChangeRequest} to {@link cdp4common.reportingdata.ChangeRequest}
+     *
+     * @return Generated {@link cdp4common.reportingdata.ChangeRequest}
+     */
+    public static cdp4common.reportingdata.ChangeRequest toPojo(CDP4.ReportingData.ChangeRequest emfThing) {
         
         cdp4common.reportingdata.ChangeRequest pojo = new cdp4common.reportingdata.ChangeRequest();
         
@@ -146,10 +156,16 @@ public class ChangeRequest {
         pojo.setTitle(emfThing.getTitle());
         
         return pojo;
-    	
-     }
-
-        
+    }
+    
+    /**
+    * Instantiate a {@link cdp4common.reportingdata.ChangeRequest} from a {@link CDP4.ReportingData.ChangeRequest}
+    *
+    * @param cache The cache that stores all the {@link cdp4common.commondata.Thing}
+    * @param uri The {@link URI} of the {@link cdp4common.reportingdata.ChangeRequest}.
+    * @return A new {@link cdp4common.reportingdata.ChangeRequest}
+    */
     public static cdp4common.reportingdata.ChangeRequest instiatePojo(CDP4.ReportingData.ChangeRequest thing, Cache<CacheKey, cdp4common.commondata.Thing> cache, URI uri) {
-        return new cdp4common.reportingdata.ChangeRequest(UUID.fromString(thing.getIid()), cache, uri);}
+       return new cdp4common.reportingdata.ChangeRequest(UUID.fromString(thing.getIid()), cache, uri);
+    }
 }
