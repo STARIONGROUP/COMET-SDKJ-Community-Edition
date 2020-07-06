@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated CDP4 -->
+      <package
+            uri="http:///CDP4/DeploymentDatabase.ecore"
+            class="CDP4.DeploymentDatabase.DeploymentDatabasePackage"
+            genModel="model/CDP4.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated CDP4 -->
+      <package
+            uri="http:///CDP4/SiteDirectoryData.ecore"
+            class="CDP4.SiteDirectoryData.SiteDirectoryDataPackage"
+            genModel="model/CDP4.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated CDP4 -->
+      <package
+            uri="http:///CDP4/CommonData.ecore"
+            class="CDP4.CommonData.CommonDataPackage"
+            genModel="model/CDP4.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated CDP4 -->
+      <package
+            uri="http:///CDP4/ReportingData.ecore"
+            class="CDP4.ReportingData.ReportingDataPackage"
+            genModel="model/CDP4.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated CDP4 -->
+      <package
+            uri="http:///CDP4/EngineeringModelData.ecore"
+            class="CDP4.EngineeringModelData.EngineeringModelDataPackage"
+            genModel="model/CDP4.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated CDP4 -->
+      <package
+            uri="http:///CDP4/DiagramData.ecore"
+            class="CDP4.DiagramData.DiagramDataPackage"
+            genModel="model/CDP4.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated CDP4 -->
+      <package
+            uri="http:///CDP4/DeploymentDistributedSession.ecore"
+            class="CDP4.DeploymentDistributedSession.DeploymentDistributedSessionPackage"
+            genModel="model/CDP4.genmodel"/>
+   </extension>
+
+</plugin>
