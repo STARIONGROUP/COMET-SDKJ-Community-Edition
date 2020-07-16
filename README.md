@@ -40,6 +40,14 @@ The CDP4JsonSerializer library is an optimized CDP4Common specific JSON (de)seri
 
 The CDP4Dal library is a library that provides the basis to implement ECSS-E-TM-10-25A Annex C. Annex C specifies both the JSON REST API and the exchange file format. The CDP4Dal library contains the Assembler that is used to create a fully dereferenced object graph, a message bus to send cdp4dal.events for consumptions in applications that implement the MVVM design pattern as well as the cdp4dal.Session class that manages a connection to a datasource.
 
+## CDP4EmfModel
+
+The CDP4EmfModel library is a Ecore implementation of the ECSS-E-TM-10-25A Annex A UML master model. The library contains interfaces and implementations of the classes defined in the CDP4 UML master model.
+
+## CDP4EmfConnector
+
+The CDP4EmfConnector library is a middle layer that enables to use Ecore implementation of the ECSS-E-TM-10-25A Annex A UML master model for CDP4 Concurrent Design of complex systems. The library contains method that can be use to convert Ecore implementation of the ECSS-E-TM-10-25A Annex A UML master model to CDP4 POJO classes defined in the CDP4 UML master model.
+
 ## CDP4JsonFileDal
 
 The CDP4JsonFileDal library is a Java library that provides an implementation of ECSS-E-TM-10-25A Annex C.3, the JSON Exchange File Format. This file format is a ZIP archive in which a number of files are stored that each contain one or more ECSS-E-TM-10-25 objects that are serialized in the form of a JSON array of JSON objects. The CDP4JsonFileDal library can be used to read from such a ZIP archive, and to create such a ZIP archive. The ZIP archive is typically used to exchange complete models between organizations.

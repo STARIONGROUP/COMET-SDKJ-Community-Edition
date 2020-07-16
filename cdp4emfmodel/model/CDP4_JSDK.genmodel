@@ -1,0 +1,1092 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/cdp4emfmodel/src" modelPluginID="cdp4emfmodel"
+    modelName="CDP4_JSDK" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>CDP4_JSDK.ecore</foreignModel>
+  <genPackages prefix="CDP4" disposableProviderFactory="true" ecorePackage="CDP4_JSDK.ecore#/">
+    <nestedGenPackages prefix="UseCases" disposableProviderFactory="true" ecorePackage="CDP4_JSDK.ecore#//UseCases"/>
+    <nestedGenPackages prefix="DeploymentDatabase" disposableProviderFactory="true"
+        ecorePackage="CDP4_JSDK.ecore#//DeploymentDatabase">
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DeploymentDatabase/SiteRDL"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DeploymentDatabase/EngineeringModelDataBase"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DeploymentDatabase/SiteDirectoryDataBase"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="SiteDirectoryData" disposableProviderFactory="true"
+        ecorePackage="CDP4_JSDK.ecore#//SiteDirectoryData">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//SiteDirectoryData/VcardEmailAddressKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/VcardEmailAddressKind/WORK"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/VcardEmailAddressKind/HOME"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//SiteDirectoryData/VcardTelephoneNumberKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/VcardTelephoneNumberKind/WORK"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/VcardTelephoneNumberKind/HOME"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/VcardTelephoneNumberKind/VOICE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/VcardTelephoneNumberKind/TEXT"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/VcardTelephoneNumberKind/FAX"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/VcardTelephoneNumberKind/CELL"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/VcardTelephoneNumberKind/PAGER"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/VcardTelephoneNumberKind/TEXTPHONE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/VcardTelephoneNumberKind/VIDEO"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//SiteDirectoryData/NumberSetKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/NumberSetKind/NATURAL_NUMBER_SET"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/NumberSetKind/INTEGER_NUMBER_SET"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/NumberSetKind/RATIONAL_NUMBER_SET"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/NumberSetKind/REAL_NUMBER_SET"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//SiteDirectoryData/EngineeringModelKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/EngineeringModelKind/STUDY_MODEL"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/EngineeringModelKind/TEMPLATE_MODEL"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/EngineeringModelKind/MODEL_CATALOGUE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/EngineeringModelKind/SCRATCH_MODEL"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//SiteDirectoryData/StudyPhaseKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/StudyPhaseKind/PREPARATION_PHASE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/StudyPhaseKind/DESIGN_SESSION_PHASE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/StudyPhaseKind/REPORTING_PHASE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/StudyPhaseKind/COMPLETED_STUDY"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//SiteDirectoryData/LogarithmBaseKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/LogarithmBaseKind/NATURAL"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/LogarithmBaseKind/BASE2"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//SiteDirectoryData/LogarithmBaseKind/BASE10"/>
+      </genEnums>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ParticipantPermission">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ParticipantPermission/accessRight"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ParticipantPermission/objectClass"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceSource">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceSource/versionIdentifier"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceSource/versionDate"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceSource/author"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceSource/publicationYear"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceSource/publisher"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceSource/publishedIn"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceSource/language"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/CategorizableThing">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/CategorizableThing/category"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/Category">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Category/superCategory"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/Category/permissibleClass"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/Category/isAbstract"/>
+        <genOperations ecoreOperation="CDP4_JSDK.ecore#//SiteDirectoryData/Category/superSubGraphIsAcyclic">
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/Category/superSubGraphIsAcyclic/diagnostics"/>
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/Category/superSubGraphIsAcyclic/context"/>
+        </genOperations>
+        <genOperations ecoreOperation="CDP4_JSDK.ecore#//SiteDirectoryData/Category/getAllSupershelperoperation">
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/Category/getAllSupershelperoperation/diagnostics"/>
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/Category/getAllSupershelperoperation/context"/>
+        </genOperations>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/Organization"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/Person">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Person/organization"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/Person/givenName"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/Person/surname"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/Person/organizationalUnit"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Person/emailAddress"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Person/telephoneNumber"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Person/defaultDomain"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/Person/isActive"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Person/role"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/Person/password"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/Person/salt"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Person/defaultEmailAddress"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Person/defaultTelephoneNumber"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Person/userPreference"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/EmailAddress">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/EmailAddress/vcardType"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/EmailAddress/value"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/TelephoneNumber">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/TelephoneNumber/vcardType"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/TelephoneNumber/value"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/DomainOfExpertise"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/PersonRole">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/PersonRole/personPermission"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/PersonPermission">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/PersonPermission/accessRight"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/PersonPermission/objectClass"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/UserPreference">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/UserPreference/value"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/SiteDirectory">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/SiteDirectory/organization"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/SiteDirectory/person"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/SiteDirectory/participantRole"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/SiteDirectory/defaultParticipantRole"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/SiteDirectory/siteReferenceDataLibrary"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/SiteDirectory/model"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/SiteDirectory/personRole"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/SiteDirectory/defaultPersonRole"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/SiteDirectory/logEntry"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/SiteDirectory/domainGroup"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/SiteDirectory/domain"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/SiteDirectory/naturalLanguage"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/SiteDirectory/annotation"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ParticipantRole">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ParticipantRole/participantPermission"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/SiteReferenceDataLibrary"/>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/definedCategory"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/parameterType"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/baseQuantityKind"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/scale"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/unitPrefix"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/unit"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/baseUnit"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/fileType"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/glossary"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/referenceSource"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/rule"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/requiredRdl"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/constant"/>
+        <genOperations ecoreOperation="CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/hasUniqueParameterTypeNames">
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/hasUniqueParameterTypeNames/diagnostics"/>
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/hasUniqueParameterTypeNames/context"/>
+        </genOperations>
+        <genOperations ecoreOperation="CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/hasUniqueParameterTypeShortNames">
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/hasUniqueParameterTypeShortNames/diagnostics"/>
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/hasUniqueParameterTypeShortNames/context"/>
+        </genOperations>
+        <genOperations ecoreOperation="CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/hasUniqueCategoryNames">
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/hasUniqueCategoryNames/diagnostics"/>
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/hasUniqueCategoryNames/context"/>
+        </genOperations>
+        <genOperations ecoreOperation="CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/hasUniqueCategoryShortNames">
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/hasUniqueCategoryShortNames/diagnostics"/>
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/ReferenceDataLibrary/hasUniqueCategoryShortNames/context"/>
+        </genOperations>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ParticipantAffectedAccessThing"/>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ParameterType">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ParameterType/numberOfValues"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ParameterType/symbol"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/QuantityKind">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/QuantityKind/possibleScale"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/QuantityKind/defaultScale"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/QuantityKind/allPossibleScale"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/QuantityKind/quantityDimensionSymbol"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/QuantityKind/quantityDimensionExponent"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/QuantityKind/quantityDimensionExpression"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ScalarParameterType"/>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/MeasurementScale">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/MeasurementScale/unit"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/MeasurementScale/valueDefinition"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/MeasurementScale/numberSet"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/MeasurementScale/minimumPermissibleValue"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/MeasurementScale/isMinimumInclusive"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/MeasurementScale/maximumPermissibleValue"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/MeasurementScale/isMaximumInclusive"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/MeasurementScale/positiveValueConnotation"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/MeasurementScale/negativeValueConnotation"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/MeasurementScale/mappingToReferenceScale"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/MeasurementUnit"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ScaleValueDefinition">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ScaleValueDefinition/value"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/MappingToReferenceScale">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/MappingToReferenceScale/referenceScaleValue"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/MappingToReferenceScale/dependentScaleValue"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/UnitPrefix">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/UnitPrefix/conversionFactor"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/FileType">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/FileType/extension"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/Glossary">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Glossary/term"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/Term"/>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/Rule"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/Constant">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Constant/parameterType"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/Constant/value"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Constant/scale"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/EngineeringModelSetup">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/EngineeringModelSetup/participant"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/EngineeringModelSetup/activeDomain"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/EngineeringModelSetup/kind"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/EngineeringModelSetup/studyPhase"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/EngineeringModelSetup/requiredRdl"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/EngineeringModelSetup/engineeringModelIid"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/EngineeringModelSetup/iterationSetup"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/EngineeringModelSetup/sourceEngineeringModelSetupIid"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/Participant">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/Participant/isActive"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Participant/person"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Participant/role"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Participant/domain"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/Participant/selectedDomain"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ModelReferenceDataLibrary"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/IterationSetup">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/IterationSetup/iterationIid"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/IterationSetup/iterationNumber"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/IterationSetup/description"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/IterationSetup/sourceIterationSetup"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/IterationSetup/frozenOn"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/IterationSetup/isDeleted"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/SiteLogEntry"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/DomainOfExpertiseGroup">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/DomainOfExpertiseGroup/domain"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/NaturalLanguage">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/NaturalLanguage/languageCode"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/NaturalLanguage/nativeName"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/BinaryRelationshipRule">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/BinaryRelationshipRule/relationshipCategory"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/BinaryRelationshipRule/sourceCategory"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/BinaryRelationshipRule/targetCategory"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/BinaryRelationshipRule/forwardRelationshipName"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/BinaryRelationshipRule/inverseRelationshipName"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ArrayParameterType">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ArrayParameterType/dimension"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ArrayParameterType/isTensor"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ArrayParameterType/hasSingleComponentType"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ArrayParameterType/rank"/>
+        <genOperations ecoreOperation="CDP4_JSDK.ecore#//SiteDirectoryData/ArrayParameterType/hasValidNumberOfComponents">
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/ArrayParameterType/hasValidNumberOfComponents/diagnostics"/>
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/ArrayParameterType/hasValidNumberOfComponents/context"/>
+        </genOperations>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/CompoundParameterType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/CompoundParameterType/component"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/CompoundParameterType/isFinalized"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ParameterTypeComponent">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ParameterTypeComponent/parameterType"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ParameterTypeComponent/scale"/>
+        <genOperations ecoreOperation="CDP4_JSDK.ecore#//SiteDirectoryData/ParameterTypeComponent/hasValidScale">
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/ParameterTypeComponent/hasValidScale/diagnostics"/>
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//SiteDirectoryData/ParameterTypeComponent/hasValidScale/context"/>
+        </genOperations>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/CyclicRatioScale">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/CyclicRatioScale/modulus"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/RatioScale"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/EnumerationParameterType">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/EnumerationParameterType/allowMultiSelect"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/EnumerationParameterType/valueDefinition"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/EnumerationValueDefinition"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/OrdinalScale">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/OrdinalScale/useShortNameValues"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ReferencerRule">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferencerRule/referencingCategory"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ReferencerRule/referencedCategory"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ReferencerRule/minReferenced"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ReferencerRule/maxReferenced"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/BooleanParameterType"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ScaleReferenceQuantityValue">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ScaleReferenceQuantityValue/scale"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ScaleReferenceQuantityValue/value"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/DateParameterType"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/LinearConversionUnit"/>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ConversionBasedUnit">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ConversionBasedUnit/referenceUnit"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/ConversionBasedUnit/conversionFactor"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/DerivedUnit">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/DerivedUnit/unitFactor"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/UnitFactor">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/UnitFactor/unit"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/UnitFactor/exponent"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/QuantityKindFactor">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/QuantityKindFactor/quantityKind"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/QuantityKindFactor/exponent"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/TextParameterType"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/IntervalScale"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/SpecializedQuantityKind">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/SpecializedQuantityKind/general"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/SimpleUnit"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/MultiRelationshipRule">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/MultiRelationshipRule/relationshipCategory"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/MultiRelationshipRule/relatedCategory"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/MultiRelationshipRule/minRelated"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/MultiRelationshipRule/maxRelated"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/SimpleQuantityKind"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/PrefixedUnit">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/PrefixedUnit/prefix"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/DateTimeParameterType"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/TimeOfDayParameterType"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/DecompositionRule">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/DecompositionRule/containingCategory"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/DecompositionRule/containedCategory"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/DecompositionRule/minContained"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/DecompositionRule/maxContained"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/DerivedQuantityKind">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/DerivedQuantityKind/quantityKindFactor"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/LogarithmicScale">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/LogarithmicScale/logarithmBase"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/LogarithmicScale/factor"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//SiteDirectoryData/LogarithmicScale/exponent"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/LogarithmicScale/referenceQuantityKind"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/LogarithmicScale/referenceQuantityValue"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//SiteDirectoryData/ParameterizedCategoryRule">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ParameterizedCategoryRule/category"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//SiteDirectoryData/ParameterizedCategoryRule/parameterType"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="CommonData" disposableProviderFactory="true" ecorePackage="CDP4_JSDK.ecore#//CommonData">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//CommonData/PersonAccessRightKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/PersonAccessRightKind/NOT_APPLICABLE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/PersonAccessRightKind/NONE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/PersonAccessRightKind/SAME_AS_CONTAINER"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/PersonAccessRightKind/SAME_AS_SUPERCLASS"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/PersonAccessRightKind/READ"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/PersonAccessRightKind/MODIFY"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/PersonAccessRightKind/READ_IF_PARTICIPANT"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/PersonAccessRightKind/MODIFY_IF_PARTICIPANT"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/PersonAccessRightKind/MODIFY_OWN_PERSON"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//CommonData/LogLevelKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/LogLevelKind/TRACE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/LogLevelKind/DEBUG"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/LogLevelKind/INFO"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/LogLevelKind/USER"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//CommonData/ParticipantAccessRightKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/ParticipantAccessRightKind/NOT_APPLICABLE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/ParticipantAccessRightKind/NONE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/ParticipantAccessRightKind/SAME_AS_CONTAINER"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/ParticipantAccessRightKind/SAME_AS_SUPERCLASS"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/ParticipantAccessRightKind/READ"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/ParticipantAccessRightKind/MODIFY"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//CommonData/ParticipantAccessRightKind/MODIFY_IF_OWNER"/>
+      </genEnums>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/Date"/>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/String"/>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/Uri"/>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/LanguageCode"/>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/Boolean"/>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/ClassKind"/>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/Integer"/>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/Float"/>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/TimeOfDay"/>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/DateTime"/>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/Uuid"/>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/ParameterFormulaType"/>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/ParameterValueType"/>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/Sha1HashType"/>
+      <genDataTypes ecoreDataType="CDP4_JSDK.ecore#//CommonData/LongInteger"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//CommonData/FileContentType"/>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//CommonData/DefinedThing">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//CommonData/DefinedThing/alias"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//CommonData/DefinedThing/definition"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//CommonData/DefinedThing/hyperLink"/>
+        <genOperations ecoreOperation="CDP4_JSDK.ecore#//CommonData/DefinedThing/hasOneDefinitionPerLanguage">
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//CommonData/DefinedThing/hasOneDefinitionPerLanguage/diagnostics"/>
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//CommonData/DefinedThing/hasOneDefinitionPerLanguage/context"/>
+        </genOperations>
+        <genOperations ecoreOperation="CDP4_JSDK.ecore#//CommonData/DefinedThing/hasOneDefinitionPerLanguage1">
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//CommonData/DefinedThing/hasOneDefinitionPerLanguage1/diagnostics"/>
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//CommonData/DefinedThing/hasOneDefinitionPerLanguage1/context"/>
+        </genOperations>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//CommonData/NamedThing">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/NamedThing/name"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//CommonData/ShortNamedThing">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/ShortNamedThing/shortName"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//CommonData/Alias">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/Alias/isSynonym"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//CommonData/Annotation">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/Annotation/languageCode"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/Annotation/content"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//CommonData/Definition">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//CommonData/Definition/citation"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/Definition/note"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/Definition/example"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//CommonData/Citation">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//CommonData/Citation/source"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/Citation/location"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/Citation/isAdaptation"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/Citation/remark"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//CommonData/DeprecatableThing">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/DeprecatableThing/isDeprecated"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//CommonData/HyperLink">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/HyperLink/uri"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//CommonData/TimeStampedThing">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/TimeStampedThing/createdOn"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//CommonData/TopContainer">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/TopContainer/lastModifiedOn"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//CommonData/LogEntry">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//CommonData/LogEntry/author"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/LogEntry/affectedItemIid"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/LogEntry/level"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//CommonData/VolatileThing">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/VolatileThing/isVolatile"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//CommonData/Thing">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/Thing/iid"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/Thing/revisionNumber"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/Thing/classKind"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//CommonData/Thing/modifiedOn"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//CommonData/Thing/excludedPerson"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//CommonData/Thing/excludedDomain"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="ReportingData" disposableProviderFactory="true" ecorePackage="CDP4_JSDK.ecore#//ReportingData">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//ReportingData/AnnotationStatusKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//ReportingData/AnnotationStatusKind/OPEN"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//ReportingData/AnnotationStatusKind/DONE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//ReportingData/AnnotationStatusKind/CLOSED"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//ReportingData/AnnotationStatusKind/INVALID"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//ReportingData/AnnotationStatusKind/WONTFIX"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//ReportingData/AnnotationStatusKind/NOT_APPLICABLE"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//ReportingData/AnnotationClassificationKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//ReportingData/AnnotationClassificationKind/MAJOR"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//ReportingData/AnnotationClassificationKind/MINOR"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//ReportingData/AnnotationApprovalKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//ReportingData/AnnotationApprovalKind/ACCEPTED"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//ReportingData/AnnotationApprovalKind/REJECTED"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//ReportingData/AnnotationApprovalKind/WITHDRAWN"/>
+      </genEnums>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/Book">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/Book/section"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/EngineeringModelDataNote"/>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//ReportingData/EngineeringModelDataAnnotation">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/EngineeringModelDataAnnotation/relatedThing"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/EngineeringModelDataAnnotation/author"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/EngineeringModelDataAnnotation/primaryAnnotatedThing"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/EngineeringModelDataAnnotation/discussion"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//ReportingData/GenericAnnotation"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/ModellingThingReference"/>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//ReportingData/ThingReference">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//ReportingData/ThingReference/referencedRevisionNumber"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/ThingReference/referencedThing"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/EngineeringModelDataDiscussionItem">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/EngineeringModelDataDiscussionItem/author"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//ReportingData/DiscussionItem">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/DiscussionItem/replyTo"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//ReportingData/ModellingAnnotationItem">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//ReportingData/ModellingAnnotationItem/status"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//ReportingData/ModellingAnnotationItem/title"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//ReportingData/ModellingAnnotationItem/classification"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/ModellingAnnotationItem/approvedBy"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/ModellingAnnotationItem/sourceAnnotation"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/Approval">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/Approval/author"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//ReportingData/Approval/classification"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/Section">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/Section/page"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/Page">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/Page/note"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//ReportingData/Note"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/BinaryNote">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//ReportingData/BinaryNote/caption"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/BinaryNote/fileType"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/TextualNote">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//ReportingData/TextualNote/content"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//ReportingData/TextualNote/languageCode"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//ReportingData/ContractDeviation"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/RequestForWaiver"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/RequestForDeviation"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/ChangeRequest"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/ReviewItemDiscrepancy">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/ReviewItemDiscrepancy/solution"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/Solution">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/Solution/author"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/ActionItem">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/ActionItem/actionee"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//ReportingData/ActionItem/dueDate"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//ReportingData/ActionItem/closeOutDate"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//ReportingData/ActionItem/closeOutStatement"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/SiteDirectoryThingReference"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/ChangeProposal">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/ChangeProposal/changeRequest"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/ContractChangeNotice">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/ContractChangeNotice/changeProposal"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/SiteDirectoryDataDiscussionItem">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/SiteDirectoryDataDiscussionItem/author"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//ReportingData/SiteDirectoryDataAnnotation">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/SiteDirectoryDataAnnotation/relatedThing"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/SiteDirectoryDataAnnotation/author"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/SiteDirectoryDataAnnotation/primaryAnnotatedThing"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//ReportingData/SiteDirectoryDataAnnotation/discussion"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="EngineeringModelData" disposableProviderFactory="true"
+        ecorePackage="CDP4_JSDK.ecore#//EngineeringModelData">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//EngineeringModelData/InterfaceEndKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/InterfaceEndKind/NONE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/InterfaceEndKind/UNDIRECTED"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/InterfaceEndKind/INPUT"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/InterfaceEndKind/OUTPUT"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/InterfaceEndKind/IN_OUT"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//EngineeringModelData/ParameterSwitchKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/ParameterSwitchKind/COMPUTED"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/ParameterSwitchKind/MANUAL"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/ParameterSwitchKind/REFERENCE"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//EngineeringModelData/ActualFiniteStateKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/ActualFiniteStateKind/MANDATORY"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/ActualFiniteStateKind/FORBIDDEN"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//EngineeringModelData/RuleVerificationStatusKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/RuleVerificationStatusKind/NONE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/RuleVerificationStatusKind/PASSED"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/RuleVerificationStatusKind/FAILED"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/RuleVerificationStatusKind/INCONCLUSIVE"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//EngineeringModelData/BooleanOperatorKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/BooleanOperatorKind/AND"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/BooleanOperatorKind/OR"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/BooleanOperatorKind/XOR"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="CDP4_JSDK.ecore#//EngineeringModelData/RelationalOperatorKind">
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/RelationalOperatorKind/EQ"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/RelationalOperatorKind/NE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/RelationalOperatorKind/LT"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/RelationalOperatorKind/GT"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/RelationalOperatorKind/LE"/>
+        <genEnumLiterals ecoreEnumLiteral="CDP4_JSDK.ecore#//EngineeringModelData/RelationalOperatorKind/GE"/>
+      </genEnums>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/PossibleFiniteState"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/Parameter">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Parameter/requestedBy"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Parameter/valueSet"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/Parameter/allowDifferentOwnerOfOverride"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/Parameter/expectsOverride"/>
+        <genOperations ecoreOperation="CDP4_JSDK.ecore#//EngineeringModelData/Parameter/hasValidScale">
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//EngineeringModelData/Parameter/hasValidScale/diagnostics"/>
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//EngineeringModelData/Parameter/hasValidScale/context"/>
+        </genOperations>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ParameterOrOverrideBase">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterOrOverrideBase/parameterSubscription"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ParameterBase">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterBase/parameterType"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterBase/scale"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterBase/stateDependence"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterBase/group"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ParameterBase/isOptionDependent"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ActualFiniteStateList">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ActualFiniteStateList/possibleFiniteStateList"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ActualFiniteStateList/actualState"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/OptionDependentThing">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/OptionDependentThing/excludeOption"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/Option">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Option/nestedElement"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/NestedElement">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/NestedElement/rootElement"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/NestedElement/elementUsage"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/NestedElement/nestedParameter"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ElementDefinition">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ElementDefinition/containedElement"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ElementDefinition/parameter"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ElementDefinition/parameterGroup"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ElementDefinition/referencedElement"/>
+        <genOperations ecoreOperation="CDP4_JSDK.ecore#//EngineeringModelData/ElementDefinition/hasUniqueParameterNames">
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//EngineeringModelData/ElementDefinition/hasUniqueParameterNames/diagnostics"/>
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//EngineeringModelData/ElementDefinition/hasUniqueParameterNames/context"/>
+        </genOperations>
+        <genOperations ecoreOperation="CDP4_JSDK.ecore#//EngineeringModelData/ElementDefinition/hasUniqueParameterShortNames">
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//EngineeringModelData/ElementDefinition/hasUniqueParameterShortNames/diagnostics"/>
+          <genParameters ecoreParameter="CDP4_JSDK.ecore#//EngineeringModelData/ElementDefinition/hasUniqueParameterShortNames/context"/>
+        </genOperations>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ElementBase"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ElementUsage">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ElementUsage/elementDefinition"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ElementUsage/interfaceEnd"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ElementUsage/parameterOverride"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ParameterOverride">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterOverride/parameter"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterOverride/valueSet"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ParameterGroup">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterGroup/containingGroup"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ParameterOverrideValueSet">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterOverrideValueSet/parameterValueSet"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ParameterValueSetBase">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ParameterValueSetBase/valueSwitch"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ParameterValueSetBase/published"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ParameterValueSetBase/formula"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ParameterValueSetBase/computed"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ParameterValueSetBase/manual"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ParameterValueSetBase/reference"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ParameterValueSetBase/actualValue"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterValueSetBase/actualState"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterValueSetBase/actualOption"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ActualFiniteState">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ActualFiniteState/possibleState"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ActualFiniteState/kind"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ParameterValueSet"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/NestedParameter">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/NestedParameter/associatedParameter"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/NestedParameter/actualState"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/NestedParameter/path"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/NestedParameter/formula"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/NestedParameter/actualValue"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/PossibleFiniteStateList">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/PossibleFiniteStateList/possibleState"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/PossibleFiniteStateList/defaultState"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ParameterSubscription">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterSubscription/valueSet"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ParameterSubscriptionValueSet">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ParameterSubscriptionValueSet/valueSwitch"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ParameterSubscriptionValueSet/computed"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ParameterSubscriptionValueSet/manual"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ParameterSubscriptionValueSet/reference"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ParameterSubscriptionValueSet/actualValue"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterSubscriptionValueSet/subscribedValueSet"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterSubscriptionValueSet/actualState"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterSubscriptionValueSet/actualOption"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/FileStore">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/FileStore/folder"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/FileStore/file"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/Folder">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Folder/creator"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Folder/containingFolder"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/Folder/path"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/File">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/File/lockedBy"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/File/fileRevision"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/FileRevision">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/FileRevision/contentHash"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/FileRevision/creator"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/FileRevision/containingFolder"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/FileRevision/fileType"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/FileRevision/path"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/Publication">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Publication/domain"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Publication/publishedParameter"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/EngineeringModel">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/EngineeringModel/engineeringModelSetup"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/EngineeringModel/commonFileStore"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/EngineeringModel/logEntry"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/EngineeringModel/iteration"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/EngineeringModel/book"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/EngineeringModel/genericNote"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/EngineeringModel/modellingAnnotation"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/CommonFileStore"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ModelLogEntry"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/Iteration">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/iterationSetup"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/Iteration/sourceIterationIid"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/option"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/publication"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/possibleFiniteStateList"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/topElement"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/element"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/relationship"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/externalIdentifierMap"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/requirementsSpecification"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/domainFileStore"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/actualFiniteStateList"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/defaultOption"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/ruleVerificationList"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/stakeholder"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/goal"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/valueGroup"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/stakeholderValue"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/stakeholderValueMap"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/sharedDiagramStyle"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Iteration/diagramCanvas"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/Relationship">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Relationship/parameterValue"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/RelationshipParameterValue"/>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ParameterValue">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterValue/parameterType"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParameterValue/scale"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ParameterValue/value"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ExternalIdentifierMap">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ExternalIdentifierMap/correspondence"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ExternalIdentifierMap/externalModelName"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ExternalIdentifierMap/externalToolName"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/ExternalIdentifierMap/externalToolVersion"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ExternalIdentifierMap/externalFormat"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/IdCorrespondence">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/IdCorrespondence/internalThing"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/IdCorrespondence/externalId"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/RequirementsSpecification">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/RequirementsSpecification/requirement"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/RequirementsContainer">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/RequirementsContainer/group"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/RequirementsContainer/parameterValue"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/RequirementsGroup"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/RequirementsContainerParameterValue"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/Requirement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Requirement/parametricConstraint"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Requirement/group"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/SimpleParameterizableThing">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/SimpleParameterizableThing/parameterValue"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/SimpleParameterValue">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/SimpleParameterValue/parameterType"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/SimpleParameterValue/value"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/SimpleParameterValue/scale"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ParametricConstraint">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParametricConstraint/expression"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ParametricConstraint/topExpression"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/BooleanExpression"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/DomainFileStore">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/DomainFileStore/isHidden"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/RuleVerificationList">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/RuleVerificationList/ruleVerification"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/RuleVerification">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/RuleVerification/isActive"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/RuleVerification/violation"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/RuleVerification/executedOn"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/RuleVerification/status"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/RuleViolation">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/RuleViolation/description"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/RuleViolation/violatingThing"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/Stakeholder">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/Stakeholder/stakeholderValue"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/StakeholderValue"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/Goal"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ValueGroup"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/StakeHolderValueMap">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/StakeHolderValueMap/goal"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/StakeHolderValueMap/valueGroup"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/StakeHolderValueMap/stakeholderValue"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/StakeHolderValueMap/settings"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/StakeHolderValueMap/requirement"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/StakeHolderValueMapSettings">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/StakeHolderValueMapSettings/goalToValueGroupRelationship"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/StakeHolderValueMapSettings/valueGroupToStakeholderValueRelationship"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/StakeHolderValueMapSettings/stakeholderValueToRequirementRelationship"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/MultiRelationship">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/MultiRelationship/relatedThing"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/BinaryRelationship">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/BinaryRelationship/source"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/BinaryRelationship/target"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/OrExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/OrExpression/term"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/NotExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/NotExpression/term"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/AndExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/AndExpression/term"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/ExclusiveOrExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/ExclusiveOrExpression/term"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/RelationalExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/RelationalExpression/parameterType"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/RelationalExpression/relationalOperator"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//EngineeringModelData/RelationalExpression/value"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/RelationalExpression/scale"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/UserRuleVerification">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/UserRuleVerification/rule"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/BuiltInRuleVerification"/>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//EngineeringModelData/OwnedThing">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//EngineeringModelData/OwnedThing/owner"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="DiagramData" disposableProviderFactory="true" ecorePackage="CDP4_JSDK.ecore#//DiagramData">
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//DiagramData/DiagramElementThing">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//DiagramData/DiagramElementThing/depictedThing"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//DiagramData/DiagramElementThing/localStyle"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//DiagramData/DiagramElementThing/sharedStyle"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//DiagramData/DiagramElementContainer">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//DiagramData/DiagramElementContainer/diagramElement"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//DiagramData/DiagramElementContainer/bounds"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//DiagramData/DiagramThingBase"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DiagramData/Bounds">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/Bounds/x"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/Bounds/y"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/Bounds/width"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/Bounds/height"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DiagramData/OwnedStyle"/>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//DiagramData/DiagrammingStyle">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//DiagramData/DiagrammingStyle/fillColor"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/DiagrammingStyle/fillOpacity"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/DiagrammingStyle/strokeWidth"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/DiagrammingStyle/strokeOpacity"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//DiagramData/DiagrammingStyle/strokeColor"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/DiagrammingStyle/fontSize"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/DiagrammingStyle/fontName"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//DiagramData/DiagrammingStyle/fontColor"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/DiagrammingStyle/fontItalic"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/DiagrammingStyle/fontBold"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/DiagrammingStyle/fontUnderline"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/DiagrammingStyle/fontStrokeThrough"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//DiagramData/DiagrammingStyle/usedColor"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DiagramData/Color">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/Color/red"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/Color/green"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/Color/blue"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DiagramData/Point">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/Point/x"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/Point/y"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DiagramData/DiagramEdge">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//DiagramData/DiagramEdge/source"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//DiagramData/DiagramEdge/target"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CDP4_JSDK.ecore#//DiagramData/DiagramEdge/point"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//DiagramData/DiagramShape"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DiagramData/DiagramObject">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/DiagramObject/resolution"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CDP4_JSDK.ecore#//DiagramData/DiagramObject/documentation"/>
+      </genClasses>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DiagramData/DiagramCanvas"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DiagramData/SharedStyle"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="EngineeringModelDataExamples" disposableProviderFactory="true"
+        ecorePackage="CDP4_JSDK.ecore#//EngineeringModelDataExamples"/>
+    <nestedGenPackages prefix="DeploymentDistributedSession" disposableProviderFactory="true"
+        ecorePackage="CDP4_JSDK.ecore#//DeploymentDistributedSession">
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DeploymentDistributedSession/ConcurrentEngineeringSite"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DeploymentDistributedSession/DomainSpecificTool"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DeploymentDistributedSession/DomainSpecificToolAdapter"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DeploymentDistributedSession/DomainSpecificToolLib"/>
+      <genClasses image="false" ecoreClass="CDP4_JSDK.ecore#//DeploymentDistributedSession/Excel"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DeploymentDistributedSession/Excel_AdministratorTool"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DeploymentDistributedSession/Excel_DesignTool"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DeploymentDistributedSession/Firewall"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DeploymentDistributedSession/WebServicesProcessor"/>
+      <genClasses ecoreClass="CDP4_JSDK.ecore#//DeploymentDistributedSession/ModelRDL"/>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>
