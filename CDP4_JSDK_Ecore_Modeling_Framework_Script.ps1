@@ -1,6 +1,6 @@
 ﻿Set-ExecutionPolicy Unrestricted
-$srcFile = "C:\Users\kwojnowski\workspace-papyrus\cdp4emfmodel\model\CDP4.ecore"  # source file 
-$dstFile = "C:\Users\kwojnowski\workspace-papyrus\cdp4emfmodel\model\CDP4_JSDK.ecore"  # destination file
+$srcFile = (split-path -parent $MyInvocation.MyCommand.Path) + "\cdp4emfmodel\model\CDP4.ecore"  # source file 
+$dstFile = (split-path -parent $MyInvocation.MyCommand.Path) + "\cdp4emfmodel\model\CDP4_JSDK.ecore"  # destination file
 
 $pattern1 = 'xsi:type="ecore:(EReference|EAttribute)" (?<attributes>[-?a-zA-Z0-1\s\"\=]* eType="#//CommonData/(String|Uuid|Boolean|Integer|LongInteger|Date|Uri|LanguageCode|TimeOfDay|DateTime|ParameterFormulaType|ParameterValueType|Sha1HashType|ClassKind)")([a-zA-Z0-1\s\"\=]*)(?<close>)'
 $pattern2 = 'xsi:type="ecore:EAttribute" (?<attributes>[-?a-zA-Z0-1\s\"\=]*) eType="ecore:EDataType ../../org.eclipse.uml2.types/model/Types.ecore#//Real"([a-zA-Z0-1\s\"\=]*)(?<close>)'
