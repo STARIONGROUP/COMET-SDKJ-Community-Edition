@@ -1,9 +1,9 @@
 /*
- * OrderedItemComparatorTest.java
+ * DateTimeValueSetComparator.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Alexander van Delft
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -24,25 +24,10 @@
 
 package cdp4common.comparators;
 
-import cdp4common.types.OrderedItem;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
+import cdp4common.types.ValueArray;
 
-import java.util.Arrays;
-
-class OrderedItemComparatorTest {
-
-  @Test
-  void verify_that_List_of_OrderedItem_is_ordered() {
-    var orderedItem1 = new OrderedItem(5, "middle");
-    var orderedItem2 = new OrderedItem(10, "last");
-    var orderedItem3 = new OrderedItem(1, "first");
-
-    var orderedItems = Arrays.asList(orderedItem1, orderedItem2, orderedItem3);
-    orderedItems.sort(new OrderedItemComparator());
-
-    var ordered = Arrays.asList(orderedItem3, orderedItem1, orderedItem2);
-
-    Assertions.assertThat(ordered).containsExactlyElementsOf(orderedItems);
-  }
+/**
+ * Default comparer to be used when comparing {@link ValueArray <String>}s of Enumeration type.
+ */
+public class DateTimeValueSetComparator extends StringValueSetComparator {
 }

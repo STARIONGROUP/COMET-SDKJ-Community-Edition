@@ -1,9 +1,9 @@
 /*
- * OrderedItemComparatorTest.java
+ * RequirementStateOfCompliance.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Alexander van Delft
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -22,27 +22,37 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package cdp4common.comparators;
+package cdp4requirementsverification;
 
-import cdp4common.types.OrderedItem;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
+import cdp4common.engineeringmodeldata.BooleanExpression;
+import cdp4common.engineeringmodeldata.ParametricConstraint;
 
-import java.util.Arrays;
+/**
+ * State of compliance for a {@link ParametricConstraint} or a {@link BooleanExpression}
+ */
+public enum RequirementStateOfCompliance {
+    /**
+     * No verification ran yet
+     */
+    Unknown,
 
-class OrderedItemComparatorTest {
+    /**
+     * Verification process was started
+     */
+    Calculating,
 
-  @Test
-  void verify_that_List_of_OrderedItem_is_ordered() {
-    var orderedItem1 = new OrderedItem(5, "middle");
-    var orderedItem2 = new OrderedItem(10, "last");
-    var orderedItem3 = new OrderedItem(1, "first");
+    /**
+     * Cannot verify because of some reason
+     */
+    Inconclusive,
 
-    var orderedItems = Arrays.asList(orderedItem1, orderedItem2, orderedItem3);
-    orderedItems.sort(new OrderedItemComparator());
+    /**
+     * All conditions are passed
+     */
+    Pass,
 
-    var ordered = Arrays.asList(orderedItem3, orderedItem1, orderedItem2);
-
-    Assertions.assertThat(ordered).containsExactlyElementsOf(orderedItems);
-  }
+    /**
+     * At least one condition does not pass
+     */
+    Failed
 }

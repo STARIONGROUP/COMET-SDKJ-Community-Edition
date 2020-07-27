@@ -1,9 +1,9 @@
 /*
- * OrderedItemComparatorTest.java
+ * RequirementStateOfComplianceExtensions.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
- * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
+ * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Alexander van Delft
  *
  * This file is part of CDP4-SDKJ Community Edition
  *
@@ -22,27 +22,23 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package cdp4common.comparators;
+package cdp4requirementsverification.extensions;
 
-import cdp4common.types.OrderedItem;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
+import cdp4requirementsverification.RequirementStateOfCompliance;
 
-import java.util.Arrays;
+import java.util.List;
 
-class OrderedItemComparatorTest {
-
-  @Test
-  void verify_that_List_of_OrderedItem_is_ordered() {
-    var orderedItem1 = new OrderedItem(5, "middle");
-    var orderedItem2 = new OrderedItem(10, "last");
-    var orderedItem3 = new OrderedItem(1, "first");
-
-    var orderedItems = Arrays.asList(orderedItem1, orderedItem2, orderedItem3);
-    orderedItems.sort(new OrderedItemComparator());
-
-    var ordered = Arrays.asList(orderedItem3, orderedItem1, orderedItem2);
-
-    Assertions.assertThat(ordered).containsExactlyElementsOf(orderedItems);
-  }
+/**
+ * Extension methods for the {@link RequirementStateOfCompliance} Enum
+ */
+public class RequirementStateOfComplianceExtensions {
+    /**
+     * Checks if the value of {@link RequirementStateOfCompliance} states that calculations are finished
+     *
+     * @param value to check
+     * @return true if value indicates that calculations are finished
+     */
+    public static boolean isCalculated(RequirementStateOfCompliance value) {
+        return List.of(RequirementStateOfCompliance.Failed, RequirementStateOfCompliance.Pass, RequirementStateOfCompliance.Inconclusive).contains(value);
+    }
 }
