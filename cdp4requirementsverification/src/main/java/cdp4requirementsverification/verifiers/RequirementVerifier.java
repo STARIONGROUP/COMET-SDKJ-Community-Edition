@@ -110,6 +110,14 @@ public class RequirementVerifier implements HaveRequirementStateOfCompliance {
 
       var tasks = new ArrayList<CompletableFuture<RequirementStateOfCompliance>>();
 
+      for (var parametricConstraint : this.requirement.getParametricConstraint()) {
+        var parametricConstraintVerifier = new ParametricConstraintVerifier(
+            parametricConstraint);
+        this.parametricConstraintVerifiers.add(parametricConstraintVerifier);
+
+        tasks.add(parametricConstraintVerifier.verifyRequirements(iteration));
+      }
+
       CompletableFuture.allOf(tasks.toArray(CompletableFuture[]::new)).join();
 
       this.calculateRequirementStateOfCompliance();

@@ -131,6 +131,11 @@ public class ParametricConstraintVerifier implements BooleanExpressionVerifier {
     return CompletableFuture.supplyAsync(() -> {
       var tasks = new ArrayList<CompletableFuture<RequirementStateOfCompliance>>();
 
+      for (var entry : this.booleanExpressionVerifiers.entrySet()) {
+        tasks.add(entry.getValue()
+            .verifyRequirementStateOfCompliance(this.booleanExpressionVerifiers, iteration));
+      }
+
       CompletableFuture.allOf(tasks.toArray(CompletableFuture[]::new)).join();
 
       var topLevelBooleanExpressions = BooleanExpressionExtensions
