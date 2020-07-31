@@ -39,6 +39,10 @@ public class RequirementStateOfComplianceExtensions {
      * @return true if value indicates that calculations are finished
      */
     public static boolean isCalculated(RequirementStateOfCompliance value) {
+        if(value == null){
+            return false;
+        }
+
         return List.of(RequirementStateOfCompliance.Failed, RequirementStateOfCompliance.Pass, RequirementStateOfCompliance.Inconclusive).contains(value);
     }
 }
