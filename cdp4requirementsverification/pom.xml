@@ -2,17 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>cdp4-sdk4j</artifactId>
+        <groupId>com.rheagroup</groupId>
+        <version>1.1.0</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.rheagroup</groupId>
-        <artifactId>cdp4-sdk4j-parent</artifactId>
-        <version>1.1.0</version>
-        <relativePath>../parent/pom.xml</relativePath>
-    </parent>
-
-    <artifactId>cdp4dal</artifactId>
-    <name>CDP4 Dal</name>
+    <artifactId>cdp4requirementsverification</artifactId>
+    <name>CDP4 Requirements Verification</name>
     <packaging>jar</packaging>
     <url>https://github.com/RHEAGROUP/CDP4-SDKJ-Community-Edition</url>
     <licenses>
@@ -43,14 +41,14 @@
     </scm>
 
     <properties>
-        <cdp4common.version>1.1.0</cdp4common.version>
+        <cdp4dal.version>1.1.0</cdp4dal.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.rheagroup</groupId>
-            <artifactId>cdp4common</artifactId>
-            <version>${cdp4common.version}</version>
+            <artifactId>cdp4dal</artifactId>
+            <version>${cdp4dal.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -59,6 +57,14 @@
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -93,9 +99,6 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.reactivex.rxjava2</groupId>
-            <artifactId>rxjava</artifactId>
-        </dependency>
     </dependencies>
+
 </project>

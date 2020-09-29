@@ -1,5 +1,5 @@
 /*
- * OrderedItemComparatorTest.java
+ * ExpressionNumber.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -21,28 +21,25 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+package cdp4common;
 
-package cdp4common.comparators;
+public enum ExpressionNumber {
+  And(1),
+  Or(2),
+  ExclusiveOr(4),
+  Not(8),
+  Relational1(16),
+  Relational2(32),
+  Relational3(64),
+  Relational4(128);
 
-import cdp4common.types.OrderedItem;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
+  private final int value;
 
-import java.util.Arrays;
+  public int getValue() {
+    return value;
+  }
 
-class OrderedItemComparatorTest {
-
-  @Test
-  void verify_that_List_of_OrderedItem_is_ordered() {
-    var orderedItem1 = new OrderedItem(5, "middle");
-    var orderedItem2 = new OrderedItem(10, "last");
-    var orderedItem3 = new OrderedItem(1, "first");
-
-    var orderedItems = Arrays.asList(orderedItem1, orderedItem2, orderedItem3);
-    orderedItems.sort(new OrderedItemComparator());
-
-    var ordered = Arrays.asList(orderedItem3, orderedItem1, orderedItem2);
-
-    Assertions.assertThat(ordered).containsExactlyElementsOf(orderedItems);
+  ExpressionNumber(int value) {
+    this.value = value;
   }
 }
