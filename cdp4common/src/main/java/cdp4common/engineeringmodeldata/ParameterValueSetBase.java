@@ -384,7 +384,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      */
     public void resetManual() {
         if (this.valueArraySize == 0) {
-            var parameterType = this.queryParameterType();
+            ParameterType parameterType = this.queryParameterType();
             this.valueArraySize = parameterType.getNumberOfValues();
         }
 
@@ -396,7 +396,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      */
     public void resetComputed() {
         if (this.valueArraySize == 0) {
-            var parameterType = this.queryParameterType();
+            ParameterType parameterType = this.queryParameterType();
             this.valueArraySize = parameterType.getNumberOfValues();
         }
 
@@ -408,7 +408,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      */
     public void resetReference() {
         if (this.valueArraySize == 0) {
-            var parameterType = this.queryParameterType();
+            ParameterType parameterType = this.queryParameterType();
             this.valueArraySize = parameterType.getNumberOfValues();
         }
 
@@ -420,7 +420,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      */
     public void resetFormula() {
         if (this.valueArraySize == 0) {
-            var parameterType = this.queryParameterType();
+            ParameterType parameterType = this.queryParameterType();
             this.valueArraySize = parameterType.getNumberOfValues();
         }
 

@@ -31,6 +31,7 @@ import cdp4common.sitedirectorydata.*;
 import cdp4common.types.CacheKey;
 import com.google.common.cache.Cache;
 import com.google.common.collect.MoreCollectors;
+import java.util.stream.Stream;
 import lombok.extern.log4j.Log4j2;
 
 import java.net.URI;
@@ -70,15 +71,15 @@ public class NestedElementTreeGenerator {
             throw new NullPointerException("The domainOfExpertise may not be null");
         }
 
-        var iteration = (Iteration) option.getContainer();
+        Iteration iteration = (Iteration) option.getContainer();
 
         log.debug(String.format("Generating NestedElement for Iteration %s, Option: %s, DomainOfExpertise %s", iteration.getIid(), option.getShortName(), domainOfExpertise.getShortName()));
 
-        var nestedElements = this.generate(option, domainOfExpertise, updateOption);
+        Collection<NestedElement> nestedElements = this.generate(option, domainOfExpertise, updateOption);
 
         log.debug(String.format("Creating NestedParameters Iteration: %s, Option: %s, DomainOfExpertise %s", iteration.getIid(), option.getShortName(), domainOfExpertise.getShortName()));
 
-        var flatNestedParameters = nestedElements.stream().flatMap(nestedElement -> nestedElement.getNestedParameter().stream());
+        Stream<NestedParameter> flatNestedParameters = nestedElements.stream().flatMap(nestedElement -> nestedElement.getNestedParameter().stream());
 
         return flatNestedParameters.collect(Collectors.toList());
     }

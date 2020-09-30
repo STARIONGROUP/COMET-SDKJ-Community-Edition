@@ -39,11 +39,11 @@ class ProxySettingsTest {
 
   @Test
   void verify_that_properties_are_set() {
-    var address = URI.create("http://proxy.cdp4.org");
-    var userName = "John";
-    var password = "Doe";
+    URI address = URI.create("http://proxy.cdp4.org");
+    String userName = "John";
+    String password = "Doe";
 
-    var proxySettings = new ProxySettings(address, userName, password);
+    ProxySettings proxySettings = new ProxySettings(address, userName, password);
 
     assertEquals(address, proxySettings.getAddress());
     assertEquals(userName, proxySettings.getUserName());

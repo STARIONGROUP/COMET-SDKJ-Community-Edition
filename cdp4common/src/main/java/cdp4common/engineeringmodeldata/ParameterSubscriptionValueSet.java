@@ -554,7 +554,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Queries the {@link ParameterType} of the container {@link Parameter}
      */
     public ParameterType queryParameterType() {
-        var parameterSubscription = (ParameterSubscription) this.getContainer();
+        ParameterSubscription parameterSubscription = (ParameterSubscription) this.getContainer();
 
         if (parameterSubscription == null) {
             throw new ContainmentException(String.format("The container ParameterSubscription of ParameterSubscriptionValueSet with iid %s is null, the ParameterTye cannot be queried.", this.getIid()));
@@ -569,7 +569,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
     @Override
     public void resetManual() {
         if (this.valueArraySize == 0) {
-            var parameterType = this.queryParameterType();
+            ParameterType parameterType = this.queryParameterType();
             this.valueArraySize = parameterType.getNumberOfValues();
         }
 

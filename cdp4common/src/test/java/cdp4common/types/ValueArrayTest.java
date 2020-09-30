@@ -24,17 +24,16 @@
 
 package cdp4common.types;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Arrays;
+import org.junit.jupiter.api.Test;
 
 class ValueArrayTest {
     @Test
     void verifyThatValueArrayToStringWorks() {
-        ValueArray<Float> array = new ValueArray<>(List.of(1f, 2f, 3f, 4.1f), Float.class);
+        ValueArray<Float> array = new ValueArray<>(Arrays.asList(1f, 2f, 3f, 4.1f), Float.class);
         String s = array.toString();
 
         assertEquals("{1.0; 2.0; 3.0; 4.1}", s);
@@ -42,7 +41,7 @@ class ValueArrayTest {
 
     @Test
     void verifyThatValueArrayToStringWorksWithStrings() {
-        ValueArray<String> array = new ValueArray<>(List.of("abc", "def", "3", "4.1"), String.class);
+        ValueArray<String> array = new ValueArray<>(Arrays.asList("abc", "def", "3", "4.1"), String.class);
         String s = array.toString();
 
         assertEquals("{\"abc\"; \"def\"; \"3\"; \"4.1\"}", s);

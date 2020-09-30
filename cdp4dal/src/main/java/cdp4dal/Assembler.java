@@ -48,11 +48,14 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MoreCollectors;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -140,7 +143,7 @@ public class Assembler {
     return CompletableFuture.runAsync(() -> {
       try {
         this.threadLock.acquire();
-        var synchronizeStopWatch = Stopwatch.createStarted();
+        Stopwatch synchronizeStopWatch = Stopwatch.createStarted();
 
         log.info("Start Synchronization of {}", this.dalUri);
 
@@ -149,9 +152,9 @@ public class Assembler {
         this.thingsMarkedForDeletion = new ArrayList<>();
 
         log.trace("Starting Clean-up Unused references");
-        var startWatch = Stopwatch.createStarted();
+        Stopwatch startWatch = Stopwatch.createStarted();
 
-        var existentUUID =
+        List<Pair<CacheKey, Integer>> existentUUID =
             this.cache
                 .asMap()
                 .entrySet()
@@ -164,7 +167,7 @@ public class Assembler {
         // Add the unresolved thing to the things to resolved in case it is possible to fully resolve
         // them with the current update. An example would be Citation contained by SiteDirectory
         // where its Source is contained by a Rdl that is not loaded yet
-        var unresolvedThingToUpdate = this.unresolvedDtos
+        List<cdp4common.dto.Thing> unresolvedThingToUpdate = this.unresolvedDtos
             .stream()
             .filter(x -> !this.dtoThingToUpdate.stream().map(cdp4common.dto.Thing::getIid)
                 .collect(Collectors.toList()).contains(x.getIid()))
@@ -196,9 +199,9 @@ public class Assembler {
         // validate POJO's
         log.trace("Start validating Things");
         startWatch = Stopwatch.createStarted();
-        for (var dtoThing : this.dtoThingToUpdate) {
-          var cacheKey = new CacheKey(dtoThing.getIid(), dtoThing.getIterationContainerId());
-          var updatedThing = this.cache.getIfPresent(cacheKey);
+        for (cdp4common.dto.Thing dtoThing : this.dtoThingToUpdate) {
+          CacheKey cacheKey = new CacheKey(dtoThing.getIid(), dtoThing.getIterationContainerId());
+          Thing updatedThing = this.cache.getIfPresent(cacheKey);
 
           if (updatedThing != null) {
             updatedThing.validatePojo();
@@ -218,14 +221,14 @@ public class Assembler {
           log.trace("Start Messaging");
           startWatch = Stopwatch.createStarted();
 
-          var messageCounter = 0;
+          int messageCounter = 0;
 
-          for (var dtoThing : this.dtoThingToUpdate) {
-            var cacheKey = new CacheKey(dtoThing.getIid(), dtoThing.getIterationContainerId());
-            var updatedThing = this.cache.getIfPresent(cacheKey);
+          for (cdp4common.dto.Thing dtoThing : this.dtoThingToUpdate) {
+            CacheKey cacheKey = new CacheKey(dtoThing.getIid(), dtoThing.getIterationContainerId());
+            Thing updatedThing = this.cache.getIfPresent(cacheKey);
 
             if (updatedThing != null) {
-              var cacheId = new CacheKey(dtoThing.getIid(), dtoThing.getIterationContainerId());
+              CacheKey cacheId = new CacheKey(dtoThing.getIid(), dtoThing.getIterationContainerId());
               if (!existentUUID.stream().map(Pair::getLeft).collect(Collectors.toList())
                   .contains(cacheId)) {
                 CDPMessageBus.getCurrent().sendObjectChangeEvent(updatedThing, EventKind.ADDED);
@@ -247,7 +250,7 @@ public class Assembler {
 
         log.trace("Start Deleting things");
         startWatch = Stopwatch.createStarted();
-        for (var markedThing : this.thingsMarkedForDeletion.stream()
+        for (Thing markedThing : this.thingsMarkedForDeletion.stream()
             .filter(x -> x.getChangeKind() == ChangeKind.DELETE).collect(Collectors.toList())) {
           this.removeThingFromCache(markedThing);
         }
@@ -259,7 +262,7 @@ public class Assembler {
             .filter(IterationSetup::isDeleted)
             .collect(Collectors.toList());
 
-        var deletedModelSetups = this.thingsMarkedForDeletion
+        List<EngineeringModelSetup> deletedModelSetups = this.thingsMarkedForDeletion
             .stream()
             .filter(x -> x instanceof EngineeringModelSetup)
             .map(x -> (EngineeringModelSetup) x)
@@ -268,13 +271,13 @@ public class Assembler {
         this.thingsMarkedForDeletion.clear();
 
         if (deletedIterationSetups.size() > 0) {
-          for (var deletedIterationSetup : deletedIterationSetups) {
+          for (IterationSetup deletedIterationSetup : deletedIterationSetups) {
             this.markAndDelete(deletedIterationSetup.getIterationIid());
           }
         }
 
         if (deletedModelSetups.size() > 0) {
-          for (var deletedModelSetup : deletedModelSetups) {
+          for (EngineeringModelSetup deletedModelSetup : deletedModelSetups) {
             this.markAndDelete(deletedModelSetup.getEngineeringModelIid());
           }
         }
@@ -285,7 +288,7 @@ public class Assembler {
         this.dtoThingToUpdate.clear();
 
         if (this.siteDirectory == null) {
-          var keyValuePair =
+          Entry<CacheKey, Thing> keyValuePair =
               this.cache.asMap().entrySet()
                   .stream()
                   .filter(item -> item.getValue().getClassKind() == ClassKind.SiteDirectory)
@@ -319,12 +322,12 @@ public class Assembler {
    */
   private void updateThingRevisions(List<cdp4common.dto.Thing> dtoThings) {
     // create and store a shallow clone of the a current cached Thing
-    var revisionCloneWatch = Stopwatch.createStarted();
+    Stopwatch revisionCloneWatch = Stopwatch.createStarted();
 
-    for (var dto : dtoThings) {
-      var cacheKey = new CacheKey(dto.getIid(), dto.getIterationContainerId());
+    for (cdp4common.dto.Thing dto : dtoThings) {
+      CacheKey cacheKey = new CacheKey(dto.getIid(), dto.getIterationContainerId());
 
-      var currentThing = this.cache.getIfPresent(cacheKey);
+      Thing currentThing = this.cache.getIfPresent(cacheKey);
       if (currentThing != null) {
         if (dto.getRevisionNumber() > currentThing.getRevisionNumber()) {
           if (!currentThing.getRevisions().containsKey(currentThing.getRevisionNumber())) {
@@ -373,7 +376,7 @@ public class Assembler {
     return CompletableFuture.runAsync(() -> {
       try {
         this.threadLock.acquire();
-        var iterations =
+        List<Iteration> iterations =
             this.cache
                 .asMap()
                 .values()
@@ -382,7 +385,7 @@ public class Assembler {
                 .map(x -> (Iteration) x)
                 .collect(Collectors.toList());
 
-        for (var iteration : iterations) {
+        for (Iteration iteration : iterations) {
           if (iteration.getIterationSetup() != null) {
             CDPMessageBus.getCurrent()
                 .sendObjectChangeEvent(iteration.getIterationSetup(), EventKind.REMOVED);
@@ -393,7 +396,7 @@ public class Assembler {
           log.trace("Iteration with iid {} removed", iteration.getIid());
         }
 
-        var models =
+        List<EngineeringModel> models =
             this.cache
                 .asMap()
                 .values()
@@ -402,7 +405,7 @@ public class Assembler {
                 .map(x -> (EngineeringModel) x)
                 .collect(Collectors.toList());
 
-        for (var model : models) {
+        for (EngineeringModel model : models) {
           if (model.getEngineeringModelSetup() != null) {
             CDPMessageBus.getCurrent()
                 .sendObjectChangeEvent(model.getEngineeringModelSetup(), EventKind.REMOVED);
@@ -436,7 +439,7 @@ public class Assembler {
     return CompletableFuture.runAsync(() -> {
       try {
         this.threadLock.acquire();
-        var startWatch = Stopwatch.createStarted();
+        Stopwatch startWatch = Stopwatch.createStarted();
         this.thingsMarkedForDeletion = new ArrayList<>();
 
         rdl.getDefinedCategory().forEach(this::recursivelyMarksForRemoval);
@@ -463,7 +466,7 @@ public class Assembler {
         rdl.getBaseQuantityKind().clear();
         rdl.getBaseUnit().clear();
 
-        for (var thing : this.thingsMarkedForDeletion) {
+        for (Thing thing : this.thingsMarkedForDeletion) {
           this.removeThingFromCache(thing);
         }
 
@@ -493,15 +496,15 @@ public class Assembler {
     return CompletableFuture.runAsync(() -> {
       try {
         this.threadLock.acquire();
-        var cacheKey = new CacheKey(iterationSetup.getIterationIid(), null);
-        var iterationFromCache = this.cache.getIfPresent(cacheKey);
+        CacheKey cacheKey = new CacheKey(iterationSetup.getIterationIid(), null);
+        Thing iterationFromCache = this.cache.getIfPresent(cacheKey);
 
         if (iterationFromCache == null) {
           this.threadLock.release();
           return;
         }
 
-        var iteration = as(iterationFromCache, Iteration.class);
+        Iteration iteration = as(iterationFromCache, Iteration.class);
         if (iteration == null) {
           this.threadLock.release();
           return;
@@ -525,7 +528,7 @@ public class Assembler {
    * @param iteration The iteration.
    */
   private void clearFromCacheThingsContainedByIteration(Iteration iteration) {
-    var startWatch = Stopwatch.createStarted();
+    Stopwatch startWatch = Stopwatch.createStarted();
 
     this.thingsMarkedForDeletion = new ArrayList<>();
     this.recursivelyMarksForRemoval(iteration);
@@ -548,7 +551,7 @@ public class Assembler {
    * Checks the status of the updated {@code DTO}s in the Cache.
    */
   private void computeThingsToRemoveInUpdatedThings() {
-    for (var dtoThing : this.dtoThingToUpdate) {
+    for (cdp4common.dto.Thing dtoThing : this.dtoThingToUpdate) {
       this.computeThingsToRemove(dtoThing);
     }
   }
@@ -561,20 +564,20 @@ public class Assembler {
    * @param dtoThing The {@link cdp4common.dto.Thing} to check.
    */
   private void computeThingsToRemove(cdp4common.dto.Thing dtoThing) {
-    var cacheKey = new CacheKey(dtoThing.getIid(), dtoThing.getIterationContainerId());
-    var cachedThing = this.cache.getIfPresent(cacheKey);
+    CacheKey cacheKey = new CacheKey(dtoThing.getIid(), dtoThing.getIterationContainerId());
+    Thing cachedThing = this.cache.getIfPresent(cacheKey);
     if (cachedThing == null) {
       return;
     }
 
-    var dtoContainedUUID = this.computeContainedUUID(dtoThing);
-    var pojoContainedThing = this.computeContainedThing(cachedThing);
+    List<UUID> dtoContainedUUID = this.computeContainedUUID(dtoThing);
+    List<Thing> pojoContainedThing = this.computeContainedThing(cachedThing);
 
-    var thingsToRemove = pojoContainedThing
+    List<Thing> thingsToRemove = pojoContainedThing
         .stream()
         .filter(pojo -> !dtoContainedUUID.contains(pojo.getIid()))
         .collect(Collectors.toList());
-    for (var thing : thingsToRemove) {
+    for (Thing thing : thingsToRemove) {
       // isPersistent
       this.recursivelyMarksForRemoval(thing);
     }
@@ -588,11 +591,11 @@ public class Assembler {
    * the {@code thing}.
    */
   private List<Class> computeNonPersistentPropertyType(Thing thing) {
-    var nonPersistentType = new ArrayList<Class>();
+    ArrayList<Class> nonPersistentType = new ArrayList<Class>();
 
-    var fields = FieldUtils.getFieldsWithAnnotation(thing.getClass(), UmlInformation.class);
-    for (var field : fields) {
-      var metadata = field.getAnnotation(UmlInformation.class);
+    Field[] fields = FieldUtils.getFieldsWithAnnotation(thing.getClass(), UmlInformation.class);
+    for (Field field : fields) {
+      UmlInformation metadata = field.getAnnotation(UmlInformation.class);
       if (metadata.aggregation() == AggregationKind.COMPOSITE && !metadata.isPersistent()) {
         Type genericFieldType = field.getGenericType();
         if (genericFieldType instanceof ParameterizedType) {
@@ -619,10 +622,10 @@ public class Assembler {
    * @return A {@link List<UUID>} containing all the contained {@link UUID}.
    */
   private List<UUID> computeContainedUUID(cdp4common.dto.Thing dto) {
-    var containedUUID = new ArrayList<UUID>();
-    for (var container : dto.getContainerLists()) {
-      for (var obj : container) {
-        var orderedItem = as(obj, OrderedItem.class);
+    ArrayList<UUID> containedUUID = new ArrayList<UUID>();
+    for (List container : dto.getContainerLists()) {
+      for (Object obj : container) {
+        OrderedItem orderedItem = as(obj, OrderedItem.class);
         if (orderedItem != null) {
           containedUUID.add(UUID.fromString(orderedItem.getV().toString()));
         } else {
@@ -641,15 +644,15 @@ public class Assembler {
    * @return A {@link List<Thing>} containing all the contained {@link Thing}.
    */
   private List<Thing> computeContainedThing(Thing thing) {
-    var containedUUID = new ArrayList<Thing>();
-    var nonPersistentType = this.computeNonPersistentPropertyType(thing);
+    ArrayList<Thing> containedUUID = new ArrayList<Thing>();
+    List<Class> nonPersistentType = this.computeNonPersistentPropertyType(thing);
 
-    for (var container : thing.getContainerLists()) {
+    for (Collection container : thing.getContainerLists()) {
       if (container == null || container.isEmpty()) {
         continue;
       }
 
-      var type = container.toArray()[0].getClass();
+      Class<?> type = container.toArray()[0].getClass();
       if (nonPersistentType.contains(type)) {
         // non-persistent things are not added
         continue;
@@ -667,8 +670,8 @@ public class Assembler {
    * @param thingToRemove The {@link Thing} to remove.
    */
   private void recursivelyMarksForRemoval(Thing thingToRemove) {
-    for (var containerList : thingToRemove.getContainerLists()) {
-      for (var thing : containerList) {
+    for (Collection containerList : thingToRemove.getContainerLists()) {
+      for (Object thing : containerList) {
         this.recursivelyMarksForRemoval((Thing) thing);
       }
     }
@@ -685,8 +688,8 @@ public class Assembler {
    * @return True if the operation succeeded, otherwise false.
    */
   private boolean removeThingFromCache(Thing thingToRemove) {
-    var thing = this.cache.getIfPresent(thingToRemove.getCacheKey());
-    var succeed = thing != null;
+    Thing thing = this.cache.getIfPresent(thingToRemove.getCacheKey());
+    boolean succeed = thing != null;
     if (succeed) {
       this.cache.invalidate(thingToRemove.getCacheKey());
       if (thing instanceof Relationship) {
@@ -707,16 +710,16 @@ public class Assembler {
    * @param dtoThings The DTO {@link Thing} with data.
    */
   private void addOrUpdateTheCache(List<cdp4common.dto.Thing> dtoThings) {
-    var dtoList = Lists.newArrayList(dtoThings);
+    ArrayList<cdp4common.dto.Thing> dtoList = Lists.newArrayList(dtoThings);
 
-    for (var dto : dtoList) {
+    for (cdp4common.dto.Thing dto : dtoList) {
       if (dto.getIid() == null || dto.getIid().equals(new UUID(0L, 0L))) {
         throw new IllegalArgumentException(
             "Cannot add DTO with a null UUID or UUID(0L, 0L) reference to the Cache:"
                 + dto.getClassKind());
       }
 
-      var cacheKey = new CacheKey(dto.getIid(), dto.getIterationContainerId());
+      CacheKey cacheKey = new CacheKey(dto.getIid(), dto.getIterationContainerId());
       try {
         if (this.cache.getIfPresent(cacheKey) == null) {
           log.trace("{} {} is added to the cache", dto.getClassKind(), dto.getIid());
@@ -739,11 +742,11 @@ public class Assembler {
    * @param guid The {@link UUID}.
    */
   private void markAndDelete(UUID guid) {
-    var cachedThing = this.cache.getIfPresent(new CacheKey(guid, null));
+    Thing cachedThing = this.cache.getIfPresent(new CacheKey(guid, null));
     if (cachedThing != null) {
       this.thingsMarkedForDeletion.clear();
       this.recursivelyMarksForRemoval(cachedThing);
-      for (var markedThing : this.thingsMarkedForDeletion) {
+      for (Thing markedThing : this.thingsMarkedForDeletion) {
         this.removeThingFromCache(markedThing);
       }
 

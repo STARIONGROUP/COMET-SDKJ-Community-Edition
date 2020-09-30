@@ -24,12 +24,15 @@
 
 package cdp4requirementsverification.builders;
 
-import cdp4common.engineeringmodeldata.*;
+import cdp4common.engineeringmodeldata.ElementDefinition;
+import cdp4common.engineeringmodeldata.Option;
+import cdp4common.engineeringmodeldata.Parameter;
+import cdp4common.engineeringmodeldata.ParameterSwitchKind;
+import cdp4common.engineeringmodeldata.ParameterValueSet;
 import cdp4common.sitedirectorydata.ScalarParameterType;
 import cdp4common.sitedirectorydata.SimpleQuantityKind;
 import cdp4common.types.ValueArray;
-
-import java.util.List;
+import java.util.Arrays;
 import java.util.UUID;
 
 
@@ -87,7 +90,7 @@ public class ParameterBuilder {
      * @return {@link ParameterBuilder} "this"
      */
     public ParameterBuilder withValue(Object value) {
-        this.values = new ValueArray<>(List.of(value.toString()), String.class);
+        this.values = new ValueArray<>(Arrays.asList(value.toString()), String.class);
 
         return this;
     }
@@ -110,13 +113,13 @@ public class ParameterBuilder {
      * @return The {@link Parameter}
      */
     public Parameter build() {
-        var parameter = new Parameter(UUID.randomUUID(), null, null);
+      Parameter parameter = new Parameter(UUID.randomUUID(), null, null);
         if (this.parameterType == null) {
             throw new NullPointerException("ParameterType is not set");
         }
         parameter.setParameterType(this.parameterType);
 
-        var parameterValueSet = new ParameterValueSet();
+      ParameterValueSet parameterValueSet = new ParameterValueSet();
         parameterValueSet.setActualOption(this.option);
         parameterValueSet.setValueSwitch(ParameterSwitchKind.MANUAL);
         if (this.values == null) {

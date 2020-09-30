@@ -36,6 +36,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -58,9 +59,9 @@ class AssemblerIntegrationTest {
     InputStream is = new FileInputStream(
         "src/test/java/cdp4servicesdal/testdata/SiteDirectoryExtentDeep.json");
 
-    var version = new Version(1, 0, 0);
+    Version version = new Version(1, 0, 0);
 
-    var jsonSerializer = new Cdp4JsonSerializerImpl(version);
+    Cdp4JsonSerializerImpl jsonSerializer = new Cdp4JsonSerializerImpl(version);
 
     this.dtos = jsonSerializer.deserialize(is);
   }
@@ -68,9 +69,9 @@ class AssemblerIntegrationTest {
   @Test
   void verify_that_Thing_Revisions_is_populated_on_second_load()
       throws ExecutionException, InterruptedException {
-    var assembler = new Assembler(this.uri);
+    Assembler assembler = new Assembler(this.uri);
 
-    var sw = Stopwatch.createStarted();
+    Stopwatch sw = Stopwatch.createStarted();
     assembler.synchronize(this.dtos, true).get();
     sw.stop();
     System.out.println(String.format("Synchronize took %s [ms]", sw.elapsed(
@@ -82,7 +83,7 @@ class AssemblerIntegrationTest {
     System.out.println(String.format("Re-Synchronize took %s [ms]", sw.elapsed(
         TimeUnit.MILLISECONDS)));
 
-    for (var dto : dtos) {
+    for (Thing dto : dtos) {
       dto.setRevisionNumber(dto.getRevisionNumber() + 1);
     }
 
@@ -92,11 +93,11 @@ class AssemblerIntegrationTest {
     System.out.println(String.format("Update-Synchronize took %s [ms]", sw.elapsed(
         TimeUnit.MILLISECONDS)));
 
-    var things = assembler.getCache()
+    Collection<cdp4common.commondata.Thing> things = assembler.getCache()
         .asMap()
         .values();
 
-    for (var thing : things) {
+    for (cdp4common.commondata.Thing thing : things) {
       assertEquals(1, thing.getRevisions().size());
     }
 

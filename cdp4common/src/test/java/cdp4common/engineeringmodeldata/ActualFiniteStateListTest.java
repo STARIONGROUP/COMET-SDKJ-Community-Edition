@@ -25,6 +25,7 @@
 package cdp4common.engineeringmodeldata;
 
 import cdp4common.comparators.ActualFiniteStateComparator;
+import cdp4common.types.ContainerList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -70,26 +71,26 @@ class ActualFiniteStateListTest {
         this.iteration.getPossibleFiniteStateList().add(this.possibleList2);
         this.iteration.getPossibleFiniteStateList().add(this.possibleList3);
 
-        var ps11 = new PossibleFiniteState(UUID.randomUUID(), null, null);
+      PossibleFiniteState ps11 = new PossibleFiniteState(UUID.randomUUID(), null, null);
         ps11.setShortName("11");
         ps11.setName("11");
-        var ps12 = new PossibleFiniteState(UUID.randomUUID(), null, null);
+      PossibleFiniteState ps12 = new PossibleFiniteState(UUID.randomUUID(), null, null);
         ps12.setShortName("12");
         ps12.setName("12");
-        var ps21 = new PossibleFiniteState(UUID.randomUUID(), null, null);
+      PossibleFiniteState ps21 = new PossibleFiniteState(UUID.randomUUID(), null, null);
         ps21.setShortName("21");
         ps21.setName("21");
-        var ps22 = new PossibleFiniteState(UUID.randomUUID(), null, null);
+      PossibleFiniteState ps22 = new PossibleFiniteState(UUID.randomUUID(), null, null);
         ps22.setShortName("22");
         ps22.setName("22");
 
-        var ps31 = new PossibleFiniteState(UUID.randomUUID(), null, null);
+      PossibleFiniteState ps31 = new PossibleFiniteState(UUID.randomUUID(), null, null);
         ps31.setShortName("31");
         ps31.setName("31");
-        var ps32 = new PossibleFiniteState(UUID.randomUUID(), null, null);
+      PossibleFiniteState ps32 = new PossibleFiniteState(UUID.randomUUID(), null, null);
         ps32.setShortName("32");
         ps32.setName("32");
-        var ps33 = new PossibleFiniteState(UUID.randomUUID(), null, null);
+      PossibleFiniteState ps33 = new PossibleFiniteState(UUID.randomUUID(), null, null);
         ps33.setShortName("33");
         ps33.setName("33");
 
@@ -103,18 +104,18 @@ class ActualFiniteStateListTest {
         this.possibleList3.getPossibleState().add(ps32);
         this.possibleList3.getPossibleState().add(ps33);
 
-        var as1 = new ActualFiniteState(UUID.randomUUID(), null, null);
-        var as2 = new ActualFiniteState(UUID.randomUUID(), null, null);
-        var as3 = new ActualFiniteState(UUID.randomUUID(), null, null);
-        var as4 = new ActualFiniteState(UUID.randomUUID(), null, null);
-        var as5 = new ActualFiniteState(UUID.randomUUID(), null, null);
-        var as6 = new ActualFiniteState(UUID.randomUUID(), null, null);
-        var as7 = new ActualFiniteState(UUID.randomUUID(), null, null);
-        var as8 = new ActualFiniteState(UUID.randomUUID(), null, null);
-        var as9 = new ActualFiniteState(UUID.randomUUID(), null, null);
-        var as10 = new ActualFiniteState(UUID.randomUUID(), null, null);
-        var as11 = new ActualFiniteState(UUID.randomUUID(), null, null);
-        var as12 = new ActualFiniteState(UUID.randomUUID(), null, null);
+      ActualFiniteState as1 = new ActualFiniteState(UUID.randomUUID(), null, null);
+      ActualFiniteState as2 = new ActualFiniteState(UUID.randomUUID(), null, null);
+      ActualFiniteState as3 = new ActualFiniteState(UUID.randomUUID(), null, null);
+      ActualFiniteState as4 = new ActualFiniteState(UUID.randomUUID(), null, null);
+      ActualFiniteState as5 = new ActualFiniteState(UUID.randomUUID(), null, null);
+      ActualFiniteState as6 = new ActualFiniteState(UUID.randomUUID(), null, null);
+      ActualFiniteState as7 = new ActualFiniteState(UUID.randomUUID(), null, null);
+      ActualFiniteState as8 = new ActualFiniteState(UUID.randomUUID(), null, null);
+      ActualFiniteState as9 = new ActualFiniteState(UUID.randomUUID(), null, null);
+      ActualFiniteState as10 = new ActualFiniteState(UUID.randomUUID(), null, null);
+      ActualFiniteState as11 = new ActualFiniteState(UUID.randomUUID(), null, null);
+      ActualFiniteState as12 = new ActualFiniteState(UUID.randomUUID(), null, null);
 
         as1.getPossibleState().add(ps11);
         as1.getPossibleState().add(ps21);
@@ -193,7 +194,7 @@ class ActualFiniteStateListTest {
     {
         assertNotEquals(this.actualList.getActualState().get(0).getShortName(), "11.21.31");
         this.actualList.getActualState().sort(new ActualFiniteStateComparator());
-        var orderedStates = this.actualList.getActualState();
+      ContainerList<ActualFiniteState> orderedStates = this.actualList.getActualState();
 
         assertEquals(orderedStates.get(0).getShortName(), "11.21.31");
         assertEquals(orderedStates.get(1).getShortName(), "11.21.32");

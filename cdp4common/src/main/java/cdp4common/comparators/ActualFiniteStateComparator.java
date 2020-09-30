@@ -25,9 +25,11 @@ package cdp4common.comparators;
 
 import cdp4common.engineeringmodeldata.ActualFiniteState;
 import cdp4common.engineeringmodeldata.ActualFiniteStateList;
+import cdp4common.engineeringmodeldata.PossibleFiniteState;
 import cdp4common.engineeringmodeldata.PossibleFiniteStateList;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -42,8 +44,8 @@ public class ActualFiniteStateComparator implements Comparator<ActualFiniteState
      * @return Less than zero : x is less than y. Zero: x equals y. Greater than zero: x is greater than y.
      */
     public int compare(ActualFiniteState x, ActualFiniteState y) {
-        var xContainer = x.getContainer() instanceof ActualFiniteStateList ? (ActualFiniteStateList) x.getContainer() : null;
-        var yContainer = y.getContainer() instanceof ActualFiniteStateList ? (ActualFiniteStateList) y.getContainer() : null;
+        ActualFiniteStateList xContainer = x.getContainer() instanceof ActualFiniteStateList ? (ActualFiniteStateList) x.getContainer() : null;
+        ActualFiniteStateList yContainer = y.getContainer() instanceof ActualFiniteStateList ? (ActualFiniteStateList) y.getContainer() : null;
 
         if (xContainer == null || yContainer == null || xContainer.getIid() != yContainer.getIid()) {
             throw new IllegalArgumentException("Cannot compare 2 ActualFiniteState in different Lists or one of the container is null.");
@@ -53,8 +55,8 @@ public class ActualFiniteStateComparator implements Comparator<ActualFiniteState
             return 0;
         }
 
-        var xKey = this.getComputedSortKey(x, xContainer);
-        var yKey = this.getComputedSortKey(y, yContainer);
+        int xKey = this.getComputedSortKey(x, xContainer);
+        int yKey = this.getComputedSortKey(y, yContainer);
 
         return xKey - yKey;
     }
@@ -72,17 +74,17 @@ public class ActualFiniteStateComparator implements Comparator<ActualFiniteState
             return Integer.MAX_VALUE;
         }
 
-        var possibleFiniteStateListsSize = actualList.getPossibleFiniteStateList().getSortedItems().values()
+        List<Integer> possibleFiniteStateListsSize = actualList.getPossibleFiniteStateList().getSortedItems().values()
                 .stream()
                 .map(x -> x.getPossibleState().size())
                 .collect(Collectors.toList());
-        var orderKey = 0;
-        for (var possibleState : actualState.getPossibleState()) {
-            var power = 1;
-            var containerPossibleFiniteStateList = (PossibleFiniteStateList) possibleState.getContainer();
-            var position = containerPossibleFiniteStateList.getPossibleState().indexOf(possibleState);
+        int orderKey = 0;
+        for (PossibleFiniteState possibleState : actualState.getPossibleState()) {
+            int power = 1;
+            PossibleFiniteStateList containerPossibleFiniteStateList = (PossibleFiniteStateList) possibleState.getContainer();
+            int position = containerPossibleFiniteStateList.getPossibleState().indexOf(possibleState);
 
-            for (var i = actualList.getPossibleFiniteStateList().indexOf(containerPossibleFiniteStateList) + 1; i < possibleFiniteStateListsSize.size(); i++) {
+            for (int i = actualList.getPossibleFiniteStateList().indexOf(containerPossibleFiniteStateList) + 1; i < possibleFiniteStateListsSize.size(); i++) {
                 power = power * possibleFiniteStateListsSize.get(i);
             }
 

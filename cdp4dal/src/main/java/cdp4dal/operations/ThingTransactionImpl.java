@@ -40,6 +40,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MoreCollectors;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -47,7 +48,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -282,7 +284,7 @@ public class ThingTransactionImpl extends Transaction {
       return;
     }
 
-    var updatedThing = this.getUpdatedThing(clone);
+    Thing updatedThing = this.getUpdatedThing(clone);
     if (updatedThing != null) {
       if (clone.getIid() == null || clone.getIid().equals(new UUID(0L, 0L))) {
         throw new IllegalArgumentException("The Iid of the clone cannot be null.");
@@ -312,7 +314,7 @@ public class ThingTransactionImpl extends Transaction {
     }
 
     // Verify that a new clone is passed - reference check - only copy allowed
-    var previousUpdatedReference = this.getUpdatedThing(clone);
+    Thing previousUpdatedReference = this.getUpdatedThing(clone);
 
     if (previousUpdatedReference != null && clone instanceof DeprecatableThing) {
       throw new UnsupportedOperationException("Delete of Deprecatable thing is not implemented.");
@@ -326,7 +328,7 @@ public class ThingTransactionImpl extends Transaction {
 
       if (previousUpdatedReference != null) {
         // remove potential reference from the list of updated thing in the current transaction
-        var updatedThingKey = this.getUpdatedThings().keySet().stream()
+        Optional<Thing> updatedThingKey = this.getUpdatedThings().keySet().stream()
             .filter(x -> x.getIid().equals(clone.getIid())).collect(MoreCollectors.toOptional());
         updatedThingKey.ifPresent(this.getUpdatedThings()::remove);
 
@@ -334,7 +336,7 @@ public class ThingTransactionImpl extends Transaction {
         this.updateContainer(clone, containerClone, null);
       } else {
         // remove from the list of added thing
-        var thingInAddedList = this.getAddedThings().stream()
+        Optional<Thing> thingInAddedList = this.getAddedThings().stream()
             .filter(x -> x.getIid().equals(clone.getIid())).collect(MoreCollectors.toOptional());
         thingInAddedList.ifPresent(this.getAddedThings()::remove);
 
@@ -387,11 +389,11 @@ public class ThingTransactionImpl extends Transaction {
           "The copy operation may only be performed with Copy or CopyDefaultValuesChangeOwner or CopyKeepValues or CopyKeepValuesChangeOwner");
     }
 
-    var original = this.getUpdatedThing(clone);
+    Thing original = this.getUpdatedThing(clone);
 
     // setting a new iid for the copy
     clone.setIid(UUID.randomUUID());
-    var originalCopyPair = Pair.of(original, clone);
+    Pair<Thing, Thing> originalCopyPair = Pair.of(original, clone);
 
     if (this.getCopiedThings().containsKey(originalCopyPair)) {
       return;
@@ -419,7 +421,7 @@ public class ThingTransactionImpl extends Transaction {
       throw new IllegalArgumentException("The Iid of thing may not be the empty UUID.");
     }
 
-    var clone = this.getUpdatedThings().values().stream()
+    Optional<Thing> clone = this.getUpdatedThings().values().stream()
         .filter(x -> x.getIid().equals(thing.getIid()))
         .collect(MoreCollectors.toOptional());
 
@@ -450,14 +452,14 @@ public class ThingTransactionImpl extends Transaction {
       throw new IllegalArgumentException("The Iid of thing may not be the empty UUID.");
     }
 
-    var allAddedThing = this.getAllAddedThings();
-    var clone = allAddedThing.stream().filter(x -> x.getIid().equals(thing.getIid()))
+    List<Thing> allAddedThing = this.getAllAddedThings();
+    Optional<Thing> clone = allAddedThing.stream().filter(x -> x.getIid().equals(thing.getIid()))
         .collect(MoreCollectors.toOptional());
     if (clone.isPresent()) {
       return clone.get();
     }
 
-    var allUpdatedThing = this.getAllUpdatedThings();
+    List<Thing> allUpdatedThing = this.getAllUpdatedThings();
     clone = allUpdatedThing.stream().filter(x -> x.getIid().equals(thing.getIid()))
         .collect(MoreCollectors.toOptional());
     return clone.orElse(null);
@@ -495,10 +497,10 @@ public class ThingTransactionImpl extends Transaction {
 
     // update the reference of possible other clones of the same type which were added when a contained item
     // of the current associatedClone was updated to another one
-    var rootClone = getOperationRootClone();
-    var cloneTypeToUpdate = this.associatedClone.getContainerInformation().getLeft();
+    Thing rootClone = getOperationRootClone();
+    Class cloneTypeToUpdate = this.associatedClone.getContainerInformation().getLeft();
 
-    for (var addedthing : this.getAddedThings().stream().filter(x -> x != this.associatedClone
+    for (Thing addedthing : this.getAddedThings().stream().filter(x -> x != this.associatedClone
         && x.getContainerInformation().getLeft() == cloneTypeToUpdate).collect(
         Collectors.toList())) {
       if (!addedthing.isContainedBy(rootClone.getIid())) {
@@ -507,7 +509,7 @@ public class ThingTransactionImpl extends Transaction {
       }
 
       // the clone should have been added
-      var containerOfAddedThing = this.getClone(addedthing.getContainer());
+      Thing containerOfAddedThing = this.getClone(addedthing.getContainer());
       if (containerOfAddedThing == null) {
         throw new TransactionException(
             "Could not find the corresponding clone for the container of the added thing added outside the chain of transaction.");
@@ -517,7 +519,7 @@ public class ThingTransactionImpl extends Transaction {
     }
 
     for (
-        var updatedThing :
+        Thing updatedThing :
         this.getUpdatedThings().values().stream().filter(x -> x != this.associatedClone
             && x.getContainerInformation().getLeft() == cloneTypeToUpdate).collect(
             Collectors.toList())) {
@@ -527,7 +529,7 @@ public class ThingTransactionImpl extends Transaction {
       }
 
       // the clone should have been added
-      var containerOfUpdatedThing = this.getClone(updatedThing.getContainer());
+      Thing containerOfUpdatedThing = this.getClone(updatedThing.getContainer());
       if (containerOfUpdatedThing == null) {
         throw new TransactionException(
             "Could not find the corresponding clone for the container of the updated thing added outside the chain of transaction.");
@@ -552,8 +554,8 @@ public class ThingTransactionImpl extends Transaction {
 
     this.filterOperationCausedByDelete();
 
-    var context = this.transactionContext.getContextRoute();
-    var operationContainer = new OperationContainer(context, this.getTopContainerRevisionNumber());
+    String context = this.transactionContext.getContextRoute();
+    OperationContainer operationContainer = new OperationContainer(context, this.getTopContainerRevisionNumber());
 
     this.createNewThingOperation(operationContainer);
     this.createUpdatedThingOperation(operationContainer);
@@ -572,9 +574,9 @@ public class ThingTransactionImpl extends Transaction {
    */
   private Thing getUpdatedThing(Thing clone) {
     // case1: the updated thing is already in the transaction as an updated thing
-    var allUpdatedThings = this.getAllUpdatedThings();
+    List<Thing> allUpdatedThings = this.getAllUpdatedThings();
 
-    var updatedThing = allUpdatedThings.stream().filter(x -> x.getIid().equals(clone.getIid()))
+    Optional<Thing> updatedThing = allUpdatedThings.stream().filter(x -> x.getIid().equals(clone.getIid()))
         .collect(MoreCollectors.toOptional());
     if (updatedThing.isPresent()) {
       if (updatedThing.get() == clone) {
@@ -586,7 +588,7 @@ public class ThingTransactionImpl extends Transaction {
     }
 
     // case2: the updated thing is already in the transaction as an added thing
-    var allAddedThings = this.getAllAddedThings();
+    List<Thing> allAddedThings = this.getAllAddedThings();
     updatedThing = allAddedThings.stream().filter(x -> x.getIid().equals(clone.getIid()))
         .collect(MoreCollectors.toOptional());
     if (updatedThing.isPresent()) {
@@ -605,7 +607,7 @@ public class ThingTransactionImpl extends Transaction {
     }
 
     // case3: the cache does not contain the key, its a new
-    var value = clone.getCache().getIfPresent(clone.getCacheKey());
+    Thing value = clone.getCache().getIfPresent(clone.getCacheKey());
     if (value == null) {
       return null;
     }
@@ -624,7 +626,7 @@ public class ThingTransactionImpl extends Transaction {
    * @return A list of all the added things.
    */
   private List<Thing> getAllAddedThings() {
-    var allAddedThing = new ArrayList<>(this.getAddedThings());
+    ArrayList<Thing> allAddedThing = new ArrayList<>(this.getAddedThings());
     if (this.parentTransaction != null) {
       this.populateAllAddedThingsList(this.parentTransaction, allAddedThing);
     }
@@ -639,7 +641,7 @@ public class ThingTransactionImpl extends Transaction {
    * @param allAddedThing The list containing all the added things.
    */
   private void populateAllAddedThingsList(Transaction transaction, List<Thing> allAddedThing) {
-    var thingsToAdd = transaction.getAddedThings().stream()
+    List<Thing> thingsToAdd = transaction.getAddedThings().stream()
         .filter(x -> allAddedThing.stream().noneMatch(y -> y.getIid().equals(x.getIid())))
         .collect(Collectors.toList());
     allAddedThing.addAll(thingsToAdd);
@@ -654,7 +656,7 @@ public class ThingTransactionImpl extends Transaction {
    * @return A list of all the updated things.
    */
   private List<Thing> getAllUpdatedThings() {
-    var allUpdatedThings = Lists.newArrayList(this.getUpdatedThings().values());
+    ArrayList<Thing> allUpdatedThings = Lists.newArrayList(this.getUpdatedThings().values());
     if (this.parentTransaction != null) {
       this.populateAllUpdatedThingsList(this.parentTransaction, allUpdatedThings);
     }
@@ -670,7 +672,7 @@ public class ThingTransactionImpl extends Transaction {
    */
   private void populateAllUpdatedThingsList(Transaction transaction,
       List<Thing> allUpdatedThing) {
-    var thingsToAdd = transaction.getUpdatedThings().values().stream()
+    List<Thing> thingsToAdd = transaction.getUpdatedThings().values().stream()
         .filter(x -> allUpdatedThing.stream().noneMatch(y -> y.getIid().equals(x.getIid())))
         .collect(Collectors.toList());
     allUpdatedThing.addAll(thingsToAdd);
@@ -733,7 +735,7 @@ public class ThingTransactionImpl extends Transaction {
         orderedItemList.add(thing);
       } else {
         // insert the new thing before nextThing
-        var index = orderedItemList.indexOf(nextThing);
+        int index = orderedItemList.indexOf(nextThing);
         if (index == -1) {
           throw new IllegalArgumentException(
               "The Thing before which the new item needs to be inserted does not exist.");
@@ -751,7 +753,7 @@ public class ThingTransactionImpl extends Transaction {
    * @param thing The {@link Thing} to be remove from the containers.
    */
   private void removeThingFromContainer(Thing thing) {
-    var containers = new ArrayList<>(this.getAddedThings());
+    ArrayList<Thing> containers = new ArrayList<>(this.getAddedThings());
     containers.addAll(this.getUpdatedThings().values());
 
     Thing originalThing = null;
@@ -760,7 +762,7 @@ public class ThingTransactionImpl extends Transaction {
     }
 
     // Find in all the thing in the transaction the potential container that contains the current thing
-    for (var container : containers) {
+    for (Thing container : containers) {
       if (originalThing != null) {
         if (originalThing.getContainer().getIid().equals(container.getIid())) {
           // Dal will handle the removal on the original container
@@ -768,15 +770,15 @@ public class ThingTransactionImpl extends Transaction {
         }
       }
 
-      var containerType = container.getClass();
+      Class<? extends Thing> containerType = container.getClass();
       List<Field> fields = Lists.newArrayList(containerType.getDeclaredFields());
 
-      var matchingPropertyInfos = fields.stream()
+      List<Field> matchingPropertyInfos = fields.stream()
           .filter(x -> (x.getType() == ContainerList.class || x.getType() == OrderedItemList.class)
               && isGenericTypeOfClass(x.getGenericType(), thing.getClass()))
           .collect(Collectors.toList());
 
-      for (var propertyInfo : matchingPropertyInfos) {
+      for (Field propertyInfo : matchingPropertyInfos) {
         Collection<Thing> containerList;
         try {
           containerList = (Collection<Thing>) (FieldUtils.readField(propertyInfo, container, true));
@@ -795,7 +797,7 @@ public class ThingTransactionImpl extends Transaction {
           continue;
         }
 
-        var success = containerList.remove(thingToRemove);
+        boolean success = containerList.remove(thingToRemove);
         if (success) {
           thingToRemove.setContainer(null);
           return;
@@ -828,10 +830,10 @@ public class ThingTransactionImpl extends Transaction {
    * associatedClone}. May be null at initialization
    */
   private void initializeSubTransaction(Transaction subTransaction, Thing containerClone) {
-    var containerType = this.associatedClone.getContainerInformation().getLeft();
+    Class containerType = this.associatedClone.getContainerInformation().getLeft();
 
     if (containerClone != null) {
-      var currentContainerType = containerClone.getClass();
+      Class<? extends Thing> currentContainerType = containerClone.getClass();
       if (!containerType.isAssignableFrom(currentContainerType)) {
         throw new IllegalArgumentException(
             "The specified container is not allowed as a container.");
@@ -840,7 +842,7 @@ public class ThingTransactionImpl extends Transaction {
       if (this.parentTransaction.getAddedThings().contains(containerClone)) {
         subTransaction.getAddedThings().add(containerClone);
       } else if (this.parentTransaction.getUpdatedThings().values().contains(containerClone)) {
-        var entry =
+        Entry<Thing, Thing> entry =
             this.parentTransaction.getUpdatedThings().entrySet().stream()
                 .filter(x -> x.getValue() == containerClone).collect(MoreCollectors.onlyElement());
         subTransaction.getUpdatedThings().put(entry.getKey(), entry.getValue());
@@ -858,12 +860,12 @@ public class ThingTransactionImpl extends Transaction {
    * @param clone The {@link Thing} being updated outside the current chain
    */
   private void addChainOfContainers(Thing clone) throws TransactionException {
-    var topOperationClone = this.getOperationRootClone();
+    Thing topOperationClone = this.getOperationRootClone();
     if (!clone.isContainedBy(topOperationClone.getIid())) {
       return;
     }
 
-    var chainOfTransactions = this.getChainOfSubTransactions();
+    List<Transaction> chainOfTransactions = this.getChainOfSubTransactions();
 
     // root is first
     Collections.reverse(chainOfTransactions);
@@ -871,20 +873,20 @@ public class ThingTransactionImpl extends Transaction {
     // remove the root which does not contain an associated clone
     chainOfTransactions.remove(0);
 
-    for (var transaction : chainOfTransactions) {
+    for (Transaction transaction : chainOfTransactions) {
       if (clone.isContainedBy(transaction.getAssociatedClone().getIid())) {
         continue;
       }
 
       // add a new clone if newContainerClone is not contained by the current operation's chain of clones
-      var containerType = transaction.getAssociatedClone().getClass();
-      var container = clone.getContainerOfType(containerType);
+      Class<? extends Thing> containerType = transaction.getAssociatedClone().getClass();
+      Thing container = clone.getContainerOfType(containerType);
       if (container == null) {
         return;
       }
 
       // check if the container was already updated, create a new clone
-      var containerClone = this.getLastCloneCreated((Thing) container);
+      Thing containerClone = this.getLastCloneCreated((Thing) container);
       containerClone =
           containerClone != null ? containerClone.clone(false) : ((Thing) container).clone(false);
       this.createOrUpdate(containerClone);
@@ -897,8 +899,8 @@ public class ThingTransactionImpl extends Transaction {
    * @return The clone of the {@link Thing} at the root of all the current {@link ThingTransaction}s
    */
   private Thing getOperationRootClone() {
-    var rootClone = this.associatedClone;
-    var parent = this.parentTransaction;
+    Thing rootClone = this.associatedClone;
+    Transaction parent = this.parentTransaction;
     while (parent != null) {
       rootClone = parent.getAssociatedClone() != null ? parent.getAssociatedClone() : rootClone;
       parent = parent.getParentTransaction();
@@ -913,8 +915,8 @@ public class ThingTransactionImpl extends Transaction {
    * @return The chain of {@link Transaction}
    */
   private List<Transaction> getChainOfSubTransactions() {
-    var parent = this.parentTransaction;
-    var listOfSubTransactions = new ArrayList<Transaction>();
+    Transaction parent = this.parentTransaction;
+    ArrayList<Transaction> listOfSubTransactions = new ArrayList<Transaction>();
 
     while (parent != null) {
       listOfSubTransactions.add(parent);
@@ -935,7 +937,7 @@ public class ThingTransactionImpl extends Transaction {
    */
   private void updateContainer(Thing clone, Thing containerClone, Thing nextThing)
       throws TransactionException {
-    var containerInformation = clone.getContainerInformation();
+    Pair<Class, String> containerInformation = clone.getContainerInformation();
     if (!containerInformation.getLeft().isAssignableFrom(containerClone.getClass())) {
       throw new IllegalArgumentException("The containerClone does not have the right type");
     }
@@ -961,14 +963,14 @@ public class ThingTransactionImpl extends Transaction {
    */
   private void addCloneToContainer(Thing clone, Thing containerClone, Thing nextThing)
       throws TransactionException {
-    var containerInformation = clone.getContainerInformation();
+    Pair<Class, String> containerInformation = clone.getContainerInformation();
     if (!containerInformation.getLeft().isAssignableFrom(containerClone.getClass())) {
       throw new IllegalArgumentException("The containerClone does not have the right type");
     }
 
     // add/replace the clone to its container and add the container in the list of updated object
-    var containerType = containerClone.getClass();
-    var containerPropertyGetter = MethodUtils.getAccessibleMethod(containerType,
+    Class<? extends Thing> containerType = containerClone.getClass();
+    Method containerPropertyGetter = MethodUtils.getAccessibleMethod(containerType,
         "get" + StringUtils.capitalizeFirstLetter(containerInformation.getRight()));
 
     if (containerPropertyGetter == null) {
@@ -999,26 +1001,26 @@ public class ThingTransactionImpl extends Transaction {
   @Override
   protected void merge(Transaction subTransaction) {
     // replace or add all element in addedThing
-    for (var thing : subTransaction.getAddedThings()) {
+    for (Thing thing : subTransaction.getAddedThings()) {
       if (this.getAddedThings().contains(thing)) {
         continue;
       }
 
-      var existingThing = this.getAddedThings().stream()
+      Thing existingThing = this.getAddedThings().stream()
           .filter(x -> x.getIid().equals(thing.getIid()))
           .collect(MoreCollectors.toOptional()).orElse(null);
       if (existingThing != null) {
         // replace the current thing with the one from the sub-transaction
-        var index = this.getAddedThings().indexOf(existingThing);
+        int index = this.getAddedThings().indexOf(existingThing);
         this.getAddedThings().set(index, thing);
       } else {
         this.getAddedThings().add(thing);
       }
     }
 
-    for (var keyValuePair : subTransaction.getUpdatedThings().entrySet()) {
+    for (Entry<Thing, Thing> keyValuePair : subTransaction.getUpdatedThings().entrySet()) {
       if (this.getUpdatedThings().containsKey(keyValuePair.getKey())) {
-        var parentKeyValue = this.getUpdatedThings().entrySet().stream()
+        Entry<Thing, Thing> parentKeyValue = this.getUpdatedThings().entrySet().stream()
             .filter(x -> x.getKey().equals(keyValuePair.getKey()))
             .collect(MoreCollectors.onlyElement());
         if (parentKeyValue.getValue() != keyValuePair.getValue()) {
@@ -1030,12 +1032,12 @@ public class ThingTransactionImpl extends Transaction {
       }
 
       // check if the key in a sub-transaction correspond to a value in the current one
-      var existingKeyValue =
+      Entry<Thing, Thing> existingKeyValue =
           this.getUpdatedThings().entrySet().stream()
               .filter(x -> x.getValue().equals(keyValuePair.getKey()))
               .collect(MoreCollectors.toOptional()).orElse(null);
       this.getUpdatedThings()
-          .put(Objects.requireNonNullElse(existingKeyValue, keyValuePair).getKey(),
+          .put((existingKeyValue != null ? existingKeyValue : keyValuePair).getKey(),
               keyValuePair.getValue());
     }
 
@@ -1050,8 +1052,8 @@ public class ThingTransactionImpl extends Transaction {
    * ID.
    */
   private void registerContainedThings(Thing thing, boolean newId) throws TransactionException {
-    for (var containerList : thing.getContainerLists()) {
-      for (var containedThing : containerList) {
+    for (Collection containerList : thing.getContainerLists()) {
+      for (Object containedThing : containerList) {
         if (newId) {
           ((Thing) containedThing).setIid(UUID.randomUUID());
         }
@@ -1068,7 +1070,7 @@ public class ThingTransactionImpl extends Transaction {
    * @param operationContainer The returned {@link OperationContainer}.
    */
   private void createNewThingOperation(OperationContainer operationContainer) {
-    for (var thing : this.getAddedThings()) {
+    for (Thing thing : this.getAddedThings()) {
       operationContainer.addOperation(new Operation(null, thing.toDto(), OperationKind.CREATE));
     }
   }
@@ -1084,7 +1086,7 @@ public class ThingTransactionImpl extends Transaction {
    * @param operationContainer The returned {@link OperationContainer}
    */
   private void createUpdatedThingOperation(OperationContainer operationContainer) {
-    for (var keyValue : this.getUpdatedThings().entrySet()) {
+    for (Entry<Thing, Thing> keyValue : this.getUpdatedThings().entrySet()) {
       Thing originalThing;
 
       // keyValue.getValue() - the clone that has been updated in the context of the transaction
@@ -1125,8 +1127,8 @@ public class ThingTransactionImpl extends Transaction {
    * @param operationContainer The returned {@link OperationContainer}.
    */
   private void createDeletedThingOperation(OperationContainer operationContainer) {
-    for (var thing : this.getDeletedThings()) {
-      var dto = thing.toDto();
+    for (Thing thing : this.getDeletedThings()) {
+      cdp4common.dto.Thing dto = thing.toDto();
       operationContainer.addOperation(new Operation(dto, dto, OperationKind.DELETE));
     }
   }
@@ -1137,11 +1139,11 @@ public class ThingTransactionImpl extends Transaction {
    * @param operationContainer The returned {@link OperationContainer}.
    */
   private void createCopyThingOperation(OperationContainer operationContainer) {
-    for (var pair : this.getCopiedThings().entrySet()) {
-      var originalCopy = pair.getKey();
-      var original = originalCopy.getLeft().toDto();
-      var copy = originalCopy.getRight().toDto();
-      var copyOperationKind = pair.getValue();
+    for (Entry<Pair<Thing, Thing>, OperationKind> pair : this.getCopiedThings().entrySet()) {
+      Pair<Thing, Thing> originalCopy = pair.getKey();
+      cdp4common.dto.Thing original = originalCopy.getLeft().toDto();
+      cdp4common.dto.Thing copy = originalCopy.getRight().toDto();
+      OperationKind copyOperationKind = pair.getValue();
 
       if (OperationUtils.isCopyOperation(copyOperationKind)) {
         operationContainer.addOperation(new Operation(original, copy, copyOperationKind));
@@ -1164,11 +1166,11 @@ public class ThingTransactionImpl extends Transaction {
    * @return The {@link TopContainer#getRevisionNumber()}.
    */
   private int getTopContainerRevisionNumber() {
-    var things = new ArrayList<>(this.getAddedThings());
+    ArrayList<Thing> things = new ArrayList<>(this.getAddedThings());
     things.addAll(this.getUpdatedThings().keySet());
     things.addAll(this.getDeletedThings());
 
-    var distinctTopContainer = things.stream().map(Thing::getTopContainer)
+    List<TopContainer> distinctTopContainer = things.stream().map(Thing::getTopContainer)
         .filter(distinctByKey(Thing::getIid))
         .collect(Collectors.toList());
     if (distinctTopContainer.size() != 1) {
@@ -1199,15 +1201,15 @@ public class ThingTransactionImpl extends Transaction {
   private void filterOperationCausedByDelete() {
     // filter out the added thing or updated thing that have been marked as deleted
     // filter out the contained thing of a deleted thing
-    var deletedThing = new ArrayList<>(this.getDeletedThings());
-    for (var thing : deletedThing) {
-      var cloneType = thing.getClass();
+    ArrayList<Thing> deletedThing = new ArrayList<>(this.getDeletedThings());
+    for (Thing thing : deletedThing) {
+      Class<? extends Thing> cloneType = thing.getClass();
       List<Field> fields = Lists.newArrayList(cloneType.getDeclaredFields());
-      var containersInfo = fields.stream()
+      List<Field> containersInfo = fields.stream()
           .filter(x -> x.getType() == ContainerList.class || x.getType() == OrderedItemList.class)
           .collect(Collectors.toList());
 
-      for (var containerInfo : containersInfo) {
+      for (Field containerInfo : containersInfo) {
         Collection<Thing> container;
         try {
           container = (Collection<Thing>) (FieldUtils.readField(containerInfo, thing, true));
@@ -1231,20 +1233,20 @@ public class ThingTransactionImpl extends Transaction {
    */
   private void removeThingFromOperationLists(Thing thingToRemove) {
     // remove it from the list of updated thing in the current transaction
-    var updatedThingKey = this.getUpdatedThings().keySet().stream()
+    Optional<Thing> updatedThingKey = this.getUpdatedThings().keySet().stream()
         .filter(x -> x.getIid().equals(thingToRemove.getIid()))
         .collect(MoreCollectors.toOptional());
     updatedThingKey.ifPresent(this.getUpdatedThings()::remove);
 
     // remove from the list of added thing
-    var thingInAddedList = this.getAddedThings().stream()
+    Optional<Thing> thingInAddedList = this.getAddedThings().stream()
         .filter(x -> x.getIid().equals(thingToRemove.getIid()))
         .collect(MoreCollectors.toOptional());
     thingInAddedList.ifPresent(this.getAddedThings()::remove);
 
     // remove the thing as deleted if it is not cached
     if (!thingToRemove.isCached()) {
-      var thingInDeletedList = this.getDeletedThings().stream()
+      Optional<Thing> thingInDeletedList = this.getDeletedThings().stream()
           .filter(x -> x.getIid().equals(thingToRemove.getIid()))
           .collect(MoreCollectors.toOptional());
       thingInDeletedList.ifPresent(this.getDeletedThings()::remove);

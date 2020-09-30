@@ -34,12 +34,12 @@ class DalExportAttributeTest {
   @Test
   void verifyThatThePropertiesAreSet() {
     // Values that DalStubExport should have in its DalExport annotation
-    var name = "CDP4";
-    var description = "CDP4 Webservices";
-    var cdpVersion = "1.1.0";
-    var type = DalType.WEB;
-    var dalStub = new DalStubExport();
-    var dalExportAttribute = dalStub.getClass().getAnnotationsByType(DalExport.class);
+    String name = "CDP4";
+    String description = "CDP4 Webservices";
+    String cdpVersion = "1.1.0";
+    DalType type = DalType.WEB;
+    DalStubExport dalStub = new DalStubExport();
+    DalExport[] dalExportAttribute = dalStub.getClass().getAnnotationsByType(DalExport.class);
 
     assertEquals(name, dalExportAttribute[0].name());
     assertEquals(description, dalExportAttribute[0].description());

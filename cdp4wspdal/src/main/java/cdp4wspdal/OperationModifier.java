@@ -38,6 +38,7 @@ import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.engineeringmodeldata.Parameter;
+import cdp4common.engineeringmodeldata.PossibleFiniteStateList;
 import cdp4common.types.CacheKey;
 import cdp4dal.Session;
 import cdp4dal.operations.Operation;
@@ -75,17 +76,17 @@ class OperationModifier {
    * @param operationContainer The {@link OperationContainer} to modify.
    */
   void modifyOperationContainer(OperationContainer operationContainer) {
-    var operationsToAdd = new ArrayList<Operation>();
+    ArrayList<Operation> operationsToAdd = new ArrayList<Operation>();
 
-    for (var operation : operationContainer.getOperations()) {
+    for (Operation operation : operationContainer.getOperations()) {
       if (operation.getOperationKind() == OperationKind.CREATE) {
-        var parameterOverride = as(operation.getModifiedThing(), ParameterOverride.class);
+        ParameterOverride parameterOverride = as(operation.getModifiedThing(), ParameterOverride.class);
         if (parameterOverride != null) {
           operationsToAdd.addAll(
               this.addParameterSubscriptionCreateOperation(operationContainer, parameterOverride));
         }
       } else if (operation.getOperationKind() == OperationKind.UPDATE) {
-        var possibleStateList = as(operation.getModifiedThing(),
+        cdp4common.dto.PossibleFiniteStateList possibleStateList = as(operation.getModifiedThing(),
             cdp4common.dto.PossibleFiniteStateList.class);
         if (possibleStateList != null) {
           operationsToAdd
@@ -94,7 +95,7 @@ class OperationModifier {
       }
     }
 
-    for (var operation : operationsToAdd) {
+    for (Operation operation : operationsToAdd) {
       operationContainer.addOperation(operation);
     }
   }
@@ -109,25 +110,25 @@ class OperationModifier {
    */
   private List<Operation> addParameterSubscriptionCreateOperation(
       OperationContainer operationContainer, ParameterOverride parameterOverride) {
-    var parameterId = parameterOverride.getParameter();
-    var parameter = (Parameter) this.session.getAssembler().getCache()
+    UUID parameterId = parameterOverride.getParameter();
+    Parameter parameter = (Parameter) this.session.getAssembler().getCache()
         .getIfPresent(new CacheKey(parameterId, parameterOverride.getIterationContainerId()));
 
-    var operations = new ArrayList<Operation>();
+    ArrayList<Operation> operations = new ArrayList<Operation>();
     if (parameter == null) {
       return operations;
     }
 
-    for (var subscription : parameter.getParameterSubscription()
+    for (cdp4common.engineeringmodeldata.ParameterSubscription subscription : parameter.getParameterSubscription()
         .stream()
         .filter(x -> !x.getOwner().getIid().equals(parameterOverride.getOwner()))
         .collect(Collectors.toList())) {
-      var parameterSubscription = new ParameterSubscription();
+      ParameterSubscription parameterSubscription = new ParameterSubscription();
       parameterSubscription.setIid(UUID.randomUUID());
       parameterSubscription.setOwner(subscription.getOwner().getIid());
 
       // Build Route for this Parameter subscription
-      var elementUsageContainerDto =
+      ElementUsage elementUsageContainerDto =
           operationContainer.getOperations().stream()
               .map(x -> x.getModifiedThing())
               .filter(x -> x instanceof ElementUsage)
@@ -139,16 +140,16 @@ class OperationModifier {
         continue;
       }
 
-      var elementUsageContainer = this.session.getAssembler().getCache().getIfPresent(
+      Thing elementUsageContainer = this.session.getAssembler().getCache().getIfPresent(
           new CacheKey(elementUsageContainerDto.getIid(),
               elementUsageContainerDto.getIterationContainerId()));
       if (elementUsageContainer == null) {
         continue;
       }
 
-      var elementDef = elementUsageContainer.getContainerOfType(ElementDefinition.class);
-      var iteration = elementUsageContainer.getContainerOfType(Iteration.class);
-      var model = elementUsageContainer.getContainerOfType(EngineeringModel.class);
+      ElementDefinition elementDef = elementUsageContainer.getContainerOfType(ElementDefinition.class);
+      Iteration iteration = elementUsageContainer.getContainerOfType(Iteration.class);
+      EngineeringModel model = elementUsageContainer.getContainerOfType(EngineeringModel.class);
 
       if (elementDef == null || iteration == null || model == null) {
         continue;
@@ -176,14 +177,14 @@ class OperationModifier {
    */
   private List<Operation> modifyActualStateKindOnDefaultPossibleStateUpdate(
       cdp4common.dto.PossibleFiniteStateList possibleFiniteStateList) {
-    var operations = new ArrayList<Operation>();
-    var defaultStateId = possibleFiniteStateList.getDefaultState();
+    ArrayList<Operation> operations = new ArrayList<Operation>();
+    UUID defaultStateId = possibleFiniteStateList.getDefaultState();
     if (defaultStateId == null || defaultStateId.equals(new UUID(0L, 0L))) {
       return operations;
     }
 
     // gets the actualList that uses the updated possible list
-    var actualLists = this.session.getAssembler().getCache()
+    List<ActualFiniteStateList> actualLists = this.session.getAssembler().getCache()
         .asMap()
         .values()
         .stream()
@@ -196,8 +197,8 @@ class OperationModifier {
         )
         .collect(Collectors.toList());
 
-    for (var actualFiniteStateList : actualLists) {
-      var possibleLists = actualFiniteStateList.getPossibleFiniteStateList()
+    for (ActualFiniteStateList actualFiniteStateList : actualLists) {
+      List<PossibleFiniteStateList> possibleLists = actualFiniteStateList.getPossibleFiniteStateList()
           .stream()
           .filter(x -> !x.getIid().equals(possibleFiniteStateList.getIid()))
           .collect(Collectors.toList());
@@ -209,7 +210,7 @@ class OperationModifier {
         continue;
       }
 
-      var defaultPossibleStatesIds = possibleLists
+      List<UUID> defaultPossibleStatesIds = possibleLists
           .stream()
           .map(x -> x.getDefaultState().getIid())
           .collect(Collectors.toList());
@@ -217,11 +218,11 @@ class OperationModifier {
       defaultPossibleStatesIds.add(defaultStateId);
 
       // get the "default" actual state
-      var defaultActualState =
+      cdp4common.engineeringmodeldata.ActualFiniteState defaultActualState =
           actualFiniteStateList.getActualState()
               .stream()
               .filter(x -> {
-                var list = x.getPossibleState()
+                List<UUID> list = x.getPossibleState()
                     .stream()
                     .map(Thing::getIid)
                     .collect(Collectors.toList());
@@ -238,9 +239,9 @@ class OperationModifier {
       }
 
       // The new default is forbidden, send update with mandatory
-      var actualStateDto = (ActualFiniteState) defaultActualState.toDto();
+      ActualFiniteState actualStateDto = (ActualFiniteState) defaultActualState.toDto();
       actualStateDto.setKind(ActualFiniteStateKind.MANDATORY);
-      var newOperation = new Operation(defaultActualState.toDto(), actualStateDto,
+      Operation newOperation = new Operation(defaultActualState.toDto(), actualStateDto,
           OperationKind.UPDATE);
       operations.add(newOperation);
     }

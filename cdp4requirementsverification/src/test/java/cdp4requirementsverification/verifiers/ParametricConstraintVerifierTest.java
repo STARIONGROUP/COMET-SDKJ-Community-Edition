@@ -47,7 +47,7 @@ import cdp4common.types.ValueArray;
 import cdp4requirementsverification.RequirementStateOfCompliance;
 import cdp4requirementsverification.builders.ParameterBuilder;
 import cdp4requirementsverification.builders.RelationalExpressionBuilder;
-import java.util.List;
+import java.util.Arrays;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -160,7 +160,7 @@ class ParametricConstraintVerifierTest {
     this.iteration.getOption().add(this.option2);
 
     this.elementDefinition = new ElementDefinition(UUID.randomUUID(), null, null);
-    var elementUsage = new ElementUsage(UUID.randomUUID(), null, null);
+    ElementUsage elementUsage = new ElementUsage(UUID.randomUUID(), null, null);
     elementUsage.setElementDefinition(this.elementDefinition);
     this.elementDefinition.getContainedElement().add(elementUsage);
 
@@ -174,12 +174,12 @@ class ParametricConstraintVerifierTest {
 
     this.iteration.getElement().add(this.elementDefinition);
 
-    var parameterOverride = new ParameterOverride(
+    ParameterOverride parameterOverride = new ParameterOverride(
         UUID.fromString("1f12693d-e0dc-4f0a-aa58-6c947cd292dd"), null, null);
     parameterOverride.setParameter(this.parameter);
     this.parameterOverrideValueSet = new ParameterOverrideValueSet();
     this.parameterOverrideValueSet.setValueSwitch(ParameterSwitchKind.MANUAL);
-    this.parameterOverrideValueSet.setManual(new ValueArray<>(List.of(okValue), String.class));
+    this.parameterOverrideValueSet.setManual(new ValueArray<>(Arrays.asList(okValue), String.class));
     parameterOverride.getValueSet().add(this.parameterOverrideValueSet);
     elementUsage.getParameterOverride().add(parameterOverride);
 
@@ -189,7 +189,7 @@ class ParametricConstraintVerifierTest {
 
   private void registerBinaryRelationShip(ParameterOrOverrideBase parameter,
       RelationalExpression expression) {
-    var relationShip = new BinaryRelationship(UUID.randomUUID(), null, null);
+    BinaryRelationship relationShip = new BinaryRelationship(UUID.randomUUID(), null, null);
     relationShip.setSource(parameter);
     relationShip.setTarget(expression);
 
@@ -237,8 +237,8 @@ class ParametricConstraintVerifierTest {
   @Test
   void verify_that_state_of_compliances_are_properly_set_when_valuesets_do_not_match() {
     this.parameter.getValueSet().get(0)
-        .setManual(new ValueArray<>(List.of(notOkValue), String.class));
-    this.parameterOverrideValueSet.setManual(new ValueArray<>(List.of(notOkValue), String.class));
+        .setManual(new ValueArray<>(Arrays.asList(notOkValue), String.class));
+    this.parameterOverrideValueSet.setManual(new ValueArray<>(Arrays.asList(notOkValue), String.class));
 
     this.parametricConstraintVerifier.verifyRequirements(this.iteration).join();
 
@@ -311,8 +311,8 @@ class ParametricConstraintVerifierTest {
   void verify_that_state_of_compliances_are_properly_set_when_a_notExpression_is_used_on_a_orExpression_that_is_not_compliant() {
     this.notExpression.setTerm(this.orExpression);
     this.parameter.getValueSet().get(0)
-        .setManual(new ValueArray<>(List.of(notOkValue), String.class));
-    this.parameterOverrideValueSet.setManual(new ValueArray<>(List.of(notOkValue), String.class));
+        .setManual(new ValueArray<>(Arrays.asList(notOkValue), String.class));
+    this.parameterOverrideValueSet.setManual(new ValueArray<>(Arrays.asList(notOkValue), String.class));
 
     this.parametricConstraintVerifier.verifyRequirements(this.iteration).join();
 
@@ -348,7 +348,7 @@ class ParametricConstraintVerifierTest {
 
   @Test
   void verify_that_state_of_compliances_are_properly_set_when_a_orExpression_is_partially_compliant() {
-    this.parameterOverrideValueSet.setManual(new ValueArray<>(List.of(notOkValue), String.class));
+    this.parameterOverrideValueSet.setManual(new ValueArray<>(Arrays.asList(notOkValue), String.class));
     this.parametricConstraintVerifier.verifyRequirements(this.iteration).join();
 
     assertEquals(RequirementStateOfCompliance.Inconclusive,
@@ -383,14 +383,14 @@ class ParametricConstraintVerifierTest {
 
   @Test
   void verify_that_state_of_compliances_are_properly_set_when_valuesets_are_compliant() {
-    var parameter1 = new ParameterBuilder()
+    Parameter parameter1 = new ParameterBuilder()
         .withOption(this.option1)
         .withSimpleQuantityKindParameterType()
         .withValue(okValue)
         .addToElementDefinition(this.elementDefinition)
         .build();
 
-    var parameter2 = new ParameterBuilder()
+    Parameter parameter2 = new ParameterBuilder()
         .withOption(this.option1)
         .withSimpleQuantityKindParameterType()
         .withValue(okValue)
@@ -449,14 +449,14 @@ class ParametricConstraintVerifierTest {
 
   @Test
   void verify_that_state_of_compliances_are_properly_set_when_valuesets_are_not_compliant() {
-    var parameter1 = new ParameterBuilder()
+    Parameter parameter1 = new ParameterBuilder()
         .withOption(this.option1)
         .withSimpleQuantityKindParameterType()
         .withValue(notOkValue)
         .addToElementDefinition(this.elementDefinition)
         .build();
 
-    var parameter2 = new ParameterBuilder()
+    Parameter parameter2 = new ParameterBuilder()
         .withOption(this.option1)
         .withSimpleQuantityKindParameterType()
         .withValue(notOkValue)
@@ -512,14 +512,14 @@ class ParametricConstraintVerifierTest {
 
   @Test
   void verify_that_state_of_compliances_are_properly_set_when_valuesets_are_partially_compliant() {
-    var parameter1 = new ParameterBuilder()
+    Parameter parameter1 = new ParameterBuilder()
         .withOption(this.option1)
         .withSimpleQuantityKindParameterType()
         .withValue(notOkValue)
         .addToElementDefinition(this.elementDefinition)
         .build();
 
-    var parameter2 = new ParameterBuilder()
+    Parameter parameter2 = new ParameterBuilder()
         .withOption(this.option1)
         .withSimpleQuantityKindParameterType()
         .withValue(okValue)

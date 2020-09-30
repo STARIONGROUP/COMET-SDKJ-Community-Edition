@@ -24,6 +24,10 @@
 
 package cdp4common;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import cdp4common.commondata.Alias;
 import cdp4common.commondata.DefinedThing;
 import cdp4common.commondata.HyperLink;
@@ -31,16 +35,24 @@ import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
-import cdp4common.sitedirectorydata.*;
+import cdp4common.sitedirectorydata.CompoundParameterType;
+import cdp4common.sitedirectorydata.Constant;
+import cdp4common.sitedirectorydata.DateParameterType;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.EngineeringModelSetup;
+import cdp4common.sitedirectorydata.Organization;
+import cdp4common.sitedirectorydata.ParameterTypeComponent;
+import cdp4common.sitedirectorydata.Person;
+import cdp4common.sitedirectorydata.PersonRole;
+import cdp4common.sitedirectorydata.SiteDirectory;
+import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
 import cdp4common.types.ValueArray;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ThingExtensionTest {
     private Alias alias;
@@ -157,7 +169,7 @@ class ThingExtensionTest {
     void verifyToDtoMethodWithValueArrayType() {
         Constant constant = new Constant(UUID.randomUUID(), null, URI.create("http://test.be"));
 
-        List<String> valuestrings = List.of("test1", "test2");
+        List<String> valuestrings = Arrays.asList("test1", "test2");
         constant.setValue(new ValueArray<>(valuestrings, String.class));
 
         constant.setContainer(this.siteDir);

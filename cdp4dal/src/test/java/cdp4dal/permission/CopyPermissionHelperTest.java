@@ -56,7 +56,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableMap;
 import java.net.URI;
-import java.util.List;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import org.apache.commons.lang3.tuple.Pair;
@@ -169,7 +169,7 @@ class CopyPermissionHelperTest {
 
     when(this.session.getActivePerson()).thenReturn(this.person);
     when(this.session.getActivePersonParticipants())
-        .thenReturn(List.of(this.participant1, this.participant2));
+        .thenReturn(Arrays.asList(this.participant1, this.participant2));
   }
 
   private void buildModelData() {
@@ -218,11 +218,11 @@ class CopyPermissionHelperTest {
     when(this.session.getOpenIterations()).thenReturn(ImmutableMap.of(this.iteration2, Pair
         .of(this.domain1, null)));
 
-    var copy = this.def1.clone(false);
-    var target = this.iteration2.clone(false);
+    ElementDefinition copy = this.def1.clone(false);
+    Iteration target = this.iteration2.clone(false);
 
-    var helper = new CopyPermissionHelper(this.session, false);
-    var canCopyRes = helper.computeCopyPermission(copy, target);
+    CopyPermissionHelper helper = new CopyPermissionHelper(this.session, false);
+    CopyPermissionResult canCopyRes = helper.computeCopyPermission(copy, target);
 
     assertEquals(0, canCopyRes.getErrors().size());
     assertEquals(6, canCopyRes.getCopyableThings().size());
@@ -237,11 +237,11 @@ class CopyPermissionHelperTest {
     when(this.session.getOpenIterations()).thenReturn(ImmutableMap.of(this.iteration2, Pair
         .of(this.domain1, null)));
 
-    var copy = this.def1.clone(false);
-    var target = this.iteration2.clone(false);
+    ElementDefinition copy = this.def1.clone(false);
+    Iteration target = this.iteration2.clone(false);
 
-    var helper = new CopyPermissionHelper(this.session, false);
-    var canCopyRes = helper.computeCopyPermission(copy, target);
+    CopyPermissionHelper helper = new CopyPermissionHelper(this.session, false);
+    CopyPermissionResult canCopyRes = helper.computeCopyPermission(copy, target);
 
     assertEquals(1, canCopyRes.getErrors().size());
     assertEquals(4, canCopyRes.getCopyableThings().size());
@@ -253,11 +253,11 @@ class CopyPermissionHelperTest {
     when(this.permissionService.canWrite(any(ClassKind.class), any(Thing.class))).thenReturn(true);
     when(this.session.getOpenIterations()).thenReturn(ImmutableMap.of(this.iteration2, Pair
         .of(this.domain1, null)));
-    var copy = this.def1.clone(false);
-    var target = this.iteration2.clone(false);
+    ElementDefinition copy = this.def1.clone(false);
+    Iteration target = this.iteration2.clone(false);
 
-    var helper = new CopyPermissionHelper(this.session, false);
-    var canCopyRes = helper.computeCopyPermission(copy, target);
+    CopyPermissionHelper helper = new CopyPermissionHelper(this.session, false);
+    CopyPermissionResult canCopyRes = helper.computeCopyPermission(copy, target);
 
     // element def for usage cant be copied - missing rdl
     // usage cant be copied as element def cannot
@@ -272,11 +272,11 @@ class CopyPermissionHelperTest {
     when(this.session.getOpenIterations()).thenReturn(ImmutableMap.of(this.iteration2, Pair
         .of(this.domain1, null)));
 
-    var copy = this.def1.clone(false);
-    var target = this.iteration2.clone(false);
+    ElementDefinition copy = this.def1.clone(false);
+    Iteration target = this.iteration2.clone(false);
 
-    var helper = new CopyPermissionHelper(this.session, false);
-    var canCopyRes = helper.computeCopyPermission(copy, target);
+    CopyPermissionHelper helper = new CopyPermissionHelper(this.session, false);
+    CopyPermissionResult canCopyRes = helper.computeCopyPermission(copy, target);
 
     // subscription cant be copied
     assertEquals(1, canCopyRes.getErrors().size());
@@ -292,8 +292,8 @@ class CopyPermissionHelperTest {
 
   @Test
   void verifyException2() {
-    var helper = new CopyPermissionHelper(this.session, false);
-    var target = this.iteration2.clone(false);
+    CopyPermissionHelper helper = new CopyPermissionHelper(this.session, false);
+    Iteration target = this.iteration2.clone(false);
 
     assertThrows(NullPointerException.class, () ->
 
@@ -303,8 +303,8 @@ class CopyPermissionHelperTest {
 
   @Test
   void verifyException3() {
-    var helper = new CopyPermissionHelper(this.session, false);
-    var copy = this.def1.clone(false);
+    CopyPermissionHelper helper = new CopyPermissionHelper(this.session, false);
+    ElementDefinition copy = this.def1.clone(false);
 
     assertThrows(NullPointerException.class, () ->
 
@@ -317,9 +317,9 @@ class CopyPermissionHelperTest {
     when(this.session.getOpenIterations()).thenReturn(ImmutableMap.of(this.iteration2, Pair
         .of(this.domain1, null)));
 
-    var helper = new CopyPermissionHelper(this.session, false);
-    var copy = this.def1.clone(false);
-    var target = this.model2.clone(false);
+    CopyPermissionHelper helper = new CopyPermissionHelper(this.session, false);
+    ElementDefinition copy = this.def1.clone(false);
+    EngineeringModel target = this.model2.clone(false);
 
     assertThrows(IllegalArgumentException.class, () ->
         helper.computeCopyPermission(copy, target)
@@ -331,9 +331,9 @@ class CopyPermissionHelperTest {
     when(this.session.getOpenIterations()).thenReturn(ImmutableMap.of(this.iteration2, Pair
         .of(this.domain1, null)));
 
-    var helper = new CopyPermissionHelper(this.session, false);
-    var copy = this.def1.clone(false);
-    var target = this.iteration1.clone(false);
+    CopyPermissionHelper helper = new CopyPermissionHelper(this.session, false);
+    ElementDefinition copy = this.def1.clone(false);
+    Iteration target = this.iteration1.clone(false);
 
     assertThrows(NoSuchElementException.class, () ->
         helper.computeCopyPermission(copy, target)

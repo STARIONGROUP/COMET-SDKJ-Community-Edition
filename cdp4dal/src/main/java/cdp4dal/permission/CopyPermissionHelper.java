@@ -36,12 +36,15 @@ import cdp4common.engineeringmodeldata.OwnedThing;
 import cdp4common.engineeringmodeldata.Parameter;
 import cdp4common.engineeringmodeldata.ParameterSubscription;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.ModelReferenceDataLibrary;
 import cdp4common.sitedirectorydata.ReferenceDataLibrary;
 import cdp4dal.Session;
 import com.google.common.collect.MoreCollectors;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -140,12 +143,12 @@ public class CopyPermissionHelper {
           "The method is only implemented for things contained by ElementDefinition. The RequiredRdls property needs to be implemented in all things.");
     }
 
-    var result = new CopyPermissionResult();
+    CopyPermissionResult result = new CopyPermissionResult();
     result.setErrorMap(new HashMap<>());
     result.setCopyableThings(new ArrayList<>());
 
-    var model = as(targetContainer.getTopContainer(), EngineeringModel.class);
-    var iteration = targetContainer instanceof Iteration
+    EngineeringModel model = as(targetContainer.getTopContainer(), EngineeringModel.class);
+    Thing iteration = targetContainer instanceof Iteration
         ? targetContainer : targetContainer.getContainerOfType(Iteration.class);
     this.changedOwner = this.session.getOpenIterations().entrySet()
         .stream()
@@ -193,8 +196,8 @@ public class CopyPermissionHelper {
     }
 
     // all the required rdls for the thing to copy shall be available in the model destination
-    var requiredRdls = thingToCopy.getRequiredRdls();
-    var intersectRdls = new ArrayList<>(this.availableRdls);
+    Collection<ReferenceDataLibrary> requiredRdls = thingToCopy.getRequiredRdls();
+    ArrayList<ReferenceDataLibrary> intersectRdls = new ArrayList<>(this.availableRdls);
     intersectRdls.retainAll(requiredRdls);
     if (intersectRdls.size() != requiredRdls.size()) {
       permissionResult.getErrorMap().put(thingToCopy, String.format(
@@ -203,7 +206,7 @@ public class CopyPermissionHelper {
       return;
     }
 
-    var ownedThing = as(thingToCopy, OwnedThing.class);
+    OwnedThing ownedThing = as(thingToCopy, OwnedThing.class);
     if (ownedThing != null && !this.ownerIsChanged && !this.activeDomains
         .contains(ownedThing.getOwner())) {
       permissionResult.getErrorMap().put(thingToCopy, String.format(
@@ -220,7 +223,7 @@ public class CopyPermissionHelper {
       return;
     }
 
-    var subscription = as(thingToCopy, ParameterSubscription.class);
+    ParameterSubscription subscription = as(thingToCopy, ParameterSubscription.class);
     if (subscription != null && this.ownerIsChanged && (subscription.getOwner() == this.changedOwner
         || (ownedThing != null && !this.activeDomains
         .contains(ownedThing.getOwner())))) {
@@ -243,11 +246,11 @@ public class CopyPermissionHelper {
    */
   private void computeModelContainedThingPermission(Thing thingToCopy, Thing targetContainer,
       CopyPermissionResult permissionResult) {
-    var thingToCopyClone = thingToCopy.clone(false);
+    Thing thingToCopyClone = thingToCopy.clone(false);
     thingToCopyClone.setContainer(targetContainer);
 
-    for (var containerList : thingToCopyClone.getContainerLists()) {
-      for (var thing : containerList) {
+    for (Collection containerList : thingToCopyClone.getContainerLists()) {
+      for (Object thing : containerList) {
         this.computeModelCopyPermission((Thing) thing, thingToCopyClone, permissionResult);
       }
     }
@@ -289,12 +292,12 @@ public class CopyPermissionHelper {
           permissionResult);
     }
 
-    var errorThingIds = permissionResult.getErrorMap().keySet().stream().map(Thing::getIid)
+    List<UUID> errorThingIds = permissionResult.getErrorMap().keySet().stream().map(Thing::getIid)
         .collect(
             Collectors.toList());
 
     // the element definition should be copyable along its parameters
-    var mandatoryIds = usage.getElementDefinition().getParameter().stream().map(Thing::getIid)
+    List<UUID> mandatoryIds = usage.getElementDefinition().getParameter().stream().map(Thing::getIid)
         .collect(
             Collectors.toList());
     mandatoryIds.add(usage.getElementDefinition().getIid());
@@ -310,7 +313,7 @@ public class CopyPermissionHelper {
    */
   private void computeAvailableRdl(EngineeringModel model) {
     this.availableRdls.clear();
-    var requiredRdl = model.getEngineeringModelSetup().getRequiredRdl().stream().collect(
+    ModelReferenceDataLibrary requiredRdl = model.getEngineeringModelSetup().getRequiredRdl().stream().collect(
         MoreCollectors.onlyElement());
     this.availableRdls.add(requiredRdl);
     this.availableRdls.addAll(requiredRdl.getRequiredRdls());
@@ -334,7 +337,7 @@ public class CopyPermissionHelper {
    * @return True if the container is of the correct time.
    */
   private boolean checkContainment(Thing thing, Thing container) {
-    var containerType = thing.getContainerInformation().getLeft();
+    Class containerType = thing.getContainerInformation().getLeft();
     return containerType.isInstance(container);
   }
 }

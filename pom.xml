@@ -23,6 +23,6 @@
     <module>cdp4jsonserializer</module>
     <module>cdp4wspdal</module>
     <module>cdp4jsonfiledal</module>
-      <module>cdp4requirementsverification</module>
+    <module>cdp4requirementsverification</module>
   </modules>
 </project>

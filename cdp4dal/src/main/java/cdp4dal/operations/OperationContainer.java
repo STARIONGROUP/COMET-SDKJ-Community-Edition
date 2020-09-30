@@ -106,7 +106,7 @@ public class OperationContainer {
   * @param operation The {@link Operation} to validate context of.
    */
   private void validateContextOfOperation(Operation operation) {
-    var topContainerRoute = operation.getModifiedThing().getTopContainerRoute();
+    String topContainerRoute = operation.getModifiedThing().getTopContainerRoute();
 
     if (!this.context.contains(topContainerRoute)) {
       throw new IllegalArgumentException(String.format(

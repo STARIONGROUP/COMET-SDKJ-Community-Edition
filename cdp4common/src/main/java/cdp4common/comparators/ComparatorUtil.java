@@ -39,7 +39,7 @@ final class ComparatorUtil {
      * @return Less than zero : x is less than y. Zero: x equals y. Greater than zero: x is greater than y.
      */
     static int compareValueSet(ValueSet x, ValueSet y) {
-        var optionCompare = compareOptions(x.getActualOption(), y.getActualOption());
+        int optionCompare = compareOptions(x.getActualOption(), y.getActualOption());
         if (optionCompare == 0) {
             return compareActualState(x.getActualState(), y.getActualState());
         }
@@ -58,15 +58,15 @@ final class ComparatorUtil {
         OptionalInt optional = ComparatorUtil.compareForNull(x, y);
         if (optional.isPresent()) return optional.getAsInt();
 
-        var iterationX = (Iteration) x.getContainer();
-        var iterationY = (Iteration) y.getContainer();
+        Iteration iterationX = (Iteration) x.getContainer();
+        Iteration iterationY = (Iteration) y.getContainer();
 
         if (iterationX != iterationY) {
             throw new IllegalArgumentException("The Options are not contained by the same Iteration and cannot be compared.");
         }
 
-        var indexX = iterationX.getOption().indexOf(x);
-        var indexY = iterationY.getOption().indexOf(y);
+        int indexX = iterationX.getOption().indexOf(x);
+        int indexY = iterationY.getOption().indexOf(y);
 
         return compareIndexes(indexX, indexY);
     }
@@ -82,15 +82,15 @@ final class ComparatorUtil {
         OptionalInt optional = ComparatorUtil.compareForNull(x, y);
         if (optional.isPresent()) return optional.getAsInt();
 
-        var actualFiniteStateListX = (ActualFiniteStateList) x.getContainer();
-        var actualFiniteStateListY = (ActualFiniteStateList) y.getContainer();
+        ActualFiniteStateList actualFiniteStateListX = (ActualFiniteStateList) x.getContainer();
+        ActualFiniteStateList actualFiniteStateListY = (ActualFiniteStateList) y.getContainer();
 
         if (actualFiniteStateListX != actualFiniteStateListY) {
             throw new IllegalArgumentException("The ActualFiniteStates are not contained by the same ActualFiniteStateList and cannot be compared.");
         }
 
-        var indexX = actualFiniteStateListX.getActualState().indexOf(x);
-        var indexY = actualFiniteStateListY.getActualState().indexOf(y);
+        int indexX = actualFiniteStateListX.getActualState().indexOf(x);
+        int indexY = actualFiniteStateListY.getActualState().indexOf(y);
 
         return compareIndexes(indexX, indexY);
     }

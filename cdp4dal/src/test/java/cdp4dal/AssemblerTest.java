@@ -35,6 +35,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import cdp4common.commondata.Alias;
 import cdp4common.commondata.Citation;
 import cdp4common.commondata.ClassKind;
+import cdp4common.dto.BooleanParameterType;
+import cdp4common.dto.Category;
+import cdp4common.dto.Definition;
+import cdp4common.dto.DomainOfExpertise;
+import cdp4common.dto.ElementDefinition;
+import cdp4common.dto.ElementUsage;
+import cdp4common.dto.RatioScale;
+import cdp4common.dto.ReferenceSource;
+import cdp4common.dto.SimpleQuantityKind;
+import cdp4common.dto.SimpleUnit;
 import cdp4common.dto.Thing;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
@@ -79,10 +89,10 @@ class AssemblerTest {
     this.siteRdl = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 1);
     this.siteDir.getSiteReferenceDataLibrary().add(this.siteRdl.getIid());
 
-    var category1 = new cdp4common.dto.Category(UUID.randomUUID(), 1);
+    Category category1 = new cdp4common.dto.Category(UUID.randomUUID(), 1);
     category1.getPermissibleClass().add(ClassKind.ParameterType);
     category1.getPermissibleClass().add(ClassKind.Person);
-    var category2 = new cdp4common.dto.Category(UUID.randomUUID(), 1);
+    Category category2 = new cdp4common.dto.Category(UUID.randomUUID(), 1);
     category2.getPermissibleClass().add(ClassKind.TelephoneNumber);
     category2.getPermissibleClass().add(ClassKind.EmailAddress);
 
@@ -90,12 +100,12 @@ class AssemblerTest {
     this.siteRdl.getDefinedCategory().add(category2.getIid());
 
     //topContainer
-    var siteRDL2 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 1);
+    cdp4common.dto.SiteReferenceDataLibrary siteRDL2 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 1);
     this.siteDir.getSiteReferenceDataLibrary().add(siteRDL2.getIid());
 
-    var booleanParameterType = new cdp4common.dto.BooleanParameterType(UUID.randomUUID(), 1);
+    BooleanParameterType booleanParameterType = new cdp4common.dto.BooleanParameterType(UUID.randomUUID(), 1);
     booleanParameterType.setCategory(Lists.newArrayList(category1.getIid(), category2.getIid()));
-    var definition = new cdp4common.dto.Definition(UUID.randomUUID(), 1);
+    Definition definition = new cdp4common.dto.Definition(UUID.randomUUID(), 1);
     booleanParameterType.getDefinition().add(definition.getIid());
 
     siteRDL2.getParameterType().add(booleanParameterType.getIid());
@@ -123,13 +133,13 @@ class AssemblerTest {
 
   @Test
   void assertThatCacheCanStoreThings() {
-    var assembler = new Assembler(this.uri);
+    Assembler assembler = new Assembler(this.uri);
 
     // Check that the cache is empty
     assertTrue(assembler.getCache().size() == 0);
 
-    var id = UUID.randomUUID();
-    var testThing = new Alias(id, assembler.getCache(), this.uri);
+    UUID id = UUID.randomUUID();
+    Alias testThing = new Alias(id, assembler.getCache(), this.uri);
     testThing.getCache().put(new CacheKey(testThing.getIid(), null), testThing);
 
     // Check that the cache is not empty anymore
@@ -152,7 +162,7 @@ class AssemblerTest {
 
   @Test
   void assertThatAssemblerSynchronizationWorks() throws ExecutionException, InterruptedException {
-    var assembler = new Assembler(this.uri);
+    Assembler assembler = new Assembler(this.uri);
 
     // 1st call of synchronize
     assembler.synchronize(this.testInput, true).get();
@@ -162,17 +172,17 @@ class AssemblerTest {
     assertEquals(7, assembler.getCache().size());
 
     // check containerList Element
-    var siteDirId = this.testInput.get(0).getIid();
+    UUID siteDirId = this.testInput.get(0).getIid();
     cdp4common.commondata.Thing siteDirThing = assembler.getCache()
         .getIfPresent(new CacheKey(siteDirId, null));
-    var siteDir = as(siteDirThing, SiteDirectory.class);
+    SiteDirectory siteDir = as(siteDirThing, SiteDirectory.class);
     assertEquals(siteDirId, siteDir.getSiteReferenceDataLibrary().get(0).getContainer().getIid());
 
     // get category to removes
-    var categoryToRemove = as(this.testInput.get(3), cdp4common.dto.Category.class);
+    Category categoryToRemove = as(this.testInput.get(3), cdp4common.dto.Category.class);
 
     // ParameterType
-    var parameterTypeId = this.testInput.get(6).getIid();
+    UUID parameterTypeId = this.testInput.get(6).getIid();
     cdp4common.commondata.Thing pt = assembler.getCache()
         .getIfPresent(new CacheKey(parameterTypeId, null));
     assertEquals(2, as(pt, ParameterType.class).getCategory().size());
@@ -182,11 +192,11 @@ class AssemblerTest {
         .getIfPresent(new CacheKey(categoryToRemove.getIid(), null));
     assertNotNull(cat.getRoute());
 
-    var siteRdl = as(this.testInput.get(1), cdp4common.dto.SiteReferenceDataLibrary.class);
+    cdp4common.dto.SiteReferenceDataLibrary siteRdl = as(this.testInput.get(1), cdp4common.dto.SiteReferenceDataLibrary.class);
     siteRdl.getDefinedCategory().remove(categoryToRemove.getIid());
 
     // 2nd call with updated values, sRdl lost a category
-    var newInput = this.testInput.subList(0, 3);
+    List<Thing> newInput = this.testInput.subList(0, 3);
     assembler.synchronize(newInput, true).get();
 
     // checks that the removed category is no longer in the cache
@@ -196,10 +206,10 @@ class AssemblerTest {
 
   @Test
   void verifyThatAssemblerCanUpdateExistingPojo() throws ExecutionException, InterruptedException {
-    var assembler = new Assembler(this.uri);
+    Assembler assembler = new Assembler(this.uri);
     assembler.synchronize(this.testInput, true).get();
 
-    var siteDir = assembler.getCache()
+    cdp4common.commondata.Thing siteDir = assembler.getCache()
         .asMap()
         .values()
         .stream()
@@ -207,7 +217,7 @@ class AssemblerTest {
         .filter(x -> x.getIid().equals(this.siteDir.getIid()))
         .collect(MoreCollectors.onlyElement());
 
-    var siteRdl1 =
+    cdp4common.commondata.Thing siteRdl1 =
         assembler.getCache()
             .asMap()
             .values()
@@ -218,7 +228,7 @@ class AssemblerTest {
 
     assembler.synchronize(Lists.newArrayList(this.siteRdl), true).get();
 
-    var siteRdl2 =
+    cdp4common.commondata.Thing siteRdl2 =
         assembler.getCache()
             .asMap()
             .values()
@@ -233,17 +243,17 @@ class AssemblerTest {
 
   @Test
   void verifyThatArgumentThrown() {
-    var assembler = new Assembler(this.uri);
+    Assembler assembler = new Assembler(this.uri);
 
     assertThrows(NullPointerException.class, () -> assembler.synchronize(null, true).get());
   }
 
   @Test
   void verifyThatAssemblerCanMoveThings() throws ExecutionException, InterruptedException {
-    var sitedir = new cdp4common.dto.SiteDirectory(UUID.randomUUID(), 0);
-    var srdl1 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 0);
-    var srdl2 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 0);
-    var category = new cdp4common.dto.Category(UUID.randomUUID(), 0);
+    cdp4common.dto.SiteDirectory sitedir = new cdp4common.dto.SiteDirectory(UUID.randomUUID(), 0);
+    cdp4common.dto.SiteReferenceDataLibrary srdl1 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 0);
+    cdp4common.dto.SiteReferenceDataLibrary srdl2 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 0);
+    Category category = new cdp4common.dto.Category(UUID.randomUUID(), 0);
 
     sitedir.getSiteReferenceDataLibrary().add(srdl1.getIid());
     sitedir.getSiteReferenceDataLibrary().add(srdl2.getIid());
@@ -256,7 +266,7 @@ class AssemblerTest {
         category
     );
 
-    var assembler = new Assembler(this.uri);
+    Assembler assembler = new Assembler(this.uri);
     assembler.synchronize(dtos, true).get();
 
     assertEquals(4, assembler.getCache().size());
@@ -272,11 +282,11 @@ class AssemblerTest {
     );
 
     assembler.synchronize(movedDtos, true).get();
-    var srdl1Pojo = (SiteReferenceDataLibrary) assembler.getCache()
+    SiteReferenceDataLibrary srdl1Pojo = (SiteReferenceDataLibrary) assembler.getCache()
         .getIfPresent(new CacheKey(srdl1.getIid(), null));
-    var srdl2Pojo = (SiteReferenceDataLibrary) assembler.getCache()
+    SiteReferenceDataLibrary srdl2Pojo = (SiteReferenceDataLibrary) assembler.getCache()
         .getIfPresent(new CacheKey(srdl2.getIid(), null));
-    var catPojo = assembler.getCache().getIfPresent(new CacheKey(category.getIid(), null));
+    cdp4common.commondata.Thing catPojo = assembler.getCache().getIfPresent(new CacheKey(category.getIid(), null));
 
     assertEquals(4, assembler.getCache().size());
     assertTrue(srdl1Pojo.getDefinedCategory().isEmpty());
@@ -286,28 +296,28 @@ class AssemblerTest {
   @Test
   void verifyThatMultipleIterationCanBeSynchronized()
       throws ExecutionException, InterruptedException {
-    var sitedir = new cdp4common.dto.SiteDirectory(UUID.randomUUID(), 0);
-    var srdl1 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 0);
-    var srdl2 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 0);
-    var category = new cdp4common.dto.Category(UUID.randomUUID(), 0);
+    cdp4common.dto.SiteDirectory sitedir = new cdp4common.dto.SiteDirectory(UUID.randomUUID(), 0);
+    cdp4common.dto.SiteReferenceDataLibrary srdl1 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 0);
+    cdp4common.dto.SiteReferenceDataLibrary srdl2 = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 0);
+    Category category = new cdp4common.dto.Category(UUID.randomUUID(), 0);
 
-    var modeldto = new cdp4common.dto.EngineeringModel(UUID.randomUUID(), 1);
-    var iteration1dto = new cdp4common.dto.Iteration(UUID.randomUUID(), 1);
-    var iteration2dto = new cdp4common.dto.Iteration(UUID.randomUUID(), 1);
+    cdp4common.dto.EngineeringModel modeldto = new cdp4common.dto.EngineeringModel(UUID.randomUUID(), 1);
+    cdp4common.dto.Iteration iteration1dto = new cdp4common.dto.Iteration(UUID.randomUUID(), 1);
+    cdp4common.dto.Iteration iteration2dto = new cdp4common.dto.Iteration(UUID.randomUUID(), 1);
 
-    var element1dto = new cdp4common.dto.ElementDefinition(UUID.randomUUID(), 1);
+    ElementDefinition element1dto = new cdp4common.dto.ElementDefinition(UUID.randomUUID(), 1);
     element1dto.setIterationContainerId(iteration1dto.getIid());
     element1dto.getCategory().add(category.getIid());
 
-    var element2dto = new cdp4common.dto.ElementDefinition(element1dto.getIid(), 1);
+    ElementDefinition element2dto = new cdp4common.dto.ElementDefinition(element1dto.getIid(), 1);
     element2dto.setIterationContainerId(iteration2dto.getIid());
     element2dto.getCategory().add(category.getIid());
 
-    var usage1dto = new cdp4common.dto.ElementUsage(UUID.randomUUID(), 1);
+    ElementUsage usage1dto = new cdp4common.dto.ElementUsage(UUID.randomUUID(), 1);
     usage1dto.setIterationContainerId(iteration1dto.getIid());
     usage1dto.getCategory().add(category.getIid());
 
-    var usage2dto = new cdp4common.dto.ElementUsage(usage1dto.getIid(), 1);
+    ElementUsage usage2dto = new cdp4common.dto.ElementUsage(usage1dto.getIid(), 1);
     usage2dto.setIterationContainerId(iteration2dto.getIid());
     usage2dto.getCategory().add(category.getIid());
 
@@ -331,7 +341,7 @@ class AssemblerTest {
         category
     );
 
-    var assembler = new Assembler(this.uri);
+    Assembler assembler = new Assembler(this.uri);
     assembler.synchronize(dtos, true).get();
 
     dtos = Lists.newArrayList(
@@ -351,13 +361,13 @@ class AssemblerTest {
 
   @Test
   void verifyThatCloseRdlWorks() throws ExecutionException, InterruptedException {
-    var assembler = new Assembler(this.uri);
+    Assembler assembler = new Assembler(this.uri);
     // 1st call of Synchronize
     assembler.synchronize(this.testInput, true).get();
 
     cdp4common.commondata.Thing rdlThing = assembler.getCache()
         .getIfPresent(new CacheKey(this.siteRdl.getIid(), null));
-    var rdl = (ReferenceDataLibrary) rdlThing;
+    ReferenceDataLibrary rdl = (ReferenceDataLibrary) rdlThing;
     assembler.closeRdl(rdl).get();
 
     assertTrue(rdl.getDefinedCategory().isEmpty());
@@ -367,13 +377,13 @@ class AssemblerTest {
   @Test
   void verifyThatCitationIsResolvedWhenRdlIsLoaded()
       throws ExecutionException, InterruptedException {
-    var sitedir = new cdp4common.dto.SiteDirectory(UUID.randomUUID(), 1);
-    var domain = new cdp4common.dto.DomainOfExpertise(UUID.randomUUID(), 1);
-    var definition = new cdp4common.dto.Definition(UUID.randomUUID(), 1);
-    var citation = new cdp4common.dto.Citation(UUID.randomUUID(), 1);
+    cdp4common.dto.SiteDirectory sitedir = new cdp4common.dto.SiteDirectory(UUID.randomUUID(), 1);
+    DomainOfExpertise domain = new cdp4common.dto.DomainOfExpertise(UUID.randomUUID(), 1);
+    Definition definition = new cdp4common.dto.Definition(UUID.randomUUID(), 1);
+    cdp4common.dto.Citation citation = new cdp4common.dto.Citation(UUID.randomUUID(), 1);
 
-    var referenceSource = new cdp4common.dto.ReferenceSource(UUID.randomUUID(), 1);
-    var srdl = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 1);
+    ReferenceSource referenceSource = new cdp4common.dto.ReferenceSource(UUID.randomUUID(), 1);
+    cdp4common.dto.SiteReferenceDataLibrary srdl = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 1);
     srdl.getReferenceSource().add(referenceSource.getIid());
 
     citation.setSource(referenceSource.getIid());
@@ -382,8 +392,8 @@ class AssemblerTest {
     domain.getDefinition().add(definition.getIid());
     definition.getCitation().add(citation.getIid());
 
-    var assembler = new Assembler(this.uri);
-    var input = new ArrayList<Thing>();
+    Assembler assembler = new Assembler(this.uri);
+    ArrayList<Thing> input = new ArrayList<Thing>();
     input.add(sitedir);
     input.add(domain);
     input.add(definition);
@@ -391,7 +401,7 @@ class AssemblerTest {
 
     assembler.synchronize(input, true).get();
 
-    var citationPojo = (Citation)
+    Citation citationPojo = (Citation)
         assembler.getCache()
             .asMap()
             .values()
@@ -416,20 +426,20 @@ class AssemblerTest {
   @Test
   void verifyThatIterationIsDeletedWhenSetupIsDeleted()
       throws ExecutionException, InterruptedException {
-    var assembler = new Assembler(this.uri);
+    Assembler assembler = new Assembler(this.uri);
 
-    var model = new EngineeringModel(UUID.randomUUID(), assembler.getCache(), this.uri);
-    var it1 = new Iteration(UUID.randomUUID(), assembler.getCache(), this.uri);
-    var it2 = new Iteration(UUID.randomUUID(), assembler.getCache(), this.uri);
+    EngineeringModel model = new EngineeringModel(UUID.randomUUID(), assembler.getCache(), this.uri);
+    Iteration it1 = new Iteration(UUID.randomUUID(), assembler.getCache(), this.uri);
+    Iteration it2 = new Iteration(UUID.randomUUID(), assembler.getCache(), this.uri);
     model.getIteration().add(it1);
     model.getIteration().add(it2);
 
-    var sitedir = new SiteDirectory(UUID.randomUUID(), assembler.getCache(), this.uri);
-    var modelsetup = new EngineeringModelSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
+    SiteDirectory sitedir = new SiteDirectory(UUID.randomUUID(), assembler.getCache(), this.uri);
+    EngineeringModelSetup modelsetup = new EngineeringModelSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
     modelsetup.setEngineeringModelIid(model.getIid());
-    var iterationsetup1 = new IterationSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
+    IterationSetup iterationsetup1 = new IterationSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
     iterationsetup1.setIterationIid(it1.getIid());
-    var iterationsetup2 = new IterationSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
+    IterationSetup iterationsetup2 = new IterationSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
     iterationsetup2.setIterationIid(it2.getIid());
 
     sitedir.getModel().add(modelsetup);
@@ -444,10 +454,10 @@ class AssemblerTest {
     assembler.getCache().put(new CacheKey(it1.getIid(), null), it1);
     assembler.getCache().put(new CacheKey(it2.getIid(), null), it2);
 
-    var sitedirdto = new cdp4common.dto.SiteDirectory(sitedir.getIid(), 1);
+    cdp4common.dto.SiteDirectory sitedirdto = new cdp4common.dto.SiteDirectory(sitedir.getIid(), 1);
     sitedirdto.getModel().add(modelsetup.getIid());
 
-    var itdto = (cdp4common.dto.IterationSetup) iterationsetup1.toDto();
+    cdp4common.dto.IterationSetup itdto = (cdp4common.dto.IterationSetup) iterationsetup1.toDto();
     itdto.setDeleted(true);
 
     assertTrue(assembler.getCache().asMap().containsKey(new CacheKey(it1.getIid(), null)));
@@ -458,20 +468,20 @@ class AssemblerTest {
   @Test
   void verifyThatModelIsDeletedWhenSetupIsDeleted()
       throws ExecutionException, InterruptedException {
-    var assembler = new Assembler(this.uri);
+    Assembler assembler = new Assembler(this.uri);
 
-    var model = new EngineeringModel(UUID.randomUUID(), assembler.getCache(), this.uri);
-    var it1 = new Iteration(UUID.randomUUID(), assembler.getCache(), this.uri);
-    var it2 = new Iteration(UUID.randomUUID(), assembler.getCache(), this.uri);
+    EngineeringModel model = new EngineeringModel(UUID.randomUUID(), assembler.getCache(), this.uri);
+    Iteration it1 = new Iteration(UUID.randomUUID(), assembler.getCache(), this.uri);
+    Iteration it2 = new Iteration(UUID.randomUUID(), assembler.getCache(), this.uri);
     model.getIteration().add(it1);
     model.getIteration().add(it2);
 
-    var sitedir = new SiteDirectory(UUID.randomUUID(), assembler.getCache(), this.uri);
-    var modelsetup = new EngineeringModelSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
+    SiteDirectory sitedir = new SiteDirectory(UUID.randomUUID(), assembler.getCache(), this.uri);
+    EngineeringModelSetup modelsetup = new EngineeringModelSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
     modelsetup.setEngineeringModelIid(model.getIid());
-    var iterationsetup1 = new IterationSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
+    IterationSetup iterationsetup1 = new IterationSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
     iterationsetup1.setIterationIid(it1.getIid());
-    var iterationsetup2 = new IterationSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
+    IterationSetup iterationsetup2 = new IterationSetup(UUID.randomUUID(), assembler.getCache(), this.uri);
     iterationsetup2.setIterationIid(it2.getIid());
 
     sitedir.getModel().add(modelsetup);
@@ -486,7 +496,7 @@ class AssemblerTest {
     assembler.getCache().put(new CacheKey(it1.getIid(), null), it1);
     assembler.getCache().put(new CacheKey(it2.getIid(), null), it2);
 
-    var sitedirdto = new cdp4common.dto.SiteDirectory(sitedir.getIid(), 1);
+    cdp4common.dto.SiteDirectory sitedirdto = new cdp4common.dto.SiteDirectory(sitedir.getIid(), 1);
 
     assertEquals(7, assembler.getCache().size());
     assembler.synchronize(Arrays.asList(sitedirdto), true).get();
@@ -495,32 +505,32 @@ class AssemblerTest {
 
   @Test
   void verifyThatSynchronizationPreservesKeysOfOrderedItemList() {
-    var assembler = new Assembler(this.uri);
+    Assembler assembler = new Assembler(this.uri);
 
-    var simpleUnit = new cdp4common.dto.SimpleUnit(UUID.randomUUID(), 1);
+    SimpleUnit simpleUnit = new cdp4common.dto.SimpleUnit(UUID.randomUUID(), 1);
     simpleUnit.setName("Unit");
     simpleUnit.setShortName("unit");
-    var ratioScale = new cdp4common.dto.RatioScale(UUID.randomUUID(), 1);
+    RatioScale ratioScale = new cdp4common.dto.RatioScale(UUID.randomUUID(), 1);
     ratioScale.setName("Ration");
     ratioScale.setShortName("ratio");
     ratioScale.setNumberSet(NumberSetKind.INTEGER_NUMBER_SET);
     ratioScale.setUnit(simpleUnit.getIid());
 
-    var simpleQuantityKind1 = new cdp4common.dto.SimpleQuantityKind(UUID.randomUUID(), 1);
+    SimpleQuantityKind simpleQuantityKind1 = new cdp4common.dto.SimpleQuantityKind(UUID.randomUUID(), 1);
     simpleQuantityKind1.setName("Kind1");
     simpleQuantityKind1.setShortName("kind1");
     simpleQuantityKind1.setSymbol("symbol");
     simpleQuantityKind1.setDefaultScale(ratioScale.getIid());
-    var orderedItem1 = new OrderedItem();
+    OrderedItem orderedItem1 = new OrderedItem();
     orderedItem1.setK(1);
     orderedItem1.setV(simpleQuantityKind1.getIid());
 
-    var simpleQuantityKind2 = new cdp4common.dto.SimpleQuantityKind(UUID.randomUUID(), 1);
+    SimpleQuantityKind simpleQuantityKind2 = new cdp4common.dto.SimpleQuantityKind(UUID.randomUUID(), 1);
     simpleQuantityKind2.setName("Kind2");
     simpleQuantityKind2.setShortName("kind2");
     simpleQuantityKind2.setSymbol("symbol");
     simpleQuantityKind2.setDefaultScale(ratioScale.getIid());
-    var orderedItem2 = new OrderedItem();
+    OrderedItem orderedItem2 = new OrderedItem();
     orderedItem2.setK(2);
     orderedItem2.setV(simpleQuantityKind2.getIid());
 
@@ -536,8 +546,8 @@ class AssemblerTest {
 
     assembler.synchronize(this.testInput, true).join();
 
-    var siteRdl = assembler.getCache().getIfPresent(new CacheKey(this.siteRdl.getIid(), null));
-    var orderedItemList = ((SiteReferenceDataLibrary) siteRdl).getBaseQuantityKind()
+    cdp4common.commondata.Thing siteRdl = assembler.getCache().getIfPresent(new CacheKey(this.siteRdl.getIid(), null));
+    List<OrderedItem> orderedItemList = ((SiteReferenceDataLibrary) siteRdl).getBaseQuantityKind()
         .toDtoOrderedItemList();
 
     assertEquals(1, orderedItemList.get(0).getK());
@@ -549,32 +559,32 @@ class AssemblerTest {
 
   @Test
   void verifyThatSynchronizationUpdatesKeysOfOrderedItemList() {
-    var assembler = new Assembler(this.uri);
+    Assembler assembler = new Assembler(this.uri);
 
-    var simpleUnit = new cdp4common.dto.SimpleUnit(UUID.randomUUID(), 1);
+    SimpleUnit simpleUnit = new cdp4common.dto.SimpleUnit(UUID.randomUUID(), 1);
     simpleUnit.setName("Unit");
     simpleUnit.setShortName("unit");
-    var ratioScale = new cdp4common.dto.RatioScale(UUID.randomUUID(), 1);
+    RatioScale ratioScale = new cdp4common.dto.RatioScale(UUID.randomUUID(), 1);
     ratioScale.setName("Ration");
     ratioScale.setShortName("ratio");
     ratioScale.setNumberSet(NumberSetKind.INTEGER_NUMBER_SET);
     ratioScale.setUnit(simpleUnit.getIid());
 
-    var simpleQuantityKind1 = new cdp4common.dto.SimpleQuantityKind(UUID.randomUUID(), 1);
+    SimpleQuantityKind simpleQuantityKind1 = new cdp4common.dto.SimpleQuantityKind(UUID.randomUUID(), 1);
     simpleQuantityKind1.setName("Kind1");
     simpleQuantityKind1.setShortName("kind1");
     simpleQuantityKind1.setSymbol("symbol");
     simpleQuantityKind1.setDefaultScale(ratioScale.getIid());
-    var orderedItem1 = new OrderedItem();
+    OrderedItem orderedItem1 = new OrderedItem();
     orderedItem1.setK(1);
     orderedItem1.setV(simpleQuantityKind1.getIid());
 
-    var simpleQuantityKind2 = new cdp4common.dto.SimpleQuantityKind(UUID.randomUUID(), 1);
+    SimpleQuantityKind simpleQuantityKind2 = new cdp4common.dto.SimpleQuantityKind(UUID.randomUUID(), 1);
     simpleQuantityKind2.setName("Kind2");
     simpleQuantityKind2.setShortName("kind2");
     simpleQuantityKind2.setSymbol("symbol");
     simpleQuantityKind2.setDefaultScale(ratioScale.getIid());
-    var orderedItem2 = new OrderedItem();
+    OrderedItem orderedItem2 = new OrderedItem();
     orderedItem2.setK(2);
     orderedItem2.setV(simpleQuantityKind2.getIid());
 
@@ -591,8 +601,8 @@ class AssemblerTest {
     // First call
     assembler.synchronize(this.testInput, true).join();
 
-    var siteRdl = assembler.getCache().getIfPresent(new CacheKey(this.siteRdl.getIid(), null));
-    var orderedItemList = ((SiteReferenceDataLibrary) siteRdl).getBaseQuantityKind()
+    cdp4common.commondata.Thing siteRdl = assembler.getCache().getIfPresent(new CacheKey(this.siteRdl.getIid(), null));
+    List<OrderedItem> orderedItemList = ((SiteReferenceDataLibrary) siteRdl).getBaseQuantityKind()
         .toDtoOrderedItemList();
 
     assertEquals(1, orderedItemList.get(0).getK());

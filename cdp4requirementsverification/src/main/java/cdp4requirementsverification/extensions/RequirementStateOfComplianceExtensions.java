@@ -25,8 +25,7 @@
 package cdp4requirementsverification.extensions;
 
 import cdp4requirementsverification.RequirementStateOfCompliance;
-
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * Extension methods for the {@link RequirementStateOfCompliance} Enum
@@ -43,6 +42,6 @@ public class RequirementStateOfComplianceExtensions {
             return false;
         }
 
-        return List.of(RequirementStateOfCompliance.Failed, RequirementStateOfCompliance.Pass, RequirementStateOfCompliance.Inconclusive).contains(value);
+        return Arrays.asList(RequirementStateOfCompliance.Failed, RequirementStateOfCompliance.Pass, RequirementStateOfCompliance.Inconclusive).contains(value);
     }
 }

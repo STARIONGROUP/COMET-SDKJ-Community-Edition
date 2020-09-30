@@ -66,7 +66,7 @@ public class QueryAttributesImpl extends DalQueryAttributes {
    */
   @Override
   public String toString() {
-    var attributeString = this.joinAttributes();
+    String attributeString = this.joinAttributes();
     return Strings.isNullOrEmpty(attributeString) ? "" : String.format("?%s", attributeString);
   }
 
@@ -96,7 +96,7 @@ public class QueryAttributesImpl extends DalQueryAttributes {
     }
 
     // include the base attribute list
-    var baseJoinedAttributes = super.joinAttributes();
+    String baseJoinedAttributes = super.joinAttributes();
     if (!Strings.isNullOrEmpty(baseJoinedAttributes)) {
       attributeList.add(baseJoinedAttributes);
     }

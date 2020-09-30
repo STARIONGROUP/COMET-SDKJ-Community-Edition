@@ -27,13 +27,20 @@ package cdp4jsonfiledal;
 /**
  * Provides the Data Access Layer for file based import/export
  */
-
 import static cdp4common.helpers.Utils.as;
 
 import cdp4common.commondata.ClassKind;
 import cdp4common.comparators.UuidComparator;
+import cdp4common.dto.Person;
 import cdp4common.dto.Thing;
+import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.EngineeringModelSetup;
+import cdp4common.sitedirectorydata.IterationSetup;
+import cdp4common.sitedirectorydata.ModelReferenceDataLibrary;
+import cdp4common.sitedirectorydata.ReferenceDataLibrary;
+import cdp4common.sitedirectorydata.SiteDirectory;
 import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
 import cdp4common.types.CacheKey;
 import cdp4dal.UriUtils;
@@ -58,10 +65,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -133,35 +143,35 @@ public class JsonFileDal extends DalBase {
 
     return CompletableFuture.supplyAsync(() -> {
       cdp4common.sitedirectorydata.SiteDirectory siteDirectory = null;
-      var iterations = new HashSet<Iteration>();
-      var siteReferenceDataLibraries = new HashSet<cdp4common.sitedirectorydata.SiteReferenceDataLibrary>();
-      var modelReferenceDataLibraries = new HashSet<cdp4common.sitedirectorydata.ModelReferenceDataLibrary>();
-      var domainsOfExpertises = new HashSet<cdp4common.sitedirectorydata.DomainOfExpertise>();
-      var persons = new HashSet<cdp4common.sitedirectorydata.Person>();
-      var engineeringModelSetups = new HashSet<cdp4common.sitedirectorydata.EngineeringModelSetup>();
-      var iterationSetups = new HashSet<cdp4common.sitedirectorydata.IterationSetup>();
+      HashSet<Iteration> iterations = new HashSet<Iteration>();
+      HashSet<SiteReferenceDataLibrary> siteReferenceDataLibraries = new HashSet<cdp4common.sitedirectorydata.SiteReferenceDataLibrary>();
+      HashSet<ModelReferenceDataLibrary> modelReferenceDataLibraries = new HashSet<cdp4common.sitedirectorydata.ModelReferenceDataLibrary>();
+      HashSet<DomainOfExpertise> domainsOfExpertises = new HashSet<cdp4common.sitedirectorydata.DomainOfExpertise>();
+      HashSet<cdp4common.sitedirectorydata.Person> persons = new HashSet<cdp4common.sitedirectorydata.Person>();
+      HashSet<EngineeringModelSetup> engineeringModelSetups = new HashSet<cdp4common.sitedirectorydata.EngineeringModelSetup>();
+      HashSet<IterationSetup> iterationSetups = new HashSet<cdp4common.sitedirectorydata.IterationSetup>();
 
-      for (var operationContainer : operationContainers) {
-        var operation = operationContainer.getOperations().stream()
+      for (OperationContainer operationContainer : operationContainers) {
+        Operation operation = operationContainer.getOperations().stream()
             .filter(x -> x.getModifiedThing() instanceof cdp4common.dto.Iteration)
             .findFirst()
-            .orElseThrow();
+            .orElseThrow(() -> new IllegalStateException("Iteration is not present as a modified thing"));
 
-        var iterationDto = (cdp4common.dto.Iteration) operation.getModifiedThing();
-        var iterationPojo = (cdp4common.engineeringmodeldata.Iteration) iterationDto
+        cdp4common.dto.Iteration iterationDto = (cdp4common.dto.Iteration) operation.getModifiedThing();
+        Iteration iterationPojo = (cdp4common.engineeringmodeldata.Iteration) iterationDto
             .querySourceThing();
 
         JsonFileDalUtils.addIteration(iterationPojo, iterations);
 
-        var iterationSetup = iterationPojo.getIterationSetup();
+        IterationSetup iterationSetup = iterationPojo.getIterationSetup();
         JsonFileDalUtils.addIterationSetup(iterationSetup, iterationSetups);
 
-        var iterationRequiredRls = iterationPojo.getRequiredRdls();
+        Collection<ReferenceDataLibrary> iterationRequiredRls = iterationPojo.getRequiredRdls();
         JsonFileDalUtils
             .addReferenceDataLibraries(iterationRequiredRls, siteReferenceDataLibraries,
                 modelReferenceDataLibraries);
 
-        var engineeringModelSetup = (cdp4common.sitedirectorydata.EngineeringModelSetup) iterationSetup
+        EngineeringModelSetup engineeringModelSetup = (cdp4common.sitedirectorydata.EngineeringModelSetup) iterationSetup
             .getContainer();
         JsonFileDalUtils
             .addEngineeringModelSetup(engineeringModelSetup, engineeringModelSetups);
@@ -179,10 +189,10 @@ public class JsonFileDal extends DalBase {
         JsonFileDalUtils.addPersons(engineeringModelSetup, persons);
       }
 
-      var path = UriUtils.getFilePathFromUri(this.getSession().getCredentials().getUri())
+      String path = UriUtils.getFilePathFromUri(this.getSession().getCredentials().getUri())
           .toString();
 
-      var prunedSiteDirectoryDtos = JsonFileDalUtils
+      List<Thing> prunedSiteDirectoryDtos = JsonFileDalUtils
           .createSiteDirectoryAndPrunedContainedThingDtos(
               siteDirectory,
               siteReferenceDataLibraries,
@@ -191,13 +201,13 @@ public class JsonFileDal extends DalBase {
               engineeringModelSetups,
               iterationSetups);
 
-      var activePerson = JsonFileDalUtils
+      cdp4common.sitedirectorydata.Person activePerson = JsonFileDalUtils
           .queryActivePerson(this.getSession().getCredentials().getUserName(), siteDirectory);
 
-      var exchangeFileHeader = JsonFileDalUtils.createExchangeFileHeader(activePerson);
+      ExchangeFileHeader exchangeFileHeader = JsonFileDalUtils.createExchangeFileHeader(activePerson);
 
       try {
-        var zipFile = new ZipFile(Paths.get(path, "ExportedModel.zip").toString(),
+        ZipFile zipFile = new ZipFile(Paths.get(path, "ExportedModel.zip").toString(),
             this.getSession().getCredentials().getPassword().toCharArray());
 
         this.writeHeaderToZipFile(exchangeFileHeader, zipFile);
@@ -247,7 +257,7 @@ public class JsonFileDal extends DalBase {
         throw new NullPointerException("The Credentials URI may not be null");
       }
 
-      var filePath = UriUtils.getFilePathFromUri(this.getCredentials().getUri());
+      Path filePath = UriUtils.getFilePathFromUri(this.getCredentials().getUri());
 
       if (!Files.exists(filePath)) {
         throw new RuntimeException(
@@ -258,42 +268,42 @@ public class JsonFileDal extends DalBase {
       try {
         // re-read the to extract the reference data libraries that have not yet been fully dereferenced
         // and that are part of the required RDL's
-        var siteDirectoryData = this
+        List<Thing> siteDirectoryData = this
             .readSiteDirectoryJson(filePath.toString(), this.getCredentials());
 
         // read file, SiteDirectory first.
 
         // get all relevant info from the selected iteration
-        var siteDir = this.getSession().retrieveSiteDirectory();
-        var iteration = as(thing, cdp4common.dto.Iteration.class);
-        var engineeringModelSetup =
+        SiteDirectory siteDir = this.getSession().retrieveSiteDirectory();
+        cdp4common.dto.Iteration iteration = as(thing, cdp4common.dto.Iteration.class);
+        Optional<EngineeringModelSetup> engineeringModelSetup =
             siteDir.getModel().stream()
                 .filter(x -> x.getIterationSetup().stream()
                     .anyMatch(y -> y.getIterationIid().equals(iteration.getIid())))
                 .collect(MoreCollectors.toOptional());
 
-        if (engineeringModelSetup.isEmpty()) {
+        if (!engineeringModelSetup.isPresent()) {
           throw new IllegalArgumentException(
               "Could not locate the engineeringModel setup information");
         }
 
         // read engineeringModel
-        var engineeringModelFilePath = String
+        String engineeringModelFilePath = String
             .format("%s.json", engineeringModelSetup.get().getEngineeringModelIid());
-        var listOfDtos = this.readInfoFromArchive(filePath.toString(), engineeringModelFilePath,
+        List<Thing> listOfDtos = this.readInfoFromArchive(filePath.toString(), engineeringModelFilePath,
             this.getCredentials().getPassword().toCharArray());
 
-        var iterationFilePath = String.format("%s.json", iteration.getIid());
+        String iterationFilePath = String.format("%s.json", iteration.getIid());
         listOfDtos.addAll(this.readIterationArchiveEntry(filePath.toString(), iterationFilePath,
             this.getCredentials().getPassword().toCharArray()));
 
         // use the loaded siteDirectory information to determine the required model reference data library
-        var modelRdl = engineeringModelSetup.get().getRequiredRdl().stream()
+        ModelReferenceDataLibrary modelRdl = engineeringModelSetup.get().getRequiredRdl().stream()
             .collect(MoreCollectors.onlyElement());
 
         // add the modelRdlDto to the returned collection to make sure it's content gets dereferenced
         if (listOfDtos.stream().noneMatch(x -> x.getIid().equals(modelRdl.getIid()))) {
-          var modelRdlDto = siteDirectoryData.stream()
+          Thing modelRdlDto = siteDirectoryData.stream()
               .filter(x -> x.getIid().equals(modelRdl.getIid()))
               .collect(MoreCollectors.onlyElement());
 
@@ -301,26 +311,26 @@ public class JsonFileDal extends DalBase {
         }
 
         // based on engineering model setup load rdl chain
-        var modelRdlFilePath = String.format("%s.json", modelRdl.getIid());
-        var modelRdlItems = this
+        String modelRdlFilePath = String.format("%s.json", modelRdl.getIid());
+        List<Thing> modelRdlItems = this
             .readInfoFromArchive(filePath.toString(), modelRdlFilePath,
                 this.getCredentials().getPassword().toCharArray());
         listOfDtos.addAll(modelRdlItems);
 
         // load the reference data libraries as per the containment chain
-        var requiredRdl = modelRdl.getRequiredRdl();
+        SiteReferenceDataLibrary requiredRdl = modelRdl.getRequiredRdl();
         while (requiredRdl != null) {
-          var tmpRequiredRdl = requiredRdl;
+          SiteReferenceDataLibrary tmpRequiredRdl = requiredRdl;
 
           // add the rdlDto to the returned collection to make sure it's content gets dereferenced
-          var requiredRdlDto = siteDirectoryData.stream()
+          Thing requiredRdlDto = siteDirectoryData.stream()
               .filter(x -> x.getIid().equals(tmpRequiredRdl.getIid()))
               .collect(MoreCollectors.onlyElement());
 
           listOfDtos.add(requiredRdlDto);
 
-          var siteRdlFilePath = String.format("%s.json", requiredRdl.getIid());
-          var siteRdlItems = this
+          String siteRdlFilePath = String.format("%s.json", requiredRdl.getIid());
+          List<Thing> siteRdlItems = this
               .readInfoFromArchive(filePath.toString(), siteRdlFilePath,
                   this.getCredentials().getPassword().toCharArray());
           listOfDtos.addAll(siteRdlItems);
@@ -331,7 +341,7 @@ public class JsonFileDal extends DalBase {
 
         return listOfDtos;
       } catch (Exception ex) {
-        var msg = "Failed to load file. Error: " + ex.getMessage();
+        String msg = "Failed to load file. Error: " + ex.getMessage();
         log.error(msg);
 
         if (this.getCredentials() != null) {
@@ -389,7 +399,7 @@ public class JsonFileDal extends DalBase {
       throw new NullPointerException("The Credentials URI may not be null");
     }
 
-    var filePath = UriUtils.getFilePathFromUri(credentials.getUri());
+    Path filePath = UriUtils.getFilePathFromUri(credentials.getUri());
 
     if (!Files.exists(filePath)) {
       throw new RuntimeException(
@@ -398,19 +408,19 @@ public class JsonFileDal extends DalBase {
 
     return CompletableFuture.supplyAsync(() -> {
       try {
-        var returned = this.readSiteDirectoryJson(filePath.toString(), credentials);
+        List<Thing> returned = this.readSiteDirectoryJson(filePath.toString(), credentials);
 
         log.debug("The SiteDirectory contains {} Things", returned.size());
 
         // check for credentials in the returned DTO to see if the current Person is authorised to look into this SiteDirectory
-        var person = returned.stream()
+        Optional<Person> person = returned.stream()
             .filter(p -> p.getClassKind() == ClassKind.Person && ((cdp4common.dto.Person) p)
                 .getShortName().equals(credentials.getUserName()))
             .map(p -> (cdp4common.dto.Person) p)
             .collect(MoreCollectors.toOptional());
 
-        if (person.isEmpty()) {
-          var msg = String.format("%s is unauthorized", credentials.getUserName());
+        if (!person.isPresent()) {
+          String msg = String.format("%s is unauthorized", credentials.getUserName());
           log.error(msg);
 
           throw new IllegalAccessError(msg);
@@ -427,7 +437,7 @@ public class JsonFileDal extends DalBase {
       } catch (Exception ex) {
         this.closeSession();
 
-        var msg = String.format("Failed to load file. Error: %s", ex.getMessage());
+        String msg = String.format("Failed to load file. Error: %s", ex.getMessage());
         log.error(msg);
 
         throw new RuntimeException(msg, ex);
@@ -455,7 +465,7 @@ public class JsonFileDal extends DalBase {
    */
   @Override
   public boolean isValidURI(String uri) {
-    return Files.exists(Path.of(uri));
+    return Files.exists(Paths.get(uri));
   }
 
   /**
@@ -466,7 +476,7 @@ public class JsonFileDal extends DalBase {
    */
   static Cache<CacheKey, cdp4common.commondata.Thing> getAssociatedCache(
       Operation operation) {
-    var sourceThing = operation.getOriginalThing().querySourceThing();
+    cdp4common.commondata.Thing sourceThing = operation.getOriginalThing().querySourceThing();
 
     if (sourceThing == null) {
       throw new IllegalStateException(
@@ -491,7 +501,7 @@ public class JsonFileDal extends DalBase {
       throw new IllegalArgumentException("None of the OperationContainers contain Operations");
     }
 
-    for (var operationContainer : operationContainers) {
+    for (OperationContainer operationContainer : operationContainers) {
       if (operationContainer.getOperations().stream().anyMatch(
           operation -> operation.getModifiedThing().getClass()
               != cdp4common.dto.Iteration.class)) {
@@ -510,10 +520,10 @@ public class JsonFileDal extends DalBase {
    */
   private void writeHeaderToZipFile(ExchangeFileHeader echExchangeFileHeader, ZipFile zipFile)
       throws IOException {
-    var outputStream = new ByteArrayOutputStream();
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     this.serializer.serializeToStream(echExchangeFileHeader, outputStream);
 
-    var zipParameters = new ZipParameters();
+    ZipParameters zipParameters = new ZipParameters();
     zipParameters.setFileNameInZip("Header.json");
     zipFile.addStream(new ByteArrayInputStream(outputStream.toByteArray()), zipParameters);
   }
@@ -529,13 +539,13 @@ public class JsonFileDal extends DalBase {
   (List<cdp4common.dto.Thing> prunedSiteDirectoryContents,
       ZipFile zipFile)
       throws IOException {
-    var outputStream = new ByteArrayOutputStream();
-    var orderedContents = prunedSiteDirectoryContents.stream()
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    List<Thing> orderedContents = prunedSiteDirectoryContents.stream()
         .sorted((t1, t2) -> UuidComparator.compareUuid(t1.getIid(), t2.getIid()))
         .collect(Collectors.toList());
     this.serializer.serializeToStream(orderedContents, outputStream);
 
-    var zipParameters = new ZipParameters();
+    ZipParameters zipParameters = new ZipParameters();
     zipParameters.setFileNameInZip("SiteDirectory.json");
     zipFile.addStream(new ByteArrayInputStream(outputStream.toByteArray()), zipParameters);
   }
@@ -552,20 +562,20 @@ public class JsonFileDal extends DalBase {
   private void writeSiteReferenceDataLibraryToZipFile(
       Set<SiteReferenceDataLibrary> siteReferenceDataLibraries, ZipFile zipFile)
       throws IOException {
-    for (var siteReferenceDataLibrary : siteReferenceDataLibraries) {
-      var containmentPojos = siteReferenceDataLibrary.queryContainedThingsDeep();
+    for (SiteReferenceDataLibrary siteReferenceDataLibrary : siteReferenceDataLibraries) {
+      List<cdp4common.commondata.Thing> containmentPojos = siteReferenceDataLibrary.queryContainedThingsDeep();
       containmentPojos.remove(siteReferenceDataLibrary);
 
-      var dtos = containmentPojos.stream().map(cdp4common.commondata.Thing::toDto)
+      List<Thing> dtos = containmentPojos.stream().map(cdp4common.commondata.Thing::toDto)
           .sorted((t1, t2) -> UuidComparator.compareUuid(t1.getIid(), t2.getIid()))
           .collect(Collectors.toList());
 
-      var outputStream = new ByteArrayOutputStream();
+      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       this.serializer.serializeToStream(dtos, outputStream);
 
-      var siteReferenceDataLibraryFilename = String
+      String siteReferenceDataLibraryFilename = String
           .format("%s/%s.json", siteRdlZipLocation, siteReferenceDataLibrary.getIid());
-      var zipParameters = new ZipParameters();
+      ZipParameters zipParameters = new ZipParameters();
       zipParameters.setFileNameInZip(siteReferenceDataLibraryFilename);
       zipFile.addStream(new ByteArrayInputStream(outputStream.toByteArray()), zipParameters);
     }
@@ -584,20 +594,20 @@ public class JsonFileDal extends DalBase {
       Set<cdp4common.sitedirectorydata.ModelReferenceDataLibrary> modelReferenceDataLibraries,
       ZipFile zipFile)
       throws IOException {
-    for (var modelReferenceDataLibrary : modelReferenceDataLibraries) {
-      var containmentPojos = modelReferenceDataLibrary.queryContainedThingsDeep();
+    for (ModelReferenceDataLibrary modelReferenceDataLibrary : modelReferenceDataLibraries) {
+      List<cdp4common.commondata.Thing> containmentPojos = modelReferenceDataLibrary.queryContainedThingsDeep();
       containmentPojos.remove(modelReferenceDataLibrary);
 
-      var dtos = containmentPojos.stream().map(cdp4common.commondata.Thing::toDto)
+      List<Thing> dtos = containmentPojos.stream().map(cdp4common.commondata.Thing::toDto)
           .sorted((t1, t2) -> UuidComparator.compareUuid(t1.getIid(), t2.getIid()))
           .collect(Collectors.toList());
 
-      var outputStream = new ByteArrayOutputStream();
+      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       this.serializer.serializeToStream(dtos, outputStream);
 
-      var modelReferenceDataLibraryFilename = String
+      String modelReferenceDataLibraryFilename = String
           .format("%s/%s.json", modelRdlZipLocation, modelReferenceDataLibrary.getIid());
-      var zipParameters = new ZipParameters();
+      ZipParameters zipParameters = new ZipParameters();
       zipParameters.setFileNameInZip(modelReferenceDataLibraryFilename);
       zipFile.addStream(new ByteArrayInputStream(outputStream.toByteArray()), zipParameters);
     }
@@ -614,22 +624,22 @@ public class JsonFileDal extends DalBase {
   (Set<cdp4common.engineeringmodeldata.Iteration> iterations,
       ZipFile zipFile)
       throws IOException {
-    var engineeringModels = new ArrayList<cdp4common.engineeringmodeldata.EngineeringModel>();
+    ArrayList<EngineeringModel> engineeringModels = new ArrayList<cdp4common.engineeringmodeldata.EngineeringModel>();
 
-    for (var iteration : iterations) {
-      var engineeringModel = (cdp4common.engineeringmodeldata.EngineeringModel) iteration
+    for (Iteration iteration : iterations) {
+      EngineeringModel engineeringModel = (cdp4common.engineeringmodeldata.EngineeringModel) iteration
           .getContainer();
-      var engineeringModelDto = engineeringModel.toDto();
+      Thing engineeringModelDto = engineeringModel.toDto();
 
       if (!engineeringModels.contains(engineeringModel)) {
-        var engineeringModelOutputStream = new ByteArrayOutputStream();
+        ByteArrayOutputStream engineeringModelOutputStream = new ByteArrayOutputStream();
         this.serializer.serializeToStream(Collections.singletonList(engineeringModelDto),
             engineeringModelOutputStream);
 
-        var engineeringModelFilename = String
+        String engineeringModelFilename = String
             .format("%s/%s/%s.json", engineeringModelZipLocation, engineeringModelDto.getIid(),
                 engineeringModelDto.getIid());
-        var zipParameters = new ZipParameters();
+        ZipParameters zipParameters = new ZipParameters();
         zipParameters.setFileNameInZip(engineeringModelFilename);
         zipFile.addStream(new ByteArrayInputStream(engineeringModelOutputStream.toByteArray()),
             zipParameters);
@@ -637,18 +647,18 @@ public class JsonFileDal extends DalBase {
         engineeringModels.add(engineeringModel);
       }
 
-      var containmentPojos = iteration.queryContainedThingsDeep();
-      var dtos = containmentPojos.stream().map(cdp4common.commondata.Thing::toDto)
+      List<cdp4common.commondata.Thing> containmentPojos = iteration.queryContainedThingsDeep();
+      List<Thing> dtos = containmentPojos.stream().map(cdp4common.commondata.Thing::toDto)
           .sorted((t1, t2) -> UuidComparator.compareUuid(t1.getIid(), t2.getIid()))
           .collect(Collectors.toList());
 
-      var iterationOutputStream = new ByteArrayOutputStream();
+      ByteArrayOutputStream iterationOutputStream = new ByteArrayOutputStream();
       this.serializer.serializeToStream(dtos, iterationOutputStream);
 
-      var iterationFilename = String
+      String iterationFilename = String
           .format("%s/%s/%s/%s.json", engineeringModelZipLocation, engineeringModelDto.getIid(),
               iterationZipLocation, iteration.getIid());
-      var zipParameters = new ZipParameters();
+      ZipParameters zipParameters = new ZipParameters();
       zipParameters.setFileNameInZip(iterationFilename);
       zipFile
           .addStream(new ByteArrayInputStream(iterationOutputStream.toByteArray()),
@@ -658,7 +668,7 @@ public class JsonFileDal extends DalBase {
 
   private List<Thing> readSiteDirectoryJson(String filePath, Credentials credentials)
       throws IOException {
-    var siteDirectoryFilePath = "SiteDirectory.json";
+    String siteDirectoryFilePath = "SiteDirectory.json";
 
     return this.readInfoFromArchive(filePath, siteDirectoryFilePath,
         credentials.getPassword().toCharArray());
@@ -675,10 +685,10 @@ public class JsonFileDal extends DalBase {
    */
   private List<Thing> readIterationArchiveEntry(String filePath, String entryPath, char[] password)
       throws IOException {
-    var listOfDtos = this.readInfoFromArchive(filePath, entryPath, password);
+    List<Thing> listOfDtos = this.readInfoFromArchive(filePath, entryPath, password);
 
     // set the iteration id for returned objects
-    var iterationId = listOfDtos.get(0).getIid();
+    UUID iterationId = listOfDtos.get(0).getIid();
     this.setIterationContainer(listOfDtos, iterationId);
 
     return listOfDtos;
@@ -703,7 +713,7 @@ public class JsonFileDal extends DalBase {
       throw new NullPointerException("Supplied entry path is invalid.");
     }
 
-    var watch = Stopwatch.createStarted();
+    Stopwatch watch = Stopwatch.createStarted();
 
     LocalFileHeader localFileHeader;
     List<Thing> listOfDtos = new ArrayList<>();

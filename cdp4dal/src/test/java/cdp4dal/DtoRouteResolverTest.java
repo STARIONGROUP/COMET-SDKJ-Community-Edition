@@ -39,6 +39,7 @@ import cdp4common.types.OrderedItem;
 import cdp4dal.exceptions.InstanceNotFoundException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +70,7 @@ class DtoRouteResolverTest {
     this.state.setIterationContainerId(this.iteration.getIid());
     this.model.getIteration().add(this.iteration.getIid());
     this.iteration.getPossibleFiniteStateList().add(this.stateList.getIid());
-    var orderedItem = new OrderedItem();
+    OrderedItem orderedItem = new OrderedItem();
     orderedItem.setK(1);
     orderedItem.setV(this.state.getIid());
     this.stateList.getPossibleState().add(orderedItem);
@@ -94,10 +95,10 @@ class DtoRouteResolverTest {
 
   @Test
   void verifyThatResolveRouteWorks() {
-    List<Thing> list = List.of(this.model, this.iteration, this.stateList, this.state);
+    List<Thing> list = Arrays.asList(this.model, this.iteration, this.stateList, this.state);
 
     DtoRouteResolver.resolveRoute(this.state, list, this.session);
-    var route = this.state.getRoute();
+    String route = this.state.getRoute();
     assertEquals(String
         .format("/EngineeringModel/%s/iteration/%s/possibleFiniteStateList/%s/possibleState/%s",
             this.model.getIid(), this.iteration.getIid(), this.stateList.getIid(),
@@ -106,16 +107,16 @@ class DtoRouteResolverTest {
 
   @Test
   void verifyThatResolveTopContainerRouteWorks() {
-    List<Thing> list = List.of(this.model, this.iteration, this.stateList, this.state);
+    List<Thing> list = Arrays.asList(this.model, this.iteration, this.stateList, this.state);
 
     DtoRouteResolver.resolveRoute(this.model, list, this.session);
-    var route = this.model.getRoute();
+    String route = this.model.getRoute();
     assertEquals(String.format("/EngineeringModel/%s", this.model.getIid()), route);
   }
 
   @Test
   void verifyThatFullContainmentTreeIsBuiltFromSession() {
-    List<Thing> list = List.of(this.state);
+    List<Thing> list = Arrays.asList(this.state);
 
     this.assembler.getCache().put(new CacheKey(this.model.getIid(), null), this.pojoModel);
     this.assembler.getCache().put(new CacheKey(this.iteration.getIid(), null), this.pojoIt);
@@ -125,7 +126,7 @@ class DtoRouteResolverTest {
         .put(new CacheKey(this.state.getIid(), this.iteration.getIid()), this.pojoState);
 
     DtoRouteResolver.resolveRoute(this.state, list, this.session);
-    var route = this.state.getRoute();
+    String route = this.state.getRoute();
     assertEquals(String
         .format("/EngineeringModel/%s/iteration/%s/possibleFiniteStateList/%s/possibleState/%s",
             this.model.getIid(), this.iteration.getIid(), this.stateList.getIid(),
@@ -134,7 +135,7 @@ class DtoRouteResolverTest {
 
   @Test
   void verifyThatPartialContainmentTreeIsBuiltFromSession() {
-    List<Thing> list = List.of(this.stateList, this.state);
+    List<Thing> list = Arrays.asList(this.stateList, this.state);
 
     this.assembler.getCache().put(new CacheKey(this.model.getIid(), null), this.pojoModel);
     this.assembler.getCache().put(new CacheKey(this.iteration.getIid(), null), this.pojoIt);
@@ -142,7 +143,7 @@ class DtoRouteResolverTest {
         .put(new CacheKey(this.stateList.getIid(), this.iteration.getIid()), this.pojoStateList);
 
     DtoRouteResolver.resolveRoute(this.state, list, this.session);
-    var route = this.state.getRoute();
+    String route = this.state.getRoute();
     assertEquals(String
         .format("/EngineeringModel/%s/iteration/%s/possibleFiniteStateList/%s/possibleState/%s",
             this.model.getIid(), this.iteration.getIid(), this.stateList.getIid(),
@@ -151,7 +152,7 @@ class DtoRouteResolverTest {
 
   @Test
   void verifyThatExceptionThrown() {
-    List<Thing> list = List.of(this.model, this.stateList, this.state);
+    List<Thing> list = Arrays.asList(this.model, this.stateList, this.state);
 
     assertThrows(InstanceNotFoundException.class,
         () -> DtoRouteResolver.resolveRoute(this.state, list, this.session));
@@ -159,7 +160,7 @@ class DtoRouteResolverTest {
 
   @Test
   void verifyThatExceptionThrown2() {
-    var list = new ArrayList<Thing>();
+    ArrayList<Thing> list = new ArrayList<Thing>();
 
     assertThrows(InstanceNotFoundException.class,
         () -> DtoRouteResolver.resolveRoute(this.state, list, this.session));
@@ -167,7 +168,7 @@ class DtoRouteResolverTest {
 
   @Test
   void verifyThatExceptionThrown3() {
-    List<Thing> list = List.of(this.state);
+    List<Thing> list = Arrays.asList(this.state);
 
     this.pojoState.setContainer(null);
     this.assembler.getCache()
@@ -179,7 +180,7 @@ class DtoRouteResolverTest {
 
   @Test
   void verifyThatExceptionThrown4() {
-    List<Thing> list = List.of(this.stateList, this.state);
+    List<Thing> list = Arrays.asList(this.stateList, this.state);
 
     this.pojoStateList.setContainer(null);
     this.assembler.getCache()
@@ -197,7 +198,7 @@ class DtoRouteResolverTest {
 
   @Test
   void VerifyThatNullPointerExceptionIsThrown2() {
-    List<Thing> list = List.of(this.model, this.stateList, this.state);
+    List<Thing> list = Arrays.asList(this.model, this.stateList, this.state);
 
     assertThrows(NullPointerException.class,
         () -> DtoRouteResolver.resolveRoute(this.state, list, null));

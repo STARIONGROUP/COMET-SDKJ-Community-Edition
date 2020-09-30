@@ -95,14 +95,14 @@ public class UuidComparator implements Comparator<UUID> {
         long uuid2_third16 = extractBits(uuid2.getMostSignificantBits(), 16, 0);
 
         if (uuid1_third16 == uuid2_third16) {
-          var uuid1_last64 = uuid1.getLeastSignificantBits();
+          long uuid1_last64 = uuid1.getLeastSignificantBits();
           byte[] uuid1_last8byte_array = new byte[8];
           for (int i = 7; i >= 0; i--) {
             uuid1_last8byte_array[i] = (byte) (uuid1_last64 & 0xFF);
             uuid1_last64 >>= 8;
           }
 
-          var uuid2_last64 = uuid2.getLeastSignificantBits();
+          long uuid2_last64 = uuid2.getLeastSignificantBits();
           byte[] uuid2_last8byte_array = new byte[8];
           for (int i = 7; i >= 0; i--) {
             uuid2_last8byte_array[i] = (byte) (uuid2_last64 & 0xFF);
@@ -111,7 +111,7 @@ public class UuidComparator implements Comparator<UUID> {
 
           for (int i = 0; i < 8; i++) {
             if (uuid1_last8byte_array[i] != uuid2_last8byte_array[i]) {
-              return Byte.compareUnsigned(uuid1_last8byte_array[i], uuid2_last8byte_array[i]);
+              return Integer.compare(Byte.toUnsignedInt(uuid1_last8byte_array[i]), Byte.toUnsignedInt(uuid2_last8byte_array[i]));
             }
           }
 

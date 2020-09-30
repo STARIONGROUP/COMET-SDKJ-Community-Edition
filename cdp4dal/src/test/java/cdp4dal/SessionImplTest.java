@@ -44,7 +44,10 @@ import cdp4common.dto.Iteration;
 import cdp4common.dto.SiteDirectory;
 import cdp4common.dto.Thing;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.IterationSetup;
 import cdp4common.sitedirectorydata.ModelReferenceDataLibrary;
+import cdp4common.sitedirectorydata.Participant;
+import cdp4common.sitedirectorydata.Person;
 import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
 import cdp4common.sitedirectorydata.TelephoneNumber;
 import cdp4common.sitedirectorydata.VcardTelephoneNumberKind;
@@ -63,6 +66,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -70,6 +74,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -100,15 +105,15 @@ class SessionImplTest {
     this.person.setPassword("Doe");
     this.person.setActive(true);
 
-    var phone1 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 22);
+    cdp4common.dto.TelephoneNumber phone1 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 22);
     phone1.setValue("123");
     phone1.getVcardType().add(VcardTelephoneNumberKind.HOME);
 
-    var phone2 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 22);
+    cdp4common.dto.TelephoneNumber phone2 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 22);
     phone2.setValue("456");
     phone2.getVcardType().add(VcardTelephoneNumberKind.WORK);
 
-    var phone3 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 22);
+    cdp4common.dto.TelephoneNumber phone3 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 22);
     phone3.setValue("789");
     phone3.getVcardType().add(VcardTelephoneNumberKind.FAX);
 
@@ -125,7 +130,7 @@ class SessionImplTest {
     this.dalOutputs.add(phone3);
 
     this.uri = URI.create("http://www.rheagroup.com/");
-    var credentials = new Credentials("John", "Doe", this.uri, null);
+    Credentials credentials = new Credentials("John", "Doe", this.uri, null);
 
     this.mockedDal = mock(Dal.class);
 
@@ -169,8 +174,8 @@ class SessionImplTest {
           }
         });
 
-    var context = String.format("/SiteDirectory/%s", UUID.randomUUID());
-    var johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
+    String context = String.format("/SiteDirectory/%s", UUID.randomUUID());
+    Person johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
         this.session.getAssembler().getCache(), this.uri);
     johnDoe.setShortName("John");
     FieldUtils.writeField(this.session, "activePerson", johnDoe, true);
@@ -203,7 +208,7 @@ class SessionImplTest {
   void verifyThatReloadSynchronizeTheAssembler() throws ExecutionException, InterruptedException {
     AtomicBoolean eventReceived = new AtomicBoolean();
 
-    var updatedTel = new cdp4common.dto.TelephoneNumber(
+    cdp4common.dto.TelephoneNumber updatedTel = new cdp4common.dto.TelephoneNumber(
         this.dalOutputs
             .stream()
             .filter(x -> x instanceof cdp4common.dto.TelephoneNumber)
@@ -233,7 +238,7 @@ class SessionImplTest {
   void verifyThatGetActivePersonWorks() throws ExecutionException, InterruptedException {
     this.session.open().get();
 
-    var activePerson = this.session.getActivePerson();
+    Person activePerson = this.session.getActivePerson();
     assertNotNull(activePerson);
     assertEquals("John", activePerson.getShortName());
   }
@@ -241,30 +246,30 @@ class SessionImplTest {
   @Test
   void verifyThatOpenSiteRDLUpdatesListInSession()
       throws ExecutionException, InterruptedException, IllegalAccessException {
-    var siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(), null, null);
-    var johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
+    cdp4common.sitedirectorydata.SiteDirectory siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(), null, null);
+    Person johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
         this.session.getAssembler().getCache(), this.uri);
     johnDoe.setShortName("John");
-    var rdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    cdp4common.dto.SiteReferenceDataLibrary rdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
     rdlDto.setIid(UUID.randomUUID());
-    var siteDirDto = new cdp4common.dto.SiteDirectory();
+    SiteDirectory siteDirDto = new cdp4common.dto.SiteDirectory();
     siteDirDto.setIid(UUID.randomUUID());
-    var requiredPojoDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    cdp4common.dto.SiteReferenceDataLibrary requiredPojoDto = new cdp4common.dto.SiteReferenceDataLibrary();
     requiredPojoDto.setIid(UUID.randomUUID());
-    var requiredPojoRdl = new cdp4common.sitedirectorydata.SiteReferenceDataLibrary(
+    SiteReferenceDataLibrary requiredPojoRdl = new cdp4common.sitedirectorydata.SiteReferenceDataLibrary(
         requiredPojoDto.getIid(), null, null);
     rdlDto.setRequiredRdl(requiredPojoDto.getIid());
 
-    var credentials = new Credentials("admin", "pass", URI.create("http://www.rheagroup.com"),
+    Credentials credentials = new Credentials("admin", "pass", URI.create("http://www.rheagroup.com"),
         null);
-    var session2 = new SessionImpl(this.mockedDal, credentials);
-    var rdlPojo = new cdp4common.sitedirectorydata.SiteReferenceDataLibrary();
+    SessionImpl session2 = new SessionImpl(this.mockedDal, credentials);
+    SiteReferenceDataLibrary rdlPojo = new cdp4common.sitedirectorydata.SiteReferenceDataLibrary();
     rdlPojo.setIid(rdlDto.getIid());
     rdlPojo.setName(rdlDto.getName());
     rdlPojo.setShortName(rdlDto.getShortName());
     rdlPojo.setContainer(siteDir);
     rdlPojo.setRequiredRdl(requiredPojoRdl);
-    var thingsToAdd = new ArrayList<Thing>();
+    ArrayList<Thing> thingsToAdd = new ArrayList<Thing>();
     thingsToAdd.add(siteDirDto);
     thingsToAdd.add(requiredPojoDto);
     thingsToAdd.add(rdlDto);
@@ -286,23 +291,23 @@ class SessionImplTest {
   @Test
   void verifyThatCloseRdlWorks()
       throws ExecutionException, InterruptedException, IllegalAccessException {
-    var siteDirectoryPojo = new cdp4common.sitedirectorydata.SiteDirectory(
+    cdp4common.sitedirectorydata.SiteDirectory siteDirectoryPojo = new cdp4common.sitedirectorydata.SiteDirectory(
         this.sieSiteDirectoryDto.getIid(), this.session.getAssembler().getCache(), this.uri);
-    var johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
+    Person johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
         this.session.getAssembler().getCache(), this.uri);
     johnDoe.setShortName("John");
 
-    var rdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    cdp4common.dto.SiteReferenceDataLibrary rdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
     rdlDto.setIid(UUID.randomUUID());
-    var rdlPojo = new cdp4common.sitedirectorydata.SiteReferenceDataLibrary();
+    SiteReferenceDataLibrary rdlPojo = new cdp4common.sitedirectorydata.SiteReferenceDataLibrary();
     rdlPojo.setIid(rdlDto.getIid());
     rdlPojo.setName(rdlDto.getName());
     rdlPojo.setShortName(rdlDto.getShortName());
     rdlPojo.setContainer(siteDirectoryPojo);
 
-    var requiredSiteReferenceDataLibraryDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    cdp4common.dto.SiteReferenceDataLibrary requiredSiteReferenceDataLibraryDto = new cdp4common.dto.SiteReferenceDataLibrary();
     requiredSiteReferenceDataLibraryDto.setIid(UUID.randomUUID());
-    var requiredSiteReferenceDataLibraryPojo = new cdp4common.sitedirectorydata.SiteReferenceDataLibrary(
+    SiteReferenceDataLibrary requiredSiteReferenceDataLibraryPojo = new cdp4common.sitedirectorydata.SiteReferenceDataLibrary(
         requiredSiteReferenceDataLibraryDto.getIid(), this.session.getAssembler().getCache(),
         this.uri);
 
@@ -349,26 +354,26 @@ class SessionImplTest {
   @Test
   void verifyThatSiteRdlRequiredByModelRdlCannotBeClosed()
       throws ExecutionException, InterruptedException, IllegalAccessException {
-    var rdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    cdp4common.dto.SiteReferenceDataLibrary rdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
     rdlDto.setIid(UUID.randomUUID());
-    var siteDirDto = new cdp4common.dto.SiteDirectory();
+    SiteDirectory siteDirDto = new cdp4common.dto.SiteDirectory();
     siteDirDto.setIid(UUID.randomUUID());
-    var requiredRdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    cdp4common.dto.SiteReferenceDataLibrary requiredRdlDto = new cdp4common.dto.SiteReferenceDataLibrary();
     requiredRdlDto.setIid(UUID.randomUUID());
     rdlDto.setRequiredRdl(requiredRdlDto.getIid());
     siteDirDto.getSiteReferenceDataLibrary().add(rdlDto.getIid());
     siteDirDto.getSiteReferenceDataLibrary().add(requiredRdlDto.getIid());
     siteDirDto.getPerson().add(this.person.getIid());
 
-    var mrdl = new cdp4common.dto.ModelReferenceDataLibrary(UUID.randomUUID(), 0);
+    cdp4common.dto.ModelReferenceDataLibrary mrdl = new cdp4common.dto.ModelReferenceDataLibrary(UUID.randomUUID(), 0);
     mrdl.setRequiredRdl(requiredRdlDto.getIid());
-    var modelsetup = new cdp4common.dto.EngineeringModelSetup(UUID.randomUUID(), 0);
+    EngineeringModelSetup modelsetup = new cdp4common.dto.EngineeringModelSetup(UUID.randomUUID(), 0);
     modelsetup.getRequiredRdl().add(mrdl.getIid());
 
-    var model = new cdp4common.dto.EngineeringModel(UUID.randomUUID(), 0);
+    EngineeringModel model = new cdp4common.dto.EngineeringModel(UUID.randomUUID(), 0);
     model.setEngineeringModelSetup(modelsetup.getIid());
 
-    var iteration = new cdp4common.dto.Iteration(UUID.randomUUID(), 0);
+    Iteration iteration = new cdp4common.dto.Iteration(UUID.randomUUID(), 0);
     model.getIteration().add(iteration.getIid());
 
     siteDirDto.getModel().add(modelsetup.getIid());
@@ -382,18 +387,18 @@ class SessionImplTest {
         this.person
     );
 
-    var mrdlPojo = new ModelReferenceDataLibrary(mrdl.getIid(), null, null);
-    var modelSetupPojo = new cdp4common.sitedirectorydata.EngineeringModelSetup(modelsetup.getIid(),
+    ModelReferenceDataLibrary mrdlPojo = new ModelReferenceDataLibrary(mrdl.getIid(), null, null);
+    cdp4common.sitedirectorydata.EngineeringModelSetup modelSetupPojo = new cdp4common.sitedirectorydata.EngineeringModelSetup(modelsetup.getIid(),
         null, null);
     modelSetupPojo.getRequiredRdl().add(mrdlPojo);
 
-    var participant = new cdp4common.dto.Participant(UUID.randomUUID(), 0);
+    cdp4common.dto.Participant participant = new cdp4common.dto.Participant(UUID.randomUUID(), 0);
     participant.setPerson(this.person.getIid());
     modelsetup.getParticipant().add(participant.getIid());
-    var modelPojo = new cdp4common.engineeringmodeldata.EngineeringModel(model.getIid(), null,
+    cdp4common.engineeringmodeldata.EngineeringModel modelPojo = new cdp4common.engineeringmodeldata.EngineeringModel(model.getIid(), null,
         null);
     modelPojo.setEngineeringModelSetup(modelSetupPojo);
-    var iterationPojo = new cdp4common.engineeringmodeldata.Iteration(iteration.getIid(), null,
+    cdp4common.engineeringmodeldata.Iteration iterationPojo = new cdp4common.engineeringmodeldata.Iteration(iteration.getIid(), null,
         null);
     modelPojo.getIteration().add(iterationPojo);
 
@@ -406,7 +411,7 @@ class SessionImplTest {
 
     this.session.getAssembler().synchronize(thingsToAdd, true).get();
 
-    var johnDoe = this.session.retrieveSiteDirectory().getPerson()
+    Person johnDoe = this.session.retrieveSiteDirectory().getPerson()
         .stream()
         .filter(x -> x.getIid().equals(this.person.getIid()))
         .collect(MoreCollectors.onlyElement());
@@ -427,31 +432,31 @@ class SessionImplTest {
   @Test
   void verifyThatCloseModelRdlWorks()
       throws ExecutionException, InterruptedException, IllegalAccessException {
-    var siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(), null, null);
-    var johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
+    cdp4common.sitedirectorydata.SiteDirectory siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(), null, null);
+    Person johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
         this.session.getAssembler().getCache(), this.uri);
     johnDoe.setShortName("John");
-    var modelRdlDto = new cdp4common.dto.ModelReferenceDataLibrary();
+    cdp4common.dto.ModelReferenceDataLibrary modelRdlDto = new cdp4common.dto.ModelReferenceDataLibrary();
     modelRdlDto.setIid(UUID.randomUUID());
-    var siteDirDto = new cdp4common.dto.SiteDirectory();
+    SiteDirectory siteDirDto = new cdp4common.dto.SiteDirectory();
     siteDirDto.setIid(UUID.randomUUID());
-    var requiredPojoDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    cdp4common.dto.SiteReferenceDataLibrary requiredPojoDto = new cdp4common.dto.SiteReferenceDataLibrary();
     requiredPojoDto.setIid(UUID.randomUUID());
-    var requiredPojoRdl = new SiteReferenceDataLibrary(UUID.randomUUID(), null, null);
-    var containerEngModelSetupDto = new cdp4common.dto.EngineeringModelSetup();
+    SiteReferenceDataLibrary requiredPojoRdl = new SiteReferenceDataLibrary(UUID.randomUUID(), null, null);
+    EngineeringModelSetup containerEngModelSetupDto = new cdp4common.dto.EngineeringModelSetup();
     containerEngModelSetupDto.setIid(UUID.randomUUID());
-    var containerEngModelSetup = new cdp4common.sitedirectorydata.EngineeringModelSetup();
+    cdp4common.sitedirectorydata.EngineeringModelSetup containerEngModelSetup = new cdp4common.sitedirectorydata.EngineeringModelSetup();
     containerEngModelSetup.setIid(containerEngModelSetupDto.getIid());
     siteDir.getModel().add(containerEngModelSetup);
     modelRdlDto.setRequiredRdl(requiredPojoDto.getIid());
     siteDir.getPerson().add(johnDoe);
 
-    var credentials = new Credentials("admin", "pass", URI.create("http://www.rheagroup.com"),
+    Credentials credentials = new Credentials("admin", "pass", URI.create("http://www.rheagroup.com"),
         null);
-    var session2 = new SessionImpl(this.mockedDal, credentials);
+    SessionImpl session2 = new SessionImpl(this.mockedDal, credentials);
     FieldUtils.writeField(session2, "activePerson", johnDoe, true);
 
-    var modelRdlPojo = new ModelReferenceDataLibrary();
+    ModelReferenceDataLibrary modelRdlPojo = new ModelReferenceDataLibrary();
     modelRdlPojo.setIid(modelRdlDto.getIid());
     modelRdlPojo.setName(modelRdlDto.getName());
     modelRdlPojo.setShortName(modelRdlPojo.getShortName());
@@ -482,33 +487,33 @@ class SessionImplTest {
 
   @Test
   void verifyThatCloseModelWorks() throws ExecutionException, InterruptedException {
-    var siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(), null, null);
-    var modelRdlDto = new cdp4common.dto.ModelReferenceDataLibrary();
+    cdp4common.sitedirectorydata.SiteDirectory siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(), null, null);
+    cdp4common.dto.ModelReferenceDataLibrary modelRdlDto = new cdp4common.dto.ModelReferenceDataLibrary();
     modelRdlDto.setIid(UUID.randomUUID());
-    var siteDirDto = new cdp4common.dto.SiteDirectory();
+    SiteDirectory siteDirDto = new cdp4common.dto.SiteDirectory();
     siteDirDto.setIid(UUID.randomUUID());
-    var requiredPojoDto = new cdp4common.dto.SiteReferenceDataLibrary();
+    cdp4common.dto.SiteReferenceDataLibrary requiredPojoDto = new cdp4common.dto.SiteReferenceDataLibrary();
     requiredPojoDto.setIid(UUID.randomUUID());
-    var containerEngModelSetupDto = new EngineeringModelSetup();
+    EngineeringModelSetup containerEngModelSetupDto = new EngineeringModelSetup();
     containerEngModelSetupDto.setIid(UUID.randomUUID());
-    var containerEngModelSetup = new cdp4common.sitedirectorydata.EngineeringModelSetup();
+    cdp4common.sitedirectorydata.EngineeringModelSetup containerEngModelSetup = new cdp4common.sitedirectorydata.EngineeringModelSetup();
     containerEngModelSetup.setIid(containerEngModelSetupDto.getIid());
-    var iterationDto = new Iteration();
+    Iteration iterationDto = new Iteration();
     iterationDto.setIid(UUID.randomUUID());
-    var iteration = new cdp4common.engineeringmodeldata.Iteration();
+    cdp4common.engineeringmodeldata.Iteration iteration = new cdp4common.engineeringmodeldata.Iteration();
     iteration.setIid(iterationDto.getIid());
-    var iterationSetupDto = new cdp4common.dto.IterationSetup();
+    cdp4common.dto.IterationSetup iterationSetupDto = new cdp4common.dto.IterationSetup();
     iterationSetupDto.setIid(UUID.randomUUID());
     iterationSetupDto.setIterationIid(iterationDto.getIid());
     iterationDto.setIterationSetup(iterationSetupDto.getIterationIid());
     siteDir.getModel().add(containerEngModelSetup);
     modelRdlDto.setRequiredRdl(requiredPojoDto.getIid());
 
-    var credentials = new Credentials("admin", "pass", URI.create("http://www.rheagroup.com"),
+    Credentials credentials = new Credentials("admin", "pass", URI.create("http://www.rheagroup.com"),
         null);
-    var session2 = new SessionImpl(this.mockedDal, credentials);
+    SessionImpl session2 = new SessionImpl(this.mockedDal, credentials);
 
-    var iterationSetup = new cdp4common.sitedirectorydata.IterationSetup();
+    IterationSetup iterationSetup = new cdp4common.sitedirectorydata.IterationSetup();
     iterationSetup.setIid(iterationSetupDto.getIid());
     iterationSetup.setContainer(containerEngModelSetup);
     iterationSetup.setIterationIid(iteration.getIid());
@@ -521,7 +526,7 @@ class SessionImplTest {
     session2.getAssembler().getCache()
         .put(new CacheKey(iterationDto.getIid(), null), iteration);
 
-    var changedObject = new AtomicBoolean();
+    AtomicBoolean changedObject = new AtomicBoolean();
     CDPMessageBus.getCurrent()
         .listen(ObjectChangedEvent.class, cdp4common.engineeringmodeldata.Iteration.class, null)
         .subscribe(x -> {
@@ -536,16 +541,16 @@ class SessionImplTest {
   @Test
   void verifyThatReadRdlWorks()
       throws ExecutionException, InterruptedException, IllegalAccessException {
-    var siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(),
+    cdp4common.sitedirectorydata.SiteDirectory siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(),
         this.session.getAssembler().getCache(), this.uri);
-    var johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
+    Person johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
         this.session.getAssembler().getCache(), this.uri);
     johnDoe.setShortName("John");
 
     this.session.getAssembler().getCache().put(new CacheKey(siteDir.getIid(), null), siteDir);
 
-    var sitedirDto = new SiteDirectory(siteDir.getIid(), 1);
-    var rdl = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 1);
+    SiteDirectory sitedirDto = new SiteDirectory(siteDir.getIid(), 1);
+    cdp4common.dto.SiteReferenceDataLibrary rdl = new cdp4common.dto.SiteReferenceDataLibrary(UUID.randomUUID(), 1);
     sitedirDto.getSiteReferenceDataLibrary().add(rdl.getIid());
 
     List<Thing> readOutput = Arrays.asList(
@@ -556,7 +561,7 @@ class SessionImplTest {
     when(this.mockedDal.read(any(Thing.class), any(AtomicBoolean.class), any()))
         .thenReturn(CompletableFuture.completedFuture(readOutput));
 
-    var srdl = new SiteReferenceDataLibrary(rdl.getIid(), null, null);
+    SiteReferenceDataLibrary srdl = new SiteReferenceDataLibrary(rdl.getIid(), null, null);
     srdl.setContainer(siteDir);
 
     FieldUtils.writeField(session, "activePerson", johnDoe, true);
@@ -569,24 +574,24 @@ class SessionImplTest {
   @Test
   void verifyThatReadIterationWorks()
       throws ExecutionException, InterruptedException, IllegalAccessException {
-    var siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(),
+    cdp4common.sitedirectorydata.SiteDirectory siteDir = new cdp4common.sitedirectorydata.SiteDirectory(UUID.randomUUID(),
         this.session.getAssembler().getCache(), this.uri);
-    var johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
+    Person johnDoe = new cdp4common.sitedirectorydata.Person(this.person.getIid(),
         this.session.getAssembler().getCache(), this.uri);
     johnDoe.setShortName("John");
-    var modelSetup = new cdp4common.sitedirectorydata.EngineeringModelSetup(UUID.randomUUID(),
+    cdp4common.sitedirectorydata.EngineeringModelSetup modelSetup = new cdp4common.sitedirectorydata.EngineeringModelSetup(UUID.randomUUID(),
         this.session.getAssembler().getCache(), this.uri);
-    var iterationSetup = new cdp4common.sitedirectorydata.IterationSetup(UUID.randomUUID(),
+    IterationSetup iterationSetup = new cdp4common.sitedirectorydata.IterationSetup(UUID.randomUUID(),
         this.session.getAssembler().getCache(), this.uri);
     iterationSetup.setFrozenOn(OffsetDateTime.now());
     iterationSetup.setIterationIid(UUID.randomUUID());
-    var mrdl = new ModelReferenceDataLibrary(UUID.randomUUID(),
+    ModelReferenceDataLibrary mrdl = new ModelReferenceDataLibrary(UUID.randomUUID(),
         this.session.getAssembler().getCache(),
         this.uri);
-    var srdl = new SiteReferenceDataLibrary(UUID.randomUUID(),
+    SiteReferenceDataLibrary srdl = new SiteReferenceDataLibrary(UUID.randomUUID(),
         this.session.getAssembler().getCache(),
         this.uri);
-    var activeDomain = new DomainOfExpertise(UUID.randomUUID(),
+    DomainOfExpertise activeDomain = new DomainOfExpertise(UUID.randomUUID(),
         this.session.getAssembler().getCache(),
         this.uri);
     mrdl.setRequiredRdl(srdl);
@@ -614,13 +619,13 @@ class SessionImplTest {
 
     FieldUtils.writeField(session, "activePerson", johnDoe, true);
 
-    var participant = new cdp4common.sitedirectorydata.Participant(UUID.randomUUID(),
+    Participant participant = new cdp4common.sitedirectorydata.Participant(UUID.randomUUID(),
         this.session.getAssembler().getCache(), this.uri);
     participant.setPerson(this.session.getActivePerson());
     modelSetup.getParticipant().add(participant);
 
-    var model = new cdp4common.dto.EngineeringModel(UUID.randomUUID(), 1);
-    var iteration = new cdp4common.dto.Iteration(iterationSetup.getIterationIid(), 10);
+    EngineeringModel model = new cdp4common.dto.EngineeringModel(UUID.randomUUID(), 1);
+    Iteration iteration = new cdp4common.dto.Iteration(iterationSetup.getIterationIid(), 10);
     iteration.setIterationSetup(iterationSetup.getIid());
     model.getIteration().add(iteration.getIid());
     model.setEngineeringModelSetup(modelSetup.getIid());
@@ -633,9 +638,9 @@ class SessionImplTest {
     when(this.mockedDal.read(any(cdp4common.dto.Iteration.class), any(AtomicBoolean.class), any()))
         .thenReturn(CompletableFuture.completedFuture(readOutput));
 
-    var iterationToOpen = new cdp4common.engineeringmodeldata.Iteration(iteration.getIid(), null,
+    cdp4common.engineeringmodeldata.Iteration iterationToOpen = new cdp4common.engineeringmodeldata.Iteration(iteration.getIid(), null,
         null);
-    var modelToOpen = new cdp4common.engineeringmodeldata.EngineeringModel(model.getIid(), null,
+    cdp4common.engineeringmodeldata.EngineeringModel modelToOpen = new cdp4common.engineeringmodeldata.EngineeringModel(model.getIid(), null,
         null);
     iterationToOpen.setContainer(modelToOpen);
 
@@ -643,7 +648,7 @@ class SessionImplTest {
     verify(this.mockedDal, times(1))
         .read(argThat(x -> x.getIid().equals(iteration.getIid())), any(AtomicBoolean.class), any());
 
-    var pair = this.session.getOpenIterations().asMultimap().entries().stream().collect(
+    Entry<cdp4common.engineeringmodeldata.Iteration, Pair<DomainOfExpertise, Participant>> pair = this.session.getOpenIterations().asMultimap().entries().stream().collect(
         MoreCollectors.onlyElement());
     assertEquals(pair.getValue().getLeft(), activeDomain);
 
@@ -656,7 +661,7 @@ class SessionImplTest {
         MoreCollectors.onlyElement());
     assertEquals(pair.getValue().getLeft(), activeDomain);
 
-    var selectedDomain = this.session.querySelectedDomainOfExpertise(iterationToOpen);
+    DomainOfExpertise selectedDomain = this.session.querySelectedDomainOfExpertise(iterationToOpen);
     assertEquals(activeDomain.getIid(), selectedDomain.getIid());
 
     when(this.mockedDal.read(any(Thing.class), any(AtomicBoolean.class), any()))
@@ -671,18 +676,18 @@ class SessionImplTest {
 
   @Test
   void verify_that_when_active_person_is_null_Iteration_is_not_read() {
-    var iterationSetup = new cdp4common.sitedirectorydata.IterationSetup(UUID.randomUUID(), null,
+    IterationSetup iterationSetup = new cdp4common.sitedirectorydata.IterationSetup(UUID.randomUUID(), null,
         null);
     iterationSetup.setFrozenOn(OffsetDateTime.now());
     iterationSetup.setIterationIid(UUID.randomUUID());
-    var activeDomain = new DomainOfExpertise(UUID.randomUUID(), null, null);
-    var model = new EngineeringModel(UUID.randomUUID(), 1);
-    var iteration = new Iteration(UUID.randomUUID(), 10);
+    DomainOfExpertise activeDomain = new DomainOfExpertise(UUID.randomUUID(), null, null);
+    EngineeringModel model = new EngineeringModel(UUID.randomUUID(), 1);
+    Iteration iteration = new Iteration(UUID.randomUUID(), 10);
     iteration.setIterationSetup(iterationSetup.getIid());
 
-    var iterationToOpen = new cdp4common.engineeringmodeldata.Iteration(iteration.getIid(), null,
+    cdp4common.engineeringmodeldata.Iteration iterationToOpen = new cdp4common.engineeringmodeldata.Iteration(iteration.getIid(), null,
         null);
-    var modelToOpen = new cdp4common.engineeringmodeldata.EngineeringModel(model.getIid(), null,
+    cdp4common.engineeringmodeldata.EngineeringModel modelToOpen = new cdp4common.engineeringmodeldata.EngineeringModel(model.getIid(), null,
         null);
     iterationToOpen.setContainer(modelToOpen);
 
@@ -692,11 +697,11 @@ class SessionImplTest {
 
   @Test
   void verifyThatCDPVersionIsSet() {
-    var testDal = new TestDal();
-    var credentials = new Credentials("John", "Doe", this.uri, null);
+    TestDal testDal = new TestDal();
+    Credentials credentials = new Credentials("John", "Doe", this.uri, null);
 
     this.session = new SessionImpl(testDal, credentials);
-    var version = new Version("1.1.0");
+    Version version = new Version("1.1.0");
 
     assertEquals(version.getMajor(), this.session.getDalVersion().getMajor());
     assertEquals(version.getMinor(), this.session.getDalVersion().getMinor());
@@ -705,17 +710,17 @@ class SessionImplTest {
 
   @Test
   void verifyThatIsVersionSupportedReturnsExpectedResult() {
-    var testDal = new TestDal();
-    var credentials = new Credentials("John", "Doe", this.uri, null);
+    TestDal testDal = new TestDal();
+    Credentials credentials = new Credentials("John", "Doe", this.uri, null);
     this.session = new SessionImpl(testDal, credentials);
 
-    var supportedVersion = new Version("1.0.0");
+    Version supportedVersion = new Version("1.0.0");
     assertTrue(this.session.isVersionSupported(supportedVersion));
 
     supportedVersion = new Version("1.1.0");
     assertTrue(this.session.isVersionSupported(supportedVersion));
 
-    var notSupportedVersion = new Version("2.0.0");
+    Version notSupportedVersion = new Version("2.0.0");
     assertFalse(this.session.isVersionSupported(notSupportedVersion));
   }
 

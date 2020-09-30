@@ -29,11 +29,20 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import cdp4common.commondata.ClassKind;
+import cdp4common.engineeringmodeldata.EngineeringModel;
+import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.EngineeringModelSetup;
+import cdp4common.sitedirectorydata.IterationSetup;
+import cdp4common.sitedirectorydata.ParameterType;
+import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
 import cdp4dal.Session;
 import cdp4dal.SessionImpl;
 import cdp4dal.dal.Credentials;
 import com.google.common.collect.MoreCollectors;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +56,7 @@ class JsonFileDalMinimalContentTest {
 
   @BeforeEach
   void SetUp() {
-    var path = Path.of("src/test/java/cdp4jsonfiledal/files/minimalcontent.zip");
+    Path path = Paths.get("src/test/java/cdp4jsonfiledal/files/minimalcontent.zip");
 
     this.credentials = new Credentials("admin", "pass", path.toUri(), null);
     this.dal = new JsonFileDal();
@@ -59,35 +68,35 @@ class JsonFileDalMinimalContentTest {
     this.session.open().join();
     assertEquals(62, this.session.getAssembler().getCache().size());
 
-    var iterationSetups =
+    List<IterationSetup> iterationSetups =
         this.session.getAssembler().getCache().asMap().values().stream()
             .filter(x -> x.getClassKind() == ClassKind.IterationSetup)
             .map(x -> (cdp4common.sitedirectorydata.IterationSetup) x)
             .collect(Collectors.toList());
 
-    var iterationSetupToRead =
+    IterationSetup iterationSetupToRead =
         iterationSetups.stream()
             .filter(x -> x.getIid().equals(UUID.fromString("11111111-0c20-417a-a83f-c80fbc93e394")))
             .collect(MoreCollectors.onlyElement());
 
-    var engineeringModelSetup = (cdp4common.sitedirectorydata.EngineeringModelSetup) iterationSetupToRead
+    EngineeringModelSetup engineeringModelSetup = (cdp4common.sitedirectorydata.EngineeringModelSetup) iterationSetupToRead
         .getContainer();
 
-    var domainsOfExpertise = this.session.getAssembler().getCache().asMap().values().stream()
+    List<DomainOfExpertise> domainsOfExpertise = this.session.getAssembler().getCache().asMap().values().stream()
         .filter(x -> x.getClassKind() == ClassKind.DomainOfExpertise)
         .map(x -> (cdp4common.sitedirectorydata.DomainOfExpertise) x)
         .collect(Collectors.toList());
 
-    var domainOfExpertise = domainsOfExpertise.stream()
+    DomainOfExpertise domainOfExpertise = domainsOfExpertise.stream()
         .filter(x -> x.getIid().equals(UUID.fromString("8790fe92-d1fa-42ea-9520-e0ddac52f1ad")))
         .collect(MoreCollectors.onlyElement());
 
-    var model = new cdp4common.engineeringmodeldata.EngineeringModel(
+    EngineeringModel model = new cdp4common.engineeringmodeldata.EngineeringModel(
         engineeringModelSetup.getEngineeringModelIid(), this.session.getAssembler().getCache(),
         this.session.getCredentials().getUri());
     model.setEngineeringModelSetup(engineeringModelSetup);
 
-    var iteration = new cdp4common.engineeringmodeldata.Iteration(
+    Iteration iteration = new cdp4common.engineeringmodeldata.Iteration(
         iterationSetupToRead.getIterationIid(), this.session.getAssembler().getCache(),
         this.session.getCredentials().getUri());
 
@@ -97,7 +106,7 @@ class JsonFileDalMinimalContentTest {
 
     assertEquals(93, this.session.getAssembler().getCache().size());
 
-    var siteReferenceDataLibrary = this.session.getAssembler().getCache()
+    SiteReferenceDataLibrary siteReferenceDataLibrary = this.session.getAssembler().getCache()
         .asMap().values().stream()
         .filter(x -> x.getClassKind() == ClassKind.SiteReferenceDataLibrary)
         .map(x -> (cdp4common.sitedirectorydata.SiteReferenceDataLibrary) x)
@@ -108,7 +117,7 @@ class JsonFileDalMinimalContentTest {
 
     assertFalse(siteReferenceDataLibrary.getParameterType().isEmpty());
 
-    var simpleQuantityKind = siteReferenceDataLibrary.getParameterType().stream()
+    ParameterType simpleQuantityKind = siteReferenceDataLibrary.getParameterType().stream()
         .filter(x -> x.getIid().equals(UUID.fromString("66766f44-0a0b-4e0a-9bc7-8ae027c2da5c")))
         .collect(MoreCollectors.onlyElement());
 

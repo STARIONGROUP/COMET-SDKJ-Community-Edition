@@ -39,6 +39,7 @@ import cdp4common.engineeringmodeldata.Requirement;
 import cdp4requirementsverification.RequirementStateOfCompliance;
 import cdp4requirementsverification.calculations.RequirementStateOfComplianceCalculatorImpl;
 import cdp4requirementsverification.extensions.RequirementStateOfComplianceExtensions;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Semaphore;
@@ -100,7 +101,7 @@ public class RelationalExpressionVerifier extends
   public CompletableFuture<RequirementStateOfCompliance> verifyRequirementStateOfCompliance(
       Map<BooleanExpression, BooleanExpressionVerifier> booleanExpressionVerifiers,
       Iteration iteration) {
-    var relations = this.getExpression().queryRelationships()
+    List<BinaryRelationship> relations = this.getExpression().queryRelationships()
         .stream()
         .map(x -> (BinaryRelationship) x)
         .filter(
@@ -126,34 +127,34 @@ public class RelationalExpressionVerifier extends
 
         this.setRequirementStateOfCompliance(RequirementStateOfCompliance.Calculating);
 
-        for (var binaryRelation : relationShips) {
+        for (BinaryRelationship binaryRelation : relationShips) {
           if (binaryRelation.getTarget() instanceof RelationalExpression) {
-            var relationParameter = as(binaryRelation.getSource(), Parameter.class);
+            Parameter relationParameter = as(binaryRelation.getSource(), Parameter.class);
 
-            var elementDefinitionParameters =
+            List<Parameter> elementDefinitionParameters =
                 iteration.getElement().stream()
                     .flatMap(x -> x.getParameter().stream())
                     .filter(x -> x == relationParameter)
                     .collect(Collectors.toList());
 
             if (relationParameter != null && !elementDefinitionParameters.isEmpty()) {
-              for (var parameter : elementDefinitionParameters) {
+              for (Parameter parameter : elementDefinitionParameters) {
                 this.verifiedRequirementStateOfComplianceList
                     .verifyAndAdd(parameter.getValueSet(),
                         (RelationalExpression) binaryRelation.getTarget());
               }
             }
 
-            var relationParameterOverride = as(binaryRelation.getSource(), ParameterOverride.class);
+            ParameterOverride relationParameterOverride = as(binaryRelation.getSource(), ParameterOverride.class);
 
-            var elementUsageParameterOverrides = iteration.getElement().stream()
+            List<ParameterOverride> elementUsageParameterOverrides = iteration.getElement().stream()
                 .flatMap(x -> x.getContainedElement().stream())
                 .flatMap(x -> x.getParameterOverride().stream())
                 .filter(x -> x == relationParameterOverride)
                 .collect(Collectors.toList());
 
             if (relationParameterOverride != null && !elementUsageParameterOverrides.isEmpty()) {
-              for (var parameterOverride : elementUsageParameterOverrides) {
+              for (ParameterOverride parameterOverride : elementUsageParameterOverrides) {
                 this.verifiedRequirementStateOfComplianceList
                     .verifyAndAdd(parameterOverride.getValueSet(),
                         (RelationalExpression) binaryRelation.getTarget());

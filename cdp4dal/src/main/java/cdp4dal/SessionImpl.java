@@ -59,6 +59,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -140,7 +141,7 @@ public class SessionImpl implements Session {
    */
   @Override
   public boolean isVersionSupported(Version version) {
-    var comparison = version.compareTo(this.getDalVersion());
+    int comparison = version.compareTo(this.getDalVersion());
     return comparison <= 0;
   }
 
@@ -218,7 +219,7 @@ public class SessionImpl implements Session {
    */
   @Override
   public String getName() {
-    var personName = this.getActivePerson() != null ? this.getActivePerson().getName() : "";
+    String personName = this.getActivePerson() != null ? this.getActivePerson().getName() : "";
     return String.format("%s - %s", this.getDataSourceUri(), personName);
   }
 
@@ -251,7 +252,7 @@ public class SessionImpl implements Session {
    */
   @Override
   public DomainOfExpertise querySelectedDomainOfExpertise(Iteration iteration) {
-    var iterationDomainPair = this.openIterations
+    Entry<Iteration, Pair<DomainOfExpertise, Participant>> iterationDomainPair = this.openIterations
         .entrySet()
         .stream()
         .filter(x -> x.getKey().getIid().equals(iteration.getIid()))
@@ -281,7 +282,7 @@ public class SessionImpl implements Session {
   @Override
   public List<ReferenceDataLibrary> getEngineeringModelSetupRdlChain(
       EngineeringModelSetup engineeringModelSetup) {
-    var requiredRdl = engineeringModelSetup.getRequiredRdl()
+    ModelReferenceDataLibrary requiredRdl = engineeringModelSetup.getRequiredRdl()
         .stream()
         .collect(MoreCollectors.toOptional()).orElse(null);
 
@@ -301,7 +302,7 @@ public class SessionImpl implements Session {
   @Override
   public CompletableFuture<Void> open() {
     return CompletableFuture.runAsync(() -> {
-      var sw = Stopwatch.createStarted();
+      Stopwatch sw = Stopwatch.createStarted();
       log.info("Open request {}", this.getDataSourceUri());
 
       // Create the cancellation flag
@@ -351,7 +352,7 @@ public class SessionImpl implements Session {
       log.info("Synchronization with the {} server done in {} [ms]", this.getDataSourceUri(),
           sw.elapsed(TimeUnit.MILLISECONDS));
 
-      var sessionChange = new SessionEvent(this, SessionStatus.OPEN);
+      SessionEvent sessionChange = new SessionEvent(this, SessionStatus.OPEN);
       CDPMessageBus.getCurrent().sendMessage(sessionChange, null, null);
 
       log.info("cdp4dal.Session {} opened successfully in {} [ms]", this.getDataSourceUri(),
@@ -364,14 +365,14 @@ public class SessionImpl implements Session {
    */
   @Override
   public void switchDomain(UUID iterationId, DomainOfExpertise domain) {
-    var iterationPair = this.openIterations
+    Entry<Iteration, Pair<DomainOfExpertise, Participant>> iterationPair = this.openIterations
         .entrySet()
         .stream()
         .filter(x -> x.getKey().getIid().equals(iterationId))
         .collect(MoreCollectors.toOptional()).orElse(null);
 
     if (iterationPair != null && iterationPair.getValue().getLeft() != domain) {
-      var selectedParticipation = Pair.of(domain, iterationPair.getValue().getRight());
+      Pair<DomainOfExpertise, Participant> selectedParticipation = Pair.of(domain, iterationPair.getValue().getRight());
       this.openIterations.remove(iterationPair.getKey());
       this.openIterations.put(iterationPair.getKey(), selectedParticipation);
       CDPMessageBus.getCurrent()
@@ -393,7 +394,7 @@ public class SessionImpl implements Session {
 
       // check if iteration is already open
       // if so check that the domain is not different
-      var iterationDomainPair = this.openIterations
+      Entry<Iteration, Pair<DomainOfExpertise, Participant>> iterationDomainPair = this.openIterations
           .entrySet()
           .stream()
           .filter(x -> x.getKey().getIid().equals(iteration.getIid()))
@@ -409,7 +410,7 @@ public class SessionImpl implements Session {
       this.cancelled = new AtomicBoolean();
       List<cdp4common.dto.Thing> dtoThings;
       try {
-        var iterationDto = (cdp4common.dto.Iteration) iteration.toDto();
+        cdp4common.dto.Iteration iterationDto = (cdp4common.dto.Iteration) iteration.toDto();
         this.dal.setSession(this);
         dtoThings = this.dal.read(iterationDto, this.cancelled, null).get();
       } catch (InterruptedException e) {
@@ -424,7 +425,7 @@ public class SessionImpl implements Session {
       }
 
       // proceed if no problem
-      var list = dtoThings != null ? dtoThings : new ArrayList();
+      List list = dtoThings != null ? dtoThings : new ArrayList();
       if (list.size() == 0) {
         log.warn("No data returned upon read on {}", this.getDataSourceUri());
       }
@@ -467,7 +468,7 @@ public class SessionImpl implements Session {
 
     return CompletableFuture.runAsync(() -> {
       log.info("cdp4dal.Session.Read {} {}", thing.getClassKind(), thing.getIid());
-      var dto = thing.toDto();
+      cdp4common.dto.Thing dto = thing.toDto();
 
       // Create the token source
       this.cancelled = new AtomicBoolean();
@@ -486,12 +487,12 @@ public class SessionImpl implements Session {
       }
 
       // proceed if no problem
-      var list = dtoThings != null ? dtoThings : new ArrayList();
+      List list = dtoThings != null ? dtoThings : new ArrayList();
       if (list.size() == 0) {
         log.warn("No data returned upon read on {}", this.getDataSourceUri());
       }
 
-      var sw = Stopwatch.createStarted();
+      Stopwatch sw = Stopwatch.createStarted();
       log.info("Synchronization of DTOs for read from server {} started", this.getDataSourceUri());
       CDPMessageBus.getCurrent()
           .sendMessage(new SessionEvent(this, SessionStatus.BEGIN_UPDATE), null, null);
@@ -519,12 +520,12 @@ public class SessionImpl implements Session {
       List<cdp4common.dto.Thing> dtoThings = null;
       dtoThings = this.dal.write(operationContainer, null).join();
 
-      var list = dtoThings != null ? dtoThings : new ArrayList();
+      List list = dtoThings != null ? dtoThings : new ArrayList();
       if (list.size() == 0) {
         log.warn("No data returned upon write on {}", this.getDataSourceUri());
       }
 
-      var sw = Stopwatch.createStarted();
+      Stopwatch sw = Stopwatch.createStarted();
       log.info("Synchronization of DTOs for Write to server {} started", this.getDataSourceUri());
       CDPMessageBus.getCurrent()
           .sendMessage(new SessionEvent(this, SessionStatus.BEGIN_UPDATE), null, null);
@@ -547,7 +548,7 @@ public class SessionImpl implements Session {
     }
 
     return CompletableFuture.runAsync(() -> {
-      for (var topContainer : this.getSiteDirectoryAndActiveIterations()) {
+      for (Thing topContainer : this.getSiteDirectoryAndActiveIterations()) {
         this.update(topContainer, true).join();
       }
     });
@@ -564,7 +565,7 @@ public class SessionImpl implements Session {
     }
 
     return CompletableFuture.runAsync(() -> {
-      for (var topContainer : this.getSiteDirectoryAndActiveIterations()) {
+      for (Thing topContainer : this.getSiteDirectoryAndActiveIterations()) {
         this.update(topContainer, false).join();
       }
     });
@@ -588,7 +589,7 @@ public class SessionImpl implements Session {
     return CompletableFuture.runAsync(() -> {
       this.dal.close();
       this.assembler.clear().join();
-      var sessionChange = new SessionEvent(this, SessionStatus.CLOSED);
+      SessionEvent sessionChange = new SessionEvent(this, SessionStatus.CLOSED);
       CDPMessageBus.getCurrent().sendMessage(sessionChange, null, null);
 
       log.info("cdp4dal.Session {} closed successfully.", this.getDataSourceUri());
@@ -612,7 +613,7 @@ public class SessionImpl implements Session {
       }
 
       // Cannot close a SiteRdl that is required by a ModelRdl
-      var mRdls = this.openReferenceDataLibraries
+      List<ReferenceDataLibrary> mRdls = this.openReferenceDataLibraries
           .stream()
           .filter(x -> x instanceof ModelReferenceDataLibrary)
           .collect(Collectors.toList());
@@ -623,12 +624,12 @@ public class SessionImpl implements Session {
       }
 
       // Close all SiteRdl that Requires this SiteRdl
-      var sRdls = this.openReferenceDataLibraries
+      List<ReferenceDataLibrary> sRdls = this.openReferenceDataLibraries
           .stream()
           .filter(x -> x instanceof SiteReferenceDataLibrary)
           .collect(Collectors.toList());
 
-      var sRdlsToClose = sRdls
+      List<ReferenceDataLibrary> sRdlsToClose = sRdls
           .stream()
           .filter(rdl -> rdl.getRequiredRdls().contains(sRdl))
           .collect(Collectors.toList());
@@ -636,14 +637,14 @@ public class SessionImpl implements Session {
       sRdlsToClose.add(sRdl);
 
       // Close from bottom to top
-      var orderedRdlsToClose = sRdlsToClose
+      List<ReferenceDataLibrary> orderedRdlsToClose = sRdlsToClose
           .stream()
           .sorted(
               (o1, o2) -> Integer.compare(o2.getRequiredRdls().size(), o1.getRequiredRdls().size()))
           .collect(Collectors.toList());
 
-      var tasks = new ArrayList<CompletableFuture>();
-      for (var siteReferenceDataLibrary : orderedRdlsToClose) {
+      ArrayList<CompletableFuture> tasks = new ArrayList<CompletableFuture>();
+      for (ReferenceDataLibrary siteReferenceDataLibrary : orderedRdlsToClose) {
         tasks.add(this.assembler.closeRdl(siteReferenceDataLibrary));
       }
 
@@ -654,7 +655,7 @@ public class SessionImpl implements Session {
       CDPMessageBus.getCurrent()
           .sendMessage(new SessionEvent(this, SessionStatus.END_UPDATE), null, null);
 
-      for (var siteReferenceDataLibrary : orderedRdlsToClose) {
+      for (ReferenceDataLibrary siteReferenceDataLibrary : orderedRdlsToClose) {
         this.openReferenceDataLibraries.remove(siteReferenceDataLibrary);
       }
 
@@ -672,9 +673,9 @@ public class SessionImpl implements Session {
    */
   private CompletableFuture<Void> update(Thing thing, boolean isRefresh) {
     return CompletableFuture.runAsync(() -> {
-      var revisionNumber = isRefresh ? thing.getRevisionNumber() : 0;
+      int revisionNumber = isRefresh ? thing.getRevisionNumber() : 0;
 
-      var queryAttribute = new DalQueryAttributes();
+      DalQueryAttributes queryAttribute = new DalQueryAttributes();
       queryAttribute.setRevisionNumber(revisionNumber);
 
       // Create the token source
@@ -694,12 +695,12 @@ public class SessionImpl implements Session {
       }
 
       // proceed if no problem
-      var list = dtoThings != null ? dtoThings : new ArrayList();
+      List list = dtoThings != null ? dtoThings : new ArrayList();
       if (list.size() == 0) {
         log.warn("No data returned upon update on {}", this.getDataSourceUri());
       }
 
-      var sw = Stopwatch.createStarted();
+      Stopwatch sw = Stopwatch.createStarted();
       log.info("Synchronization of DTOs for update to server {} started", this.getDataSourceUri());
       CDPMessageBus.getCurrent()
           .sendMessage(new SessionEvent(this, SessionStatus.BEGIN_UPDATE), null, null);
@@ -780,7 +781,7 @@ public class SessionImpl implements Session {
       return;
     }
 
-    var rdl = as(thingFromCache, ReferenceDataLibrary.class);
+    ReferenceDataLibrary rdl = as(thingFromCache, ReferenceDataLibrary.class);
 
     if (rdl == null) {
       return;
@@ -812,7 +813,7 @@ public class SessionImpl implements Session {
       return;
     }
 
-    var iteration = as(iterationFromCache, Iteration.class);
+    Iteration iteration = as(iterationFromCache, Iteration.class);
     if (iteration == null) {
       log.warn(
           "The iteration {} is not present in the Cache and is therefore not added to the open iterations",
@@ -824,7 +825,7 @@ public class SessionImpl implements Session {
       return;
     }
 
-    var activeParticipant = ((EngineeringModel) iteration.getContainer()).getEngineeringModelSetup()
+    Participant activeParticipant = ((EngineeringModel) iteration.getContainer()).getEngineeringModelSetup()
         .getParticipant()
         .stream()
         .filter(x -> x.getPerson().equals(this.getActivePerson()))
@@ -833,7 +834,7 @@ public class SessionImpl implements Session {
 
     this.openIterations.put(iteration, Pair.of(activeDomain, activeParticipant));
 
-    var modelRdl = ((EngineeringModel) iteration.getContainer()).getEngineeringModelSetup()
+    ModelReferenceDataLibrary modelRdl = ((EngineeringModel) iteration.getContainer()).getEngineeringModelSetup()
         .getRequiredRdl().stream().collect(MoreCollectors.onlyElement());
     this.addRdlToOpenList(modelRdl);
   }

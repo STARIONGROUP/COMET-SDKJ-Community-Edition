@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,8 +63,8 @@ public class ValueArrayDeserializer extends StdDeserializer<ValueArray> {
     // 2) (a pattern that starts with \ followed by any character (special included) and 0..* "non special" characters) 0..* times
     Pattern patternElements = Pattern
         .compile("\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\"", Pattern.DOTALL);
-    var elements = patternElements.matcher(extractedArrayString);
-    var items = new ArrayList<String>();
+    Matcher elements = patternElements.matcher(extractedArrayString);
+    List<String> items = new ArrayList<>();
 
     while (elements.find()) {
       // Unescape special string characters in accordance with JSON specification

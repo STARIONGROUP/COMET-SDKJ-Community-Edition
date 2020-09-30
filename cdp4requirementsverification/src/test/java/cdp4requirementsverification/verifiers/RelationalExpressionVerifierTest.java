@@ -32,6 +32,7 @@ import cdp4common.engineeringmodeldata.BinaryRelationship;
 import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.ElementUsage;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.engineeringmodeldata.Parameter;
 import cdp4common.engineeringmodeldata.ParameterOrOverrideBase;
 import cdp4common.engineeringmodeldata.RelationalExpression;
 import cdp4common.engineeringmodeldata.RelationalOperatorKind;
@@ -41,6 +42,7 @@ import cdp4requirementsverification.builders.ParameterBuilder;
 import cdp4requirementsverification.builders.RelationalExpressionBuilder;
 import cdp4requirementsverification.events.RequirementStateOfComplianceChangedEvent;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.AfterEach;
@@ -76,11 +78,11 @@ class RelationalExpressionVerifierTest {
     this.iteration = new Iteration(UUID.randomUUID(), null, null);
 
     this.elementDefinition = new ElementDefinition(UUID.randomUUID(), null, null);
-    var elementUsage = new ElementUsage(UUID.randomUUID(), null, null);
+    ElementUsage elementUsage = new ElementUsage(UUID.randomUUID(), null, null);
     elementUsage.setElementDefinition(this.elementDefinition);
     this.elementDefinition.getContainedElement().add(elementUsage);
 
-    var parameter =
+    Parameter parameter =
         new ParameterBuilder()
             .withSimpleQuantityKindParameterType()
             .withValue("10")
@@ -101,7 +103,7 @@ class RelationalExpressionVerifierTest {
 
   private void registerBinaryRelationShip(ParameterOrOverrideBase parameter,
       RelationalExpression expression) {
-    var relationShip = new BinaryRelationship(UUID.randomUUID(), null, null);
+    BinaryRelationship relationShip = new BinaryRelationship(UUID.randomUUID(), null, null);
     relationShip.setSource(parameter);
     relationShip.setTarget(expression);
 
@@ -147,7 +149,7 @@ class RelationalExpressionVerifierTest {
           this.requirementStateOfCompliance = x.getRequirementStateOfCompliance();
         });
 
-    var binaryRelationships = this.relationalExpression.getRelationships()
+    List<BinaryRelationship> binaryRelationships = this.relationalExpression.getRelationships()
         .stream()
         .filter(x -> x instanceof BinaryRelationship)
         .map(x -> (BinaryRelationship) x)

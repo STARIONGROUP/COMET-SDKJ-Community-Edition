@@ -49,8 +49,8 @@ public class QuantityKindValueSetComparator implements Comparator<ValueArray<Str
      * {@code x} is greater than {@code y}.
      */
     public int compare(ValueArray<String> x, ValueArray<String> y) {
-        var valueX = this.getValue(x);
-        var valueY = this.getValue(y);
+      double valueX = this.getValue(x);
+      double valueY = this.getValue(y);
 
         return Double.compare(valueX, valueY);
     }

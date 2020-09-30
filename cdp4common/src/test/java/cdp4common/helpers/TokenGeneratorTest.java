@@ -36,7 +36,7 @@ class TokenGeneratorTest {
         Set<String> hashSet = new HashSet<>();
 
         for (int i = 0; i < 100000; i++) {
-            var token = TokenGenerator.generateRandomToken();
+            String token = TokenGenerator.generateRandomToken();
             assertDoesNotThrow(() -> hashSet.add(token));
         }
     }

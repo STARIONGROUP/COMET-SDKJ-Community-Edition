@@ -60,7 +60,7 @@ public class OrderedItemListSerializer extends StdSerializer<List<OrderedItem>> 
     }
 
     jgen.writeStartArray();
-    for (var item : value.stream().sorted(this.orderedItemComparator)
+    for (OrderedItem item : value.stream().sorted(this.orderedItemComparator)
         .collect(Collectors.toList())) {
       jgen.writeStartObject();
       jgen.writeNumberField("k", item.getK());

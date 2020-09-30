@@ -64,7 +64,7 @@ public class VerifiedRequirementStateOfComplianceList extends
    */
   public void verifyAndAdd(Iterable<? extends ParameterValueSetBase> valueSets,
       RelationalExpression relationalExpression) {
-    for (var valueSet : valueSets) {
+    for (ParameterValueSetBase valueSet : valueSets) {
       if (!this.containsKey(valueSet)) {
         this.put(valueSet,
             this.requirementStateOfComplianceCalculator.calculate(valueSet, relationalExpression));

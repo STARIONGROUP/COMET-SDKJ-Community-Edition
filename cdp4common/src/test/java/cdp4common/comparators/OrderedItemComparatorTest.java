@@ -25,6 +25,7 @@
 package cdp4common.comparators;
 
 import cdp4common.types.OrderedItem;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -34,14 +35,14 @@ class OrderedItemComparatorTest {
 
   @Test
   void verify_that_List_of_OrderedItem_is_ordered() {
-    var orderedItem1 = new OrderedItem(5, "middle");
-    var orderedItem2 = new OrderedItem(10, "last");
-    var orderedItem3 = new OrderedItem(1, "first");
+    OrderedItem orderedItem1 = new OrderedItem(5, "middle");
+    OrderedItem orderedItem2 = new OrderedItem(10, "last");
+    OrderedItem orderedItem3 = new OrderedItem(1, "first");
 
-    var orderedItems = Arrays.asList(orderedItem1, orderedItem2, orderedItem3);
+    List<OrderedItem> orderedItems = Arrays.asList(orderedItem1, orderedItem2, orderedItem3);
     orderedItems.sort(new OrderedItemComparator());
 
-    var ordered = Arrays.asList(orderedItem3, orderedItem1, orderedItem2);
+    List<OrderedItem> ordered = Arrays.asList(orderedItem3, orderedItem1, orderedItem2);
 
     Assertions.assertThat(ordered).containsExactlyElementsOf(orderedItems);
   }

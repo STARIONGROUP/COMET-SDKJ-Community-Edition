@@ -44,12 +44,12 @@ class ClasslessDtoFactoryTest {
 
     @Test
     void testFromThing() {
-        var siteDirectory = new SiteDirectory(UUID.randomUUID(), 2);
+        SiteDirectory siteDirectory = new SiteDirectory(UUID.randomUUID(), 2);
         siteDirectory.setDefaultParticipantRole(UUID.randomUUID());
 
-        var properties = Arrays.asList("defaultPersonRole", "iid", "classKind", "defaultParticipantRole", "createdOn");
+        List<String> properties = Arrays.asList("defaultPersonRole", "iid", "classKind", "defaultParticipantRole", "createdOn");
 
-        var classlessDTO = ClasslessDtoFactory.fromThing(siteDirectory, properties);
+        ClasslessDTO classlessDTO = ClasslessDtoFactory.fromThing(siteDirectory, properties);
 
         assertEquals(5, classlessDTO.size());
         UUID uuid = (UUID) classlessDTO.get("defaultPersonRole");
@@ -60,12 +60,12 @@ class ClasslessDtoFactoryTest {
 
     @Test
     void testFromThingWithNullProperties() {
-        var siteDirectory = new SiteDirectory(UUID.randomUUID(), 2);
+        SiteDirectory siteDirectory = new SiteDirectory(UUID.randomUUID(), 2);
         siteDirectory.setDefaultParticipantRole(UUID.randomUUID());
 
         List<String> properties = null;
 
-        var classlessDTO = ClasslessDtoFactory.fromThing(siteDirectory, properties);
+        ClasslessDTO classlessDTO = ClasslessDtoFactory.fromThing(siteDirectory, properties);
 
         assertEquals(2, classlessDTO.size());
         assertEquals(ClassKind.SiteDirectory, classlessDTO.get("classKind"));
@@ -74,20 +74,20 @@ class ClasslessDtoFactoryTest {
 
     @Test
     void testFromThingThrowsExceptionForUnknownProperty() {
-        var siteDirectory = new SiteDirectory(UUID.randomUUID(), 2);
+        SiteDirectory siteDirectory = new SiteDirectory(UUID.randomUUID(), 2);
         siteDirectory.setDefaultParticipantRole(UUID.randomUUID());
 
-        var properties = Arrays.asList("defaultPersonRole", "iid", "classKind", "unknownProperty");
+        List<String> properties = Arrays.asList("defaultPersonRole", "iid", "classKind", "unknownProperty");
 
         assertThrows(NoSuchElementException.class, () -> ClasslessDtoFactory.fromThing(siteDirectory, properties));
     }
 
     @Test
     void testFromThingFull() {
-        var siteDirectory = new SiteDirectory(UUID.randomUUID(), 2);
+        SiteDirectory siteDirectory = new SiteDirectory(UUID.randomUUID(), 2);
         siteDirectory.setPersonRole(Lists.newArrayList(UUID.randomUUID()));
 
-        var classlessDTO = ClasslessDtoFactory.fullFromThing(siteDirectory);
+        ClasslessDTO classlessDTO = ClasslessDtoFactory.fullFromThing(siteDirectory);
 
         assertTrue(classlessDTO.containsKey("classKind"));
         assertTrue(classlessDTO.containsKey("iid"));
@@ -132,7 +132,7 @@ class ClasslessDtoFactoryTest {
     @Test
     void verifyThatNullableIsTakenIntoAccount() {
         Thing thing = new ParameterGroup();
-        var classlessDTO = ClasslessDtoFactory.fullFromThing(thing);
+        ClasslessDTO classlessDTO = ClasslessDtoFactory.fullFromThing(thing);
         Object containingGroup = classlessDTO.get("containingGroup");
         assertNull(containingGroup);
         Object name = classlessDTO.get("name");

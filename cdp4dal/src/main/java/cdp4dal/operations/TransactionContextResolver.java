@@ -25,6 +25,7 @@
 package cdp4dal.operations;
 
 import cdp4common.commondata.Thing;
+import cdp4common.commondata.TopContainer;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.exceptions.IncompleteModelException;
@@ -56,23 +57,23 @@ public class TransactionContextResolver {
    * is incomplete or the context could not be determined.
    */
   public static TransactionContext resolveContext(Thing thing) {
-    var siteDirectory = thing instanceof SiteDirectory ? (SiteDirectory) thing : null;
+    SiteDirectory siteDirectory = thing instanceof SiteDirectory ? (SiteDirectory) thing : null;
     if (siteDirectory != null) {
       return new TransactionContext(siteDirectory);
     }
 
-    var iteration = thing instanceof Iteration ? (Iteration) thing : null;
+    Iteration iteration = thing instanceof Iteration ? (Iteration) thing : null;
     if (iteration != null) {
       return new TransactionContext(iteration);
     }
 
-    var topContainer = thing.getTopContainer();
+    TopContainer topContainer = thing.getTopContainer();
     siteDirectory = topContainer instanceof SiteDirectory ? (SiteDirectory) topContainer : null;
     if (siteDirectory != null) {
       return new TransactionContext(siteDirectory);
     }
 
-    var engineeringModel =
+    EngineeringModel engineeringModel =
         topContainer instanceof EngineeringModel ? (EngineeringModel) topContainer : null;
     if (engineeringModel != null) {
       // First check if the thing has an Iteration as a container
@@ -116,14 +117,14 @@ public class TransactionContextResolver {
    * /SiteDirectory/{uuid} /EngineeringModel/{uuid}/iteration/{uuid}
    */
   public static boolean validateRouteContext(String route) {
-    var siteDirectoryPattern = new StringBuilder().append("^/SiteDirectory")
+    String siteDirectoryPattern = new StringBuilder().append("^/SiteDirectory")
         .append(Constants.URI_PATH_SEPARATOR).append(Constants.URI_UUID_PATTERN.pattern())
         .append("$").toString();
     if (Pattern.matches(siteDirectoryPattern, route)) {
       return true;
     }
 
-    var iterationPattern = new StringBuilder().append("^/EngineeringModel")
+    String iterationPattern = new StringBuilder().append("^/EngineeringModel")
         .append(Constants.URI_PATH_SEPARATOR).append(Constants.URI_UUID_PATTERN.pattern())
         .append(Constants.URI_PATH_SEPARATOR).append("iteration")
         .append(Constants.URI_PATH_SEPARATOR).append(Constants.URI_UUID_PATTERN.pattern())

@@ -40,7 +40,10 @@ import cdp4dal.operations.OperationKind;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MoreCollectors;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -75,9 +78,9 @@ class ValueSetOperationCreator {
   OperationContainer createValueSetsUpdateOperations(String context,
       List<cdp4common.dto.Thing> dtos,
       ImmutableMap<cdp4common.commondata.Thing, cdp4common.commondata.Thing> copyThingMap) {
-    var dtolist = Lists.newArrayList(dtos);
+    ArrayList<Thing> dtolist = Lists.newArrayList(dtos);
 
-    var topContainer = dtolist
+    Thing topContainer = dtolist
         .stream()
         .filter(x -> x instanceof cdp4common.dto.TopContainer)
         .collect(MoreCollectors.toOptional()).orElse(null);
@@ -88,18 +91,18 @@ class ValueSetOperationCreator {
     }
 
     // Gets the parameter base which value set shall be updated
-    var copyParameterBases = dtolist
+    List<cdp4common.dto.ParameterBase> copyParameterBases = dtolist
         .stream()
         .filter(x -> x instanceof cdp4common.dto.ParameterBase)
         .map(x -> (cdp4common.dto.ParameterBase) x)
         .collect(Collectors.toList());
 
-    var copyParameterBasesIds = copyParameterBases
+    List<UUID> copyParameterBasesIds = copyParameterBases
         .stream()
         .map(x -> x.getIid())
         .collect(Collectors.toList());
 
-    var valueSets = dtolist
+    List<Thing> valueSets = dtolist
         .stream()
         .filter(dto -> dto.getClassKind() == ClassKind.ParameterValueSet
             || dto.getClassKind() == ClassKind.ParameterSubscriptionValueSet
@@ -108,34 +111,34 @@ class ValueSetOperationCreator {
         .collect(Collectors.toList());
 
     this.computeRoutes(valueSets, dtolist);
-    var valueSetsClones = valueSets
+    List<Thing> valueSetsClones = valueSets
         .stream()
         .map(dto -> dto.deepClone(cdp4common.dto.Thing.class))
         .collect(Collectors.toList());
 
     // The original of the copy are normally in the map
-    var originalParameterBases = copyThingMap
+    List<Entry<cdp4common.commondata.Thing, cdp4common.commondata.Thing>> originalParameterBases = copyThingMap
         .entrySet()
         .stream()
         .filter(x -> copyParameterBasesIds.contains(x.getValue().getIid()))
         .collect(Collectors.toList());
 
     // set the values
-    for (var copyPair : originalParameterBases) {
-      var copyId = copyPair.getValue().getIid();
-      var originalParameter = (ParameterBase) copyPair.getKey();
-      var copyDto = copyParameterBases
+    for (Entry<cdp4common.commondata.Thing, cdp4common.commondata.Thing> copyPair : originalParameterBases) {
+      UUID copyId = copyPair.getValue().getIid();
+      ParameterBase originalParameter = (ParameterBase) copyPair.getKey();
+      cdp4common.dto.ParameterBase copyDto = copyParameterBases
           .stream()
           .filter(x -> x.getIid().equals(copyId))
           .collect(MoreCollectors.onlyElement());
 
       // value sets to update
-      var copyValueSets = valueSetsClones
+      List<Thing> copyValueSets = valueSetsClones
           .stream()
           .filter(x -> copyDto.getValueSets().contains(x.getIid()))
           .collect(Collectors.toList());
 
-      var defaultValueSet = this.getDefaultValueSet(originalParameter);
+      ValueSet defaultValueSet = this.getDefaultValueSet(originalParameter);
       if (defaultValueSet == null) {
         continue;
       }
@@ -143,14 +146,14 @@ class ValueSetOperationCreator {
       this.setValueSetValues(copyValueSets, defaultValueSet);
     }
 
-    var operationContainer = new OperationContainer(context, topContainer.getRevisionNumber());
-    for (var valueSetsClone : valueSetsClones) {
-      var valueSetToUpdate = valueSets
+    OperationContainer operationContainer = new OperationContainer(context, topContainer.getRevisionNumber());
+    for (Thing valueSetsClone : valueSetsClones) {
+      Thing valueSetToUpdate = valueSets
           .stream()
           .filter(x -> x.getIid().equals(valueSetsClone.getIid()))
           .collect(MoreCollectors.onlyElement());
 
-      var operation = new Operation(valueSetToUpdate, valueSetsClone, OperationKind.UPDATE);
+      Operation operation = new Operation(valueSetToUpdate, valueSetsClone, OperationKind.UPDATE);
       operationContainer.addOperation(operation);
     }
 
@@ -164,7 +167,7 @@ class ValueSetOperationCreator {
    * @param dtoList The list returned by the data-source.
    */
   private void computeRoutes(List<cdp4common.dto.Thing> dtos, List<cdp4common.dto.Thing> dtoList) {
-    for (var valueSet : dtos) {
+    for (Thing valueSet : dtos) {
       DtoRouteResolver.resolveRoute(valueSet, dtoList, this.session);
     }
   }
@@ -211,7 +214,7 @@ class ValueSetOperationCreator {
    * @param originalValueSet The original {@link ValueSet} to copy.
    */
   private void setValueSetValues(List<cdp4common.dto.Thing> things, ValueSet originalValueSet) {
-    for (var thing : things) {
+    for (Thing thing : things) {
       switch (thing.getClassKind()) {
         case ParameterValueSet:
         case ParameterOverrideValueSet:

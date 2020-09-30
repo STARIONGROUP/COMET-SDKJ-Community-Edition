@@ -77,13 +77,13 @@ class JsonFileDalUtils {
       Collection<ReferenceDataLibrary> referenceDataLibraries,
       Set<SiteReferenceDataLibrary> siteReferenceDataLibraries,
       Set<ModelReferenceDataLibrary> modelReferenceDataLibraries) {
-    for (var referenceDataLibrary : referenceDataLibraries) {
-      var modelReferenceDataLibrary = as(referenceDataLibrary, ModelReferenceDataLibrary.class);
+    for (ReferenceDataLibrary referenceDataLibrary : referenceDataLibraries) {
+      ModelReferenceDataLibrary modelReferenceDataLibrary = as(referenceDataLibrary, ModelReferenceDataLibrary.class);
       if (modelReferenceDataLibrary != null) {
         modelReferenceDataLibraries.add(modelReferenceDataLibrary);
       }
 
-      var siteReferenceDataLibrary = as(referenceDataLibrary, SiteReferenceDataLibrary.class);
+      SiteReferenceDataLibrary siteReferenceDataLibrary = as(referenceDataLibrary, SiteReferenceDataLibrary.class);
       if (siteReferenceDataLibrary != null) {
         siteReferenceDataLibraries.add(siteReferenceDataLibrary);
       }
@@ -147,7 +147,7 @@ class JsonFileDalUtils {
    * @param persons The target {@link Set{Person}}
    */
   static void addPersons(EngineeringModelSetup engineeringModelSetup, Set<Person> persons) {
-    for (var participant : engineeringModelSetup.getParticipant()) {
+    for (Participant participant : engineeringModelSetup.getParticipant()) {
       persons.add(participant.getPerson());
     }
   }
@@ -173,12 +173,12 @@ class JsonFileDalUtils {
       Set<Person> persons,
       Set<EngineeringModelSetup> engineeringModelSetups,
       Set<IterationSetup> iterIterationSetups) {
-    var dtos = new ArrayList<cdp4common.dto.Thing>();
+    ArrayList<cdp4common.dto.Thing> dtos = new ArrayList<cdp4common.dto.Thing>();
 
     cdp4common.dto.SiteDirectory siteDirectoryDto = null;
 
     // collect the SiteDirectory objec graph, except for the graph branches that need to be pruned
-    for (var siteDirectoryItem : siteDirectory.queryContainedThingsDeep()) {
+    for (Thing siteDirectoryItem : siteDirectory.queryContainedThingsDeep()) {
       if (siteDirectoryItem.getClass() == SiteDirectory.class) {
         // include the SiteDirectory shallow DTO
         siteDirectoryDto = (cdp4common.dto.SiteDirectory) siteDirectoryItem.toDto();
@@ -199,10 +199,10 @@ class JsonFileDalUtils {
 
     // remove the domains-of-expertise that should not be included in the cloned SiteDirectory
     siteDirectoryDto.getDomain().clear();
-    for (var domainOfExpertise : domainOfExpertises) {
-      var pocos = domainOfExpertise.queryContainedThingsDeep();
+    for (DomainOfExpertise domainOfExpertise : domainOfExpertises) {
+      List<Thing> pocos = domainOfExpertise.queryContainedThingsDeep();
 
-      for (var thing : pocos) {
+      for (Thing thing : pocos) {
         if (dtos.stream().noneMatch(x -> x.getIid().equals(thing.getIid()))) {
           dtos.add(thing.toDto());
         }
@@ -213,10 +213,10 @@ class JsonFileDalUtils {
 
     // remove the persons that should not be included in SiteDirectory DTO from the DTO
     siteDirectoryDto.getPerson().clear();
-    for (var person : persons) {
-      var pojos = person.queryContainedThingsDeep();
+    for (Person person : persons) {
+      List<Thing> pojos = person.queryContainedThingsDeep();
 
-      for (var thing : pojos) {
+      for (Thing thing : pojos) {
         if (dtos.stream().noneMatch(x -> x.getIid().equals(thing.getIid()))) {
           dtos.add(thing.toDto());
         }
@@ -226,12 +226,12 @@ class JsonFileDalUtils {
     }
 
     // remove the EngineeringModelSetup instances and replace with pruned ones only including the required iterationSetups
-    var clonedEngineeringModelSetups = new ArrayList<EngineeringModelSetup>();
-    for (var engineeringModelSetup : engineeringModelSetups) {
-      var clonedEngineeringModelSetup = engineeringModelSetup.clone(false);
+    ArrayList<EngineeringModelSetup> clonedEngineeringModelSetups = new ArrayList<EngineeringModelSetup>();
+    for (EngineeringModelSetup engineeringModelSetup : engineeringModelSetups) {
+      EngineeringModelSetup clonedEngineeringModelSetup = engineeringModelSetup.clone(false);
       clonedEngineeringModelSetup.getIterationSetup().clear();
 
-      for (var iterIterationSetup : iterIterationSetups) {
+      for (IterationSetup iterIterationSetup : iterIterationSetups) {
         if (iterIterationSetup.getContainer().equals(engineeringModelSetup)) {
           clonedEngineeringModelSetup.getIterationSetup().add(iterIterationSetup);
         }
@@ -241,10 +241,10 @@ class JsonFileDalUtils {
     }
 
     siteDirectoryDto.getModel().clear();
-    for (var engineeringModelSetup : clonedEngineeringModelSetups) {
+    for (EngineeringModelSetup engineeringModelSetup : clonedEngineeringModelSetups) {
       // retrieve the EngineeringModelSetup contained object graph, including a shallow copy of the ModelReferenceDataLibrary
       // the ModelReferenceDataLibrary contained objects are written to its respective JSON file
-      var nonModelReferenceLibrary = engineeringModelSetup.queryContainedThingsDeep().stream()
+      List<Thing> nonModelReferenceLibrary = engineeringModelSetup.queryContainedThingsDeep().stream()
           .filter(x ->
               x.getClass() == ModelReferenceDataLibrary.class ||
                   x.getContainerOfType(ModelReferenceDataLibrary.class) == null)
@@ -286,14 +286,14 @@ class JsonFileDalUtils {
    * @return An instance of {@link ExchangeFileHeader}.
    */
   static ExchangeFileHeader createExchangeFileHeader(Person person) {
-    var exchangeFileInitiator = new ExchangeFileInitiator(
+    ExchangeFileInitiator exchangeFileInitiator = new ExchangeFileInitiator(
         person.getIid(),
         person.getGivenName(),
         person.getSurname(),
         person.getDefaultEmailAddress() != null ? person.getDefaultEmailAddress().getValue() : null
     );
 
-    var organization = person.getOrganization() != null
+    OrganizationInfo organization = person.getOrganization() != null
         ? new OrganizationInfo(
         person.getOrganization().getIid(),
         person.getOrganization().getName(),
@@ -303,7 +303,7 @@ class JsonFileDalUtils {
     )
         : null;
 
-    var exchangeFileHeader = new ExchangeFileHeader();
+    ExchangeFileHeader exchangeFileHeader = new ExchangeFileHeader();
     exchangeFileHeader.setDataModelVersion("2.4.1");
     exchangeFileHeader.setRemark(EXCHANGE_HEADER_REMARK);
     exchangeFileHeader.setCopyright(EXCHANGE_HEADER_COPYRIGHT);

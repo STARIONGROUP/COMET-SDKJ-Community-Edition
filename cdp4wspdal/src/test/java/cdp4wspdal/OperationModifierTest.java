@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import cdp4common.dto.Thing;
 import cdp4common.engineeringmodeldata.ActualFiniteState;
 import cdp4common.engineeringmodeldata.ActualFiniteStateKind;
 import cdp4common.engineeringmodeldata.ActualFiniteStateList;
@@ -40,12 +41,14 @@ import cdp4common.engineeringmodeldata.ParameterOverride;
 import cdp4common.engineeringmodeldata.ParameterSubscription;
 import cdp4common.engineeringmodeldata.PossibleFiniteState;
 import cdp4common.engineeringmodeldata.PossibleFiniteStateList;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.types.CacheKey;
 import cdp4dal.Assembler;
 import cdp4dal.Session;
 import cdp4dal.operations.Operation;
 import cdp4dal.operations.OperationContainer;
 import cdp4dal.operations.OperationKind;
+import cdp4dal.operations.TransactionContext;
 import cdp4dal.operations.TransactionContextResolver;
 import java.net.URI;
 import java.util.UUID;
@@ -68,22 +71,22 @@ class OperationModifierTest {
   @Test
    void VerifyThatCreatingOverrideCreateSubscriptions()
   {
-    var domain1 = new cdp4common.sitedirectorydata.DomainOfExpertise(UUID.randomUUID(), this.assembler.getCache(),
+    DomainOfExpertise domain1 = new cdp4common.sitedirectorydata.DomainOfExpertise(UUID.randomUUID(), this.assembler.getCache(),
         this.uri);
-    var domain2 = new cdp4common.sitedirectorydata.DomainOfExpertise(UUID.randomUUID(), this.assembler.getCache(),
+    DomainOfExpertise domain2 = new cdp4common.sitedirectorydata.DomainOfExpertise(UUID.randomUUID(), this.assembler.getCache(),
         this.uri);
-    var model = new EngineeringModel(UUID.randomUUID(), this.assembler.getCache(), this.uri);
-    var iteration = new Iteration(UUID.randomUUID(), this.assembler.getCache(), this.uri);
-    var elementDef = new ElementDefinition(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    EngineeringModel model = new EngineeringModel(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    Iteration iteration = new Iteration(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ElementDefinition elementDef = new ElementDefinition(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     elementDef.setOwner(domain1);
-    var defForUsage = new ElementDefinition(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ElementDefinition defForUsage = new ElementDefinition(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     defForUsage.setOwner(domain1);
-    var usage = new ElementUsage(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ElementUsage usage = new ElementUsage(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     usage.setElementDefinition(defForUsage);
 
-    var parameter = new Parameter(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    Parameter parameter = new Parameter(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     parameter.setOwner(domain1);
-    var parameterSubscription = new ParameterSubscription(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ParameterSubscription parameterSubscription = new ParameterSubscription(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     parameterSubscription.setOwner(domain2);
     parameter.getParameterSubscription().add(parameterSubscription);
 
@@ -91,7 +94,7 @@ class OperationModifierTest {
     this.assembler.getCache().put(new CacheKey(parameterSubscription.getIid(), iteration.getIid()), parameterSubscription);
     this.assembler.getCache().put(new CacheKey(usage.getIid(), iteration.getIid()), usage);
 
-    var parameterOverride = new ParameterOverride(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ParameterOverride parameterOverride = new ParameterOverride(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     parameterOverride.setOwner(domain1);
     parameterOverride.setParameter(parameter);
     usage.getParameterOverride().add(parameterOverride);
@@ -102,14 +105,14 @@ class OperationModifierTest {
     elementDef.getContainedElement().add(usage);
     defForUsage.getParameter().add(parameter);
 
-    var transactionContext = TransactionContextResolver.resolveContext(iteration);
-    var context = transactionContext.getContextRoute();
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(iteration);
+    String context = transactionContext.getContextRoute();
 
-    var operationContainer = new OperationContainer(context, model.getRevisionNumber());
+    OperationContainer operationContainer = new OperationContainer(context, model.getRevisionNumber());
     operationContainer.addOperation(new Operation(null, parameterOverride.toDto(), OperationKind.CREATE));
     operationContainer.addOperation(new Operation(usage.toDto(), usage.toDto(), OperationKind.UPDATE));
 
-    var modifier = new OperationModifier(this.session);
+    OperationModifier modifier = new OperationModifier(this.session);
     modifier.modifyOperationContainer(operationContainer);
 
     assertEquals(3, operationContainer.getOperations().size());
@@ -117,37 +120,37 @@ class OperationModifierTest {
 
   @Test
   void verifyThatNoOperationAdded() {
-    var domain1 = new cdp4common.sitedirectorydata.DomainOfExpertise(UUID.randomUUID(),
+    DomainOfExpertise domain1 = new cdp4common.sitedirectorydata.DomainOfExpertise(UUID.randomUUID(),
         this.assembler.getCache(),
         this.uri);
-    var domain2 = new cdp4common.sitedirectorydata.DomainOfExpertise(UUID.randomUUID(),
+    DomainOfExpertise domain2 = new cdp4common.sitedirectorydata.DomainOfExpertise(UUID.randomUUID(),
         this.assembler.getCache(),
         this.uri);
-    var model = new EngineeringModel(UUID.randomUUID(),
+    EngineeringModel model = new EngineeringModel(UUID.randomUUID(),
         this.assembler.getCache(), this.uri);
-    var iteration = new Iteration(UUID.randomUUID(),
+    Iteration iteration = new Iteration(UUID.randomUUID(),
         this.assembler.getCache(), this.uri);
-    var elementDef = new cdp4common.engineeringmodeldata.ElementDefinition(UUID.randomUUID(),
+    ElementDefinition elementDef = new cdp4common.engineeringmodeldata.ElementDefinition(UUID.randomUUID(),
         this.assembler.getCache(),
         this.uri);
     elementDef.setOwner(domain1);
-    var defForUsage = new cdp4common.engineeringmodeldata.ElementDefinition(UUID.randomUUID(),
+    ElementDefinition defForUsage = new cdp4common.engineeringmodeldata.ElementDefinition(UUID.randomUUID(),
         this.assembler.getCache(),
         this.uri);
     defForUsage.setOwner(domain1);
-    var usage = new cdp4common.engineeringmodeldata.ElementUsage(UUID.randomUUID(),
+    ElementUsage usage = new cdp4common.engineeringmodeldata.ElementUsage(UUID.randomUUID(),
         this.assembler.getCache(), this.uri);
     usage.setElementDefinition(defForUsage);
-    var parameter = new cdp4common.engineeringmodeldata.Parameter(UUID.randomUUID(),
+    Parameter parameter = new cdp4common.engineeringmodeldata.Parameter(UUID.randomUUID(),
         this.assembler.getCache(), this.uri);
     parameter.setOwner(domain1);
-    var parameterSubscription = new cdp4common.engineeringmodeldata.ParameterSubscription(
+    ParameterSubscription parameterSubscription = new cdp4common.engineeringmodeldata.ParameterSubscription(
         UUID.randomUUID(),
         this.assembler.getCache(), this.uri);
     parameterSubscription.setOwner(domain2);
     parameter.getParameterSubscription().add(parameterSubscription);
 
-    var parameterOverride = new cdp4common.engineeringmodeldata.ParameterOverride(UUID.randomUUID(),
+    ParameterOverride parameterOverride = new cdp4common.engineeringmodeldata.ParameterOverride(UUID.randomUUID(),
         this.assembler.getCache(), this.uri);
     parameterOverride.setOwner(domain1);
     parameterOverride.setParameter(parameter);
@@ -159,14 +162,14 @@ class OperationModifierTest {
     elementDef.getContainedElement().add(usage);
     defForUsage.getParameter().add(parameter);
 
-    var transactionContext = TransactionContextResolver.resolveContext(iteration);
-    var context = transactionContext.getContextRoute();
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(iteration);
+    String context = transactionContext.getContextRoute();
 
-    var operationContainer = new OperationContainer(context, model.getRevisionNumber());
+    OperationContainer operationContainer = new OperationContainer(context, model.getRevisionNumber());
     operationContainer
         .addOperation(new Operation(null, parameterOverride.toDto(), OperationKind.CREATE));
 
-    var modifier = new OperationModifier(this.session);
+    OperationModifier modifier = new OperationModifier(this.session);
     modifier.modifyOperationContainer(operationContainer);
 
     assertEquals(1, operationContainer.getOperations().size());
@@ -174,24 +177,24 @@ class OperationModifierTest {
 
   @Test
   void verifyThatActualFiniteStateKindIsUpdatedOnNewDefault() {
-    var model = new EngineeringModel(UUID.randomUUID(), this.assembler.getCache(), this.uri);
-    var iteration = new Iteration(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    EngineeringModel model = new EngineeringModel(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    Iteration iteration = new Iteration(UUID.randomUUID(), this.assembler.getCache(), this.uri);
 
-    var possibleList1 = new PossibleFiniteStateList(UUID.randomUUID(), this.assembler.getCache(),
+    PossibleFiniteStateList possibleList1 = new PossibleFiniteStateList(UUID.randomUUID(), this.assembler.getCache(),
         this.uri);
-    var possibleList2 = new PossibleFiniteStateList(UUID.randomUUID(), this.assembler.getCache(),
+    PossibleFiniteStateList possibleList2 = new PossibleFiniteStateList(UUID.randomUUID(), this.assembler.getCache(),
         this.uri);
-    var possibleList3 = new PossibleFiniteStateList(UUID.randomUUID(), this.assembler.getCache(),
+    PossibleFiniteStateList possibleList3 = new PossibleFiniteStateList(UUID.randomUUID(), this.assembler.getCache(),
         this.uri);
 
-    var ps11 = new PossibleFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
-    var ps12 = new PossibleFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    PossibleFiniteState ps11 = new PossibleFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    PossibleFiniteState ps12 = new PossibleFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
 
-    var ps21 = new PossibleFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
-    var ps22 = new PossibleFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    PossibleFiniteState ps21 = new PossibleFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    PossibleFiniteState ps22 = new PossibleFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
 
-    var ps31 = new PossibleFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
-    var ps32 = new PossibleFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    PossibleFiniteState ps31 = new PossibleFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    PossibleFiniteState ps32 = new PossibleFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
 
     possibleList1.getPossibleState().add(ps11);
     possibleList1.getPossibleState().add(ps12);
@@ -200,23 +203,23 @@ class OperationModifierTest {
     possibleList3.getPossibleState().add(ps31);
     possibleList3.getPossibleState().add(ps32);
 
-    var actualList1 = new ActualFiniteStateList(UUID.randomUUID(), this.assembler.getCache(),
+    ActualFiniteStateList actualList1 = new ActualFiniteStateList(UUID.randomUUID(), this.assembler.getCache(),
         this.uri);
-    var actualList2 = new ActualFiniteStateList(UUID.randomUUID(), this.assembler.getCache(),
+    ActualFiniteStateList actualList2 = new ActualFiniteStateList(UUID.randomUUID(), this.assembler.getCache(),
         this.uri);
 
     actualList1.getPossibleFiniteStateList().add(possibleList1);
     actualList1.getPossibleFiniteStateList().add(possibleList2);
-    var as11 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ActualFiniteState as11 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     as11.getPossibleState().add(ps11);
     as11.getPossibleState().add(ps21);
-    var as12 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ActualFiniteState as12 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     as12.getPossibleState().add(ps11);
     as12.getPossibleState().add(ps22);
-    var as13 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ActualFiniteState as13 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     as13.getPossibleState().add(ps12);
     as13.getPossibleState().add(ps21);
-    var as14 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ActualFiniteState as14 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     as14.getPossibleState().add(ps12);
     as14.getPossibleState().add(ps22);
 
@@ -227,16 +230,16 @@ class OperationModifierTest {
 
     actualList2.getPossibleFiniteStateList().add(possibleList2);
     actualList2.getPossibleFiniteStateList().add(possibleList3);
-    var as21 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ActualFiniteState as21 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     as21.getPossibleState().add(ps21);
     as21.getPossibleState().add(ps31);
-    var as22 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ActualFiniteState as22 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     as22.getPossibleState().add(ps21);
     as22.getPossibleState().add(ps32);
-    var as23 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ActualFiniteState as23 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     as23.getPossibleState().add(ps22);
     as23.getPossibleState().add(ps31);
-    var as24 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ActualFiniteState as24 = new ActualFiniteState(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     as24.getPossibleState().add(ps22);
     as24.getPossibleState().add(ps32);
 
@@ -282,27 +285,27 @@ class OperationModifierTest {
     possibleList1.setDefaultState(ps11);
     as11.setKind(ActualFiniteStateKind.FORBIDDEN);
 
-    var transactionContext = TransactionContextResolver.resolveContext(iteration);
-    var context = transactionContext.getContextRoute();
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(iteration);
+    String context = transactionContext.getContextRoute();
 
-    var operationContainer = new OperationContainer(context, model.getRevisionNumber());
+    OperationContainer operationContainer = new OperationContainer(context, model.getRevisionNumber());
 
-    var original = possibleList2.toDto();
-    var modify = (cdp4common.dto.PossibleFiniteStateList) possibleList2.toDto();
+    Thing original = possibleList2.toDto();
+    cdp4common.dto.PossibleFiniteStateList modify = (cdp4common.dto.PossibleFiniteStateList) possibleList2.toDto();
     modify.setDefaultState(ps21.getIid());
 
     operationContainer.addOperation(new Operation(original, modify, OperationKind.UPDATE));
 
     assertEquals(1, operationContainer.getOperations().size());
 
-    var modifier = new OperationModifier(this.session);
+    OperationModifier modifier = new OperationModifier(this.session);
     modifier.modifyOperationContainer(operationContainer);
 
     assertEquals(2, operationContainer.getOperations().size());
-    var addedOperation = operationContainer.getOperations()
+    Operation addedOperation = operationContainer.getOperations()
         .get(operationContainer.getOperations().size() - 1);
-    var originalActualState = (cdp4common.dto.ActualFiniteState) addedOperation.getOriginalThing();
-    var modifiedActualState = (cdp4common.dto.ActualFiniteState) addedOperation.getModifiedThing();
+    cdp4common.dto.ActualFiniteState originalActualState = (cdp4common.dto.ActualFiniteState) addedOperation.getOriginalThing();
+    cdp4common.dto.ActualFiniteState modifiedActualState = (cdp4common.dto.ActualFiniteState) addedOperation.getModifiedThing();
 
     assertEquals(as11.getIid(), originalActualState.getIid());
     assertEquals(ActualFiniteStateKind.MANDATORY, modifiedActualState.getKind());

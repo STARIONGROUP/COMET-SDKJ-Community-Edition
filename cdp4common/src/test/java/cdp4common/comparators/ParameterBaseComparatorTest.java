@@ -34,17 +34,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ParameterBaseComparatorTest {
     @Test
     void testComparator() {
-        var type1 = new EnumerationParameterType();
+      EnumerationParameterType type1 = new EnumerationParameterType();
         type1.setName("a");
-        var type2 = new EnumerationParameterType();
+      EnumerationParameterType type2 = new EnumerationParameterType();
         type2.setName("c");
 
-        var parameter1 = new Parameter();
+      Parameter parameter1 = new Parameter();
         parameter1.setParameterType(type1);
-        var parameter2 = new Parameter();
+      Parameter parameter2 = new Parameter();
         parameter2.setParameterType(type2);
 
-        var comparator = new ParameterBaseComparator();
+      ParameterBaseComparator comparator = new ParameterBaseComparator();
         assertEquals(-2, comparator.compare(parameter1, parameter2));
 
         type1.setName("d");
@@ -56,17 +56,17 @@ class ParameterBaseComparatorTest {
 
     @Test
     void testComparator2() {
-        var type1 = new CompoundParameterType();
+      CompoundParameterType type1 = new CompoundParameterType();
         type1.setName("C");
-        var type2 = new BooleanParameterType();
+      BooleanParameterType type2 = new BooleanParameterType();
         type2.setName("a");
 
-        var parameter1 = new Parameter();
+      Parameter parameter1 = new Parameter();
         parameter1.setParameterType(type1);
-        var parameter2 = new Parameter();
+      Parameter parameter2 = new Parameter();
         parameter2.setParameterType(type2);
 
-        var comparator = new ParameterBaseComparator();
+      ParameterBaseComparator comparator = new ParameterBaseComparator();
         assertEquals(2, comparator.compare(parameter1, parameter2));
     }
 }

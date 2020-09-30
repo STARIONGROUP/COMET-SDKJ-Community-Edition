@@ -44,6 +44,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -126,29 +128,29 @@ class WSPPostOperation implements PostOperation {
    * @param operation The operation.
    */
   private void resolveUpdate(Operation operation) {
-    var original = ClasslessDtoFactory.fullFromThing(operation.getOriginalThing());
-    var modifiedFull = ClasslessDtoFactory.fullFromThing(operation.getModifiedThing());
-    var modified = ClasslessDtoFactory.fullFromThing(operation.getModifiedThing());
+    ClasslessDTO original = ClasslessDtoFactory.fullFromThing(operation.getOriginalThing());
+    ClasslessDTO modifiedFull = ClasslessDtoFactory.fullFromThing(operation.getModifiedThing());
+    ClasslessDTO modified = ClasslessDtoFactory.fullFromThing(operation.getModifiedThing());
 
     Map<String, List<Object>> listsToDelete = new HashMap<>();
     Map<String, List<Object>> listsToAdd = new HashMap<>();
 
-    for (var key : original.keySet()) {
-      var originalIterable = as(original.get(key), Iterable.class);
+    for (String key : original.keySet()) {
+      Iterable originalIterable = as(original.get(key), Iterable.class);
       if (originalIterable != null) {
-        var modifiedIterable = (Iterable) modifiedFull.get(key);
+        Iterable modifiedIterable = (Iterable) modifiedFull.get(key);
 
         // value array case
         if (originalIterable instanceof ValueArray
             && ((ValueArray) originalIterable).getItemType() == String.class) {
-          var originalValue = (ValueArray<String>) originalIterable;
-          var modifiedValue = (ValueArray<String>) modifiedIterable;
+          ValueArray<String> originalValue = (ValueArray<String>) originalIterable;
+          ValueArray<String> modifiedValue = (ValueArray<String>) modifiedIterable;
 
           if (originalValue.toString().equals(modifiedValue.toString())) {
             modified.remove(key);
           }
         } else {
-          var possibleAdditions = new ArrayList<>();
+          ArrayList<Object> possibleAdditions = new ArrayList<>();
 
           List originalProperty;
           List modifiedProperty;
@@ -177,16 +179,16 @@ class WSPPostOperation implements PostOperation {
                 .newArrayList((Iterable) modifiedFull.get(key));
 
             // move property using intersection
-            var sameItems = Lists.newArrayList(originalPropertyOrdered);
+            ArrayList<OrderedItem> sameItems = Lists.newArrayList(originalPropertyOrdered);
             sameItems.retainAll(modifiedPropertyOrdered);
 
-            for (var sameItem : sameItems) {
-              var orItem = originalPropertyOrdered
+            for (OrderedItem sameItem : sameItems) {
+              Optional<OrderedItem> orItem = originalPropertyOrdered
                   .stream()
                   .filter(o -> o.getV().equals((sameItem.getV())))
                   .findFirst();
 
-              var modItem = modifiedPropertyOrdered
+              Optional<OrderedItem> modItem = modifiedPropertyOrdered
                   .stream()
                   .filter(m -> m.getV().equals((sameItem.getV())))
                   .findFirst();
@@ -203,7 +205,7 @@ class WSPPostOperation implements PostOperation {
             continue;
           }
 
-          var exceptModifiedList = Lists.newArrayList(modifiedProperty);
+          ArrayList exceptModifiedList = Lists.newArrayList(modifiedProperty);
           exceptModifiedList.removeAll(originalProperty);
           possibleAdditions.addAll(exceptModifiedList);
 
@@ -212,7 +214,7 @@ class WSPPostOperation implements PostOperation {
             listsToAdd.put(key, possibleAdditions);
           }
 
-          var possibleDeletions = Lists.newArrayList(originalProperty);
+          ArrayList possibleDeletions = Lists.newArrayList(originalProperty);
           possibleDeletions.removeAll(modifiedProperty);
 
           if (possibleDeletions.size() > 0) {
@@ -243,9 +245,9 @@ class WSPPostOperation implements PostOperation {
     }
 
     if (listsToDelete.size() > 0) {
-      var deleteDto = ClasslessDtoFactory.fromThing(operation.getModifiedThing(), null);
+      ClasslessDTO deleteDto = ClasslessDtoFactory.fromThing(operation.getModifiedThing(), null);
 
-      for (var kvp : listsToDelete.entrySet()) {
+      for (Entry<String, List<Object>> kvp : listsToDelete.entrySet()) {
         deleteDto.put(kvp.getKey(), kvp.getValue());
       }
 
@@ -256,8 +258,8 @@ class WSPPostOperation implements PostOperation {
     }
 
     if (listsToAdd.size() > 0) {
-      var updateDto = modified;
-      for (var kvp : listsToAdd.entrySet()) {
+      ClasslessDTO updateDto = modified;
+      for (Entry<String, List<Object>> kvp : listsToAdd.entrySet()) {
         updateDto.put(kvp.getKey(), kvp.getValue());
       }
     }

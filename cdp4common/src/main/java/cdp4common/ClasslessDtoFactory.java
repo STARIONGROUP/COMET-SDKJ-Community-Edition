@@ -48,7 +48,7 @@ public class ClasslessDtoFactory {
             throw new NullPointerException("A thing cannot be null.");
         }
 
-        var classlessDto = new ClasslessDTO();
+        ClasslessDTO classlessDto = new ClasslessDTO();
 
         // the iid and classkind properties are transferred automatically
         classlessDto.put("classKind", thing.getClassKind());
@@ -57,7 +57,7 @@ public class ClasslessDtoFactory {
         // all other named properties
         if (propertyList != null) {
             List<Field> fields = FieldUtils.getAllFieldsList(thing.getClass());
-            for(var property : propertyList)
+            for(String property : propertyList)
             {
                 // if iid or classkind somehow gets included into the list just skip it
                 if (property.equals("iid") || property.equals("classKind")) {
@@ -108,14 +108,14 @@ public class ClasslessDtoFactory {
             throw new NullPointerException("thing");
         }
 
-        var classlessDto = new ClasslessDTO();
+        ClasslessDTO classlessDto = new ClasslessDTO();
 
         // the Iid and ClassKind properties are transferred automatically
         classlessDto.put("classKind", thing.getClassKind());
         classlessDto.put("iid", thing.getIid());
         List<Field> fields = FieldUtils.getAllFieldsList(thing.getClass());
 
-        for(var field : fields)
+        for(Field field : fields)
         {
             // get annotations of a field
             UmlInformation umlInformation = field.getAnnotation(UmlInformation.class);

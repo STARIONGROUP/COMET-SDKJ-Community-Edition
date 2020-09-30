@@ -29,8 +29,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.engineeringmodeldata.NestedElement;
 import cdp4common.engineeringmodeldata.NestedParameter;
+import cdp4common.engineeringmodeldata.Option;
 import cdp4common.helpers.NestedElementTreeGenerator;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.EngineeringModelSetup;
+import cdp4common.sitedirectorydata.IterationSetup;
+import cdp4common.sitedirectorydata.SiteDirectory;
 import cdp4common.types.CacheKey;
 import cdp4dal.Session;
 import cdp4dal.SessionImpl;
@@ -38,7 +44,9 @@ import cdp4dal.dal.Credentials;
 import com.google.common.collect.MoreCollectors;
 import java.net.URI;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,7 +65,7 @@ class AllValueSetTypesTest {
 
   @BeforeEach
   void setup() {
-    var path = Path.of("src/test/java/cdp4jsonfiledal/data/allvaluesettypes.zip");
+    Path path = Paths.get("src/test/java/cdp4jsonfiledal/data/allvaluesettypes.zip");
     this.uri = path.toUri();
 
     this.credentials = new Credentials("admin", "pass", this.uri, null);
@@ -72,21 +80,21 @@ class AllValueSetTypesTest {
 
   @Test
   void verify_that_NestedElementTree_generates_expected_ValueSets() {
-    var siteDirectory = session.retrieveSiteDirectory();
-    var system = siteDirectory.getDomain().stream()
+    SiteDirectory siteDirectory = session.retrieveSiteDirectory();
+    DomainOfExpertise system = siteDirectory.getDomain().stream()
         .filter(x -> x.getIid().equals(UUID.fromString("8790fe92-d1fa-42ea-9520-e0ddac52f1ad")))
         .collect(MoreCollectors.onlyElement());
 
     assertNotNull(siteDirectory);
 
-    var engineeringModelSetup = siteDirectory.getModel().stream()
+    EngineeringModelSetup engineeringModelSetup = siteDirectory.getModel().stream()
         .collect(MoreCollectors.onlyElement());
-    var iterationSetup = engineeringModelSetup.getIterationSetup().stream()
+    IterationSetup iterationSetup = engineeringModelSetup.getIterationSetup().stream()
         .collect(MoreCollectors.onlyElement());
 
-    var engineeringModel = new EngineeringModel(engineeringModelSetup.getEngineeringModelIid(),
+    EngineeringModel engineeringModel = new EngineeringModel(engineeringModelSetup.getEngineeringModelIid(),
         engineeringModelSetup.getCache(), this.uri);
-    var iteration = new Iteration(iterationSetup.getIterationIid(), iterationSetup.getCache(),
+    Iteration iteration = new Iteration(iterationSetup.getIterationIid(), iterationSetup.getCache(),
         this.uri);
     engineeringModel.getIteration().add(iteration);
 
@@ -96,30 +104,30 @@ class AllValueSetTypesTest {
         .getIfPresent(new CacheKey(iteration.getIid(), null));
     assertNotNull(iteration);
 
-    var option_1 = iteration.getOption().stream()
+    Option option_1 = iteration.getOption().stream()
         .filter(x -> x.getIid().equals(UUID.fromString("7476595f-e1f7-4a40-ba6f-720ce40fc0b2")))
         .collect(MoreCollectors.onlyElement());
 
     assertEquals("Option 1", option_1.getName());
 
-    var option_2 = iteration.getOption().stream()
+    Option option_2 = iteration.getOption().stream()
         .filter(x -> x.getIid().equals(UUID.fromString("635e84b2-64c4-4905-a71d-0d8e83757570")))
         .collect(MoreCollectors.onlyElement());
     assertEquals("Option 2", option_2.getName());
 
-    var nestedElements = this.nestedElementTreeGenerator.generate(option_1, system, false);
+    Collection<NestedElement> nestedElements = this.nestedElementTreeGenerator.generate(option_1, system, false);
 
     assertEquals(10, nestedElements.size());
 
-    var nestedParameters = new ArrayList<NestedParameter>();
+    ArrayList<NestedParameter> nestedParameters = new ArrayList<NestedParameter>();
 
-    for (var nestedElement : nestedElements) {
+    for (NestedElement nestedElement : nestedElements) {
       System.out.println(nestedElement.getShortName() + " - " + nestedElement.getName());
 
       nestedParameters.addAll(nestedElement.getNestedParameter());
     }
 
-    var DT_ATO = nestedElements.stream()
+    NestedElement DT_ATO = nestedElements.stream()
         .filter(x -> x.getShortName().equals("DT.ATO"))
         .collect(MoreCollectors.onlyElement());
     assertEquals(12, DT_ATO.getNestedParameter().size());

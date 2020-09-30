@@ -106,7 +106,7 @@ public class CDPMessageBus {
    */
   private <T> Observable<T> composeEventSubject(
       EventTypeTarget eventTypeTarget) {
-    var observable = Observable
+    Observable<T> observable = Observable
         .create((ObservableEmitter<T> e) -> {
           this.messageBus.put(
               eventTypeTarget,
@@ -136,7 +136,7 @@ public class CDPMessageBus {
       Object message, Object
       target,
       String contract) {
-    var cdpEventSubject = this.messageBus
+    Pair<Observable, ObservableEmitter> cdpEventSubject = this.messageBus
         .get(new EventTypeTarget(message.getClass(), target));
 
     if (cdpEventSubject != null) {
@@ -166,7 +166,7 @@ public class CDPMessageBus {
    * @param eventKind The event kind.
    */
   private void sendTypedObjectChangeEvent(Thing thing, EventKind eventKind) {
-    for (var type : TypeResolver.getAllSuperTypes(thing)) {
+    for (Class type : TypeResolver.getAllSuperTypes(thing)) {
       this.sendMessage(new ObjectChangedEvent(thing, eventKind), type, null);
     }
   }

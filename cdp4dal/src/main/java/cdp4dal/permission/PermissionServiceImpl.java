@@ -29,6 +29,7 @@ import cdp4common.commondata.ClassKind;
 import cdp4common.commondata.ParticipantAccessRightKind;
 import cdp4common.commondata.PersonAccessRightKind;
 import cdp4common.commondata.Thing;
+import cdp4common.commondata.TopContainer;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.engineeringmodeldata.OwnedThing;
@@ -38,14 +39,18 @@ import cdp4common.helpers.Utils;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
 import cdp4common.sitedirectorydata.Participant;
+import cdp4common.sitedirectorydata.ParticipantPermission;
 import cdp4common.sitedirectorydata.ParticipantRole;
 import cdp4common.sitedirectorydata.Person;
+import cdp4common.sitedirectorydata.PersonPermission;
 import cdp4common.sitedirectorydata.PersonRole;
+import cdp4common.sitedirectorydata.ReferenceDataLibrary;
 import cdp4common.sitedirectorydata.SiteDirectory;
 import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
 import cdp4dal.Session;
 import com.google.common.base.Strings;
 import com.google.common.collect.MoreCollectors;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -99,7 +104,7 @@ public class PermissionServiceImpl implements PermissionService {
    */
   private boolean canRead(Thing thing, Class thingType) {
     log.trace("CanRead invoked on Thing {} of type {}", thing, thingType);
-    var topContainerClassKind = thing.getTopContainer().getClassKind();
+    ClassKind topContainerClassKind = thing.getTopContainer().getClassKind();
 
     this.checkOwnedThing(thing);
 
@@ -136,15 +141,15 @@ public class PermissionServiceImpl implements PermissionService {
    * @return True if Read operation can be performed.
    */
   private boolean canReadEngineeringModelContainedThing(Thing thing, Class thingType) {
-    var engineeringModel = thing.getTopContainer();
-    var participant =
+    TopContainer engineeringModel = thing.getTopContainer();
+    Optional<Participant> participant =
         this.session.getActivePersonParticipants()
             .stream()
             .filter(x -> ((EngineeringModelSetup) x.getContainer()).getEngineeringModelIid()
                 .equals(engineeringModel.getIid()))
             .findFirst();
 
-    if (participant.isEmpty() || participant.get().getRole() == null) {
+    if (!participant.isPresent() || participant.get().getRole() == null) {
       return false;
     }
 
@@ -192,7 +197,7 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         if (thing instanceof SiteReferenceDataLibrary) {
-          var rdl =
+          List<ReferenceDataLibrary> rdl =
               this.getSession().retrieveSiteDirectory()
                   .getModel()
                   .stream()
@@ -235,8 +240,8 @@ public class PermissionServiceImpl implements PermissionService {
    * @return {@link PersonAccessRightKind} concerning the given {@link Thing}.
    */
   private PersonAccessRightKind getPersonPermission(Thing thing, Class thingType) {
-    var personRole = this.getSession().getActivePerson().getRole();
-    var permission = personRole.getPersonPermission()
+    PersonRole personRole = this.getSession().getActivePerson().getRole();
+    PersonPermission permission = personRole.getPersonPermission()
         .stream()
         .filter(perm -> perm.getObjectClass() == thing.getClassKind())
         .collect(MoreCollectors.toOptional())
@@ -272,7 +277,7 @@ public class PermissionServiceImpl implements PermissionService {
    */
   private ParticipantAccessRightKind getParticipantPermission(Thing thing, Class thingType,
       Participant participant) {
-    var permission = participant.getRole().getParticipantPermission()
+    ParticipantPermission permission = participant.getRole().getParticipantPermission()
         .stream()
         .filter(perm -> perm.getObjectClass() == thing.getClassKind())
         .collect(MoreCollectors.toOptional())
@@ -305,7 +310,7 @@ public class PermissionServiceImpl implements PermissionService {
    * supplied {@link Thing}.
    */
   private boolean hasParticipantPermissionForEngineeringModelSetup(Thing thing) {
-    var setup = Utils.as(thing, EngineeringModelSetup.class) != null ? Utils
+    EngineeringModelSetup setup = Utils.as(thing, EngineeringModelSetup.class) != null ? Utils
         .as(thing, EngineeringModelSetup.class)
         : Utils.as(thing.getContainer(), EngineeringModelSetup.class);
     return setup.getParticipant()
@@ -340,7 +345,7 @@ public class PermissionServiceImpl implements PermissionService {
    */
   private boolean canWrite(Thing thing, Class thingType) {
     this.checkOwnedThing(thing);
-    var topContainerClassKind = thing.getTopContainer().getClassKind();
+    ClassKind topContainerClassKind = thing.getTopContainer().getClassKind();
 
     switch (topContainerClassKind) {
       case SiteDirectory:
@@ -372,7 +377,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     this.checkOwnedThing(containerThing);
 
-    var topContainerClassKind = containerThing.getTopContainer().getClassKind();
+    ClassKind topContainerClassKind = containerThing.getTopContainer().getClassKind();
     switch (topContainerClassKind) {
       case SiteDirectory:
         return this.canWriteSiteDirectoryContainedThing(classKind, containerThing, classKind);
@@ -394,12 +399,12 @@ public class PermissionServiceImpl implements PermissionService {
    * @return True if Write operation can be performed.
    */
   private boolean canWriteEngineeringModelContainedThing(Thing thing, Class thingType) {
-    var engineeringModel = thing.getTopContainer();
+    TopContainer engineeringModel = thing.getTopContainer();
 
-    var participantOptional = getParticipantIfActiveAndIterationNotFrozen(thing,
+    Optional<Participant> participantOptional = getParticipantIfActiveAndIterationNotFrozen(thing,
         (EngineeringModel) engineeringModel);
 
-    if (participantOptional.isEmpty()) {
+    if (!participantOptional.isPresent()) {
       return false;
     }
 
@@ -411,7 +416,7 @@ public class PermissionServiceImpl implements PermissionService {
       case MODIFY:
         return true;
       case MODIFY_IF_OWNER:
-        var ownedThing = Utils.as(thing, OwnedThing.class);
+        OwnedThing ownedThing = Utils.as(thing, OwnedThing.class);
 
         if (ownedThing != null) {
           return this.canWriteIfParticipantOwned(ownedThing);
@@ -437,20 +442,20 @@ public class PermissionServiceImpl implements PermissionService {
    */
   private Optional<Participant> getParticipantIfActiveAndIterationNotFrozen(Thing containerThing,
       EngineeringModel engineeringModel) {
-    var iteration = containerThing instanceof Iteration ? (Iteration) containerThing
+    Iteration iteration = containerThing instanceof Iteration ? (Iteration) containerThing
         : containerThing.getContainerOfType(Iteration.class);
 
     if (iteration != null && iteration.getIterationSetup().getFrozenOn() != null) {
       return Optional.empty();
     }
 
-    var participant = this.getSession().getActivePersonParticipants()
+    Optional<Participant> participant = this.getSession().getActivePersonParticipants()
         .stream()
         .filter(x -> ((EngineeringModelSetup) x.getContainer()).getEngineeringModelIid()
             .equals(engineeringModel.getIid()))
         .findFirst();
 
-    if (participant.isEmpty() || participant.get().getRole() == null) {
+    if (!participant.isPresent() || participant.get().getRole() == null) {
       return Optional.empty();
     }
 
@@ -470,23 +475,23 @@ public class PermissionServiceImpl implements PermissionService {
    */
   private boolean canWriteEngineeringModelContainedThing(ClassKind classKind, Thing thing,
       ClassKind thingType) {
-    var engineeringModel = Utils.as(thing.getTopContainer(), EngineeringModel.class);
+    EngineeringModel engineeringModel = Utils.as(thing.getTopContainer(), EngineeringModel.class);
 
-    var participantOptional = getParticipantIfActiveAndIterationNotFrozen(thing,
+    Optional<Participant> participantOptional = getParticipantIfActiveAndIterationNotFrozen(thing,
         engineeringModel);
 
-    if (participantOptional.isEmpty()) {
+    if (!participantOptional.isPresent()) {
       return false;
     }
 
-    var permission = participantOptional.get().getRole().getParticipantPermission()
+    ParticipantPermission permission = participantOptional.get().getRole().getParticipantPermission()
         .stream()
         .filter(perm -> perm.getObjectClass() == classKind)
         .collect(MoreCollectors.toOptional())
         .orElse(null);
 
     // if the permission is not found then get the default one.
-    var right = permission != null ? permission.getAccessRight()
+    ParticipantAccessRightKind right = permission != null ? permission.getAccessRight()
         : StaticDefaultPermissionProvider.getDefaultParticipantPermission(thingType.toString());
 
     switch (right) {
@@ -531,7 +536,7 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         if (thing instanceof SiteReferenceDataLibrary) {
-          var rdl =
+          List<ReferenceDataLibrary> rdl =
               this.getSession().retrieveSiteDirectory()
                   .getModel()
                   .stream()
@@ -561,24 +566,24 @@ public class PermissionServiceImpl implements PermissionService {
    */
   private boolean canWriteSiteDirectoryContainedThing(ClassKind classKind, Thing thing,
       ClassKind thingType) {
-    var person = this.getSession().getActivePerson();
+    Person person = this.getSession().getActivePerson();
     if (person == null) {
       return false;
     }
 
-    var personRole = this.getSession().getActivePerson().getRole();
+    PersonRole personRole = this.getSession().getActivePerson().getRole();
     if (personRole == null) {
       return false;
     }
 
-    var permission = personRole.getPersonPermission()
+    PersonPermission permission = personRole.getPersonPermission()
         .stream()
         .filter(perm -> perm.getObjectClass() == classKind)
         .collect(MoreCollectors.toOptional())
         .orElse(null);
 
     // if the permission is not found or superclass derivation is used then get the default one.
-    var accessRightKind = permission == null ? StaticDefaultPermissionProvider
+    PersonAccessRightKind accessRightKind = permission == null ? StaticDefaultPermissionProvider
         .getDefaultPersonPermission(thingType.name()) : permission.getAccessRight();
 
     switch (accessRightKind) {
@@ -590,14 +595,14 @@ public class PermissionServiceImpl implements PermissionService {
         return true;
       case MODIFY_IF_PARTICIPANT:
         if (thing instanceof EngineeringModelSetup) {
-          var setup = Utils.as(thing, EngineeringModelSetup.class);
+          EngineeringModelSetup setup = Utils.as(thing, EngineeringModelSetup.class);
           return setup.getParticipant()
               .stream()
               .anyMatch(x -> x.getPerson() == this.getSession().getActivePerson());
         }
 
         if (thing instanceof SiteReferenceDataLibrary) {
-          var rdl =
+          List<ReferenceDataLibrary> rdl =
               this.getSession().retrieveSiteDirectory()
                   .getModel()
                   .stream()
@@ -621,7 +626,7 @@ public class PermissionServiceImpl implements PermissionService {
    * @return True if the permissions of the superclass allow it.
    */
   private boolean canWriteBasedOnSuperclassClassKind(Thing containerThing, ClassKind thingType) {
-    var baseType = Utils.getSuperClassNameForClassName(thingType.name());
+    String baseType = Utils.getSuperClassNameForClassName(thingType.name());
 
     if (Strings.isNullOrEmpty(baseType)) {
       return false;
@@ -640,7 +645,7 @@ public class PermissionServiceImpl implements PermissionService {
    * @return True if write permission is granted.
    */
   private boolean canWriteIfParticipantOwned(OwnedThing ownedThing) {
-    var thing = (Thing) ownedThing;
+    Thing thing = (Thing) ownedThing;
 
     // Check if the iteration domain is null
     if (thing.getContainer() instanceof EngineeringModel) {
@@ -650,7 +655,7 @@ public class PermissionServiceImpl implements PermissionService {
           .map(Entry::getValue).count() > 0;
     }
 
-    var participant = this.getThingParticipant(thing);
+    Optional<Participant> participant = this.getThingParticipant(thing);
 
     return participant.isPresent() && participant.get().getDomain().contains(ownedThing.getOwner());
   }
@@ -664,7 +669,7 @@ public class PermissionServiceImpl implements PermissionService {
    * empty.
    */
   private Optional<Participant> getThingParticipant(Thing thing) {
-    var iteration =
+    Iteration iteration =
         thing instanceof Iteration ? (Iteration) thing : thing.getContainerOfType(Iteration.class);
 
     Participant participant = null;

@@ -37,6 +37,8 @@ import cdp4common.dto.CopyReference;
 import cdp4common.dto.CopySource;
 import cdp4common.dto.CopyTarget;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.Participant;
 import cdp4common.sitedirectorydata.VcardTelephoneNumberKind;
 import cdp4common.types.OrderedItem;
 import cdp4common.types.ValueArray;
@@ -52,8 +54,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.UUID;
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * The CDP POST operation. See also {@link PostOperation}.
@@ -163,29 +168,29 @@ class CdpPostOperation implements PostOperation {
    * @param operation The operation.
    */
   private void resolveUpdate(Operation operation) {
-    var original = ClasslessDtoFactory.fullFromThing(operation.getOriginalThing());
-    var modifiedFull = ClasslessDtoFactory.fullFromThing(operation.getModifiedThing());
-    var modified = ClasslessDtoFactory.fullFromThing(operation.getModifiedThing());
+    ClasslessDTO original = ClasslessDtoFactory.fullFromThing(operation.getOriginalThing());
+    ClasslessDTO modifiedFull = ClasslessDtoFactory.fullFromThing(operation.getModifiedThing());
+    ClasslessDTO modified = ClasslessDtoFactory.fullFromThing(operation.getModifiedThing());
 
     Map<String, List<Object>> listsToDelete = new HashMap<>();
     Map<String, List<Object>> listsToAdd = new HashMap<>();
 
-    for (var key : original.keySet()) {
-      var originalIterable = as(original.get(key), Iterable.class);
+    for (String key : original.keySet()) {
+      Iterable originalIterable = as(original.get(key), Iterable.class);
       if (originalIterable != null) {
-        var modifiedIterable = (Iterable) modifiedFull.get(key);
+        Iterable modifiedIterable = (Iterable) modifiedFull.get(key);
 
         // value array case
         if (originalIterable instanceof ValueArray
             && ((ValueArray) originalIterable).getItemType() == String.class) {
-          var originalValue = (ValueArray<String>) originalIterable;
-          var modifiedValue = (ValueArray<String>) modifiedIterable;
+          ValueArray<String> originalValue = (ValueArray<String>) originalIterable;
+          ValueArray<String> modifiedValue = (ValueArray<String>) modifiedIterable;
 
           if (originalValue.toString().equals(modifiedValue.toString())) {
             modified.remove(key);
           }
         } else {
-          var possibleAdditions = new ArrayList<>();
+          ArrayList<Object> possibleAdditions = new ArrayList<>();
 
           List originalProperty;
           List modifiedProperty;
@@ -214,16 +219,16 @@ class CdpPostOperation implements PostOperation {
                 .newArrayList((Iterable) modifiedFull.get(key));
 
             // move property using intersection
-            var sameItems = Lists.newArrayList(originalPropertyOrdered);
+            ArrayList<OrderedItem> sameItems = Lists.newArrayList(originalPropertyOrdered);
             sameItems.retainAll(modifiedPropertyOrdered);
 
-            for (var sameItem : sameItems) {
-              var orItem = originalPropertyOrdered
+            for (OrderedItem sameItem : sameItems) {
+              Optional<OrderedItem> orItem = originalPropertyOrdered
                   .stream()
                   .filter(o -> o.getV().equals((sameItem.getV())))
                   .findFirst();
 
-              var modItem = modifiedPropertyOrdered
+              Optional<OrderedItem> modItem = modifiedPropertyOrdered
                   .stream()
                   .filter(m -> m.getV().equals((sameItem.getV())))
                   .findFirst();
@@ -240,7 +245,7 @@ class CdpPostOperation implements PostOperation {
             continue;
           }
 
-          var exceptModifiedList = Lists.newArrayList(modifiedProperty);
+          ArrayList exceptModifiedList = Lists.newArrayList(modifiedProperty);
           exceptModifiedList.removeAll(originalProperty);
           possibleAdditions.addAll(exceptModifiedList);
 
@@ -249,7 +254,7 @@ class CdpPostOperation implements PostOperation {
             listsToAdd.put(key, possibleAdditions);
           }
 
-          var possibleDeletions = Lists.newArrayList(originalProperty);
+          ArrayList possibleDeletions = Lists.newArrayList(originalProperty);
           possibleDeletions.removeAll(modifiedProperty);
 
           if (possibleDeletions.size() > 0) {
@@ -280,9 +285,9 @@ class CdpPostOperation implements PostOperation {
     }
 
     if (listsToDelete.size() > 0) {
-      var deleteDto = ClasslessDtoFactory.fromThing(operation.getModifiedThing(), null);
+      ClasslessDTO deleteDto = ClasslessDtoFactory.fromThing(operation.getModifiedThing(), null);
 
-      for (var kvp : listsToDelete.entrySet()) {
+      for (Entry<String, List<Object>> kvp : listsToDelete.entrySet()) {
         deleteDto.put(kvp.getKey(), kvp.getValue());
       }
 
@@ -293,8 +298,8 @@ class CdpPostOperation implements PostOperation {
     }
 
     if (listsToAdd.size() > 0) {
-      var updateDto = modified;
-      for (var kvp : listsToAdd.entrySet()) {
+      ClasslessDTO updateDto = modified;
+      for (Entry<String, List<Object>> kvp : listsToAdd.entrySet()) {
         updateDto.put(kvp.getKey(), kvp.getValue());
       }
     }
@@ -315,51 +320,51 @@ class CdpPostOperation implements PostOperation {
       return;
     }
 
-    var options = new CopyInfoOptions();
+    CopyInfoOptions options = new CopyInfoOptions();
     options.setCopyKind(CopyKind.Deep);
     options.setKeepOwner(operation.getOperationKind() == OperationKind.COPY
         || operation.getOperationKind() == OperationKind.COPY_KEEP_VALUES);
     options.setKeepValues(operation.getOperationKind() == OperationKind.COPY_KEEP_VALUES
         || operation.getOperationKind() == OperationKind.COPY_KEEP_VALUES_CHANGE_OWNER);
 
-    var sourcePojo = operation.getOriginalThing().querySourceThing();
-    var sourceIteration = sourcePojo.getContainerOfType(Iteration.class);
+    Thing sourcePojo = operation.getOriginalThing().querySourceThing();
+    Iteration sourceIteration = sourcePojo.getContainerOfType(Iteration.class);
 
-    var source = new CopySource();
-    var thingCopyReference = new CopyReference();
+    CopySource source = new CopySource();
+    CopyReference thingCopyReference = new CopyReference();
     thingCopyReference.setIid(operation.getOriginalThing().getIid());
     thingCopyReference.setClassKind(operation.getOriginalThing().getClassKind());
     source.setThing(thingCopyReference);
-    var topContainerCopyReference = new CopyReference();
+    CopyReference topContainerCopyReference = new CopyReference();
     topContainerCopyReference.setIid(sourcePojo.getTopContainer().getIid());
     topContainerCopyReference.setClassKind(sourcePojo.getTopContainer().getClassKind());
     source.setTopContainer(topContainerCopyReference);
     source.setIterationId(sourceIteration != null ? sourceIteration.getIid() : null);
 
-    var pojo = operation.getModifiedThing().querySourceThing();
+    Thing pojo = operation.getModifiedThing().querySourceThing();
     if (pojo.getContainer() == null) {
       throw new IllegalArgumentException("The container cannot be null.");
     }
 
-    var targetIteration = pojo.getContainerOfType(Iteration.class);
-    var target = new CopyTarget();
-    var containerCopyReference = new CopyReference();
+    Iteration targetIteration = pojo.getContainerOfType(Iteration.class);
+    CopyTarget target = new CopyTarget();
+    CopyReference containerCopyReference = new CopyReference();
     containerCopyReference.setIid(pojo.getContainer().getIid());
     containerCopyReference.setClassKind(pojo.getContainer().getClassKind());
     target.setContainer(containerCopyReference);
-    var targetTopContainerCopyReference = new CopyReference();
+    CopyReference targetTopContainerCopyReference = new CopyReference();
     targetTopContainerCopyReference.setIid(pojo.getTopContainer().getIid());
     targetTopContainerCopyReference.setClassKind(pojo.getTopContainer().getClassKind());
     target.setTopContainer(targetTopContainerCopyReference);
     target.setIterationId(targetIteration != null ? targetIteration.getIid() : null);
 
-    var copyInfo = new CopyInfo();
+    CopyInfo copyInfo = new CopyInfo();
     copyInfo.setSource(source);
     copyInfo.setTarget(target);
     copyInfo.setOptions(options);
 
     if (targetIteration != null) {
-      var participation = this.session.getOpenIterations()
+      Pair<DomainOfExpertise, Participant> participation = this.session.getOpenIterations()
           .entrySet()
           .stream()
           .filter(x -> x.getKey().getIid().equals(targetIteration.getIid()))

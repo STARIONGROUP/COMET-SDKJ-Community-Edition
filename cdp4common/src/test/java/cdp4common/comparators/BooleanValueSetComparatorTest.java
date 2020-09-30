@@ -24,14 +24,13 @@
 
 package cdp4common.comparators;
 
-import cdp4common.types.ValueArray;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import cdp4common.types.ValueArray;
+import java.util.Arrays;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Suite of tests for the {@link BooleanValueSetComparator}
@@ -49,13 +48,13 @@ class BooleanValueSetComparatorTest {
 
     @BeforeEach
     void setUp() {
-        this.valueArrayTrue = new ValueArray<>(List.of("True"), String.class);
-        this.valueArrayFalse = new ValueArray<>(List.of("False"), String.class);
-        this.valueArrayLowerTrue = new ValueArray<>(List.of("true"), String.class);
-        this.valueArrayLowerFalse = new ValueArray<>(List.of("false"), String.class);
-        this.valueArrayNotSet = new ValueArray<>(List.of("-"), String.class);
-        this.valueArrayWrongTrue = new ValueArray<>(List.of("1"), String.class);
-        this.valueArrayWrongFalse = new ValueArray<>(List.of("0"), String.class);
+        this.valueArrayTrue = new ValueArray<>(Arrays.asList("True"), String.class);
+        this.valueArrayFalse = new ValueArray<>(Arrays.asList("False"), String.class);
+        this.valueArrayLowerTrue = new ValueArray<>(Arrays.asList("true"), String.class);
+        this.valueArrayLowerFalse = new ValueArray<>(Arrays.asList("false"), String.class);
+        this.valueArrayNotSet = new ValueArray<>(Arrays.asList("-"), String.class);
+        this.valueArrayWrongTrue = new ValueArray<>(Arrays.asList("1"), String.class);
+        this.valueArrayWrongFalse = new ValueArray<>(Arrays.asList("0"), String.class);
 
         this.booleanValueSetComparator = new BooleanValueSetComparator();
     }

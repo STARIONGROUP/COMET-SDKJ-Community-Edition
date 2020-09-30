@@ -30,6 +30,7 @@ import cdp4common.sitedirectorydata.CompoundParameterType;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.ParameterTypeComponent;
 import cdp4common.types.ValueArray;
+import java.util.Collection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -74,14 +75,14 @@ class ParameterSubscriptionValueSetTest {
 
         this.parameterSubscriptionValueSet = new ParameterSubscriptionValueSet();
         this.parameterValueSetBase = new ParameterValueSet();
-        this.parameterValueSetBase.setPublished(new ValueArray<String>(List.of("computed"), String.class));
-        this.parameterValueSetBase.setComputed(new ValueArray<String>(List.of("computed"), String.class));
-        this.parameterValueSetBase.setReference(new ValueArray<String>(List.of("ref"), String.class));
+        this.parameterValueSetBase.setPublished(new ValueArray<String>(Arrays.asList("computed"), String.class));
+        this.parameterValueSetBase.setComputed(new ValueArray<String>(Arrays.asList("computed"), String.class));
+        this.parameterValueSetBase.setReference(new ValueArray<String>(Arrays.asList("ref"), String.class));
         this.parameterValueSetBase.setActualState(new ActualFiniteState());
         this.parameterValueSetBase.setActualOption(new Option());
 
         this.parameterSubscriptionValueSet.setSubscribedValueSet(this.parameterValueSetBase);
-        this.parameterSubscriptionValueSet.setManual(new ValueArray<String>(List.of("manual"), String.class));
+        this.parameterSubscriptionValueSet.setManual(new ValueArray<String>(Arrays.asList("manual"), String.class));
 
         this.parameterSubscription = new ParameterSubscription();
         this.parameterSubscription.getValueSet().add(this.parameterSubscriptionValueSet);
@@ -174,7 +175,7 @@ class ParameterSubscriptionValueSetTest {
         String manualValue = "manual";
         String newManualValue = "new manual";
 
-        ValueArray<String> manualValueArray = new ValueArray<>(List.of(manualValue), String.class);
+        ValueArray<String> manualValueArray = new ValueArray<>(Arrays.asList(manualValue), String.class);
 
         this.parameterSubscriptionValueSet.setManual(manualValueArray);
 
@@ -189,22 +190,22 @@ class ParameterSubscriptionValueSetTest {
 
     @Test
     void verify_that_Validate_pojo_returns_errors_when_size_of_valuearray_is_incorrect() {
-        var component_1 = new ParameterTypeComponent(UUID.randomUUID(), null, null);
+        ParameterTypeComponent component_1 = new ParameterTypeComponent(UUID.randomUUID(), null, null);
         component_1.setParameterType(this.booleanParameterType);
 
-        var component_2 = new ParameterTypeComponent(UUID.randomUUID(), null, null);
+        ParameterTypeComponent component_2 = new ParameterTypeComponent(UUID.randomUUID(), null, null);
         component_2.setParameterType(this.booleanParameterType);
 
-        var compoundParameterType = new CompoundParameterType(UUID.randomUUID(), null, null);
+        CompoundParameterType compoundParameterType = new CompoundParameterType(UUID.randomUUID(), null, null);
         compoundParameterType.getComponent().add(component_1);
         compoundParameterType.getComponent().add(component_2);
 
-        var parameter = new Parameter(UUID.randomUUID(), null, null);
+        Parameter parameter = new Parameter(UUID.randomUUID(), null, null);
         parameter.setParameterType(compoundParameterType);
 
-        var parameterSubscription = new ParameterSubscription(UUID.randomUUID(), null, null);
-        var parameterSubscriptionValueSet = new ParameterSubscriptionValueSet(UUID.randomUUID(), null, null);
-        parameterSubscriptionValueSet.setManual(new ValueArray<>(List.of("true", "false"), String.class));
+        ParameterSubscription parameterSubscription = new ParameterSubscription(UUID.randomUUID(), null, null);
+        ParameterSubscriptionValueSet parameterSubscriptionValueSet = new ParameterSubscriptionValueSet(UUID.randomUUID(), null, null);
+        parameterSubscriptionValueSet.setManual(new ValueArray<>(Arrays.asList("true", "false"), String.class));
 
         parameterSubscriptionValueSet.setSubscribedValueSet(new ParameterValueSet(UUID.randomUUID(), null, null));
 
@@ -214,20 +215,20 @@ class ParameterSubscriptionValueSetTest {
 
         parameterSubscriptionValueSet.validatePojo();
 
-        var errors = parameterSubscriptionValueSet.getValidationErrors();
+        Collection<String> errors = parameterSubscriptionValueSet.getValidationErrors();
 
         assertEquals(2, errors.size());
     }
 
     @Test
     void verify_that_Manual_value_can_be_reset() {
-        var defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
+        ValueArray<String> defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
 
-        var p = new Parameter(UUID.randomUUID(), null, null);
+        Parameter p = new Parameter(UUID.randomUUID(), null, null);
         p.setParameterType(this.booleanParameterType);
 
-        var ps = new ParameterSubscription(UUID.randomUUID(), null, null);
-        var psvs = new ParameterSubscriptionValueSet(UUID.randomUUID(), null, null);
+        ParameterSubscription ps = new ParameterSubscription(UUID.randomUUID(), null, null);
+        ParameterSubscriptionValueSet psvs = new ParameterSubscriptionValueSet(UUID.randomUUID(), null, null);
         ps.getValueSet().add(psvs);
         p.getParameterSubscription().add(ps);
 
@@ -240,19 +241,19 @@ class ParameterSubscriptionValueSetTest {
 
     @Test
     void verify_that_ResetComputed_throws_exception() {
-        var psvs = new ParameterSubscriptionValueSet(UUID.randomUUID(), null, null);
+        ParameterSubscriptionValueSet psvs = new ParameterSubscriptionValueSet(UUID.randomUUID(), null, null);
         assertThrows(UnsupportedOperationException.class, () -> psvs.resetComputed());
     }
 
     @Test
     void verify_that_ResetReference_throws_exception() {
-        var psvs = new ParameterSubscriptionValueSet(UUID.randomUUID(), null, null);
+        ParameterSubscriptionValueSet psvs = new ParameterSubscriptionValueSet(UUID.randomUUID(), null, null);
         assertThrows(UnsupportedOperationException.class, () -> psvs.resetReference());
     }
 
     @Test
     void verify_that_ResetFormula_throws_exception() {
-        var psvs = new ParameterSubscriptionValueSet(UUID.randomUUID(), null, null);
+        ParameterSubscriptionValueSet psvs = new ParameterSubscriptionValueSet(UUID.randomUUID(), null, null);
         assertThrows(UnsupportedOperationException.class, () -> psvs.resetFormula());
     }
 }

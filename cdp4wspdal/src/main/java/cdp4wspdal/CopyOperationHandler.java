@@ -34,18 +34,22 @@ import cdp4common.engineeringmodeldata.Parameter;
 import cdp4common.engineeringmodeldata.ParameterGroup;
 import cdp4common.engineeringmodeldata.ParameterOverride;
 import cdp4common.engineeringmodeldata.ParameterSubscription;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4dal.Session;
 import cdp4dal.operations.Operation;
 import cdp4dal.operations.OperationContainer;
 import cdp4dal.operations.OperationKind;
 import cdp4dal.operations.OperationUtils;
 import cdp4dal.permission.CopyPermissionHelper;
+import cdp4dal.permission.CopyPermissionResult;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -98,9 +102,9 @@ class CopyOperationHandler {
    * @param operationContainer The {@link OperationContainer} to modify.
    */
   public void modifiedCopyOperation(OperationContainer operationContainer) {
-    var operationsToAdd = new ArrayList<Operation>();
+    ArrayList<Operation> operationsToAdd = new ArrayList<Operation>();
 
-    var copyOperationCount = operationContainer.getOperations()
+    long copyOperationCount = operationContainer.getOperations()
         .stream()
         .filter(x -> OperationUtils.isCopyOperation(x.getOperationKind()))
         .count();
@@ -111,19 +115,19 @@ class CopyOperationHandler {
           "Only one copy operation per transaction is supported.");
     }
 
-    var copyOperation = operationContainer.getOperations()
+    Optional<Operation> copyOperation = operationContainer.getOperations()
         .stream()
         .filter(x -> OperationUtils.isCopyOperation(x.getOperationKind()))
         .collect(MoreCollectors.toOptional());
 
-    if (copyOperation.isEmpty()) {
+    if (!copyOperation.isPresent()) {
       return;
     }
 
     this.computeOperations(copyOperation.get());
     operationsToAdd.addAll(this.operations);
 
-    for (var operation : operationsToAdd) {
+    for (Operation operation : operationsToAdd) {
       operationContainer.addOperation(operation);
     }
 
@@ -131,13 +135,13 @@ class CopyOperationHandler {
     operationContainer.removeOperation(copyOperation.get());
 
     // update the update iteration operation
-    var iterationOperation = operationContainer.getOperations()
+    Operation iterationOperation = operationContainer.getOperations()
         .stream()
         .filter(x -> x.getOperationKind() == OperationKind.UPDATE)
         .collect(MoreCollectors.onlyElement());
 
-    var updatedIteration = iterationOperation.getModifiedThing().querySourceThing();
-    var originalIteration = iterationOperation.getOriginalThing().querySourceThing();
+    Thing updatedIteration = iterationOperation.getModifiedThing().querySourceThing();
+    Thing originalIteration = iterationOperation.getOriginalThing().querySourceThing();
 
     operationContainer.removeOperation(iterationOperation);
     operationContainer.addOperation(
@@ -154,11 +158,11 @@ class CopyOperationHandler {
     this.copyableIds = new ArrayList<>();
     this.operations = new ArrayList<>();
 
-    var copyDto = copyOperation.getModifiedThing();
-    var copyPojo = copyDto.querySourceThing();
+    cdp4common.dto.Thing copyDto = copyOperation.getModifiedThing();
+    Thing copyPojo = copyDto.querySourceThing();
 
-    var originalDto = copyOperation.getOriginalThing();
-    var originalPojo = originalDto.querySourceThing();
+    cdp4common.dto.Thing originalDto = copyOperation.getOriginalThing();
+    Thing originalPojo = originalDto.querySourceThing();
 
     if (copyPojo.getTopContainer().getClassKind() != ClassKind.EngineeringModel) {
       throw new IllegalArgumentException(
@@ -168,9 +172,9 @@ class CopyOperationHandler {
     this.copyThingMap.put(originalPojo, copyPojo);
 
     // compute the things to copy
-    var copyPermissionHelper = new CopyPermissionHelper(this.session,
+    CopyPermissionHelper copyPermissionHelper = new CopyPermissionHelper(this.session,
         OperationUtils.isCopyChangeOwnerOperation(copyOperation.getOperationKind()));
-    var copyPermissionResult = copyPermissionHelper
+    CopyPermissionResult copyPermissionResult = copyPermissionHelper
         .computeCopyPermission(originalPojo, copyPojo.getContainer());
 
     // Add all contained objects
@@ -180,7 +184,7 @@ class CopyOperationHandler {
         .collect(Collectors.toList()));
 
     if (this.copyableIds.contains(originalPojo.getIid())) {
-      var updatedIteration = copyPojo.getContainerOfType(Iteration.class);
+      Iteration updatedIteration = copyPojo.getContainerOfType(Iteration.class);
 
       this.createPojoCopy(copyPojo, updatedIteration);
 
@@ -205,7 +209,7 @@ class CopyOperationHandler {
   private void createPojoCopy(ElementUsage usage, Iteration targetIteration) {
     if (!this.copyThingMap.containsKey(usage.getElementDefinition())) {
       // create a copy of its element definition
-      var usageDefinitionClone = usage.getElementDefinition().clone(false);
+      ElementDefinition usageDefinitionClone = usage.getElementDefinition().clone(false);
       usageDefinitionClone.setIid(UUID.randomUUID());
 
       this.createPojoCopy(usageDefinitionClone, targetIteration);
@@ -225,15 +229,15 @@ class CopyOperationHandler {
    * @param targetIteration The clone of the target {@link Iteration}.
    */
   private void createPojoCopy(Thing pojo, Iteration targetIteration) {
-    for (var containerList : pojo.getContainerLists()) {
-      var updatedContainerList = new ArrayList<Thing>();
-      for (var containedObject : containerList) {
-        var containedPojo = (Thing) containedObject;
+    for (Collection containerList : pojo.getContainerLists()) {
+      ArrayList<Thing> updatedContainerList = new ArrayList<Thing>();
+      for (Object containedObject : containerList) {
+        Thing containedPojo = (Thing) containedObject;
         if (!this.copyableIds.contains(containedPojo.getIid())) {
           continue;
         }
 
-        var clone = containedPojo.clone(false);
+        Thing clone = containedPojo.clone(false);
         clone.setIid(UUID.randomUUID());
 
         if (clone.getClassKind() == ClassKind.ElementUsage) {
@@ -262,8 +266,8 @@ class CopyOperationHandler {
    * Creates a {@link List<Operation>} associated to a {@link Thing} to copy.
    */
   private void createOperations() {
-    for (var copy : this.copyThingMap.values()) {
-      var operation = new Operation(null, copy.toDto(), OperationKind.CREATE);
+    for (Thing copy : this.copyThingMap.values()) {
+      Operation operation = new Operation(null, copy.toDto(), OperationKind.CREATE);
       this.operations.add(operation);
     }
   }
@@ -272,7 +276,7 @@ class CopyOperationHandler {
    * Modify the references for a {@link Thing} and all its contained elements.
    */
   private void modifyReferences() {
-    for (var copy : this.copyThingMap.values()) {
+    for (Thing copy : this.copyThingMap.values()) {
       switch (copy.getClassKind()) {
         case ElementUsage:
           this.modifyReferences((ElementUsage) copy);
@@ -340,7 +344,7 @@ class CopyOperationHandler {
    */
   private void modifyReferences(ParameterOverride parameterOverride) {
     // if an override is copied, the parameter it overrides shall be in the list of copied elements
-    var copy = (Parameter) this.copyThingMap.get(parameterOverride.getParameter());
+    Parameter copy = (Parameter) this.copyThingMap.get(parameterOverride.getParameter());
     parameterOverride.setParameter(copy);
   }
 
@@ -351,7 +355,7 @@ class CopyOperationHandler {
    * @param iteration The {@link Iteration} into which the {@link Thing}s are copied.
    */
   private void changeOwner(Iteration iteration) {
-    var activeDomain = this.session.getOpenIterations()
+    DomainOfExpertise activeDomain = this.session.getOpenIterations()
         .entrySet()
         .stream()
         .filter(x -> x.getKey().getIid().equals(iteration.getIid()))
@@ -363,12 +367,12 @@ class CopyOperationHandler {
           "The active domain is null. The copy operation cannot be performed.");
     }
 
-    var ownedThings = this.copyThingMap.values()
+    List<Thing> ownedThings = this.copyThingMap.values()
         .stream()
         .filter(x -> x instanceof OwnedThing)
         .collect(Collectors.toList());
 
-    for (var ownedThing : ownedThings) {
+    for (Thing ownedThing : ownedThings) {
       // the owner of a subscription shall not be set to the active one
       if (ownedThing instanceof ParameterSubscription) {
         continue;

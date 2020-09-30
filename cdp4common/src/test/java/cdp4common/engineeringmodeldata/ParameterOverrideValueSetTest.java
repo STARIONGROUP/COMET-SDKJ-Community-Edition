@@ -24,19 +24,20 @@
 
 package cdp4common.engineeringmodeldata;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import cdp4common.exceptions.ContainmentException;
 import cdp4common.sitedirectorydata.CompoundParameterType;
 import cdp4common.sitedirectorydata.ParameterTypeComponent;
 import cdp4common.sitedirectorydata.SimpleQuantityKind;
 import cdp4common.types.ValueArray;
 import com.google.common.collect.Iterables;
+import java.util.Arrays;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ParameterOverrideValueSetTest {
     private ElementDefinition elementDefinition1;
@@ -207,9 +208,9 @@ class ParameterOverrideValueSetTest {
         String computedValue = "computed";
         String newComputedValue = "new computedValue";
 
-        ValueArray<String> manualValueArray = new ValueArray<>(List.of(manualValue), String.class);
-        ValueArray<String> referenceValueArray = new ValueArray<>(List.of(referenceValue), String.class);
-        ValueArray<String> computedValueArray = new ValueArray<>(List.of(computedValue), String.class);
+        ValueArray<String> manualValueArray = new ValueArray<>(Arrays.asList(manualValue), String.class);
+        ValueArray<String> referenceValueArray = new ValueArray<>(Arrays.asList(referenceValue), String.class);
+        ValueArray<String> computedValueArray = new ValueArray<>(Arrays.asList(computedValue), String.class);
 
         parameterOverrideValueSet.setManual(manualValueArray);
         parameterOverrideValueSet.setReference(referenceValueArray);
@@ -236,7 +237,7 @@ class ParameterOverrideValueSetTest {
 
     @Test
     void verify_that_when_QueryParameterType_throws_exception_when_container_not_set() {
-        var parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
+        ParameterOverrideValueSet parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
 
         assertThrows(ContainmentException.class, () -> parameterOverrideValueSet.queryParameterType());
     }

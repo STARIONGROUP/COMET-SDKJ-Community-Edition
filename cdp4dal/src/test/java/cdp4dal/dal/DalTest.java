@@ -31,17 +31,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import cdp4common.Version;
 import cdp4common.dto.ActionItem;
 import cdp4common.dto.ArrayParameterType;
 import cdp4common.dto.FileRevision;
-import cdp4common.Version;
 import cdp4dal.exceptions.InvalidOperationContainerException;
 import cdp4dal.operations.Operation;
 import cdp4dal.operations.OperationContainer;
 import cdp4dal.operations.OperationKind;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
@@ -49,11 +49,11 @@ class DalTest {
 
   @Test
   void verifyThatQueryRequestContextReturnsExpectedResult() {
-    var dalStub = new DalStubExport();
+    DalStubExport dalStub = new DalStubExport();
 
-    var elementDefinitionUri = URI.create(
+    URI elementDefinitionUri = URI.create(
         "http://www.rheagroup.com/EngineeringModel/00B1FD7E-BE0F-4512-A406-02FCBD63E06A/iteration/0111A76D-346D-4055-A78D-B8215B993DA1/element/E9E8E386-B8BB-44F1-80B9-2C30761EE688");
-    var elementDefinitionContext = dalStub.queryRequestContext(elementDefinitionUri);
+    String elementDefinitionContext = dalStub.queryRequestContext(elementDefinitionUri);
     assertEquals(
         "/EngineeringModel/00B1FD7E-BE0F-4512-A406-02FCBD63E06A/iteration/0111A76D-346D-4055-A78D-B8215B993DA1",
         elementDefinitionContext);
@@ -61,7 +61,7 @@ class DalTest {
 
   @Test
   void closeSessionTest() {
-    var dalStub = new DalStubExport();
+    DalStubExport dalStub = new DalStubExport();
     dalStub.setCredentials(new Credentials("John", "pass", URI.create("file://someuri"), null));
     assertNotNull(dalStub.getCredentials());
 
@@ -71,9 +71,9 @@ class DalTest {
 
   @Test
   void cleanURIFinalSlashTest() {
-    var dalStub = new DalStubExport();
-    var uri = "file://someuri";
-    var uriWithSlash = "file://someuri/";
+    DalStubExport dalStub = new DalStubExport();
+    String uri = "file://someuri";
+    String uriWithSlash = "file://someuri/";
 
     assertEquals(uri, dalStub.cleanURIFinalSlash(uriWithSlash));
     assertEquals(uri, dalStub.cleanURIFinalSlash(uri));
@@ -81,7 +81,7 @@ class DalTest {
 
   @Test
   void setIterationContainerThrowsExceptionTest() {
-    var dalStub = new DalStubExport();
+    DalStubExport dalStub = new DalStubExport();
 
     assertThrows(NullPointerException.class, () -> dalStub.setIterationContainer(null, null));
     assertThrows(IllegalArgumentException.class,
@@ -92,15 +92,15 @@ class DalTest {
 
   @Test
   void setIterationContainerTest() {
-    var dalStub = new DalStubExport();
-    var actionItem = new ActionItem();
-    var arrayParameterType = new ArrayParameterType();
-    var uuid = UUID.randomUUID();
+    DalStubExport dalStub = new DalStubExport();
+    ActionItem actionItem = new ActionItem();
+    ArrayParameterType arrayParameterType = new ArrayParameterType();
+    UUID uuid = UUID.randomUUID();
 
     assertNull(actionItem.getIterationContainerId());
     assertNull(arrayParameterType.getIterationContainerId());
 
-    dalStub.setIterationContainer(List.of(actionItem, arrayParameterType), uuid);
+    dalStub.setIterationContainer(Arrays.asList(actionItem, arrayParameterType), uuid);
 
     assertEquals(uuid, arrayParameterType.getIterationContainerId());
     assertNull(actionItem.getIterationContainerId());
@@ -108,10 +108,10 @@ class DalTest {
 
   @Test
   void tryExtractIterationIdFromURIReturnsNullTest() {
-    var dalStub = new DalStubExport();
-    var siteDirectoryUri = URI.create(
+    DalStubExport dalStub = new DalStubExport();
+    URI siteDirectoryUri = URI.create(
         "/SiteDirectory/f13de6f8-b03a-46e7-a492-53b2f260f294/siteReferenceDataLibrary/c454c687-ba3e-44c4-86bc-44544b2c7880");
-    var iterationUriWithInvalidUuid = URI.create(
+    URI iterationUriWithInvalidUuid = URI.create(
         "/EngineeringModel/9ec982e4-ef72-4953-aa85-b158a95d8d56/iteration/baaaaaak-f32b-4387-b805-f4b34600bc2c/element/f73860b2-12f0-43e4-b8b2-c81862c0a159");
 
     assertNull(dalStub.tryExtractIterationIdFromURI(siteDirectoryUri));
@@ -120,8 +120,8 @@ class DalTest {
 
   @Test
   void tryExtractIterationIdFromURIReturnsUuidTest() {
-    var dalStub = new DalStubExport();
-    var iterationUri = URI.create(
+    DalStubExport dalStub = new DalStubExport();
+    URI iterationUri = URI.create(
         "/EngineeringModel/9ec982e4-ef72-4953-aa85-b158a95d8d56/iteration/e163c5ad-f32b-4387-b805-f4b34600bc2c/element/f73860b2-12f0-43e4-b8b2-c81862c0a159");
 
     assertEquals(UUID.fromString("e163c5ad-f32b-4387-b805-f4b34600bc2c"),
@@ -130,7 +130,7 @@ class DalTest {
 
   @Test
   void setCdpVersionTakesValueFromAttributeTest() {
-    var dalStub = new DalStubExport();
+    DalStubExport dalStub = new DalStubExport();
 
     assertEquals(new Version("1.1.0"),
         dalStub.getDalVersion());
@@ -138,7 +138,7 @@ class DalTest {
 
   @Test
   void setCdpVersionTakesDefaultValueTest() {
-    var dalStub = new DalStubNoExport();
+    DalStubNoExport dalStub = new DalStubNoExport();
 
     assertEquals(new Version("1.0.0"),
         dalStub.getDalVersion());
@@ -146,39 +146,39 @@ class DalTest {
 
   @Test
   void operationContainerFileVerificationThrowsExceptionUnableReadTest() {
-    var dalStub = new DalStubExport();
+    DalStubExport dalStub = new DalStubExport();
 
     assertThrows(InvalidOperationContainerException.class,
-        () -> dalStub.operationContainerFileVerification(null, List.of("./wrong/path")));
+        () -> dalStub.operationContainerFileVerification(null, Arrays.asList("./wrong/path")));
   }
 
   @Test
   void operationContainerFileVerificationWorksTest()
       throws InvalidOperationContainerException {
-    var dalStub = new DalStubExport();
-    var operationContainer = mock(OperationContainer.class);
-    var fileRevision = new FileRevision();
-    var correctHash = "ead4bc9d39546a93dd529a0041194bfbdff61e89";
+    DalStubExport dalStub = new DalStubExport();
+    OperationContainer operationContainer = mock(OperationContainer.class);
+    FileRevision fileRevision = new FileRevision();
+    String correctHash = "ead4bc9d39546a93dd529a0041194bfbdff61e89";
     fileRevision.setContentHash(correctHash);
-    var operation = new Operation(null, fileRevision, OperationKind.CREATE);
-    when(operationContainer.getOperations()).thenReturn(List.of(operation));
+    Operation operation = new Operation(null, fileRevision, OperationKind.CREATE);
+    when(operationContainer.getOperations()).thenReturn(Arrays.asList(operation));
 
     dalStub.operationContainerFileVerification(operationContainer,
-        List.of("src/test/java/cdp4dal/dal/files/test.json"));
+        Arrays.asList("src/test/java/cdp4dal/dal/files/test.json"));
   }
 
   @Test
   void operationContainerFileVerificationThrowsExceptionForFailedVerificationTest() {
-    var dalStub = new DalStubExport();
-    var operationContainer = mock(OperationContainer.class);
-    var fileRevision = new FileRevision();
-    var incorrectHash = "haha9d39546a93dd529a0041194bfbdff61e89";
+    DalStubExport dalStub = new DalStubExport();
+    OperationContainer operationContainer = mock(OperationContainer.class);
+    FileRevision fileRevision = new FileRevision();
+    String incorrectHash = "haha9d39546a93dd529a0041194bfbdff61e89";
     fileRevision.setContentHash(incorrectHash);
-    var operation = new Operation(null, fileRevision, OperationKind.CREATE);
-    when(operationContainer.getOperations()).thenReturn(List.of(operation));
+    Operation operation = new Operation(null, fileRevision, OperationKind.CREATE);
+    when(operationContainer.getOperations()).thenReturn(Arrays.asList(operation));
 
     assertThrows(InvalidOperationContainerException.class,
         () -> dalStub.operationContainerFileVerification(operationContainer,
-            List.of("src/test/java/cdp4dal/dal/files/test.json")));
+            Arrays.asList("src/test/java/cdp4dal/dal/files/test.json")));
   }
 }

@@ -43,7 +43,7 @@ public class ValueArrayUtils {
             throw new IndexOutOfBoundsException(String.format("The %s may not be smaller than 1.", numberOfValues));
         }
 
-        var defaultValue = new ArrayList<String>(numberOfValues);
+      ArrayList<String> defaultValue = new ArrayList<String>(numberOfValues);
 
         for (int i = 0; i < numberOfValues; i++) {
             defaultValue.add("-");

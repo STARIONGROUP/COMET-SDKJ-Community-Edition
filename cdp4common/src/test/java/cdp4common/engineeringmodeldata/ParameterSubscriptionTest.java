@@ -24,18 +24,21 @@
 
 package cdp4common.engineeringmodeldata;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import cdp4common.exceptions.ContainmentException;
 import cdp4common.sitedirectorydata.BooleanParameterType;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.LogarithmicScale;
 import cdp4common.types.ValueArray;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ParameterSubscriptionTest {
     private ElementDefinition elementDefinition1;
@@ -208,7 +211,7 @@ class ParameterSubscriptionTest {
         ParameterSubscriptionValueSet valueset = new ParameterSubscriptionValueSet(UUID.randomUUID(), null, null);
         valueset.setSubscribedValueSet(valuesetoverriden);
 
-        List<String> data = List.of("-");
+        List<String> data = Arrays.asList("-");
         valueset.setManual(new ValueArray<>(data, String.class));
         valuesetoverriden.setComputed(new ValueArray<>(data, String.class));
         valuesetoverriden.setReference(new ValueArray<>(data, String.class));

@@ -35,8 +35,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import cdp4common.commondata.ClassKind;
+import cdp4common.dto.Alias;
+import cdp4common.dto.Definition;
+import cdp4common.dto.DomainFileStore;
+import cdp4common.dto.File;
+import cdp4common.dto.FileRevision;
+import cdp4common.dto.Organization;
+import cdp4common.dto.Person;
+import cdp4common.dto.Thing;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
 import cdp4common.sitedirectorydata.IterationSetup;
 import cdp4common.sitedirectorydata.ModelReferenceDataLibrary;
@@ -67,6 +76,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.OptionalDouble;
+import java.util.OptionalLong;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -177,7 +188,7 @@ class WSPDalTest {
   @Tag("WebServicesDependent")
   void verifyThatOpenReturnsDTOs()
       throws ExecutionException, InterruptedException, URISyntaxException {
-    var uriBuilder = new URIBuilder(this.credentials.getUri());
+    URIBuilder uriBuilder = new URIBuilder(this.credentials.getUri());
     uriBuilder.setPath("/Data/Restore");
     HttpAsyncClientBuilder httpClientBuilder = HttpAsyncClients.custom();
 
@@ -190,12 +201,12 @@ class WSPDalTest {
     CloseableHttpAsyncClient client = httpClientBuilder.build();
     client.start();
 
-    var post = new HttpPost(uriBuilder.build());
+    HttpPost post = new HttpPost(uriBuilder.build());
     client.execute(post, null).get();
 
-    var result = this.dal.open(this.credentials, new AtomicBoolean()).get();
+    List<Thing> result = this.dal.open(this.credentials, new AtomicBoolean()).get();
 
-    var amountOfDtos = result.size();
+    int amountOfDtos = result.size();
 
     assertEquals(60, amountOfDtos);
   }
@@ -224,8 +235,8 @@ class WSPDalTest {
 
   @Test
   void verifyThatIfNotHttpOrHttpsExceptionIsThrown() {
-    var uri = URI.create("file://somefile");
-    var invalidCredentials = new Credentials("John", "a password", uri, null);
+    URI uri = URI.create("file://somefile");
+    Credentials invalidCredentials = new Credentials("John", "a password", uri, null);
 
     try {
       this.dal.open(invalidCredentials, new AtomicBoolean()).get();
@@ -238,8 +249,8 @@ class WSPDalTest {
 
   @Test
   void verifyThatIfCredentialsAreNullOnReadExceptionIsThrown() {
-    var organizationIid = UUID.fromString("44d1ff16-8195-47d0-abfa-163bbba9bf39");
-    var organizationDto = new cdp4common.dto.Organization(organizationIid, 0);
+    UUID organizationIid = UUID.fromString("44d1ff16-8195-47d0-abfa-163bbba9bf39");
+    Organization organizationDto = new cdp4common.dto.Organization(organizationIid, 0);
     organizationDto.addContainer(ClassKind.SiteDirectory,
         UUID.fromString("eb77f3e1-a0f3-412d-8ed6-b8ce881c0145"));
 
@@ -254,19 +265,19 @@ class WSPDalTest {
 
   @Test
   void verifyThatWriteCreateException() {
-    var alias = new cdp4common.dto.Alias();
+    Alias alias = new cdp4common.dto.Alias();
     assertThrows(UnsupportedOperationException.class, () -> this.dal.create(alias));
   }
 
   @Test
   void verifyThatUpdateThrowsException() {
-    var alias = new cdp4common.dto.Alias();
+    Alias alias = new cdp4common.dto.Alias();
     assertThrows(UnsupportedOperationException.class, () -> this.dal.update(alias));
   }
 
   @Test
   void verifyThatDeleteThrowsException() {
-    var alias = new cdp4common.dto.Alias();
+    Alias alias = new cdp4common.dto.Alias();
     assertThrows(UnsupportedOperationException.class, () -> this.dal.delete(alias));
   }
 
@@ -280,26 +291,26 @@ class WSPDalTest {
   @Tag("WebServicesDependent")
   void verifyThatReadReturnsCorrectDTO() throws ExecutionException, InterruptedException {
 
-    var returned = dal.open(this.credentials, this.cancelled).get();
+    List<Thing> returned = dal.open(this.credentials, this.cancelled).get();
     assertNotNull(returned);
     assertFalse(returned.isEmpty());
 
-    var sd = returned.stream().findFirst().get();
+    Thing sd = returned.stream().findFirst().get();
 
-    var attributes = new QueryAttributesImpl();
-    var readResult = dal.read(sd, this.cancelled, attributes).get();
+    QueryAttributesImpl attributes = new QueryAttributesImpl();
+    List<Thing> readResult = dal.read(sd, this.cancelled, attributes).get();
 
     // General assertions for any kind of Thing we read
     assertNotNull(readResult);
     assertEquals(1, readResult.size());
-    var sd1 = readResult.stream().collect(MoreCollectors.onlyElement());
+    Thing sd1 = readResult.stream().collect(MoreCollectors.onlyElement());
     assertEquals(sd.getClassKind(), sd1.getClassKind());
     assertEquals(sd.getIid(), sd1.getIid());
     assertEquals(sd.getRoute(), sd1.getRoute());
 
     // Specific assertions for Sitedirectory ClassKind
-    var castedSd = as(sd, cdp4common.dto.SiteDirectory.class);
-    var castedSd1 = as(sd1, cdp4common.dto.SiteDirectory.class);
+    cdp4common.dto.SiteDirectory castedSd = as(sd, cdp4common.dto.SiteDirectory.class);
+    cdp4common.dto.SiteDirectory castedSd1 = as(sd1, cdp4common.dto.SiteDirectory.class);
     assertNotNull(castedSd);
     assertNotNull(castedSd1);
     assertEquals(castedSd.getName(), castedSd1.getName());
@@ -312,21 +323,21 @@ class WSPDalTest {
   @Tag("WebServicesDependent")
   void integrationTest() throws ExecutionException, InterruptedException {
     this.dal = new WSPDal();
-    var returned = this.dal.open(this.credentials, this.cancelled).get();
-    var assembler = new Assembler(this.credentials.getUri());
+    List<Thing> returned = this.dal.open(this.credentials, this.cancelled).get();
+    Assembler assembler = new Assembler(this.credentials.getUri());
 
     assembler.synchronize(returned, true).get();
 
-    var attributes = new DalQueryAttributes();
+    DalQueryAttributes attributes = new DalQueryAttributes();
     attributes.setRevisionNumber(0);
-    var topcontainers = assembler.getCache()
+    List<cdp4common.commondata.Thing> topcontainers = assembler.getCache()
         .asMap()
         .values()
         .stream()
         .filter(x -> x instanceof cdp4common.commondata.TopContainer)
         .collect(Collectors.toList());
 
-    for (var container : topcontainers) {
+    for (cdp4common.commondata.Thing container : topcontainers) {
       returned = this.dal.read(container.toDto(), this.cancelled, attributes).get();
       assembler.synchronize(returned, true);
     }
@@ -334,33 +345,33 @@ class WSPDalTest {
 
   @Test
   void verifyThatPostBodyIsCorrectlyResolves() throws IOException {
-    var siteDirectoryIid = UUID.fromString("f289023d-41e8-4aaf-aae5-1be1ecf24bac");
-    var domainOfExpertiseIid = UUID.randomUUID();
+    UUID siteDirectoryIid = UUID.fromString("f289023d-41e8-4aaf-aae5-1be1ecf24bac");
+    UUID domainOfExpertiseIid = UUID.randomUUID();
 
-    var context = "/SiteDirectory/f289023d-41e8-4aaf-aae5-1be1ecf24bac";
-    var operationContainer = new OperationContainer(context, null);
+    String context = "/SiteDirectory/f289023d-41e8-4aaf-aae5-1be1ecf24bac";
+    OperationContainer operationContainer = new OperationContainer(context, null);
 
-    var testDtoOriginal = new cdp4common.dto.Alias(UUID.randomUUID(), 1);
+    Alias testDtoOriginal = new cdp4common.dto.Alias(UUID.randomUUID(), 1);
     testDtoOriginal.setContent("content");
     testDtoOriginal.setSynonym(false);
     testDtoOriginal.setLanguageCode("en");
     testDtoOriginal.addContainer(ClassKind.DomainOfExpertise, domainOfExpertiseIid);
     testDtoOriginal.addContainer(ClassKind.SiteDirectory, siteDirectoryIid);
 
-    var testDtoModified = new cdp4common.dto.Alias(testDtoOriginal.getIid(), 1);
+    Alias testDtoModified = new cdp4common.dto.Alias(testDtoOriginal.getIid(), 1);
     testDtoModified.setContent("content2");
     testDtoModified.setSynonym(true);
     testDtoModified.setLanguageCode("en");
     testDtoModified.addContainer(ClassKind.DomainOfExpertise, domainOfExpertiseIid);
     testDtoModified.addContainer(ClassKind.SiteDirectory, siteDirectoryIid);
 
-    var testDtoOriginal2 = new cdp4common.dto.Definition(UUID.randomUUID(), 1);
+    Definition testDtoOriginal2 = new cdp4common.dto.Definition(UUID.randomUUID(), 1);
     testDtoOriginal2.setContent("somecontent");
     testDtoOriginal2.setLanguageCode("en");
     testDtoOriginal2.addContainer(ClassKind.DomainOfExpertise, domainOfExpertiseIid);
     testDtoOriginal2.addContainer(ClassKind.SiteDirectory, siteDirectoryIid);
 
-    var testDtoModified2 = new cdp4common.dto.Definition(testDtoOriginal2.getIid(), 1);
+    Definition testDtoModified2 = new cdp4common.dto.Definition(testDtoOriginal2.getIid(), 1);
     testDtoModified2.setContent("somecontent2");
     testDtoModified2.setLanguageCode("en");
     testDtoModified2.addContainer(ClassKind.DomainOfExpertise, domainOfExpertiseIid);
@@ -398,17 +409,17 @@ class WSPDalTest {
     ));
 
     // make a few operations
-    var operation1 = new Operation(null, testDtoModified, OperationKind.CREATE);
-    var operation2 = new Operation(null, testDtoModified, OperationKind.DELETE);
-    var operation3 = new Operation(testDtoOriginal, testDtoModified, OperationKind.UPDATE);
-    var operation4 = new Operation(testDtoOriginal2, testDtoModified2, OperationKind.UPDATE);
+    Operation operation1 = new Operation(null, testDtoModified, OperationKind.CREATE);
+    Operation operation2 = new Operation(null, testDtoModified, OperationKind.DELETE);
+    Operation operation3 = new Operation(testDtoOriginal, testDtoModified, OperationKind.UPDATE);
+    Operation operation4 = new Operation(testDtoOriginal2, testDtoModified2, OperationKind.UPDATE);
 
     operationContainer.addOperation(operation1);
     operationContainer.addOperation(operation2);
     operationContainer.addOperation(operation3);
     operationContainer.addOperation(operation4);
 
-    var stream = new ByteArrayOutputStream();
+    ByteArrayOutputStream stream = new ByteArrayOutputStream();
     this.dal.constructPostRequestBodyStream("", operationContainer, stream);
 
     assertNotEquals(0, stream.size());
@@ -419,36 +430,36 @@ class WSPDalTest {
   void verifyThatReadIterationWorks() throws ExecutionException, InterruptedException {
 
     dal.setSession(this.session);
-    var credentials = new Credentials("admin", "pass",
+    Credentials credentials = new Credentials("admin", "pass",
         URI.create("https://cdp4services-public.cdp4.org"), null);
-    var session = new SessionImpl(dal, credentials);
+    SessionImpl session = new SessionImpl(dal, credentials);
 
-    var returned = dal.open(credentials, this.cancelled).get();
+    List<Thing> returned = dal.open(credentials, this.cancelled).get();
 
     session.getAssembler().synchronize(returned, true).get();
 
-    var siteDir = session.getAssembler().retrieveSiteDirectory();
-    var modelSetup = siteDir.getModel()
+    SiteDirectory siteDir = session.getAssembler().retrieveSiteDirectory();
+    EngineeringModelSetup modelSetup = siteDir.getModel()
         .stream()
         .filter(x -> x.getShortName().equals("LOFT"))
         .collect(MoreCollectors.onlyElement());
 
-    var iterationSetup = modelSetup.getIterationSetup()
+    IterationSetup iterationSetup = modelSetup.getIterationSetup()
         .stream()
         .findFirst()
-        .orElseThrow();
+        .orElseThrow(() -> new IllegalStateException("Iteration setup is not present inside EngineeringModelSetup"));
 
-    var openCount = session.getAssembler().getCache().size();
+    long openCount = session.getAssembler().getCache().size();
 
-    var model = new EngineeringModel(modelSetup.getEngineeringModelIid(), null, null);
-    var iteration = new Iteration(iterationSetup.getIterationIid(), null, null);
+    EngineeringModel model = new EngineeringModel(modelSetup.getEngineeringModelIid(), null, null);
+    Iteration iteration = new Iteration(iterationSetup.getIterationIid(), null, null);
     iteration.setContainer(model);
 
-    var modelDtos = dal.read((cdp4common.dto.Iteration) iteration.toDto(), this.cancelled, null)
+    List<Thing> modelDtos = dal.read((cdp4common.dto.Iteration) iteration.toDto(), this.cancelled, null)
         .get();
     session.getAssembler().synchronize(modelDtos, true).get();
 
-    var readCount = session.getAssembler().getCache().size();
+    long readCount = session.getAssembler().getCache().size();
     assertTrue(readCount > openCount);
   }
 
@@ -458,32 +469,32 @@ class WSPDalTest {
   void assemblerSynchronizePerformanceTest() throws ExecutionException, InterruptedException {
     this.dal = new WSPDal();
 
-    var returnedlist = this.dal.open(this.credentials, this.cancelled).get();
+    List<Thing> returnedlist = this.dal.open(this.credentials, this.cancelled).get();
     final int iterationNumber = 1000;
-    var elapsedTimes = new ArrayList<Long>();
+    ArrayList<Long> elapsedTimes = new ArrayList<Long>();
 
     for (int i = 0; i < iterationNumber; i++) {
-      var assemble = new Assembler(this.uri);
-      var stopwatch = Stopwatch.createStarted();
+      Assembler assemble = new Assembler(this.uri);
+      Stopwatch stopwatch = Stopwatch.createStarted();
       assemble.synchronize(returnedlist, true).get();
       elapsedTimes.add(stopwatch.elapsed(TimeUnit.MILLISECONDS));
       assemble.clear().get();
     }
 
-    var synchronizeMeanElapsedTime = elapsedTimes
+    OptionalDouble synchronizeMeanElapsedTime = elapsedTimes
         .stream()
         .mapToLong(x -> x)
         .average();
     System.out
         .println(String.format("Average time: %s [ms]", synchronizeMeanElapsedTime.getAsDouble()));
 
-    var maxElapsedTime = elapsedTimes
+    OptionalLong maxElapsedTime = elapsedTimes
         .stream()
         .mapToLong(x -> x)
         .max();
     System.out.println(String.format("Maximum time: %s [ms]", maxElapsedTime.getAsLong()));
 
-    var minElapsedTime = elapsedTimes
+    OptionalLong minElapsedTime = elapsedTimes
         .stream()
         .mapToLong(x -> x)
         .min();
@@ -501,41 +512,41 @@ class WSPDalTest {
   @Test
   @Tag("WebServicesDependent")
   void verifyThatFileCanBeUploaded() throws ExecutionException, InterruptedException {
-    var filename = "src/test/java/cdp4wspdal/testdata/testfile.pdf";
-    var files = Arrays.asList(filename);
+    String filename = "src/test/java/cdp4wspdal/testdata/testfile.pdf";
+    List<String> files = Arrays.asList(filename);
 
-    var contentHash = "F73747371CFD9473C19A0A7F99BCAB008474C4CA";
-    var uri = URI.create("https://cdp4services-test.cdp4.org");
+    String contentHash = "F73747371CFD9473C19A0A7F99BCAB008474C4CA";
+    URI uri = URI.create("https://cdp4services-test.cdp4.org");
     this.credentials = new Credentials("admin", "pass", uri, null);
 
     this.dal.open(this.credentials, this.cancelled).get();
 
-    var engineeringModelIid = UUID.fromString("9ec982e4-ef72-4953-aa85-b158a95d8d56");
-    var iterationIid = UUID.fromString("e163c5ad-f32b-4387-b805-f4b34600bc2c");
-    var domainFileStoreIid = UUID.fromString("da7dddaa-02aa-4897-9935-e8d66c811a96");
-    var fileIid = UUID.randomUUID();
-    var fileRevisionIid = UUID.randomUUID();
-    var domainOfExpertiseIid = UUID.fromString("0e92edde-fdff-41db-9b1d-f2e484f12535");
-    var fileTypeIid = UUID.fromString("b16894e4-acb5-4e81-a118-16c00eb86d8f"); //PDF
-    var participantIid = UUID.fromString("284334dd-e8e5-42d6-bc8a-715c507a7f02");
+    UUID engineeringModelIid = UUID.fromString("9ec982e4-ef72-4953-aa85-b158a95d8d56");
+    UUID iterationIid = UUID.fromString("e163c5ad-f32b-4387-b805-f4b34600bc2c");
+    UUID domainFileStoreIid = UUID.fromString("da7dddaa-02aa-4897-9935-e8d66c811a96");
+    UUID fileIid = UUID.randomUUID();
+    UUID fileRevisionIid = UUID.randomUUID();
+    UUID domainOfExpertiseIid = UUID.fromString("0e92edde-fdff-41db-9b1d-f2e484f12535");
+    UUID fileTypeIid = UUID.fromString("b16894e4-acb5-4e81-a118-16c00eb86d8f"); //PDF
+    UUID participantIid = UUID.fromString("284334dd-e8e5-42d6-bc8a-715c507a7f02");
 
-    var originalDomainFileStore = new cdp4common.dto.DomainFileStore(domainFileStoreIid, 0);
+    DomainFileStore originalDomainFileStore = new cdp4common.dto.DomainFileStore(domainFileStoreIid, 0);
     originalDomainFileStore.addContainer(ClassKind.Iteration, iterationIid);
     originalDomainFileStore.addContainer(ClassKind.EngineeringModel, engineeringModelIid);
 
-    var modifiedDomainFileStore = new cdp4common.dto.DomainFileStore(domainFileStoreIid, 0);
+    DomainFileStore modifiedDomainFileStore = new cdp4common.dto.DomainFileStore(domainFileStoreIid, 0);
     modifiedDomainFileStore.getFile().add(fileIid);
     modifiedDomainFileStore.addContainer(ClassKind.Iteration, iterationIid);
     modifiedDomainFileStore.addContainer(ClassKind.EngineeringModel, engineeringModelIid);
 
-    var file = new cdp4common.dto.File(fileIid, 0);
+    File file = new cdp4common.dto.File(fileIid, 0);
     file.setOwner(domainOfExpertiseIid);
     file.getFileRevision().add(fileRevisionIid);
     file.addContainer(ClassKind.DomainFileStore, domainFileStoreIid);
     file.addContainer(ClassKind.Iteration, iterationIid);
     file.addContainer(ClassKind.EngineeringModel, engineeringModelIid);
 
-    var fileRevision = new cdp4common.dto.FileRevision(fileRevisionIid, 0);
+    FileRevision fileRevision = new cdp4common.dto.FileRevision(fileRevisionIid, 0);
     fileRevision.setName("testfile");
     fileRevision.setContentHash(contentHash);
     fileRevision.getFileType().add(new OrderedItem(1, fileTypeIid));
@@ -545,18 +556,18 @@ class WSPDalTest {
     fileRevision.addContainer(ClassKind.Iteration, iterationIid);
     fileRevision.addContainer(ClassKind.EngineeringModel, engineeringModelIid);
 
-    var context = String
+    String context = String
         .format("/EngineeringModel/%s/iteration/%s", engineeringModelIid, iterationIid);
-    var operationContainer = new OperationContainer(context, null);
+    OperationContainer operationContainer = new OperationContainer(context, null);
 
-    var updateCommonFileStoreOperation = new Operation(originalDomainFileStore,
+    Operation updateCommonFileStoreOperation = new Operation(originalDomainFileStore,
         modifiedDomainFileStore, OperationKind.UPDATE);
     operationContainer.addOperation(updateCommonFileStoreOperation);
 
-    var createFileOperation = new Operation(null, file, OperationKind.CREATE);
+    Operation createFileOperation = new Operation(null, file, OperationKind.CREATE);
     operationContainer.addOperation(createFileOperation);
 
-    var createFileRevisionOperation = new Operation(null, fileRevision, OperationKind.CREATE);
+    Operation createFileRevisionOperation = new Operation(null, fileRevision, OperationKind.CREATE);
     operationContainer.addOperation(createFileRevisionOperation);
 
     assertDoesNotThrow(() -> dal.write(operationContainer, files).get());
@@ -572,7 +583,7 @@ class WSPDalTest {
 
   @Test
   void verifyThatSessionMustBeSetToReadIteration() {
-    var iterationDto = new cdp4common.dto.Iteration(UUID.randomUUID(), 0);
+    cdp4common.dto.Iteration iterationDto = new cdp4common.dto.Iteration(UUID.randomUUID(), 0);
 
     try {
       dal.setSession(null);
@@ -590,13 +601,13 @@ class WSPDalTest {
 
     this.setDalToBeOpen(dal);
 
-    var contextOne = String
+    String contextOne = String
         .format("/EngineeringModel/%s/iteration/%s", UUID.randomUUID(), UUID.randomUUID());
-    var contextTwo = String
+    String contextTwo = String
         .format("/EngineeringModel/%s/iteration/%s", UUID.randomUUID(), UUID.randomUUID());
 
-    var operationContainerOne = new OperationContainer(contextOne, null);
-    var operationContainerTwo = new OperationContainer(contextTwo, null);
+    OperationContainer operationContainerOne = new OperationContainer(contextOne, null);
+    OperationContainer operationContainerTwo = new OperationContainer(contextTwo, null);
 
     List<OperationContainer> operationContainers = Arrays
         .asList(operationContainerOne, operationContainerTwo);
@@ -609,10 +620,10 @@ class WSPDalTest {
   @Tag("WebServicesDependent")
   void verify_that_opens_returns_expected_result()
       throws ExecutionException, InterruptedException {
-    var uri = URI.create("https://cdp4services-test.cdp4.org");
+    URI uri = URI.create("https://cdp4services-test.cdp4.org");
     this.credentials = new Credentials("admin", "pass", uri, null);
 
-    var result = dal.open(this.credentials, new AtomicBoolean()).get();
+    List<Thing> result = dal.open(this.credentials, new AtomicBoolean()).get();
 
     assertNotNull(result);
   }
@@ -637,29 +648,29 @@ class WSPDalTest {
     this.iterationSetup = this.engineeringModelSetup.getIterationSetup()
         .stream()
         .findFirst()
-        .orElseThrow();
+        .orElseThrow(() -> new IllegalStateException("Iteration setup is not present inside EngineeringModelSetup"));
 
-    var domainOfExpertise = this.engineeringModelSetup.getActiveDomain()
+    DomainOfExpertise domainOfExpertise = this.engineeringModelSetup.getActiveDomain()
         .stream()
         .filter(x -> x.getShortName().equals("SYS"))
         .findFirst()
-        .orElseThrow();
+        .orElseThrow(() -> new IllegalStateException("Iteration setup is not present inside EngineeringModelSetup"));
 
-    var openCount = this.session.getAssembler().getCache().size();
+    long openCount = this.session.getAssembler().getCache().size();
 
-    var model = new EngineeringModel(this.engineeringModelSetup.getEngineeringModelIid(), null,
+    EngineeringModel model = new EngineeringModel(this.engineeringModelSetup.getEngineeringModelIid(), null,
         null);
     this.iteration = new Iteration(this.iterationSetup.getIterationIid(), null, null);
     this.iteration.setContainer(model);
 
     this.session.read(iteration, domainOfExpertise).get();
 
-    var readCount = this.session.getAssembler().getCache().size();
+    long readCount = this.session.getAssembler().getCache().size();
     assertTrue(readCount > openCount);
 
     this.session.closeIterationSetup(this.iterationSetup).get();
 
-    var closeCount = this.session.getAssembler().getCache().size();
+    long closeCount = this.session.getAssembler().getCache().size();
 
     assertTrue(closeCount < readCount);
   }
@@ -670,12 +681,12 @@ class WSPDalTest {
   @Tag("AppVeyorExclusion")
   void verify_that_open_with_proxy_returns_expected_result()
       throws ExecutionException, InterruptedException {
-    var proxySettings = new ProxySettings(URI.create("http://tinyproxy:8888"), null, null);
+    ProxySettings proxySettings = new ProxySettings(URI.create("http://tinyproxy:8888"), null, null);
 
-    var uri = URI.create("https://cdp4services-test.cdp4.org");
+    URI uri = URI.create("https://cdp4services-test.cdp4.org");
     this.credentials = new Credentials("admin", "pass", uri, proxySettings);
 
-    var result = dal.open(this.credentials, new AtomicBoolean()).get();
+    List<Thing> result = dal.open(this.credentials, new AtomicBoolean()).get();
 
     assertNotNull(result);
   }
@@ -684,62 +695,62 @@ class WSPDalTest {
   @Tag("WebServicesDependent")
   void verify_that_multiple_read_requests_can_be_made_in_parallel()
       throws ExecutionException, InterruptedException {
-    var uri = URI.create("https://cdp4services-test.cdp4.org");
-    var credentials = new Credentials("admin", "pass", uri, null);
+    URI uri = URI.create("https://cdp4services-test.cdp4.org");
+    Credentials credentials = new Credentials("admin", "pass", uri, null);
 
-    var result = dal.open(credentials, new AtomicBoolean()).get();
+    List<Thing> result = dal.open(credentials, new AtomicBoolean()).get();
 
-    var siteDirectory = result
+    cdp4common.dto.SiteDirectory siteDirectory = result
         .stream()
         .filter(x -> x instanceof cdp4common.dto.SiteDirectory)
         .map(x -> (cdp4common.dto.SiteDirectory) x)
         .collect(MoreCollectors.onlyElement());
 
-    var queryAttributes = new QueryAttributesImpl();
+    QueryAttributesImpl queryAttributes = new QueryAttributesImpl();
     queryAttributes.setExtent(ExtentQueryAttribute.deep);
 
     for (int i = 0; i < 9; i++) {
       dal.read(siteDirectory, new AtomicBoolean(), queryAttributes);
     }
 
-    var readResult = dal.read(siteDirectory, new AtomicBoolean(), null).get();
+    List<Thing> readResult = dal.read(siteDirectory, new AtomicBoolean(), null).get();
   }
 
   @Test
   @Tag("WebServicesDependent")
   void verify_that_person_can_be_posted()
       throws ExecutionException, InterruptedException, URISyntaxException {
-    var wspDal = new WSPDal();
+    WSPDal wspDal = new WSPDal();
 
-    var uri = new URI("https://cdp4services-test.cdp4.org");
-    var credentials = new Credentials("admin", "pass", uri, null);
-    var dtos = wspDal.open(credentials, this.cancelled).get();
+    URI uri = new URI("https://cdp4services-test.cdp4.org");
+    Credentials credentials = new Credentials("admin", "pass", uri, null);
+    List<Thing> dtos = wspDal.open(credentials, this.cancelled).get();
 
-    var siteDirectory = (cdp4common.dto.SiteDirectory) dtos
+    cdp4common.dto.SiteDirectory siteDirectory = (cdp4common.dto.SiteDirectory) dtos
         .stream()
         .filter(x -> x.getClassKind() == ClassKind.SiteDirectory)
         .collect(MoreCollectors.onlyElement());
 
-    var context = siteDirectory.getRoute();
-    var operationContainer = new OperationContainer(context, siteDirectory.getRevisionNumber());
+    String context = siteDirectory.getRoute();
+    OperationContainer operationContainer = new OperationContainer(context, siteDirectory.getRevisionNumber());
 
-    var person = new cdp4common.dto.Person(UUID.randomUUID(), 1);
+    Person person = new cdp4common.dto.Person(UUID.randomUUID(), 1);
     person.setShortName(UUID.randomUUID().toString());
     person.setSurname(UUID.randomUUID().toString());
     person.setGivenName(UUID.randomUUID().toString());
     person.addContainer(ClassKind.SiteDirectory, siteDirectory.getIid());
 
-    var operation1 = new Operation(null, person, OperationKind.CREATE);
+    Operation operation1 = new Operation(null, person, OperationKind.CREATE);
     operationContainer.addOperation(operation1);
 
-    var siteDirectoryClone = siteDirectory.deepClone(cdp4common.dto.SiteDirectory.class);
+    cdp4common.dto.SiteDirectory siteDirectoryClone = siteDirectory.deepClone(cdp4common.dto.SiteDirectory.class);
     siteDirectoryClone.getPerson().add(person.getIid());
-    var operation2 = new Operation(siteDirectory, siteDirectoryClone, OperationKind.UPDATE);
+    Operation operation2 = new Operation(siteDirectory, siteDirectoryClone, OperationKind.UPDATE);
     operationContainer.addOperation(operation2);
 
-    var result = wspDal.write(operationContainer, null).get();
+    List<Thing> result = wspDal.write(operationContainer, null).get();
 
-    var resultPerson = (cdp4common.dto.Person) result
+    Person resultPerson = (cdp4common.dto.Person) result
         .stream()
         .filter(x -> x.getIid().equals(person.getIid()))
         .collect(MoreCollectors.onlyElement());

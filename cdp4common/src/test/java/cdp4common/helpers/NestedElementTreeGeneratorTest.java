@@ -33,6 +33,7 @@ import cdp4common.types.ValueArray;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Iterables;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -91,29 +92,29 @@ class NestedElementTreeGeneratorTest {
         elementUsage_2.setShortName("bat_b");
         elementUsage_2.setName("battery b");
 
-        var simpleQuantityKind = new SimpleQuantityKind(UUID.randomUUID(), null, null);
+        SimpleQuantityKind simpleQuantityKind = new SimpleQuantityKind(UUID.randomUUID(), null, null);
         simpleQuantityKind.setShortName("m");
 
-        var parameter = new Parameter(UUID.randomUUID(), this.cache, this.uri);
+        Parameter parameter = new Parameter(UUID.randomUUID(), this.cache, this.uri);
         parameter.setOwner(this.domainOfExpertise);
         parameter.setParameterType(simpleQuantityKind);
 
-        var parameterOverride = new ParameterOverride(UUID.randomUUID(), this.cache, this.uri);
+        ParameterOverride parameterOverride = new ParameterOverride(UUID.randomUUID(), this.cache, this.uri);
         parameterOverride.setOwner(this.domainOfExpertise);
         parameterOverride.setParameter(parameter);
 
-        var parameterValueSet_1 = new ParameterValueSet();
+        ParameterValueSet parameterValueSet_1 = new ParameterValueSet();
         parameterValueSet_1.setActualOption(option_B);
         parameterValueSet_1.setIid(UUID.randomUUID());
 
-        var parameterValueSet_2 = new ParameterValueSet();
+        ParameterValueSet parameterValueSet_2 = new ParameterValueSet();
         parameterValueSet_2.setActualOption(option_A);
         parameterValueSet_2.setIid(UUID.randomUUID());
 
-        var values_1 = Arrays.asList("2");
-        var values_2 = Arrays.asList("3");
+        List<String> values_1 = Arrays.asList("2");
+        List<String> values_2 = Arrays.asList("3");
 
-        var overrideValueSet = new ParameterOverrideValueSet();
+        ParameterOverrideValueSet overrideValueSet = new ParameterOverrideValueSet();
         overrideValueSet.setParameterValueSet(parameterValueSet_1);
         overrideValueSet.setIid(UUID.randomUUID());
 
@@ -208,32 +209,32 @@ class NestedElementTreeGeneratorTest {
 
     @Test
     void verify_that_the_function_returns_values() {
-        var option = Iterables.getOnlyElement(this.iteration.getOption().stream().filter(x -> x.getShortName().equals("OPT_A")).collect(Collectors.toList()));
-        var flatNestedParameters = this.nestedElementTreeGenerator.getNestedParameters(option, this.domainOfExpertise, false);
+        Option option = Iterables.getOnlyElement(this.iteration.getOption().stream().filter(x -> x.getShortName().equals("OPT_A")).collect(Collectors.toList()));
+        List<NestedParameter> flatNestedParameters = this.nestedElementTreeGenerator.getNestedParameters(option, this.domainOfExpertise, false);
 
         assertTrue(flatNestedParameters.size() > 0);
     }
 
     @Test
     void verify_that_Path_returns_value_for_Each_NestedElement_and_NestedParameter() {
-        var option = Iterables.getOnlyElement(this.iteration.getOption().stream().filter(x -> x.getShortName().equals("OPT_A")).collect(Collectors.toList()));
-        var flatNestedParameters = this.nestedElementTreeGenerator.getNestedParameters(option, this.domainOfExpertise, false);
+        Option option = Iterables.getOnlyElement(this.iteration.getOption().stream().filter(x -> x.getShortName().equals("OPT_A")).collect(Collectors.toList()));
+        List<NestedParameter> flatNestedParameters = this.nestedElementTreeGenerator.getNestedParameters(option, this.domainOfExpertise, false);
 
-        for (var nestedParameter : flatNestedParameters) {
+        for (NestedParameter nestedParameter : flatNestedParameters) {
             assertDoesNotThrow(() -> nestedParameter.getPath());
         }
     }
 
     @Test
     void verify_that_Option_is_set_on_NestedElement_and_NestedParameter() {
-        var option = Iterables.getOnlyElement(this.iteration.getOption().stream().filter(x -> x.getShortName().equals("OPT_A")).collect(Collectors.toList()));
+        Option option = Iterables.getOnlyElement(this.iteration.getOption().stream().filter(x -> x.getShortName().equals("OPT_A")).collect(Collectors.toList()));
 
-        var nestedElements = this.nestedElementTreeGenerator.generate(option, this.domainOfExpertise, false);
+        Collection<NestedElement> nestedElements = this.nestedElementTreeGenerator.generate(option, this.domainOfExpertise, false);
 
-        for (var nestedElement : nestedElements) {
+        for (NestedElement nestedElement : nestedElements) {
             assertEquals(option, nestedElement.getContainer());
 
-            for (var nestedParameter : nestedElement.getNestedParameter()) {
+            for (NestedParameter nestedParameter : nestedElement.getNestedParameter()) {
                 assertEquals(option, nestedParameter.getOption());
             }
         }
@@ -241,11 +242,11 @@ class NestedElementTreeGeneratorTest {
 
     @Test
     void verify_that_ValueSet_is_set_on_NestedElement_and_NestedParameter() {
-        var option = Iterables.getOnlyElement(this.iteration.getOption().stream().filter(x -> x.getShortName().equals("OPT_A")).collect(Collectors.toList()));
+        Option option = Iterables.getOnlyElement(this.iteration.getOption().stream().filter(x -> x.getShortName().equals("OPT_A")).collect(Collectors.toList()));
 
-        var NestedParameters = this.nestedElementTreeGenerator.getNestedParameters(option, this.domainOfExpertise, false);
+        List<NestedParameter> NestedParameters = this.nestedElementTreeGenerator.getNestedParameters(option, this.domainOfExpertise, false);
 
-        for (var nestedParameter : NestedParameters) {
+        for (NestedParameter nestedParameter : NestedParameters) {
             assertNotNull(nestedParameter.getValueSet());
         }
     }

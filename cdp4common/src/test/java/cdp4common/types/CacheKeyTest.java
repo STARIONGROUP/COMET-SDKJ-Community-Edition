@@ -37,15 +37,15 @@ class CacheKeyTest {
 
     @Test
     void createsCacheKeyForNullIteration() {
-        var cacheKey = new CacheKey(UUID.randomUUID(), null);
+        CacheKey cacheKey = new CacheKey(UUID.randomUUID(), null);
         assertNotNull(cacheKey.getThing());
         assertNull(cacheKey.getIteration());
     }
 
     @Test
     void equalsWorksAsExpectedWithNullIteration() {
-        var cacheKeyA = new CacheKey(UUID.randomUUID(), null);
-        var cacheKeyB = new CacheKey(UUID.randomUUID(), null);
+        CacheKey cacheKeyA = new CacheKey(UUID.randomUUID(), null);
+        CacheKey cacheKeyB = new CacheKey(UUID.randomUUID(), null);
         assertNotEquals(cacheKeyA, cacheKeyB);
         assertEquals(cacheKeyA, cacheKeyA);
         assertEquals(cacheKeyB, cacheKeyB);
@@ -55,8 +55,8 @@ class CacheKeyTest {
 
     @Test
     void equalsWorksAsExpectedWithNonNullIteration() {
-        var cacheKeyA = new CacheKey(UUID.randomUUID(), UUID.randomUUID());
-        var cacheKeyB = new CacheKey(UUID.randomUUID(), UUID.randomUUID());
+        CacheKey cacheKeyA = new CacheKey(UUID.randomUUID(), UUID.randomUUID());
+        CacheKey cacheKeyB = new CacheKey(UUID.randomUUID(), UUID.randomUUID());
         assertNotEquals(cacheKeyA, cacheKeyB);
         assertEquals(cacheKeyA, cacheKeyA);
         assertEquals(cacheKeyB, cacheKeyB);

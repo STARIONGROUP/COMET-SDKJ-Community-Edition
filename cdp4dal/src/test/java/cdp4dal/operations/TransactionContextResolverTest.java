@@ -71,7 +71,7 @@ class TransactionContextResolverTest {
     this.cache = CacheBuilder.newBuilder().build();
 
     this.siteDirectory = new SiteDirectory(UUID.randomUUID(), this.cache, this.uri);
-    var siteReferenceDataLibrary = new SiteReferenceDataLibrary(UUID.randomUUID(), this.cache,
+    SiteReferenceDataLibrary siteReferenceDataLibrary = new SiteReferenceDataLibrary(UUID.randomUUID(), this.cache,
         this.uri);
     this.siteDirectory.getSiteReferenceDataLibrary().add(siteReferenceDataLibrary);
     this.textParameterType = new TextParameterType(UUID.randomUUID(), this.cache, this.uri);
@@ -80,7 +80,7 @@ class TransactionContextResolverTest {
     this.engineeringModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
     this.engineeringModel.setRevisionNumber(2);
 
-    var frozenIterationSetup = new IterationSetup(UUID.randomUUID(), this.cache, this.uri);
+    IterationSetup frozenIterationSetup = new IterationSetup(UUID.randomUUID(), this.cache, this.uri);
     frozenIterationSetup
         .setFrozenOn(OffsetDateTime.of(LocalDate.parse("2012-12-12"), LocalTime.now(), ZoneOffset.UTC));
 
@@ -88,7 +88,7 @@ class TransactionContextResolverTest {
     this.frozenIteration.setRevisionNumber(1);
     this.frozenIteration.setIterationSetup(frozenIterationSetup);
 
-    var activeIterationSetup = new IterationSetup(UUID.randomUUID(), this.cache, this.uri);
+    IterationSetup activeIterationSetup = new IterationSetup(UUID.randomUUID(), this.cache, this.uri);
 
     this.activeIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
     this.activeIteration.setRevisionNumber(2);
@@ -97,13 +97,13 @@ class TransactionContextResolverTest {
     this.engineeringModel.getIteration().add(this.frozenIteration);
     this.engineeringModel.getIteration().add(this.activeIteration);
 
-    var frozenElementDefinitionIid = UUID.randomUUID();
+    UUID frozenElementDefinitionIid = UUID.randomUUID();
     this.frozenElementDefinition = new ElementDefinition(frozenElementDefinitionIid, this.cache,
         this.uri);
     this.frozenElementDefinition.setRevisionNumber(1);
     this.frozenIteration.getElement().add(this.frozenElementDefinition);
 
-    var activeElementDefinitionIid = UUID.randomUUID();
+    UUID activeElementDefinitionIid = UUID.randomUUID();
     this.activeElementDefinition = new ElementDefinition(activeElementDefinitionIid, this.cache,
         this.uri);
     this.activeElementDefinition.setRevisionNumber(2);

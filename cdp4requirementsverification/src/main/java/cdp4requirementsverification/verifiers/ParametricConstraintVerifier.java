@@ -40,6 +40,7 @@ import cdp4requirementsverification.RequirementStateOfCompliance;
 import cdp4requirementsverification.events.RequirementStateOfComplianceChangedEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
@@ -129,19 +130,21 @@ public class ParametricConstraintVerifier implements BooleanExpressionVerifier {
       Map<BooleanExpression, BooleanExpressionVerifier> booleanExpressionVerifiers,
       Iteration iteration) {
     return CompletableFuture.supplyAsync(() -> {
-      var tasks = new ArrayList<CompletableFuture<RequirementStateOfCompliance>>();
+      ArrayList<CompletableFuture<RequirementStateOfCompliance>> tasks = new ArrayList<CompletableFuture<RequirementStateOfCompliance>>();
 
-      for (var entry : this.booleanExpressionVerifiers.entrySet()) {
+      for (Entry<BooleanExpression, BooleanExpressionVerifier> entry : this.booleanExpressionVerifiers.entrySet()) {
         tasks.add(entry.getValue()
             .verifyRequirementStateOfCompliance(this.booleanExpressionVerifiers, iteration));
       }
 
-      CompletableFuture.allOf(tasks.toArray(CompletableFuture[]::new)).join();
+      CompletableFuture[] tasksArray = new CompletableFuture [tasks.size()];
+      tasksArray = tasks.toArray(tasksArray);
+      CompletableFuture.allOf(tasksArray).join();
 
-      var topLevelBooleanExpressions = BooleanExpressionExtensions
+      List<BooleanExpression> topLevelBooleanExpressions = BooleanExpressionExtensions
           .getTopLevelExpressions(this.parametricConstraint.getExpression());
 
-      var topLevelBooleanExpressionVerifiers =
+      List<BooleanExpressionVerifier> topLevelBooleanExpressionVerifiers =
           this.booleanExpressionVerifiers.entrySet().stream()
               .filter(x -> topLevelBooleanExpressions.contains(x.getKey()))
               .map(Entry::getValue)
@@ -169,7 +172,7 @@ public class ParametricConstraintVerifier implements BooleanExpressionVerifier {
   private void createBooleanExpressionVerifiers() {
     this.booleanExpressionVerifiers.clear();
 
-    for (var booleanExpression : this.parametricConstraint.getExpression()) {
+    for (BooleanExpression booleanExpression : this.parametricConstraint.getExpression()) {
       this.booleanExpressionVerifiers
           .put(booleanExpression, this.getBooleanExpressionVerifier(booleanExpression));
     }

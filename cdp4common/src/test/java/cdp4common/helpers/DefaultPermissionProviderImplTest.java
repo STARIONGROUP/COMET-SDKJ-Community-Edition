@@ -20,9 +20,9 @@ class DefaultPermissionProviderImplTest {
 
     @Test
     void verify_that_For_all_classKindsAsString_a_default_PersonPermission_is_returned() {
-        var classKinds = ClassKind.values();
+        ClassKind[] classKinds = ClassKind.values();
 
-        for (var classKind : classKinds) {
+        for (ClassKind classKind : classKinds) {
             assertDoesNotThrow(() -> this.defaultPermissionProvider.getDefaultPersonPermission(classKind.name()));
         }
 
@@ -39,9 +39,9 @@ class DefaultPermissionProviderImplTest {
 
     @Test
     void verify_that_For_all_classKinds_a_default_PersonPermission_is_returned() {
-        var classKinds = ClassKind.values();
+        ClassKind[] classKinds = ClassKind.values();
 
-        for (var classKind : classKinds) {
+        for (ClassKind classKind : classKinds) {
             assertDoesNotThrow(() -> this.defaultPermissionProvider.getDefaultPersonPermission(classKind));
         }
 
@@ -53,9 +53,9 @@ class DefaultPermissionProviderImplTest {
 
     @Test
     void verify_that_for_all_classKindsAsString_a_default_ParticipantPermission_is_returned() {
-        var classKinds = ClassKind.values();
+        ClassKind[] classKinds = ClassKind.values();
 
-        for (var classKind : classKinds) {
+        for (ClassKind classKind : classKinds) {
             assertDoesNotThrow(() -> this.defaultPermissionProvider.getDefaultParticipantPermission(classKind.name()));
         }
 
@@ -71,9 +71,9 @@ class DefaultPermissionProviderImplTest {
 
     @Test
     void verify_that_for_all_classKinds_a_default_ParticipantPermission_is_returned() {
-        var classKinds = ClassKind.values();
+        ClassKind[] classKinds = ClassKind.values();
 
-        for (var classKind : classKinds) {
+        for (ClassKind classKind : classKinds) {
             assertDoesNotThrow(() -> this.defaultPermissionProvider.getDefaultParticipantPermission(classKind));
         }
 

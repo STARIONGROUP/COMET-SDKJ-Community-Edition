@@ -24,17 +24,19 @@
 
 package cdp4common.types;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import cdp4common.sitedirectorydata.EmailAddress;
 import cdp4common.sitedirectorydata.Person;
 import com.google.common.collect.Iterables;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ContainerListTest {
     private Person person;
@@ -63,7 +65,7 @@ class ContainerListTest {
 
     @Test
     void verifyThatAddAllWorks() {
-        List<EmailAddress> emails = List.of(
+        List<EmailAddress> emails = Arrays.asList(
                 new EmailAddress(UUID.randomUUID(), null, null),
                 new EmailAddress(UUID.randomUUID(), null, null),
                 new EmailAddress(UUID.randomUUID(), null, null)
