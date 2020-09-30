@@ -50,7 +50,7 @@ class UriQueryAttributeTest {
     this.attributes.setIncludeReferenceData(true);
     this.attributes.setRevisionNumber(2);
 
-    var test = this.attributes.toString();
+    String test = this.attributes.toString();
     assertTrue(test.contains("extent"));
     assertTrue(test.contains("includeReferenceData"));
     assertTrue(test.contains("includeAllContainers"));
@@ -60,7 +60,7 @@ class UriQueryAttributeTest {
 
   @Test
   void testEmptyAttributeToString() {
-    var str = this.attributes.toString();
+    String str = this.attributes.toString();
     assertEquals("", str);
   }
 }

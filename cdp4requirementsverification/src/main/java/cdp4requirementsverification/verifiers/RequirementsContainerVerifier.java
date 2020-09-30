@@ -31,6 +31,7 @@ import cdp4common.engineeringmodeldata.ElementUsage;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.engineeringmodeldata.Requirement;
 import cdp4common.engineeringmodeldata.RequirementsContainer;
+import cdp4common.engineeringmodeldata.RequirementsGroup;
 import cdp4common.engineeringmodeldata.RequirementsSpecification;
 import cdp4dal.CDPMessageBus;
 import cdp4requirementsverification.HaveRequirementStateOfCompliance;
@@ -108,26 +109,28 @@ public class RequirementsContainerVerifier implements HaveRequirementStateOfComp
     return CompletableFuture.supplyAsync(() -> {
       this.setRequirementStateOfCompliance(RequirementStateOfCompliance.Calculating);
 
-      var tasks = new ArrayList<CompletableFuture<RequirementStateOfCompliance>>();
-      var verifiers = new ArrayList<HaveRequirementStateOfCompliance>();
+      ArrayList<CompletableFuture<RequirementStateOfCompliance>> tasks = new ArrayList<CompletableFuture<RequirementStateOfCompliance>>();
+      ArrayList<HaveRequirementStateOfCompliance> verifiers = new ArrayList<HaveRequirementStateOfCompliance>();
 
-      for (var requirementsGroup : this.container.getGroup()) {
-        var requirementsContainerVerifier = new RequirementsContainerVerifier(
+      for (RequirementsGroup requirementsGroup : this.container.getGroup()) {
+        RequirementsContainerVerifier requirementsContainerVerifier = new RequirementsContainerVerifier(
             requirementsGroup);
         verifiers.add(requirementsContainerVerifier);
         tasks.add(requirementsContainerVerifier.verifyRequirements(iteration));
       }
 
       if (this.container instanceof RequirementsSpecification) {
-        for (var requirement : this.getAllowedRequirements(
+        for (Requirement requirement : this.getAllowedRequirements(
             ((RequirementsSpecification) this.container).getRequirement())) {
-          var requirementsVerifier = new RequirementVerifier(requirement);
+          RequirementVerifier requirementsVerifier = new RequirementVerifier(requirement);
           verifiers.add(requirementsVerifier);
           tasks.add(requirementsVerifier.verifyRequirements(iteration));
         }
       }
 
-        CompletableFuture.allOf(tasks.toArray(CompletableFuture[]::new)).join();
+      CompletableFuture[] tasksArray = new CompletableFuture [tasks.size()];
+      tasksArray = tasks.toArray(tasksArray);
+      CompletableFuture.allOf(tasksArray).join();
 
       this.setRequirementStateOfCompliance(
           !verifiers.isEmpty()
@@ -151,7 +154,7 @@ public class RequirementsContainerVerifier implements HaveRequirementStateOfComp
    * @return unmodifiable {@link List} of {@link Requirement}s
    */
   private List<Requirement> getAllowedRequirements(Iterable<Requirement> requirements) {
-    var allowedRequirements = new ArrayList<Requirement>();
+    ArrayList<Requirement> allowedRequirements = new ArrayList<Requirement>();
 
     requirements.forEach(x -> {
       if (!x.isDeprecated()) {
@@ -159,6 +162,6 @@ public class RequirementsContainerVerifier implements HaveRequirementStateOfComp
       }
     });
 
-    return List.copyOf(allowedRequirements);
+    return new ArrayList<>(allowedRequirements);
   }
 }

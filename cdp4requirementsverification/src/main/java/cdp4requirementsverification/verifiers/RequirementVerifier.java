@@ -28,6 +28,7 @@ import cdp4common.engineeringmodeldata.BooleanExpression;
 import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.ElementUsage;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.engineeringmodeldata.ParametricConstraint;
 import cdp4common.engineeringmodeldata.Requirement;
 import cdp4dal.CDPMessageBus;
 import cdp4requirementsverification.HaveRequirementStateOfCompliance;
@@ -108,17 +109,19 @@ public class RequirementVerifier implements HaveRequirementStateOfCompliance {
       this.setRequirementStateOfCompliance(RequirementStateOfCompliance.Calculating);
       this.parametricConstraintVerifiers.clear();
 
-      var tasks = new ArrayList<CompletableFuture<RequirementStateOfCompliance>>();
+      ArrayList<CompletableFuture<RequirementStateOfCompliance>> tasks = new ArrayList<CompletableFuture<RequirementStateOfCompliance>>();
 
-      for (var parametricConstraint : this.requirement.getParametricConstraint()) {
-        var parametricConstraintVerifier = new ParametricConstraintVerifier(
+      for (ParametricConstraint parametricConstraint : this.requirement.getParametricConstraint()) {
+        ParametricConstraintVerifier parametricConstraintVerifier = new ParametricConstraintVerifier(
             parametricConstraint);
         this.parametricConstraintVerifiers.add(parametricConstraintVerifier);
 
         tasks.add(parametricConstraintVerifier.verifyRequirements(iteration));
       }
 
-      CompletableFuture.allOf(tasks.toArray(CompletableFuture[]::new)).join();
+      CompletableFuture[] tasksArray = new CompletableFuture [tasks.size()];
+      tasksArray = tasks.toArray(tasksArray);
+      CompletableFuture.allOf(tasksArray).join();
 
       this.calculateRequirementStateOfCompliance();
 

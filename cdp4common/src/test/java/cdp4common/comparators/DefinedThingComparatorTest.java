@@ -31,12 +31,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class DefinedThingComparatorTest {
     @Test
     void testComparator() {
-        var type1 = new Requirement();
+      Requirement type1 = new Requirement();
         type1.setName("a");
-        var type2 = new Requirement();
+      Requirement type2 = new Requirement();
         type2.setName("c");
 
-        var comparator = new DefinedThingComparator();
+      DefinedThingComparator comparator = new DefinedThingComparator();
 
         assertEquals(-2, comparator.compare(type1, type2));
         assertEquals(2, comparator.compare(type2, type1));

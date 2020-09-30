@@ -29,6 +29,7 @@ import cdp4common.engineeringmodeldata.BooleanExpression;
 import cdp4common.engineeringmodeldata.ExclusiveOrExpression;
 import cdp4common.engineeringmodeldata.NotExpression;
 import cdp4common.engineeringmodeldata.OrExpression;
+import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,9 +46,9 @@ public class BooleanExpressionExtensions {
    */
   public static List<BooleanExpression> getTopLevelExpressions(
       List<BooleanExpression> expressionList) {
-    var notInTerms = new ArrayList<BooleanExpression>();
+    ArrayList<BooleanExpression> notInTerms = new ArrayList<BooleanExpression>();
 
-    for (var thingExpression : expressionList) {
+    for (BooleanExpression thingExpression : expressionList) {
       switch (thingExpression.getClassKind()) {
         case NotExpression:
           if (thingExpression instanceof NotExpression && !notInTerms
@@ -80,7 +81,7 @@ public class BooleanExpressionExtensions {
       }
     }
 
-    return expressionList.stream().filter(x -> !notInTerms.contains(x))
-        .collect(Collectors.toUnmodifiableList());
+    return ImmutableList.copyOf(expressionList.stream().filter(x -> !notInTerms.contains(x))
+        .collect(Collectors.toList()));
   }
 }

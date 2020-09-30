@@ -54,10 +54,14 @@ import cdp4common.types.CacheKey;
 import cdp4dal.exceptions.TransactionException;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.MoreCollectors;
 import java.net.URI;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -79,7 +83,7 @@ class ThingTransactionImplTest {
     this.engineeringModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
 
     this.iteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var iterationSetup = new IterationSetup(UUID.randomUUID(), this.cache, this.uri);
+    IterationSetup iterationSetup = new IterationSetup(UUID.randomUUID(), this.cache, this.uri);
     iterationSetup.setRevisionNumber(1);
     this.iteration.setIterationSetup(iterationSetup);
     iterationSetup.setIterationIid(this.iteration.getIid());
@@ -93,35 +97,35 @@ class ThingTransactionImplTest {
 
   @Test
   void verifyThatCanOnlyUseThingTransactionOnOneTopContainer() throws TransactionException {
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
 
-    var person = new Person(UUID.randomUUID(), this.cache, this.uri);
+    Person person = new Person(UUID.randomUUID(), this.cache, this.uri);
     person.setContainer(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, person);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, person);
 
-    var duplicateSiteDirectory = new SiteDirectory(this.siteDirectory.getIid(), this.cache,
+    SiteDirectory duplicateSiteDirectory = new SiteDirectory(this.siteDirectory.getIid(), this.cache,
         this.uri);
-    var anotherPerson = new Person(UUID.randomUUID(), this.cache, this.uri);
+    Person anotherPerson = new Person(UUID.randomUUID(), this.cache, this.uri);
     anotherPerson.setContainer(duplicateSiteDirectory);
     transaction.createOrUpdate(anotherPerson);
 
-    var operationContainer = transaction.finalizeTransaction();
+    OperationContainer operationContainer = transaction.finalizeTransaction();
 
     assertEquals(2, operationContainer.getOperations().size());
   }
 
   @Test
   void verifyThatCreateThingWorks() throws TransactionException {
-    var person = new Person(UUID.randomUUID(), this.cache, this.uri);
+    Person person = new Person(UUID.randomUUID(), this.cache, this.uri);
     person.setContainer(this.siteDirectory);
     this.cache.put(new CacheKey(person.getIid(), null), person);
 
-    var clonePerson = person.clone(false);
+    Person clonePerson = person.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, clonePerson);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, clonePerson);
 
-    var phone = new TelephoneNumber();
+    TelephoneNumber phone = new TelephoneNumber();
     transaction.create(phone, clonePerson);
 
     assertEquals(1, transaction.getAddedThing().size());
@@ -130,16 +134,16 @@ class ThingTransactionImplTest {
 
   @Test
   void verifyThatCreateThingWorksWithAbstractContainer() throws TransactionException {
-    var siteRdl = new SiteReferenceDataLibrary(UUID.randomUUID(), this.cache, this.uri);
+    SiteReferenceDataLibrary siteRdl = new SiteReferenceDataLibrary(UUID.randomUUID(), this.cache, this.uri);
     siteRdl.setContainer(this.siteDirectory);
     this.cache.put(new CacheKey(siteRdl.getIid(), null), siteRdl);
 
-    var cloneRdl = siteRdl.clone(false);
+    SiteReferenceDataLibrary cloneRdl = siteRdl.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, cloneRdl);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, cloneRdl);
 
-    var binaryRelationshipRule = new BinaryRelationshipRule(UUID.randomUUID(), null, null);
+    BinaryRelationshipRule binaryRelationshipRule = new BinaryRelationshipRule(UUID.randomUUID(), null, null);
 
     transaction.create(binaryRelationshipRule, cloneRdl);
 
@@ -149,9 +153,9 @@ class ThingTransactionImplTest {
 
   @Test
   void verifyThatCreateModelDoesNotWorks() {
-    var newModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel newModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
 
     assertThrows(IllegalArgumentException.class,
         () -> new ThingTransactionImpl(transactionContext, newModel));
@@ -159,9 +163,9 @@ class ThingTransactionImplTest {
 
   @Test
   void verifyThatCreateSiteDirDoesNotWorks() {
-    var newSiteDirectory = new SiteDirectory(UUID.randomUUID(), this.cache, this.uri);
+    SiteDirectory newSiteDirectory = new SiteDirectory(UUID.randomUUID(), this.cache, this.uri);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
 
     assertThrows(IllegalArgumentException.class,
         () -> new ThingTransactionImpl(transactionContext, newSiteDirectory));
@@ -169,9 +173,9 @@ class ThingTransactionImplTest {
 
   @Test
   void verifyThatCreateIterationDoesNotWorks() {
-    var newIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    Iteration newIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
 
     assertThrows(IllegalArgumentException.class,
         () -> new ThingTransactionImpl(transactionContext, newIteration));
@@ -179,22 +183,22 @@ class ThingTransactionImplTest {
 
   @Test
   void verifyThatCreateThingTwiceDoesntThrowException() throws TransactionException {
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, this.siteDirectory.clone(false));
-    var phone = new TelephoneNumber(UUID.randomUUID(), this.cache, this.uri);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, this.siteDirectory.clone(false));
+    TelephoneNumber phone = new TelephoneNumber(UUID.randomUUID(), this.cache, this.uri);
     transaction.create(phone, null);
     transaction.create(phone, null);
   }
 
   @Test
   void verifyThatUpdateThingWorks() throws TransactionException {
-    var phone = new TelephoneNumber(UUID.randomUUID(), this.cache, this.uri);
+    TelephoneNumber phone = new TelephoneNumber(UUID.randomUUID(), this.cache, this.uri);
     this.cache.put(new CacheKey(phone.getIid(), null), phone);
 
-    var clone = phone.clone(false);
+    TelephoneNumber clone = phone.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, clone);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, clone);
 
     transaction.createOrUpdate(clone);
     assertEquals(1, transaction.getUpdatedThing().size());
@@ -203,14 +207,14 @@ class ThingTransactionImplTest {
   @Test
   void verifyThatUpdateThingThrowsExceptionUponUpdatingExistingCloneWithAnotherClone()
       throws TransactionException {
-    var phone = new TelephoneNumber(UUID.randomUUID(), this.cache, this.uri);
+    TelephoneNumber phone = new TelephoneNumber(UUID.randomUUID(), this.cache, this.uri);
     this.cache.put(new CacheKey(phone.getIid(), null), phone);
 
-    var clone1 = phone.clone(false);
-    var clone2 = phone.clone(false);
+    TelephoneNumber clone1 = phone.clone(false);
+    TelephoneNumber clone2 = phone.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, clone1);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, clone1);
 
     transaction.createOrUpdate(clone1);
     transaction.createOrUpdate(clone2);
@@ -221,16 +225,16 @@ class ThingTransactionImplTest {
 
   @Test
   void verifyThatDeleteThingAlreadyDeletedWorks() throws TransactionException {
-    var person = new Person(UUID.randomUUID(), this.cache, this.uri);
-    var email = new EmailAddress(UUID.randomUUID(), this.cache, this.uri);
+    Person person = new Person(UUID.randomUUID(), this.cache, this.uri);
+    EmailAddress email = new EmailAddress(UUID.randomUUID(), this.cache, this.uri);
     this.siteDirectory.getPerson().add(person);
     person.getEmailAddress().add(email);
 
     this.cache.put(new CacheKey(person.getIid(), null), person);
     this.cache.put(new CacheKey(email.getIid(), null), email);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, person.clone(false));
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, person.clone(false));
     transaction.delete(email.clone(false), null);
     transaction.delete(email.clone(false), null);
 
@@ -240,24 +244,24 @@ class ThingTransactionImplTest {
   @Test
   void verifyThatUpdateContainerWorks() throws TransactionException {
 
-    var iterationClone = this.iteration.clone(false);
-    var option1 = new Option(UUID.randomUUID(), this.cache, this.uri);
+    Iteration iterationClone = this.iteration.clone(false);
+    Option option1 = new Option(UUID.randomUUID(), this.cache, this.uri);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.iteration);
-    var transaction = new ThingTransactionImpl(transactionContext, iterationClone);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.iteration);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, iterationClone);
     transaction.createOrUpdate(iterationClone);
 
     // Add new option
-    var optionTransaction = new ThingTransactionImpl(option1, transaction, iterationClone);
+    ThingTransactionImpl optionTransaction = new ThingTransactionImpl(option1, transaction, iterationClone);
     optionTransaction.create(option1, null);
     optionTransaction.finalizeSubTransaction(option1, iterationClone, null);
 
-    var clone = (Iteration) transaction.getClone(this.iteration);
+    Iteration clone = (Iteration) transaction.getClone(this.iteration);
     assertEquals(1, clone.getOption().size());
     assertEquals(0, iteration.getOption().size());
 
     // insert an option
-    var option2 = new Option(UUID.randomUUID(), this.cache, this.uri);
+    Option option2 = new Option(UUID.randomUUID(), this.cache, this.uri);
 
     optionTransaction = new ThingTransactionImpl(option2, transaction, iterationClone);
     optionTransaction.create(option2, null);
@@ -271,22 +275,22 @@ class ThingTransactionImplTest {
    */
   @Test
   void functionalTestCase1() throws TransactionException {
-    var person1 = new Person();
-    var phone = new TelephoneNumber();
-    var cloneSiteDir = this.siteDirectory.clone(false);
+    Person person1 = new Person();
+    TelephoneNumber phone = new TelephoneNumber();
+    SiteDirectory cloneSiteDir = this.siteDirectory.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var rootTransaction = new ThingTransactionImpl(transactionContext, cloneSiteDir);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl rootTransaction = new ThingTransactionImpl(transactionContext, cloneSiteDir);
     rootTransaction.createOrUpdate(cloneSiteDir);
 
-    var personTransaction = new ThingTransactionImpl(person1, rootTransaction, cloneSiteDir);
+    ThingTransactionImpl personTransaction = new ThingTransactionImpl(person1, rootTransaction, cloneSiteDir);
     personTransaction.create(person1, null);
 
     assertEquals(1, personTransaction.getAddedThing().size());
     assertEquals(1, personTransaction.getUpdatedThing().size());
 
     // phone dialog
-    var phoneTransaction = new ThingTransactionImpl(phone, personTransaction, person1);
+    ThingTransactionImpl phoneTransaction = new ThingTransactionImpl(phone, personTransaction, person1);
     phoneTransaction.create(phone, null);
     assertEquals(2, phoneTransaction.getAddedThing().size());
     assertEquals(0, phoneTransaction.getUpdatedThing().size());
@@ -307,16 +311,16 @@ class ThingTransactionImplTest {
     assertEquals(1, rootTransaction.getUpdatedThing().size());
 
     // update person1
-    var person1_1 = person1.clone(false);
-    var person1_1Tr = new ThingTransactionImpl(person1_1, rootTransaction, cloneSiteDir);
+    Person person1_1 = person1.clone(false);
+    ThingTransactionImpl person1_1Tr = new ThingTransactionImpl(person1_1, rootTransaction, cloneSiteDir);
     person1_1Tr.createOrUpdate(person1_1);
 
     assertEquals(1, person1_1Tr.getAddedThing().size());
     assertEquals(1, person1_1Tr.getUpdatedThing().size());
 
     // add email
-    var email = new EmailAddress();
-    var emailTrans = new ThingTransactionImpl(email, person1_1Tr, person1_1);
+    EmailAddress email = new EmailAddress();
+    ThingTransactionImpl emailTrans = new ThingTransactionImpl(email, person1_1Tr, person1_1);
     emailTrans.create(email, null);
 
     emailTrans.finalizeSubTransaction(email, person1_1, null);
@@ -327,8 +331,8 @@ class ThingTransactionImplTest {
     assertTrue(person1_1.getEmailAddress().contains(email));
 
     // update phone
-    var phone_1 = phone.clone(false);
-    var phone_1Trans = new ThingTransactionImpl(phone_1, person1_1Tr, person1_1);
+    TelephoneNumber phone_1 = phone.clone(false);
+    ThingTransactionImpl phone_1Trans = new ThingTransactionImpl(phone_1, person1_1Tr, person1_1);
     phone_1Trans.createOrUpdate(phone_1);
     phone_1Trans.finalizeSubTransaction(phone_1, person1_1, null);
     // end update phone
@@ -347,8 +351,8 @@ class ThingTransactionImplTest {
     assertEquals(1, cloneSiteDir.getPerson().size());
 
     // create new person
-    var person2 = new Person();
-    var person2Trans = new ThingTransactionImpl(person2, rootTransaction, cloneSiteDir);
+    Person person2 = new Person();
+    ThingTransactionImpl person2Trans = new ThingTransactionImpl(person2, rootTransaction, cloneSiteDir);
     person2Trans.create(person2, null);
     person2Trans.finalizeSubTransaction(person2, cloneSiteDir, null);
 
@@ -356,17 +360,17 @@ class ThingTransactionImplTest {
     assertEquals(2, cloneSiteDir.getPerson().size());
 
     // update person1
-    var person1_2 = person1_1.clone(false);
-    var person1_2Trans = new ThingTransactionImpl(person1_2, rootTransaction, cloneSiteDir);
+    Person person1_2 = person1_1.clone(false);
+    ThingTransactionImpl person1_2Trans = new ThingTransactionImpl(person1_2, rootTransaction, cloneSiteDir);
     person1_2Trans.createOrUpdate(person1_2);
 
     // create email2
-    var email2 = new EmailAddress();
-    var email2Trans = new ThingTransactionImpl(email2, person1_2Trans, person1_2);
+    EmailAddress email2 = new EmailAddress();
+    ThingTransactionImpl email2Trans = new ThingTransactionImpl(email2, person1_2Trans, person1_2);
     email2Trans.create(email2, null);
 
     // verify that current Person is in the transaction
-    var persons = email2Trans.getAddedThing().stream().filter(x -> x instanceof Person)
+    List<Thing> persons = email2Trans.getAddedThing().stream().filter(x -> x instanceof Person)
         .collect(Collectors.toList());
     assertEquals(1, persons.size());
     assertTrue(persons.contains(person1_2));
@@ -375,13 +379,13 @@ class ThingTransactionImplTest {
     email2Trans.finalizeSubTransaction(email2, person1_2, null);
 
     // update phone
-    var phone_2 = phone_1.clone(false);
-    var phone_2Trans = new ThingTransactionImpl(phone_2, person1_2Trans, person1_2);
+    TelephoneNumber phone_2 = phone_1.clone(false);
+    ThingTransactionImpl phone_2Trans = new ThingTransactionImpl(phone_2, person1_2Trans, person1_2);
     phone_2Trans.createOrUpdate(phone_2);
 
     assertNull(phone_2Trans.getClone(person2));
 
-    var person2clone = person2.clone(false);
+    Person person2clone = person2.clone(false);
     phone_2Trans.finalizeSubTransaction(phone_2, person2clone, null);
     assertTrue(phone_2Trans.getAddedThing().contains(person2clone));
     assertEquals(0, phone_2Trans.getUpdatedThing().size());
@@ -397,15 +401,15 @@ class ThingTransactionImplTest {
 
     assertEquals(5, rootTransaction.getAddedThing().size());
     assertEquals(1, rootTransaction.getUpdatedThing().size());
-    var per1 = (Person) rootTransaction.getAddedThing().stream()
+    Person per1 = (Person) rootTransaction.getAddedThing().stream()
         .filter(x -> x.getIid().equals(person1.getIid())).collect(MoreCollectors.onlyElement());
-    var per2 = (Person) rootTransaction.getAddedThing().stream()
+    Person per2 = (Person) rootTransaction.getAddedThing().stream()
         .filter(x -> x.getIid().equals(person2.getIid())).collect(MoreCollectors.onlyElement());
-    var emailad1 = rootTransaction.getAddedThing().stream()
+    Thing emailad1 = rootTransaction.getAddedThing().stream()
         .filter(x -> x.getIid().equals(email.getIid())).collect(MoreCollectors.onlyElement());
-    var emailad2 = rootTransaction.getAddedThing().stream()
+    Thing emailad2 = rootTransaction.getAddedThing().stream()
         .filter(x -> x.getIid().equals(email2.getIid())).collect(MoreCollectors.onlyElement());
-    var tel = rootTransaction.getAddedThing().stream()
+    Thing tel = rootTransaction.getAddedThing().stream()
         .filter(x -> x.getIid().equals(phone.getIid())).collect(MoreCollectors.onlyElement());
 
     assertTrue(per1.getEmailAddress().contains(emailad1));
@@ -414,7 +418,7 @@ class ThingTransactionImplTest {
 
     assertTrue(per2.getTelephoneNumber().contains(tel));
 
-    var sitedir = (SiteDirectory) rootTransaction.getUpdatedThing().entrySet().stream()
+    SiteDirectory sitedir = (SiteDirectory) rootTransaction.getUpdatedThing().entrySet().stream()
         .collect(MoreCollectors.onlyElement()).getValue();
     assertSame(sitedir, cloneSiteDir);
     assertTrue(sitedir.getPerson().contains(per1));
@@ -426,13 +430,13 @@ class ThingTransactionImplTest {
    */
   @Test
   void functionalTestCase2() throws TransactionException {
-    var siterdl = new SiteReferenceDataLibrary(UUID.randomUUID(), this.cache, this.uri);
+    SiteReferenceDataLibrary siterdl = new SiteReferenceDataLibrary(UUID.randomUUID(), this.cache, this.uri);
     this.siteDirectory.getSiteReferenceDataLibrary().add(siterdl);
 
-    var unit1 = new DerivedUnit(UUID.randomUUID(), this.cache, this.uri);
+    DerivedUnit unit1 = new DerivedUnit(UUID.randomUUID(), this.cache, this.uri);
     siterdl.getUnit().add(unit1);
 
-    var unitFactor1 = new UnitFactor(UUID.randomUUID(), this.cache, this.uri);
+    UnitFactor unitFactor1 = new UnitFactor(UUID.randomUUID(), this.cache, this.uri);
     unit1.getUnitFactor().add(unitFactor1);
 
     this.cache.put(new CacheKey(siterdl.getIid(), null), siterdl);
@@ -440,29 +444,29 @@ class ThingTransactionImplTest {
     this.cache.put(new CacheKey(unitFactor1.getIid(), null), unitFactor1);
 
     // *******************************************************************
-    var siteDirClone = this.siteDirectory.clone(false);
+    SiteDirectory siteDirClone = this.siteDirectory.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var rootTransaction = new ThingTransactionImpl(transactionContext, siteDirClone);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl rootTransaction = new ThingTransactionImpl(transactionContext, siteDirClone);
     rootTransaction.createOrUpdate(siteDirClone);
 
-    var siterdlC1 = siterdl.clone(false);
-    var siterdlC1Trans = new ThingTransactionImpl(siterdlC1, rootTransaction, siteDirClone);
+    SiteReferenceDataLibrary siterdlC1 = siterdl.clone(false);
+    ThingTransactionImpl siterdlC1Trans = new ThingTransactionImpl(siterdlC1, rootTransaction, siteDirClone);
     siterdlC1Trans.createOrUpdate(siterdlC1);
 
-    var unit1C1 = unit1.clone(false);
-    var unit1C1Trans = new ThingTransactionImpl(unit1C1, siterdlC1Trans, siterdlC1);
+    DerivedUnit unit1C1 = unit1.clone(false);
+    ThingTransactionImpl unit1C1Trans = new ThingTransactionImpl(unit1C1, siterdlC1Trans, siterdlC1);
     unit1C1Trans.createOrUpdate(unit1C1);
 
-    var unitFactor1C1 = unitFactor1.clone(false);
-    var unitFactor1C1Trans = new ThingTransactionImpl(unitFactor1C1, unit1C1Trans, unit1C1);
+    UnitFactor unitFactor1C1 = unitFactor1.clone(false);
+    ThingTransactionImpl unitFactor1C1Trans = new ThingTransactionImpl(unitFactor1C1, unit1C1Trans, unit1C1);
     unitFactor1C1Trans.createOrUpdate(unitFactor1C1);
 
     unitFactor1C1Trans.finalizeSubTransaction(unitFactor1C1, unit1C1, null);
 
     // Add unitfactor
-    var unitFactor2 = new UnitFactor();
-    var unitFactor2Trans = new ThingTransactionImpl(unitFactor2, unit1C1Trans, unit1C1);
+    UnitFactor unitFactor2 = new UnitFactor();
+    ThingTransactionImpl unitFactor2Trans = new ThingTransactionImpl(unitFactor2, unit1C1Trans, unit1C1);
     unitFactor2Trans.create(unitFactor2, null);
     unitFactor2Trans.finalizeSubTransaction(unitFactor2, unit1C1, null);
 
@@ -478,13 +482,13 @@ class ThingTransactionImplTest {
     assertTrue(unit1C1.getUnitFactor().contains(unitFactor1C1));
 
     // Add srdl2
-    var srdl2 = new SiteReferenceDataLibrary();
-    var srdl2Trans = new ThingTransactionImpl(srdl2, rootTransaction, siteDirClone);
+    SiteReferenceDataLibrary srdl2 = new SiteReferenceDataLibrary();
+    ThingTransactionImpl srdl2Trans = new ThingTransactionImpl(srdl2, rootTransaction, siteDirClone);
     srdl2Trans.create(srdl2, null);
 
     // add unit
-    var unit2 = new DerivedUnit();
-    var unit2Trans = new ThingTransactionImpl(unit2, srdl2Trans, srdl2);
+    DerivedUnit unit2 = new DerivedUnit();
+    ThingTransactionImpl unit2Trans = new ThingTransactionImpl(unit2, srdl2Trans, srdl2);
     unit2Trans.create(unit2, null);
     unit2Trans.finalizeSubTransaction(unit2, srdl2, null);
 
@@ -494,21 +498,21 @@ class ThingTransactionImplTest {
     assertTrue(srdl2.getUnit().contains(unit2));
 
     // update site rdl1
-    var srdlC2 = siterdlC1.clone(false);
-    var srdlC2TRans = new ThingTransactionImpl(srdlC2, rootTransaction, siteDirClone);
+    SiteReferenceDataLibrary srdlC2 = siterdlC1.clone(false);
+    ThingTransactionImpl srdlC2TRans = new ThingTransactionImpl(srdlC2, rootTransaction, siteDirClone);
     srdlC2TRans.createOrUpdate(srdlC2);
 
     // update unit1
-    var unit1C2 = unit1C1.clone(false);
-    var unit1C2Trans = new ThingTransactionImpl(unit1C2, srdlC2TRans, srdlC2);
+    DerivedUnit unit1C2 = unit1C1.clone(false);
+    ThingTransactionImpl unit1C2Trans = new ThingTransactionImpl(unit1C2, srdlC2TRans, srdlC2);
     unit1C2Trans.createOrUpdate(unit1C2);
 
     // update container of unitfactor1
-    var unitfactor1C2 = unitFactor1C1.clone(false);
-    var factor1C2Trans = new ThingTransactionImpl(unitfactor1C2, unit1C2Trans, unit1C2);
+    UnitFactor unitfactor1C2 = unitFactor1C1.clone(false);
+    ThingTransactionImpl factor1C2Trans = new ThingTransactionImpl(unitfactor1C2, unit1C2Trans, unit1C2);
     factor1C2Trans.createOrUpdate(unitfactor1C2);
 
-    var unit2clone = unit2.clone(false);
+    DerivedUnit unit2clone = unit2.clone(false);
     factor1C2Trans.finalizeSubTransaction(unitfactor1C2, unit2clone, null);
 
     assertEquals(2, unit1C2Trans.getAddedThing().size());
@@ -517,11 +521,11 @@ class ThingTransactionImplTest {
     assertFalse(unit1C2.getUnitFactor().contains(unitfactor1C2));
 
     // update container of unitfactor2
-    var unitfactor2C1 = unitFactor2.clone(false);
-    var factor2C2Trans = new ThingTransactionImpl(unitfactor2C1, unit1C2Trans, unit1C2);
+    UnitFactor unitfactor2C1 = unitFactor2.clone(false);
+    ThingTransactionImpl factor2C2Trans = new ThingTransactionImpl(unitfactor2C1, unit1C2Trans, unit1C2);
     factor2C2Trans.createOrUpdate(unitfactor2C1);
 
-    var unit2clone2 = unit2clone.clone(false);
+    DerivedUnit unit2clone2 = unit2clone.clone(false);
     factor2C2Trans.finalizeSubTransaction(unitfactor2C1, unit2clone2, null);
 
     assertEquals(3, unit1C2Trans.getAddedThing().size());
@@ -541,11 +545,11 @@ class ThingTransactionImplTest {
     assertTrue(rootTransaction.getAddedThing().contains(unitfactor2C1));
     assertTrue(rootTransaction.getAddedThing().contains(unit2clone2));
 
-    var srdl2lastclone = (SiteReferenceDataLibrary) rootTransaction.getClone(srdl2);
+    SiteReferenceDataLibrary srdl2lastclone = (SiteReferenceDataLibrary) rootTransaction.getClone(srdl2);
     assertTrue(siteDirClone.getSiteReferenceDataLibrary().contains(srdl2lastclone));
     assertTrue(srdl2lastclone.getUnit().contains(unit2clone2));
 
-    var updatedThingValues = rootTransaction.getUpdatedThing().values();
+    ImmutableCollection<Thing> updatedThingValues = rootTransaction.getUpdatedThing().values();
     assertTrue(updatedThingValues.contains(siteDirClone));
     assertTrue(updatedThingValues.contains(srdlC2));
     assertTrue(updatedThingValues.contains(unit1C2));
@@ -554,51 +558,51 @@ class ThingTransactionImplTest {
 
   @Test
   void verifyThatNewThingWithCacheDoesNotCrash() throws TransactionException {
-    var person = new Person(UUID.randomUUID(), this.cache, this.uri);
+    Person person = new Person(UUID.randomUUID(), this.cache, this.uri);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, person);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, person);
     assertEquals(1, transaction.getAddedThing().size());
   }
 
   @Test
   void verifyThatCreateDeepWorks() throws TransactionException {
-    var enumPt = new EnumerationParameterType();
-    var enumPtDef = new Definition();
+    EnumerationParameterType enumPt = new EnumerationParameterType();
+    Definition enumPtDef = new Definition();
 
     enumPt.getDefinition().add(enumPtDef);
 
-    var enumValue = new EnumerationValueDefinition();
-    var enumValueDef = new Definition();
+    EnumerationValueDefinition enumValue = new EnumerationValueDefinition();
+    Definition enumValueDef = new Definition();
     enumValue.getDefinition().add(enumValueDef);
 
     enumPt.getValueDefinition().add(enumValue);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, null);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, null);
     transaction.createDeep(enumPt, null);
     assertEquals(4, transaction.getAddedThing().size());
   }
 
   @Test
   void verifyThatCopyDeepWorks() throws TransactionException {
-    var enumPt = new EnumerationParameterType();
-    var enumPtDef = new Definition();
+    EnumerationParameterType enumPt = new EnumerationParameterType();
+    Definition enumPtDef = new Definition();
 
     enumPt.getDefinition().add(enumPtDef);
 
-    var enumValue = new EnumerationValueDefinition(UUID.randomUUID(), null, null);
-    var enumValueDef = new Definition();
+    EnumerationValueDefinition enumValue = new EnumerationValueDefinition(UUID.randomUUID(), null, null);
+    Definition enumValueDef = new Definition();
     enumValue.getDefinition().add(enumValueDef);
 
     enumPt.getValueDefinition().add(enumValue);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, null);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, null);
     transaction.copyDeep(enumPt.clone(true), null);
     assertEquals(4, transaction.getAddedThing().size());
 
-    var valueDefInTransaction =
+    EnumerationValueDefinition valueDefInTransaction =
         (EnumerationValueDefinition) transaction.getAddedThing().stream()
             .filter(x -> x.getClassKind() == ClassKind.EnumerationValueDefinition)
             .collect(MoreCollectors.onlyElement());
@@ -611,28 +615,28 @@ class ThingTransactionImplTest {
    */
   @Test
   void verifyThatDeleteAddedThingWorksWithinSameSubTransaction() throws TransactionException {
-    var sitedir1 = this.siteDirectory.clone(false);
+    SiteDirectory sitedir1 = this.siteDirectory.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, sitedir1);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, sitedir1);
 
-    var person = new Person();
-    var personTransaction = new ThingTransactionImpl(person, transaction, sitedir1);
+    Person person = new Person();
+    ThingTransactionImpl personTransaction = new ThingTransactionImpl(person, transaction, sitedir1);
     personTransaction.create(person, null);
 
-    var email = new EmailAddress();
-    var emailTransaction = new ThingTransactionImpl(email, personTransaction, person);
+    EmailAddress email = new EmailAddress();
+    ThingTransactionImpl emailTransaction = new ThingTransactionImpl(email, personTransaction, person);
     emailTransaction.create(email, null);
     emailTransaction.finalizeSubTransaction(email, person, null);
 
-    var deletedEmail = email.clone(false);
+    EmailAddress deletedEmail = email.clone(false);
     personTransaction.delete(deletedEmail, person);
     assertTrue(person.getEmailAddress().isEmpty());
 
     assertTrue(personTransaction.getDeletedThing().contains(deletedEmail));
 
     personTransaction.finalizeSubTransaction(person, sitedir1, null);
-    var operationContainer = transaction.finalizeTransaction();
+    OperationContainer operationContainer = transaction.finalizeTransaction();
 
     // sitedir and person
     assertEquals(2, operationContainer.getOperations().size());
@@ -643,34 +647,34 @@ class ThingTransactionImplTest {
    */
   @Test
   void verifyThatDeleteAddedThingWorksWithinDifferentSubTransaction() throws TransactionException {
-    var sitedir1 = this.siteDirectory.clone(false);
+    SiteDirectory sitedir1 = this.siteDirectory.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, sitedir1);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, sitedir1);
 
-    var person = new Person();
-    var personTransaction = new ThingTransactionImpl(person, transaction, sitedir1);
+    Person person = new Person();
+    ThingTransactionImpl personTransaction = new ThingTransactionImpl(person, transaction, sitedir1);
     personTransaction.create(person, null);
 
-    var email = new EmailAddress();
-    var emailTransaction = new ThingTransactionImpl(email, personTransaction, person);
+    EmailAddress email = new EmailAddress();
+    ThingTransactionImpl emailTransaction = new ThingTransactionImpl(email, personTransaction, person);
     emailTransaction.create(email, null);
     emailTransaction.finalizeSubTransaction(email, person, null);
     personTransaction.finalizeSubTransaction(person, sitedir1, null);
 
     // edit person
-    var person1 = person.clone(false);
-    var person1Transaction = new ThingTransactionImpl(person1, transaction, sitedir1);
+    Person person1 = person.clone(false);
+    ThingTransactionImpl person1Transaction = new ThingTransactionImpl(person1, transaction, sitedir1);
     person1Transaction.createOrUpdate(person1);
 
-    var deletedEmail = email.clone(false);
+    EmailAddress deletedEmail = email.clone(false);
     person1Transaction.delete(deletedEmail, person1);
 
     assertTrue(person1.getEmailAddress().isEmpty());
     assertTrue(person1Transaction.getDeletedThing().contains(deletedEmail));
 
     person1Transaction.finalizeSubTransaction(person1, sitedir1, null);
-    var operationContainer = transaction.finalizeTransaction();
+    OperationContainer operationContainer = transaction.finalizeTransaction();
 
     // sitedir and person
     assertEquals(2, operationContainer.getOperations().size());
@@ -681,30 +685,30 @@ class ThingTransactionImplTest {
    */
   @Test
   void verifyThatDeleteExistingThingWorks() throws TransactionException {
-    var person = new Person(UUID.randomUUID(), this.cache, this.uri);
-    var email = new EmailAddress(UUID.randomUUID(), this.cache, this.uri);
+    Person person = new Person(UUID.randomUUID(), this.cache, this.uri);
+    EmailAddress email = new EmailAddress(UUID.randomUUID(), this.cache, this.uri);
     this.siteDirectory.getPerson().add(person);
     person.getEmailAddress().add(email);
 
     this.cache.put(new CacheKey(person.getIid(), null), person);
     this.cache.put(new CacheKey(email.getIid(), null), email);
 
-    var sitedir1 = this.siteDirectory.clone(false);
+    SiteDirectory sitedir1 = this.siteDirectory.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, sitedir1);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, sitedir1);
 
-    var person1 = person.clone(false);
-    var person1Transaction = new ThingTransactionImpl(person1, transaction, sitedir1);
+    Person person1 = person.clone(false);
+    ThingTransactionImpl person1Transaction = new ThingTransactionImpl(person1, transaction, sitedir1);
     person1Transaction.createOrUpdate(person1);
 
-    var deletedEmail = email.clone(false);
+    EmailAddress deletedEmail = email.clone(false);
     person1Transaction.delete(deletedEmail, person1);
     assertTrue(person1.getEmailAddress().contains(deletedEmail));
     assertTrue(person1Transaction.getDeletedThing().contains(deletedEmail));
 
     person1Transaction.finalizeSubTransaction(person1, sitedir1, null);
-    var operationContainer = transaction.finalizeTransaction();
+    OperationContainer operationContainer = transaction.finalizeTransaction();
 
     // sitedir and person
     assertEquals(3, operationContainer.getOperations().size());
@@ -715,36 +719,36 @@ class ThingTransactionImplTest {
    */
   @Test
   void verifyThatDeleteUpdatedThingWorksWithinSameSubTransaction() throws TransactionException {
-    var person = new Person(UUID.randomUUID(), this.cache, this.uri);
-    var email = new EmailAddress(UUID.randomUUID(), this.cache, this.uri);
+    Person person = new Person(UUID.randomUUID(), this.cache, this.uri);
+    EmailAddress email = new EmailAddress(UUID.randomUUID(), this.cache, this.uri);
     this.siteDirectory.getPerson().add(person);
     person.getEmailAddress().add(email);
 
     this.cache.put(new CacheKey(person.getIid(), null), person);
     this.cache.put(new CacheKey(email.getIid(), null), email);
 
-    var sitedir1 = this.siteDirectory.clone(false);
+    SiteDirectory sitedir1 = this.siteDirectory.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, sitedir1);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, sitedir1);
 
-    var person1 = person.clone(false);
-    var person1Transaction = new ThingTransactionImpl(person1, transaction, sitedir1);
+    Person person1 = person.clone(false);
+    ThingTransactionImpl person1Transaction = new ThingTransactionImpl(person1, transaction, sitedir1);
     person1Transaction.createOrUpdate(person1);
 
-    var email1 = email.clone(false);
-    var email1Transaction = new ThingTransactionImpl(email1, person1Transaction, person1);
+    EmailAddress email1 = email.clone(false);
+    ThingTransactionImpl email1Transaction = new ThingTransactionImpl(email1, person1Transaction, person1);
     email1Transaction.createOrUpdate(email1);
     email1Transaction.finalizeSubTransaction(email1, person1, null);
 
-    var email2 = email1.clone(false);
+    EmailAddress email2 = email1.clone(false);
     person1Transaction.delete(email2, person1);
 
     assertTrue(person1.getEmailAddress().contains(email2));
     assertTrue(person1Transaction.getDeletedThing().contains(email2));
 
     person1Transaction.finalizeSubTransaction(person1, sitedir1, null);
-    var operationContainer = transaction.finalizeTransaction();
+    OperationContainer operationContainer = transaction.finalizeTransaction();
 
     // sitedir and person
     assertEquals(3, operationContainer.getOperations().size());
@@ -755,41 +759,41 @@ class ThingTransactionImplTest {
    */
   @Test
   void verifyThatDeleteUpdatedThingWorksInDifferentTransaction() throws TransactionException {
-    var person = new Person(UUID.randomUUID(), this.cache, this.uri);
-    var email = new EmailAddress(UUID.randomUUID(), this.cache, this.uri);
+    Person person = new Person(UUID.randomUUID(), this.cache, this.uri);
+    EmailAddress email = new EmailAddress(UUID.randomUUID(), this.cache, this.uri);
     this.siteDirectory.getPerson().add(person);
     person.getEmailAddress().add(email);
 
     this.cache.put(new CacheKey(person.getIid(), null), person);
     this.cache.put(new CacheKey(email.getIid(), null), email);
 
-    var sitedir1 = this.siteDirectory.clone(false);
+    SiteDirectory sitedir1 = this.siteDirectory.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, sitedir1);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, sitedir1);
 
-    var person1 = person.clone(false);
-    var person1Transaction = new ThingTransactionImpl(person1, transaction, sitedir1);
+    Person person1 = person.clone(false);
+    ThingTransactionImpl person1Transaction = new ThingTransactionImpl(person1, transaction, sitedir1);
     person1Transaction.createOrUpdate(person1);
 
-    var email1 = email.clone(false);
-    var email1Transaction = new ThingTransactionImpl(email1, person1Transaction, person1);
+    EmailAddress email1 = email.clone(false);
+    ThingTransactionImpl email1Transaction = new ThingTransactionImpl(email1, person1Transaction, person1);
     email1Transaction.createOrUpdate(email1);
     email1Transaction.finalizeSubTransaction(email1, person1, null);
     person1Transaction.finalizeSubTransaction(person1, sitedir1, null);
 
-    var person2 = person1.clone(false);
-    var person2Transaction = new ThingTransactionImpl(person2, transaction, sitedir1);
+    Person person2 = person1.clone(false);
+    ThingTransactionImpl person2Transaction = new ThingTransactionImpl(person2, transaction, sitedir1);
     person2Transaction.createOrUpdate(person2);
 
-    var email2 = email1.clone(false);
+    EmailAddress email2 = email1.clone(false);
     person2Transaction.delete(email2, person2);
 
     assertTrue(person2.getEmailAddress().contains(email2));
     assertTrue(person2Transaction.getDeletedThing().contains(email2));
 
     person2Transaction.finalizeSubTransaction(person2, sitedir1, null);
-    var operationContainer = transaction.finalizeTransaction();
+    OperationContainer operationContainer = transaction.finalizeTransaction();
 
     // sitedir and person
     assertEquals(3, operationContainer.getOperations().size());
@@ -801,35 +805,35 @@ class ThingTransactionImplTest {
    */
   @Test
   void verifyThatCascadeDeleteWorksOnAddedThing() throws TransactionException {
-    var sitedir1 = this.siteDirectory.clone(false);
+    SiteDirectory sitedir1 = this.siteDirectory.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
-    var transaction = new ThingTransactionImpl(transactionContext, sitedir1);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.siteDirectory);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, sitedir1);
 
-    var person = new Person();
-    var personTransaction = new ThingTransactionImpl(person, transaction, sitedir1);
+    Person person = new Person();
+    ThingTransactionImpl personTransaction = new ThingTransactionImpl(person, transaction, sitedir1);
     personTransaction.create(person, null);
 
-    var email = new EmailAddress();
-    var emailTransaction = new ThingTransactionImpl(email, personTransaction, person);
+    EmailAddress email = new EmailAddress();
+    ThingTransactionImpl emailTransaction = new ThingTransactionImpl(email, personTransaction, person);
     emailTransaction.create(email, null);
     emailTransaction.finalizeSubTransaction(email, person, null);
     personTransaction.finalizeSubTransaction(person, sitedir1, null);
 
     transaction.delete(person.clone(false), null);
 
-    var operationContainer = transaction.finalizeTransaction();
+    OperationContainer operationContainer = transaction.finalizeTransaction();
     // Update sitedir
     assertEquals(1, operationContainer.getOperations().size());
   }
 
   @Test
   void verifyThatDryCopyWorks() throws TransactionException {
-    var sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var targetIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration targetIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    ElementDefinition elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
 
     sourceModel.getIteration().add(sourceIteration);
     targetModel.getIteration().add(targetIteration);
@@ -841,19 +845,19 @@ class ThingTransactionImplTest {
     this.cache.put(targetIteration.getCacheKey(), targetIteration);
     this.cache.put(elementDefinition.getCacheKey(), elementDefinition);
 
-    var elementDefinitionClone = elementDefinition.clone(false);
-    var targetIterationClone = targetIteration.clone(false);
+    ElementDefinition elementDefinitionClone = elementDefinition.clone(false);
+    Iteration targetIterationClone = targetIteration.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(targetIteration);
-    var transaction = new ThingTransactionImpl(transactionContext, null);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(targetIteration);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, null);
     transaction.copy(elementDefinitionClone, targetIterationClone,
         OperationKind.COPY_DEFAULT_VALUES_CHANGE_OWNER);
 
-    var copyPair = transaction.getCopiedThing().entrySet().stream()
+    Entry<Pair<Thing, Thing>, OperationKind> copyPair = transaction.getCopiedThing().entrySet().stream()
         .collect(MoreCollectors.onlyElement());
     assertNotEquals(copyPair.getKey().getLeft().getIid(), copyPair.getKey().getRight().getIid());
 
-    var operationContainer = transaction.finalizeTransaction();
+    OperationContainer operationContainer = transaction.finalizeTransaction();
     assertEquals(1, operationContainer.getOperations().stream()
         .filter(x -> x.getOperationKind() == OperationKind.COPY_DEFAULT_VALUES_CHANGE_OWNER)
         .count());
@@ -863,11 +867,11 @@ class ThingTransactionImplTest {
 
   @Test
   void verifyThatCtrlCopyWorks() throws TransactionException {
-    var sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var targetIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration targetIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    ElementDefinition elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
 
     sourceModel.getIteration().add(sourceIteration);
     targetModel.getIteration().add(targetIteration);
@@ -879,19 +883,19 @@ class ThingTransactionImplTest {
     this.cache.put(targetIteration.getCacheKey(), targetIteration);
     this.cache.put(elementDefinition.getCacheKey(), elementDefinition);
 
-    var elementDefinitionClone = elementDefinition.clone(false);
-    var targetIterationClone = targetIteration.clone(false);
+    ElementDefinition elementDefinitionClone = elementDefinition.clone(false);
+    Iteration targetIterationClone = targetIteration.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(targetIteration);
-    var transaction = new ThingTransactionImpl(transactionContext, null);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(targetIteration);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, null);
     transaction.copy(elementDefinitionClone, targetIterationClone,
         OperationKind.COPY_KEEP_VALUES_CHANGE_OWNER);
 
-    var copyPair = transaction.getCopiedThing().entrySet().stream()
+    Entry<Pair<Thing, Thing>, OperationKind> copyPair = transaction.getCopiedThing().entrySet().stream()
         .collect(MoreCollectors.onlyElement());
     assertNotEquals(copyPair.getKey().getLeft().getIid(), copyPair.getKey().getRight().getIid());
 
-    var operationContainer = transaction.finalizeTransaction();
+    OperationContainer operationContainer = transaction.finalizeTransaction();
     assertEquals(1, operationContainer.getOperations().stream()
         .filter(x -> x.getOperationKind() == OperationKind.COPY_KEEP_VALUES_CHANGE_OWNER).count());
     assertEquals(1, operationContainer.getOperations().stream()
@@ -900,11 +904,11 @@ class ThingTransactionImplTest {
 
   @Test
   void verifyThatShiftCopyWorks() throws TransactionException {
-    var sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var targetIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var sourceElementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration targetIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    ElementDefinition sourceElementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
 
     sourceModel.getIteration().add(sourceIteration);
     targetModel.getIteration().add(targetIteration);
@@ -916,18 +920,18 @@ class ThingTransactionImplTest {
     this.cache.put(targetIteration.getCacheKey(), targetIteration);
     this.cache.put(sourceElementDefinition.getCacheKey(), sourceElementDefinition);
 
-    var elementDefinitionClone = sourceElementDefinition.clone(false);
-    var targetIterationClone = targetIteration.clone(false);
+    ElementDefinition elementDefinitionClone = sourceElementDefinition.clone(false);
+    Iteration targetIterationClone = targetIteration.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(targetIteration);
-    var transaction = new ThingTransactionImpl(transactionContext, null);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(targetIteration);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, null);
     transaction.copy(elementDefinitionClone, targetIterationClone, OperationKind.COPY);
 
-    var copyPair = transaction.getCopiedThing().entrySet().stream()
+    Entry<Pair<Thing, Thing>, OperationKind> copyPair = transaction.getCopiedThing().entrySet().stream()
         .collect(MoreCollectors.onlyElement());
     assertNotEquals(copyPair.getKey().getLeft().getIid(), copyPair.getKey().getRight().getIid());
 
-    var operationContainer = transaction.finalizeTransaction();
+    OperationContainer operationContainer = transaction.finalizeTransaction();
     assertEquals(1, operationContainer.getOperations().stream()
         .filter(x -> x.getOperationKind() == OperationKind.COPY).count());
     assertEquals(1, operationContainer.getOperations().stream()
@@ -936,11 +940,11 @@ class ThingTransactionImplTest {
 
   @Test
   void verifyThatCtrlShiftCopyWorks() throws TransactionException {
-    var sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var targetIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration targetIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    ElementDefinition elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
 
     sourceModel.getIteration().add(sourceIteration);
     targetModel.getIteration().add(targetIteration);
@@ -952,18 +956,18 @@ class ThingTransactionImplTest {
     this.cache.put(targetIteration.getCacheKey(), targetIteration);
     this.cache.put(elementDefinition.getCacheKey(), elementDefinition);
 
-    var elementDefinitionClone = elementDefinition.clone(false);
-    var targetIterationClone = targetIteration.clone(false);
+    ElementDefinition elementDefinitionClone = elementDefinition.clone(false);
+    Iteration targetIterationClone = targetIteration.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(targetIteration);
-    var transaction = new ThingTransactionImpl(transactionContext, null);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(targetIteration);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, null);
     transaction.copy(elementDefinitionClone, targetIterationClone, OperationKind.COPY_KEEP_VALUES);
 
-    var copyPair = transaction.getCopiedThing().entrySet().stream()
+    Entry<Pair<Thing, Thing>, OperationKind> copyPair = transaction.getCopiedThing().entrySet().stream()
         .collect(MoreCollectors.onlyElement());
     assertNotEquals(copyPair.getKey().getLeft().getIid(), copyPair.getKey().getRight().getIid());
 
-    var operationContainer = transaction.finalizeTransaction();
+    OperationContainer operationContainer = transaction.finalizeTransaction();
     assertEquals(1, operationContainer.getOperations().stream()
         .filter(x -> x.getOperationKind() == OperationKind.COPY_KEEP_VALUES).count());
     assertEquals(1, operationContainer.getOperations().stream()
@@ -973,11 +977,11 @@ class ThingTransactionImplTest {
   @Test
   void verifyThatWhenCopyOperationIsInvokedWithNonCopyOperationExceptionIsThrown()
       throws TransactionException {
-    var sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var targetIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration targetIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    ElementDefinition elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
 
     sourceModel.getIteration().add(sourceIteration);
     targetModel.getIteration().add(targetIteration);
@@ -989,22 +993,22 @@ class ThingTransactionImplTest {
     this.cache.put(targetIteration.getCacheKey(), targetIteration);
     this.cache.put(elementDefinition.getCacheKey(), elementDefinition);
 
-    var elementDefinitionClone = elementDefinition.clone(false);
-    var targetIterationClone = targetIteration.clone(false);
+    ElementDefinition elementDefinitionClone = elementDefinition.clone(false);
+    Iteration targetIterationClone = targetIteration.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(targetIteration);
-    var transaction = new ThingTransactionImpl(transactionContext, null);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(targetIteration);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, null);
     assertThrows(IllegalArgumentException.class,
         () -> transaction.copy(elementDefinitionClone, targetIterationClone, OperationKind.CREATE));
   }
 
   @Test
   void verifyThatCopyThrowsExceptionCloneThatIsToBeCopiedIsNull() throws TransactionException {
-    var sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var targetIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration targetIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    ElementDefinition elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
 
     sourceModel.getIteration().add(sourceIteration);
     targetModel.getIteration().add(targetIteration);
@@ -1016,19 +1020,19 @@ class ThingTransactionImplTest {
     this.cache.put(targetIteration.getCacheKey(), targetIteration);
     this.cache.put(elementDefinition.getCacheKey(), elementDefinition);
 
-    var transactionContext = TransactionContextResolver.resolveContext(targetIteration);
-    var transaction = new ThingTransactionImpl(transactionContext, null);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(targetIteration);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, null);
 
     assertThrows(NullPointerException.class, () -> transaction.copy(null, OperationKind.COPY));
   }
 
   @Test
   void verifyThatCopyThrowsExceptionWhenDestinationIsNull() throws TransactionException {
-    var sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var targetIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel sourceModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration sourceIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel targetModel = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration targetIteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    ElementDefinition elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
 
     sourceModel.getIteration().add(sourceIteration);
     targetModel.getIteration().add(targetIteration);
@@ -1040,10 +1044,10 @@ class ThingTransactionImplTest {
     this.cache.put(targetIteration.getCacheKey(), targetIteration);
     this.cache.put(elementDefinition.getCacheKey(), elementDefinition);
 
-    var elementDefinitionClone = elementDefinition.clone(false);
+    ElementDefinition elementDefinitionClone = elementDefinition.clone(false);
 
-    var transactionContext = TransactionContextResolver.resolveContext(sourceIteration);
-    var transaction = new ThingTransactionImpl(transactionContext, null);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(sourceIteration);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, null);
     assertThrows(NullPointerException.class,
         () -> transaction.copy(elementDefinitionClone, null, OperationKind.COPY));
   }
@@ -1051,17 +1055,17 @@ class ThingTransactionImplTest {
   @Test
   void verifyThatGetLastCloneCreatedThrowsExceptionWhenThingIsNullOrGuidIsEmptyGuid()
       throws TransactionException {
-    var model = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var iteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel model = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration iteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
 
     model.getIteration().add(iteration);
 
-    var transactionContext = TransactionContextResolver.resolveContext(iteration);
-    var transaction = new ThingTransactionImpl(transactionContext, null);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(iteration);
+    ThingTransactionImpl transaction = new ThingTransactionImpl(transactionContext, null);
 
     assertThrows(NullPointerException.class, () -> transaction.getLastCloneCreated(null));
 
-    var elementDefinition = new ElementDefinition(new UUID(0L, 0L), this.cache, this.uri);
+    ElementDefinition elementDefinition = new ElementDefinition(new UUID(0L, 0L), this.cache, this.uri);
 
     assertThrows(IllegalArgumentException.class,
         () -> transaction.getLastCloneCreated(elementDefinition));
@@ -1074,17 +1078,17 @@ class ThingTransactionImplTest {
 
   @Test
   void verifyThatArgumentNullExceptionIsThrownWhenCloneIsNull() {
-    var model = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
-    var iteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
-    var elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
+    EngineeringModel model = new EngineeringModel(UUID.randomUUID(), this.cache, this.uri);
+    Iteration iteration = new Iteration(UUID.randomUUID(), this.cache, this.uri);
+    ElementDefinition elementDefinition = new ElementDefinition(UUID.randomUUID(), this.cache, this.uri);
 
     model.getIteration().add(iteration);
     iteration.getElement().add(elementDefinition);
 
-    var transactionContext = TransactionContextResolver.resolveContext(elementDefinition);
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(elementDefinition);
 
-    var iterationClone = iteration.clone(false);
-    var elementDefinitionClone = elementDefinition.clone(false);
+    Iteration iterationClone = iteration.clone(false);
+    ElementDefinition elementDefinitionClone = elementDefinition.clone(false);
 
     assertThrows(NullPointerException.class,
         () -> new ThingTransactionImpl(null, null, iterationClone));

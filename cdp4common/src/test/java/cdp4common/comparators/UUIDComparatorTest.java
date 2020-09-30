@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -36,14 +37,14 @@ class UUIDComparatorTest {
 
   @Test
   void verify_that_UUID_is_compared_differently_than_in_csharp() {
-    var id_1 = UUID.fromString("622d8e0f-ed5e-4dde-92b8-97ff06e69110");
-    var id_2 = UUID.fromString("90e43d0c-edf8-4630-963b-90e6530ac9db");
-    var id_3 = UUID.fromString("47b3abc1-ce06-40ef-8ea6-466e7eaccccd");
-    var id_4 = UUID.fromString("47b3abc1-ce06-40ef-8ea6-466e7eaccccd");
+    UUID id_1 = UUID.fromString("622d8e0f-ed5e-4dde-92b8-97ff06e69110");
+    UUID id_2 = UUID.fromString("90e43d0c-edf8-4630-963b-90e6530ac9db");
+    UUID id_3 = UUID.fromString("47b3abc1-ce06-40ef-8ea6-466e7eaccccd");
+    UUID id_4 = UUID.fromString("47b3abc1-ce06-40ef-8ea6-466e7eaccccd");
 
-    var id_5 = UUID.fromString("01e75c83-c6f5-4192-b57e-7427cec5560d");
-    var id_6 = UUID.fromString("01e75c83-c6f5-4192-b57e-7427cec5560c");
-    var id_7 = UUID.fromString("01e75c84-c6f5-4192-b57e-7427cec5560d");
+    UUID id_5 = UUID.fromString("01e75c83-c6f5-4192-b57e-7427cec5560d");
+    UUID id_6 = UUID.fromString("01e75c83-c6f5-4192-b57e-7427cec5560c");
+    UUID id_7 = UUID.fromString("01e75c84-c6f5-4192-b57e-7427cec5560d");
 
     assertEquals(1, id_1.compareTo(id_2));   // C# returns -1, an opposite result
     assertEquals(-1, id_2.compareTo(id_3));  // C# returns 1, an opposite result
@@ -56,21 +57,21 @@ class UUIDComparatorTest {
 
   @Test
   void verify_that_UUID_is_compared_as_in_csharp() {
-    var id_1 = UUID.fromString("622d8e0f-ed5e-4dde-92b8-97ff06e69110");
-    var id_2 = UUID.fromString("90e43d0c-edf8-4630-963b-90e6530ac9db");
-    var id_3 = UUID.fromString("47b3abc1-ce06-40ef-8ea6-466e7eaccccd");
-    var id_4 = UUID.fromString("47b3abc1-ce06-40ef-8ea6-466e7eaccccd");
+    UUID id_1 = UUID.fromString("622d8e0f-ed5e-4dde-92b8-97ff06e69110");
+    UUID id_2 = UUID.fromString("90e43d0c-edf8-4630-963b-90e6530ac9db");
+    UUID id_3 = UUID.fromString("47b3abc1-ce06-40ef-8ea6-466e7eaccccd");
+    UUID id_4 = UUID.fromString("47b3abc1-ce06-40ef-8ea6-466e7eaccccd");
 
-    var id_5 = UUID.fromString("01e75c83-c6f5-4192-b57e-7427cec5560d");
-    var id_6 = UUID.fromString("01e75c83-c6f5-4192-b57e-7427cec5560c");
-    var id_7 = UUID.fromString("01e75c84-c6f5-4192-b57e-7427cec5560d");
-    var id_8 = UUID.fromString("01e75c83-c6f6-4192-b57e-7427cec5560d");
-    var id_9 = UUID.fromString("01e75c83-c6f5-4193-b57e-7427cec5560d");
-    var id_10 = UUID.fromString("01e75c83-c6f5-4191-b57e-7427cec5560d");
-    var id_11 = UUID.fromString("01e75c83-c6f5-4192-b58e-7427cec5560d");
-    var id_12 = UUID.fromString("01e75c83-c6f5-4192-b57e-7427cec5559d");
+    UUID id_5 = UUID.fromString("01e75c83-c6f5-4192-b57e-7427cec5560d");
+    UUID id_6 = UUID.fromString("01e75c83-c6f5-4192-b57e-7427cec5560c");
+    UUID id_7 = UUID.fromString("01e75c84-c6f5-4192-b57e-7427cec5560d");
+    UUID id_8 = UUID.fromString("01e75c83-c6f6-4192-b57e-7427cec5560d");
+    UUID id_9 = UUID.fromString("01e75c83-c6f5-4193-b57e-7427cec5560d");
+    UUID id_10 = UUID.fromString("01e75c83-c6f5-4191-b57e-7427cec5560d");
+    UUID id_11 = UUID.fromString("01e75c83-c6f5-4192-b58e-7427cec5560d");
+    UUID id_12 = UUID.fromString("01e75c83-c6f5-4192-b57e-7427cec5559d");
 
-    var comparator = new UuidComparator();
+    UuidComparator comparator = new UuidComparator();
     assertTrue(comparator.compare(id_1, id_2) < 0);   // C# returns -1, an opposite result
     assertTrue(comparator.compare(id_2, id_3) > 0);    // C# returns 1, an opposite result
     assertEquals(0, comparator.compare(id_3, id_4));    // equality works for both languages
@@ -89,14 +90,14 @@ class UUIDComparatorTest {
 
   @Test
   void verify_that_List_of_Guid_is_ordered() {
-    var id_1 = UUID.fromString("622d8e0f-ed5e-4dde-92b8-97ff06e69110");
-    var id_2 = UUID.fromString("90e43d0c-edf8-4630-963b-90e6530ac9db");
-    var id_3 = UUID.fromString("47b3abc1-ce06-40ef-8ea6-466e7eaccccd");
+    UUID id_1 = UUID.fromString("622d8e0f-ed5e-4dde-92b8-97ff06e69110");
+    UUID id_2 = UUID.fromString("90e43d0c-edf8-4630-963b-90e6530ac9db");
+    UUID id_3 = UUID.fromString("47b3abc1-ce06-40ef-8ea6-466e7eaccccd");
 
-    var ids = Arrays.asList(id_1, id_2, id_3);
+    List<UUID> ids = Arrays.asList(id_1, id_2, id_3);
     ids.sort(new UuidComparator());
 
-    var ordered = Arrays.asList(id_3, id_1, id_2);
+    List<UUID> ordered = Arrays.asList(id_3, id_1, id_2);
 
     Assertions.assertThat(ordered).containsExactlyElementsOf(ids);
   }

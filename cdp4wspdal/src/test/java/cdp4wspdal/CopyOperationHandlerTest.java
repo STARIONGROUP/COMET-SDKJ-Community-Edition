@@ -33,6 +33,7 @@ import static org.mockito.Mockito.when;
 
 import cdp4common.commondata.ClassKind;
 import cdp4common.commondata.Thing;
+import cdp4common.dto.OwnedThing;
 import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.ElementUsage;
 import cdp4common.engineeringmodeldata.EngineeringModel;
@@ -56,12 +57,14 @@ import cdp4dal.Session;
 import cdp4dal.operations.Operation;
 import cdp4dal.operations.OperationContainer;
 import cdp4dal.operations.OperationKind;
+import cdp4dal.operations.TransactionContext;
 import cdp4dal.operations.TransactionContextResolver;
 import cdp4dal.permission.PermissionService;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
@@ -271,33 +274,33 @@ class CopyOperationHandlerTest {
         ImmutableMap
             .of(this.iteration1, Pair.of(domain1, null), this.iteration2, Pair.of(domain2, null)));
 
-    var iteration2Clone = this.iteration2.clone(false);
-    var defClone = this.rootDef.clone(false);
+    Iteration iteration2Clone = this.iteration2.clone(false);
+    ElementDefinition defClone = this.rootDef.clone(false);
     defClone.setIid(UUID.randomUUID());
     iteration2Clone.getElement().add(defClone);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
-    var context = transactionContext.getContextRoute();
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
+    String context = transactionContext.getContextRoute();
 
-    var operationContainer = new OperationContainer(context, this.model2.getRevisionNumber());
+    OperationContainer operationContainer = new OperationContainer(context, this.model2.getRevisionNumber());
     operationContainer.addOperation(
         new Operation(this.iteration2.toDto(), iteration2Clone.toDto(), OperationKind.UPDATE));
     operationContainer
         .addOperation(new Operation(this.rootDef.toDto(), defClone.toDto(), OperationKind.COPY));
 
-    var copyHandler = new CopyOperationHandler(this.session);
+    CopyOperationHandler copyHandler = new CopyOperationHandler(this.session);
     copyHandler.modifiedCopyOperation(operationContainer);
 
-    var operations = operationContainer.getOperations();
+    List<Operation> operations = operationContainer.getOperations();
     assertFalse(operationContainer.getContext().isEmpty());
     assertEquals(14, operations.size());
 
-    var operation = operations
+    Operation operation = operations
         .stream()
         .filter(x -> x.getOperationKind() == OperationKind.UPDATE)
         .collect(MoreCollectors.onlyElement());
 
-    var iteration = (cdp4common.dto.Iteration) operation.getModifiedThing();
+    cdp4common.dto.Iteration iteration = (cdp4common.dto.Iteration) operation.getModifiedThing();
     assertEquals(3, iteration.getElement().size());
   }
 
@@ -311,24 +314,24 @@ class CopyOperationHandlerTest {
         ImmutableMap
             .of(this.iteration1, Pair.of(domain1, null), this.iteration2, Pair.of(domain2, null)));
 
-    var iteration2Clone = this.iteration2.clone(false);
-    var defClone = this.rootDef.clone(false);
+    Iteration iteration2Clone = this.iteration2.clone(false);
+    ElementDefinition defClone = this.rootDef.clone(false);
     defClone.setIid(UUID.randomUUID());
     iteration2Clone.getElement().add(defClone);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
-    var context = transactionContext.getContextRoute();
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
+    String context = transactionContext.getContextRoute();
 
-    var operationContainer = new OperationContainer(context, this.model2.getRevisionNumber());
+    OperationContainer operationContainer = new OperationContainer(context, this.model2.getRevisionNumber());
     operationContainer.addOperation(
         new Operation(this.iteration2.toDto(), iteration2Clone.toDto(), OperationKind.UPDATE));
     operationContainer
         .addOperation(new Operation(this.rootDef.toDto(), defClone.toDto(), OperationKind.COPY));
 
-    var copyHandler = new CopyOperationHandler(this.session);
+    CopyOperationHandler copyHandler = new CopyOperationHandler(this.session);
     copyHandler.modifiedCopyOperation(operationContainer);
 
-    var operations = operationContainer.getOperations();
+    List<Operation> operations = operationContainer.getOperations();
     assertEquals(13, operations.size());
     assertFalse(operationContainer.getContext().isEmpty());
   }
@@ -340,29 +343,29 @@ class CopyOperationHandlerTest {
         ImmutableMap
             .of(this.iteration1, Pair.of(domain1, null), this.iteration2, Pair.of(domain3, null)));
 
-    var iteration2Clone = this.iteration2.clone(false);
-    var defClone = this.rootDef.clone(false);
+    Iteration iteration2Clone = this.iteration2.clone(false);
+    ElementDefinition defClone = this.rootDef.clone(false);
     defClone.setIid(UUID.randomUUID());
     iteration2Clone.getElement().add(defClone);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
-    var context = transactionContext.getContextRoute();
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
+    String context = transactionContext.getContextRoute();
 
-    var operationContainer = new OperationContainer(context, this.model2.getRevisionNumber());
+    OperationContainer operationContainer = new OperationContainer(context, this.model2.getRevisionNumber());
     operationContainer.addOperation(
         new Operation(this.iteration2.toDto(), iteration2Clone.toDto(), OperationKind.UPDATE));
     operationContainer.addOperation(new Operation(this.rootDef.toDto(), defClone.toDto(),
         OperationKind.COPY_DEFAULT_VALUES_CHANGE_OWNER));
 
-    var copyHandler = new CopyOperationHandler(this.session);
+    CopyOperationHandler copyHandler = new CopyOperationHandler(this.session);
     copyHandler.modifiedCopyOperation(operationContainer);
 
-    var operations = operationContainer.getOperations();
+    List<Operation> operations = operationContainer.getOperations();
     assertEquals(14, operations.size());
     assertFalse(operationContainer.getContext()
         .isEmpty()); // check that operation container is correctly built
 
-    var ownedThings =
+    List<OwnedThing> ownedThings =
         operationContainer.getOperations()
             .stream()
             .map(Operation::getModifiedThing)
@@ -371,7 +374,7 @@ class CopyOperationHandlerTest {
             .map(x -> (cdp4common.dto.OwnedThing) x)
             .collect(Collectors.toList());
 
-    var dtoOwner = ownedThings
+    UUID dtoOwner = ownedThings
         .stream()
         .map(cdp4common.dto.OwnedThing::getOwner)
         .distinct()
@@ -379,7 +382,7 @@ class CopyOperationHandlerTest {
 
     assertEquals(dtoOwner, this.domain3.getIid());
 
-    var sub =
+    cdp4common.dto.ParameterSubscription sub =
         operationContainer.getOperations()
             .stream()
             .map(Operation::getModifiedThing)
@@ -397,29 +400,29 @@ class CopyOperationHandlerTest {
         ImmutableMap
             .of(this.iteration1, Pair.of(domain1, null), this.iteration2, Pair.of(domain1, null)));
 
-    var iteration2Clone = this.iteration2.clone(false);
-    var defClone = this.rootDef.clone(false);
+    Iteration iteration2Clone = this.iteration2.clone(false);
+    ElementDefinition defClone = this.rootDef.clone(false);
     defClone.setIid(UUID.randomUUID());
     iteration2Clone.getElement().add(defClone);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
-    var context = transactionContext.getContextRoute();
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
+    String context = transactionContext.getContextRoute();
 
-    var operationContainer = new OperationContainer(context, this.model2.getRevisionNumber());
+    OperationContainer operationContainer = new OperationContainer(context, this.model2.getRevisionNumber());
     operationContainer.addOperation(
         new Operation(this.iteration2.toDto(), iteration2Clone.toDto(), OperationKind.UPDATE));
     operationContainer.addOperation(new Operation(this.rootDef.toDto(), defClone.toDto(),
         OperationKind.COPY_DEFAULT_VALUES_CHANGE_OWNER));
 
-    var copyHandler = new CopyOperationHandler(this.session);
+    CopyOperationHandler copyHandler = new CopyOperationHandler(this.session);
     copyHandler.modifiedCopyOperation(operationContainer);
 
-    var operations = operationContainer.getOperations();
+    List<Operation> operations = operationContainer.getOperations();
     assertEquals(13, operations.size());
     assertFalse(operationContainer.getContext()
         .isEmpty()); // check that operation container is correctly built
 
-    var ownedThings =
+    List<OwnedThing> ownedThings =
         operationContainer.getOperations()
             .stream()
             .map(Operation::getModifiedThing)
@@ -428,7 +431,7 @@ class CopyOperationHandlerTest {
             .map(x -> (cdp4common.dto.OwnedThing) x)
             .collect(Collectors.toList());
 
-    var dtoOwner = ownedThings
+    UUID dtoOwner = ownedThings
         .stream()
         .map(cdp4common.dto.OwnedThing::getOwner)
         .distinct()
@@ -436,7 +439,7 @@ class CopyOperationHandlerTest {
 
     assertEquals(dtoOwner, this.domain1.getIid());
 
-    var subCount =
+    long subCount =
         operationContainer.getOperations()
             .stream()
             .map(Operation::getModifiedThing)
@@ -454,29 +457,29 @@ class CopyOperationHandlerTest {
             .of(this.iteration1, Pair.of(domain1, null), this.iteration2, Pair.of(domain1, null)));
     this.subscription1.setOwner(this.domain3);
 
-    var iteration2Clone = this.iteration2.clone(false);
-    var defClone = this.rootDef.clone(false);
+    Iteration iteration2Clone = this.iteration2.clone(false);
+    ElementDefinition defClone = this.rootDef.clone(false);
     defClone.setIid(UUID.randomUUID());
     iteration2Clone.getElement().add(defClone);
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
-    var context = transactionContext.getContextRoute();
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
+    String context = transactionContext.getContextRoute();
 
-    var operationContainer = new OperationContainer(context, this.model2.getRevisionNumber());
+    OperationContainer operationContainer = new OperationContainer(context, this.model2.getRevisionNumber());
     operationContainer.addOperation(
         new Operation(this.iteration2.toDto(), iteration2Clone.toDto(), OperationKind.UPDATE));
     operationContainer.addOperation(new Operation(this.rootDef.toDto(), defClone.toDto(),
         OperationKind.COPY_DEFAULT_VALUES_CHANGE_OWNER));
 
-    var copyHandler = new CopyOperationHandler(this.session);
+    CopyOperationHandler copyHandler = new CopyOperationHandler(this.session);
     copyHandler.modifiedCopyOperation(operationContainer);
 
-    var operations = operationContainer.getOperations();
+    List<Operation> operations = operationContainer.getOperations();
     assertEquals(13, operations.size());
     assertFalse(operationContainer.getContext()
         .isEmpty()); // check that operation container is correctly built
 
-    var ownedThings =
+    List<OwnedThing> ownedThings =
         operationContainer.getOperations()
             .stream()
             .map(Operation::getModifiedThing)
@@ -485,7 +488,7 @@ class CopyOperationHandlerTest {
             .map(x -> (cdp4common.dto.OwnedThing) x)
             .collect(Collectors.toList());
 
-    var dtoOwner = ownedThings
+    UUID dtoOwner = ownedThings
         .stream()
         .map(cdp4common.dto.OwnedThing::getOwner)
         .distinct()
@@ -493,7 +496,7 @@ class CopyOperationHandlerTest {
 
     assertEquals(dtoOwner, this.domain1.getIid());
 
-    var subCount =
+    long subCount =
         operationContainer.getOperations()
             .stream()
             .map(Operation::getModifiedThing)

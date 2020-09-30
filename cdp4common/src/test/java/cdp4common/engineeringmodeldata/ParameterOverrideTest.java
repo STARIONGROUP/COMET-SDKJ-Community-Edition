@@ -259,7 +259,7 @@ class ParameterOverrideTest {
         ParameterValueSet valuesetoverriden = new ParameterValueSet(UUID.randomUUID(), null, null);
         ParameterOverrideValueSet valueset = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
         valueset.setParameterValueSet(valuesetoverriden);
-        List<String> data = List.of("-");
+        List<String> data = Arrays.asList("-");
         valueset.setManual(new ValueArray<>(data, String.class));
         valueset.setComputed(new ValueArray<>(data, String.class));
         valueset.setReference(new ValueArray<>(data, String.class));
@@ -281,7 +281,7 @@ class ParameterOverrideTest {
         ParameterValueSet valuesetoverriden = new ParameterValueSet(UUID.randomUUID(), null, null);
         ParameterOverrideValueSet valueset = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
         valueset.setParameterValueSet(valuesetoverriden);
-        List<String> data = List.of("-");
+        List<String> data = Arrays.asList("-");
         valueset.setValueSwitch(ParameterSwitchKind.MANUAL);
         valueset.setManual(new ValueArray<>(data, String.class));
         valueset.setComputed(new ValueArray<>(data, String.class));
@@ -293,7 +293,7 @@ class ParameterOverrideTest {
 
         assertFalse(this.parameterOverride.canBePublished());
 
-        List<String> updatedData = List.of("1");
+        List<String> updatedData = Arrays.asList("1");
         valueset.setManual(new ValueArray<>(updatedData, String.class));
 
         assertTrue(this.parameterOverride.canBePublished());
@@ -304,7 +304,7 @@ class ParameterOverrideTest {
         ParameterValueSet valuesetoverriden = new ParameterValueSet(UUID.randomUUID(), null, null);
         ParameterOverrideValueSet valueset = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
         valueset.setParameterValueSet(valuesetoverriden);
-        List<String> data = List.of("-");
+        List<String> data = Arrays.asList("-");
         valueset.setValueSwitch(ParameterSwitchKind.MANUAL);
         valueset.setManual(new ValueArray<>(data, String.class));
         valueset.setComputed(new ValueArray<>(data, String.class));
@@ -320,7 +320,7 @@ class ParameterOverrideTest {
 
         assertFalse(this.parameterOverride.getToBePublished());
 
-        List<String> updatedData = List.of("1");
+        List<String> updatedData = Arrays.asList("1");
         valueset.setManual(new ValueArray<>(updatedData, String.class));
 
         assertTrue(this.parameterOverride.getToBePublished());
@@ -328,16 +328,16 @@ class ParameterOverrideTest {
 
     @Test
     void verify_that_when_QueryParameterType_throws_exception_when_container_not_set() {
-        var parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
+        ParameterOverrideValueSet parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
 
         assertThrows(ContainmentException.class, () -> parameterOverrideValueSet.queryParameterType());
     }
 
     @Test
     void verify_that_Manual_Value_can_be_reset() {
-        var defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
+        ValueArray<String> defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
 
-        var parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
+        ParameterOverrideValueSet parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
         parameterOverride.getValueSet().add(parameterOverrideValueSet);
 
         parameterOverrideValueSet.resetManual();
@@ -349,9 +349,9 @@ class ParameterOverrideTest {
 
     @Test
     void verify_that_Computed_Value_can_be_reset() {
-        var defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
+        ValueArray<String> defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
 
-        var parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
+        ParameterOverrideValueSet parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
         parameterOverride.getValueSet().add(parameterOverrideValueSet);
 
         parameterOverrideValueSet.resetComputed();
@@ -363,9 +363,9 @@ class ParameterOverrideTest {
 
     @Test
     void verify_that_Formula_Value_can_be_reset() {
-        var defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
+        ValueArray<String> defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
 
-        var parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
+        ParameterOverrideValueSet parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
         parameterOverride.getValueSet().add(parameterOverrideValueSet);
 
         parameterOverrideValueSet.resetFormula();
@@ -377,9 +377,9 @@ class ParameterOverrideTest {
 
     @Test
     void verify_that_Reference_Value_can_be_reset() {
-        var defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
+        ValueArray<String> defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
 
-        var parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
+        ParameterOverrideValueSet parameterOverrideValueSet = new ParameterOverrideValueSet(UUID.randomUUID(), null, null);
         parameterOverride.getValueSet().add(parameterOverrideValueSet);
 
         parameterOverrideValueSet.resetReference();

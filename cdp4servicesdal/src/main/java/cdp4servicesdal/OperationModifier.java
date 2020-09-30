@@ -30,6 +30,7 @@ import cdp4common.commondata.Thing;
 import cdp4common.dto.ActualFiniteState;
 import cdp4common.engineeringmodeldata.ActualFiniteStateKind;
 import cdp4common.engineeringmodeldata.ActualFiniteStateList;
+import cdp4common.engineeringmodeldata.PossibleFiniteStateList;
 import cdp4dal.Session;
 import cdp4dal.operations.Operation;
 import cdp4dal.operations.OperationContainer;
@@ -67,11 +68,11 @@ class OperationModifier {
    * @param operationContainer The {@link OperationContainer} to modify.
    */
   void modifyOperationContainer(OperationContainer operationContainer) {
-    var operationsToAdd = new ArrayList<Operation>();
+    ArrayList<Operation> operationsToAdd = new ArrayList<Operation>();
 
-    for (var operation : operationContainer.getOperations()) {
+    for (Operation operation : operationContainer.getOperations()) {
       if (operation.getOperationKind() == OperationKind.UPDATE) {
-        var possibleStateList = as(operation.getModifiedThing(),
+        cdp4common.dto.PossibleFiniteStateList possibleStateList = as(operation.getModifiedThing(),
             cdp4common.dto.PossibleFiniteStateList.class);
         if (possibleStateList != null) {
           operationsToAdd
@@ -80,7 +81,7 @@ class OperationModifier {
       }
     }
 
-    for (var operation : operationsToAdd) {
+    for (Operation operation : operationsToAdd) {
       operationContainer.addOperation(operation);
     }
   }
@@ -94,14 +95,14 @@ class OperationModifier {
    */
   private List<Operation> modifyActualStateKindOnDefaultPossibleStateUpdate(
       cdp4common.dto.PossibleFiniteStateList possibleFiniteStateList) {
-    var operations = new ArrayList<Operation>();
-    var defaultStateId = possibleFiniteStateList.getDefaultState();
+    ArrayList<Operation> operations = new ArrayList<Operation>();
+    UUID defaultStateId = possibleFiniteStateList.getDefaultState();
     if (defaultStateId == null || defaultStateId.equals(new UUID(0L, 0L))) {
       return operations;
     }
 
     // gets the actualList that uses the updated possible list
-    var actualLists = this.session.getAssembler().getCache()
+    List<ActualFiniteStateList> actualLists = this.session.getAssembler().getCache()
         .asMap()
         .values()
         .stream()
@@ -114,8 +115,8 @@ class OperationModifier {
         )
         .collect(Collectors.toList());
 
-    for (var actualFiniteStateList : actualLists) {
-      var possibleLists = actualFiniteStateList.getPossibleFiniteStateList()
+    for (ActualFiniteStateList actualFiniteStateList : actualLists) {
+      List<PossibleFiniteStateList> possibleLists = actualFiniteStateList.getPossibleFiniteStateList()
           .stream()
           .filter(x -> !x.getIid().equals(possibleFiniteStateList.getIid()))
           .collect(Collectors.toList());
@@ -127,7 +128,7 @@ class OperationModifier {
         continue;
       }
 
-      var defaultPossibleStatesIds = possibleLists
+      List<UUID> defaultPossibleStatesIds = possibleLists
           .stream()
           .map(x -> x.getDefaultState().getIid())
           .collect(Collectors.toList());
@@ -135,11 +136,11 @@ class OperationModifier {
       defaultPossibleStatesIds.add(defaultStateId);
 
       // get the "default" actual state
-      var defaultActualState =
+      cdp4common.engineeringmodeldata.ActualFiniteState defaultActualState =
           actualFiniteStateList.getActualState()
               .stream()
               .filter(x -> {
-                var list = x.getPossibleState()
+                List<UUID> list = x.getPossibleState()
                     .stream()
                     .map(Thing::getIid)
                     .collect(Collectors.toList());
@@ -156,9 +157,9 @@ class OperationModifier {
       }
 
       // The new default is forbidden, send update with mandatory
-      var actualStateDto = (ActualFiniteState) defaultActualState.toDto();
+      ActualFiniteState actualStateDto = (ActualFiniteState) defaultActualState.toDto();
       actualStateDto.setKind(ActualFiniteStateKind.MANDATORY);
-      var newOperation = new Operation(defaultActualState.toDto(), actualStateDto,
+      Operation newOperation = new Operation(defaultActualState.toDto(), actualStateDto,
           OperationKind.UPDATE);
       operations.add(newOperation);
     }

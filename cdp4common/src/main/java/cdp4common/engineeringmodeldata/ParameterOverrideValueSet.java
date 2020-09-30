@@ -32,7 +32,12 @@
 
 package cdp4common.engineeringmodeldata;
 
-import cdp4common.*;
+import cdp4common.AggregationKind;
+import cdp4common.ChangeKind;
+import cdp4common.Container;
+import cdp4common.ModelCode;
+import cdp4common.SentinelThingProvider;
+import cdp4common.UmlInformation;
 import cdp4common.commondata.ParticipantAccessRightKind;
 import cdp4common.commondata.PersonAccessRightKind;
 import cdp4common.commondata.Thing;
@@ -45,17 +50,15 @@ import cdp4common.sitedirectorydata.Person;
 import cdp4common.types.CacheKey;
 import cdp4common.types.ValueArray;
 import com.google.common.cache.Cache;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.apache.commons.lang3.ObjectUtils;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * representation of the switch setting and all values for a ParameterOverride
@@ -332,7 +335,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      */
     @Override
     public ParameterType queryParameterType() {
-        var parameterOverride = (ParameterOverride) this.getContainer();
+        ParameterOverride parameterOverride = (ParameterOverride) this.getContainer();
 
         if (parameterOverride == null) {
             throw new ContainmentException(String.format("The container ParameterOverride of ParameterOverrideValueSet with iid %s is null, the ParameterTye cannot be queried.", this.getIid()));

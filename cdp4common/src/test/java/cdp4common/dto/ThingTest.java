@@ -36,6 +36,7 @@ import cdp4common.types.ValueArray;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Iterables;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.apache.commons.lang3.NotImplementedException;
@@ -225,7 +226,7 @@ class ThingTest {
     @Test
     void verifyThatDeepCloneWorksWithParameterValueSet() {
         ParameterValueSet valueset = new ParameterValueSet(UUID.randomUUID(), 0);
-        List<String> manual = List.of("a", "b", "c");
+        List<String> manual = Arrays.asList("a", "b", "c");
         valueset.setManual(new ValueArray<>(manual, String.class));
 
         ParameterValueSet clone = valueset.deepClone(ParameterValueSet.class);

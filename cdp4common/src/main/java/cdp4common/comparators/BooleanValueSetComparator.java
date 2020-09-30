@@ -50,12 +50,12 @@ public class BooleanValueSetComparator implements Comparator<ValueArray<String>>
      * {@code x} is greater than {@code y}.
      */
     public int compare(ValueArray<String> x, ValueArray<String> y) {
-        var xAsBooleanList = new ArrayList<Boolean>();
-        var yAsBooleanList = new ArrayList<Boolean>();
+      ArrayList<Boolean> xAsBooleanList = new ArrayList<Boolean>();
+      ArrayList<Boolean> yAsBooleanList = new ArrayList<Boolean>();
 
         if (this.tryConvertStringValueArrayToBooleanList(x, xAsBooleanList) && this.tryConvertStringValueArrayToBooleanList(y, yAsBooleanList)) {
             if (xAsBooleanList.size() == yAsBooleanList.size()) {
-                var areEqual = true;
+              boolean areEqual = true;
 
                 for (int i = 0; i < xAsBooleanList.size(); i++) {
                     if (!xAsBooleanList.get(i).equals(yAsBooleanList.get(i))) {
@@ -81,7 +81,7 @@ public class BooleanValueSetComparator implements Comparator<ValueArray<String>>
      * @return true is conversion was successful, otherwise false
      */
     public boolean tryConvertStringValueArrayToBooleanList(ValueArray<String> stringArray, List<Boolean> booleanList) {
-        for (var value : stringArray) {
+        for (String value : stringArray) {
             if (!"true".equalsIgnoreCase(value) && !"false".equalsIgnoreCase(value)) {
                 return false;
             }

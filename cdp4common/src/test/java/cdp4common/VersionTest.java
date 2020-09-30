@@ -33,10 +33,10 @@ class VersionTest {
 
   @Test
   void comparesVersionsCorrectly() {
-    var version_1_0_0 = new Version("1.0.0");
-    var version_1_1_0 = new Version("1.1.0");
-    var version_1_1_1 = new Version("1.1.1");
-    var version_2_0_0 = new Version("2.0.0");
+    Version version_1_0_0 = new Version("1.0.0");
+    Version version_1_1_0 = new Version("1.1.0");
+    Version version_1_1_1 = new Version("1.1.1");
+    Version version_2_0_0 = new Version("2.0.0");
 
     assertEquals(0, version_1_0_0.compareTo(version_1_0_0));
     assertEquals(1, version_1_1_0.compareTo(version_1_0_0));

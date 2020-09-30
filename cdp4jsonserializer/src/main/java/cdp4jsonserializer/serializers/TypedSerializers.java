@@ -40,6 +40,7 @@ import com.fasterxml.jackson.databind.type.MapType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Typed {@link Serializers} implementation that implements all methods and provides custom
@@ -149,7 +150,7 @@ public class TypedSerializers extends Serializers.Base {
     if (_javaTypeMappings != null) {
       // First of all we are interested in typed Lists
       if (type.isCollectionLikeType()) {
-        var typeKey = _javaTypeMappings.keySet().stream()
+        Optional<JavaType> typeKey = _javaTypeMappings.keySet().stream()
             .filter(x -> x.getRawClass().isAssignableFrom(type.getRawClass()))
             .filter(x -> x.getContentType().equals(type.getContentType()))
             .findAny();

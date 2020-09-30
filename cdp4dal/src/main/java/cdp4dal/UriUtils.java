@@ -27,6 +27,7 @@ package cdp4dal;
 import java.io.File;
 import java.net.URI;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * The static helper class that provides utilities to validate {@link URI}.
@@ -70,13 +71,13 @@ public class UriUtils {
   public static Path getFilePathFromUri(URI uri) {
     assertUriIsFileSchema(uri);
 
-    var path = uri.getPath();
+    String path = uri.getPath();
 
     // Check whether it is on a Unix file system
     if (File.separatorChar != '/') {
       path = path.substring(1); // delete leading '/' symbol. It is Windows OS
     }
 
-    return Path.of(path);
+    return Paths.get(path);
   }
 }

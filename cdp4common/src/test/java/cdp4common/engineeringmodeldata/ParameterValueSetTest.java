@@ -25,6 +25,7 @@
 package cdp4common.engineeringmodeldata;
 
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.sitedirectorydata.ParameterType;
 import cdp4common.sitedirectorydata.SimpleQuantityKind;
 import cdp4common.types.ValueArray;
 import org.junit.jupiter.api.BeforeEach;
@@ -135,9 +136,9 @@ class ParameterValueSetTest {
         String computedValue = "computed";
         String newComputedValue = "new computedValue";
 
-        ValueArray<String> manualValueArray = new ValueArray<>(List.of(manualValue), String.class);
-        ValueArray<String> referenceValueArray = new ValueArray<>(List.of(referenceValue), String.class);
-        ValueArray<String> computedValueArray = new ValueArray<>(List.of(computedValue), String.class);
+        ValueArray<String> manualValueArray = new ValueArray<>(Arrays.asList(manualValue), String.class);
+        ValueArray<String> referenceValueArray = new ValueArray<>(Arrays.asList(referenceValue), String.class);
+        ValueArray<String> computedValueArray = new ValueArray<>(Arrays.asList(computedValue), String.class);
 
         this.parameterValueSet.setManual(manualValueArray);
         this.parameterValueSet.setReference(referenceValueArray);
@@ -164,25 +165,25 @@ class ParameterValueSetTest {
 
     @Test
     void verify_that_when_container_not_set_ModelCode_throws_exception() {
-        var parameterValueSet = new ParameterValueSet(UUID.randomUUID(), null, null);
+        ParameterValueSet parameterValueSet = new ParameterValueSet(UUID.randomUUID(), null, null);
         assertThrows(ContainmentException.class, () -> parameterValueSet.modelCode(0));
     }
 
     @Test
     void verify_that_QueryParameterType_returns_expected_result() {
-        var parameterType = this.parameterValueSet.queryParameterType();
+        ParameterType parameterType = this.parameterValueSet.queryParameterType();
         assertEquals(this.simpleQuantityKind, parameterType);
     }
 
     @Test
     void Verify_that_when_container_not_set_QueryParameterType_throws_Exception() {
-        var parameterValueSet = new ParameterValueSet(UUID.randomUUID(), null, null);
+        ParameterValueSet parameterValueSet = new ParameterValueSet(UUID.randomUUID(), null, null);
         assertThrows(ContainmentException.class, () -> parameterValueSet.queryParameterType());
     }
 
     @Test
     void Verify_that_Manual_Value_can_be_reset() {
-        var defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
+        ValueArray<String> defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
 
         this.parameterValueSet.resetManual();
         assertIterableEquals(defaultValueArray, this.parameterValueSet.getManual());
@@ -193,7 +194,7 @@ class ParameterValueSetTest {
 
     @Test
     void verify_that_Computed_Value_can_be_reset() {
-        var defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
+        ValueArray<String> defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
 
         this.parameterValueSet.resetComputed();
         assertIterableEquals(defaultValueArray, this.parameterValueSet.getComputed());
@@ -204,7 +205,7 @@ class ParameterValueSetTest {
 
     @Test
     void verify_that_Formula_Value_can_be_reset() {
-        var defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
+        ValueArray<String> defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
 
         this.parameterValueSet.resetFormula();
         assertIterableEquals(defaultValueArray, this.parameterValueSet.getFormula());
@@ -215,7 +216,7 @@ class ParameterValueSetTest {
 
     @Test
     void Verify_that_Reference_Value_can_be_reset() {
-        var defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
+        ValueArray<String> defaultValueArray = new ValueArray<>(Arrays.asList("-"), String.class);
 
         this.parameterValueSet.resetReference();
         assertIterableEquals(defaultValueArray, this.parameterValueSet.getReference());

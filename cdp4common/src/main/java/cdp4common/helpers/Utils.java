@@ -29,6 +29,7 @@ import cdp4common.sitedirectorydata.ParameterTypeComponent;
 import cdp4common.types.OrderedItem;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Strings;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -186,12 +187,11 @@ public class Utils {
    * @throws IllegalArgumentException if a class is not found in the above mentioned packages.
    */
   public static String getSuperClassNameForClassName(String typeName) {
-    List<String> packages = List
-        .of("cdp4common.commondata.", "cdp4common.diagramdata.", "cdp4common.engineeringmodeldata.",
+    List<String> packages = Arrays.asList("cdp4common.commondata.", "cdp4common.diagramdata.", "cdp4common.engineeringmodeldata.",
             "cdp4common.reportingdata.", "cdp4common.sitedirectorydata.");
 
     Class clazz = null;
-    for (var pkg : packages) {
+    for (String pkg : packages) {
       try {
         clazz = Class.forName(pkg + typeName);
       } catch (ClassNotFoundException e) {

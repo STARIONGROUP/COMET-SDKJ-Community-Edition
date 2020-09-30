@@ -33,6 +33,8 @@ import cdp4common.engineeringmodeldata.ExclusiveOrExpression;
 import cdp4common.engineeringmodeldata.NotExpression;
 import cdp4common.engineeringmodeldata.OrExpression;
 import cdp4common.engineeringmodeldata.RelationalExpression;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -95,22 +97,21 @@ class BooleanExpressionExtensionsTest {
         this.relationalExpression4
     );
 
-    this.testCaseList = Map.of(
-        ExpressionNumber.And, this.andExpression,
-        ExpressionNumber.Or, this.orExpression,
-        ExpressionNumber.ExclusiveOr, this.exclusiveOrExpression,
-        ExpressionNumber.Not, this.notExpression,
-        ExpressionNumber.Relational1, this.relationalExpression1,
-        ExpressionNumber.Relational2, this.relationalExpression2,
-        ExpressionNumber.Relational3, this.relationalExpression3,
-        ExpressionNumber.Relational4, this.relationalExpression4
-    );
+    this.testCaseList = new HashMap<>();
+    this.testCaseList.put(ExpressionNumber.And, this.andExpression);
+    this.testCaseList.put(ExpressionNumber.Or, this.orExpression);
+    this.testCaseList.put(ExpressionNumber.ExclusiveOr, this.exclusiveOrExpression);
+    this.testCaseList.put(ExpressionNumber.Not, this.notExpression);
+    this.testCaseList.put(ExpressionNumber.Relational1, this.relationalExpression1);
+    this.testCaseList.put(ExpressionNumber.Relational2, this.relationalExpression2);
+    this.testCaseList.put(ExpressionNumber.Relational3, this.relationalExpression3);
+    this.testCaseList.put(ExpressionNumber.Relational4, this.relationalExpression4);
   }
 
   @ParameterizedTest
   @EnumSource(ExpressionNumber.class)
   void verifyThatAllBooleanExpressionsAreReturned(ExpressionNumber expressionNumber) {
-    var toplevelCollection = BooleanExpressionExtensions
+    List<BooleanExpression> toplevelCollection = BooleanExpressionExtensions
         .getTopLevelExpressions(this.booleanExpressions);
 
     assertThat(toplevelCollection).contains(this.testCaseList.get(expressionNumber));
@@ -135,7 +136,7 @@ class BooleanExpressionExtensionsTest {
     this.andExpression.getTerm().add(this.relationalExpression1);
     this.andExpression.getTerm().add(this.relationalExpression2);
 
-    var toplevelCollection = BooleanExpressionExtensions
+    List<BooleanExpression> toplevelCollection = BooleanExpressionExtensions
         .getTopLevelExpressions(this.booleanExpressions);
 
     if (shouldContain) {
@@ -152,7 +153,7 @@ class BooleanExpressionExtensionsTest {
     this.orExpression.getTerm().add(this.relationalExpression1);
     this.orExpression.getTerm().add(this.relationalExpression2);
 
-    var toplevelCollection = BooleanExpressionExtensions
+    List<BooleanExpression> toplevelCollection = BooleanExpressionExtensions
         .getTopLevelExpressions(this.booleanExpressions);
 
     if (shouldContain) {
@@ -169,7 +170,7 @@ class BooleanExpressionExtensionsTest {
     this.exclusiveOrExpression.getTerm().add(this.relationalExpression1);
     this.exclusiveOrExpression.getTerm().add(this.relationalExpression2);
 
-    var toplevelCollection = BooleanExpressionExtensions
+    List<BooleanExpression> toplevelCollection = BooleanExpressionExtensions
         .getTopLevelExpressions(this.booleanExpressions);
 
     if (shouldContain) {
@@ -197,7 +198,7 @@ class BooleanExpressionExtensionsTest {
       ExpressionNumber expressionNumber, boolean shouldContain) {
     this.notExpression.setTerm(this.relationalExpression1);
 
-    var toplevelCollection = BooleanExpressionExtensions
+    List<BooleanExpression> toplevelCollection = BooleanExpressionExtensions
         .getTopLevelExpressions(this.booleanExpressions);
 
     if (shouldContain) {
@@ -230,11 +231,11 @@ class BooleanExpressionExtensionsTest {
     this.orExpression.getTerm().add(this.relationalExpression4);
 
     this.exclusiveOrExpression.getTerm()
-        .addAll(List.of(this.andExpression, this.orExpression));
+        .addAll(Arrays.asList(this.andExpression, this.orExpression));
 
     this.notExpression.setTerm(this.exclusiveOrExpression);
 
-    var toplevelCollection = BooleanExpressionExtensions
+    List<BooleanExpression> toplevelCollection = BooleanExpressionExtensions
         .getTopLevelExpressions(this.booleanExpressions);
 
     if (shouldContain) {

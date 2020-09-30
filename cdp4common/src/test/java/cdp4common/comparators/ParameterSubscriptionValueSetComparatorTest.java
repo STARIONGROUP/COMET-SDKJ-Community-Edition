@@ -54,18 +54,18 @@ class ParameterSubscriptionValueSetComparatorTest {
         this.iteration.getOption().add(this.optionB);
         this.iteration.getOption().add(this.optionA);
 
-        var possibleFiniteStateList = new PossibleFiniteStateList(UUID.randomUUID(), null, null);
-        var possibleFiniteStateA = new PossibleFiniteState(UUID.randomUUID(), null, null);
+      PossibleFiniteStateList possibleFiniteStateList = new PossibleFiniteStateList(UUID.randomUUID(), null, null);
+      PossibleFiniteState possibleFiniteStateA = new PossibleFiniteState(UUID.randomUUID(), null, null);
         possibleFiniteStateA.setName("state a");
         possibleFiniteStateA.setShortName("statea");
-        var possibleFiniteStateB = new PossibleFiniteState(UUID.randomUUID(), null, null);
+      PossibleFiniteState possibleFiniteStateB = new PossibleFiniteState(UUID.randomUUID(), null, null);
         possibleFiniteStateB.setName("state b");
         possibleFiniteStateB.setShortName("stateb");
         possibleFiniteStateList.getPossibleState().add(possibleFiniteStateB);
         possibleFiniteStateList.getPossibleState().add(possibleFiniteStateA);
         this.iteration.getPossibleFiniteStateList().add(possibleFiniteStateList);
 
-        var actualFiniteStateList = new ActualFiniteStateList(UUID.randomUUID(), null, null);
+      ActualFiniteStateList actualFiniteStateList = new ActualFiniteStateList(UUID.randomUUID(), null, null);
         this.actualFiniteStateA = new ActualFiniteState(UUID.randomUUID(), null, null);
         this.actualFiniteStateA.getPossibleState().add(possibleFiniteStateA);
         this.actualFiniteStateB = new ActualFiniteState(UUID.randomUUID(), null, null);
@@ -77,97 +77,97 @@ class ParameterSubscriptionValueSetComparatorTest {
 
     @Test
     void verifyThatOptionDependentValueSetsComparatorCompareReturnsExpectedResults() {
-        var parameterValueSetA = new ParameterValueSet();
+      ParameterValueSet parameterValueSetA = new ParameterValueSet();
         parameterValueSetA.setActualOption(this.optionA);
-        var parameterValueSetB = new ParameterValueSet();
+      ParameterValueSet parameterValueSetB = new ParameterValueSet();
         parameterValueSetB.setActualOption(this.optionB);
 
-        var subscriptionValueSetA = new ParameterSubscriptionValueSet();
+      ParameterSubscriptionValueSet subscriptionValueSetA = new ParameterSubscriptionValueSet();
         subscriptionValueSetA.setSubscribedValueSet(parameterValueSetA);
 
-        var subscriptionValueSetB = new ParameterSubscriptionValueSet();
+      ParameterSubscriptionValueSet subscriptionValueSetB = new ParameterSubscriptionValueSet();
         subscriptionValueSetB.setSubscribedValueSet(parameterValueSetB);
 
-        var comparator = new ParameterSubscriptionValueSetComparator();
-        var comparisonAB = comparator.compare(subscriptionValueSetA, subscriptionValueSetB);
+      ParameterSubscriptionValueSetComparator comparator = new ParameterSubscriptionValueSetComparator();
+      int comparisonAB = comparator.compare(subscriptionValueSetA, subscriptionValueSetB);
         assertEquals(1, comparisonAB);
 
-        var comparisonBA = comparator.compare(subscriptionValueSetB, subscriptionValueSetA);
+      int comparisonBA = comparator.compare(subscriptionValueSetB, subscriptionValueSetA);
         assertEquals(-1, comparisonBA);
 
-        var comparisonAA = comparator.compare(subscriptionValueSetA, subscriptionValueSetA);
+      int comparisonAA = comparator.compare(subscriptionValueSetA, subscriptionValueSetA);
         assertEquals(0, comparisonAA);
 
-        var comparisonBB = comparator.compare(subscriptionValueSetB, subscriptionValueSetB);
+      int comparisonBB = comparator.compare(subscriptionValueSetB, subscriptionValueSetB);
         assertEquals(0, comparisonBB);
     }
 
     @Test
     void verifyThatStateFullValueSetsComparatorCompareReturnsExpectedResults() {
-        var parameterValueSetA = new ParameterValueSet();
+      ParameterValueSet parameterValueSetA = new ParameterValueSet();
         parameterValueSetA.setActualState(this.actualFiniteStateA);
-        var parameterValueSetB = new ParameterValueSet();
+      ParameterValueSet parameterValueSetB = new ParameterValueSet();
         parameterValueSetB.setActualState(this.actualFiniteStateB);
 
-        var subscriptionValueSetA = new ParameterSubscriptionValueSet();
+      ParameterSubscriptionValueSet subscriptionValueSetA = new ParameterSubscriptionValueSet();
         subscriptionValueSetA.setSubscribedValueSet(parameterValueSetA);
 
-        var subscriptionValueSetB = new ParameterSubscriptionValueSet();
+      ParameterSubscriptionValueSet subscriptionValueSetB = new ParameterSubscriptionValueSet();
         subscriptionValueSetB.setSubscribedValueSet(parameterValueSetB);
 
-        var comparer = new ParameterSubscriptionValueSetComparator();
-        var comparisonAB = comparer.compare(subscriptionValueSetA, subscriptionValueSetB);
+      ParameterSubscriptionValueSetComparator comparer = new ParameterSubscriptionValueSetComparator();
+      int comparisonAB = comparer.compare(subscriptionValueSetA, subscriptionValueSetB);
         assertEquals(1, comparisonAB);
 
-        var comparisonBA = comparer.compare(subscriptionValueSetB, subscriptionValueSetA);
+      int comparisonBA = comparer.compare(subscriptionValueSetB, subscriptionValueSetA);
         assertEquals(-1, comparisonBA);
 
-        var comparisonAA = comparer.compare(subscriptionValueSetA, subscriptionValueSetA);
+      int comparisonAA = comparer.compare(subscriptionValueSetA, subscriptionValueSetA);
         assertEquals(0, comparisonAA);
 
-        var comparisonBB = comparer.compare(subscriptionValueSetB, subscriptionValueSetB);
+      int comparisonBB = comparer.compare(subscriptionValueSetB, subscriptionValueSetB);
         assertEquals(0, comparisonBB);
     }
 
     @Test
     void verifyThatOptionDepStateFullValueSetsComparatorCompareReturnsExpectedResults() {
-        var parameterValueSetAA = new ParameterValueSet();
+      ParameterValueSet parameterValueSetAA = new ParameterValueSet();
         parameterValueSetAA.setActualOption(this.optionA);
         parameterValueSetAA.setActualState(this.actualFiniteStateA);
 
-        var aa = new ParameterSubscriptionValueSet();
+      ParameterSubscriptionValueSet aa = new ParameterSubscriptionValueSet();
         aa.setSubscribedValueSet(parameterValueSetAA);
 
-        var parameterValueSetAB = new ParameterValueSet();
+      ParameterValueSet parameterValueSetAB = new ParameterValueSet();
         parameterValueSetAB.setActualOption(this.optionA);
         parameterValueSetAB.setActualState(this.actualFiniteStateB);
 
-        var ab = new ParameterSubscriptionValueSet();
+      ParameterSubscriptionValueSet ab = new ParameterSubscriptionValueSet();
         ab.setSubscribedValueSet(parameterValueSetAB);
 
-        var parameterValueSetBB = new ParameterValueSet();
+      ParameterValueSet parameterValueSetBB = new ParameterValueSet();
         parameterValueSetBB.setActualOption(this.optionB);
         parameterValueSetBB.setActualState(this.actualFiniteStateB);
 
-        var bb = new ParameterSubscriptionValueSet();
+      ParameterSubscriptionValueSet bb = new ParameterSubscriptionValueSet();
         bb.setSubscribedValueSet(parameterValueSetBB);
 
-        var parameterValueSetBA = new ParameterValueSet();
+      ParameterValueSet parameterValueSetBA = new ParameterValueSet();
         parameterValueSetBA.setActualOption(this.optionB);
         parameterValueSetBA.setActualState(this.actualFiniteStateA);
 
-        var ba = new ParameterSubscriptionValueSet();
+      ParameterSubscriptionValueSet ba = new ParameterSubscriptionValueSet();
         ba.setSubscribedValueSet(parameterValueSetBA);
 
-        var comparer = new ParameterSubscriptionValueSetComparator();
+      ParameterSubscriptionValueSetComparator comparer = new ParameterSubscriptionValueSetComparator();
 
-        var comparison_aa_ab = comparer.compare(aa, ab);
+      int comparison_aa_ab = comparer.compare(aa, ab);
         assertEquals(1, comparison_aa_ab);
 
-        var comparison_aa_bb = comparer.compare(aa, bb);
+      int comparison_aa_bb = comparer.compare(aa, bb);
         assertEquals(1, comparison_aa_bb);
 
-        var comparison_ab_ab = comparer.compare(ab, ab);
+      int comparison_ab_ab = comparer.compare(ab, ab);
         assertEquals(0, comparison_ab_ab);
     }
 }

@@ -126,7 +126,7 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
           "The supported version or the data model version has not been set. Call the Initialize method to set it.");
     }
 
-    var sw = Stopwatch.createStarted();
+    Stopwatch sw = Stopwatch.createStarted();
 
     log.trace("Serialize sources");
     serializer.writeValue(outputStream, collectionSource);
@@ -155,10 +155,10 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
           "The supported version or the data model version has not been set. Call the Initialize method to set it.");
     }
 
-    var dtos = new ArrayList<Thing>();
+    List<Thing> dtos = new ArrayList<>();
     if (isExtentDeep) {
-      var pojos = source.queryContainedThingsDeep();
-      for (var pojo : pojos) {
+      List<cdp4common.commondata.Thing> pojos = source.queryContainedThingsDeep();
+      for (cdp4common.commondata.Thing pojo : pojos) {
         dtos.add(pojo.toDto());
       }
     } else {
@@ -184,10 +184,10 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
     String jsonString;
     log.trace("initializing ByteArrayOutputStream");
 
-    var outputStream = new ByteArrayOutputStream();
+    OutputStream outputStream = new ByteArrayOutputStream();
     this.serializeToStream(source, outputStream, isExtentDeep);
 
-    var sw = Stopwatch.createStarted();
+    Stopwatch sw = Stopwatch.createStarted();
     jsonString = outputStream.toString();
     sw.stop();
 
@@ -201,7 +201,7 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
    */
   @Override
   public List<Thing> deserialize(InputStream contentStream) throws IOException {
-    return this.deserialize(new TypeReference<>() {
+    return this.deserialize(new TypeReference<List<Thing>>() {
     }, contentStream);
   }
 
@@ -216,9 +216,9 @@ public class Cdp4JsonSerializerImpl implements Cdp4JsonSerializer {
           "The supported version has not been set. Call the initialize method to set it.");
     }
 
-    var serializer = this.createObjectMapper();
+    ObjectMapper serializer = this.createObjectMapper();
 
-    var sw = Stopwatch.createStarted();
+    Stopwatch sw = Stopwatch.createStarted();
     T data = serializer.readValue(contentStream, typeReference);
     log.trace("Deserialize from stream in {} [ms]", sw.elapsed(TimeUnit.MILLISECONDS));
 

@@ -63,7 +63,7 @@ class SessionTest {
   @Test
   @Tag("WebServicesDependent")
   void verify_That_Session_Open_Populates_cache() {
-    var dal = new WSPDal();
+    WSPDal dal = new WSPDal();
     this.session = new SessionImpl(dal, this.credentials);
 
     assertEquals(0, this.session.getAssembler().getCache().size());

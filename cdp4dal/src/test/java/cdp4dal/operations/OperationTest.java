@@ -33,11 +33,11 @@ class OperationTest {
 
   @Test
   void verifyThatPropertiesAreSetInConstructor() {
-    var alias = new Alias();
-    var aliasMod = new Alias();
-    var operationKind = OperationKind.CREATE;
+    Alias alias = new Alias();
+    Alias aliasMod = new Alias();
+    OperationKind operationKind = OperationKind.CREATE;
 
-    var operation = new Operation(alias, aliasMod, operationKind);
+    Operation operation = new Operation(alias, aliasMod, operationKind);
 
     assertEquals(alias, operation.getOriginalThing());
     assertEquals(operationKind, operation.getOperationKind());

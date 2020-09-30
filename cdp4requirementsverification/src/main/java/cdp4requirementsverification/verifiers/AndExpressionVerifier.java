@@ -64,10 +64,10 @@ public class AndExpressionVerifier extends BooleanExpressionVerifierBase<AndExpr
         return this.getRequirementStateOfCompliance();
       }
 
-      var requirementStateOfCompliances = new ArrayList<RequirementStateOfCompliance>();
+      ArrayList<RequirementStateOfCompliance> requirementStateOfCompliances = new ArrayList<RequirementStateOfCompliance>();
 
-      for (var expression : this.getExpression().getTerm()) {
-        var expressionVerifier = booleanExpressionVerifiers.get(expression);
+      for (BooleanExpression expression : this.getExpression().getTerm()) {
+        BooleanExpressionVerifier expressionVerifier = booleanExpressionVerifiers.get(expression);
         requirementStateOfCompliances.add(expressionVerifier
             .verifyRequirementStateOfCompliance(booleanExpressionVerifiers, iteration).join());
       }

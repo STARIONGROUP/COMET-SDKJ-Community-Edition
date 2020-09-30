@@ -52,8 +52,10 @@ import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
 import cdp4common.sitedirectorydata.IterationSetup;
 import cdp4common.sitedirectorydata.Participant;
+import cdp4common.sitedirectorydata.ParticipantPermission;
 import cdp4common.sitedirectorydata.ParticipantRole;
 import cdp4common.sitedirectorydata.Person;
+import cdp4common.sitedirectorydata.PersonPermission;
 import cdp4common.sitedirectorydata.PersonRole;
 import cdp4common.sitedirectorydata.SiteDirectory;
 import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
@@ -111,7 +113,7 @@ class PermissionServiceTest {
 
     this.session = mock(Session.class);
 
-    var dal = mock(Dal.class);
+    Dal dal = mock(Dal.class);
     when(dal.isReadOnly()).thenReturn(false);
     when(session.getDal()).thenReturn(dal);
 
@@ -204,7 +206,7 @@ class PermissionServiceTest {
 
   @Test
   void verifyThatPersonPermissionReadModifyWorks() {
-    var sdPermission = this.personRole.getPersonPermission()
+    PersonPermission sdPermission = this.personRole.getPersonPermission()
         .stream()
         .filter(x -> x.getObjectClass() == ClassKind.SiteDirectory)
         .collect(MoreCollectors.onlyElement());
@@ -232,7 +234,7 @@ class PermissionServiceTest {
 
   @Test
   void verifyThatSameAsContainerPermissionWorks() {
-    var sdPermission = this.personRole.getPersonPermission()
+    PersonPermission sdPermission = this.personRole.getPersonPermission()
         .stream()
         .filter(x -> x.getObjectClass() == ClassKind.EngineeringModelSetup)
         .collect(MoreCollectors.onlyElement());
@@ -252,7 +254,7 @@ class PermissionServiceTest {
     assertFalse(this.permissionService.canRead(this.booleanpt));
     assertFalse(this.permissionService.canWrite(this.booleanpt));
 
-    var permission = this.personRole.getPersonPermission()
+    PersonPermission permission = this.personRole.getPersonPermission()
         .stream()
         .filter(x -> x.getObjectClass() == ClassKind.SiteReferenceDataLibrary)
         .collect(MoreCollectors.onlyElement());
@@ -275,7 +277,7 @@ class PermissionServiceTest {
     assertFalse(this.permissionService.canRead(this.person2));
     assertFalse(this.permissionService.canWrite(this.person2));
 
-    var permission = this.personRole.getPersonPermission()
+    PersonPermission permission = this.personRole.getPersonPermission()
         .stream()
         .filter(x -> x.getObjectClass() == ClassKind.Person)
         .collect(MoreCollectors.onlyElement());
@@ -288,7 +290,7 @@ class PermissionServiceTest {
     assertFalse(this.permissionService.canRead(this.person2));
     assertFalse(this.permissionService.canWrite(this.person2));
 
-    var sdpermission = this.personRole.getPersonPermission()
+    PersonPermission sdpermission = this.personRole.getPersonPermission()
         .stream()
         .filter(x -> x.getObjectClass() == ClassKind.SiteDirectory)
         .collect(MoreCollectors.onlyElement());
@@ -304,16 +306,16 @@ class PermissionServiceTest {
   @Test
   void verifyThatReadWriteIfParticipantWorks() {
     when(this.session.getActivePersonParticipants())
-        .thenReturn(List.of(this.participant));
+        .thenReturn(Arrays.asList(this.participant));
 
-    var sdpermission = this.personRole.getPersonPermission()
+    PersonPermission sdpermission = this.personRole.getPersonPermission()
         .stream()
         .filter(x -> x.getObjectClass() == ClassKind.SiteDirectory)
         .collect(MoreCollectors.onlyElement());
 
     sdpermission.setAccessRight(PersonAccessRightKind.READ_IF_PARTICIPANT);
 
-    var permission = this.personRole.getPersonPermission()
+    PersonPermission permission = this.personRole.getPersonPermission()
         .stream()
         .filter(x -> x.getObjectClass() == ClassKind.EngineeringModelSetup)
         .collect(MoreCollectors.onlyElement());
@@ -338,11 +340,11 @@ class PermissionServiceTest {
   @Test
   void verifyReadWriteParticipantPermission() {
     when(this.session.getActivePersonParticipants())
-        .thenReturn(List.of(this.participant));
+        .thenReturn(Arrays.asList(this.participant));
     assertFalse(this.permissionService.canWrite(this.model));
     assertFalse(this.permissionService.canRead(this.model));
 
-    var permission = this.participantRole.getParticipantPermission()
+    ParticipantPermission permission = this.participantRole.getParticipantPermission()
         .stream()
         .filter(x -> x.getObjectClass() == ClassKind.EngineeringModel)
         .collect(MoreCollectors.onlyElement());
@@ -355,16 +357,16 @@ class PermissionServiceTest {
   @Test
   void verifyModifyIfOwnerForIterationsWithoutDomainOfExpertiseAndParticipant() {
     when(this.session.getActivePersonParticipants())
-        .thenReturn(List.of(this.participant));
+        .thenReturn(Arrays.asList(this.participant));
     assertFalse(this.permissionService.canWrite(this.model));
     assertFalse(this.permissionService.canRead(this.model));
 
-    var permission =
+    ParticipantPermission permission =
         this.participantRole.getParticipantPermission()
             .stream()
             .filter(x -> x.getObjectClass() == ClassKind.EngineeringModel)
             .collect(MoreCollectors.onlyElement());
-    var defpermission =
+    ParticipantPermission defpermission =
         this.participantRole.getParticipantPermission()
             .stream()
             .filter(x -> x.getObjectClass() == ClassKind.ElementDefinition)
@@ -392,12 +394,12 @@ class PermissionServiceTest {
     assertFalse(this.permissionService.canWrite(this.model));
     assertFalse(this.permissionService.canRead(this.model));
 
-    var permission =
+    ParticipantPermission permission =
         this.participantRole.getParticipantPermission().stream()
             .filter(x -> x.getObjectClass() == ClassKind.Requirement)
             .collect(MoreCollectors.onlyElement());
 
-    var specPermission =
+    ParticipantPermission specPermission =
         this.participantRole.getParticipantPermission().stream()
             .filter(x -> x.getObjectClass() == ClassKind.RequirementsSpecification)
             .collect(MoreCollectors.onlyElement());
@@ -445,7 +447,7 @@ class PermissionServiceTest {
     assertFalse(this.permissionService.canWrite(this.model));
     assertFalse(this.permissionService.canRead(this.model));
 
-    var permission =
+    ParticipantPermission permission =
         this.participantRole.getParticipantPermission().stream()
             .filter(x -> x.getObjectClass() == ClassKind.CommonFileStore)
             .collect(MoreCollectors.onlyElement());
@@ -472,11 +474,11 @@ class PermissionServiceTest {
   @Test
   void verifySameAsSuperclassParticipantPermission() {
     when(this.session.getActivePersonParticipants())
-        .thenReturn(List.of(this.participant));
+        .thenReturn(Arrays.asList(this.participant));
     assertFalse(this.permissionService.canWrite(this.relationship));
     assertFalse(this.permissionService.canRead(this.relationship));
 
-    var permission = this.participantRole.getParticipantPermission()
+    ParticipantPermission permission = this.participantRole.getParticipantPermission()
         .stream()
         .filter(x -> x.getObjectClass() == ClassKind.Relationship)
         .collect(MoreCollectors.onlyElement());
@@ -490,11 +492,11 @@ class PermissionServiceTest {
   @Test
   void verifySameAsContainerParticipantPermission() {
     when(this.session.getActivePersonParticipants())
-        .thenReturn(List.of(this.participant));
+        .thenReturn(Arrays.asList(this.participant));
     assertFalse(this.permissionService.canWrite(this.valueset));
     assertFalse(this.permissionService.canRead(this.valueset));
 
-    var permission = this.participantRole.getParticipantPermission()
+    ParticipantPermission permission = this.participantRole.getParticipantPermission()
         .stream()
         .filter(x -> x.getObjectClass() == ClassKind.Parameter)
         .collect(MoreCollectors.onlyElement());
@@ -507,8 +509,8 @@ class PermissionServiceTest {
   @Test
   void verifyCanWriteReturnsFalseWithFrozenIterationSetup() {
     when(this.session.getActivePersonParticipants())
-        .thenReturn(List.of(this.participant));
-    var permission = this.participantRole.getParticipantPermission()
+        .thenReturn(Arrays.asList(this.participant));
+    ParticipantPermission permission = this.participantRole.getParticipantPermission()
         .stream()
         .filter(x -> x.getObjectClass() == ClassKind.ElementDefinition)
         .collect(MoreCollectors.onlyElement());

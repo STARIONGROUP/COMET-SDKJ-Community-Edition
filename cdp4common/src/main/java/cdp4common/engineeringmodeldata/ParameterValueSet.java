@@ -45,15 +45,13 @@ import cdp4common.sitedirectorydata.Person;
 import cdp4common.types.CacheKey;
 import cdp4common.types.ValueArray;
 import com.google.common.cache.Cache;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.ToString;
 
 /**
  * representation of the switch setting and all values for a Parameter
@@ -246,7 +244,7 @@ public class ParameterValueSet extends ParameterValueSetBase implements Cloneabl
      */
     @Override
     public ParameterType queryParameterType() {
-        var parameter = (Parameter) this.getContainer();
+        Parameter parameter = (Parameter) this.getContainer();
 
         if (parameter == null) {
             throw new ContainmentException(String.format("The container Parameter of ParameterValueSet with iid %s is null, the ParameterTye code cannot be queried.", this.getIid()));

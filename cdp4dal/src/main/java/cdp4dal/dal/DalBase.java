@@ -28,6 +28,7 @@ import static cdp4common.helpers.Utils.as;
 
 import cdp4common.Version;
 import cdp4common.commondata.ClassKind;
+import cdp4common.dto.FileRevision;
 import cdp4common.dto.Iteration;
 import cdp4common.dto.Thing;
 import cdp4common.helpers.Constants;
@@ -44,7 +45,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
@@ -121,10 +122,10 @@ public abstract class DalBase implements Dal {
       throw new IllegalArgumentException("The Iteration Id must be set.");
     }
 
-    var engineeringModelContainmentClassKind = Arrays
+    List<ClassKind> engineeringModelContainmentClassKind = Arrays
         .asList(EngineeringModelContainmentClassType.CLASS_KIND_ARRAY);
 
-    for (var thing : dtos.stream()
+    for (Thing thing : dtos.stream()
         .filter(x -> !engineeringModelContainmentClassKind.contains(x.getClassKind())).collect(
             Collectors.toList())) {
       // all the returned thing are iteration contained
@@ -141,9 +142,9 @@ public abstract class DalBase implements Dal {
    */
   public UUID tryExtractIterationIdFromURI(@NonNull URI uri) {
     try {
-      var uriString = uri.toString();
-      var iterationURIName = ContainerPropertyHelper.getContainerPropertyName(ClassKind.Iteration);
-      var regexPattern =
+      String uriString = uri.toString();
+      String iterationURIName = ContainerPropertyHelper.getContainerPropertyName(ClassKind.Iteration);
+      String regexPattern =
           iterationURIName + Constants.URI_PATH_SEPARATOR + Constants.URI_UUID_PATTERN;
 
       Pattern pattern = Pattern.compile(regexPattern);
@@ -153,7 +154,7 @@ public abstract class DalBase implements Dal {
         return null;
       }
 
-      var elements = matcher.group().split(Constants.URI_PATH_SEPARATOR);
+      String[] elements = matcher.group().split(Constants.URI_PATH_SEPARATOR);
       return UUID.fromString(elements[elements.length - 1]);
     } catch (IllegalArgumentException ex) {
       return null;
@@ -170,7 +171,7 @@ public abstract class DalBase implements Dal {
    * /EngineeringModel/{iid}/iteration/{iid}
    */
   public String queryRequestContext(@NonNull URI uri) {
-    var siteDirectoryPattern =
+    String siteDirectoryPattern =
         "/SiteDirectory" + Constants.URI_PATH_SEPARATOR + Constants.URI_UUID_PATTERN;
     Pattern pattern = Pattern.compile(siteDirectoryPattern);
     Matcher matcher = pattern.matcher(uri.getPath());
@@ -179,7 +180,7 @@ public abstract class DalBase implements Dal {
       return matcher.group(0);
     }
 
-    var iterationPattern =
+    String iterationPattern =
         "/EngineeringModel" + Constants.URI_PATH_SEPARATOR + Constants.URI_UUID_PATTERN
             + Constants.URI_PATH_SEPARATOR + "iteration" + Constants.URI_PATH_SEPARATOR
             + Constants.URI_UUID_PATTERN;
@@ -208,18 +209,18 @@ public abstract class DalBase implements Dal {
    */
   protected void operationContainerFileVerification(OperationContainer operationContainer,
       List<String> files) throws InvalidOperationContainerException {
-    for (var file : files) {
-      var hash = "";
-      try (InputStream fileStream = Files.newInputStream(Path.of(file), StandardOpenOption.READ)) {
+    for (String file : files) {
+      String hash = "";
+      try (InputStream fileStream = Files.newInputStream(Paths.get(file), StandardOpenOption.READ)) {
         hash = StreamToHashComputer.calculateSha1HashFromStream(fileStream);
       } catch (IOException e) {
         throw new InvalidOperationContainerException(
             String.format("Unable to read a file %s. Exception: %S", file, e.getMessage()));
       }
 
-      var contentFoundInAnOperation = false;
-      for (var operation : operationContainer.getOperations()) {
-        var fileRevision = as(operation.getModifiedThing(), cdp4common.dto.FileRevision.class);
+      boolean contentFoundInAnOperation = false;
+      for (Operation operation : operationContainer.getOperations()) {
+        FileRevision fileRevision = as(operation.getModifiedThing(), cdp4common.dto.FileRevision.class);
         if (fileRevision != null && fileRevision.getContentHash().toLowerCase().equals(hash.toLowerCase())) {
           contentFoundInAnOperation = true;
           break;
@@ -240,7 +241,7 @@ public abstract class DalBase implements Dal {
    * to "1.0.0".
    */
   protected void setCdpVersion() {
-    var dalExportAttribute = this.getClass().getAnnotationsByType(DalExport.class);
+    DalExport[] dalExportAttribute = this.getClass().getAnnotationsByType(DalExport.class);
     if (dalExportAttribute.length > 0) {
       this.dalVersion = new Version(dalExportAttribute[0].cdpVersion());
     } else {

@@ -60,7 +60,7 @@ public class UuidListSerializer extends StdSerializer<List<UUID>> {
     }
 
     jgen.writeStartArray();
-    for (var item : value.stream().sorted(this.uuidComparator).collect(Collectors.toList())) {
+    for (UUID item : value.stream().sorted(this.uuidComparator).collect(Collectors.toList())) {
       jgen.writeString(item.toString());
     }
     jgen.writeEndArray();

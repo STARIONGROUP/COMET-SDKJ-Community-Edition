@@ -48,9 +48,9 @@ public class ValueArraySerializer extends StdSerializer<ValueArray> {
       ValueArray value, JsonGenerator jgen, SerializerProvider provider)
       throws IOException {
 
-    var builder = new StringBuilder("[");
+    StringBuilder builder = new StringBuilder("[");
 
-    for (var item : value) {
+    for (Object item : value) {
       builder.append("\"");
       // Escape special string characters in accordance with JSON specification
       // Details see http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf

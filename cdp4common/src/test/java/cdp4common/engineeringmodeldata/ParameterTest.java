@@ -24,16 +24,23 @@
 
 package cdp4common.engineeringmodeldata;
 
-import cdp4common.exceptions.ContainmentException;
-import cdp4common.sitedirectorydata.*;
-import cdp4common.types.ValueArray;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import cdp4common.exceptions.ContainmentException;
+import cdp4common.sitedirectorydata.CompoundParameterType;
+import cdp4common.sitedirectorydata.DomainOfExpertise;
+import cdp4common.sitedirectorydata.ParameterTypeComponent;
+import cdp4common.sitedirectorydata.ScalarParameterType;
+import cdp4common.sitedirectorydata.SimpleQuantityKind;
+import cdp4common.types.ValueArray;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ParameterTest {
     private String edShortname;
@@ -238,7 +245,7 @@ class ParameterTest {
     @Test
     void verifyThatParameterHasNoError() {
         ParameterValueSet valueset = new ParameterValueSet(UUID.randomUUID(), null, null);
-        List<String> data = List.of("-");
+        List<String> data = Arrays.asList("-");
         valueset.setManual(new ValueArray<>(data, String.class));
         valueset.setComputed(new ValueArray<>(data, String.class));
         valueset.setReference(new ValueArray<>(data, String.class));
@@ -255,7 +262,7 @@ class ParameterTest {
     @Test
     void verifyThatParameterCanBePublishedReturnsExpectedResult() {
         ParameterValueSet valueset = new ParameterValueSet(UUID.randomUUID(), null, null);
-        List<String> data = List.of("-");
+        List<String> data = Arrays.asList("-");
         valueset.setValueSwitch(ParameterSwitchKind.MANUAL);
         valueset.setManual(new ValueArray<>(data, String.class));
         valueset.setComputed(new ValueArray<>(data, String.class));
@@ -267,7 +274,7 @@ class ParameterTest {
 
         assertFalse(this.scalarParameter.canBePublished());
 
-        List<String> updatedData = List.of("1");
+        List<String> updatedData = Arrays.asList("1");
         valueset.setManual(new ValueArray<>(updatedData, String.class));
 
         assertTrue(this.scalarParameter.canBePublished());
@@ -276,7 +283,7 @@ class ParameterTest {
     @Test
     void verifyThatWhenParameterIsNotPublishableGetToBePublishedReturnsFalse() {
         ParameterValueSet valueset = new ParameterValueSet(UUID.randomUUID(), null, null);
-        List<String> data = List.of("-");
+        List<String> data = Arrays.asList("-");
         valueset.setValueSwitch(ParameterSwitchKind.MANUAL);
         valueset.setManual(new ValueArray<>(data, String.class));
         valueset.setComputed(new ValueArray<>(data, String.class));
@@ -294,8 +301,8 @@ class ParameterTest {
     @Test
     void verifyThatWhenParameterIsPublishableGetToBePublishedReturnsTrue() {
         ParameterValueSet valueset = new ParameterValueSet(UUID.randomUUID(), null, null);
-        List<String> data = List.of("-");
-        List<String> manualData = List.of("1");
+        List<String> data = Arrays.asList("-");
+        List<String> manualData = Arrays.asList("1");
         valueset.setValueSwitch(ParameterSwitchKind.MANUAL);
         valueset.setManual(new ValueArray<>(manualData, String.class));
         valueset.setComputed(new ValueArray<>(data, String.class));

@@ -46,7 +46,7 @@ public class RequirementStateOfComplianceCalculatorImpl implements RequirementSt
      * @return {@link RequirementStateOfCompliance} based on the calculations
      */
     public RequirementStateOfCompliance calculate(ParameterValueSetBase valueSet, RelationalExpression relationalExpression) {
-        var comparator = this.getValueSetComparator(relationalExpression);
+      Comparator<ValueArray<String>> comparator = this.getValueSetComparator(relationalExpression);
 
         switch (relationalExpression.getRelationalOperator()) {
             case EQ:

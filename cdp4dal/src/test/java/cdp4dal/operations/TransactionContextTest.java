@@ -64,7 +64,7 @@ class TransactionContextTest {
     this.engineeringModel = new EngineeringModel(this.engineeringModelIid, this.cache, this.uri);
 
     this.iteration = new Iteration(this.iterationIid, this.cache, this.uri);
-    var iterationSetup = new IterationSetup(UUID.randomUUID(), this.cache, this.uri);
+    IterationSetup iterationSetup = new IterationSetup(UUID.randomUUID(), this.cache, this.uri);
     iterationSetup.setRevisionNumber(1);
     this.iteration.setIterationSetup(iterationSetup);
     iterationSetup.setIterationIid(this.iteration.getIid());
@@ -79,23 +79,23 @@ class TransactionContextTest {
 
   @Test
   void verifyThatContextIsSet() {
-    var siteDirectoryTransactionContex = new TransactionContext(this.siteDirectory);
+    TransactionContext siteDirectoryTransactionContex = new TransactionContext(this.siteDirectory);
     assertEquals(this.siteDirectory, siteDirectoryTransactionContex.getContext());
 
-    var iterationTransactionContex = new TransactionContext(this.iteration);
+    TransactionContext iterationTransactionContex = new TransactionContext(this.iteration);
     assertEquals(this.iteration, iterationTransactionContex.getContext());
   }
 
   @Test
   void verify_That_ContextRoute_Returns_Expected_Result_for_SiteDirectory() {
-    var siteDirectoryTransactionContext = new TransactionContext(this.siteDirectory);
+    TransactionContext siteDirectoryTransactionContext = new TransactionContext(this.siteDirectory);
     assertEquals("/SiteDirectory/7d445137-5e73-41a1-b326-983db7a4e9a2",
         siteDirectoryTransactionContext.getContextRoute());
   }
 
   @Test
   void verify_That_ContextRoute_Returns_Expected_Result_for_Iteration() {
-    var iterationTransactionContext = new TransactionContext(this.iteration);
+    TransactionContext iterationTransactionContext = new TransactionContext(this.iteration);
     assertEquals(
         "/EngineeringModel/bddfb6a4-76b3-4cac-acab-5540126c47b6/iteration/05f17a1a-1021-450f-976d-286037f04646",
         iterationTransactionContext.getContextRoute());

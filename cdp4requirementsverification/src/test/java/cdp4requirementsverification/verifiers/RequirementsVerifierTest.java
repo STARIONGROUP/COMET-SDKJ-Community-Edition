@@ -30,6 +30,7 @@ import cdp4common.engineeringmodeldata.BinaryRelationship;
 import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.ElementUsage;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.engineeringmodeldata.Parameter;
 import cdp4common.engineeringmodeldata.ParameterOrOverrideBase;
 import cdp4common.engineeringmodeldata.ParametricConstraint;
 import cdp4common.engineeringmodeldata.RelationalExpression;
@@ -81,11 +82,11 @@ class RequirementsVerifierTest {
     this.iteration = new Iteration(UUID.randomUUID(), null, null);
 
     this.elementDefinition = new ElementDefinition(UUID.randomUUID(), null, null);
-    var elementUsage = new ElementUsage(UUID.randomUUID(), null, null);
+    ElementUsage elementUsage = new ElementUsage(UUID.randomUUID(), null, null);
     elementUsage.setElementDefinition(this.elementDefinition);
     this.elementDefinition.getContainedElement().add(elementUsage);
 
-    var parameter =
+    Parameter parameter =
         new ParameterBuilder()
             .withSimpleQuantityKindParameterType()
             .withValue("10")
@@ -99,7 +100,7 @@ class RequirementsVerifierTest {
 
   private void registerBinaryRelationShip(ParameterOrOverrideBase parameter,
       RelationalExpression expression) {
-    var relationShip = new BinaryRelationship(UUID.randomUUID(), null, null);
+    BinaryRelationship relationShip = new BinaryRelationship(UUID.randomUUID(), null, null);
     relationShip.setSource(parameter);
     relationShip.setTarget(expression);
 

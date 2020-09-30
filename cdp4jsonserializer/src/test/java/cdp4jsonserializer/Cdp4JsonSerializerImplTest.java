@@ -41,14 +41,14 @@ class Cdp4JsonSerializerImplTest {
   @Test
   void serializesPropertiesAccordingToVersion() throws IOException {
     String expectedJson = "{\"classKind\":\"File\",\"excludedDomain\":[],\"excludedPerson\":[],\"iid\":\"b3e2edac-3fea-4b7a-964f-c129b6dd63b2\",\"modifiedOn\":\"2019-08-02T14:11:56.58Z\",\"revisionNumber\":0,\"category\":[],\"fileRevision\":[\"e8de903b-9c38-416a-83f4-90b6cf7b7a41\"],\"lockedBy\":null,\"owner\":\"0e92edde-fdff-41db-9b1d-f2e484f12535\"}";
-    var engineeringModelIid = UUID.fromString("9ec982e4-ef72-4953-aa85-b158a95d8d56");
-    var iterationIid = UUID.fromString("e163c5ad-f32b-4387-b805-f4b34600bc2c");
-    var domainFileStoreIid = UUID.fromString("da7dddaa-02aa-4897-9935-e8d66c811a96");
-    var fileIid = UUID.fromString("b3e2edac-3fea-4b7a-964f-c129b6dd63b2");
-    var fileRevisionIid = UUID.fromString("e8de903b-9c38-416a-83f4-90b6cf7b7a41");
-    var domainOfExpertiseIid = UUID.fromString("0e92edde-fdff-41db-9b1d-f2e484f12535");
+    UUID engineeringModelIid = UUID.fromString("9ec982e4-ef72-4953-aa85-b158a95d8d56");
+    UUID iterationIid = UUID.fromString("e163c5ad-f32b-4387-b805-f4b34600bc2c");
+    UUID domainFileStoreIid = UUID.fromString("da7dddaa-02aa-4897-9935-e8d66c811a96");
+    UUID fileIid = UUID.fromString("b3e2edac-3fea-4b7a-964f-c129b6dd63b2");
+    UUID fileRevisionIid = UUID.fromString("e8de903b-9c38-416a-83f4-90b6cf7b7a41");
+    UUID domainOfExpertiseIid = UUID.fromString("0e92edde-fdff-41db-9b1d-f2e484f12535");
 
-    var file = new cdp4common.dto.File(fileIid, 0);
+    cdp4common.dto.File file = new cdp4common.dto.File(fileIid, 0);
     file.setOwner(domainOfExpertiseIid);
     file.getFileRevision().add(fileRevisionIid);
     file.addContainer(ClassKind.DomainFileStore, domainFileStoreIid);
@@ -68,14 +68,14 @@ class Cdp4JsonSerializerImplTest {
 
     this.serializer.initialize(new Version("1.0.0"));
 
-    var engineeringModelIid = UUID.fromString("9ec982e4-ef72-4953-aa85-b158a95d8d56");
-    var iterationIid = UUID.fromString("e163c5ad-f32b-4387-b805-f4b34600bc2c");
-    var domainFileStoreIid = UUID.fromString("da7dddaa-02aa-4897-9935-e8d66c811a96");
-    var fileIid = UUID.fromString("b3e2edac-3fea-4b7a-964f-c129b6dd63b2");
-    var fileRevisionIid = UUID.fromString("e8de903b-9c38-416a-83f4-90b6cf7b7a41");
-    var domainOfExpertiseIid = UUID.fromString("0e92edde-fdff-41db-9b1d-f2e484f12535");
+    UUID engineeringModelIid = UUID.fromString("9ec982e4-ef72-4953-aa85-b158a95d8d56");
+    UUID iterationIid = UUID.fromString("e163c5ad-f32b-4387-b805-f4b34600bc2c");
+    UUID domainFileStoreIid = UUID.fromString("da7dddaa-02aa-4897-9935-e8d66c811a96");
+    UUID fileIid = UUID.fromString("b3e2edac-3fea-4b7a-964f-c129b6dd63b2");
+    UUID fileRevisionIid = UUID.fromString("e8de903b-9c38-416a-83f4-90b6cf7b7a41");
+    UUID domainOfExpertiseIid = UUID.fromString("0e92edde-fdff-41db-9b1d-f2e484f12535");
 
-    var file = new cdp4common.dto.File(fileIid, 0);
+    cdp4common.dto.File file = new cdp4common.dto.File(fileIid, 0);
     file.setOwner(domainOfExpertiseIid);
     file.getFileRevision().add(fileRevisionIid);
     file.addContainer(ClassKind.DomainFileStore, domainFileStoreIid);
@@ -90,23 +90,23 @@ class Cdp4JsonSerializerImplTest {
 
   @Test
   void areEqualBySumOfBytesReturnsTrueTest() {
-    var s1 = "asdfgqwert";
-    var s2 = "qwertgfdsa";
+    String s1 = "asdfgqwert";
+    String s2 = "qwertgfdsa";
 
     assertTrue(areEqualBySumOfBytes(s1, s2));
   }
 
   @Test
   void areEqualBySumOfBytesReturnsFalseTest() {
-    var s1 = "asdfgqwert";
-    var s2 = "qwertgfdst";
+    String s1 = "asdfgqwert";
+    String s2 = "qwertgfdst";
 
     assertFalse(areEqualBySumOfBytes(s1, s2));
   }
 
   @Test
   void orderedItemWithNullMIsSerializedTest() throws IOException {
-    var expected = "{\"k\":1,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\"}";
+    String expected = "{\"k\":1,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\"}";
 
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     this.serializer.serializeToStream(new OrderedItem(1, "b16894e4-acb5-4e81-a118-16c00eb86d8f"),
@@ -117,10 +117,10 @@ class Cdp4JsonSerializerImplTest {
 
   @Test
   void orderedItemWithSetMIsSerializedTest() throws IOException {
-    var expected = "{\"k\":1,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\",\"m\":2}";
+    String expected = "{\"k\":1,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\",\"m\":2}";
 
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    var item = new OrderedItem(1, "b16894e4-acb5-4e81-a118-16c00eb86d8f");
+    OrderedItem item = new OrderedItem(1, "b16894e4-acb5-4e81-a118-16c00eb86d8f");
     item.moveItem(1, 2);
     this.serializer.serializeToStream(item, outputStream);
 
@@ -129,10 +129,10 @@ class Cdp4JsonSerializerImplTest {
 
   @Test
   void orderedItemWithNullMIsDeserializedTest() throws IOException {
-    var source = "{\"k\":1,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\"}";
+    String source = "{\"k\":1,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\"}";
 
     ByteArrayInputStream inputStream = new ByteArrayInputStream(source.getBytes());
-    var item = this.serializer.deserialize(new TypeReference<OrderedItem>() {
+    OrderedItem item = this.serializer.deserialize(new TypeReference<OrderedItem>() {
     }, inputStream);
 
     assertEquals(1, item.getK());
@@ -142,10 +142,10 @@ class Cdp4JsonSerializerImplTest {
 
   @Test
   void orderedItemWithSetMIsDeserializedTest() throws IOException {
-    var source = "{\"k\":1,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\",\"m\":2}";
+    String source = "{\"k\":1,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\",\"m\":2}";
 
     ByteArrayInputStream inputStream = new ByteArrayInputStream(source.getBytes());
-    var item = this.serializer.deserialize(new TypeReference<OrderedItem>() {
+    OrderedItem item = this.serializer.deserialize(new TypeReference<OrderedItem>() {
     }, inputStream);
 
     assertEquals(1, item.getK());
@@ -155,17 +155,17 @@ class Cdp4JsonSerializerImplTest {
 
   @Test
   void orderedItemListIsSerializedTest() throws IOException {
-    var expected = "{\"classKind\":\"FileRevision\",\"containingFolder\":null,\"contentHash\":\"F73747371CFD9473C19A0A7F99BCAB008474C4CA\",\"createdOn\":null,\"creator\":\"284334dd-e8e5-42d6-bc8a-715c507a7f02\",\"excludedDomain\":[],\"excludedPerson\":[],\"fileType\":[{\"k\":1,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\"}],\"iid\":\"e8de903b-9c38-416a-83f4-90b6cf7b7a41\",\"modifiedOn\":null,\"name\":\"testfile\",\"revisionNumber\":0}";
+    String expected = "{\"classKind\":\"FileRevision\",\"containingFolder\":null,\"contentHash\":\"F73747371CFD9473C19A0A7F99BCAB008474C4CA\",\"createdOn\":null,\"creator\":\"284334dd-e8e5-42d6-bc8a-715c507a7f02\",\"excludedDomain\":[],\"excludedPerson\":[],\"fileType\":[{\"k\":1,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\"}],\"iid\":\"e8de903b-9c38-416a-83f4-90b6cf7b7a41\",\"modifiedOn\":null,\"name\":\"testfile\",\"revisionNumber\":0}";
 
-    var fileTypeIid = UUID.fromString("b16894e4-acb5-4e81-a118-16c00eb86d8f");
-    var participantIid = UUID.fromString("284334dd-e8e5-42d6-bc8a-715c507a7f02");
-    var engineeringModelIid = UUID.fromString("9ec982e4-ef72-4953-aa85-b158a95d8d56");
-    var iterationIid = UUID.fromString("e163c5ad-f32b-4387-b805-f4b34600bc2c");
-    var domainFileStoreIid = UUID.fromString("da7dddaa-02aa-4897-9935-e8d66c811a96");
-    var fileIid = UUID.fromString("b3e2edac-3fea-4b7a-964f-c129b6dd63b2");
-    var fileRevisionIid = UUID.fromString("e8de903b-9c38-416a-83f4-90b6cf7b7a41");
+    UUID fileTypeIid = UUID.fromString("b16894e4-acb5-4e81-a118-16c00eb86d8f");
+    UUID participantIid = UUID.fromString("284334dd-e8e5-42d6-bc8a-715c507a7f02");
+    UUID engineeringModelIid = UUID.fromString("9ec982e4-ef72-4953-aa85-b158a95d8d56");
+    UUID iterationIid = UUID.fromString("e163c5ad-f32b-4387-b805-f4b34600bc2c");
+    UUID domainFileStoreIid = UUID.fromString("da7dddaa-02aa-4897-9935-e8d66c811a96");
+    UUID fileIid = UUID.fromString("b3e2edac-3fea-4b7a-964f-c129b6dd63b2");
+    UUID fileRevisionIid = UUID.fromString("e8de903b-9c38-416a-83f4-90b6cf7b7a41");
 
-    var fileRevision = new cdp4common.dto.FileRevision(fileRevisionIid, 0);
+    cdp4common.dto.FileRevision fileRevision = new cdp4common.dto.FileRevision(fileRevisionIid, 0);
     fileRevision.setName("testfile");
     fileRevision.setContentHash("F73747371CFD9473C19A0A7F99BCAB008474C4CA");
     fileRevision.getFileType().add(new OrderedItem(1, fileTypeIid));
@@ -183,19 +183,19 @@ class Cdp4JsonSerializerImplTest {
 
   @Test
   void orderedItemListIsDeserializedTest() throws IOException {
-    var source = "[{\"classKind\":\"FileRevision\",\"containingFolder\":null,\"contentHash\":\"F73747371CFD9473C19A0A7F99BCAB008474C4CA\",\"createdOn\":null,\"creator\":\"284334dd-e8e5-42d6-bc8a-715c507a7f02\",\"excludedDomain\":[],\"excludedPerson\":[],\"fileType\":[{\"k\":1,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\"}],\"iid\":\"e8de903b-9c38-416a-83f4-90b6cf7b7a41\",\"modifiedOn\":\"2019-08-02T14:11:56.580Z\",\"name\":\"testfile\",\"revisionNumber\":0}]";
+    String source = "[{\"classKind\":\"FileRevision\",\"containingFolder\":null,\"contentHash\":\"F73747371CFD9473C19A0A7F99BCAB008474C4CA\",\"createdOn\":null,\"creator\":\"284334dd-e8e5-42d6-bc8a-715c507a7f02\",\"excludedDomain\":[],\"excludedPerson\":[],\"fileType\":[{\"k\":1,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\"}],\"iid\":\"e8de903b-9c38-416a-83f4-90b6cf7b7a41\",\"modifiedOn\":\"2019-08-02T14:11:56.580Z\",\"name\":\"testfile\",\"revisionNumber\":0}]";
 
     ByteArrayInputStream inputStream = new ByteArrayInputStream(source.getBytes());
     List<Thing> fileRevisionList = this.serializer.deserialize(inputStream);
 
     assertEquals(1, fileRevisionList.size());
 
-    var fileRevision = fileRevisionList.get(0);
+    Thing fileRevision = fileRevisionList.get(0);
     assertEquals(1, ((FileRevision) fileRevision).getFileType().size());
     assertEquals(OffsetDateTime.of(2019, 8, 2, 14, 11, 56, 580_000_000, ZoneOffset.UTC),
         ((FileRevision) fileRevision).getModifiedOn());
 
-    var fileType = ((FileRevision) fileRevision).getFileType().get(0);
+    OrderedItem fileType = ((FileRevision) fileRevision).getFileType().get(0);
     assertEquals(1, fileType.getK());
     assertEquals("b16894e4-acb5-4e81-a118-16c00eb86d8f", fileType.getV());
     assertNull(fileType.getM());
@@ -219,21 +219,21 @@ class Cdp4JsonSerializerImplTest {
   @ParameterizedTest
   @MethodSource("getTestStrings")
   void verifyThatValueArrayIsSerializedAndDeserialized(String input) throws IOException {
-    var valueArray = new ValueArray<>(Collections.singletonList(input), String.class);
+    ValueArray<String> valueArray = new ValueArray<>(Collections.singletonList(input), String.class);
 
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     this.serializer.serializeToStream(valueArray, outputStream);
-    var json = outputStream.toString();
+    String json = outputStream.toString();
 
     ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes());
-    var result = this.serializer.deserialize(new TypeReference<ValueArray>() {
+    ValueArray<String> result = this.serializer.deserialize(new TypeReference<ValueArray>() {
     }, inputStream);
 
     assertThat(valueArray).containsExactlyInAnyOrderElementsOf(result);
 
     outputStream.reset();
     this.serializer.serializeToStream(result, outputStream);
-    var resultJson = outputStream.toString();
+    String resultJson = outputStream.toString();
 
     assertEquals(json, resultJson);
   }
@@ -242,23 +242,23 @@ class Cdp4JsonSerializerImplTest {
   void thingSerializedWithSortedPropertiesTest() throws IOException {
     String expected = "{\"classKind\":\"FileRevision\",\"containingFolder\":null,\"contentHash\":\"F73747371CFD9473C19A0A7F99BCAB008474C4CA\",\"createdOn\":null,\"creator\":\"284334dd-e8e5-42d6-bc8a-715c507a7f02\",\"excludedDomain\":[],\"excludedPerson\":[\"b16894e4-acb5-4e81-a118-16c00eb86d8f\",\"b18894e4-acb5-4e81-a118-16c00eb86d8f\",\"b19894e4-acb5-4e81-a118-16c00eb86d8f\"],\"fileType\":[{\"k\":4,\"v\":\"b16894e4-acb5-4e81-a118-16c00eb86d8f\"},{\"k\":8,\"v\":\"b19894e4-acb5-4e81-a118-16c00eb86d8f\"},{\"k\":12,\"v\":\"b18894e4-acb5-4e81-a118-16c00eb86d8f\"}],\"iid\":\"e8de903b-9c38-416a-83f4-90b6cf7b7a41\",\"modifiedOn\":null,\"name\":\"testfile\",\"revisionNumber\":0}";
 
-    var fileTypeIid1 = UUID.fromString("b19894e4-acb5-4e81-a118-16c00eb86d8f");
-    var fileTypeIid2 = UUID.fromString("b18894e4-acb5-4e81-a118-16c00eb86d8f");
-    var fileTypeIid3 = UUID.fromString("b16894e4-acb5-4e81-a118-16c00eb86d8f");
-    var excludedPerson1 = UUID.fromString("b18894e4-acb5-4e81-a118-16c00eb86d8f");
-    var excludedPerson2 = UUID.fromString("b19894e4-acb5-4e81-a118-16c00eb86d8f");
-    var excludedPerson3 = UUID.fromString("b16894e4-acb5-4e81-a118-16c00eb86d8f");
-    var participantIid = UUID.fromString("284334dd-e8e5-42d6-bc8a-715c507a7f02");
-    var fileRevisionIid = UUID.fromString("e8de903b-9c38-416a-83f4-90b6cf7b7a41");
+    UUID fileTypeIid1 = UUID.fromString("b19894e4-acb5-4e81-a118-16c00eb86d8f");
+    UUID fileTypeIid2 = UUID.fromString("b18894e4-acb5-4e81-a118-16c00eb86d8f");
+    UUID fileTypeIid3 = UUID.fromString("b16894e4-acb5-4e81-a118-16c00eb86d8f");
+    UUID excludedPerson1 = UUID.fromString("b18894e4-acb5-4e81-a118-16c00eb86d8f");
+    UUID excludedPerson2 = UUID.fromString("b19894e4-acb5-4e81-a118-16c00eb86d8f");
+    UUID excludedPerson3 = UUID.fromString("b16894e4-acb5-4e81-a118-16c00eb86d8f");
+    UUID participantIid = UUID.fromString("284334dd-e8e5-42d6-bc8a-715c507a7f02");
+    UUID fileRevisionIid = UUID.fromString("e8de903b-9c38-416a-83f4-90b6cf7b7a41");
 
-    var fileRevision = new cdp4common.dto.FileRevision(fileRevisionIid, 0);
+    cdp4common.dto.FileRevision fileRevision = new cdp4common.dto.FileRevision(fileRevisionIid, 0);
     fileRevision.setName("testfile");
     fileRevision.setContentHash("F73747371CFD9473C19A0A7F99BCAB008474C4CA");
     fileRevision.getFileType().addAll(Arrays
         .asList(new OrderedItem(8, fileTypeIid1), new OrderedItem(12, fileTypeIid2),
             new OrderedItem(4, fileTypeIid3)));
     fileRevision.setCreator(participantIid);
-    fileRevision.setExcludedPerson(List.of(excludedPerson1, excludedPerson2, excludedPerson3));
+    fileRevision.setExcludedPerson(Arrays.asList(excludedPerson1, excludedPerson2, excludedPerson3));
 
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 

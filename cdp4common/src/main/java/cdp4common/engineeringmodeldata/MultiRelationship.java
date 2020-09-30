@@ -32,7 +32,11 @@
 
 package cdp4common.engineeringmodeldata;
 
-import cdp4common.*;
+import cdp4common.AggregationKind;
+import cdp4common.ChangeKind;
+import cdp4common.Container;
+import cdp4common.SentinelThingProvider;
+import cdp4common.UmlInformation;
 import cdp4common.commondata.ParticipantAccessRightKind;
 import cdp4common.commondata.PersonAccessRightKind;
 import cdp4common.commondata.Thing;
@@ -43,17 +47,15 @@ import cdp4common.sitedirectorydata.Person;
 import cdp4common.types.CacheKey;
 import cdp4common.types.ContainerList;
 import com.google.common.cache.Cache;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.apache.commons.lang3.ObjectUtils;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * representation of a relationship between multiple Things
@@ -218,7 +220,7 @@ public class MultiRelationship extends Relationship implements Cloneable {
      * Perform extra operations on a {@link MultiRelationship}
      */
     protected void resolveExtraProperties() {
-        for (var thing : this.getRelatedThing()) {
+        for (Thing thing : this.getRelatedThing()) {
             if (thing.getRelationships() != null) {
                 thing.getRelationships().add(this);
             }
@@ -229,7 +231,7 @@ public class MultiRelationship extends Relationship implements Cloneable {
      * Clean the referenced Thing list of {@link Relationship} of this {@link Relationship}
      */
     public void cleanReferencedThingRelationship() {
-        for (var thing : this.getRelatedThing()) {
+        for (Thing thing : this.getRelatedThing()) {
             if (thing.getRelationships() != null) {
                 thing.getRelationships().remove(this);
             }

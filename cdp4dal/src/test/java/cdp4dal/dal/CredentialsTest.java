@@ -34,8 +34,8 @@ class CredentialsTest {
 
   @Test
   void verifyThatPasswordThatIsProvidedIsEqualToTheRetrievedPassword() {
-    var password = "this is a password";
-    var credentials = new Credentials("John", password, URI.create("file://someuri"), null);
+    String password = "this is a password";
+    Credentials credentials = new Credentials("John", password, URI.create("file://someuri"), null);
 
     assertEquals(password, credentials.getPassword());
   }

@@ -24,10 +24,14 @@
 
 package cdp4servicesdal;
 
+import cdp4common.dto.Person;
 import cdp4common.dto.ReferenceDataLibrary;
 import cdp4common.dto.Thing;
 import cdp4common.exceptions.IncompleteModelException;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
+import cdp4common.sitedirectorydata.IterationSetup;
+import cdp4common.sitedirectorydata.ModelReferenceDataLibrary;
+import cdp4common.sitedirectorydata.SiteDirectory;
 import cdp4dal.UriUtils;
 import cdp4dal.composition.DalExport;
 import cdp4dal.composition.DalType;
@@ -60,6 +64,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -70,6 +75,8 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -141,7 +148,7 @@ public class CdpServicesDal extends DalBase {
         throw new NullPointerException("The operationContainer may not be null");
       }
 
-      var watch = Stopwatch.createStarted();
+      Stopwatch watch = Stopwatch.createStarted();
 
       List<cdp4common.dto.Thing> result = new ArrayList<>();
 
@@ -149,11 +156,11 @@ public class CdpServicesDal extends DalBase {
         this.operationContainerFileVerification(operationContainer, files);
       }
 
-      var attribute = new QueryAttributesImpl();
+      QueryAttributesImpl attribute = new QueryAttributesImpl();
       attribute.setRevisionNumber(operationContainer.getTopContainerRevisionNumber());
 
-      var postToken = operationContainer.getToken();
-      var resourcePath = operationContainer.getContext() + attribute.toString();
+      String postToken = operationContainer.getToken();
+      String resourcePath = operationContainer.getContext() + attribute.toString();
       URI uri;
       try {
         uri = new URIBuilder(this.getCredentials().getUri()).setPath(resourcePath).build();
@@ -173,7 +180,7 @@ public class CdpServicesDal extends DalBase {
         throw new RuntimeException(e.getMessage());
       }
 
-      var requestSw = Stopwatch.createStarted();
+      Stopwatch requestSw = Stopwatch.createStarted();
 
       requestContent.setURI(uri);
       try {
@@ -192,7 +199,7 @@ public class CdpServicesDal extends DalBase {
             errorResponse = br.lines().collect(Collectors.joining(System.lineSeparator()));
           }
 
-          var msg = String.format(
+          String msg = String.format(
               "The CDP4 Services replied with code %s: %s: %s",
               response.getStatusLine().getStatusCode(), response.getStatusLine().getReasonPhrase(),
               errorResponse);
@@ -252,35 +259,35 @@ public class CdpServicesDal extends DalBase {
       }
 
       // Get the RequiredRdl to load
-      var siteDirectory = this.getSession().getAssembler().retrieveSiteDirectory();
-      var iterationSetup = siteDirectory.getModel()
+      SiteDirectory siteDirectory = this.getSession().getAssembler().retrieveSiteDirectory();
+      Optional<IterationSetup> iterationSetup = siteDirectory.getModel()
           .stream()
           .flatMap(mod -> mod.getIterationSetup().stream())
           .filter(it -> it.getIterationIid().equals(iteration.getIid()))
           .collect(MoreCollectors.toOptional());
 
-      if (iterationSetup.isEmpty()) {
+      if (!iterationSetup.isPresent()) {
         throw new IllegalArgumentException(
             "The Iteration to open does not have any associated IterationSetup.");
       }
 
-      var modelSetup = (EngineeringModelSetup) iterationSetup.get().getContainer();
-      var modelReferenceDataLibrary = modelSetup.getRequiredRdl()
+      EngineeringModelSetup modelSetup = (EngineeringModelSetup) iterationSetup.get().getContainer();
+      Optional<ModelReferenceDataLibrary> modelReferenceDataLibrary = modelSetup.getRequiredRdl()
           .stream()
           .collect(MoreCollectors.toOptional());
 
-      if (modelReferenceDataLibrary.isEmpty()) {
+      if (!modelReferenceDataLibrary.isPresent()) {
         throw new IllegalArgumentException(
             "The model to open does not have a Required Reference-Data-Library.");
       }
 
-      var modelReferenceDataLibraryDto = modelReferenceDataLibrary.get().toDto();
+      Thing modelReferenceDataLibraryDto = modelReferenceDataLibrary.get().toDto();
 
       List<Thing> result = new ArrayList<>();
-      var referenceData = this.read(modelReferenceDataLibraryDto, cancelled, null).join();
+      List<Thing> referenceData = this.read(modelReferenceDataLibraryDto, cancelled, null).join();
       result.addAll(referenceData);
 
-      var engineeringModelData = this.read((Thing) iteration, cancelled, null).join();
+      List<Thing> engineeringModelData = this.read((Thing) iteration, cancelled, null).join();
       result.addAll(engineeringModelData);
 
       return result;
@@ -302,31 +309,31 @@ public class CdpServicesDal extends DalBase {
         throw new NullPointerException("The thing may not be null");
       }
 
-      var watch = Stopwatch.createStarted();
+      Stopwatch watch = Stopwatch.createStarted();
 
       List<cdp4common.dto.Thing> result = new ArrayList<>();
 
-      var thingRoute = this.cleanURIFinalSlash(thing.getRoute());
+      String thingRoute = this.cleanURIFinalSlash(thing.getRoute());
 
-      var attributes = queryAttributes;
+      QueryAttributes attributes = queryAttributes;
       if (attributes == null) {
-        var includeReferenceData = thing instanceof ReferenceDataLibrary;
+        boolean includeReferenceData = thing instanceof ReferenceDataLibrary;
 
         attributes = this.getURIQueryAttributes(includeReferenceData);
       }
 
-      var resourcePath = String.format("%s%s", thingRoute, attributes.toString());
+      String resourcePath = String.format("%s%s", thingRoute, attributes.toString());
 
-      var readToken = cdp4common.helpers.TokenGenerator.generateRandomToken();
-      var uriBuilder = new URIBuilder(this.getCredentials().getUri());
+      String readToken = cdp4common.helpers.TokenGenerator.generateRandomToken();
+      URIBuilder uriBuilder = new URIBuilder(this.getCredentials().getUri());
       uriBuilder.setPath(resourcePath);
       log.debug("CDP4Services GET {}: {}", readToken, uriBuilder.toString());
 
-      var requestsw = Stopwatch.createStarted();
+      Stopwatch requestsw = Stopwatch.createStarted();
 
       try {
-        var uri = uriBuilder.build();
-        var requestMessage = new HttpGet(uri);
+        URI uri = uriBuilder.build();
+        HttpGet requestMessage = new HttpGet(uri);
         requestMessage.addHeader(Headers.CDP_TOKEN, readToken);
 
         Future<HttpResponse> future = this.httpClient.execute(requestMessage, null);
@@ -350,7 +357,7 @@ public class CdpServicesDal extends DalBase {
             readToken);
 
         if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-          var msg = String.format("The data-source replied with code %s: %s",
+          String msg = String.format("The data-source replied with code %s: %s",
               response.getStatusLine().getStatusCode(), response.getStatusLine().getReasonPhrase());
           log.error(msg);
           throw new DalReadException(msg);
@@ -437,27 +444,27 @@ public class CdpServicesDal extends DalBase {
 
       UriUtils.assertUriIsHttpOrHttpsSchema(credentials.getUri());
 
-      var queryAttributes = new QueryAttributesImpl();
+      QueryAttributesImpl queryAttributes = new QueryAttributesImpl();
       queryAttributes.setExtent(ExtentQueryAttribute.deep);
       queryAttributes.setIncludeReferenceData(false);
 
-      var resourcePath = String.format("SiteDirectory%s", queryAttributes.toString());
+      String resourcePath = String.format("SiteDirectory%s", queryAttributes.toString());
 
-      var openToken = cdp4common.helpers.TokenGenerator.generateRandomToken();
+      String openToken = cdp4common.helpers.TokenGenerator.generateRandomToken();
 
       this.httpClient = this.createHttpClient(credentials);
 
-      var watch = Stopwatch.createStarted();
+      Stopwatch watch = Stopwatch.createStarted();
 
-      var uriBuilder = new URIBuilder(credentials.getUri());
+      URIBuilder uriBuilder = new URIBuilder(credentials.getUri());
       uriBuilder.setPath(resourcePath);
       log.debug("CDP4Services Open {}: {}", openToken, uriBuilder);
 
-      var requestsw = Stopwatch.createStarted();
+      Stopwatch requestsw = Stopwatch.createStarted();
 
       try {
-        var uri = uriBuilder.build();
-        var requestMessage = new HttpGet(uri);
+        URI uri = uriBuilder.build();
+        HttpGet requestMessage = new HttpGet(uri);
         requestMessage.addHeader(Headers.CDP_TOKEN, openToken);
 
         Future<HttpResponse> future = this.httpClient.execute(requestMessage, null);
@@ -481,7 +488,7 @@ public class CdpServicesDal extends DalBase {
             openToken);
 
         if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-          var msg = String.format("The data-source replied with code %s: %s",
+          String msg = String.format("The data-source replied with code %s: %s",
               response.getStatusLine().getStatusCode(), response.getStatusLine().getReasonPhrase());
           log.error(msg);
           throw new DalReadException(msg);
@@ -500,14 +507,14 @@ public class CdpServicesDal extends DalBase {
         watch.stop();
         log.info("JSON Deserializer completed in {} [ms]", watch.elapsed(TimeUnit.MILLISECONDS));
 
-        var returnedPerson = result
+        Optional<Person> returnedPerson = result
             .stream()
             .filter(x -> x instanceof cdp4common.dto.Person)
             .map(x -> (cdp4common.dto.Person) x)
             .filter(x -> x.getShortName().equals(credentials.getUserName()))
             .collect(MoreCollectors.toOptional());
 
-        if (returnedPerson.isEmpty()) {
+        if (!returnedPerson.isPresent()) {
           throw new IllegalArgumentException("User not found.");
         }
 
@@ -596,14 +603,14 @@ public class CdpServicesDal extends DalBase {
   private HttpPost createHttpPost(String token, OperationContainer operationContainer,
       List<String> files)
       throws IOException {
-    var post = new HttpPost();
+    HttpPost post = new HttpPost();
 
-    var outputStream = new ByteArrayOutputStream();
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     this.constructPostRequestBodyStream(token, operationContainer, outputStream);
     post.addHeader(Headers.CDP_TOKEN, token);
 
     if (files == null) {
-      var body = EntityBuilder
+      HttpEntity body = EntityBuilder
           .create()
           .setBinary(outputStream.toByteArray())
           .setContentType(ContentType.APPLICATION_JSON.withCharset(""))
@@ -612,12 +619,12 @@ public class CdpServicesDal extends DalBase {
 
       return post;
     } else {
-      var builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
       builder.addBinaryBody("files[]", outputStream.toByteArray(), ContentType.APPLICATION_JSON.withCharset(""),
           "jsonFile");
 
-      for (var fileName : files) {
-        var file = new File(fileName);
+      for (String fileName : files) {
+        File file = new File(fileName);
         builder.addBinaryBody("files[]", new FileInputStream(file), ContentType.APPLICATION_OCTET_STREAM.withCharset(""),
             String.format("attachment; filename=\"%s\"", fileName));
       }
@@ -640,10 +647,10 @@ public class CdpServicesDal extends DalBase {
   void constructPostRequestBodyStream(String token, OperationContainer operationContainer,
       ByteArrayOutputStream outputStream)
       throws IOException {
-    var postOperation = new CdpPostOperation(this.getSession());
+    CdpPostOperation postOperation = new CdpPostOperation(this.getSession());
 
     // add the simple operations to the WSP container
-    for (var operation : operationContainer.getOperations()) {
+    for (Operation operation : operationContainer.getOperations()) {
       postOperation.constructFromOperation(operation);
     }
 
@@ -660,25 +667,25 @@ public class CdpServicesDal extends DalBase {
    * @param response The {@link HttpResponse} that is to be verified.
    */
   private void processHeaders(HttpResponse response) {
-    var cdpServerHeader = Arrays.stream(response.getAllHeaders())
+    Optional<Header> cdpServerHeader = Arrays.stream(response.getAllHeaders())
         .filter(h -> h.getName().toLowerCase()
             .equals(Headers.CDP_SERVER.toLowerCase()))
         .collect(MoreCollectors.toOptional());
 
-    if (cdpServerHeader.isEmpty()) {
+    if (!cdpServerHeader.isPresent()) {
       throw new HeaderException(String.format("Header %s not found", Headers.CDP_SERVER));
     }
 
-    var cdpCommonHeader = Arrays.stream(response.getAllHeaders())
+    Optional<Header> cdpCommonHeader = Arrays.stream(response.getAllHeaders())
         .filter(h -> h.getName().toLowerCase()
             .equals(Headers.CDP_COMMON.toLowerCase()))
         .collect(MoreCollectors.toOptional());
 
-    if (cdpCommonHeader.isEmpty()) {
+    if (!cdpCommonHeader.isPresent()) {
       throw new HeaderException(String.format("Header %s not found", Headers.CDP_COMMON));
     }
 
-    var contentHeader = response.getEntity().getContentType();
+    Header contentHeader = response.getEntity().getContentType();
 
     if (contentHeader == null) {
       throw new HeaderException(String.format("Header %s not found", Headers.CONTENT_TYPE));
@@ -727,7 +734,7 @@ public class CdpServicesDal extends DalBase {
   @Override
   public boolean isValidURI(String uri) {
     try {
-      var validURIAssertion = new URI(uri);
+      URI validURIAssertion = new URI(uri);
       UriUtils.assertUriIsHttpOrHttpsSchema(validURIAssertion);
       return true;
     } catch (IllegalArgumentException | URISyntaxException e) {
@@ -742,7 +749,7 @@ public class CdpServicesDal extends DalBase {
    * @return the {@link QueryAttributes}.
    */
   private QueryAttributes getURIQueryAttributes(boolean includeReferenceData) {
-    var queryAttributes = new QueryAttributesImpl();
+    QueryAttributesImpl queryAttributes = new QueryAttributesImpl();
     queryAttributes.setExtent(ExtentQueryAttribute.deep);
     queryAttributes.setIncludeAllContainers(true);
 

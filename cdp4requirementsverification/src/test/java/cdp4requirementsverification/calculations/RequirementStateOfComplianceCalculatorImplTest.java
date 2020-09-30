@@ -26,6 +26,8 @@ package cdp4requirementsverification.calculations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import cdp4common.engineeringmodeldata.Parameter;
+import cdp4common.engineeringmodeldata.RelationalExpression;
 import cdp4common.engineeringmodeldata.RelationalOperatorKind;
 import cdp4requirementsverification.RequirementStateOfCompliance;
 import cdp4requirementsverification.builders.ParameterBuilder;
@@ -55,14 +57,14 @@ class RequirementStateOfComplianceCalculatorImplTest {
     @MethodSource("provideTestCases")
     void verify_that_state_of_compliances_are_properly_calculated(
             double value1, double value2, RelationalOperatorKind relationalOperatorKind, RequirementStateOfCompliance expectedResult) {
-        var relationalExpression =
+      RelationalExpression relationalExpression =
                 new RelationalExpressionBuilder()
                         .withSimpleQuantityKindParameterType()
                         .withValue(value1)
                         .withRelationalOperatorKind(relationalOperatorKind)
                         .build();
 
-        var parameter = new ParameterBuilder()
+      Parameter parameter = new ParameterBuilder()
                 .withSimpleQuantityKindParameterType()
                 .withValue(value2)
                 .build();

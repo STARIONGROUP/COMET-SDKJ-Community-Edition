@@ -64,7 +64,7 @@ public class NotExpressionVerifier extends BooleanExpressionVerifierBase<NotExpr
         return this.getRequirementStateOfCompliance();
       }
 
-      var expressionVerifier = booleanExpressionVerifiers.get(this.getExpression().getTerm());
+      BooleanExpressionVerifier expressionVerifier = booleanExpressionVerifiers.get(this.getExpression().getTerm());
       RequirementStateOfCompliance requirementStateOfCompliance;
       requirementStateOfCompliance = expressionVerifier
           .verifyRequirementStateOfCompliance(booleanExpressionVerifiers, iteration).join();

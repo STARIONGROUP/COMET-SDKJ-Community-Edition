@@ -24,14 +24,13 @@
 
 package cdp4common.comparators;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import cdp4common.types.ValueArray;
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Suite of tests for the {@link QuantityKindValueSetComparator}
@@ -50,19 +49,19 @@ class QuantityKindValueSetComparatorTest {
 
     @BeforeEach
     void setUp() {
-        var listWithNull = new ArrayList<String>();
+      ArrayList<String> listWithNull = new ArrayList<String>();
         listWithNull.add(null);
 
-        this.valueArray1 = new ValueArray<>(List.of("1"), String.class);
-        this.valueArray2 = new ValueArray<>(List.of("2"), String.class);
+        this.valueArray1 = new ValueArray<>(Arrays.asList("1"), String.class);
+        this.valueArray2 = new ValueArray<>(Arrays.asList("2"), String.class);
         this.valueArrayNull = new ValueArray<>(listWithNull, String.class);
-        this.valueArrayNegative = new ValueArray<>(List.of("-1"), String.class);
+        this.valueArrayNegative = new ValueArray<>(Arrays.asList("-1"), String.class);
 
-        this.valueArray01 = new ValueArray<>(List.of("0,1"), String.class);
-        this.valueArray01Invariant = new ValueArray<>(List.of("0.1"), String.class);
+        this.valueArray01 = new ValueArray<>(Arrays.asList("0,1"), String.class);
+        this.valueArray01Invariant = new ValueArray<>(Arrays.asList("0.1"), String.class);
 
-        this.valueArray02 = new ValueArray<>(List.of("0,2"), String.class);
-        this.valueArray02Invariant = new ValueArray<>(List.of("0.2"), String.class);
+        this.valueArray02 = new ValueArray<>(Arrays.asList("0,2"), String.class);
+        this.valueArray02Invariant = new ValueArray<>(Arrays.asList("0.2"), String.class);
 
         quantityKindValueSetComparer = new QuantityKindValueSetComparator();
     }

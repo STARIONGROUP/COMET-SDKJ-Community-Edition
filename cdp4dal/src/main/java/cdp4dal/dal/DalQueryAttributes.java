@@ -70,7 +70,7 @@ public class DalQueryAttributes implements QueryAttributes {
    */
   @Override
   public String toString() {
-    var attributeString = this.joinAttributes();
+    String attributeString = this.joinAttributes();
     return Strings.isNullOrEmpty(attributeString) ? "" : String.format("?%s", attributeString);
   }
 

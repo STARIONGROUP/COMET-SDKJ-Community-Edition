@@ -29,6 +29,7 @@ import cdp4common.dto.TopContainer;
 import cdp4common.types.CacheKey;
 import cdp4dal.exceptions.InstanceNotFoundException;
 import com.google.common.collect.MoreCollectors;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,14 +63,14 @@ public class DtoRouteResolver {
       return;
     }
 
-    var dtos = List.copyOf(dtoList);
+    List<Thing> dtos = new ArrayList<>(dtoList);
     Optional<Thing> container = dtos
         .stream()
         .filter(dto -> dto.contains(thing))
         .collect(MoreCollectors.toOptional());
-    if (container.isEmpty()) {
+    if (!container.isPresent()) {
       // The container is not in the list of dtos, search in the current Session
-      var containerFromCache = session.getAssembler().getCache()
+      cdp4common.commondata.Thing containerFromCache = session.getAssembler().getCache()
           .getIfPresent(new CacheKey(thing.getIid(), thing.getIterationContainerId()));
       if (containerFromCache == null) {
         throw new InstanceNotFoundException(String
@@ -84,7 +85,7 @@ public class DtoRouteResolver {
     // The container is in the list of dtos
     thing.addContainer(container.get().getClassKind(), container.get().getIid());
     while (!(container.get() instanceof TopContainer)) {
-      var previousContainer = container.get();
+      Thing previousContainer = container.get();
       container = dtos
           .stream()
           .filter(dto -> dto.contains(previousContainer))
@@ -96,7 +97,7 @@ public class DtoRouteResolver {
 
       // One of the containers cannot be found in the list of dtos -> search in the current Session
       // and build the partial tree up to the top container
-      var containerFromCache = session.getAssembler().getCache().getIfPresent(
+      cdp4common.commondata.Thing containerFromCache = session.getAssembler().getCache().getIfPresent(
           new CacheKey(previousContainer.getIid(), previousContainer.getIterationContainerId()));
       if (containerFromCache == null) {
         throw new InstanceNotFoundException(String
@@ -117,7 +118,7 @@ public class DtoRouteResolver {
    */
   private static void addContainerCompleteTree(Thing thing,
       cdp4common.commondata.Thing cachedThing) {
-    var container = cachedThing.getContainer();
+    cdp4common.commondata.Thing container = cachedThing.getContainer();
     if (container == null) {
       throw new NullPointerException(String
           .format("The container of the %s with id %s is null.", thing.getClassKind(),
@@ -135,7 +136,7 @@ public class DtoRouteResolver {
    * @param container One of its container in the containment tree in the current {@link Session}.
    */
   private static void addContainerPartialTree(Thing thing, cdp4common.commondata.Thing container) {
-    var tmpContainer = container;
+    cdp4common.commondata.Thing tmpContainer = container;
     while (!(tmpContainer instanceof cdp4common.commondata.TopContainer)) {
       tmpContainer = tmpContainer.getContainer();
       if (tmpContainer == null) {

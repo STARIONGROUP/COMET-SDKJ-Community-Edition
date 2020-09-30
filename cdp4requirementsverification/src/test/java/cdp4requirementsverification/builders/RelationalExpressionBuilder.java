@@ -29,8 +29,7 @@ import cdp4common.engineeringmodeldata.RelationalOperatorKind;
 import cdp4common.sitedirectorydata.ScalarParameterType;
 import cdp4common.sitedirectorydata.SimpleQuantityKind;
 import cdp4common.types.ValueArray;
-
-import java.util.List;
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -70,7 +69,7 @@ public class RelationalExpressionBuilder {
      * @return {@link RelationalExpressionBuilder} "this"
      */
     public RelationalExpressionBuilder withValue(Object value) {
-        this.values = new ValueArray<>(List.of(value.toString()), String.class);
+        this.values = new ValueArray<>(Arrays.asList(value.toString()), String.class);
         return this;
     }
 
@@ -92,7 +91,7 @@ public class RelationalExpressionBuilder {
      * @return The {@link RelationalExpression}
      */
     public RelationalExpression build() {
-        var relationalExpression = new RelationalExpression(UUID.randomUUID(), null, null);
+      RelationalExpression relationalExpression = new RelationalExpression(UUID.randomUUID(), null, null);
         if (this.parameterType == null) {
             throw new NullPointerException("ParameterType is not set");
         }

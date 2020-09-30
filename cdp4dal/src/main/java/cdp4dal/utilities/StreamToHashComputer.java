@@ -28,6 +28,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -43,10 +44,15 @@ public class StreamToHashComputer {
    * @return The hexadecimal string representation of a SHA-1 hash code.
    */
   public static String calculateSha1HashFromStream(InputStream inputStream) {
-    try (var bufferedStream = new BufferedInputStream(inputStream)) {
-      MessageDigest md = MessageDigest.getInstance("SHA-1");
-      md.update(bufferedStream.readAllBytes());
+    try (DigestInputStream in = new DigestInputStream(new BufferedInputStream(inputStream),
+        MessageDigest.getInstance("SHA-1"))) {
+      // Read the stream and do nothing with it
+      while (in.read() != -1) {
+      }
+
+      final MessageDigest md = in.getMessageDigest();
       BigInteger hash = new BigInteger(1, md.digest());
+
       return hash.toString(16);
     } catch (IOException e) {
       e.printStackTrace();

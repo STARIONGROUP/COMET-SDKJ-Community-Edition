@@ -59,6 +59,9 @@ import cdp4common.sitedirectorydata.SiteReferenceDataLibrary;
 import cdp4common.types.ValueArray;
 import cdp4dal.Assembler;
 import cdp4dal.Session;
+import cdp4dal.operations.Operation;
+import cdp4dal.operations.OperationContainer;
+import cdp4dal.operations.TransactionContext;
 import cdp4dal.operations.TransactionContextResolver;
 import cdp4dal.permission.PermissionService;
 import com.google.common.collect.ImmutableMap;
@@ -312,23 +315,23 @@ class ValueSetOperationCreatorTest {
 
   @Test
   void verifyThatCreateValueSetsUpdateOperationsWorks() {
-    var valueSet = new ParameterValueSet(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ParameterValueSet valueSet = new ParameterValueSet(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     valueSet.setManual(new ValueArray<>(manual, String.class));
     this.parameter1.getValueSet().add(valueSet);
 
-    var subscriptionvalueset = new ParameterSubscriptionValueSet(UUID.randomUUID(),
+    ParameterSubscriptionValueSet subscriptionvalueset = new ParameterSubscriptionValueSet(UUID.randomUUID(),
         this.assembler.getCache(), this.uri);
     subscriptionvalueset.setManual(new ValueArray<>(manual, String.class));
     this.subscription1.getValueSet().add(subscriptionvalueset);
 
-    var modelDto = this.model2.toDto();
-    var iterationDto = (cdp4common.dto.Iteration) this.iteration2.toDto();
-    var def2Dto = new cdp4common.dto.ElementDefinition(this.def2Copy.getIid(), 2);
-    var parameterDto = new cdp4common.dto.Parameter(this.parameter1Copy.getIid(), 2);
-    var newValueSet = new cdp4common.dto.ParameterValueSet(UUID.randomUUID(), 2);
+    cdp4common.dto.Thing modelDto = this.model2.toDto();
+    cdp4common.dto.Iteration iterationDto = (cdp4common.dto.Iteration) this.iteration2.toDto();
+    cdp4common.dto.ElementDefinition def2Dto = new cdp4common.dto.ElementDefinition(this.def2Copy.getIid(), 2);
+    cdp4common.dto.Parameter parameterDto = new cdp4common.dto.Parameter(this.parameter1Copy.getIid(), 2);
+    cdp4common.dto.ParameterValueSet newValueSet = new cdp4common.dto.ParameterValueSet(UUID.randomUUID(), 2);
 
-    var subscription = new cdp4common.dto.ParameterSubscription(this.subscriptionCopy.getIid(), 1);
-    var subscriptionValueSet = new cdp4common.dto.ParameterSubscriptionValueSet(UUID.randomUUID(),
+    cdp4common.dto.ParameterSubscription subscription = new cdp4common.dto.ParameterSubscription(this.subscriptionCopy.getIid(), 1);
+    cdp4common.dto.ParameterSubscriptionValueSet subscriptionValueSet = new cdp4common.dto.ParameterSubscriptionValueSet(UUID.randomUUID(),
         1);
 
     iterationDto.getElement().add(def2Dto.getIid());
@@ -337,7 +340,7 @@ class ValueSetOperationCreatorTest {
     parameterDto.getParameterSubscription().add(subscription.getIid());
     subscription.getValueSet().add(subscriptionValueSet.getIid());
 
-    var returnedDto = Arrays.asList(
+    List<cdp4common.dto.Thing> returnedDto = Arrays.asList(
         modelDto,
         iterationDto,
         def2Dto,
@@ -347,20 +350,20 @@ class ValueSetOperationCreatorTest {
         subscriptionValueSet
     );
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
-    var context = transactionContext.getContextRoute();
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
+    String context = transactionContext.getContextRoute();
 
-    var operationCreator = new ValueSetOperationCreator(this.session);
-    var operationContainer = operationCreator
+    ValueSetOperationCreator operationCreator = new ValueSetOperationCreator(this.session);
+    OperationContainer operationContainer = operationCreator
         .createValueSetsUpdateOperations(context, returnedDto, ImmutableMap.copyOf(this.map));
 
     assertEquals(2, operationContainer.getOperations().size());
-    var operation = operationContainer.getOperations()
+    Operation operation = operationContainer.getOperations()
         .stream()
         .filter(x -> x.getOriginalThing().getClassKind() == ClassKind.ParameterValueSet)
         .collect(MoreCollectors.onlyElement());
-    var originalPvs = (cdp4common.dto.ParameterValueSet) operation.getOriginalThing();
-    var modifiedPvs = (cdp4common.dto.ParameterValueSet) operation.getModifiedThing();
+    cdp4common.dto.ParameterValueSet originalPvs = (cdp4common.dto.ParameterValueSet) operation.getOriginalThing();
+    cdp4common.dto.ParameterValueSet modifiedPvs = (cdp4common.dto.ParameterValueSet) operation.getModifiedThing();
 
     assertNotEquals(originalPvs.getManual(), modifiedPvs.getManual());
   }
@@ -368,12 +371,12 @@ class ValueSetOperationCreatorTest {
   @Test
   void verifyThatCreateValueSetsUpdateOperationsWorksOptionDependent()
       {
-    var valueset1 = new ParameterValueSet(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+        ParameterValueSet valueset1 = new ParameterValueSet(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     valueset1.setManual(new ValueArray<>(manual, String.class));
     this.parameter1.getValueSet().add(valueset1);
     valueset1.setActualOption(this.option1);
 
-    var valueset2 = new ParameterValueSet(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+        ParameterValueSet valueset2 = new ParameterValueSet(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     valueset2.setManual(new ValueArray<>(String.class));
     this.parameter1.getValueSet().add(valueset2);
     valueset2.setActualOption(this.option2);
@@ -381,18 +384,18 @@ class ValueSetOperationCreatorTest {
     this.parameter1.setOptionDependent(true);
     this.parameter1Copy.setOptionDependent(true);
 
-    var modeldto = this.model2.toDto();
-    var iterationDto = (cdp4common.dto.Iteration) this.iteration2.toDto();
-    var def2Dto = new cdp4common.dto.ElementDefinition(this.def2Copy.getIid(), 2);
-    var parameterDto = new cdp4common.dto.Parameter(this.parameter1Copy.getIid(), 2);
+        cdp4common.dto.Thing modeldto = this.model2.toDto();
+        cdp4common.dto.Iteration iterationDto = (cdp4common.dto.Iteration) this.iteration2.toDto();
+        cdp4common.dto.ElementDefinition def2Dto = new cdp4common.dto.ElementDefinition(this.def2Copy.getIid(), 2);
+        cdp4common.dto.Parameter parameterDto = new cdp4common.dto.Parameter(this.parameter1Copy.getIid(), 2);
     parameterDto.setOptionDependent(true);
-    var newValueSet = new cdp4common.dto.ParameterValueSet(UUID.randomUUID(), 2);
+        cdp4common.dto.ParameterValueSet newValueSet = new cdp4common.dto.ParameterValueSet(UUID.randomUUID(), 2);
 
     iterationDto.getElement().add(def2Dto.getIid());
     def2Dto.getParameter().add(parameterDto.getIid());
     parameterDto.getValueSet().add(newValueSet.getIid());
 
-    var returnedDto = Arrays.asList(
+        List<cdp4common.dto.Thing> returnedDto = Arrays.asList(
         modeldto,
         iterationDto,
         def2Dto,
@@ -400,18 +403,18 @@ class ValueSetOperationCreatorTest {
         newValueSet
     );
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
-    var context = transactionContext.getContextRoute();
+        TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
+        String context = transactionContext.getContextRoute();
 
-    var operationCreator = new ValueSetOperationCreator(this.session);
-    var operationContainer = operationCreator
+        ValueSetOperationCreator operationCreator = new ValueSetOperationCreator(this.session);
+        OperationContainer operationContainer = operationCreator
         .createValueSetsUpdateOperations(context, returnedDto, ImmutableMap.copyOf(this.map));
 
-    var operation = operationContainer.getOperations()
+        Operation operation = operationContainer.getOperations()
         .stream()
         .collect(MoreCollectors.onlyElement());
-    var original = (cdp4common.dto.ParameterValueSet) operation.getOriginalThing();
-    var modified = (cdp4common.dto.ParameterValueSet) operation.getModifiedThing();
+        cdp4common.dto.ParameterValueSet original = (cdp4common.dto.ParameterValueSet) operation.getOriginalThing();
+        cdp4common.dto.ParameterValueSet modified = (cdp4common.dto.ParameterValueSet) operation.getModifiedThing();
 
     assertNotEquals(original.getManual(), modified.getManual());
   }
@@ -419,7 +422,7 @@ class ValueSetOperationCreatorTest {
   @Test
   void verifyThatCreateValueSetsUpdateOperationsWorksStateDependent()
       {
-    var valueset1 = new ParameterValueSet(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+        ParameterValueSet valueset1 = new ParameterValueSet(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     valueset1.setManual(new ValueArray<>(manual, String.class));
     this.parameter1.getValueSet().add(valueset1);
     valueset1.setActualState(this.as1);
@@ -428,18 +431,18 @@ class ValueSetOperationCreatorTest {
     this.parameter1Copy.setOptionDependent(true);
     this.parameter1.setStateDependence(this.asl1);
 
-    var modeldto = this.model2.toDto();
-    var iterationDto = (cdp4common.dto.Iteration) this.iteration2.toDto();
-    var def2Dto = new cdp4common.dto.ElementDefinition(this.def2Copy.getIid(), 2);
-    var parameterDto = new cdp4common.dto.Parameter(this.parameter1Copy.getIid(), 2);
+        cdp4common.dto.Thing modeldto = this.model2.toDto();
+        cdp4common.dto.Iteration iterationDto = (cdp4common.dto.Iteration) this.iteration2.toDto();
+        cdp4common.dto.ElementDefinition def2Dto = new cdp4common.dto.ElementDefinition(this.def2Copy.getIid(), 2);
+        cdp4common.dto.Parameter parameterDto = new cdp4common.dto.Parameter(this.parameter1Copy.getIid(), 2);
     parameterDto.setOptionDependent(true);
-    var newValueSet = new cdp4common.dto.ParameterValueSet(UUID.randomUUID(), 2);
+        cdp4common.dto.ParameterValueSet newValueSet = new cdp4common.dto.ParameterValueSet(UUID.randomUUID(), 2);
 
     iterationDto.getElement().add(def2Dto.getIid());
     def2Dto.getParameter().add(parameterDto.getIid());
     parameterDto.getValueSet().add(newValueSet.getIid());
 
-    var returnedDto = Arrays.asList(
+        List<cdp4common.dto.Thing> returnedDto = Arrays.asList(
         modeldto,
         iterationDto,
         def2Dto,
@@ -447,18 +450,18 @@ class ValueSetOperationCreatorTest {
         newValueSet
     );
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
-    var context = transactionContext.getContextRoute();
+        TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
+        String context = transactionContext.getContextRoute();
 
-    var operationCreator = new ValueSetOperationCreator(this.session);
-    var operationContainer = operationCreator
+        ValueSetOperationCreator operationCreator = new ValueSetOperationCreator(this.session);
+        OperationContainer operationContainer = operationCreator
         .createValueSetsUpdateOperations(context, returnedDto, ImmutableMap.copyOf(this.map));
 
-    var operation = operationContainer.getOperations()
+        Operation operation = operationContainer.getOperations()
         .stream()
         .collect(MoreCollectors.onlyElement());
-    var original = (cdp4common.dto.ParameterValueSet) operation.getOriginalThing();
-    var modified = (cdp4common.dto.ParameterValueSet) operation.getModifiedThing();
+        cdp4common.dto.ParameterValueSet original = (cdp4common.dto.ParameterValueSet) operation.getOriginalThing();
+        cdp4common.dto.ParameterValueSet modified = (cdp4common.dto.ParameterValueSet) operation.getModifiedThing();
 
     assertNotEquals(original.getManual(), modified.getManual());
   }
@@ -466,13 +469,13 @@ class ValueSetOperationCreatorTest {
   @Test
   void verifyThatCreateValueSetsUpdateOperationsWorksStateOptionDependent()
       {
-    var valueset1 = new ParameterValueSet(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+        ParameterValueSet valueset1 = new ParameterValueSet(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     valueset1.setManual(new ValueArray<>(manual, String.class));
     this.parameter1.getValueSet().add(valueset1);
     valueset1.setActualOption(this.option1);
     valueset1.setActualState(this.as1);
 
-    var valueset2 = new ParameterValueSet(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+        ParameterValueSet valueset2 = new ParameterValueSet(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     valueset2.setManual(new ValueArray<>(String.class));
     this.parameter1.getValueSet().add(valueset2);
     valueset2.setActualOption(this.option2);
@@ -482,18 +485,18 @@ class ValueSetOperationCreatorTest {
     this.parameter1Copy.setOptionDependent(true);
     this.parameter1.setStateDependence(this.asl1);
 
-    var modeldto = this.model2.toDto();
-    var iterationDto = (cdp4common.dto.Iteration) this.iteration2.toDto();
-    var def2Dto = new cdp4common.dto.ElementDefinition(this.def2Copy.getIid(), 2);
-    var parameterDto = new cdp4common.dto.Parameter(this.parameter1Copy.getIid(), 2);
+        cdp4common.dto.Thing modeldto = this.model2.toDto();
+        cdp4common.dto.Iteration iterationDto = (cdp4common.dto.Iteration) this.iteration2.toDto();
+        cdp4common.dto.ElementDefinition def2Dto = new cdp4common.dto.ElementDefinition(this.def2Copy.getIid(), 2);
+        cdp4common.dto.Parameter parameterDto = new cdp4common.dto.Parameter(this.parameter1Copy.getIid(), 2);
     parameterDto.setOptionDependent(true);
-    var newValueSet = new cdp4common.dto.ParameterValueSet(UUID.randomUUID(), 2);
+        cdp4common.dto.ParameterValueSet newValueSet = new cdp4common.dto.ParameterValueSet(UUID.randomUUID(), 2);
 
     iterationDto.getElement().add(def2Dto.getIid());
     def2Dto.getParameter().add(parameterDto.getIid());
     parameterDto.getValueSet().add(newValueSet.getIid());
 
-    var returnedDto = Arrays.asList(
+        List<cdp4common.dto.Thing> returnedDto = Arrays.asList(
         modeldto,
         iterationDto,
         def2Dto,
@@ -501,36 +504,36 @@ class ValueSetOperationCreatorTest {
         newValueSet
     );
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
-    var context = transactionContext.getContextRoute();
+        TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
+        String context = transactionContext.getContextRoute();
 
-    var operationCreator = new ValueSetOperationCreator(this.session);
-    var operationContainer = operationCreator
+        ValueSetOperationCreator operationCreator = new ValueSetOperationCreator(this.session);
+        OperationContainer operationContainer = operationCreator
         .createValueSetsUpdateOperations(context, returnedDto, ImmutableMap.copyOf(this.map));
 
-    var operation = operationContainer.getOperations()
+        Operation operation = operationContainer.getOperations()
         .stream()
         .collect(MoreCollectors.onlyElement());
-    var original = (cdp4common.dto.ParameterValueSet) operation.getOriginalThing();
-    var modified = (cdp4common.dto.ParameterValueSet) operation.getModifiedThing();
+        cdp4common.dto.ParameterValueSet original = (cdp4common.dto.ParameterValueSet) operation.getOriginalThing();
+        cdp4common.dto.ParameterValueSet modified = (cdp4common.dto.ParameterValueSet) operation.getModifiedThing();
 
     assertNotEquals(original.getManual(), modified.getManual());
   }
 
   @Test
   void verifyIllegalArgumentException() {
-    var valueset1 = new ParameterValueSet(UUID.randomUUID(), this.assembler.getCache(), this.uri);
+    ParameterValueSet valueset1 = new ParameterValueSet(UUID.randomUUID(), this.assembler.getCache(), this.uri);
     valueset1.setManual(new ValueArray<>(manual, String.class));
     this.parameter1.getValueSet().add(valueset1);
     valueset1.setActualOption(this.option1);
     valueset1.setActualState(this.as1);
 
-    var modeldto = this.model2.toDto();
-    var iterationDto = (cdp4common.dto.Iteration) this.iteration2.toDto();
-    var def2Dto = new cdp4common.dto.ElementDefinition(this.def2Copy.getIid(), 2);
-    var parameterDto = new cdp4common.dto.Parameter(this.parameter1Copy.getIid(), 2);
+    cdp4common.dto.Thing modeldto = this.model2.toDto();
+    cdp4common.dto.Iteration iterationDto = (cdp4common.dto.Iteration) this.iteration2.toDto();
+    cdp4common.dto.ElementDefinition def2Dto = new cdp4common.dto.ElementDefinition(this.def2Copy.getIid(), 2);
+    cdp4common.dto.Parameter parameterDto = new cdp4common.dto.Parameter(this.parameter1Copy.getIid(), 2);
     parameterDto.setOptionDependent(true);
-    var newValueSet = new cdp4common.dto.ParameterValueSet(UUID.randomUUID(), 2);
+    cdp4common.dto.ParameterValueSet newValueSet = new cdp4common.dto.ParameterValueSet(UUID.randomUUID(), 2);
 
     iterationDto.getElement().add(def2Dto.getIid());
     def2Dto.getParameter().add(parameterDto.getIid());
@@ -543,10 +546,10 @@ class ValueSetOperationCreatorTest {
         newValueSet
     );
 
-    var transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
-    var context = transactionContext.getContextRoute();
+    TransactionContext transactionContext = TransactionContextResolver.resolveContext(this.iteration2);
+    String context = transactionContext.getContextRoute();
 
-    var operationCreator = new ValueSetOperationCreator(this.session);
+    ValueSetOperationCreator operationCreator = new ValueSetOperationCreator(this.session);
 
     assertThrows(IllegalArgumentException.class, () -> operationCreator
         .createValueSetsUpdateOperations(context, returnedDto, ImmutableMap.copyOf(this.map)));

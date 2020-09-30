@@ -31,6 +31,7 @@ import static org.mockito.Mockito.mock;
 
 import cdp4common.commondata.Thing;
 import cdp4common.dto.SiteDirectory;
+import cdp4common.dto.TelephoneNumber;
 import cdp4common.engineeringmodeldata.ElementUsage;
 import cdp4common.sitedirectorydata.MeasurementUnit;
 import cdp4common.sitedirectorydata.Person;
@@ -82,13 +83,13 @@ class CDPMessageBusTest {
     this.person2.setSurname("test2");
     this.person2.setPassword("test4");
     this.person2.setActive(true);
-    var phone1 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 0);
+    TelephoneNumber phone1 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 0);
     phone1.setValue("123");
     phone1.getVcardType().add(VcardTelephoneNumberKind.HOME);
-    var phone2 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 0);
+    TelephoneNumber phone2 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 0);
     phone2.setValue("456");
     phone2.getVcardType().add(VcardTelephoneNumberKind.WORK);
-    var phone3 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 0);
+    TelephoneNumber phone3 = new cdp4common.dto.TelephoneNumber(UUID.randomUUID(), 0);
     phone3.setValue("789");
     phone3.getVcardType().add(VcardTelephoneNumberKind.FAX);
 
@@ -128,7 +129,7 @@ class CDPMessageBusTest {
         .subscribe(x -> this.onEvent(x.getChangedThing()));
 
     // The assembler will raise an event when something changes
-    var assembler = new Assembler(this.uri);
+    Assembler assembler = new Assembler(this.uri);
     assembler.synchronize(this.testInput, true).get();
 
     // Check that the viewModel catches the event
@@ -146,7 +147,7 @@ class CDPMessageBusTest {
         .subscribe(x -> this.onEvent(x.getChangedThing()));
 
     // The assembler will raise and event when something changes
-    var assembler = new Assembler(this.uri);
+    Assembler assembler = new Assembler(this.uri);
     assembler.synchronize(this.testInput, true).get();
 
     // Check that the viewModel catches the event
@@ -161,8 +162,8 @@ class CDPMessageBusTest {
 
   @Test
   void verifyThatSubscribeToObjectWorks() {
-    var eu1 = new cdp4common.engineeringmodeldata.ElementUsage();
-    var eu2 = new cdp4common.engineeringmodeldata.ElementUsage();
+    ElementUsage eu1 = new cdp4common.engineeringmodeldata.ElementUsage();
+    ElementUsage eu2 = new cdp4common.engineeringmodeldata.ElementUsage();
 
     // The ViewModel subscribes to events
     CDPMessageBus.getCurrent().listen(ObjectChangedEvent.class, eu1, null)
@@ -190,10 +191,10 @@ class CDPMessageBusTest {
 
   @Test
   void verifyThatAnyObjectCanServeAsAMessageAndBeReceived() {
-    var mockedDal = mock(Dal.class);
-    var credentials = new Credentials(" ", " ", this.uri, null);
-    var session = new SessionImpl(mockedDal, credentials);
-    var sessionEvent = new SessionEvent(session, SessionStatus.OPEN);
+    Dal mockedDal = mock(Dal.class);
+    Credentials credentials = new Credentials(" ", " ", this.uri, null);
+    SessionImpl session = new SessionImpl(mockedDal, credentials);
+    SessionEvent sessionEvent = new SessionEvent(session, SessionStatus.OPEN);
     assertEquals(0, this.messagesReceivedCounter);
     CDPMessageBus.getCurrent().listen(SessionEvent.class, null, null)
         .subscribe(x -> messageReceived());
@@ -203,7 +204,7 @@ class CDPMessageBusTest {
 
   @Test
   void verifyNullEventTypeTargetIsFalse() {
-    var ett = new EventTypeTarget(SessionEvent.class, null);
+    EventTypeTarget ett = new EventTypeTarget(SessionEvent.class, null);
 
     EventTypeTarget test = null;
 

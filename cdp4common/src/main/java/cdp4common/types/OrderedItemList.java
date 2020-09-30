@@ -325,12 +325,12 @@ public class OrderedItemList<T> implements Collection<T> {
    * @return A cloned instance of {@link OrderedItemList}.
    */
   public OrderedItemList<T> clone(Thing container) {
-    var clonedOrderedItemList = new OrderedItemList<T>(container, this.isComposite, this.clazz);
+    OrderedItemList<T> clonedOrderedItemList = new OrderedItemList<T>(container, this.isComposite, this.clazz);
     clonedOrderedItemList.addOrderedItems(this.sortedItems.entrySet().stream()
         .map(x -> {
-          var item = new OrderedItem();
+          OrderedItem item = new OrderedItem();
           item.setK(x.getKey());
-          var value = as(x.getValue(), Thing.class);
+          Thing value = as(x.getValue(), Thing.class);
           if (value != null) {
             item.setV(value.clone(true));
           } else {
@@ -609,7 +609,7 @@ public class OrderedItemList<T> implements Collection<T> {
    */
   private void validateIndex(int index) {
     if (index < 0 || index >= this.sortedItems.size()) {
-      var rangeMessage = this.sortedItems.size() == 0 ? "the list is empty"
+      String rangeMessage = this.sortedItems.size() == 0 ? "the list is empty"
           : "valid range is 0 to " + (this.sortedItems.size() - 1);
       throw new IndexOutOfBoundsException(
           String.format("The index %s does not exist in the ordered item list, %s", index,
@@ -625,8 +625,8 @@ public class OrderedItemList<T> implements Collection<T> {
    */
   private void validateItemForExistence(T item) {
     if (this.sortedItems.values().contains(item)) {
-      var thing = as(item, Thing.class);
-      var message = thing != null ? thing.getIid().toString()
+      Thing thing = as(item, Thing.class);
+      String message = thing != null ? thing.getIid().toString()
           : "An item is not a Thing. Incorrect use of validation.";
       throw new IllegalArgumentException(
           String.format("OrderedItemList already contains the item: %s", message));

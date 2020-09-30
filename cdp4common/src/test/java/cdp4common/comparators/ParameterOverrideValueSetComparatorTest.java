@@ -54,18 +54,18 @@ class ParameterOverrideValueSetComparatorTest {
         this.iteration.getOption().add(this.optionB);
         this.iteration.getOption().add(this.optionA);
 
-        var possibleFiniteStateList = new PossibleFiniteStateList(UUID.randomUUID(), null, null);
-        var possibleFiniteStateA = new PossibleFiniteState(UUID.randomUUID(), null, null);
+      PossibleFiniteStateList possibleFiniteStateList = new PossibleFiniteStateList(UUID.randomUUID(), null, null);
+      PossibleFiniteState possibleFiniteStateA = new PossibleFiniteState(UUID.randomUUID(), null, null);
         possibleFiniteStateA.setName("state a");
         possibleFiniteStateA.setShortName("statea");
-        var possibleFiniteStateB = new PossibleFiniteState(UUID.randomUUID(), null, null);
+      PossibleFiniteState possibleFiniteStateB = new PossibleFiniteState(UUID.randomUUID(), null, null);
         possibleFiniteStateB.setName("state b");
         possibleFiniteStateB.setShortName("stateb");
         possibleFiniteStateList.getPossibleState().add(possibleFiniteStateB);
         possibleFiniteStateList.getPossibleState().add(possibleFiniteStateA);
         this.iteration.getPossibleFiniteStateList().add(possibleFiniteStateList);
 
-        var actualFiniteStateList = new ActualFiniteStateList(UUID.randomUUID(), null, null);
+      ActualFiniteStateList actualFiniteStateList = new ActualFiniteStateList(UUID.randomUUID(), null, null);
         this.actualFiniteStateA = new ActualFiniteState(UUID.randomUUID(), null, null);
         this.actualFiniteStateA.getPossibleState().add(possibleFiniteStateA);
         this.actualFiniteStateB = new ActualFiniteState(UUID.randomUUID(), null, null);
@@ -77,82 +77,82 @@ class ParameterOverrideValueSetComparatorTest {
 
     @Test
     void verifyThatOptionDependentValueSetsComparatorCompareReturnsExpectedResults() {
-        var parameter = new Parameter(UUID.randomUUID(), null, null);
+      Parameter parameter = new Parameter(UUID.randomUUID(), null, null);
         parameter.setOptionDependent(true);
-        var parameterValueSetA = new ParameterValueSet();
-        var parameterValueSetB = new ParameterValueSet();
+      ParameterValueSet parameterValueSetA = new ParameterValueSet();
+      ParameterValueSet parameterValueSetB = new ParameterValueSet();
         parameter.getValueSet().add(parameterValueSetA);
         parameter.getValueSet().add(parameterValueSetB);
 
         parameterValueSetA.setActualOption(this.optionA);
         parameterValueSetB.setActualOption(this.optionB);
 
-        var parameterOverride = new ParameterOverride();
+      ParameterOverride parameterOverride = new ParameterOverride();
         parameterOverride.setParameter(parameter);
 
-        var parameterOverrideValueSetA = new ParameterOverrideValueSet();
+      ParameterOverrideValueSet parameterOverrideValueSetA = new ParameterOverrideValueSet();
         parameterOverrideValueSetA.setParameterValueSet(parameterValueSetA);
 
-        var parameterOverrideValueSetB = new ParameterOverrideValueSet();
+      ParameterOverrideValueSet parameterOverrideValueSetB = new ParameterOverrideValueSet();
         parameterOverrideValueSetB.setParameterValueSet(parameterValueSetB);
 
-        var comparer = new ParameterOverrideValueSetComparator();
-        var comparisonAB = comparer.compare(parameterOverrideValueSetA, parameterOverrideValueSetB);
+      ParameterOverrideValueSetComparator comparer = new ParameterOverrideValueSetComparator();
+      int comparisonAB = comparer.compare(parameterOverrideValueSetA, parameterOverrideValueSetB);
         assertEquals(1, comparisonAB);
 
-        var comparisonBA = comparer.compare(parameterOverrideValueSetB, parameterOverrideValueSetA);
+      int comparisonBA = comparer.compare(parameterOverrideValueSetB, parameterOverrideValueSetA);
         assertEquals(-1, comparisonBA);
 
-        var comparisonAA = comparer.compare(parameterOverrideValueSetA, parameterOverrideValueSetA);
+      int comparisonAA = comparer.compare(parameterOverrideValueSetA, parameterOverrideValueSetA);
         assertEquals(0, comparisonAA);
 
-        var comparisonBB = comparer.compare(parameterOverrideValueSetB, parameterOverrideValueSetB);
+      int comparisonBB = comparer.compare(parameterOverrideValueSetB, parameterOverrideValueSetB);
         assertEquals(0, comparisonBB);
     }
 
     @Test
     void verifyThatStateFullValueSetsComparatorCompareReturnsExpectedResults() {
-        var parameter = new Parameter(UUID.randomUUID(), null, null);
+      Parameter parameter = new Parameter(UUID.randomUUID(), null, null);
         parameter.setOptionDependent(true);
-        var parameterValueSetA = new ParameterValueSet();
-        var parameterValueSetB = new ParameterValueSet();
+      ParameterValueSet parameterValueSetA = new ParameterValueSet();
+      ParameterValueSet parameterValueSetB = new ParameterValueSet();
         parameter.getValueSet().add(parameterValueSetA);
         parameter.getValueSet().add(parameterValueSetB);
 
         parameterValueSetA.setActualState(this.actualFiniteStateA);
         parameterValueSetB.setActualState(this.actualFiniteStateB);
 
-        var parameterOverride = new ParameterOverride();
+      ParameterOverride parameterOverride = new ParameterOverride();
         parameterOverride.setParameter(parameter);
 
-        var parameterOverrideValueSetA = new ParameterOverrideValueSet();
+      ParameterOverrideValueSet parameterOverrideValueSetA = new ParameterOverrideValueSet();
         parameterOverrideValueSetA.setParameterValueSet(parameterValueSetA);
 
-        var parameterOverrideValueSetB = new ParameterOverrideValueSet();
+      ParameterOverrideValueSet parameterOverrideValueSetB = new ParameterOverrideValueSet();
         parameterOverrideValueSetB.setParameterValueSet(parameterValueSetB);
 
-        var comparer = new ParameterOverrideValueSetComparator();
-        var comparisonAB = comparer.compare(parameterOverrideValueSetA, parameterOverrideValueSetB);
+      ParameterOverrideValueSetComparator comparer = new ParameterOverrideValueSetComparator();
+      int comparisonAB = comparer.compare(parameterOverrideValueSetA, parameterOverrideValueSetB);
         assertEquals(1, comparisonAB);
 
-        var comparisonBA = comparer.compare(parameterOverrideValueSetB, parameterOverrideValueSetA);
+      int comparisonBA = comparer.compare(parameterOverrideValueSetB, parameterOverrideValueSetA);
         assertEquals(-1, comparisonBA);
 
-        var comparisonAA = comparer.compare(parameterOverrideValueSetA, parameterOverrideValueSetA);
+      int comparisonAA = comparer.compare(parameterOverrideValueSetA, parameterOverrideValueSetA);
         assertEquals(0, comparisonAA);
 
-        var comparisonBB = comparer.compare(parameterOverrideValueSetB, parameterOverrideValueSetB);
+      int comparisonBB = comparer.compare(parameterOverrideValueSetB, parameterOverrideValueSetB);
         assertEquals(0, comparisonBB);
     }
 
     @Test
     void verifyThatOptionDepStateFullValueSetsComparatorCompareReturnsExpectedResults() {
-        var parameter = new Parameter(UUID.randomUUID(), null, null);
+      Parameter parameter = new Parameter(UUID.randomUUID(), null, null);
         parameter.setOptionDependent(true);
-        var parameterValueSetAA = new ParameterValueSet();
-        var parameterValueSetAB = new ParameterValueSet();
-        var parameterValueSetBB = new ParameterValueSet();
-        var parameterValueSetBA = new ParameterValueSet();
+      ParameterValueSet parameterValueSetAA = new ParameterValueSet();
+      ParameterValueSet parameterValueSetAB = new ParameterValueSet();
+      ParameterValueSet parameterValueSetBB = new ParameterValueSet();
+      ParameterValueSet parameterValueSetBA = new ParameterValueSet();
         parameter.getValueSet().add(parameterValueSetAA);
         parameter.getValueSet().add(parameterValueSetAB);
         parameter.getValueSet().add(parameterValueSetBB);
@@ -170,27 +170,27 @@ class ParameterOverrideValueSetComparatorTest {
         parameterValueSetBA.setActualOption(this.optionB);
         parameterValueSetBA.setActualState(this.actualFiniteStateA);
 
-        var parameterOverride = new ParameterOverride();
+      ParameterOverride parameterOverride = new ParameterOverride();
         parameterOverride.setParameter(parameter);
 
-        var aa = new ParameterOverrideValueSet();
+      ParameterOverrideValueSet aa = new ParameterOverrideValueSet();
         aa.setParameterValueSet(parameterValueSetAA);
 
-        var ab = new ParameterOverrideValueSet();
+      ParameterOverrideValueSet ab = new ParameterOverrideValueSet();
         ab.setParameterValueSet(parameterValueSetAB);
 
-        var bb = new ParameterOverrideValueSet();
+      ParameterOverrideValueSet bb = new ParameterOverrideValueSet();
         bb.setParameterValueSet(parameterValueSetBB);
 
-        var ba = new ParameterOverrideValueSet();
+      ParameterOverrideValueSet ba = new ParameterOverrideValueSet();
         ba.setParameterValueSet(parameterValueSetBA);
 
-        var comparator = new ParameterOverrideValueSetComparator();
+      ParameterOverrideValueSetComparator comparator = new ParameterOverrideValueSetComparator();
 
-        var comparison_aa_ab = comparator.compare(aa, ab);
+      int comparison_aa_ab = comparator.compare(aa, ab);
         assertEquals(1, comparison_aa_ab);
 
-        var comparison_aa_bb = comparator.compare(aa, ab);
+      int comparison_aa_bb = comparator.compare(aa, ab);
         assertEquals(1, comparison_aa_bb);
     }
 }
