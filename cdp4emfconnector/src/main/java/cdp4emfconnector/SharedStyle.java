@@ -147,7 +147,7 @@ public class SharedStyle {
         
         pojo.setStrokeWidth((float)emfThing.getStrokeWidth());
         
-        pojo.setThingPreference((float)emfThing.getThingPreference());
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.getUsedColor().addAll(emfThing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toPojo(item)).collect(Collectors.toList()));              
         

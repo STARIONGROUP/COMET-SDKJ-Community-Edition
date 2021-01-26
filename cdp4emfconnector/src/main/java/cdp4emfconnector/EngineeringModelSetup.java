@@ -104,7 +104,7 @@ public class EngineeringModelSetup {
         
         if (thing.getStudyPhase() != null) {emf.setStudyPhase(CDP4.SiteDirectoryData.StudyPhaseKind.valueOf(thing.getStudyPhase().toString()));}                          
         
-        emf.setThingPreference(thing.getThingPreference().toString());
+        emf.setThingPreference(thing.getThingPreference());
         
         return emf;
     }
@@ -157,7 +157,7 @@ public class EngineeringModelSetup {
         
         if (emfThing.getStudyPhase() != null) {pojo.setStudyPhase(cdp4common.sitedirectorydata.StudyPhaseKind.valueOf(emfThing.getStudyPhase().toString()));}  
         
-        pojo.setThingPreference(UUID.fromString(emfThing.getThingPreference()));
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }
