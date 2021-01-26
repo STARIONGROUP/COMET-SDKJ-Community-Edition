@@ -91,6 +91,8 @@ public abstract class SimpleParameterizableThing {
         emfRequirement.setRevisionNumber(thing.getRevisionNumber());
         
         emfRequirement.setShortName(thing.getShortName());
+        
+        emfRequirement.setThingPreference(thing.getThingPreference());
         		        
         return emfRequirement;
         	
@@ -134,6 +136,8 @@ public abstract class SimpleParameterizableThing {
         pojoRequirement.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoRequirement.setShortName(emfThing.getShortName());
+        
+        pojoRequirement.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRequirement;
         	

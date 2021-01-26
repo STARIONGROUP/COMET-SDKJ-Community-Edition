@@ -79,6 +79,8 @@ public class Bounds {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.setWidth(thing.getWidth());
         
         emf.setX(thing.getX());
@@ -110,6 +112,8 @@ public class Bounds {
         pojo.setName(emfThing.getName());
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.setWidth((float)emfThing.getWidth());
         

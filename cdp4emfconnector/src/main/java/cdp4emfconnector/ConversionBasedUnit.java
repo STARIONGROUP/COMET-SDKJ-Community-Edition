@@ -93,6 +93,8 @@ public abstract class ConversionBasedUnit {
         emfLinearConversionUnit.setRevisionNumber(thing.getRevisionNumber());
         
         emfLinearConversionUnit.setShortName(thing.getShortName());
+        
+        emfLinearConversionUnit.setThingPreference(thing.getThingPreference());
         		        
         return emfLinearConversionUnit;
         
@@ -124,6 +126,8 @@ public abstract class ConversionBasedUnit {
         emfPrefixedUnit.setRevisionNumber(thing.getRevisionNumber());
         
         emfPrefixedUnit.setShortName(thing.getShortName());
+        
+        emfPrefixedUnit.setThingPreference(thing.getThingPreference());
         		        
         return emfPrefixedUnit;
         	
@@ -169,6 +173,8 @@ public abstract class ConversionBasedUnit {
         pojoLinearConversionUnit.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoLinearConversionUnit.setShortName(emfThing.getShortName());
+        
+        pojoLinearConversionUnit.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoLinearConversionUnit;
         
@@ -200,6 +206,8 @@ public abstract class ConversionBasedUnit {
         pojoPrefixedUnit.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoPrefixedUnit.setShortName(emfThing.getShortName());
+        
+        pojoPrefixedUnit.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoPrefixedUnit;
         	

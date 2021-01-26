@@ -85,6 +85,8 @@ public class Citation {
         
         emf.setSource(thing.getSource() != null ? cdp4emfconnector.ReferenceSource.toEmf(thing.getSource()) : null);        
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -116,6 +118,8 @@ public class Citation {
         pojo.setShortName(emfThing.getShortName());
         
         pojo.setSource(emfThing.getSource() != null ? cdp4emfconnector.ReferenceSource.toPojo(emfThing.getSource()) : null);        
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

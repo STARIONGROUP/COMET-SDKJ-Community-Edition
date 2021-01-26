@@ -89,6 +89,8 @@ public abstract class ParameterOrOverrideBase {
         
         emfParameter.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);
         emfParameter.setStateDependence(thing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toEmf(thing.getStateDependence()) : null);
+        emfParameter.setThingPreference(thing.getThingPreference());
+        		        
         return emfParameter;
         
         case "cdp4common.engineeringmodeldata.ParameterOverride":
@@ -115,6 +117,8 @@ public abstract class ParameterOrOverrideBase {
         
         emfParameterOverride.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);
         emfParameterOverride.setStateDependence(thing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toEmf(thing.getStateDependence()) : null);
+        emfParameterOverride.setThingPreference(thing.getThingPreference());
+        		        
         return emfParameterOverride;
         	
         }
@@ -155,6 +159,8 @@ public abstract class ParameterOrOverrideBase {
         
         pojoParameter.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);
         pojoParameter.setStateDependence(emfThing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toPojo(emfThing.getStateDependence()) : null);
+        pojoParameter.setThingPreference(emfThing.getThingPreference());
+        		        
         return pojoParameter;
         
         case "CDP4.engineeringmodeldata.ParameterOverride":                
@@ -181,6 +187,8 @@ public abstract class ParameterOrOverrideBase {
         
         pojoParameterOverride.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);
         pojoParameterOverride.setStateDependence(emfThing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toPojo(emfThing.getStateDependence()) : null);
+        pojoParameterOverride.setThingPreference(emfThing.getThingPreference());
+        		        
         return pojoParameterOverride;
         	
         }

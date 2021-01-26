@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -223,6 +224,7 @@ public class CompoundParameterType extends ParameterType implements Cloneable {
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
         this.setSymbol(dto.getSymbol());
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -250,6 +252,7 @@ public class CompoundParameterType extends ParameterType implements Cloneable {
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
         dto.setSymbol(this.getSymbol());
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

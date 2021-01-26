@@ -89,6 +89,8 @@ public class SiteDirectoryDataAnnotation {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -124,6 +126,8 @@ public class SiteDirectoryDataAnnotation {
         pojo.getRelatedThing().addAll(emfThing.getRelatedThing().stream().map(item -> cdp4emfconnector.SiteDirectoryThingReference.toPojo(item)).collect(Collectors.toList()));              
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

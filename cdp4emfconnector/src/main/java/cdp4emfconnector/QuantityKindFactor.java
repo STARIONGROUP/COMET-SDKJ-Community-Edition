@@ -79,6 +79,8 @@ public class QuantityKindFactor {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -104,6 +106,8 @@ public class QuantityKindFactor {
         pojo.setQuantityKind(emfThing.getQuantityKind() != null ? cdp4emfconnector.QuantityKind.toPojo(emfThing.getQuantityKind()) : null);        
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

@@ -89,6 +89,8 @@ public class DiagramObject {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         emf.setSharedStyle(thing.getSharedStyle() != null ? cdp4emfconnector.SharedStyle.toEmf(thing.getSharedStyle()) : null);
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -125,6 +127,8 @@ public class DiagramObject {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.setSharedStyle(emfThing.getSharedStyle() != null ? cdp4emfconnector.SharedStyle.toPojo(emfThing.getSharedStyle()) : null);
+        pojo.setThingPreference(emfThing.getThingPreference());
+        
         return pojo;
     }
     

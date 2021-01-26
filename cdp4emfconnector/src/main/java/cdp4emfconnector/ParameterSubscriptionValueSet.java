@@ -79,6 +79,8 @@ public class ParameterSubscriptionValueSet {
         
         emf.setSubscribedValueSet(thing.getSubscribedValueSet() != null ? cdp4emfconnector.ParameterValueSetBase.toEmf(thing.getSubscribedValueSet()) : null);        
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         if (thing.getValueSwitch() != null) {emf.setValueSwitch(CDP4.EngineeringModelData.ParameterSwitchKind.valueOf(thing.getValueSwitch().toString()));}                          
         
         return emf;
@@ -106,6 +108,8 @@ public class ParameterSubscriptionValueSet {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.setSubscribedValueSet(emfThing.getSubscribedValueSet() != null ? cdp4emfconnector.ParameterValueSetBase.toPojo(emfThing.getSubscribedValueSet()) : null);        
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         if (emfThing.getValueSwitch() != null) {pojo.setValueSwitch(cdp4common.engineeringmodeldata.ParameterSwitchKind.valueOf(emfThing.getValueSwitch().toString()));}  
         

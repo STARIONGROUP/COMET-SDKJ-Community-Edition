@@ -77,6 +77,8 @@ public class NotExpression {
         
         emf.setTerm(thing.getTerm() != null ? cdp4emfconnector.BooleanExpression.toEmf(thing.getTerm()) : null);        
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -100,6 +102,8 @@ public class NotExpression {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.setTerm(emfThing.getTerm() != null ? cdp4emfconnector.BooleanExpression.toPojo(emfThing.getTerm()) : null);        
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -185,6 +186,7 @@ public class RuleViolation extends Thing implements Cloneable {
         PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
+        this.setThingPreference(dto.getThingPreference());
         PojoThingFactory.clearAndAddRange(this.getViolatingThing(), dto.getViolatingThing());
 
         this.resolveExtraProperties();
@@ -204,6 +206,7 @@ public class RuleViolation extends Thing implements Cloneable {
         dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());
+        dto.setThingPreference(this.getThingPreference());
         dto.getViolatingThing().addAll(this.getViolatingThing());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());

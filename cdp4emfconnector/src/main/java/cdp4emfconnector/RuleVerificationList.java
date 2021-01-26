@@ -89,6 +89,8 @@ public class RuleVerificationList {
         
         emf.setShortName(thing.getShortName());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -124,6 +126,8 @@ public class RuleVerificationList {
         pojo.getRuleVerification().addAll(emfThing.getRuleVerification().stream().map(item -> cdp4emfconnector.RuleVerification.toPojo(item)).collect(Collectors.toList()));
         
         pojo.setShortName(emfThing.getShortName());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

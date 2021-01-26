@@ -98,6 +98,8 @@ public class OwnedStyle {
         
         emf.setStrokeWidth(thing.getStrokeWidth());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.getUsedColor().addAll(thing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
@@ -144,6 +146,8 @@ public class OwnedStyle {
         pojo.setStrokeOpacity((float)emfThing.getStrokeOpacity());
         
         pojo.setStrokeWidth((float)emfThing.getStrokeWidth());
+        
+        pojo.setThingPreference((float)emfThing.getThingPreference());
         
         pojo.getUsedColor().addAll(emfThing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toPojo(item)).collect(Collectors.toList()));              
         

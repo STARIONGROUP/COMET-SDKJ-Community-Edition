@@ -34,13 +34,24 @@ package cdp4common.sitedirectorydata;
 
 import java.util.*;
 import java.util.stream.*;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.io.*;
 import java.net.URI;
 import cdp4common.*;
 import cdp4common.commondata.*;
+import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
+import cdp4common.reportingdata.*;
+import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
+import com.google.common.collect.Iterables;
 import lombok.*;
 
 /**
@@ -202,6 +213,7 @@ public class PersonRole extends DefinedThing implements Cloneable, DeprecatableT
         PojoThingFactory.resolveList(this.getPersonPermission(), dto.getPersonPermission(), dto.getIterationContainerId(), this.getCache(), PersonPermission.class);
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -226,6 +238,7 @@ public class PersonRole extends DefinedThing implements Cloneable, DeprecatableT
         dto.getPersonPermission().addAll(this.getPersonPermission().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

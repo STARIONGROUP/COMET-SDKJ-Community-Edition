@@ -32,26 +32,27 @@
 
 package cdp4common.engineeringmodeldata;
 
-import cdp4common.AggregationKind;
-import cdp4common.ChangeKind;
-import cdp4common.UmlInformation;
-import cdp4common.commondata.ParticipantAccessRightKind;
-import cdp4common.commondata.PersonAccessRightKind;
-import cdp4common.commondata.Thing;
-import cdp4common.exceptions.ContainmentException;
-import cdp4common.helpers.ValueArrayUtils;
-import cdp4common.sitedirectorydata.DomainOfExpertise;
-import cdp4common.sitedirectorydata.ParameterType;
-import cdp4common.types.CacheKey;
-import cdp4common.types.ValueArray;
-import com.google.common.cache.Cache;
+import java.util.*;
+import java.util.stream.*;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.io.*;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import cdp4common.*;
+import cdp4common.commondata.*;
+import cdp4common.diagramdata.*;
+import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
+import cdp4common.helpers.*;
+import cdp4common.reportingdata.*;
+import cdp4common.sitedirectorydata.*;
+import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
+import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * abstract superclass representing the switch setting and values of a Parameter or ParameterOverride and serves as a common reference type for ParameterValueSet and ParameterOverrideValueSet
@@ -83,11 +84,10 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
 
     /**
      * Initializes a new instance of the {@link ParameterValueSetBase} class.
-     *
-     * @param iid     The unique identifier.
-     * @param cache   The {@link Cache} where the current thing is stored.
-     *                The {@link CacheKey} of {@link UUID} is the key used to store this thing.
-     *                The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iid The unique identifier.
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
     protected ParameterValueSetBase(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
@@ -205,7 +205,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * if <i>valueSwitch</i> is MANUAL, then <i>actualValue</i> is <i>manual;</i>
      * if <i>valueSwitch</i> is REFERENCE, then <i>actualValue</i> is <i>reference</i>.
      */
-    public ValueArray<String> getActualValue() {
+    public ValueArray<String> getActualValue(){
         return this.getDerivedActualValue();
     }
 
@@ -213,7 +213,7 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * Gets the owner.
      * owner (DomainOfExpertise) derived from associated Parameter or ParameterOverride for convenience
      */
-    public DomainOfExpertise getOwner() {
+    public DomainOfExpertise getOwner(){
         return this.getDerivedOwner();
     }
 
@@ -226,9 +226,10 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * if <i>valueSwitch</i> is REFERENCE, then <i>actualValue</i> is <i>reference</i>.
      *
      * @throws IllegalStateException The actualValue property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
+     *
      * @see IllegalStateException
      */
-    public void setActualValue(ValueArray<String> actualValue) {
+    public void setActualValue(ValueArray<String> actualValue){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterValueSetBase.actualValue");
     }
 
@@ -237,23 +238,24 @@ public abstract class ParameterValueSetBase extends Thing implements Cloneable, 
      * owner (DomainOfExpertise) derived from associated Parameter or ParameterOverride for convenience
      *
      * @throws IllegalStateException The owner property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
+     *
      * @see IllegalStateException
      */
-    public void setOwner(DomainOfExpertise owner) {
+    public void setOwner(DomainOfExpertise owner){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterValueSetBase.owner");
     }
 
     /**
      * Creates and returns a copy of this {@link ParameterValueSetBase} for edit purpose.
-     *
      * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
+     *
      * @return A cloned instance of {@link ParameterValueSetBase}.
      */
     @Override
     public ParameterValueSetBase clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
-        return (ParameterValueSetBase) this.genericClone(cloneContainedThings);
+        return (ParameterValueSetBase)this.genericClone(cloneContainedThings);
     }
 
     /**

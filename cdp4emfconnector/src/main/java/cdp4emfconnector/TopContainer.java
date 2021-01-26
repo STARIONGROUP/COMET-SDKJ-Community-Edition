@@ -79,6 +79,8 @@ public abstract class TopContainer {
         emfSiteDirectory.setModifiedOn(thing.getModifiedOn());
         
         emfSiteDirectory.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSiteDirectory.setThingPreference(thing.getThingPreference());
         		        
         return emfSiteDirectory;
         
@@ -96,6 +98,8 @@ public abstract class TopContainer {
         emfEngineeringModel.setModifiedOn(thing.getModifiedOn());
         
         emfEngineeringModel.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfEngineeringModel.setThingPreference(thing.getThingPreference());
         		        
         return emfEngineeringModel;
         	
@@ -127,6 +131,8 @@ public abstract class TopContainer {
         pojoSiteDirectory.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSiteDirectory.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSiteDirectory.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSiteDirectory;
         
@@ -144,6 +150,8 @@ public abstract class TopContainer {
         pojoEngineeringModel.setModifiedOn(emfThing.getModifiedOn());
         
         pojoEngineeringModel.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoEngineeringModel.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoEngineeringModel;
         	

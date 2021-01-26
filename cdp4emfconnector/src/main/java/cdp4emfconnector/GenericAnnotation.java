@@ -83,6 +83,8 @@ public abstract class GenericAnnotation {
         emfSolution.setModifiedOn(thing.getModifiedOn());
         
         emfSolution.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSolution.setThingPreference(thing.getThingPreference());
         		        
         return emfSolution;
         
@@ -104,6 +106,8 @@ public abstract class GenericAnnotation {
         emfSiteDirectoryDataAnnotation.setModifiedOn(thing.getModifiedOn());
         
         emfSiteDirectoryDataAnnotation.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSiteDirectoryDataAnnotation.setThingPreference(thing.getThingPreference());
         		        
         return emfSiteDirectoryDataAnnotation;
         
@@ -128,6 +132,8 @@ public abstract class GenericAnnotation {
         emfRequestForWaiver.setModifiedOn(thing.getModifiedOn());
         
         emfRequestForWaiver.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRequestForWaiver.setThingPreference(thing.getThingPreference());
         		        
         return emfRequestForWaiver;
         
@@ -149,6 +155,8 @@ public abstract class GenericAnnotation {
         emfRequestForDeviation.setModifiedOn(thing.getModifiedOn());
         
         emfRequestForDeviation.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRequestForDeviation.setThingPreference(thing.getThingPreference());
         		        
         return emfRequestForDeviation;
         
@@ -170,6 +178,8 @@ public abstract class GenericAnnotation {
         emfChangeRequest.setModifiedOn(thing.getModifiedOn());
         
         emfChangeRequest.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfChangeRequest.setThingPreference(thing.getThingPreference());
         		        
         return emfChangeRequest;
         
@@ -191,6 +201,8 @@ public abstract class GenericAnnotation {
         emfReviewItemDiscrepancy.setModifiedOn(thing.getModifiedOn());
         
         emfReviewItemDiscrepancy.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfReviewItemDiscrepancy.setThingPreference(thing.getThingPreference());
         		        
         return emfReviewItemDiscrepancy;
         
@@ -212,6 +224,8 @@ public abstract class GenericAnnotation {
         emfActionItem.setModifiedOn(thing.getModifiedOn());
         
         emfActionItem.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfActionItem.setThingPreference(thing.getThingPreference());
         		        
         return emfActionItem;
         
@@ -233,6 +247,8 @@ public abstract class GenericAnnotation {
         emfChangeProposal.setModifiedOn(thing.getModifiedOn());
         
         emfChangeProposal.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfChangeProposal.setThingPreference(thing.getThingPreference());
         		        
         return emfChangeProposal;
         
@@ -254,6 +270,8 @@ public abstract class GenericAnnotation {
         emfContractChangeNotice.setModifiedOn(thing.getModifiedOn());
         
         emfContractChangeNotice.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfContractChangeNotice.setThingPreference(thing.getThingPreference());
         		        
         return emfContractChangeNotice;
         
@@ -275,6 +293,8 @@ public abstract class GenericAnnotation {
         emfEngineeringModelDataNote.setModifiedOn(thing.getModifiedOn());
         
         emfEngineeringModelDataNote.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfEngineeringModelDataNote.setThingPreference(thing.getThingPreference());
         		        
         return emfEngineeringModelDataNote;
         
@@ -296,6 +316,8 @@ public abstract class GenericAnnotation {
         emfApproval.setModifiedOn(thing.getModifiedOn());
         
         emfApproval.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfApproval.setThingPreference(thing.getThingPreference());
         		        
         return emfApproval;
         
@@ -318,6 +340,8 @@ public abstract class GenericAnnotation {
         emfEngineeringModelDataDiscussionItem.setModifiedOn(thing.getModifiedOn());
         
         emfEngineeringModelDataDiscussionItem.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfEngineeringModelDataDiscussionItem.setThingPreference(thing.getThingPreference());
         		        
         return emfEngineeringModelDataDiscussionItem;
         
@@ -339,6 +363,8 @@ public abstract class GenericAnnotation {
         emfSiteDirectoryDataDiscussionItem.setModifiedOn(thing.getModifiedOn());
         
         emfSiteDirectoryDataDiscussionItem.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSiteDirectoryDataDiscussionItem.setThingPreference(thing.getThingPreference());
         		        
         return emfSiteDirectoryDataDiscussionItem;
         	
@@ -374,6 +400,8 @@ public abstract class GenericAnnotation {
         pojoSolution.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSolution.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSolution.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSolution;
         
@@ -395,6 +423,8 @@ public abstract class GenericAnnotation {
         pojoSiteDirectoryDataAnnotation.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSiteDirectoryDataAnnotation.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSiteDirectoryDataAnnotation.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSiteDirectoryDataAnnotation;
         
@@ -419,6 +449,8 @@ public abstract class GenericAnnotation {
         pojoRequestForWaiver.setModifiedOn(emfThing.getModifiedOn());
         
         pojoRequestForWaiver.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRequestForWaiver.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRequestForWaiver;
         
@@ -440,6 +472,8 @@ public abstract class GenericAnnotation {
         pojoRequestForDeviation.setModifiedOn(emfThing.getModifiedOn());
         
         pojoRequestForDeviation.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRequestForDeviation.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRequestForDeviation;
         
@@ -461,6 +495,8 @@ public abstract class GenericAnnotation {
         pojoChangeRequest.setModifiedOn(emfThing.getModifiedOn());
         
         pojoChangeRequest.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoChangeRequest.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoChangeRequest;
         
@@ -482,6 +518,8 @@ public abstract class GenericAnnotation {
         pojoReviewItemDiscrepancy.setModifiedOn(emfThing.getModifiedOn());
         
         pojoReviewItemDiscrepancy.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoReviewItemDiscrepancy.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoReviewItemDiscrepancy;
         
@@ -503,6 +541,8 @@ public abstract class GenericAnnotation {
         pojoActionItem.setModifiedOn(emfThing.getModifiedOn());
         
         pojoActionItem.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoActionItem.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoActionItem;
         
@@ -524,6 +564,8 @@ public abstract class GenericAnnotation {
         pojoChangeProposal.setModifiedOn(emfThing.getModifiedOn());
         
         pojoChangeProposal.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoChangeProposal.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoChangeProposal;
         
@@ -545,6 +587,8 @@ public abstract class GenericAnnotation {
         pojoContractChangeNotice.setModifiedOn(emfThing.getModifiedOn());
         
         pojoContractChangeNotice.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoContractChangeNotice.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoContractChangeNotice;
         
@@ -566,6 +610,8 @@ public abstract class GenericAnnotation {
         pojoEngineeringModelDataNote.setModifiedOn(emfThing.getModifiedOn());
         
         pojoEngineeringModelDataNote.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoEngineeringModelDataNote.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoEngineeringModelDataNote;
         
@@ -587,6 +633,8 @@ public abstract class GenericAnnotation {
         pojoApproval.setModifiedOn(emfThing.getModifiedOn());
         
         pojoApproval.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoApproval.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoApproval;
         
@@ -609,6 +657,8 @@ public abstract class GenericAnnotation {
         pojoEngineeringModelDataDiscussionItem.setModifiedOn(emfThing.getModifiedOn());
         
         pojoEngineeringModelDataDiscussionItem.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoEngineeringModelDataDiscussionItem.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoEngineeringModelDataDiscussionItem;
         
@@ -630,6 +680,8 @@ public abstract class GenericAnnotation {
         pojoSiteDirectoryDataDiscussionItem.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSiteDirectoryDataDiscussionItem.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSiteDirectoryDataDiscussionItem.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSiteDirectoryDataDiscussionItem;
         	

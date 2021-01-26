@@ -78,6 +78,8 @@ public class ParameterGroup {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -102,6 +104,8 @@ public class ParameterGroup {
         pojo.setName(emfThing.getName());
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

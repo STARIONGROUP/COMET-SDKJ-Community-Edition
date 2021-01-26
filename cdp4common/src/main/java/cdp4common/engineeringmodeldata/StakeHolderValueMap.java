@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -264,6 +265,7 @@ public class StakeHolderValueMap extends DefinedThing implements Cloneable, Cate
         PojoThingFactory.resolveList(this.getSettings(), dto.getSettings(), dto.getIterationContainerId(), this.getCache(), StakeHolderValueMapSettings.class);
         this.setShortName(dto.getShortName());
         PojoThingFactory.resolveList(this.getStakeholderValue(), dto.getStakeholderValue(), dto.getIterationContainerId(), this.getCache(), StakeholderValue.class);
+        this.setThingPreference(dto.getThingPreference());
         PojoThingFactory.resolveList(this.getValueGroup(), dto.getValueGroup(), dto.getIterationContainerId(), this.getCache(), ValueGroup.class);
 
         this.resolveExtraProperties();
@@ -292,6 +294,7 @@ public class StakeHolderValueMap extends DefinedThing implements Cloneable, Cate
         dto.getSettings().addAll(this.getSettings().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setShortName(this.getShortName());
         dto.getStakeholderValue().addAll(this.getStakeholderValue().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setThingPreference(this.getThingPreference());
         dto.getValueGroup().addAll(this.getValueGroup().stream().map(Thing::getIid).collect(Collectors.toList()));
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());

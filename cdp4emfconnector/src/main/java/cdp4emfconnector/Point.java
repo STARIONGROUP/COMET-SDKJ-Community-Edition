@@ -77,6 +77,8 @@ public class Point {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.setX(thing.getX());
         
         emf.setY(thing.getY());
@@ -104,6 +106,8 @@ public class Point {
         pojo.setName(emfThing.getName());
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.setX((float)emfThing.getX());
         

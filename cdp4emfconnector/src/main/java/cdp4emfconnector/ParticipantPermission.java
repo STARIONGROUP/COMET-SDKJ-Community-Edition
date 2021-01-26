@@ -81,6 +81,8 @@ public class ParticipantPermission {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -108,6 +110,8 @@ public class ParticipantPermission {
         if (emfThing.getObjectClass() != null) {pojo.setObjectClass(cdp4common.commondata.ClassKind.valueOf(emfThing.getObjectClass().toString()));}  
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

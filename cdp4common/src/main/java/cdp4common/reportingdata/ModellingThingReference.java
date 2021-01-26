@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -162,6 +163,7 @@ public class ModellingThingReference extends ThingReference implements Cloneable
         this.setReferencedRevisionNumber(dto.getReferencedRevisionNumber());
         this.setReferencedThing(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getReferencedThing(), dto.getIterationContainerId(), Thing.class), SentinelThingProvider.getSentinel(Thing.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -181,6 +183,7 @@ public class ModellingThingReference extends ThingReference implements Cloneable
         dto.setReferencedRevisionNumber(this.getReferencedRevisionNumber());
         dto.setReferencedThing(this.getReferencedThing() != null ? this.getReferencedThing().getIid() : new UUID(0L, 0L));
         dto.setRevisionNumber(this.getRevisionNumber());
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

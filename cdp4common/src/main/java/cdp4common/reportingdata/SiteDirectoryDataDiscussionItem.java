@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -180,6 +181,7 @@ public class SiteDirectoryDataDiscussionItem extends DiscussionItem implements C
         this.setModifiedOn(dto.getModifiedOn());
         this.setReplyTo((dto.getReplyTo() != null) ? PojoThingFactory.get(this.getCache(), dto.getReplyTo(), dto.getIterationContainerId(), DiscussionItem.class) : null);
         this.setRevisionNumber(dto.getRevisionNumber());
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -202,6 +204,7 @@ public class SiteDirectoryDataDiscussionItem extends DiscussionItem implements C
         dto.setModifiedOn(this.getModifiedOn());
         dto.setReplyTo(this.getReplyTo() != null ? (UUID)this.getReplyTo().getIid() : null);
         dto.setRevisionNumber(this.getRevisionNumber());
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -175,6 +176,7 @@ public class SharedStyle extends DiagrammingStyle implements Cloneable {
         this.setStrokeColor((dto.getStrokeColor() != null) ? PojoThingFactory.get(this.getCache(), dto.getStrokeColor(), dto.getIterationContainerId(), Color.class) : null);
         this.setStrokeOpacity(dto.getStrokeOpacity());
         this.setStrokeWidth(dto.getStrokeWidth());
+        this.setThingPreference(dto.getThingPreference());
         PojoThingFactory.resolveList(this.getUsedColor(), dto.getUsedColor(), dto.getIterationContainerId(), this.getCache(), Color.class);
 
         this.resolveExtraProperties();
@@ -206,6 +208,7 @@ public class SharedStyle extends DiagrammingStyle implements Cloneable {
         dto.setStrokeColor(this.getStrokeColor() != null ? (UUID)this.getStrokeColor().getIid() : null);
         dto.setStrokeOpacity(this.getStrokeOpacity());
         dto.setStrokeWidth(this.getStrokeWidth());
+        dto.setThingPreference(this.getThingPreference());
         dto.getUsedColor().addAll(this.getUsedColor().stream().map(Thing::getIid).collect(Collectors.toList()));
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());

@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -225,6 +226,7 @@ public class Citation extends Thing implements Cloneable, ShortNamedThing {
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
         this.setSource(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getSource(), dto.getIterationContainerId(), ReferenceSource.class), SentinelThingProvider.getSentinel(ReferenceSource.class)));
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -247,6 +249,7 @@ public class Citation extends Thing implements Cloneable, ShortNamedThing {
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
         dto.setSource(this.getSource() != null ? this.getSource().getIid() : new UUID(0L, 0L));
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -485,6 +486,7 @@ public class Iteration extends Thing implements Cloneable {
         PojoThingFactory.resolveList(this.getStakeholder(), dto.getStakeholder(), dto.getIid(), this.getCache(), Stakeholder.class);
         PojoThingFactory.resolveList(this.getStakeholderValue(), dto.getStakeholderValue(), dto.getIid(), this.getCache(), StakeholderValue.class);
         PojoThingFactory.resolveList(this.getStakeholderValueMap(), dto.getStakeholderValueMap(), dto.getIid(), this.getCache(), StakeHolderValueMap.class);
+        this.setThingPreference(dto.getThingPreference());
         this.setTopElement((dto.getTopElement() != null) ? PojoThingFactory.get(this.getCache(), dto.getTopElement(), dto.getIid(), ElementDefinition.class) : null);
         PojoThingFactory.resolveList(this.getValueGroup(), dto.getValueGroup(), dto.getIid(), this.getCache(), ValueGroup.class);
 
@@ -523,6 +525,7 @@ public class Iteration extends Thing implements Cloneable {
         dto.getStakeholder().addAll(this.getStakeholder().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.getStakeholderValue().addAll(this.getStakeholderValue().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.getStakeholderValueMap().addAll(this.getStakeholderValueMap().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setThingPreference(this.getThingPreference());
         dto.setTopElement(this.getTopElement() != null ? (UUID)this.getTopElement().getIid() : null);
         dto.getValueGroup().addAll(this.getValueGroup().stream().map(Thing::getIid).collect(Collectors.toList()));
 

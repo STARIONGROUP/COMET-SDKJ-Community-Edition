@@ -31,6 +31,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 import cdp4common.commondata.*;
+import cdp4common.CDPVersion;
 
 /**
  * thing that can be deprecated, meaning it is declared to be obsolescent

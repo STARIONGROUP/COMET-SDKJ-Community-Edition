@@ -32,17 +32,17 @@ public interface Publishable {
     /**
      * Gets a value indicating whether this {@link Publishable} is to be published in the next publication.
      */
-    boolean getToBePublished ();
+    boolean getToBePublished();
 
     /**
      * Sets a value indicating whether this {@link Publishable} is to be published in the next publication.
      *
      * @param toBePublished a value to set
      */
-    void setToBePublished (boolean toBePublished);
+    void setToBePublished(boolean toBePublished);
 
     /**
      * Gets a value indicating whether a {@link Publishable} can be published.
      */
-    boolean canBePublished ();
+    boolean canBePublished();
 }

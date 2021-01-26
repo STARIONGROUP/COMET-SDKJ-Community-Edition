@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -242,6 +243,7 @@ public class Participant extends Thing implements Cloneable, ParticipantAffected
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setRole(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getRole(), dto.getIterationContainerId(), ParticipantRole.class), SentinelThingProvider.getSentinel(ParticipantRole.class)));
         this.setSelectedDomain(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getSelectedDomain(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -264,6 +266,7 @@ public class Participant extends Thing implements Cloneable, ParticipantAffected
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setRole(this.getRole() != null ? this.getRole().getIid() : new UUID(0L, 0L));
         dto.setSelectedDomain(this.getSelectedDomain() != null ? this.getSelectedDomain().getIid() : new UUID(0L, 0L));
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

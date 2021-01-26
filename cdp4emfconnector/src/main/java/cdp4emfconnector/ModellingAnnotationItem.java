@@ -106,6 +106,8 @@ public abstract class ModellingAnnotationItem {
         
         if (thing.getStatus() != null) {emfRequestForWaiver.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
+        emfRequestForWaiver.setThingPreference(thing.getThingPreference());
+        
         emfRequestForWaiver.setTitle(thing.getTitle());
         		        
         return emfRequestForWaiver;
@@ -149,6 +151,8 @@ public abstract class ModellingAnnotationItem {
         emfRequestForDeviation.getSourceAnnotation().addAll(thing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getStatus() != null) {emfRequestForDeviation.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
+        
+        emfRequestForDeviation.setThingPreference(thing.getThingPreference());
         
         emfRequestForDeviation.setTitle(thing.getTitle());
         		        
@@ -194,6 +198,8 @@ public abstract class ModellingAnnotationItem {
         
         if (thing.getStatus() != null) {emfChangeRequest.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
+        emfChangeRequest.setThingPreference(thing.getThingPreference());
+        
         emfChangeRequest.setTitle(thing.getTitle());
         		        
         return emfChangeRequest;
@@ -237,6 +243,8 @@ public abstract class ModellingAnnotationItem {
         emfReviewItemDiscrepancy.getSourceAnnotation().addAll(thing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getStatus() != null) {emfReviewItemDiscrepancy.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
+        
+        emfReviewItemDiscrepancy.setThingPreference(thing.getThingPreference());
         
         emfReviewItemDiscrepancy.setTitle(thing.getTitle());
         		        
@@ -282,6 +290,8 @@ public abstract class ModellingAnnotationItem {
         
         if (thing.getStatus() != null) {emfActionItem.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
+        emfActionItem.setThingPreference(thing.getThingPreference());
+        
         emfActionItem.setTitle(thing.getTitle());
         		        
         return emfActionItem;
@@ -326,6 +336,8 @@ public abstract class ModellingAnnotationItem {
         
         if (thing.getStatus() != null) {emfChangeProposal.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
+        emfChangeProposal.setThingPreference(thing.getThingPreference());
+        
         emfChangeProposal.setTitle(thing.getTitle());
         		        
         return emfChangeProposal;
@@ -369,6 +381,8 @@ public abstract class ModellingAnnotationItem {
         emfContractChangeNotice.getSourceAnnotation().addAll(thing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getStatus() != null) {emfContractChangeNotice.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
+        
+        emfContractChangeNotice.setThingPreference(thing.getThingPreference());
         
         emfContractChangeNotice.setTitle(thing.getTitle());
         		        
@@ -429,6 +443,8 @@ public abstract class ModellingAnnotationItem {
         
         if (emfThing.getStatus() != null) {pojoRequestForWaiver.setStatus(cdp4common.reportingdata.AnnotationStatusKind.valueOf(emfThing.getStatus().toString()));}        
         
+        pojoRequestForWaiver.setThingPreference(emfThing.getThingPreference());
+        
         pojoRequestForWaiver.setTitle(emfThing.getTitle());
         		        
         return pojoRequestForWaiver;
@@ -472,6 +488,8 @@ public abstract class ModellingAnnotationItem {
         pojoRequestForDeviation.getSourceAnnotation().addAll(emfThing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toPojo(item)).collect(Collectors.toList()));              
         
         if (emfThing.getStatus() != null) {pojoRequestForDeviation.setStatus(cdp4common.reportingdata.AnnotationStatusKind.valueOf(emfThing.getStatus().toString()));}        
+        
+        pojoRequestForDeviation.setThingPreference(emfThing.getThingPreference());
         
         pojoRequestForDeviation.setTitle(emfThing.getTitle());
         		        
@@ -517,6 +535,8 @@ public abstract class ModellingAnnotationItem {
         
         if (emfThing.getStatus() != null) {pojoChangeRequest.setStatus(cdp4common.reportingdata.AnnotationStatusKind.valueOf(emfThing.getStatus().toString()));}        
         
+        pojoChangeRequest.setThingPreference(emfThing.getThingPreference());
+        
         pojoChangeRequest.setTitle(emfThing.getTitle());
         		        
         return pojoChangeRequest;
@@ -560,6 +580,8 @@ public abstract class ModellingAnnotationItem {
         pojoReviewItemDiscrepancy.getSourceAnnotation().addAll(emfThing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toPojo(item)).collect(Collectors.toList()));              
         
         if (emfThing.getStatus() != null) {pojoReviewItemDiscrepancy.setStatus(cdp4common.reportingdata.AnnotationStatusKind.valueOf(emfThing.getStatus().toString()));}        
+        
+        pojoReviewItemDiscrepancy.setThingPreference(emfThing.getThingPreference());
         
         pojoReviewItemDiscrepancy.setTitle(emfThing.getTitle());
         		        
@@ -605,6 +627,8 @@ public abstract class ModellingAnnotationItem {
         
         if (emfThing.getStatus() != null) {pojoActionItem.setStatus(cdp4common.reportingdata.AnnotationStatusKind.valueOf(emfThing.getStatus().toString()));}        
         
+        pojoActionItem.setThingPreference(emfThing.getThingPreference());
+        
         pojoActionItem.setTitle(emfThing.getTitle());
         		        
         return pojoActionItem;
@@ -649,6 +673,8 @@ public abstract class ModellingAnnotationItem {
         
         if (emfThing.getStatus() != null) {pojoChangeProposal.setStatus(cdp4common.reportingdata.AnnotationStatusKind.valueOf(emfThing.getStatus().toString()));}        
         
+        pojoChangeProposal.setThingPreference(emfThing.getThingPreference());
+        
         pojoChangeProposal.setTitle(emfThing.getTitle());
         		        
         return pojoChangeProposal;
@@ -692,6 +718,8 @@ public abstract class ModellingAnnotationItem {
         pojoContractChangeNotice.getSourceAnnotation().addAll(emfThing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toPojo(item)).collect(Collectors.toList()));              
         
         if (emfThing.getStatus() != null) {pojoContractChangeNotice.setStatus(cdp4common.reportingdata.AnnotationStatusKind.valueOf(emfThing.getStatus().toString()));}        
+        
+        pojoContractChangeNotice.setThingPreference(emfThing.getThingPreference());
         
         pojoContractChangeNotice.setTitle(emfThing.getTitle());
         		        

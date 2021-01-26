@@ -71,6 +71,7 @@ public class EngineeringModelSetup {
         
         emf.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
         
+        emf.setDefaultOrganizationalParticipant(thing.getDefaultOrganizationalParticipant() != null ? cdp4emfconnector.OrganizationalParticipant.toEmf(thing.getDefaultOrganizationalParticipant()) : null);
         emf.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
         
         emf.setEngineeringModelIid(thing.getEngineeringModelIid().toString());
@@ -89,6 +90,8 @@ public class EngineeringModelSetup {
         
         emf.setName(thing.getName());
         
+        emf.getOrganizationalParticipant().addAll(thing.getOrganizationalParticipant().stream().map(item -> cdp4emfconnector.OrganizationalParticipant.toEmf(item)).collect(Collectors.toList()));
+        
         emf.getParticipant().addAll(thing.getParticipant().stream().map(item -> cdp4emfconnector.Participant.toEmf(item)).collect(Collectors.toList()));
         
         emf.setRequiredRdl(thing.getRequiredRdl().stream().map(item -> cdp4emfconnector.ModelReferenceDataLibrary.toEmf(item)).collect(Collectors.toList()).get(0));
@@ -100,6 +103,8 @@ public class EngineeringModelSetup {
         emf.setSourceEngineeringModelSetupIid(thing.getSourceEngineeringModelSetupIid().toString());
         
         if (thing.getStudyPhase() != null) {emf.setStudyPhase(CDP4.SiteDirectoryData.StudyPhaseKind.valueOf(thing.getStudyPhase().toString()));}                          
+        
+        emf.setThingPreference(thing.getThingPreference().toString());
         
         return emf;
     }
@@ -119,6 +124,7 @@ public class EngineeringModelSetup {
         
         pojo.getAlias().addAll(emfThing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toPojo(item)).collect(Collectors.toList()));              
         
+        pojo.setDefaultOrganizationalParticipant(emfThing.getDefaultOrganizationalParticipant() != null ? cdp4emfconnector.OrganizationalParticipant.toPojo(emfThing.getDefaultOrganizationalParticipant()) : null);
         pojo.getDefinition().addAll(emfThing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toPojo(item)).collect(Collectors.toList()));              
         
         pojo.setEngineeringModelIid(UUID.fromString(emfThing.getEngineeringModelIid()));
@@ -137,6 +143,8 @@ public class EngineeringModelSetup {
         
         pojo.setName(emfThing.getName());
         
+        pojo.getOrganizationalParticipant().addAll(emfThing.getOrganizationalParticipant().stream().map(item -> cdp4emfconnector.OrganizationalParticipant.toPojo(item)).collect(Collectors.toList()));              
+        
         pojo.getParticipant().addAll(emfThing.getParticipant().stream().map(item -> cdp4emfconnector.Participant.toPojo(item)).collect(Collectors.toList()));              
         
         pojo.getRequiredRdl().add(cdp4emfconnector.ModelReferenceDataLibrary.toPojo(emfThing.getRequiredRdl()));   
@@ -148,6 +156,8 @@ public class EngineeringModelSetup {
         pojo.setSourceEngineeringModelSetupIid(UUID.fromString(emfThing.getSourceEngineeringModelSetupIid()));
         
         if (emfThing.getStudyPhase() != null) {pojo.setStudyPhase(cdp4common.sitedirectorydata.StudyPhaseKind.valueOf(emfThing.getStudyPhase().toString()));}  
+        
+        pojo.setThingPreference(UUID.fromString(emfThing.getThingPreference()));
         
         return pojo;
     }

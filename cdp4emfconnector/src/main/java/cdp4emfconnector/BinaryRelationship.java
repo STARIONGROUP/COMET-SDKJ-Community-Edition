@@ -75,6 +75,8 @@ public class BinaryRelationship {
         
         emf.setModifiedOn(thing.getModifiedOn());
         
+        emf.setName(thing.getName());
+        
         emf.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
         emf.getParameterValue().addAll(thing.getParameterValue().stream().map(item -> cdp4emfconnector.RelationshipParameterValue.toEmf(item)).collect(Collectors.toList()));
@@ -84,6 +86,8 @@ public class BinaryRelationship {
         emf.setSource(thing.getSource() != null ? cdp4emfconnector.Thing.toEmf(thing.getSource()) : null);        
         
         emf.setTarget(thing.getTarget() != null ? cdp4emfconnector.Thing.toEmf(thing.getTarget()) : null);        
+        
+        emf.setThingPreference(thing.getThingPreference());
         
         return emf;
     }
@@ -107,6 +111,8 @@ public class BinaryRelationship {
         
         pojo.setModifiedOn(emfThing.getModifiedOn());
         
+        pojo.setName(emfThing.getName());
+        
         pojo.setOwner(emfThing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toPojo(emfThing.getOwner()) : null);        
         
         pojo.getParameterValue().addAll(emfThing.getParameterValue().stream().map(item -> cdp4emfconnector.RelationshipParameterValue.toPojo(item)).collect(Collectors.toList()));              
@@ -116,6 +122,8 @@ public class BinaryRelationship {
         pojo.setSource(emfThing.getSource() != null ? cdp4emfconnector.Thing.toPojo(emfThing.getSource()) : null);        
         
         pojo.setTarget(emfThing.getTarget() != null ? cdp4emfconnector.Thing.toPojo(emfThing.getTarget()) : null);        
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

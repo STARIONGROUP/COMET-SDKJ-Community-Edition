@@ -77,6 +77,8 @@ public class ExclusiveOrExpression {
         
         emf.getTerm().addAll(thing.getTerm().stream().map(item -> cdp4emfconnector.BooleanExpression.toEmf(item)).collect(Collectors.toList()));
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -100,6 +102,8 @@ public class ExclusiveOrExpression {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.getTerm().addAll(emfThing.getTerm().stream().map(item -> cdp4emfconnector.BooleanExpression.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

@@ -67,6 +67,7 @@ public class ModelLogEntry {
        
         emf.setIid(thing.getIid().toString()); 
         
+        thing.getAffectedDomainIid().forEach(item -> emf.getAffectedDomainIid().add(item.toString()));
         thing.getAffectedItemIid().forEach(item -> emf.getAffectedItemIid().add(item.toString()));
         emf.setAuthor(thing.getAuthor() != null ? cdp4emfconnector.Person.toEmf(thing.getAuthor()) : null);
         emf.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
@@ -83,9 +84,13 @@ public class ModelLogEntry {
         
         if (thing.getLevel() != null) {emf.setLevel(CDP4.CommonData.LogLevelKind.valueOf(thing.getLevel().toString()));}                          
         
+        emf.getLogEntryChangelogItem().addAll(thing.getLogEntryChangelogItem().stream().map(item -> cdp4emfconnector.LogEntryChangelogItem.toEmf(item)).collect(Collectors.toList()));
+        
         emf.setModifiedOn(thing.getModifiedOn());
         
         emf.setRevisionNumber(thing.getRevisionNumber());
+        
+        emf.setThingPreference(thing.getThingPreference());
         
         return emf;
     }
@@ -101,6 +106,7 @@ public class ModelLogEntry {
         
         pojo.setIid(UUID.fromString(emfThing.getIid())); 
         
+        emfThing.getAffectedDomainIid().forEach(item -> pojo.getAffectedDomainIid().add(UUID.fromString(item.toString())));
         emfThing.getAffectedItemIid().forEach(item -> pojo.getAffectedItemIid().add(UUID.fromString(item.toString())));
         pojo.setAuthor(emfThing.getAuthor() != null ? cdp4emfconnector.Person.toPojo(emfThing.getAuthor()) : null);
         pojo.getCategory().addAll(emfThing.getCategory().stream().map(item -> cdp4emfconnector.Category.toPojo(item)).collect(Collectors.toList()));              
@@ -117,9 +123,13 @@ public class ModelLogEntry {
         
         if (emfThing.getLevel() != null) {pojo.setLevel(cdp4common.commondata.LogLevelKind.valueOf(emfThing.getLevel().toString()));}  
         
+        pojo.getLogEntryChangelogItem().addAll(emfThing.getLogEntryChangelogItem().stream().map(item -> cdp4emfconnector.LogEntryChangelogItem.toPojo(item)).collect(Collectors.toList()));              
+        
         pojo.setModifiedOn(emfThing.getModifiedOn());
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

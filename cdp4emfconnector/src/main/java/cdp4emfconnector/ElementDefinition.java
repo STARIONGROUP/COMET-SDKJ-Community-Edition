@@ -85,6 +85,8 @@ public class ElementDefinition {
         
         emf.setName(thing.getName());
         
+        emf.getOrganizationalParticipant().addAll(thing.getOrganizationalParticipant().stream().map(item -> cdp4emfconnector.OrganizationalParticipant.toEmf(item)).collect(Collectors.toList()));
+        
         emf.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
         emf.getParameter().addAll(thing.getParameter().stream().map(item -> cdp4emfconnector.Parameter.toEmf(item)).collect(Collectors.toList()));
@@ -96,6 +98,8 @@ public class ElementDefinition {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         emf.setShortName(thing.getShortName());
+        
+        emf.setThingPreference(thing.getThingPreference());
         
         return emf;
     }
@@ -129,6 +133,8 @@ public class ElementDefinition {
         
         pojo.setName(emfThing.getName());
         
+        pojo.getOrganizationalParticipant().addAll(emfThing.getOrganizationalParticipant().stream().map(item -> cdp4emfconnector.OrganizationalParticipant.toPojo(item)).collect(Collectors.toList()));              
+        
         pojo.setOwner(emfThing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toPojo(emfThing.getOwner()) : null);        
         
         pojo.getParameter().addAll(emfThing.getParameter().stream().map(item -> cdp4emfconnector.Parameter.toPojo(item)).collect(Collectors.toList()));              
@@ -140,6 +146,8 @@ public class ElementDefinition {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.setShortName(emfThing.getShortName());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

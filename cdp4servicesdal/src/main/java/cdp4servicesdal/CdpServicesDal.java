@@ -103,7 +103,7 @@ import org.apache.http.message.BasicHeader;
  * ECSS-E-TM-10-25 Annex C, REST API.
  */
 @Log4j2
-@DalExport(name = "CDP4 Services", description = "A CDP4 Services Data Access Layer", cdpVersion = "1.1.0", dalType = DalType.WEB)
+@DalExport(name = "CDP4 Services", description = "A CDP4 Services Data Access Layer", cdpVersion = "1.2.0", dalType = DalType.WEB)
 public class CdpServicesDal extends DalBase {
 
   /**

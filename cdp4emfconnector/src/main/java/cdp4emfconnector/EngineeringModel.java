@@ -91,6 +91,8 @@ public class EngineeringModel {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -128,6 +130,8 @@ public class EngineeringModel {
         pojo.setModifiedOn(emfThing.getModifiedOn());
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

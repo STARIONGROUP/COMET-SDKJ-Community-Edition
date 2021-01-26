@@ -85,6 +85,8 @@ public class Participant {
         
         emf.setSelectedDomain(thing.getSelectedDomain() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getSelectedDomain()) : null);        
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -116,6 +118,8 @@ public class Participant {
         pojo.setRole(emfThing.getRole() != null ? cdp4emfconnector.ParticipantRole.toPojo(emfThing.getRole()) : null);        
         
         pojo.setSelectedDomain(emfThing.getSelectedDomain() != null ? cdp4emfconnector.DomainOfExpertise.toPojo(emfThing.getSelectedDomain()) : null);        
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

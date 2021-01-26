@@ -88,6 +88,8 @@ public class IterationSetup {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         emf.setSourceIterationSetup(thing.getSourceIterationSetup() != null ? cdp4emfconnector.IterationSetup.toEmf(thing.getSourceIterationSetup()) : null);
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -123,6 +125,8 @@ public class IterationSetup {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.setSourceIterationSetup(emfThing.getSourceIterationSetup() != null ? cdp4emfconnector.IterationSetup.toPojo(emfThing.getSourceIterationSetup()) : null);
+        pojo.setThingPreference(emfThing.getThingPreference());
+        
         return pojo;
     }
     

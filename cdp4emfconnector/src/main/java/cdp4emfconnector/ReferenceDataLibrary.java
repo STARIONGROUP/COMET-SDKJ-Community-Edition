@@ -109,6 +109,8 @@ public abstract class ReferenceDataLibrary {
         
         emfSiteReferenceDataLibrary.setShortName(thing.getShortName());
         
+        emfSiteReferenceDataLibrary.setThingPreference(thing.getThingPreference());
+        
         emfSiteReferenceDataLibrary.getUnit().addAll(thing.getUnit().stream().map(item -> cdp4emfconnector.MeasurementUnit.toEmf(item)).collect(Collectors.toList()));
         
         emfSiteReferenceDataLibrary.getUnitPrefix().addAll(thing.getUnitPrefix().stream().map(item -> cdp4emfconnector.UnitPrefix.toEmf(item)).collect(Collectors.toList()));
@@ -158,6 +160,8 @@ public abstract class ReferenceDataLibrary {
         emfModelReferenceDataLibrary.getScale().addAll(thing.getScale().stream().map(item -> cdp4emfconnector.MeasurementScale.toEmf(item)).collect(Collectors.toList()));
         
         emfModelReferenceDataLibrary.setShortName(thing.getShortName());
+        
+        emfModelReferenceDataLibrary.setThingPreference(thing.getThingPreference());
         
         emfModelReferenceDataLibrary.getUnit().addAll(thing.getUnit().stream().map(item -> cdp4emfconnector.MeasurementUnit.toEmf(item)).collect(Collectors.toList()));
         
@@ -223,6 +227,8 @@ public abstract class ReferenceDataLibrary {
         
         pojoSiteReferenceDataLibrary.setShortName(emfThing.getShortName());
         
+        pojoSiteReferenceDataLibrary.setThingPreference(emfThing.getThingPreference());
+        
         pojoSiteReferenceDataLibrary.getUnit().addAll(emfThing.getUnit().stream().map(item -> cdp4emfconnector.MeasurementUnit.toPojo(item)).collect(Collectors.toList()));              
         
         pojoSiteReferenceDataLibrary.getUnitPrefix().addAll(emfThing.getUnitPrefix().stream().map(item -> cdp4emfconnector.UnitPrefix.toPojo(item)).collect(Collectors.toList()));              
@@ -272,6 +278,8 @@ public abstract class ReferenceDataLibrary {
         pojoModelReferenceDataLibrary.getScale().addAll(emfThing.getScale().stream().map(item -> cdp4emfconnector.MeasurementScale.toPojo(item)).collect(Collectors.toList()));              
         
         pojoModelReferenceDataLibrary.setShortName(emfThing.getShortName());
+        
+        pojoModelReferenceDataLibrary.setThingPreference(emfThing.getThingPreference());
         
         pojoModelReferenceDataLibrary.getUnit().addAll(emfThing.getUnit().stream().map(item -> cdp4emfconnector.MeasurementUnit.toPojo(item)).collect(Collectors.toList()));              
         

@@ -32,34 +32,27 @@
 
 package cdp4common.engineeringmodeldata;
 
-import cdp4common.AggregationKind;
-import cdp4common.ChangeKind;
-import cdp4common.Container;
-import cdp4common.ModelCode;
-import cdp4common.SentinelThingProvider;
-import cdp4common.UmlInformation;
-import cdp4common.commondata.ParticipantAccessRightKind;
-import cdp4common.commondata.PersonAccessRightKind;
-import cdp4common.commondata.Thing;
-import cdp4common.exceptions.ContainmentException;
-import cdp4common.helpers.ActionImpl;
-import cdp4common.helpers.PojoThingFactory;
-import cdp4common.helpers.ValueArrayUtils;
-import cdp4common.sitedirectorydata.DomainOfExpertise;
-import cdp4common.sitedirectorydata.ParameterType;
-import cdp4common.sitedirectorydata.Person;
-import cdp4common.types.CacheKey;
-import cdp4common.types.ValueArray;
-import com.google.common.cache.Cache;
+import java.util.*;
+import java.util.stream.*;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.io.*;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import cdp4common.*;
+import cdp4common.commondata.*;
+import cdp4common.diagramdata.*;
+import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
+import cdp4common.helpers.*;
+import cdp4common.reportingdata.*;
+import cdp4common.sitedirectorydata.*;
+import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
+import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * representation of the switch setting and all values of a ParameterSubscription
@@ -88,11 +81,10 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
 
     /**
      * Initializes a new instance of the {@link ParameterSubscriptionValueSet} class.
-     *
-     * @param iid     The unique identifier.
-     * @param cache   The {@link Cache} where the current thing is stored.
-     *                The {@link CacheKey} of {@link UUID} is the key used to store this thing.
-     *                The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iid The unique identifier.
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
     public ParameterSubscriptionValueSet(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
@@ -178,7 +170,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets the actualOption.
      * convenience property that derives the <i>actualOption</i> from the <i>subscribedValueSet</i>
      */
-    public Option getActualOption() {
+    public Option getActualOption(){
         return this.getDerivedActualOption();
     }
 
@@ -186,7 +178,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets the actualState.
      * convenience property that derives the <i>actualState</i> from the <i>subscribedValueSet</i>
      */
-    public ActualFiniteState getActualState() {
+    public ActualFiniteState getActualState(){
         return this.getDerivedActualState();
     }
 
@@ -195,7 +187,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * derived actual value of this ParameterSubscriptionValueSet depending on the <i>valueSwitch</i> setting
      * Note: The <i>actualValue</i> is derived in the following (obvious) way:
      */
-    public ValueArray<String> getActualValue() {
+    public ValueArray<String> getActualValue(){
         return this.getDerivedActualValue();
     }
 
@@ -204,7 +196,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * parameter value derived from the subscribed Parameter or ParameterOverride
      * Note: This value is derived from the <i>published</i> value of ParameterValueSet that is referenced through <i>subscribedValueSet</i>. In other words, it is the value as set by the owner (DomainOfExpertise) of the subscribed Parameter or  ParameterOverride.
      */
-    public ValueArray<String> getComputed() {
+    public ValueArray<String> getComputed(){
         return this.getDerivedComputed();
     }
 
@@ -212,7 +204,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Gets the owner.
      * owner (DomainOfExpertise) derived from the containing ParameterSubscription
      */
-    public DomainOfExpertise getOwner() {
+    public DomainOfExpertise getOwner(){
         return this.getDerivedOwner();
     }
 
@@ -221,7 +213,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * reference parameter value that is derived to be identical to the <i>reference</i> property of the <i>subscribedValueSet</i>
      * Note: The reference value is typically a value originating from outside the current EngineeringModel to be used as a reference to be compared with the (newly) computed value. However the reference values may be used for any purpose that a modelling activity deems useful.
      */
-    public ValueArray<String> getReference() {
+    public ValueArray<String> getReference(){
         return this.getDerivedReference();
     }
 
@@ -230,9 +222,10 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * convenience property that derives the <i>actualOption</i> from the <i>subscribedValueSet</i>
      *
      * @throws IllegalStateException The actualOption property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
+     *
      * @see IllegalStateException
      */
-    public void setActualOption(Option actualOption) {
+    public void setActualOption(Option actualOption){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.actualOption");
     }
 
@@ -241,9 +234,10 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * convenience property that derives the <i>actualState</i> from the <i>subscribedValueSet</i>
      *
      * @throws IllegalStateException The actualState property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
+     *
      * @see IllegalStateException
      */
-    public void setActualState(ActualFiniteState actualState) {
+    public void setActualState(ActualFiniteState actualState){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.actualState");
     }
 
@@ -253,9 +247,10 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Note: The <i>actualValue</i> is derived in the following (obvious) way:
      *
      * @throws IllegalStateException The actualValue property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
+     *
      * @see IllegalStateException
      */
-    public void setActualValue(ValueArray<String> actualValue) {
+    public void setActualValue(ValueArray<String> actualValue){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.actualValue");
     }
 
@@ -265,9 +260,10 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Note: This value is derived from the <i>published</i> value of ParameterValueSet that is referenced through <i>subscribedValueSet</i>. In other words, it is the value as set by the owner (DomainOfExpertise) of the subscribed Parameter or  ParameterOverride.
      *
      * @throws IllegalStateException The computed property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
+     *
      * @see IllegalStateException
      */
-    public void setComputed(ValueArray<String> computed) {
+    public void setComputed(ValueArray<String> computed){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.computed");
     }
 
@@ -276,9 +272,10 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * owner (DomainOfExpertise) derived from the containing ParameterSubscription
      *
      * @throws IllegalStateException The owner property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
+     *
      * @see IllegalStateException
      */
-    public void setOwner(DomainOfExpertise owner) {
+    public void setOwner(DomainOfExpertise owner){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.owner");
     }
 
@@ -288,9 +285,10 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Note: The reference value is typically a value originating from outside the current EngineeringModel to be used as a reference to be compared with the (newly) computed value. However the reference values may be used for any purpose that a modelling activity deems useful.
      *
      * @throws IllegalStateException The reference property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
+     *
      * @see IllegalStateException
      */
-    public void setReference(ValueArray<String> reference) {
+    public void setReference(ValueArray<String> reference){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterSubscriptionValueSet.reference");
     }
 
@@ -298,13 +296,14 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
      * Creates and returns a copy of this {@link ParameterSubscriptionValueSet} for edit purpose.
      *
      * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
+     *
      * @return A cloned instance of {@link ParameterSubscriptionValueSet}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) {
         ParameterSubscriptionValueSet clone;
         try {
-            clone = (ParameterSubscriptionValueSet) this.clone();
+            clone = (ParameterSubscriptionValueSet)this.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             throw new IllegalAccessError("Somehow ParameterSubscriptionValueSet cannot be cloned.");
@@ -325,15 +324,15 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
 
     /**
      * Creates and returns a copy of this {@link ParameterSubscriptionValueSet} for edit purpose.
-     *
      * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
+     *
      * @return A cloned instance of {@link ParameterSubscriptionValueSet}.
      */
     @Override
     public ParameterSubscriptionValueSet clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
-        return (ParameterSubscriptionValueSet) this.genericClone(cloneContainedThings);
+        return (ParameterSubscriptionValueSet)this.genericClone(cloneContainedThings);
     }
 
     /**
@@ -369,7 +368,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
             throw new IllegalArgumentException("dtoThing");
         }
 
-        cdp4common.dto.ParameterSubscriptionValueSet dto = (cdp4common.dto.ParameterSubscriptionValueSet) dtoThing;
+        cdp4common.dto.ParameterSubscriptionValueSet dto = (cdp4common.dto.ParameterSubscriptionValueSet)dtoThing;
 
         PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
         PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
@@ -377,6 +376,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setSubscribedValueSet(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getSubscribedValueSet(), dto.getIterationContainerId(), ParameterValueSetBase.class), SentinelThingProvider.getSentinel(ParameterValueSetBase.class)));
+        this.setThingPreference(dto.getThingPreference());
         this.setValueSwitch(dto.getValueSwitch());
 
         this.resolveExtraProperties();
@@ -397,6 +397,7 @@ public class ParameterSubscriptionValueSet extends Thing implements Cloneable, O
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setSubscribedValueSet(this.getSubscribedValueSet() != null ? this.getSubscribedValueSet().getIid() : new UUID(0L, 0L));
+        dto.setThingPreference(this.getThingPreference());
         dto.setValueSwitch(this.getValueSwitch());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());

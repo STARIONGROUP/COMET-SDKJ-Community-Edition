@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -217,6 +218,7 @@ public class RuleVerificationList extends DefinedThing implements Cloneable, Own
         this.setRevisionNumber(dto.getRevisionNumber());
         PojoThingFactory.resolveList(this.getRuleVerification(), dto.getRuleVerification(), dto.getIterationContainerId(), this.getCache(), RuleVerification.class);
         this.setShortName(dto.getShortName());
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -241,6 +243,7 @@ public class RuleVerificationList extends DefinedThing implements Cloneable, Own
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.getRuleVerification().addAll(this.getRuleVerification().toDtoOrderedItemList());
         dto.setShortName(this.getShortName());
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -164,6 +165,7 @@ public class BuiltInRuleVerification extends RuleVerification implements Cloneab
         this.setName(dto.getName());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setStatus(dto.getStatus());
+        this.setThingPreference(dto.getThingPreference());
         PojoThingFactory.resolveList(this.getViolation(), dto.getViolation(), dto.getIterationContainerId(), this.getCache(), RuleViolation.class);
 
         this.resolveExtraProperties();
@@ -186,6 +188,7 @@ public class BuiltInRuleVerification extends RuleVerification implements Cloneab
         dto.setName(this.getName());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setStatus(this.getStatus());
+        dto.setThingPreference(this.getThingPreference());
         dto.getViolation().addAll(this.getViolation().stream().map(Thing::getIid).collect(Collectors.toList()));
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());

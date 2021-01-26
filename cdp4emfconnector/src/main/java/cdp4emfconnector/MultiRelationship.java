@@ -75,6 +75,8 @@ public class MultiRelationship {
         
         emf.setModifiedOn(thing.getModifiedOn());
         
+        emf.setName(thing.getName());
+        
         emf.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
         emf.getParameterValue().addAll(thing.getParameterValue().stream().map(item -> cdp4emfconnector.RelationshipParameterValue.toEmf(item)).collect(Collectors.toList()));
@@ -82,6 +84,8 @@ public class MultiRelationship {
         emf.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.Thing.toEmf(item)).collect(Collectors.toList()));
         
         emf.setRevisionNumber(thing.getRevisionNumber());
+        
+        emf.setThingPreference(thing.getThingPreference());
         
         return emf;
     }
@@ -105,6 +109,8 @@ public class MultiRelationship {
         
         pojo.setModifiedOn(emfThing.getModifiedOn());
         
+        pojo.setName(emfThing.getName());
+        
         pojo.setOwner(emfThing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toPojo(emfThing.getOwner()) : null);        
         
         pojo.getParameterValue().addAll(emfThing.getParameterValue().stream().map(item -> cdp4emfconnector.RelationshipParameterValue.toPojo(item)).collect(Collectors.toList()));              
@@ -112,6 +118,8 @@ public class MultiRelationship {
         pojo.getRelatedThing().addAll(emfThing.getRelatedThing().stream().map(item -> cdp4emfconnector.Thing.toPojo(item)).collect(Collectors.toList()));              
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

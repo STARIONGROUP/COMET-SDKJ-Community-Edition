@@ -32,29 +32,27 @@
 
 package cdp4common.engineeringmodeldata;
 
+import java.util.*;
+import java.util.stream.*;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.io.*;
+import java.net.URI;
 import cdp4common.*;
-import cdp4common.commondata.ParticipantAccessRightKind;
-import cdp4common.commondata.PersonAccessRightKind;
-import cdp4common.commondata.Thing;
+import cdp4common.commondata.*;
+import cdp4common.diagramdata.*;
+import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
-import cdp4common.helpers.ActionImpl;
-import cdp4common.helpers.PojoThingFactory;
+import cdp4common.extensions.*;
+import cdp4common.helpers.*;
+import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
-import cdp4common.types.CacheKey;
-import cdp4common.types.ContainerList;
+import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Iterables;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.apache.commons.lang3.ObjectUtils;
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import lombok.*;
 
 /**
  * representation of a relationship between exactly two Things
@@ -83,11 +81,10 @@ public class BinaryRelationship extends Relationship implements Cloneable {
 
     /**
      * Initializes a new instance of the {@link BinaryRelationship} class.
-     *
-     * @param iid     The unique identifier.
-     * @param cache   The {@link Cache} where the current thing is stored.
-     *                The {@link CacheKey} of {@link UUID} is the key used to store this thing.
-     *                The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iid The unique identifier.
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
     public BinaryRelationship(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
@@ -116,13 +113,14 @@ public class BinaryRelationship extends Relationship implements Cloneable {
      * Creates and returns a copy of this {@link BinaryRelationship} for edit purpose.
      *
      * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
+     *
      * @return A cloned instance of {@link BinaryRelationship}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) {
         BinaryRelationship clone;
         try {
-            clone = (BinaryRelationship) this.clone();
+            clone = (BinaryRelationship)this.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             throw new IllegalAccessError("Somehow BinaryRelationship cannot be cloned.");
@@ -145,15 +143,15 @@ public class BinaryRelationship extends Relationship implements Cloneable {
 
     /**
      * Creates and returns a copy of this {@link BinaryRelationship} for edit purpose.
-     *
      * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
+     *
      * @return A cloned instance of {@link BinaryRelationship}.
      */
     @Override
     public BinaryRelationship clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
-        return (BinaryRelationship) this.genericClone(cloneContainedThings);
+        return (BinaryRelationship)this.genericClone(cloneContainedThings);
     }
 
     /**
@@ -190,17 +188,19 @@ public class BinaryRelationship extends Relationship implements Cloneable {
             throw new IllegalArgumentException("dtoThing");
         }
 
-        cdp4common.dto.BinaryRelationship dto = (cdp4common.dto.BinaryRelationship) dtoThing;
+        cdp4common.dto.BinaryRelationship dto = (cdp4common.dto.BinaryRelationship)dtoThing;
 
         PojoThingFactory.resolveList(this.getCategory(), dto.getCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
         PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
         PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setModifiedOn(dto.getModifiedOn());
+        this.setName(dto.getName());
         this.setOwner(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getOwner(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
         PojoThingFactory.resolveList(this.getParameterValue(), dto.getParameterValue(), dto.getIterationContainerId(), this.getCache(), RelationshipParameterValue.class);
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setSource(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getSource(), dto.getIterationContainerId(), Thing.class), SentinelThingProvider.getSentinel(Thing.class)));
         this.setTarget(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getTarget(), dto.getIterationContainerId(), Thing.class), SentinelThingProvider.getSentinel(Thing.class)));
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -218,11 +218,13 @@ public class BinaryRelationship extends Relationship implements Cloneable {
         dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
+        dto.setName(this.getName());
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));
         dto.getParameterValue().addAll(this.getParameterValue().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setSource(this.getSource() != null ? this.getSource().getIid() : new UUID(0L, 0L));
         dto.setTarget(this.getTarget() != null ? this.getTarget().getIid() : new UUID(0L, 0L));
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

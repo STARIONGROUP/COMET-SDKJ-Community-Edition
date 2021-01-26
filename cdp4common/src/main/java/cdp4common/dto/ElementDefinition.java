@@ -67,6 +67,7 @@ public class ElementDefinition extends ElementBase implements Cloneable {
      */
     public ElementDefinition() {
         this.containedElement = new ArrayList<UUID>();
+        this.organizationalParticipant = new ArrayList<UUID>();
         this.parameter = new ArrayList<UUID>();
         this.parameterGroup = new ArrayList<UUID>();
         this.referencedElement = new ArrayList<UUID>();
@@ -81,6 +82,7 @@ public class ElementDefinition extends ElementBase implements Cloneable {
     public ElementDefinition(UUID iid, int rev) {
         super(iid, rev);
         this.containedElement = new ArrayList<UUID>();
+        this.organizationalParticipant = new ArrayList<UUID>();
         this.parameter = new ArrayList<UUID>();
         this.parameterGroup = new ArrayList<UUID>();
         this.referencedElement = new ArrayList<UUID>();
@@ -94,6 +96,16 @@ public class ElementDefinition extends ElementBase implements Cloneable {
     @Getter
     @Setter
     private ArrayList<UUID> containedElement;
+
+    /**
+     * The list of unique identifiers of the referenced organizationalParticipant instances.
+     */
+    @CDPVersion(version = "1.2.0")
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @DataMember
+    @Getter
+    @Setter
+    private ArrayList<UUID> organizationalParticipant;
 
     /**
      * The unique identifiers of the contained parameter instances.

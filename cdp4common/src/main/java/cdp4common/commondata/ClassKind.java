@@ -195,6 +195,11 @@ public enum ClassKind {
     Definition,
 
     /**
+     * Assertion that the Class is an instance of DependentParameterTypeAssignment
+     */
+    DependentParameterTypeAssignment,
+
+    /**
      * Assertion that the Class is an instance of DerivedQuantityKind
      */
     DerivedQuantityKind,
@@ -380,6 +385,11 @@ public enum ClassKind {
     IdCorrespondence,
 
     /**
+     * Assertion that the Class is an instance of IndependentParameterTypeAssignment
+     */
+    IndependentParameterTypeAssignment,
+
+    /**
      * Assertion that the Class is an instance of IntervalScale
      */
     IntervalScale,
@@ -403,6 +413,11 @@ public enum ClassKind {
      * Assertion that the Class is an instance of LogarithmicScale
      */
     LogarithmicScale,
+
+    /**
+     * Assertion that the Class is an instance of LogEntryChangelogItem
+     */
+    LogEntryChangelogItem,
 
     /**
      * Assertion that the Class is an instance of MappingToReferenceScale
@@ -498,6 +513,11 @@ public enum ClassKind {
      * Assertion that the Class is an instance of Organization
      */
     Organization,
+
+    /**
+     * Assertion that the Class is an instance of OrganizationalParticipant
+     */
+    OrganizationalParticipant,
 
     /**
      * Assertion that the Class is an instance of OwnedStyle
@@ -743,6 +763,11 @@ public enum ClassKind {
      * Assertion that the Class is an instance of RuleViolation
      */
     RuleViolation,
+
+    /**
+     * Assertion that the Class is an instance of SampledFunctionParameterType
+     */
+    SampledFunctionParameterType,
 
     /**
      * Assertion that the Class is an instance of ScalarParameterType

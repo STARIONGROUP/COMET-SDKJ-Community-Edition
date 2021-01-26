@@ -77,6 +77,8 @@ public abstract class Thing {
         emfParticipantPermission.setModifiedOn(thing.getModifiedOn());
         
         emfParticipantPermission.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfParticipantPermission.setThingPreference(thing.getThingPreference());
         		        
         return emfParticipantPermission;
         
@@ -92,6 +94,8 @@ public abstract class Thing {
         emfPerson.setModifiedOn(thing.getModifiedOn());
         
         emfPerson.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfPerson.setThingPreference(thing.getThingPreference());
         		        
         return emfPerson;
         
@@ -107,6 +111,8 @@ public abstract class Thing {
         emfOrganization.setModifiedOn(thing.getModifiedOn());
         
         emfOrganization.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfOrganization.setThingPreference(thing.getThingPreference());
         		        
         return emfOrganization;
         
@@ -122,6 +128,8 @@ public abstract class Thing {
         emfParticipant.setModifiedOn(thing.getModifiedOn());
         
         emfParticipant.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfParticipant.setThingPreference(thing.getThingPreference());
         		        
         return emfParticipant;
         
@@ -137,6 +145,8 @@ public abstract class Thing {
         emfScaleReferenceQuantityValue.setModifiedOn(thing.getModifiedOn());
         
         emfScaleReferenceQuantityValue.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfScaleReferenceQuantityValue.setThingPreference(thing.getThingPreference());
         		        
         return emfScaleReferenceQuantityValue;
         
@@ -152,6 +162,8 @@ public abstract class Thing {
         emfMappingToReferenceScale.setModifiedOn(thing.getModifiedOn());
         
         emfMappingToReferenceScale.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfMappingToReferenceScale.setThingPreference(thing.getThingPreference());
         		        
         return emfMappingToReferenceScale;
         
@@ -167,6 +179,8 @@ public abstract class Thing {
         emfQuantityKindFactor.setModifiedOn(thing.getModifiedOn());
         
         emfQuantityKindFactor.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfQuantityKindFactor.setThingPreference(thing.getThingPreference());
         		        
         return emfQuantityKindFactor;
         
@@ -182,6 +196,8 @@ public abstract class Thing {
         emfUnitFactor.setModifiedOn(thing.getModifiedOn());
         
         emfUnitFactor.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfUnitFactor.setThingPreference(thing.getThingPreference());
         		        
         return emfUnitFactor;
         
@@ -197,6 +213,8 @@ public abstract class Thing {
         emfParameterTypeComponent.setModifiedOn(thing.getModifiedOn());
         
         emfParameterTypeComponent.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfParameterTypeComponent.setThingPreference(thing.getThingPreference());
         		        
         return emfParameterTypeComponent;
         
@@ -212,6 +230,8 @@ public abstract class Thing {
         emfPersonPermission.setModifiedOn(thing.getModifiedOn());
         
         emfPersonPermission.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfPersonPermission.setThingPreference(thing.getThingPreference());
         		        
         return emfPersonPermission;
         
@@ -227,6 +247,8 @@ public abstract class Thing {
         emfSiteLogEntry.setModifiedOn(thing.getModifiedOn());
         
         emfSiteLogEntry.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSiteLogEntry.setThingPreference(thing.getThingPreference());
         		        
         return emfSiteLogEntry;
         
@@ -242,6 +264,8 @@ public abstract class Thing {
         emfIterationSetup.setModifiedOn(thing.getModifiedOn());
         
         emfIterationSetup.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfIterationSetup.setThingPreference(thing.getThingPreference());
         		        
         return emfIterationSetup;
         
@@ -257,6 +281,8 @@ public abstract class Thing {
         emfTelephoneNumber.setModifiedOn(thing.getModifiedOn());
         
         emfTelephoneNumber.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfTelephoneNumber.setThingPreference(thing.getThingPreference());
         		        
         return emfTelephoneNumber;
         
@@ -272,6 +298,8 @@ public abstract class Thing {
         emfEmailAddress.setModifiedOn(thing.getModifiedOn());
         
         emfEmailAddress.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfEmailAddress.setThingPreference(thing.getThingPreference());
         		        
         return emfEmailAddress;
         
@@ -287,6 +315,8 @@ public abstract class Thing {
         emfUserPreference.setModifiedOn(thing.getModifiedOn());
         
         emfUserPreference.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfUserPreference.setThingPreference(thing.getThingPreference());
         		        
         return emfUserPreference;
         
@@ -302,8 +332,61 @@ public abstract class Thing {
         emfNaturalLanguage.setModifiedOn(thing.getModifiedOn());
         
         emfNaturalLanguage.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfNaturalLanguage.setThingPreference(thing.getThingPreference());
         		        
         return emfNaturalLanguage;
+        
+        case "cdp4common.sitedirectorydata.DependentParameterTypeAssignment":
+        CDP4.CommonData.Thing emfDependentParameterTypeAssignment =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createDependentParameterTypeAssignment();    
+        
+        emfDependentParameterTypeAssignment.setIid(thing.getIid().toString()); 
+        
+        emfDependentParameterTypeAssignment.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
+        
+        emfDependentParameterTypeAssignment.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
+        
+        emfDependentParameterTypeAssignment.setModifiedOn(thing.getModifiedOn());
+        
+        emfDependentParameterTypeAssignment.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDependentParameterTypeAssignment.setThingPreference(thing.getThingPreference());
+        		        
+        return emfDependentParameterTypeAssignment;
+        
+        case "cdp4common.sitedirectorydata.IndependentParameterTypeAssignment":
+        CDP4.CommonData.Thing emfIndependentParameterTypeAssignment =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createIndependentParameterTypeAssignment();    
+        
+        emfIndependentParameterTypeAssignment.setIid(thing.getIid().toString()); 
+        
+        emfIndependentParameterTypeAssignment.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
+        
+        emfIndependentParameterTypeAssignment.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
+        
+        emfIndependentParameterTypeAssignment.setModifiedOn(thing.getModifiedOn());
+        
+        emfIndependentParameterTypeAssignment.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfIndependentParameterTypeAssignment.setThingPreference(thing.getThingPreference());
+        		        
+        return emfIndependentParameterTypeAssignment;
+        
+        case "cdp4common.sitedirectorydata.OrganizationalParticipant":
+        CDP4.CommonData.Thing emfOrganizationalParticipant =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createOrganizationalParticipant();    
+        
+        emfOrganizationalParticipant.setIid(thing.getIid().toString()); 
+        
+        emfOrganizationalParticipant.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
+        
+        emfOrganizationalParticipant.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
+        
+        emfOrganizationalParticipant.setModifiedOn(thing.getModifiedOn());
+        
+        emfOrganizationalParticipant.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfOrganizationalParticipant.setThingPreference(thing.getThingPreference());
+        		        
+        return emfOrganizationalParticipant;
         
         
         case "cdp4common.sitedirectorydata.ParticipantRole":
@@ -318,6 +401,8 @@ public abstract class Thing {
         emfParticipantRole.setModifiedOn(thing.getModifiedOn());
         
         emfParticipantRole.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfParticipantRole.setThingPreference(thing.getThingPreference());
         		        
         return emfParticipantRole;
         
@@ -333,6 +418,8 @@ public abstract class Thing {
         emfEngineeringModelSetup.setModifiedOn(thing.getModifiedOn());
         
         emfEngineeringModelSetup.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfEngineeringModelSetup.setThingPreference(thing.getThingPreference());
         		        
         return emfEngineeringModelSetup;
         
@@ -348,6 +435,8 @@ public abstract class Thing {
         emfGlossary.setModifiedOn(thing.getModifiedOn());
         
         emfGlossary.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfGlossary.setThingPreference(thing.getThingPreference());
         		        
         return emfGlossary;
         
@@ -364,6 +453,8 @@ public abstract class Thing {
         emfSiteReferenceDataLibrary.setModifiedOn(thing.getModifiedOn());
         
         emfSiteReferenceDataLibrary.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSiteReferenceDataLibrary.setThingPreference(thing.getThingPreference());
         		        
         return emfSiteReferenceDataLibrary;
         
@@ -379,6 +470,8 @@ public abstract class Thing {
         emfModelReferenceDataLibrary.setModifiedOn(thing.getModifiedOn());
         
         emfModelReferenceDataLibrary.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfModelReferenceDataLibrary.setThingPreference(thing.getThingPreference());
         		        
         return emfModelReferenceDataLibrary;
         
@@ -394,6 +487,8 @@ public abstract class Thing {
         emfTerm.setModifiedOn(thing.getModifiedOn());
         
         emfTerm.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfTerm.setThingPreference(thing.getThingPreference());
         		        
         return emfTerm;
         
@@ -409,6 +504,8 @@ public abstract class Thing {
         emfFileType.setModifiedOn(thing.getModifiedOn());
         
         emfFileType.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfFileType.setThingPreference(thing.getThingPreference());
         		        
         return emfFileType;
         
@@ -425,6 +522,8 @@ public abstract class Thing {
         emfOrdinalScale.setModifiedOn(thing.getModifiedOn());
         
         emfOrdinalScale.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfOrdinalScale.setThingPreference(thing.getThingPreference());
         		        
         return emfOrdinalScale;
         
@@ -440,6 +539,8 @@ public abstract class Thing {
         emfRatioScale.setModifiedOn(thing.getModifiedOn());
         
         emfRatioScale.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRatioScale.setThingPreference(thing.getThingPreference());
         		        
         return emfRatioScale;
         
@@ -455,6 +556,8 @@ public abstract class Thing {
         emfCyclicRatioScale.setModifiedOn(thing.getModifiedOn());
         
         emfCyclicRatioScale.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfCyclicRatioScale.setThingPreference(thing.getThingPreference());
         		        
         return emfCyclicRatioScale;
         
@@ -470,6 +573,8 @@ public abstract class Thing {
         emfIntervalScale.setModifiedOn(thing.getModifiedOn());
         
         emfIntervalScale.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfIntervalScale.setThingPreference(thing.getThingPreference());
         		        
         return emfIntervalScale;
         
@@ -485,6 +590,8 @@ public abstract class Thing {
         emfLogarithmicScale.setModifiedOn(thing.getModifiedOn());
         
         emfLogarithmicScale.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfLogarithmicScale.setThingPreference(thing.getThingPreference());
         		        
         return emfLogarithmicScale;
         
@@ -500,6 +607,8 @@ public abstract class Thing {
         emfDomainOfExpertise.setModifiedOn(thing.getModifiedOn());
         
         emfDomainOfExpertise.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDomainOfExpertise.setThingPreference(thing.getThingPreference());
         		        
         return emfDomainOfExpertise;
         
@@ -516,6 +625,8 @@ public abstract class Thing {
         emfCompoundParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfCompoundParameterType.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfCompoundParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfCompoundParameterType;
         
@@ -531,6 +642,8 @@ public abstract class Thing {
         emfArrayParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfArrayParameterType.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfArrayParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfArrayParameterType;
         
@@ -547,6 +660,8 @@ public abstract class Thing {
         emfEnumerationParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfEnumerationParameterType.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfEnumerationParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfEnumerationParameterType;
         
@@ -562,6 +677,8 @@ public abstract class Thing {
         emfBooleanParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfBooleanParameterType.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfBooleanParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfBooleanParameterType;
         
@@ -577,6 +694,8 @@ public abstract class Thing {
         emfDateParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfDateParameterType.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDateParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfDateParameterType;
         
@@ -592,6 +711,8 @@ public abstract class Thing {
         emfTextParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfTextParameterType.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfTextParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfTextParameterType;
         
@@ -607,6 +728,8 @@ public abstract class Thing {
         emfDateTimeParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfDateTimeParameterType.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDateTimeParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfDateTimeParameterType;
         
@@ -622,6 +745,8 @@ public abstract class Thing {
         emfTimeOfDayParameterType.setModifiedOn(thing.getModifiedOn());
         
         emfTimeOfDayParameterType.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfTimeOfDayParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfTimeOfDayParameterType;
         
@@ -638,6 +763,8 @@ public abstract class Thing {
         emfSpecializedQuantityKind.setModifiedOn(thing.getModifiedOn());
         
         emfSpecializedQuantityKind.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSpecializedQuantityKind.setThingPreference(thing.getThingPreference());
         		        
         return emfSpecializedQuantityKind;
         
@@ -653,6 +780,8 @@ public abstract class Thing {
         emfSimpleQuantityKind.setModifiedOn(thing.getModifiedOn());
         
         emfSimpleQuantityKind.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSimpleQuantityKind.setThingPreference(thing.getThingPreference());
         		        
         return emfSimpleQuantityKind;
         
@@ -668,8 +797,27 @@ public abstract class Thing {
         emfDerivedQuantityKind.setModifiedOn(thing.getModifiedOn());
         
         emfDerivedQuantityKind.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDerivedQuantityKind.setThingPreference(thing.getThingPreference());
         		        
         return emfDerivedQuantityKind;
+        
+        case "cdp4common.sitedirectorydata.SampledFunctionParameterType":
+        CDP4.CommonData.Thing emfSampledFunctionParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createSampledFunctionParameterType();    
+        
+        emfSampledFunctionParameterType.setIid(thing.getIid().toString()); 
+        
+        emfSampledFunctionParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
+        
+        emfSampledFunctionParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
+        
+        emfSampledFunctionParameterType.setModifiedOn(thing.getModifiedOn());
+        
+        emfSampledFunctionParameterType.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSampledFunctionParameterType.setThingPreference(thing.getThingPreference());
+        		        
+        return emfSampledFunctionParameterType;
         
         case "cdp4common.sitedirectorydata.ScaleValueDefinition":
         CDP4.CommonData.Thing emfScaleValueDefinition =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createScaleValueDefinition();    
@@ -683,6 +831,8 @@ public abstract class Thing {
         emfScaleValueDefinition.setModifiedOn(thing.getModifiedOn());
         
         emfScaleValueDefinition.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfScaleValueDefinition.setThingPreference(thing.getThingPreference());
         		        
         return emfScaleValueDefinition;
         
@@ -699,6 +849,8 @@ public abstract class Thing {
         emfDerivedUnit.setModifiedOn(thing.getModifiedOn());
         
         emfDerivedUnit.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDerivedUnit.setThingPreference(thing.getThingPreference());
         		        
         return emfDerivedUnit;
         
@@ -715,6 +867,8 @@ public abstract class Thing {
         emfLinearConversionUnit.setModifiedOn(thing.getModifiedOn());
         
         emfLinearConversionUnit.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfLinearConversionUnit.setThingPreference(thing.getThingPreference());
         		        
         return emfLinearConversionUnit;
         
@@ -730,6 +884,8 @@ public abstract class Thing {
         emfPrefixedUnit.setModifiedOn(thing.getModifiedOn());
         
         emfPrefixedUnit.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfPrefixedUnit.setThingPreference(thing.getThingPreference());
         		        
         return emfPrefixedUnit;
         
@@ -745,6 +901,8 @@ public abstract class Thing {
         emfSimpleUnit.setModifiedOn(thing.getModifiedOn());
         
         emfSimpleUnit.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSimpleUnit.setThingPreference(thing.getThingPreference());
         		        
         return emfSimpleUnit;
         
@@ -760,6 +918,8 @@ public abstract class Thing {
         emfCategory.setModifiedOn(thing.getModifiedOn());
         
         emfCategory.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfCategory.setThingPreference(thing.getThingPreference());
         		        
         return emfCategory;
         
@@ -775,6 +935,8 @@ public abstract class Thing {
         emfUnitPrefix.setModifiedOn(thing.getModifiedOn());
         
         emfUnitPrefix.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfUnitPrefix.setThingPreference(thing.getThingPreference());
         		        
         return emfUnitPrefix;
         
@@ -791,6 +953,8 @@ public abstract class Thing {
         emfReferencerRule.setModifiedOn(thing.getModifiedOn());
         
         emfReferencerRule.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfReferencerRule.setThingPreference(thing.getThingPreference());
         		        
         return emfReferencerRule;
         
@@ -806,6 +970,8 @@ public abstract class Thing {
         emfBinaryRelationshipRule.setModifiedOn(thing.getModifiedOn());
         
         emfBinaryRelationshipRule.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfBinaryRelationshipRule.setThingPreference(thing.getThingPreference());
         		        
         return emfBinaryRelationshipRule;
         
@@ -821,6 +987,8 @@ public abstract class Thing {
         emfMultiRelationshipRule.setModifiedOn(thing.getModifiedOn());
         
         emfMultiRelationshipRule.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfMultiRelationshipRule.setThingPreference(thing.getThingPreference());
         		        
         return emfMultiRelationshipRule;
         
@@ -836,6 +1004,8 @@ public abstract class Thing {
         emfDecompositionRule.setModifiedOn(thing.getModifiedOn());
         
         emfDecompositionRule.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDecompositionRule.setThingPreference(thing.getThingPreference());
         		        
         return emfDecompositionRule;
         
@@ -851,6 +1021,8 @@ public abstract class Thing {
         emfParameterizedCategoryRule.setModifiedOn(thing.getModifiedOn());
         
         emfParameterizedCategoryRule.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfParameterizedCategoryRule.setThingPreference(thing.getThingPreference());
         		        
         return emfParameterizedCategoryRule;
         
@@ -866,6 +1038,8 @@ public abstract class Thing {
         emfEnumerationValueDefinition.setModifiedOn(thing.getModifiedOn());
         
         emfEnumerationValueDefinition.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfEnumerationValueDefinition.setThingPreference(thing.getThingPreference());
         		        
         return emfEnumerationValueDefinition;
         
@@ -881,6 +1055,8 @@ public abstract class Thing {
         emfPersonRole.setModifiedOn(thing.getModifiedOn());
         
         emfPersonRole.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfPersonRole.setThingPreference(thing.getThingPreference());
         		        
         return emfPersonRole;
         
@@ -896,6 +1072,8 @@ public abstract class Thing {
         emfDomainOfExpertiseGroup.setModifiedOn(thing.getModifiedOn());
         
         emfDomainOfExpertiseGroup.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDomainOfExpertiseGroup.setThingPreference(thing.getThingPreference());
         		        
         return emfDomainOfExpertiseGroup;
         
@@ -911,6 +1089,8 @@ public abstract class Thing {
         emfReferenceSource.setModifiedOn(thing.getModifiedOn());
         
         emfReferenceSource.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfReferenceSource.setThingPreference(thing.getThingPreference());
         		        
         return emfReferenceSource;
         
@@ -926,6 +1106,8 @@ public abstract class Thing {
         emfConstant.setModifiedOn(thing.getModifiedOn());
         
         emfConstant.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfConstant.setThingPreference(thing.getThingPreference());
         		        
         return emfConstant;
         
@@ -941,6 +1123,8 @@ public abstract class Thing {
         emfPossibleFiniteState.setModifiedOn(thing.getModifiedOn());
         
         emfPossibleFiniteState.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfPossibleFiniteState.setThingPreference(thing.getThingPreference());
         		        
         return emfPossibleFiniteState;
         
@@ -956,6 +1140,8 @@ public abstract class Thing {
         emfOption.setModifiedOn(thing.getModifiedOn());
         
         emfOption.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfOption.setThingPreference(thing.getThingPreference());
         		        
         return emfOption;
         
@@ -971,6 +1157,8 @@ public abstract class Thing {
         emfPossibleFiniteStateList.setModifiedOn(thing.getModifiedOn());
         
         emfPossibleFiniteStateList.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfPossibleFiniteStateList.setThingPreference(thing.getThingPreference());
         		        
         return emfPossibleFiniteStateList;
         
@@ -987,6 +1175,8 @@ public abstract class Thing {
         emfElementDefinition.setModifiedOn(thing.getModifiedOn());
         
         emfElementDefinition.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfElementDefinition.setThingPreference(thing.getThingPreference());
         		        
         return emfElementDefinition;
         
@@ -1002,6 +1192,8 @@ public abstract class Thing {
         emfElementUsage.setModifiedOn(thing.getModifiedOn());
         
         emfElementUsage.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfElementUsage.setThingPreference(thing.getThingPreference());
         		        
         return emfElementUsage;
         
@@ -1018,6 +1210,8 @@ public abstract class Thing {
         emfRequirementsSpecification.setModifiedOn(thing.getModifiedOn());
         
         emfRequirementsSpecification.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRequirementsSpecification.setThingPreference(thing.getThingPreference());
         		        
         return emfRequirementsSpecification;
         
@@ -1033,6 +1227,8 @@ public abstract class Thing {
         emfRequirementsGroup.setModifiedOn(thing.getModifiedOn());
         
         emfRequirementsGroup.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRequirementsGroup.setThingPreference(thing.getThingPreference());
         		        
         return emfRequirementsGroup;
         
@@ -1049,6 +1245,8 @@ public abstract class Thing {
         emfRequirement.setModifiedOn(thing.getModifiedOn());
         
         emfRequirement.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRequirement.setThingPreference(thing.getThingPreference());
         		        
         return emfRequirement;
         
@@ -1064,6 +1262,8 @@ public abstract class Thing {
         emfRuleVerificationList.setModifiedOn(thing.getModifiedOn());
         
         emfRuleVerificationList.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRuleVerificationList.setThingPreference(thing.getThingPreference());
         		        
         return emfRuleVerificationList;
         
@@ -1079,6 +1279,8 @@ public abstract class Thing {
         emfGoal.setModifiedOn(thing.getModifiedOn());
         
         emfGoal.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfGoal.setThingPreference(thing.getThingPreference());
         		        
         return emfGoal;
         
@@ -1094,6 +1296,8 @@ public abstract class Thing {
         emfStakeholder.setModifiedOn(thing.getModifiedOn());
         
         emfStakeholder.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfStakeholder.setThingPreference(thing.getThingPreference());
         		        
         return emfStakeholder;
         
@@ -1109,6 +1313,8 @@ public abstract class Thing {
         emfValueGroup.setModifiedOn(thing.getModifiedOn());
         
         emfValueGroup.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfValueGroup.setThingPreference(thing.getThingPreference());
         		        
         return emfValueGroup;
         
@@ -1124,6 +1330,8 @@ public abstract class Thing {
         emfStakeholderValue.setModifiedOn(thing.getModifiedOn());
         
         emfStakeholderValue.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfStakeholderValue.setThingPreference(thing.getThingPreference());
         		        
         return emfStakeholderValue;
         
@@ -1139,6 +1347,8 @@ public abstract class Thing {
         emfStakeHolderValueMap.setModifiedOn(thing.getModifiedOn());
         
         emfStakeHolderValueMap.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfStakeHolderValueMap.setThingPreference(thing.getThingPreference());
         		        
         return emfStakeHolderValueMap;
         
@@ -1154,6 +1364,8 @@ public abstract class Thing {
         emfHyperLink.setModifiedOn(thing.getModifiedOn());
         
         emfHyperLink.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfHyperLink.setThingPreference(thing.getThingPreference());
         		        
         return emfHyperLink;
         
@@ -1169,6 +1381,8 @@ public abstract class Thing {
         emfDefinition.setModifiedOn(thing.getModifiedOn());
         
         emfDefinition.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDefinition.setThingPreference(thing.getThingPreference());
         		        
         return emfDefinition;
         
@@ -1184,6 +1398,8 @@ public abstract class Thing {
         emfAlias.setModifiedOn(thing.getModifiedOn());
         
         emfAlias.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfAlias.setThingPreference(thing.getThingPreference());
         		        
         return emfAlias;
         
@@ -1199,6 +1415,8 @@ public abstract class Thing {
         emfCitation.setModifiedOn(thing.getModifiedOn());
         
         emfCitation.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfCitation.setThingPreference(thing.getThingPreference());
         		        
         return emfCitation;
         
@@ -1215,6 +1433,8 @@ public abstract class Thing {
         emfSiteDirectory.setModifiedOn(thing.getModifiedOn());
         
         emfSiteDirectory.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSiteDirectory.setThingPreference(thing.getThingPreference());
         		        
         return emfSiteDirectory;
         
@@ -1230,8 +1450,27 @@ public abstract class Thing {
         emfEngineeringModel.setModifiedOn(thing.getModifiedOn());
         
         emfEngineeringModel.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfEngineeringModel.setThingPreference(thing.getThingPreference());
         		        
         return emfEngineeringModel;
+        
+        case "cdp4common.commondata.LogEntryChangelogItem":
+        CDP4.CommonData.Thing emfLogEntryChangelogItem =  CDP4.CommonData.impl.CommonDataFactoryImpl.eINSTANCE.createLogEntryChangelogItem();    
+        
+        emfLogEntryChangelogItem.setIid(thing.getIid().toString()); 
+        
+        emfLogEntryChangelogItem.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
+        
+        emfLogEntryChangelogItem.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
+        
+        emfLogEntryChangelogItem.setModifiedOn(thing.getModifiedOn());
+        
+        emfLogEntryChangelogItem.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfLogEntryChangelogItem.setThingPreference(thing.getThingPreference());
+        		        
+        return emfLogEntryChangelogItem;
         
         
         case "cdp4common.engineeringmodeldata.ParameterSubscription":
@@ -1246,6 +1485,8 @@ public abstract class Thing {
         emfParameterSubscription.setModifiedOn(thing.getModifiedOn());
         
         emfParameterSubscription.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfParameterSubscription.setThingPreference(thing.getThingPreference());
         		        
         return emfParameterSubscription;
         
@@ -1262,6 +1503,8 @@ public abstract class Thing {
         emfParameter.setModifiedOn(thing.getModifiedOn());
         
         emfParameter.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfParameter.setThingPreference(thing.getThingPreference());
         		        
         return emfParameter;
         
@@ -1277,6 +1520,8 @@ public abstract class Thing {
         emfParameterOverride.setModifiedOn(thing.getModifiedOn());
         
         emfParameterOverride.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfParameterOverride.setThingPreference(thing.getThingPreference());
         		        
         return emfParameterOverride;
         
@@ -1293,6 +1538,8 @@ public abstract class Thing {
         emfCommonFileStore.setModifiedOn(thing.getModifiedOn());
         
         emfCommonFileStore.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfCommonFileStore.setThingPreference(thing.getThingPreference());
         		        
         return emfCommonFileStore;
         
@@ -1308,6 +1555,8 @@ public abstract class Thing {
         emfDomainFileStore.setModifiedOn(thing.getModifiedOn());
         
         emfDomainFileStore.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDomainFileStore.setThingPreference(thing.getThingPreference());
         		        
         return emfDomainFileStore;
         
@@ -1323,6 +1572,8 @@ public abstract class Thing {
         emfParameterGroup.setModifiedOn(thing.getModifiedOn());
         
         emfParameterGroup.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfParameterGroup.setThingPreference(thing.getThingPreference());
         		        
         return emfParameterGroup;
         
@@ -1338,6 +1589,8 @@ public abstract class Thing {
         emfPublication.setModifiedOn(thing.getModifiedOn());
         
         emfPublication.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfPublication.setThingPreference(thing.getThingPreference());
         		        
         return emfPublication;
         
@@ -1353,6 +1606,8 @@ public abstract class Thing {
         emfFile.setModifiedOn(thing.getModifiedOn());
         
         emfFile.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfFile.setThingPreference(thing.getThingPreference());
         		        
         return emfFile;
         
@@ -1368,6 +1623,8 @@ public abstract class Thing {
         emfParametricConstraint.setModifiedOn(thing.getModifiedOn());
         
         emfParametricConstraint.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfParametricConstraint.setThingPreference(thing.getThingPreference());
         		        
         return emfParametricConstraint;
         
@@ -1383,6 +1640,8 @@ public abstract class Thing {
         emfExternalIdentifierMap.setModifiedOn(thing.getModifiedOn());
         
         emfExternalIdentifierMap.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfExternalIdentifierMap.setThingPreference(thing.getThingPreference());
         		        
         return emfExternalIdentifierMap;
         
@@ -1398,6 +1657,8 @@ public abstract class Thing {
         emfNestedElement.setModifiedOn(thing.getModifiedOn());
         
         emfNestedElement.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfNestedElement.setThingPreference(thing.getThingPreference());
         		        
         return emfNestedElement;
         
@@ -1413,6 +1674,8 @@ public abstract class Thing {
         emfFolder.setModifiedOn(thing.getModifiedOn());
         
         emfFolder.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfFolder.setThingPreference(thing.getThingPreference());
         		        
         return emfFolder;
         
@@ -1428,6 +1691,8 @@ public abstract class Thing {
         emfIdCorrespondence.setModifiedOn(thing.getModifiedOn());
         
         emfIdCorrespondence.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfIdCorrespondence.setThingPreference(thing.getThingPreference());
         		        
         return emfIdCorrespondence;
         
@@ -1444,6 +1709,8 @@ public abstract class Thing {
         emfMultiRelationship.setModifiedOn(thing.getModifiedOn());
         
         emfMultiRelationship.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfMultiRelationship.setThingPreference(thing.getThingPreference());
         		        
         return emfMultiRelationship;
         
@@ -1459,6 +1726,8 @@ public abstract class Thing {
         emfBinaryRelationship.setModifiedOn(thing.getModifiedOn());
         
         emfBinaryRelationship.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfBinaryRelationship.setThingPreference(thing.getThingPreference());
         		        
         return emfBinaryRelationship;
         
@@ -1474,6 +1743,8 @@ public abstract class Thing {
         emfSimpleParameterValue.setModifiedOn(thing.getModifiedOn());
         
         emfSimpleParameterValue.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSimpleParameterValue.setThingPreference(thing.getThingPreference());
         		        
         return emfSimpleParameterValue;
         
@@ -1489,6 +1760,8 @@ public abstract class Thing {
         emfParameterSubscriptionValueSet.setModifiedOn(thing.getModifiedOn());
         
         emfParameterSubscriptionValueSet.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfParameterSubscriptionValueSet.setThingPreference(thing.getThingPreference());
         		        
         return emfParameterSubscriptionValueSet;
         
@@ -1504,6 +1777,8 @@ public abstract class Thing {
         emfActualFiniteState.setModifiedOn(thing.getModifiedOn());
         
         emfActualFiniteState.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfActualFiniteState.setThingPreference(thing.getThingPreference());
         		        
         return emfActualFiniteState;
         
@@ -1519,6 +1794,8 @@ public abstract class Thing {
         emfModelLogEntry.setModifiedOn(thing.getModifiedOn());
         
         emfModelLogEntry.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfModelLogEntry.setThingPreference(thing.getThingPreference());
         		        
         return emfModelLogEntry;
         
@@ -1534,6 +1811,8 @@ public abstract class Thing {
         emfIteration.setModifiedOn(thing.getModifiedOn());
         
         emfIteration.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfIteration.setThingPreference(thing.getThingPreference());
         		        
         return emfIteration;
         
@@ -1549,6 +1828,8 @@ public abstract class Thing {
         emfActualFiniteStateList.setModifiedOn(thing.getModifiedOn());
         
         emfActualFiniteStateList.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfActualFiniteStateList.setThingPreference(thing.getThingPreference());
         		        
         return emfActualFiniteStateList;
         
@@ -1565,6 +1846,8 @@ public abstract class Thing {
         emfOrExpression.setModifiedOn(thing.getModifiedOn());
         
         emfOrExpression.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfOrExpression.setThingPreference(thing.getThingPreference());
         		        
         return emfOrExpression;
         
@@ -1580,6 +1863,8 @@ public abstract class Thing {
         emfNotExpression.setModifiedOn(thing.getModifiedOn());
         
         emfNotExpression.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfNotExpression.setThingPreference(thing.getThingPreference());
         		        
         return emfNotExpression;
         
@@ -1595,6 +1880,8 @@ public abstract class Thing {
         emfAndExpression.setModifiedOn(thing.getModifiedOn());
         
         emfAndExpression.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfAndExpression.setThingPreference(thing.getThingPreference());
         		        
         return emfAndExpression;
         
@@ -1610,6 +1897,8 @@ public abstract class Thing {
         emfExclusiveOrExpression.setModifiedOn(thing.getModifiedOn());
         
         emfExclusiveOrExpression.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfExclusiveOrExpression.setThingPreference(thing.getThingPreference());
         		        
         return emfExclusiveOrExpression;
         
@@ -1625,6 +1914,8 @@ public abstract class Thing {
         emfRelationalExpression.setModifiedOn(thing.getModifiedOn());
         
         emfRelationalExpression.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRelationalExpression.setThingPreference(thing.getThingPreference());
         		        
         return emfRelationalExpression;
         
@@ -1641,6 +1932,8 @@ public abstract class Thing {
         emfParameterValueSet.setModifiedOn(thing.getModifiedOn());
         
         emfParameterValueSet.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfParameterValueSet.setThingPreference(thing.getThingPreference());
         		        
         return emfParameterValueSet;
         
@@ -1656,6 +1949,8 @@ public abstract class Thing {
         emfParameterOverrideValueSet.setModifiedOn(thing.getModifiedOn());
         
         emfParameterOverrideValueSet.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfParameterOverrideValueSet.setThingPreference(thing.getThingPreference());
         		        
         return emfParameterOverrideValueSet;
         
@@ -1671,6 +1966,8 @@ public abstract class Thing {
         emfNestedParameter.setModifiedOn(thing.getModifiedOn());
         
         emfNestedParameter.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfNestedParameter.setThingPreference(thing.getThingPreference());
         		        
         return emfNestedParameter;
         
@@ -1686,6 +1983,8 @@ public abstract class Thing {
         emfFileRevision.setModifiedOn(thing.getModifiedOn());
         
         emfFileRevision.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfFileRevision.setThingPreference(thing.getThingPreference());
         		        
         return emfFileRevision;
         
@@ -1702,6 +2001,8 @@ public abstract class Thing {
         emfUserRuleVerification.setModifiedOn(thing.getModifiedOn());
         
         emfUserRuleVerification.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfUserRuleVerification.setThingPreference(thing.getThingPreference());
         		        
         return emfUserRuleVerification;
         
@@ -1717,6 +2018,8 @@ public abstract class Thing {
         emfBuiltInRuleVerification.setModifiedOn(thing.getModifiedOn());
         
         emfBuiltInRuleVerification.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfBuiltInRuleVerification.setThingPreference(thing.getThingPreference());
         		        
         return emfBuiltInRuleVerification;
         
@@ -1732,6 +2035,8 @@ public abstract class Thing {
         emfRuleViolation.setModifiedOn(thing.getModifiedOn());
         
         emfRuleViolation.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRuleViolation.setThingPreference(thing.getThingPreference());
         		        
         return emfRuleViolation;
         
@@ -1747,6 +2052,8 @@ public abstract class Thing {
         emfStakeHolderValueMapSettings.setModifiedOn(thing.getModifiedOn());
         
         emfStakeHolderValueMapSettings.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfStakeHolderValueMapSettings.setThingPreference(thing.getThingPreference());
         		        
         return emfStakeHolderValueMapSettings;
         
@@ -1763,6 +2070,8 @@ public abstract class Thing {
         emfRequirementsContainerParameterValue.setModifiedOn(thing.getModifiedOn());
         
         emfRequirementsContainerParameterValue.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRequirementsContainerParameterValue.setThingPreference(thing.getThingPreference());
         		        
         return emfRequirementsContainerParameterValue;
         
@@ -1778,6 +2087,8 @@ public abstract class Thing {
         emfRelationshipParameterValue.setModifiedOn(thing.getModifiedOn());
         
         emfRelationshipParameterValue.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRelationshipParameterValue.setThingPreference(thing.getThingPreference());
         		        
         return emfRelationshipParameterValue;
         
@@ -1793,6 +2104,8 @@ public abstract class Thing {
         emfBook.setModifiedOn(thing.getModifiedOn());
         
         emfBook.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfBook.setThingPreference(thing.getThingPreference());
         		        
         return emfBook;
         
@@ -1808,6 +2121,8 @@ public abstract class Thing {
         emfSection.setModifiedOn(thing.getModifiedOn());
         
         emfSection.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSection.setThingPreference(thing.getThingPreference());
         		        
         return emfSection;
         
@@ -1823,6 +2138,8 @@ public abstract class Thing {
         emfPage.setModifiedOn(thing.getModifiedOn());
         
         emfPage.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfPage.setThingPreference(thing.getThingPreference());
         		        
         return emfPage;
         
@@ -1839,6 +2156,8 @@ public abstract class Thing {
         emfBinaryNote.setModifiedOn(thing.getModifiedOn());
         
         emfBinaryNote.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfBinaryNote.setThingPreference(thing.getThingPreference());
         		        
         return emfBinaryNote;
         
@@ -1854,6 +2173,8 @@ public abstract class Thing {
         emfTextualNote.setModifiedOn(thing.getModifiedOn());
         
         emfTextualNote.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfTextualNote.setThingPreference(thing.getThingPreference());
         		        
         return emfTextualNote;
         
@@ -1870,6 +2191,8 @@ public abstract class Thing {
         emfModellingThingReference.setModifiedOn(thing.getModifiedOn());
         
         emfModellingThingReference.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfModellingThingReference.setThingPreference(thing.getThingPreference());
         		        
         return emfModellingThingReference;
         
@@ -1885,6 +2208,8 @@ public abstract class Thing {
         emfSiteDirectoryThingReference.setModifiedOn(thing.getModifiedOn());
         
         emfSiteDirectoryThingReference.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSiteDirectoryThingReference.setThingPreference(thing.getThingPreference());
         		        
         return emfSiteDirectoryThingReference;
         
@@ -1901,6 +2226,8 @@ public abstract class Thing {
         emfSolution.setModifiedOn(thing.getModifiedOn());
         
         emfSolution.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSolution.setThingPreference(thing.getThingPreference());
         		        
         return emfSolution;
         
@@ -1916,6 +2243,8 @@ public abstract class Thing {
         emfSiteDirectoryDataAnnotation.setModifiedOn(thing.getModifiedOn());
         
         emfSiteDirectoryDataAnnotation.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSiteDirectoryDataAnnotation.setThingPreference(thing.getThingPreference());
         		        
         return emfSiteDirectoryDataAnnotation;
         
@@ -1934,6 +2263,8 @@ public abstract class Thing {
         emfRequestForWaiver.setModifiedOn(thing.getModifiedOn());
         
         emfRequestForWaiver.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRequestForWaiver.setThingPreference(thing.getThingPreference());
         		        
         return emfRequestForWaiver;
         
@@ -1949,6 +2280,8 @@ public abstract class Thing {
         emfRequestForDeviation.setModifiedOn(thing.getModifiedOn());
         
         emfRequestForDeviation.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRequestForDeviation.setThingPreference(thing.getThingPreference());
         		        
         return emfRequestForDeviation;
         
@@ -1964,6 +2297,8 @@ public abstract class Thing {
         emfChangeRequest.setModifiedOn(thing.getModifiedOn());
         
         emfChangeRequest.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfChangeRequest.setThingPreference(thing.getThingPreference());
         		        
         return emfChangeRequest;
         
@@ -1979,6 +2314,8 @@ public abstract class Thing {
         emfReviewItemDiscrepancy.setModifiedOn(thing.getModifiedOn());
         
         emfReviewItemDiscrepancy.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfReviewItemDiscrepancy.setThingPreference(thing.getThingPreference());
         		        
         return emfReviewItemDiscrepancy;
         
@@ -1994,6 +2331,8 @@ public abstract class Thing {
         emfActionItem.setModifiedOn(thing.getModifiedOn());
         
         emfActionItem.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfActionItem.setThingPreference(thing.getThingPreference());
         		        
         return emfActionItem;
         
@@ -2009,6 +2348,8 @@ public abstract class Thing {
         emfChangeProposal.setModifiedOn(thing.getModifiedOn());
         
         emfChangeProposal.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfChangeProposal.setThingPreference(thing.getThingPreference());
         		        
         return emfChangeProposal;
         
@@ -2024,6 +2365,8 @@ public abstract class Thing {
         emfContractChangeNotice.setModifiedOn(thing.getModifiedOn());
         
         emfContractChangeNotice.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfContractChangeNotice.setThingPreference(thing.getThingPreference());
         		        
         return emfContractChangeNotice;
         
@@ -2039,6 +2382,8 @@ public abstract class Thing {
         emfEngineeringModelDataNote.setModifiedOn(thing.getModifiedOn());
         
         emfEngineeringModelDataNote.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfEngineeringModelDataNote.setThingPreference(thing.getThingPreference());
         		        
         return emfEngineeringModelDataNote;
         
@@ -2054,6 +2399,8 @@ public abstract class Thing {
         emfApproval.setModifiedOn(thing.getModifiedOn());
         
         emfApproval.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfApproval.setThingPreference(thing.getThingPreference());
         		        
         return emfApproval;
         
@@ -2070,6 +2417,8 @@ public abstract class Thing {
         emfEngineeringModelDataDiscussionItem.setModifiedOn(thing.getModifiedOn());
         
         emfEngineeringModelDataDiscussionItem.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfEngineeringModelDataDiscussionItem.setThingPreference(thing.getThingPreference());
         		        
         return emfEngineeringModelDataDiscussionItem;
         
@@ -2085,6 +2434,8 @@ public abstract class Thing {
         emfSiteDirectoryDataDiscussionItem.setModifiedOn(thing.getModifiedOn());
         
         emfSiteDirectoryDataDiscussionItem.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSiteDirectoryDataDiscussionItem.setThingPreference(thing.getThingPreference());
         		        
         return emfSiteDirectoryDataDiscussionItem;
         
@@ -2101,6 +2452,8 @@ public abstract class Thing {
         emfPoint.setModifiedOn(thing.getModifiedOn());
         
         emfPoint.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfPoint.setThingPreference(thing.getThingPreference());
         		        
         return emfPoint;
         
@@ -2116,6 +2469,8 @@ public abstract class Thing {
         emfBounds.setModifiedOn(thing.getModifiedOn());
         
         emfBounds.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfBounds.setThingPreference(thing.getThingPreference());
         		        
         return emfBounds;
         
@@ -2131,6 +2486,8 @@ public abstract class Thing {
         emfColor.setModifiedOn(thing.getModifiedOn());
         
         emfColor.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfColor.setThingPreference(thing.getThingPreference());
         		        
         return emfColor;
         
@@ -2147,6 +2504,8 @@ public abstract class Thing {
         emfOwnedStyle.setModifiedOn(thing.getModifiedOn());
         
         emfOwnedStyle.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfOwnedStyle.setThingPreference(thing.getThingPreference());
         		        
         return emfOwnedStyle;
         
@@ -2162,6 +2521,8 @@ public abstract class Thing {
         emfSharedStyle.setModifiedOn(thing.getModifiedOn());
         
         emfSharedStyle.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSharedStyle.setThingPreference(thing.getThingPreference());
         		        
         return emfSharedStyle;
         
@@ -2179,6 +2540,8 @@ public abstract class Thing {
         emfDiagramEdge.setModifiedOn(thing.getModifiedOn());
         
         emfDiagramEdge.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDiagramEdge.setThingPreference(thing.getThingPreference());
         		        
         return emfDiagramEdge;
         
@@ -2195,6 +2558,8 @@ public abstract class Thing {
         emfDiagramObject.setModifiedOn(thing.getModifiedOn());
         
         emfDiagramObject.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDiagramObject.setThingPreference(thing.getThingPreference());
         		        
         return emfDiagramObject;
         
@@ -2210,6 +2575,8 @@ public abstract class Thing {
         emfDiagramCanvas.setModifiedOn(thing.getModifiedOn());
         
         emfDiagramCanvas.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDiagramCanvas.setThingPreference(thing.getThingPreference());
         		        
         return emfDiagramCanvas;
         	
@@ -2239,6 +2606,8 @@ public abstract class Thing {
         pojoParticipantPermission.setModifiedOn(emfThing.getModifiedOn());
         
         pojoParticipantPermission.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoParticipantPermission.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoParticipantPermission;
         
@@ -2254,6 +2623,8 @@ public abstract class Thing {
         pojoPerson.setModifiedOn(emfThing.getModifiedOn());
         
         pojoPerson.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoPerson.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoPerson;
         
@@ -2269,6 +2640,8 @@ public abstract class Thing {
         pojoOrganization.setModifiedOn(emfThing.getModifiedOn());
         
         pojoOrganization.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoOrganization.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoOrganization;
         
@@ -2284,6 +2657,8 @@ public abstract class Thing {
         pojoParticipant.setModifiedOn(emfThing.getModifiedOn());
         
         pojoParticipant.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoParticipant.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoParticipant;
         
@@ -2299,6 +2674,8 @@ public abstract class Thing {
         pojoScaleReferenceQuantityValue.setModifiedOn(emfThing.getModifiedOn());
         
         pojoScaleReferenceQuantityValue.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoScaleReferenceQuantityValue.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoScaleReferenceQuantityValue;
         
@@ -2314,6 +2691,8 @@ public abstract class Thing {
         pojoMappingToReferenceScale.setModifiedOn(emfThing.getModifiedOn());
         
         pojoMappingToReferenceScale.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoMappingToReferenceScale.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoMappingToReferenceScale;
         
@@ -2329,6 +2708,8 @@ public abstract class Thing {
         pojoQuantityKindFactor.setModifiedOn(emfThing.getModifiedOn());
         
         pojoQuantityKindFactor.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoQuantityKindFactor.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoQuantityKindFactor;
         
@@ -2344,6 +2725,8 @@ public abstract class Thing {
         pojoUnitFactor.setModifiedOn(emfThing.getModifiedOn());
         
         pojoUnitFactor.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoUnitFactor.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoUnitFactor;
         
@@ -2359,6 +2742,8 @@ public abstract class Thing {
         pojoParameterTypeComponent.setModifiedOn(emfThing.getModifiedOn());
         
         pojoParameterTypeComponent.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoParameterTypeComponent.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoParameterTypeComponent;
         
@@ -2374,6 +2759,8 @@ public abstract class Thing {
         pojoPersonPermission.setModifiedOn(emfThing.getModifiedOn());
         
         pojoPersonPermission.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoPersonPermission.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoPersonPermission;
         
@@ -2389,6 +2776,8 @@ public abstract class Thing {
         pojoSiteLogEntry.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSiteLogEntry.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSiteLogEntry.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSiteLogEntry;
         
@@ -2404,6 +2793,8 @@ public abstract class Thing {
         pojoIterationSetup.setModifiedOn(emfThing.getModifiedOn());
         
         pojoIterationSetup.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoIterationSetup.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoIterationSetup;
         
@@ -2419,6 +2810,8 @@ public abstract class Thing {
         pojoTelephoneNumber.setModifiedOn(emfThing.getModifiedOn());
         
         pojoTelephoneNumber.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoTelephoneNumber.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoTelephoneNumber;
         
@@ -2434,6 +2827,8 @@ public abstract class Thing {
         pojoEmailAddress.setModifiedOn(emfThing.getModifiedOn());
         
         pojoEmailAddress.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoEmailAddress.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoEmailAddress;
         
@@ -2449,6 +2844,8 @@ public abstract class Thing {
         pojoUserPreference.setModifiedOn(emfThing.getModifiedOn());
         
         pojoUserPreference.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoUserPreference.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoUserPreference;
         
@@ -2464,8 +2861,61 @@ public abstract class Thing {
         pojoNaturalLanguage.setModifiedOn(emfThing.getModifiedOn());
         
         pojoNaturalLanguage.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoNaturalLanguage.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoNaturalLanguage;
+        
+        case "CDP4.sitedirectorydata.DependentParameterTypeAssignment":                
+        cdp4common.commondata.Thing pojoDependentParameterTypeAssignment = new cdp4common.sitedirectorydata.DependentParameterTypeAssignment();	    
+        
+        pojoDependentParameterTypeAssignment.setIid(UUID.fromString(emfThing.getIid())); 
+        
+        pojoDependentParameterTypeAssignment.getExcludedDomain().addAll(emfThing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoDependentParameterTypeAssignment.getExcludedPerson().addAll(emfThing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoDependentParameterTypeAssignment.setModifiedOn(emfThing.getModifiedOn());
+        
+        pojoDependentParameterTypeAssignment.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDependentParameterTypeAssignment.setThingPreference(emfThing.getThingPreference());
+        		        
+        return pojoDependentParameterTypeAssignment;
+        
+        case "CDP4.sitedirectorydata.IndependentParameterTypeAssignment":                
+        cdp4common.commondata.Thing pojoIndependentParameterTypeAssignment = new cdp4common.sitedirectorydata.IndependentParameterTypeAssignment();	    
+        
+        pojoIndependentParameterTypeAssignment.setIid(UUID.fromString(emfThing.getIid())); 
+        
+        pojoIndependentParameterTypeAssignment.getExcludedDomain().addAll(emfThing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoIndependentParameterTypeAssignment.getExcludedPerson().addAll(emfThing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoIndependentParameterTypeAssignment.setModifiedOn(emfThing.getModifiedOn());
+        
+        pojoIndependentParameterTypeAssignment.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoIndependentParameterTypeAssignment.setThingPreference(emfThing.getThingPreference());
+        		        
+        return pojoIndependentParameterTypeAssignment;
+        
+        case "CDP4.sitedirectorydata.OrganizationalParticipant":                
+        cdp4common.commondata.Thing pojoOrganizationalParticipant = new cdp4common.sitedirectorydata.OrganizationalParticipant();	    
+        
+        pojoOrganizationalParticipant.setIid(UUID.fromString(emfThing.getIid())); 
+        
+        pojoOrganizationalParticipant.getExcludedDomain().addAll(emfThing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoOrganizationalParticipant.getExcludedPerson().addAll(emfThing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoOrganizationalParticipant.setModifiedOn(emfThing.getModifiedOn());
+        
+        pojoOrganizationalParticipant.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoOrganizationalParticipant.setThingPreference(emfThing.getThingPreference());
+        		        
+        return pojoOrganizationalParticipant;
         
         
         case "CDP4.sitedirectorydata.ParticipantRole":                
@@ -2480,6 +2930,8 @@ public abstract class Thing {
         pojoParticipantRole.setModifiedOn(emfThing.getModifiedOn());
         
         pojoParticipantRole.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoParticipantRole.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoParticipantRole;
         
@@ -2495,6 +2947,8 @@ public abstract class Thing {
         pojoEngineeringModelSetup.setModifiedOn(emfThing.getModifiedOn());
         
         pojoEngineeringModelSetup.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoEngineeringModelSetup.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoEngineeringModelSetup;
         
@@ -2510,6 +2964,8 @@ public abstract class Thing {
         pojoGlossary.setModifiedOn(emfThing.getModifiedOn());
         
         pojoGlossary.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoGlossary.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoGlossary;
         
@@ -2526,6 +2982,8 @@ public abstract class Thing {
         pojoSiteReferenceDataLibrary.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSiteReferenceDataLibrary.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSiteReferenceDataLibrary.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSiteReferenceDataLibrary;
         
@@ -2541,6 +2999,8 @@ public abstract class Thing {
         pojoModelReferenceDataLibrary.setModifiedOn(emfThing.getModifiedOn());
         
         pojoModelReferenceDataLibrary.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoModelReferenceDataLibrary.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoModelReferenceDataLibrary;
         
@@ -2556,6 +3016,8 @@ public abstract class Thing {
         pojoTerm.setModifiedOn(emfThing.getModifiedOn());
         
         pojoTerm.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoTerm.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoTerm;
         
@@ -2571,6 +3033,8 @@ public abstract class Thing {
         pojoFileType.setModifiedOn(emfThing.getModifiedOn());
         
         pojoFileType.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoFileType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoFileType;
         
@@ -2587,6 +3051,8 @@ public abstract class Thing {
         pojoOrdinalScale.setModifiedOn(emfThing.getModifiedOn());
         
         pojoOrdinalScale.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoOrdinalScale.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoOrdinalScale;
         
@@ -2602,6 +3068,8 @@ public abstract class Thing {
         pojoRatioScale.setModifiedOn(emfThing.getModifiedOn());
         
         pojoRatioScale.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRatioScale.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRatioScale;
         
@@ -2617,6 +3085,8 @@ public abstract class Thing {
         pojoCyclicRatioScale.setModifiedOn(emfThing.getModifiedOn());
         
         pojoCyclicRatioScale.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoCyclicRatioScale.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoCyclicRatioScale;
         
@@ -2632,6 +3102,8 @@ public abstract class Thing {
         pojoIntervalScale.setModifiedOn(emfThing.getModifiedOn());
         
         pojoIntervalScale.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoIntervalScale.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoIntervalScale;
         
@@ -2647,6 +3119,8 @@ public abstract class Thing {
         pojoLogarithmicScale.setModifiedOn(emfThing.getModifiedOn());
         
         pojoLogarithmicScale.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoLogarithmicScale.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoLogarithmicScale;
         
@@ -2662,6 +3136,8 @@ public abstract class Thing {
         pojoDomainOfExpertise.setModifiedOn(emfThing.getModifiedOn());
         
         pojoDomainOfExpertise.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDomainOfExpertise.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDomainOfExpertise;
         
@@ -2678,6 +3154,8 @@ public abstract class Thing {
         pojoCompoundParameterType.setModifiedOn(emfThing.getModifiedOn());
         
         pojoCompoundParameterType.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoCompoundParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoCompoundParameterType;
         
@@ -2693,6 +3171,8 @@ public abstract class Thing {
         pojoArrayParameterType.setModifiedOn(emfThing.getModifiedOn());
         
         pojoArrayParameterType.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoArrayParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoArrayParameterType;
         
@@ -2709,6 +3189,8 @@ public abstract class Thing {
         pojoEnumerationParameterType.setModifiedOn(emfThing.getModifiedOn());
         
         pojoEnumerationParameterType.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoEnumerationParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoEnumerationParameterType;
         
@@ -2724,6 +3206,8 @@ public abstract class Thing {
         pojoBooleanParameterType.setModifiedOn(emfThing.getModifiedOn());
         
         pojoBooleanParameterType.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoBooleanParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoBooleanParameterType;
         
@@ -2739,6 +3223,8 @@ public abstract class Thing {
         pojoDateParameterType.setModifiedOn(emfThing.getModifiedOn());
         
         pojoDateParameterType.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDateParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDateParameterType;
         
@@ -2754,6 +3240,8 @@ public abstract class Thing {
         pojoTextParameterType.setModifiedOn(emfThing.getModifiedOn());
         
         pojoTextParameterType.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoTextParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoTextParameterType;
         
@@ -2769,6 +3257,8 @@ public abstract class Thing {
         pojoDateTimeParameterType.setModifiedOn(emfThing.getModifiedOn());
         
         pojoDateTimeParameterType.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDateTimeParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDateTimeParameterType;
         
@@ -2784,6 +3274,8 @@ public abstract class Thing {
         pojoTimeOfDayParameterType.setModifiedOn(emfThing.getModifiedOn());
         
         pojoTimeOfDayParameterType.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoTimeOfDayParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoTimeOfDayParameterType;
         
@@ -2800,6 +3292,8 @@ public abstract class Thing {
         pojoSpecializedQuantityKind.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSpecializedQuantityKind.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSpecializedQuantityKind.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSpecializedQuantityKind;
         
@@ -2815,6 +3309,8 @@ public abstract class Thing {
         pojoSimpleQuantityKind.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSimpleQuantityKind.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSimpleQuantityKind.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSimpleQuantityKind;
         
@@ -2830,8 +3326,27 @@ public abstract class Thing {
         pojoDerivedQuantityKind.setModifiedOn(emfThing.getModifiedOn());
         
         pojoDerivedQuantityKind.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDerivedQuantityKind.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDerivedQuantityKind;
+        
+        case "CDP4.sitedirectorydata.SampledFunctionParameterType":                
+        cdp4common.commondata.Thing pojoSampledFunctionParameterType = new cdp4common.sitedirectorydata.SampledFunctionParameterType();	    
+        
+        pojoSampledFunctionParameterType.setIid(UUID.fromString(emfThing.getIid())); 
+        
+        pojoSampledFunctionParameterType.getExcludedDomain().addAll(emfThing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoSampledFunctionParameterType.getExcludedPerson().addAll(emfThing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoSampledFunctionParameterType.setModifiedOn(emfThing.getModifiedOn());
+        
+        pojoSampledFunctionParameterType.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSampledFunctionParameterType.setThingPreference(emfThing.getThingPreference());
+        		        
+        return pojoSampledFunctionParameterType;
         
         case "CDP4.sitedirectorydata.ScaleValueDefinition":                
         cdp4common.commondata.Thing pojoScaleValueDefinition = new cdp4common.sitedirectorydata.ScaleValueDefinition();	    
@@ -2845,6 +3360,8 @@ public abstract class Thing {
         pojoScaleValueDefinition.setModifiedOn(emfThing.getModifiedOn());
         
         pojoScaleValueDefinition.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoScaleValueDefinition.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoScaleValueDefinition;
         
@@ -2861,6 +3378,8 @@ public abstract class Thing {
         pojoDerivedUnit.setModifiedOn(emfThing.getModifiedOn());
         
         pojoDerivedUnit.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDerivedUnit.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDerivedUnit;
         
@@ -2877,6 +3396,8 @@ public abstract class Thing {
         pojoLinearConversionUnit.setModifiedOn(emfThing.getModifiedOn());
         
         pojoLinearConversionUnit.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoLinearConversionUnit.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoLinearConversionUnit;
         
@@ -2892,6 +3413,8 @@ public abstract class Thing {
         pojoPrefixedUnit.setModifiedOn(emfThing.getModifiedOn());
         
         pojoPrefixedUnit.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoPrefixedUnit.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoPrefixedUnit;
         
@@ -2907,6 +3430,8 @@ public abstract class Thing {
         pojoSimpleUnit.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSimpleUnit.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSimpleUnit.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSimpleUnit;
         
@@ -2922,6 +3447,8 @@ public abstract class Thing {
         pojoCategory.setModifiedOn(emfThing.getModifiedOn());
         
         pojoCategory.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoCategory.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoCategory;
         
@@ -2937,6 +3464,8 @@ public abstract class Thing {
         pojoUnitPrefix.setModifiedOn(emfThing.getModifiedOn());
         
         pojoUnitPrefix.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoUnitPrefix.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoUnitPrefix;
         
@@ -2953,6 +3482,8 @@ public abstract class Thing {
         pojoReferencerRule.setModifiedOn(emfThing.getModifiedOn());
         
         pojoReferencerRule.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoReferencerRule.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoReferencerRule;
         
@@ -2968,6 +3499,8 @@ public abstract class Thing {
         pojoBinaryRelationshipRule.setModifiedOn(emfThing.getModifiedOn());
         
         pojoBinaryRelationshipRule.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoBinaryRelationshipRule.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoBinaryRelationshipRule;
         
@@ -2983,6 +3516,8 @@ public abstract class Thing {
         pojoMultiRelationshipRule.setModifiedOn(emfThing.getModifiedOn());
         
         pojoMultiRelationshipRule.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoMultiRelationshipRule.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoMultiRelationshipRule;
         
@@ -2998,6 +3533,8 @@ public abstract class Thing {
         pojoDecompositionRule.setModifiedOn(emfThing.getModifiedOn());
         
         pojoDecompositionRule.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDecompositionRule.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDecompositionRule;
         
@@ -3013,6 +3550,8 @@ public abstract class Thing {
         pojoParameterizedCategoryRule.setModifiedOn(emfThing.getModifiedOn());
         
         pojoParameterizedCategoryRule.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoParameterizedCategoryRule.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoParameterizedCategoryRule;
         
@@ -3028,6 +3567,8 @@ public abstract class Thing {
         pojoEnumerationValueDefinition.setModifiedOn(emfThing.getModifiedOn());
         
         pojoEnumerationValueDefinition.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoEnumerationValueDefinition.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoEnumerationValueDefinition;
         
@@ -3043,6 +3584,8 @@ public abstract class Thing {
         pojoPersonRole.setModifiedOn(emfThing.getModifiedOn());
         
         pojoPersonRole.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoPersonRole.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoPersonRole;
         
@@ -3058,6 +3601,8 @@ public abstract class Thing {
         pojoDomainOfExpertiseGroup.setModifiedOn(emfThing.getModifiedOn());
         
         pojoDomainOfExpertiseGroup.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDomainOfExpertiseGroup.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDomainOfExpertiseGroup;
         
@@ -3073,6 +3618,8 @@ public abstract class Thing {
         pojoReferenceSource.setModifiedOn(emfThing.getModifiedOn());
         
         pojoReferenceSource.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoReferenceSource.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoReferenceSource;
         
@@ -3088,6 +3635,8 @@ public abstract class Thing {
         pojoConstant.setModifiedOn(emfThing.getModifiedOn());
         
         pojoConstant.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoConstant.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoConstant;
         
@@ -3103,6 +3652,8 @@ public abstract class Thing {
         pojoPossibleFiniteState.setModifiedOn(emfThing.getModifiedOn());
         
         pojoPossibleFiniteState.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoPossibleFiniteState.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoPossibleFiniteState;
         
@@ -3118,6 +3669,8 @@ public abstract class Thing {
         pojoOption.setModifiedOn(emfThing.getModifiedOn());
         
         pojoOption.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoOption.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoOption;
         
@@ -3133,6 +3686,8 @@ public abstract class Thing {
         pojoPossibleFiniteStateList.setModifiedOn(emfThing.getModifiedOn());
         
         pojoPossibleFiniteStateList.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoPossibleFiniteStateList.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoPossibleFiniteStateList;
         
@@ -3149,6 +3704,8 @@ public abstract class Thing {
         pojoElementDefinition.setModifiedOn(emfThing.getModifiedOn());
         
         pojoElementDefinition.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoElementDefinition.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoElementDefinition;
         
@@ -3164,6 +3721,8 @@ public abstract class Thing {
         pojoElementUsage.setModifiedOn(emfThing.getModifiedOn());
         
         pojoElementUsage.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoElementUsage.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoElementUsage;
         
@@ -3180,6 +3739,8 @@ public abstract class Thing {
         pojoRequirementsSpecification.setModifiedOn(emfThing.getModifiedOn());
         
         pojoRequirementsSpecification.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRequirementsSpecification.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRequirementsSpecification;
         
@@ -3195,6 +3756,8 @@ public abstract class Thing {
         pojoRequirementsGroup.setModifiedOn(emfThing.getModifiedOn());
         
         pojoRequirementsGroup.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRequirementsGroup.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRequirementsGroup;
         
@@ -3211,6 +3774,8 @@ public abstract class Thing {
         pojoRequirement.setModifiedOn(emfThing.getModifiedOn());
         
         pojoRequirement.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRequirement.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRequirement;
         
@@ -3226,6 +3791,8 @@ public abstract class Thing {
         pojoRuleVerificationList.setModifiedOn(emfThing.getModifiedOn());
         
         pojoRuleVerificationList.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRuleVerificationList.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRuleVerificationList;
         
@@ -3241,6 +3808,8 @@ public abstract class Thing {
         pojoGoal.setModifiedOn(emfThing.getModifiedOn());
         
         pojoGoal.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoGoal.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoGoal;
         
@@ -3256,6 +3825,8 @@ public abstract class Thing {
         pojoStakeholder.setModifiedOn(emfThing.getModifiedOn());
         
         pojoStakeholder.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoStakeholder.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoStakeholder;
         
@@ -3271,6 +3842,8 @@ public abstract class Thing {
         pojoValueGroup.setModifiedOn(emfThing.getModifiedOn());
         
         pojoValueGroup.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoValueGroup.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoValueGroup;
         
@@ -3286,6 +3859,8 @@ public abstract class Thing {
         pojoStakeholderValue.setModifiedOn(emfThing.getModifiedOn());
         
         pojoStakeholderValue.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoStakeholderValue.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoStakeholderValue;
         
@@ -3301,6 +3876,8 @@ public abstract class Thing {
         pojoStakeHolderValueMap.setModifiedOn(emfThing.getModifiedOn());
         
         pojoStakeHolderValueMap.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoStakeHolderValueMap.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoStakeHolderValueMap;
         
@@ -3316,6 +3893,8 @@ public abstract class Thing {
         pojoHyperLink.setModifiedOn(emfThing.getModifiedOn());
         
         pojoHyperLink.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoHyperLink.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoHyperLink;
         
@@ -3331,6 +3910,8 @@ public abstract class Thing {
         pojoDefinition.setModifiedOn(emfThing.getModifiedOn());
         
         pojoDefinition.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDefinition.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDefinition;
         
@@ -3346,6 +3927,8 @@ public abstract class Thing {
         pojoAlias.setModifiedOn(emfThing.getModifiedOn());
         
         pojoAlias.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoAlias.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoAlias;
         
@@ -3361,6 +3944,8 @@ public abstract class Thing {
         pojoCitation.setModifiedOn(emfThing.getModifiedOn());
         
         pojoCitation.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoCitation.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoCitation;
         
@@ -3377,6 +3962,8 @@ public abstract class Thing {
         pojoSiteDirectory.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSiteDirectory.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSiteDirectory.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSiteDirectory;
         
@@ -3392,8 +3979,27 @@ public abstract class Thing {
         pojoEngineeringModel.setModifiedOn(emfThing.getModifiedOn());
         
         pojoEngineeringModel.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoEngineeringModel.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoEngineeringModel;
+        
+        case "CDP4.commondata.LogEntryChangelogItem":                
+        cdp4common.commondata.Thing pojoLogEntryChangelogItem = new cdp4common.commondata.LogEntryChangelogItem();	    
+        
+        pojoLogEntryChangelogItem.setIid(UUID.fromString(emfThing.getIid())); 
+        
+        pojoLogEntryChangelogItem.getExcludedDomain().addAll(emfThing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoLogEntryChangelogItem.getExcludedPerson().addAll(emfThing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoLogEntryChangelogItem.setModifiedOn(emfThing.getModifiedOn());
+        
+        pojoLogEntryChangelogItem.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoLogEntryChangelogItem.setThingPreference(emfThing.getThingPreference());
+        		        
+        return pojoLogEntryChangelogItem;
         
         
         case "CDP4.engineeringmodeldata.ParameterSubscription":                
@@ -3408,6 +4014,8 @@ public abstract class Thing {
         pojoParameterSubscription.setModifiedOn(emfThing.getModifiedOn());
         
         pojoParameterSubscription.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoParameterSubscription.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoParameterSubscription;
         
@@ -3424,6 +4032,8 @@ public abstract class Thing {
         pojoParameter.setModifiedOn(emfThing.getModifiedOn());
         
         pojoParameter.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoParameter.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoParameter;
         
@@ -3439,6 +4049,8 @@ public abstract class Thing {
         pojoParameterOverride.setModifiedOn(emfThing.getModifiedOn());
         
         pojoParameterOverride.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoParameterOverride.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoParameterOverride;
         
@@ -3455,6 +4067,8 @@ public abstract class Thing {
         pojoCommonFileStore.setModifiedOn(emfThing.getModifiedOn());
         
         pojoCommonFileStore.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoCommonFileStore.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoCommonFileStore;
         
@@ -3470,6 +4084,8 @@ public abstract class Thing {
         pojoDomainFileStore.setModifiedOn(emfThing.getModifiedOn());
         
         pojoDomainFileStore.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDomainFileStore.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDomainFileStore;
         
@@ -3485,6 +4101,8 @@ public abstract class Thing {
         pojoParameterGroup.setModifiedOn(emfThing.getModifiedOn());
         
         pojoParameterGroup.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoParameterGroup.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoParameterGroup;
         
@@ -3500,6 +4118,8 @@ public abstract class Thing {
         pojoPublication.setModifiedOn(emfThing.getModifiedOn());
         
         pojoPublication.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoPublication.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoPublication;
         
@@ -3515,6 +4135,8 @@ public abstract class Thing {
         pojoFile.setModifiedOn(emfThing.getModifiedOn());
         
         pojoFile.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoFile.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoFile;
         
@@ -3530,6 +4152,8 @@ public abstract class Thing {
         pojoParametricConstraint.setModifiedOn(emfThing.getModifiedOn());
         
         pojoParametricConstraint.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoParametricConstraint.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoParametricConstraint;
         
@@ -3545,6 +4169,8 @@ public abstract class Thing {
         pojoExternalIdentifierMap.setModifiedOn(emfThing.getModifiedOn());
         
         pojoExternalIdentifierMap.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoExternalIdentifierMap.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoExternalIdentifierMap;
         
@@ -3560,6 +4186,8 @@ public abstract class Thing {
         pojoNestedElement.setModifiedOn(emfThing.getModifiedOn());
         
         pojoNestedElement.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoNestedElement.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoNestedElement;
         
@@ -3575,6 +4203,8 @@ public abstract class Thing {
         pojoFolder.setModifiedOn(emfThing.getModifiedOn());
         
         pojoFolder.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoFolder.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoFolder;
         
@@ -3590,6 +4220,8 @@ public abstract class Thing {
         pojoIdCorrespondence.setModifiedOn(emfThing.getModifiedOn());
         
         pojoIdCorrespondence.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoIdCorrespondence.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoIdCorrespondence;
         
@@ -3606,6 +4238,8 @@ public abstract class Thing {
         pojoMultiRelationship.setModifiedOn(emfThing.getModifiedOn());
         
         pojoMultiRelationship.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoMultiRelationship.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoMultiRelationship;
         
@@ -3621,6 +4255,8 @@ public abstract class Thing {
         pojoBinaryRelationship.setModifiedOn(emfThing.getModifiedOn());
         
         pojoBinaryRelationship.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoBinaryRelationship.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoBinaryRelationship;
         
@@ -3636,6 +4272,8 @@ public abstract class Thing {
         pojoSimpleParameterValue.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSimpleParameterValue.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSimpleParameterValue.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSimpleParameterValue;
         
@@ -3651,6 +4289,8 @@ public abstract class Thing {
         pojoParameterSubscriptionValueSet.setModifiedOn(emfThing.getModifiedOn());
         
         pojoParameterSubscriptionValueSet.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoParameterSubscriptionValueSet.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoParameterSubscriptionValueSet;
         
@@ -3666,6 +4306,8 @@ public abstract class Thing {
         pojoActualFiniteState.setModifiedOn(emfThing.getModifiedOn());
         
         pojoActualFiniteState.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoActualFiniteState.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoActualFiniteState;
         
@@ -3681,6 +4323,8 @@ public abstract class Thing {
         pojoModelLogEntry.setModifiedOn(emfThing.getModifiedOn());
         
         pojoModelLogEntry.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoModelLogEntry.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoModelLogEntry;
         
@@ -3696,6 +4340,8 @@ public abstract class Thing {
         pojoIteration.setModifiedOn(emfThing.getModifiedOn());
         
         pojoIteration.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoIteration.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoIteration;
         
@@ -3711,6 +4357,8 @@ public abstract class Thing {
         pojoActualFiniteStateList.setModifiedOn(emfThing.getModifiedOn());
         
         pojoActualFiniteStateList.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoActualFiniteStateList.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoActualFiniteStateList;
         
@@ -3727,6 +4375,8 @@ public abstract class Thing {
         pojoOrExpression.setModifiedOn(emfThing.getModifiedOn());
         
         pojoOrExpression.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoOrExpression.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoOrExpression;
         
@@ -3742,6 +4392,8 @@ public abstract class Thing {
         pojoNotExpression.setModifiedOn(emfThing.getModifiedOn());
         
         pojoNotExpression.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoNotExpression.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoNotExpression;
         
@@ -3757,6 +4409,8 @@ public abstract class Thing {
         pojoAndExpression.setModifiedOn(emfThing.getModifiedOn());
         
         pojoAndExpression.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoAndExpression.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoAndExpression;
         
@@ -3772,6 +4426,8 @@ public abstract class Thing {
         pojoExclusiveOrExpression.setModifiedOn(emfThing.getModifiedOn());
         
         pojoExclusiveOrExpression.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoExclusiveOrExpression.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoExclusiveOrExpression;
         
@@ -3787,6 +4443,8 @@ public abstract class Thing {
         pojoRelationalExpression.setModifiedOn(emfThing.getModifiedOn());
         
         pojoRelationalExpression.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRelationalExpression.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRelationalExpression;
         
@@ -3803,6 +4461,8 @@ public abstract class Thing {
         pojoParameterValueSet.setModifiedOn(emfThing.getModifiedOn());
         
         pojoParameterValueSet.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoParameterValueSet.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoParameterValueSet;
         
@@ -3818,6 +4478,8 @@ public abstract class Thing {
         pojoParameterOverrideValueSet.setModifiedOn(emfThing.getModifiedOn());
         
         pojoParameterOverrideValueSet.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoParameterOverrideValueSet.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoParameterOverrideValueSet;
         
@@ -3833,6 +4495,8 @@ public abstract class Thing {
         pojoNestedParameter.setModifiedOn(emfThing.getModifiedOn());
         
         pojoNestedParameter.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoNestedParameter.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoNestedParameter;
         
@@ -3848,6 +4512,8 @@ public abstract class Thing {
         pojoFileRevision.setModifiedOn(emfThing.getModifiedOn());
         
         pojoFileRevision.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoFileRevision.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoFileRevision;
         
@@ -3864,6 +4530,8 @@ public abstract class Thing {
         pojoUserRuleVerification.setModifiedOn(emfThing.getModifiedOn());
         
         pojoUserRuleVerification.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoUserRuleVerification.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoUserRuleVerification;
         
@@ -3879,6 +4547,8 @@ public abstract class Thing {
         pojoBuiltInRuleVerification.setModifiedOn(emfThing.getModifiedOn());
         
         pojoBuiltInRuleVerification.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoBuiltInRuleVerification.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoBuiltInRuleVerification;
         
@@ -3894,6 +4564,8 @@ public abstract class Thing {
         pojoRuleViolation.setModifiedOn(emfThing.getModifiedOn());
         
         pojoRuleViolation.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRuleViolation.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRuleViolation;
         
@@ -3909,6 +4581,8 @@ public abstract class Thing {
         pojoStakeHolderValueMapSettings.setModifiedOn(emfThing.getModifiedOn());
         
         pojoStakeHolderValueMapSettings.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoStakeHolderValueMapSettings.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoStakeHolderValueMapSettings;
         
@@ -3925,6 +4599,8 @@ public abstract class Thing {
         pojoRequirementsContainerParameterValue.setModifiedOn(emfThing.getModifiedOn());
         
         pojoRequirementsContainerParameterValue.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRequirementsContainerParameterValue.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRequirementsContainerParameterValue;
         
@@ -3940,6 +4616,8 @@ public abstract class Thing {
         pojoRelationshipParameterValue.setModifiedOn(emfThing.getModifiedOn());
         
         pojoRelationshipParameterValue.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRelationshipParameterValue.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRelationshipParameterValue;
         
@@ -3955,6 +4633,8 @@ public abstract class Thing {
         pojoBook.setModifiedOn(emfThing.getModifiedOn());
         
         pojoBook.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoBook.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoBook;
         
@@ -3970,6 +4650,8 @@ public abstract class Thing {
         pojoSection.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSection.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSection.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSection;
         
@@ -3985,6 +4667,8 @@ public abstract class Thing {
         pojoPage.setModifiedOn(emfThing.getModifiedOn());
         
         pojoPage.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoPage.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoPage;
         
@@ -4001,6 +4685,8 @@ public abstract class Thing {
         pojoBinaryNote.setModifiedOn(emfThing.getModifiedOn());
         
         pojoBinaryNote.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoBinaryNote.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoBinaryNote;
         
@@ -4016,6 +4702,8 @@ public abstract class Thing {
         pojoTextualNote.setModifiedOn(emfThing.getModifiedOn());
         
         pojoTextualNote.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoTextualNote.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoTextualNote;
         
@@ -4032,6 +4720,8 @@ public abstract class Thing {
         pojoModellingThingReference.setModifiedOn(emfThing.getModifiedOn());
         
         pojoModellingThingReference.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoModellingThingReference.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoModellingThingReference;
         
@@ -4047,6 +4737,8 @@ public abstract class Thing {
         pojoSiteDirectoryThingReference.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSiteDirectoryThingReference.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSiteDirectoryThingReference.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSiteDirectoryThingReference;
         
@@ -4063,6 +4755,8 @@ public abstract class Thing {
         pojoSolution.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSolution.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSolution.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSolution;
         
@@ -4078,6 +4772,8 @@ public abstract class Thing {
         pojoSiteDirectoryDataAnnotation.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSiteDirectoryDataAnnotation.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSiteDirectoryDataAnnotation.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSiteDirectoryDataAnnotation;
         
@@ -4096,6 +4792,8 @@ public abstract class Thing {
         pojoRequestForWaiver.setModifiedOn(emfThing.getModifiedOn());
         
         pojoRequestForWaiver.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRequestForWaiver.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRequestForWaiver;
         
@@ -4111,6 +4809,8 @@ public abstract class Thing {
         pojoRequestForDeviation.setModifiedOn(emfThing.getModifiedOn());
         
         pojoRequestForDeviation.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRequestForDeviation.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRequestForDeviation;
         
@@ -4126,6 +4826,8 @@ public abstract class Thing {
         pojoChangeRequest.setModifiedOn(emfThing.getModifiedOn());
         
         pojoChangeRequest.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoChangeRequest.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoChangeRequest;
         
@@ -4141,6 +4843,8 @@ public abstract class Thing {
         pojoReviewItemDiscrepancy.setModifiedOn(emfThing.getModifiedOn());
         
         pojoReviewItemDiscrepancy.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoReviewItemDiscrepancy.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoReviewItemDiscrepancy;
         
@@ -4156,6 +4860,8 @@ public abstract class Thing {
         pojoActionItem.setModifiedOn(emfThing.getModifiedOn());
         
         pojoActionItem.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoActionItem.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoActionItem;
         
@@ -4171,6 +4877,8 @@ public abstract class Thing {
         pojoChangeProposal.setModifiedOn(emfThing.getModifiedOn());
         
         pojoChangeProposal.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoChangeProposal.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoChangeProposal;
         
@@ -4186,6 +4894,8 @@ public abstract class Thing {
         pojoContractChangeNotice.setModifiedOn(emfThing.getModifiedOn());
         
         pojoContractChangeNotice.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoContractChangeNotice.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoContractChangeNotice;
         
@@ -4201,6 +4911,8 @@ public abstract class Thing {
         pojoEngineeringModelDataNote.setModifiedOn(emfThing.getModifiedOn());
         
         pojoEngineeringModelDataNote.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoEngineeringModelDataNote.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoEngineeringModelDataNote;
         
@@ -4216,6 +4928,8 @@ public abstract class Thing {
         pojoApproval.setModifiedOn(emfThing.getModifiedOn());
         
         pojoApproval.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoApproval.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoApproval;
         
@@ -4232,6 +4946,8 @@ public abstract class Thing {
         pojoEngineeringModelDataDiscussionItem.setModifiedOn(emfThing.getModifiedOn());
         
         pojoEngineeringModelDataDiscussionItem.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoEngineeringModelDataDiscussionItem.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoEngineeringModelDataDiscussionItem;
         
@@ -4247,6 +4963,8 @@ public abstract class Thing {
         pojoSiteDirectoryDataDiscussionItem.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSiteDirectoryDataDiscussionItem.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSiteDirectoryDataDiscussionItem.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSiteDirectoryDataDiscussionItem;
         
@@ -4263,6 +4981,8 @@ public abstract class Thing {
         pojoPoint.setModifiedOn(emfThing.getModifiedOn());
         
         pojoPoint.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoPoint.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoPoint;
         
@@ -4278,6 +4998,8 @@ public abstract class Thing {
         pojoBounds.setModifiedOn(emfThing.getModifiedOn());
         
         pojoBounds.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoBounds.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoBounds;
         
@@ -4293,6 +5015,8 @@ public abstract class Thing {
         pojoColor.setModifiedOn(emfThing.getModifiedOn());
         
         pojoColor.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoColor.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoColor;
         
@@ -4309,6 +5033,8 @@ public abstract class Thing {
         pojoOwnedStyle.setModifiedOn(emfThing.getModifiedOn());
         
         pojoOwnedStyle.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoOwnedStyle.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoOwnedStyle;
         
@@ -4324,6 +5050,8 @@ public abstract class Thing {
         pojoSharedStyle.setModifiedOn(emfThing.getModifiedOn());
         
         pojoSharedStyle.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSharedStyle.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSharedStyle;
         
@@ -4341,6 +5069,8 @@ public abstract class Thing {
         pojoDiagramEdge.setModifiedOn(emfThing.getModifiedOn());
         
         pojoDiagramEdge.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDiagramEdge.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDiagramEdge;
         
@@ -4357,6 +5087,8 @@ public abstract class Thing {
         pojoDiagramObject.setModifiedOn(emfThing.getModifiedOn());
         
         pojoDiagramObject.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDiagramObject.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDiagramObject;
         
@@ -4372,6 +5104,8 @@ public abstract class Thing {
         pojoDiagramCanvas.setModifiedOn(emfThing.getModifiedOn());
         
         pojoDiagramCanvas.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDiagramCanvas.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDiagramCanvas;
         	

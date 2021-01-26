@@ -77,6 +77,8 @@ public class ParameterSubscription {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.getValueSet().addAll(thing.getValueSet().stream().map(item -> cdp4emfconnector.ParameterSubscriptionValueSet.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
@@ -102,6 +104,8 @@ public class ParameterSubscription {
         pojo.setOwner(emfThing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toPojo(emfThing.getOwner()) : null);        
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.getValueSet().addAll(emfThing.getValueSet().stream().map(item -> cdp4emfconnector.ParameterSubscriptionValueSet.toPojo(item)).collect(Collectors.toList()));              
         

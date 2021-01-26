@@ -107,6 +107,8 @@ public class SiteDirectory {
         
         emf.getSiteReferenceDataLibrary().addAll(thing.getSiteReferenceDataLibrary().stream().map(item -> cdp4emfconnector.SiteReferenceDataLibrary.toEmf(item)).collect(Collectors.toList()));
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -160,6 +162,8 @@ public class SiteDirectory {
         pojo.setShortName(emfThing.getShortName());
         
         pojo.getSiteReferenceDataLibrary().addAll(emfThing.getSiteReferenceDataLibrary().stream().map(item -> cdp4emfconnector.SiteReferenceDataLibrary.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

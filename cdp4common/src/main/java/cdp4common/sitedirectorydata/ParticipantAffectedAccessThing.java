@@ -31,6 +31,7 @@ import java.time.OffsetDateTime;
 import java.util.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import cdp4common.CDPVersion;
 
 /**
  * representation of a Thing in a SiteDirectory that is affected by PersonAccessRightKind.READ_IF_PARTICIPANT or PersonAccessRightKind.MODIFY_IF_PARTICIPANT

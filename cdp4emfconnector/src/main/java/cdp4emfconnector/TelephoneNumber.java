@@ -75,6 +75,8 @@ public class TelephoneNumber {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.setValue(thing.getValue());
         
         if (thing.getVcardType() != null) {thing.getVcardType().forEach(item-> emf.getVcardType().add(CDP4.SiteDirectoryData.VcardTelephoneNumberKind.valueOf(thing.getVcardType().toString())));}                          
@@ -100,6 +102,8 @@ public class TelephoneNumber {
         pojo.setModifiedOn(emfThing.getModifiedOn());
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.setValue(emfThing.getValue());
         

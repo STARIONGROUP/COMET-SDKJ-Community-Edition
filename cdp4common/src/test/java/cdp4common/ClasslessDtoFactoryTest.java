@@ -112,8 +112,9 @@ class ClasslessDtoFactoryTest {
         assertTrue(classlessDTO.containsKey("excludedDomain"));
         assertTrue(classlessDTO.containsKey("excludedPerson"));
         assertTrue(classlessDTO.containsKey("annotation"));
+        assertTrue(classlessDTO.containsKey("thingPreference"));
 
-        assertEquals(23, classlessDTO.size());
+        assertEquals(24, classlessDTO.size());
 
         UUID uuid = (UUID) classlessDTO.get("defaultPersonRole");
         assertEquals(siteDirectory.getDefaultPersonRole(), uuid);

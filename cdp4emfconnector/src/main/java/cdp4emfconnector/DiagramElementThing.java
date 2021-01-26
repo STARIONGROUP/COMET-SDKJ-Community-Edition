@@ -88,6 +88,8 @@ public abstract class DiagramElementThing {
         emfDiagramEdge.setRevisionNumber(thing.getRevisionNumber());
         
         emfDiagramEdge.setSharedStyle(thing.getSharedStyle() != null ? cdp4emfconnector.SharedStyle.toEmf(thing.getSharedStyle()) : null);
+        emfDiagramEdge.setThingPreference(thing.getThingPreference());
+        		        
         return emfDiagramEdge;
         
         
@@ -114,6 +116,8 @@ public abstract class DiagramElementThing {
         emfDiagramObject.setRevisionNumber(thing.getRevisionNumber());
         
         emfDiagramObject.setSharedStyle(thing.getSharedStyle() != null ? cdp4emfconnector.SharedStyle.toEmf(thing.getSharedStyle()) : null);
+        emfDiagramObject.setThingPreference(thing.getThingPreference());
+        		        
         return emfDiagramObject;
         	
         }
@@ -153,6 +157,8 @@ public abstract class DiagramElementThing {
         pojoDiagramEdge.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoDiagramEdge.setSharedStyle(emfThing.getSharedStyle() != null ? cdp4emfconnector.SharedStyle.toPojo(emfThing.getSharedStyle()) : null);
+        pojoDiagramEdge.setThingPreference(emfThing.getThingPreference());
+        		        
         return pojoDiagramEdge;
         
         
@@ -179,6 +185,8 @@ public abstract class DiagramElementThing {
         pojoDiagramObject.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoDiagramObject.setSharedStyle(emfThing.getSharedStyle() != null ? cdp4emfconnector.SharedStyle.toPojo(emfThing.getSharedStyle()) : null);
+        pojoDiagramObject.setThingPreference(emfThing.getThingPreference());
+        		        
         return pojoDiagramObject;
         	
         }

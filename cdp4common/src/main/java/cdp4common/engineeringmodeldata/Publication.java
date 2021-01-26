@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -202,6 +203,7 @@ public class Publication extends Thing implements Cloneable, TimeStampedThing {
         this.setModifiedOn(dto.getModifiedOn());
         PojoThingFactory.resolveList(this.getPublishedParameter(), dto.getPublishedParameter(), dto.getIterationContainerId(), this.getCache(), ParameterOrOverrideBase.class);
         this.setRevisionNumber(dto.getRevisionNumber());
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -222,6 +224,7 @@ public class Publication extends Thing implements Cloneable, TimeStampedThing {
         dto.setModifiedOn(this.getModifiedOn());
         dto.getPublishedParameter().addAll(this.getPublishedParameter().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

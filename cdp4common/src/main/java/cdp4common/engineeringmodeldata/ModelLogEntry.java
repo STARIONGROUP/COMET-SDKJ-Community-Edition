@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -75,8 +76,10 @@ public class ModelLogEntry extends Thing implements Cloneable, Annotation, Categ
      * Initializes a new instance of the {@link ModelLogEntry} class.
      */
     public ModelLogEntry() {
+        this.affectedDomainIid = new ArrayList<UUID>();
         this.affectedItemIid = new ArrayList<UUID>();
         this.category = new ArrayList<Category>();
+        this.logEntryChangelogItem = new ContainerList<LogEntryChangelogItem>(this);
     }
 
     /**
@@ -89,9 +92,20 @@ public class ModelLogEntry extends Thing implements Cloneable, Annotation, Categ
      */
     public ModelLogEntry(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
+        this.affectedDomainIid = new ArrayList<UUID>();
         this.affectedItemIid = new ArrayList<UUID>();
         this.category = new ArrayList<Category>();
+        this.logEntryChangelogItem = new ContainerList<LogEntryChangelogItem>(this);
     }
+
+    /**
+     * List of UUID.
+     * The list of affected Domains of Expertise that this LogEntry.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
+    private ArrayList<UUID> affectedDomainIid;
 
     /**
      * List of UUID.
@@ -161,6 +175,29 @@ public class ModelLogEntry extends Thing implements Cloneable, Annotation, Categ
     private LogLevelKind level;
 
     /**
+     * List of contained LogEntryChangelogItem.
+     */
+    @CDPVersion(version = "1.2.0")
+    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
+    private ContainerList<LogEntryChangelogItem> logEntryChangelogItem;
+
+    /**
+     * {@link Iterable} that references the composite properties of the current {@link ModelLogEntry}.
+     */
+    private Iterable<Iterable> containerLists;
+
+    /**
+     * Gets a {@link Collection} that references the composite properties of the current {@link ModelLogEntry}.
+     */
+    @Override
+    public Collection<Collection> getContainerLists() {
+        Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
+        return containers;
+    }
+
+    /**
      * Creates and returns a copy of this {@link ModelLogEntry} for edit purpose.
      *
      * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
@@ -177,12 +214,15 @@ public class ModelLogEntry extends Thing implements Cloneable, Annotation, Categ
             throw new IllegalAccessError("Somehow ModelLogEntry cannot be cloned.");
         }
 
+        clone.setAffectedDomainIid(new ArrayList<UUID>(this.getAffectedDomainIid()));
         clone.setAffectedItemIid(new ArrayList<UUID>(this.getAffectedItemIid()));
         clone.setCategory(new ArrayList<Category>(this.getCategory()));
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
+        clone.setLogEntryChangelogItem(cloneContainedThings ? new ContainerList<LogEntryChangelogItem>(clone) : new ContainerList<LogEntryChangelogItem>(this.getLogEntryChangelogItem(), clone, false));
 
         if (cloneContainedThings) {
+            clone.getLogEntryChangelogItem().addAll(this.getLogEntryChangelogItem().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
 
         clone.setOriginal(this);
@@ -236,6 +276,7 @@ public class ModelLogEntry extends Thing implements Cloneable, Annotation, Categ
 
         cdp4common.dto.ModelLogEntry dto = (cdp4common.dto.ModelLogEntry)dtoThing;
 
+        PojoThingFactory.clearAndAddRange(this.getAffectedDomainIid(), dto.getAffectedDomainIid());
         PojoThingFactory.clearAndAddRange(this.getAffectedItemIid(), dto.getAffectedItemIid());
         this.setAuthor((dto.getAuthor() != null) ? PojoThingFactory.get(this.getCache(), dto.getAuthor(), dto.getIterationContainerId(), Person.class) : null);
         PojoThingFactory.resolveList(this.getCategory(), dto.getCategory(), dto.getIterationContainerId(), this.getCache(), Category.class);
@@ -245,8 +286,10 @@ public class ModelLogEntry extends Thing implements Cloneable, Annotation, Categ
         PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         this.setLanguageCode(dto.getLanguageCode());
         this.setLevel(dto.getLevel());
+        PojoThingFactory.resolveList(this.getLogEntryChangelogItem(), dto.getLogEntryChangelogItem(), dto.getIterationContainerId(), this.getCache(), LogEntryChangelogItem.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -260,6 +303,7 @@ public class ModelLogEntry extends Thing implements Cloneable, Annotation, Categ
     public cdp4common.dto.Thing toDto() {
         cdp4common.dto.ModelLogEntry dto = new cdp4common.dto.ModelLogEntry(this.getIid(), this.getRevisionNumber());
 
+        dto.getAffectedDomainIid().addAll(this.getAffectedDomainIid());
         dto.getAffectedItemIid().addAll(this.getAffectedItemIid());
         dto.setAuthor(this.getAuthor() != null ? (UUID)this.getAuthor().getIid() : null);
         dto.getCategory().addAll(this.getCategory().stream().map(Thing::getIid).collect(Collectors.toList()));
@@ -269,8 +313,10 @@ public class ModelLogEntry extends Thing implements Cloneable, Annotation, Categ
         dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setLanguageCode(this.getLanguageCode());
         dto.setLevel(this.getLevel());
+        dto.getLogEntryChangelogItem().addAll(this.getLogEntryChangelogItem().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

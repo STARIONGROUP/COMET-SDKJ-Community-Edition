@@ -93,6 +93,8 @@ public abstract class ScalarParameterType {
         emfEnumerationParameterType.setShortName(thing.getShortName());
         
         emfEnumerationParameterType.setSymbol(thing.getSymbol());
+        
+        emfEnumerationParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfEnumerationParameterType;
         
@@ -124,6 +126,8 @@ public abstract class ScalarParameterType {
         emfBooleanParameterType.setShortName(thing.getShortName());
         
         emfBooleanParameterType.setSymbol(thing.getSymbol());
+        
+        emfBooleanParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfBooleanParameterType;
         
@@ -155,6 +159,8 @@ public abstract class ScalarParameterType {
         emfDateParameterType.setShortName(thing.getShortName());
         
         emfDateParameterType.setSymbol(thing.getSymbol());
+        
+        emfDateParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfDateParameterType;
         
@@ -186,6 +192,8 @@ public abstract class ScalarParameterType {
         emfTextParameterType.setShortName(thing.getShortName());
         
         emfTextParameterType.setSymbol(thing.getSymbol());
+        
+        emfTextParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfTextParameterType;
         
@@ -217,6 +225,8 @@ public abstract class ScalarParameterType {
         emfDateTimeParameterType.setShortName(thing.getShortName());
         
         emfDateTimeParameterType.setSymbol(thing.getSymbol());
+        
+        emfDateTimeParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfDateTimeParameterType;
         
@@ -248,6 +258,8 @@ public abstract class ScalarParameterType {
         emfTimeOfDayParameterType.setShortName(thing.getShortName());
         
         emfTimeOfDayParameterType.setSymbol(thing.getSymbol());
+        
+        emfTimeOfDayParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfTimeOfDayParameterType;
         
@@ -280,6 +292,8 @@ public abstract class ScalarParameterType {
         emfSpecializedQuantityKind.setShortName(thing.getShortName());
         
         emfSpecializedQuantityKind.setSymbol(thing.getSymbol());
+        
+        emfSpecializedQuantityKind.setThingPreference(thing.getThingPreference());
         		        
         return emfSpecializedQuantityKind;
         
@@ -311,6 +325,8 @@ public abstract class ScalarParameterType {
         emfSimpleQuantityKind.setShortName(thing.getShortName());
         
         emfSimpleQuantityKind.setSymbol(thing.getSymbol());
+        
+        emfSimpleQuantityKind.setThingPreference(thing.getThingPreference());
         		        
         return emfSimpleQuantityKind;
         
@@ -342,6 +358,8 @@ public abstract class ScalarParameterType {
         emfDerivedQuantityKind.setShortName(thing.getShortName());
         
         emfDerivedQuantityKind.setSymbol(thing.getSymbol());
+        
+        emfDerivedQuantityKind.setThingPreference(thing.getThingPreference());
         		        
         return emfDerivedQuantityKind;
         	
@@ -387,6 +405,8 @@ public abstract class ScalarParameterType {
         pojoEnumerationParameterType.setShortName(emfThing.getShortName());
         
         pojoEnumerationParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoEnumerationParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoEnumerationParameterType;
         
@@ -418,6 +438,8 @@ public abstract class ScalarParameterType {
         pojoBooleanParameterType.setShortName(emfThing.getShortName());
         
         pojoBooleanParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoBooleanParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoBooleanParameterType;
         
@@ -449,6 +471,8 @@ public abstract class ScalarParameterType {
         pojoDateParameterType.setShortName(emfThing.getShortName());
         
         pojoDateParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoDateParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDateParameterType;
         
@@ -480,6 +504,8 @@ public abstract class ScalarParameterType {
         pojoTextParameterType.setShortName(emfThing.getShortName());
         
         pojoTextParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoTextParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoTextParameterType;
         
@@ -511,6 +537,8 @@ public abstract class ScalarParameterType {
         pojoDateTimeParameterType.setShortName(emfThing.getShortName());
         
         pojoDateTimeParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoDateTimeParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDateTimeParameterType;
         
@@ -542,6 +570,8 @@ public abstract class ScalarParameterType {
         pojoTimeOfDayParameterType.setShortName(emfThing.getShortName());
         
         pojoTimeOfDayParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoTimeOfDayParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoTimeOfDayParameterType;
         
@@ -574,6 +604,8 @@ public abstract class ScalarParameterType {
         pojoSpecializedQuantityKind.setShortName(emfThing.getShortName());
         
         pojoSpecializedQuantityKind.setSymbol(emfThing.getSymbol());
+        
+        pojoSpecializedQuantityKind.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSpecializedQuantityKind;
         
@@ -605,6 +637,8 @@ public abstract class ScalarParameterType {
         pojoSimpleQuantityKind.setShortName(emfThing.getShortName());
         
         pojoSimpleQuantityKind.setSymbol(emfThing.getSymbol());
+        
+        pojoSimpleQuantityKind.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSimpleQuantityKind;
         
@@ -636,6 +670,8 @@ public abstract class ScalarParameterType {
         pojoDerivedQuantityKind.setShortName(emfThing.getShortName());
         
         pojoDerivedQuantityKind.setSymbol(emfThing.getSymbol());
+        
+        pojoDerivedQuantityKind.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDerivedQuantityKind;
         	

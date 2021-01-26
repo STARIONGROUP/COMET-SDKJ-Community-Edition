@@ -91,6 +91,8 @@ public class BooleanParameterType {
         
         emf.setSymbol(thing.getSymbol());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -128,6 +130,8 @@ public class BooleanParameterType {
         pojo.setShortName(emfThing.getShortName());
         
         pojo.setSymbol(emfThing.getSymbol());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

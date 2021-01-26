@@ -81,6 +81,8 @@ public class Publication {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -108,6 +110,8 @@ public class Publication {
         pojo.getPublishedParameter().addAll(emfThing.getPublishedParameter().stream().map(item -> cdp4emfconnector.ParameterOrOverrideBase.toPojo(item)).collect(Collectors.toList()));              
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

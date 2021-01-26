@@ -91,6 +91,8 @@ public class DiagramEdge {
         
         emf.setTarget(thing.getTarget() != null ? cdp4emfconnector.DiagramElementThing.toEmf(thing.getTarget()) : null);        
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -128,6 +130,8 @@ public class DiagramEdge {
         pojo.setSource(emfThing.getSource() != null ? cdp4emfconnector.DiagramElementThing.toPojo(emfThing.getSource()) : null);        
         
         pojo.setTarget(emfThing.getTarget() != null ? cdp4emfconnector.DiagramElementThing.toPojo(emfThing.getTarget()) : null);        
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

@@ -61,5 +61,5 @@ class Headers {
   /**
    * The header that specifies the version of CDP extensions that are accepted.
    */
-  final static String ACCEPT_CDP_VERSION_VALUE = "1.1.0";
+  final static String ACCEPT_CDP_VERSION_VALUE = "1.2.0";
 }

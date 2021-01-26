@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -394,6 +395,7 @@ public class Person extends Thing implements Cloneable, DeprecatableThing, Named
         this.setShortName(dto.getShortName());
         this.setSurname(dto.getSurname());
         PojoThingFactory.resolveList(this.getTelephoneNumber(), dto.getTelephoneNumber(), dto.getIterationContainerId(), this.getCache(), TelephoneNumber.class);
+        this.setThingPreference(dto.getThingPreference());
         PojoThingFactory.resolveList(this.getUserPreference(), dto.getUserPreference(), dto.getIterationContainerId(), this.getCache(), UserPreference.class);
 
         this.resolveExtraProperties();
@@ -426,6 +428,7 @@ public class Person extends Thing implements Cloneable, DeprecatableThing, Named
         dto.setShortName(this.getShortName());
         dto.setSurname(this.getSurname());
         dto.getTelephoneNumber().addAll(this.getTelephoneNumber().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setThingPreference(this.getThingPreference());
         dto.getUserPreference().addAll(this.getUserPreference().stream().map(Thing::getIid).collect(Collectors.toList()));
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());

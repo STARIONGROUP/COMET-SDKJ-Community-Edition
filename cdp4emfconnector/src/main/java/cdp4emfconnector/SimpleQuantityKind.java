@@ -97,6 +97,8 @@ public class SimpleQuantityKind {
         
         emf.setSymbol(thing.getSymbol());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -140,6 +142,8 @@ public class SimpleQuantityKind {
         pojo.setShortName(emfThing.getShortName());
         
         pojo.setSymbol(emfThing.getSymbol());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

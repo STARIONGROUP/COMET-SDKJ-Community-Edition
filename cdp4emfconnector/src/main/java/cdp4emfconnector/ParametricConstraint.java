@@ -77,6 +77,8 @@ public class ParametricConstraint {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.setTopExpression(thing.getTopExpression() != null ? cdp4emfconnector.BooleanExpression.toEmf(thing.getTopExpression()) : null);
         return emf;
     }
@@ -101,6 +103,8 @@ public class ParametricConstraint {
         pojo.setModifiedOn(emfThing.getModifiedOn());
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.setTopExpression(emfThing.getTopExpression() != null ? cdp4emfconnector.BooleanExpression.toPojo(emfThing.getTopExpression()) : null);
         return pojo;

@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -349,6 +350,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
         this.setParameter(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getParameter(), dto.getIterationContainerId(), Parameter.class), SentinelThingProvider.getSentinel(Parameter.class)));
         PojoThingFactory.resolveList(this.getParameterSubscription(), dto.getParameterSubscription(), dto.getIterationContainerId(), this.getCache(), ParameterSubscription.class);
         this.setRevisionNumber(dto.getRevisionNumber());
+        this.setThingPreference(dto.getThingPreference());
         PojoThingFactory.resolveList(this.getValueSet(), dto.getValueSet(), dto.getIterationContainerId(), this.getCache(), ParameterOverrideValueSet.class);
 
         this.resolveExtraProperties();
@@ -370,6 +372,7 @@ public class ParameterOverride extends ParameterOrOverrideBase implements Clonea
         dto.setParameter(this.getParameter() != null ? this.getParameter().getIid() : new UUID(0L, 0L));
         dto.getParameterSubscription().addAll(this.getParameterSubscription().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
+        dto.setThingPreference(this.getThingPreference());
         dto.getValueSet().addAll(this.getValueSet().stream().map(Thing::getIid).collect(Collectors.toList()));
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());

@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -228,6 +229,7 @@ public class ReferencerRule extends Rule implements Cloneable {
         this.setReferencingCategory(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getReferencingCategory(), dto.getIterationContainerId(), Category.class), SentinelThingProvider.getSentinel(Category.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -255,6 +257,7 @@ public class ReferencerRule extends Rule implements Cloneable {
         dto.setReferencingCategory(this.getReferencingCategory() != null ? this.getReferencingCategory().getIid() : new UUID(0L, 0L));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

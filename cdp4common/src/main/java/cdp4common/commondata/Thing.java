@@ -203,6 +203,15 @@ public abstract class Thing implements AutoCloseable, Cloneable {
     private OffsetDateTime modifiedOn;
 
     /**
+     * Gets or sets the Thing Preference.
+     */
+    @CDPVersion(version = "1.2.0")
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false)
+    @Getter
+    @Setter
+    private String thingPreference;
+
+    /**
      * Revision number of this Thing
      * Note: In this data model a revision numbering approach similar to Subversion is used,
      * see <a href="http://svnbook.red-bean.com/en/1.7/svn-book.html#svn.basic">http://svnbook.red-bean.com/en/1.7/svn-book.html#svn.basic</a>.

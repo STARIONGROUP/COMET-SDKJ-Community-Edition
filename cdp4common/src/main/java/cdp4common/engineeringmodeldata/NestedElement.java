@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -323,6 +324,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
         PojoThingFactory.resolveList(this.getNestedParameter(), dto.getNestedParameter(), dto.getIterationContainerId(), this.getCache(), NestedParameter.class);
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setRootElement(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getRootElement(), dto.getIterationContainerId(), ElementDefinition.class), SentinelThingProvider.getSentinel(ElementDefinition.class)));
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -344,6 +346,7 @@ public class NestedElement extends Thing implements Cloneable, NamedThing, Owned
         dto.getNestedParameter().addAll(this.getNestedParameter().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setRootElement(this.getRootElement() != null ? this.getRootElement().getIid() : new UUID(0L, 0L));
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

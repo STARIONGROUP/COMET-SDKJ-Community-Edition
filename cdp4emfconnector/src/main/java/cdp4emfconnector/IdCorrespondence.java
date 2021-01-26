@@ -79,6 +79,8 @@ public class IdCorrespondence {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -104,6 +106,8 @@ public class IdCorrespondence {
         pojo.setModifiedOn(emfThing.getModifiedOn());
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

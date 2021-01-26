@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -293,6 +294,7 @@ public class EngineeringModel extends TopContainer implements Cloneable {
         PojoThingFactory.resolveList(this.getModellingAnnotation(), dto.getModellingAnnotation(), dto.getIterationContainerId(), this.getCache(), ModellingAnnotationItem.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -318,6 +320,7 @@ public class EngineeringModel extends TopContainer implements Cloneable {
         dto.getModellingAnnotation().addAll(this.getModellingAnnotation().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

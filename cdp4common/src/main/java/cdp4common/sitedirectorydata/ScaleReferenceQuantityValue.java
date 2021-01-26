@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -189,6 +190,7 @@ public class ScaleReferenceQuantityValue extends Thing implements Cloneable {
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setScale(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getScale(), dto.getIterationContainerId(), MeasurementScale.class), SentinelThingProvider.getSentinel(MeasurementScale.class)));
+        this.setThingPreference(dto.getThingPreference());
         this.setValue(dto.getValue());
 
         this.resolveExtraProperties();
@@ -208,6 +210,7 @@ public class ScaleReferenceQuantityValue extends Thing implements Cloneable {
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setScale(this.getScale() != null ? this.getScale().getIid() : new UUID(0L, 0L));
+        dto.setThingPreference(this.getThingPreference());
         dto.setValue(this.getValue());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());

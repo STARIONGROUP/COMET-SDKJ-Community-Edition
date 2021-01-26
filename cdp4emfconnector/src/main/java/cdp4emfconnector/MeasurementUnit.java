@@ -89,6 +89,8 @@ public abstract class MeasurementUnit {
         emfDerivedUnit.setRevisionNumber(thing.getRevisionNumber());
         
         emfDerivedUnit.setShortName(thing.getShortName());
+        
+        emfDerivedUnit.setThingPreference(thing.getThingPreference());
         		        
         return emfDerivedUnit;
         
@@ -117,6 +119,8 @@ public abstract class MeasurementUnit {
         emfLinearConversionUnit.setRevisionNumber(thing.getRevisionNumber());
         
         emfLinearConversionUnit.setShortName(thing.getShortName());
+        
+        emfLinearConversionUnit.setThingPreference(thing.getThingPreference());
         		        
         return emfLinearConversionUnit;
         
@@ -144,6 +148,8 @@ public abstract class MeasurementUnit {
         emfPrefixedUnit.setRevisionNumber(thing.getRevisionNumber());
         
         emfPrefixedUnit.setShortName(thing.getShortName());
+        
+        emfPrefixedUnit.setThingPreference(thing.getThingPreference());
         		        
         return emfPrefixedUnit;
         
@@ -171,6 +177,8 @@ public abstract class MeasurementUnit {
         emfSimpleUnit.setRevisionNumber(thing.getRevisionNumber());
         
         emfSimpleUnit.setShortName(thing.getShortName());
+        
+        emfSimpleUnit.setThingPreference(thing.getThingPreference());
         		        
         return emfSimpleUnit;
         	
@@ -212,6 +220,8 @@ public abstract class MeasurementUnit {
         pojoDerivedUnit.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoDerivedUnit.setShortName(emfThing.getShortName());
+        
+        pojoDerivedUnit.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDerivedUnit;
         
@@ -240,6 +250,8 @@ public abstract class MeasurementUnit {
         pojoLinearConversionUnit.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoLinearConversionUnit.setShortName(emfThing.getShortName());
+        
+        pojoLinearConversionUnit.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoLinearConversionUnit;
         
@@ -267,6 +279,8 @@ public abstract class MeasurementUnit {
         pojoPrefixedUnit.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoPrefixedUnit.setShortName(emfThing.getShortName());
+        
+        pojoPrefixedUnit.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoPrefixedUnit;
         
@@ -294,6 +308,8 @@ public abstract class MeasurementUnit {
         pojoSimpleUnit.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoSimpleUnit.setShortName(emfThing.getShortName());
+        
+        pojoSimpleUnit.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSimpleUnit;
         	

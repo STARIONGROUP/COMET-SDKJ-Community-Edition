@@ -99,6 +99,8 @@ public abstract class QuantityKind {
         emfSpecializedQuantityKind.setShortName(thing.getShortName());
         
         emfSpecializedQuantityKind.setSymbol(thing.getSymbol());
+        
+        emfSpecializedQuantityKind.setThingPreference(thing.getThingPreference());
         		        
         return emfSpecializedQuantityKind;
         
@@ -136,6 +138,8 @@ public abstract class QuantityKind {
         emfSimpleQuantityKind.setShortName(thing.getShortName());
         
         emfSimpleQuantityKind.setSymbol(thing.getSymbol());
+        
+        emfSimpleQuantityKind.setThingPreference(thing.getThingPreference());
         		        
         return emfSimpleQuantityKind;
         
@@ -173,6 +177,8 @@ public abstract class QuantityKind {
         emfDerivedQuantityKind.setShortName(thing.getShortName());
         
         emfDerivedQuantityKind.setSymbol(thing.getSymbol());
+        
+        emfDerivedQuantityKind.setThingPreference(thing.getThingPreference());
         		        
         return emfDerivedQuantityKind;
         	
@@ -224,6 +230,8 @@ public abstract class QuantityKind {
         pojoSpecializedQuantityKind.setShortName(emfThing.getShortName());
         
         pojoSpecializedQuantityKind.setSymbol(emfThing.getSymbol());
+        
+        pojoSpecializedQuantityKind.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSpecializedQuantityKind;
         
@@ -261,6 +269,8 @@ public abstract class QuantityKind {
         pojoSimpleQuantityKind.setShortName(emfThing.getShortName());
         
         pojoSimpleQuantityKind.setSymbol(emfThing.getSymbol());
+        
+        pojoSimpleQuantityKind.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSimpleQuantityKind;
         
@@ -298,6 +308,8 @@ public abstract class QuantityKind {
         pojoDerivedQuantityKind.setShortName(emfThing.getShortName());
         
         pojoDerivedQuantityKind.setSymbol(emfThing.getSymbol());
+        
+        pojoDerivedQuantityKind.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDerivedQuantityKind;
         	

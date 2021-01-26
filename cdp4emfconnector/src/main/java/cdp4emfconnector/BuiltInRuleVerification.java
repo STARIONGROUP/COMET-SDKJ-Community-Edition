@@ -83,6 +83,8 @@ public class BuiltInRuleVerification {
         
         if (thing.getStatus() != null) {emf.setStatus(CDP4.EngineeringModelData.RuleVerificationStatusKind.valueOf(thing.getStatus().toString()));}                          
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.getViolation().addAll(thing.getViolation().stream().map(item -> cdp4emfconnector.RuleViolation.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
@@ -114,6 +116,8 @@ public class BuiltInRuleVerification {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         if (emfThing.getStatus() != null) {pojo.setStatus(cdp4common.engineeringmodeldata.RuleVerificationStatusKind.valueOf(emfThing.getStatus().toString()));}  
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.getViolation().addAll(emfThing.getViolation().stream().map(item -> cdp4emfconnector.RuleViolation.toPojo(item)).collect(Collectors.toList()));              
         

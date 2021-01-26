@@ -81,6 +81,8 @@ public abstract class ParameterValue {
         emfRequirementsContainerParameterValue.setRevisionNumber(thing.getRevisionNumber());
         
         emfRequirementsContainerParameterValue.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);
+        emfRequirementsContainerParameterValue.setThingPreference(thing.getThingPreference());
+        
         thing.getValue().forEach(item -> emfRequirementsContainerParameterValue.getValue().add(item));	      
         		        
         return emfRequirementsContainerParameterValue;
@@ -101,6 +103,8 @@ public abstract class ParameterValue {
         emfRelationshipParameterValue.setRevisionNumber(thing.getRevisionNumber());
         
         emfRelationshipParameterValue.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);
+        emfRelationshipParameterValue.setThingPreference(thing.getThingPreference());
+        
         thing.getValue().forEach(item -> emfRelationshipParameterValue.getValue().add(item));	      
         		        
         return emfRelationshipParameterValue;
@@ -135,6 +139,8 @@ public abstract class ParameterValue {
         pojoRequirementsContainerParameterValue.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoRequirementsContainerParameterValue.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);
+        pojoRequirementsContainerParameterValue.setThingPreference(emfThing.getThingPreference());
+        
         emfThing.getValue().forEach(item -> pojoRequirementsContainerParameterValue.getValue().set(item.indexOf(item), item));		      
         		        
         return pojoRequirementsContainerParameterValue;
@@ -155,6 +161,8 @@ public abstract class ParameterValue {
         pojoRelationshipParameterValue.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoRelationshipParameterValue.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);
+        pojoRelationshipParameterValue.setThingPreference(emfThing.getThingPreference());
+        
         emfThing.getValue().forEach(item -> pojoRelationshipParameterValue.getValue().set(item.indexOf(item), item));		      
         		        
         return pojoRelationshipParameterValue;

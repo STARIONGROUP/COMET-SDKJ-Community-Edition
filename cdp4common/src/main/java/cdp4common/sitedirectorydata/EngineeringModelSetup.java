@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -78,6 +79,7 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
     public EngineeringModelSetup() {
         this.activeDomain = new ArrayList<DomainOfExpertise>();
         this.iterationSetup = new ContainerList<IterationSetup>(this);
+        this.organizationalParticipant = new ContainerList<OrganizationalParticipant>(this);
         this.participant = new ContainerList<Participant>(this);
         this.requiredRdl = new ContainerList<ModelReferenceDataLibrary>(this);
     }
@@ -94,6 +96,7 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
         super(iid, cache, iDalUri);
         this.activeDomain = new ArrayList<DomainOfExpertise>();
         this.iterationSetup = new ContainerList<IterationSetup>(this);
+        this.organizationalParticipant = new ContainerList<OrganizationalParticipant>(this);
         this.participant = new ContainerList<Participant>(this);
         this.requiredRdl = new ContainerList<ModelReferenceDataLibrary>(this);
     }
@@ -107,6 +110,19 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
     @Getter
     @Setter
     private ArrayList<DomainOfExpertise> activeDomain;
+
+    /**
+     * Property defaultOrganizationalParticipant.
+     * represents a list of OrganizationalParticipant, signifying an Organization's participation in the study.
+     * NOTE: if no list is empty the EngineeringModel behaves in a normal E-TM-10-25 manner.
+     * NOTE 2: if list is not empty at least one defaultOrganizationalParticipant must be specified, and should be a member of this list.
+     * NOTE 3: if defaultOrganizationalParticipant is set, it should not be removable from this list. Clearing this list can only be done by setting defaultOrganizationalParticipant  to null.
+     */
+    @CDPVersion(version = "1.2.0")
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
+    private OrganizationalParticipant defaultOrganizationalParticipant;
 
     /**
      * Property engineeringModelIid.
@@ -139,6 +155,19 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
     @Getter
     @Setter
     private EngineeringModelKind kind;
+
+    /**
+     * List of contained OrganizationalParticipant.
+     * represents a list of OrganizationalParticipant, signifying an Organization's participation in the study.
+     * NOTE: if no list is empty the EngineeringModel behaves in a normal E-TM-10-25 manner.
+     * NOTE 2: if list is not empty at least one defaultOrganizationalParticipant must be specified, and should be a member of this list.
+     * NOTE 3: if defaultOrganizationalParticipant is set, it should not be removable from this list. Clearing this list can only be done by setting defaultOrganizationalParticipant  to null.
+     */
+    @CDPVersion(version = "1.2.0")
+    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
+    private ContainerList<OrganizationalParticipant> organizationalParticipant;
 
     /**
      * List of contained Participant.
@@ -193,6 +222,7 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
     public Collection<Collection> getContainerLists() {
         Collection<Collection> containers = new ArrayList<Collection>(super.getContainerLists());
         containers.add(this.iterationSetup);
+        containers.add(this.organizationalParticipant);
         containers.add(this.participant);
         containers.add(this.requiredRdl);
         return containers;
@@ -222,6 +252,7 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
         clone.setIterationSetup(cloneContainedThings ? new ContainerList<IterationSetup>(clone) : new ContainerList<IterationSetup>(this.getIterationSetup(), clone, false));
+        clone.setOrganizationalParticipant(cloneContainedThings ? new ContainerList<OrganizationalParticipant>(clone) : new ContainerList<OrganizationalParticipant>(this.getOrganizationalParticipant(), clone, false));
         clone.setParticipant(cloneContainedThings ? new ContainerList<Participant>(clone) : new ContainerList<Participant>(this.getParticipant(), clone, false));
         clone.setRequiredRdl(cloneContainedThings ? new ContainerList<ModelReferenceDataLibrary>(clone) : new ContainerList<ModelReferenceDataLibrary>(this.getRequiredRdl(), clone, false));
 
@@ -230,6 +261,7 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
             clone.getDefinition().addAll(this.getDefinition().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getHyperLink().addAll(this.getHyperLink().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getIterationSetup().addAll(this.getIterationSetup().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
+            clone.getOrganizationalParticipant().addAll(this.getOrganizationalParticipant().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getParticipant().addAll(this.getParticipant().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
             clone.getRequiredRdl().addAll(this.getRequiredRdl().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
         }
@@ -299,6 +331,7 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
 
         PojoThingFactory.resolveList(this.getActiveDomain(), dto.getActiveDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
         PojoThingFactory.resolveList(this.getAlias(), dto.getAlias(), dto.getIterationContainerId(), this.getCache(), Alias.class);
+        this.setDefaultOrganizationalParticipant((dto.getDefaultOrganizationalParticipant() != null) ? PojoThingFactory.get(this.getCache(), dto.getDefaultOrganizationalParticipant(), dto.getIterationContainerId(), OrganizationalParticipant.class) : null);
         PojoThingFactory.resolveList(this.getDefinition(), dto.getDefinition(), dto.getIterationContainerId(), this.getCache(), Definition.class);
         this.setEngineeringModelIid(dto.getEngineeringModelIid());
         PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
@@ -308,12 +341,14 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
         this.setKind(dto.getKind());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
+        PojoThingFactory.resolveList(this.getOrganizationalParticipant(), dto.getOrganizationalParticipant(), dto.getIterationContainerId(), this.getCache(), OrganizationalParticipant.class);
         PojoThingFactory.resolveList(this.getParticipant(), dto.getParticipant(), dto.getIterationContainerId(), this.getCache(), Participant.class);
         PojoThingFactory.resolveList(this.getRequiredRdl(), dto.getRequiredRdl(), dto.getIterationContainerId(), this.getCache(), ModelReferenceDataLibrary.class);
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
         this.setSourceEngineeringModelSetupIid(dto.getSourceEngineeringModelSetupIid());
         this.setStudyPhase(dto.getStudyPhase());
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -329,6 +364,7 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
 
         dto.getActiveDomain().addAll(this.getActiveDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.getAlias().addAll(this.getAlias().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setDefaultOrganizationalParticipant(this.getDefaultOrganizationalParticipant() != null ? (UUID)this.getDefaultOrganizationalParticipant().getIid() : null);
         dto.getDefinition().addAll(this.getDefinition().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setEngineeringModelIid(this.getEngineeringModelIid());
         dto.getExcludedDomain().addAll(this.getExcludedDomain().stream().map(Thing::getIid).collect(Collectors.toList()));
@@ -338,12 +374,14 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
         dto.setKind(this.getKind());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
+        dto.getOrganizationalParticipant().addAll(this.getOrganizationalParticipant().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.getParticipant().addAll(this.getParticipant().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.getRequiredRdl().addAll(this.getRequiredRdl().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
         dto.setSourceEngineeringModelSetupIid(this.getSourceEngineeringModelSetupIid());
         dto.setStudyPhase(this.getStudyPhase());
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

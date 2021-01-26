@@ -32,27 +32,27 @@
 
 package cdp4common.sitedirectorydata;
 
-import cdp4common.AggregationKind;
-import cdp4common.ChangeKind;
-import cdp4common.UmlInformation;
-import cdp4common.commondata.DefinedThing;
-import cdp4common.commondata.ParticipantAccessRightKind;
-import cdp4common.commondata.PersonAccessRightKind;
-import cdp4common.commondata.Thing;
-import cdp4common.engineeringmodeldata.Iteration;
-import cdp4common.types.CacheKey;
-import cdp4common.types.ContainerList;
-import cdp4common.types.OrderedItemList;
-import com.google.common.cache.Cache;
+import java.util.*;
+import java.util.stream.*;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.io.*;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import cdp4common.*;
+import cdp4common.commondata.*;
+import cdp4common.diagramdata.*;
+import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
+import cdp4common.helpers.*;
+import cdp4common.reportingdata.*;
+import cdp4common.sitedirectorydata.*;
+import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
+import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * named library that holds a set of (predefined) reference data that can be loaded at runtime and used in an EngineeringModel

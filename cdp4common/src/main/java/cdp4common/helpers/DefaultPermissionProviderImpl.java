@@ -95,6 +95,7 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         typeNameParticipantPermissionMap.put("DecompositionRule", ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         typeNameParticipantPermissionMap.put("DefinedThing", ParticipantAccessRightKind.NOT_APPLICABLE);
         typeNameParticipantPermissionMap.put("Definition", ParticipantAccessRightKind.SAME_AS_CONTAINER);
+        typeNameParticipantPermissionMap.put("DependentParameterTypeAssignment", ParticipantAccessRightKind.SAME_AS_CONTAINER);
         typeNameParticipantPermissionMap.put("DerivedQuantityKind", ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         typeNameParticipantPermissionMap.put("DerivedUnit", ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         typeNameParticipantPermissionMap.put("DiagramCanvas", ParticipantAccessRightKind.NONE);
@@ -132,11 +133,13 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         typeNameParticipantPermissionMap.put("Goal", ParticipantAccessRightKind.NONE);
         typeNameParticipantPermissionMap.put("HyperLink", ParticipantAccessRightKind.SAME_AS_CONTAINER);
         typeNameParticipantPermissionMap.put("IdCorrespondence", ParticipantAccessRightKind.SAME_AS_CONTAINER);
+        typeNameParticipantPermissionMap.put("IndependentParameterTypeAssignment", ParticipantAccessRightKind.SAME_AS_CONTAINER);
         typeNameParticipantPermissionMap.put("IntervalScale", ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         typeNameParticipantPermissionMap.put("Iteration", ParticipantAccessRightKind.NONE);
         typeNameParticipantPermissionMap.put("IterationSetup", ParticipantAccessRightKind.NOT_APPLICABLE);
         typeNameParticipantPermissionMap.put("LinearConversionUnit", ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         typeNameParticipantPermissionMap.put("LogarithmicScale", ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
+        typeNameParticipantPermissionMap.put("LogEntryChangelogItem", ParticipantAccessRightKind.SAME_AS_CONTAINER);
         typeNameParticipantPermissionMap.put("MappingToReferenceScale", ParticipantAccessRightKind.SAME_AS_CONTAINER);
         typeNameParticipantPermissionMap.put("MeasurementScale", ParticipantAccessRightKind.SAME_AS_CONTAINER);
         typeNameParticipantPermissionMap.put("MeasurementUnit", ParticipantAccessRightKind.SAME_AS_CONTAINER);
@@ -155,6 +158,7 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         typeNameParticipantPermissionMap.put("OrdinalScale", ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         typeNameParticipantPermissionMap.put("OrExpression", ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         typeNameParticipantPermissionMap.put("Organization", ParticipantAccessRightKind.NOT_APPLICABLE);
+        typeNameParticipantPermissionMap.put("OrganizationalParticipant", ParticipantAccessRightKind.SAME_AS_CONTAINER);
         typeNameParticipantPermissionMap.put("OwnedStyle", ParticipantAccessRightKind.SAME_AS_CONTAINER);
         typeNameParticipantPermissionMap.put("Page", ParticipantAccessRightKind.NONE);
         typeNameParticipantPermissionMap.put("Parameter", ParticipantAccessRightKind.NONE);
@@ -204,6 +208,7 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         typeNameParticipantPermissionMap.put("RuleVerification", ParticipantAccessRightKind.SAME_AS_CONTAINER);
         typeNameParticipantPermissionMap.put("RuleVerificationList", ParticipantAccessRightKind.NONE);
         typeNameParticipantPermissionMap.put("RuleViolation", ParticipantAccessRightKind.SAME_AS_CONTAINER);
+        typeNameParticipantPermissionMap.put("SampledFunctionParameterType", ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         typeNameParticipantPermissionMap.put("ScalarParameterType", ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         typeNameParticipantPermissionMap.put("ScaleReferenceQuantityValue", ParticipantAccessRightKind.SAME_AS_CONTAINER);
         typeNameParticipantPermissionMap.put("ScaleValueDefinition", ParticipantAccessRightKind.SAME_AS_CONTAINER);
@@ -272,6 +277,7 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         classKindParticipantPermissionMap.put(ClassKind.DecompositionRule, ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         classKindParticipantPermissionMap.put(ClassKind.DefinedThing, ParticipantAccessRightKind.NOT_APPLICABLE);
         classKindParticipantPermissionMap.put(ClassKind.Definition, ParticipantAccessRightKind.SAME_AS_CONTAINER);
+        classKindParticipantPermissionMap.put(ClassKind.DependentParameterTypeAssignment, ParticipantAccessRightKind.SAME_AS_CONTAINER);
         classKindParticipantPermissionMap.put(ClassKind.DerivedQuantityKind, ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         classKindParticipantPermissionMap.put(ClassKind.DerivedUnit, ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         classKindParticipantPermissionMap.put(ClassKind.DiagramCanvas, ParticipantAccessRightKind.NONE);
@@ -309,11 +315,13 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         classKindParticipantPermissionMap.put(ClassKind.Goal, ParticipantAccessRightKind.NONE);
         classKindParticipantPermissionMap.put(ClassKind.HyperLink, ParticipantAccessRightKind.SAME_AS_CONTAINER);
         classKindParticipantPermissionMap.put(ClassKind.IdCorrespondence, ParticipantAccessRightKind.SAME_AS_CONTAINER);
+        classKindParticipantPermissionMap.put(ClassKind.IndependentParameterTypeAssignment, ParticipantAccessRightKind.SAME_AS_CONTAINER);
         classKindParticipantPermissionMap.put(ClassKind.IntervalScale, ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         classKindParticipantPermissionMap.put(ClassKind.Iteration, ParticipantAccessRightKind.NONE);
         classKindParticipantPermissionMap.put(ClassKind.IterationSetup, ParticipantAccessRightKind.NOT_APPLICABLE);
         classKindParticipantPermissionMap.put(ClassKind.LinearConversionUnit, ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         classKindParticipantPermissionMap.put(ClassKind.LogarithmicScale, ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
+        classKindParticipantPermissionMap.put(ClassKind.LogEntryChangelogItem, ParticipantAccessRightKind.SAME_AS_CONTAINER);
         classKindParticipantPermissionMap.put(ClassKind.MappingToReferenceScale, ParticipantAccessRightKind.SAME_AS_CONTAINER);
         classKindParticipantPermissionMap.put(ClassKind.MeasurementScale, ParticipantAccessRightKind.SAME_AS_CONTAINER);
         classKindParticipantPermissionMap.put(ClassKind.MeasurementUnit, ParticipantAccessRightKind.SAME_AS_CONTAINER);
@@ -332,6 +340,7 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         classKindParticipantPermissionMap.put(ClassKind.OrdinalScale, ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         classKindParticipantPermissionMap.put(ClassKind.OrExpression, ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         classKindParticipantPermissionMap.put(ClassKind.Organization, ParticipantAccessRightKind.NOT_APPLICABLE);
+        classKindParticipantPermissionMap.put(ClassKind.OrganizationalParticipant, ParticipantAccessRightKind.SAME_AS_CONTAINER);
         classKindParticipantPermissionMap.put(ClassKind.OwnedStyle, ParticipantAccessRightKind.SAME_AS_CONTAINER);
         classKindParticipantPermissionMap.put(ClassKind.Page, ParticipantAccessRightKind.NONE);
         classKindParticipantPermissionMap.put(ClassKind.Parameter, ParticipantAccessRightKind.NONE);
@@ -381,6 +390,7 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         classKindParticipantPermissionMap.put(ClassKind.RuleVerification, ParticipantAccessRightKind.SAME_AS_CONTAINER);
         classKindParticipantPermissionMap.put(ClassKind.RuleVerificationList, ParticipantAccessRightKind.NONE);
         classKindParticipantPermissionMap.put(ClassKind.RuleViolation, ParticipantAccessRightKind.SAME_AS_CONTAINER);
+        classKindParticipantPermissionMap.put(ClassKind.SampledFunctionParameterType, ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         classKindParticipantPermissionMap.put(ClassKind.ScalarParameterType, ParticipantAccessRightKind.SAME_AS_SUPERCLASS);
         classKindParticipantPermissionMap.put(ClassKind.ScaleReferenceQuantityValue, ParticipantAccessRightKind.SAME_AS_CONTAINER);
         classKindParticipantPermissionMap.put(ClassKind.ScaleValueDefinition, ParticipantAccessRightKind.SAME_AS_CONTAINER);
@@ -449,6 +459,7 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         typeNamePersonPermissionMap.put("DecompositionRule", PersonAccessRightKind.SAME_AS_SUPERCLASS);
         typeNamePersonPermissionMap.put("DefinedThing", PersonAccessRightKind.NOT_APPLICABLE);
         typeNamePersonPermissionMap.put("Definition", PersonAccessRightKind.SAME_AS_CONTAINER);
+        typeNamePersonPermissionMap.put("DependentParameterTypeAssignment", PersonAccessRightKind.SAME_AS_CONTAINER);
         typeNamePersonPermissionMap.put("DerivedQuantityKind", PersonAccessRightKind.SAME_AS_SUPERCLASS);
         typeNamePersonPermissionMap.put("DerivedUnit", PersonAccessRightKind.SAME_AS_SUPERCLASS);
         typeNamePersonPermissionMap.put("DiagramCanvas", PersonAccessRightKind.NOT_APPLICABLE);
@@ -486,11 +497,13 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         typeNamePersonPermissionMap.put("Goal", PersonAccessRightKind.NOT_APPLICABLE);
         typeNamePersonPermissionMap.put("HyperLink", PersonAccessRightKind.SAME_AS_CONTAINER);
         typeNamePersonPermissionMap.put("IdCorrespondence", PersonAccessRightKind.NOT_APPLICABLE);
+        typeNamePersonPermissionMap.put("IndependentParameterTypeAssignment", PersonAccessRightKind.SAME_AS_CONTAINER);
         typeNamePersonPermissionMap.put("IntervalScale", PersonAccessRightKind.SAME_AS_SUPERCLASS);
         typeNamePersonPermissionMap.put("Iteration", PersonAccessRightKind.NOT_APPLICABLE);
         typeNamePersonPermissionMap.put("IterationSetup", PersonAccessRightKind.NONE);
         typeNamePersonPermissionMap.put("LinearConversionUnit", PersonAccessRightKind.SAME_AS_SUPERCLASS);
         typeNamePersonPermissionMap.put("LogarithmicScale", PersonAccessRightKind.SAME_AS_SUPERCLASS);
+        typeNamePersonPermissionMap.put("LogEntryChangelogItem", PersonAccessRightKind.SAME_AS_CONTAINER);
         typeNamePersonPermissionMap.put("MappingToReferenceScale", PersonAccessRightKind.SAME_AS_CONTAINER);
         typeNamePersonPermissionMap.put("MeasurementScale", PersonAccessRightKind.SAME_AS_CONTAINER);
         typeNamePersonPermissionMap.put("MeasurementUnit", PersonAccessRightKind.SAME_AS_CONTAINER);
@@ -509,6 +522,7 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         typeNamePersonPermissionMap.put("OrdinalScale", PersonAccessRightKind.SAME_AS_SUPERCLASS);
         typeNamePersonPermissionMap.put("OrExpression", PersonAccessRightKind.NOT_APPLICABLE);
         typeNamePersonPermissionMap.put("Organization", PersonAccessRightKind.NONE);
+        typeNamePersonPermissionMap.put("OrganizationalParticipant", PersonAccessRightKind.SAME_AS_CONTAINER);
         typeNamePersonPermissionMap.put("OwnedStyle", PersonAccessRightKind.NOT_APPLICABLE);
         typeNamePersonPermissionMap.put("Page", PersonAccessRightKind.NOT_APPLICABLE);
         typeNamePersonPermissionMap.put("Parameter", PersonAccessRightKind.NOT_APPLICABLE);
@@ -558,6 +572,7 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         typeNamePersonPermissionMap.put("RuleVerification", PersonAccessRightKind.NOT_APPLICABLE);
         typeNamePersonPermissionMap.put("RuleVerificationList", PersonAccessRightKind.NOT_APPLICABLE);
         typeNamePersonPermissionMap.put("RuleViolation", PersonAccessRightKind.NOT_APPLICABLE);
+        typeNamePersonPermissionMap.put("SampledFunctionParameterType", PersonAccessRightKind.SAME_AS_SUPERCLASS);
         typeNamePersonPermissionMap.put("ScalarParameterType", PersonAccessRightKind.SAME_AS_SUPERCLASS);
         typeNamePersonPermissionMap.put("ScaleReferenceQuantityValue", PersonAccessRightKind.SAME_AS_CONTAINER);
         typeNamePersonPermissionMap.put("ScaleValueDefinition", PersonAccessRightKind.SAME_AS_CONTAINER);
@@ -626,6 +641,7 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         classKindPersonPermissionMap.put(ClassKind.DecompositionRule, PersonAccessRightKind.SAME_AS_SUPERCLASS);
         classKindPersonPermissionMap.put(ClassKind.DefinedThing, PersonAccessRightKind.NOT_APPLICABLE);
         classKindPersonPermissionMap.put(ClassKind.Definition, PersonAccessRightKind.SAME_AS_CONTAINER);
+        classKindPersonPermissionMap.put(ClassKind.DependentParameterTypeAssignment, PersonAccessRightKind.SAME_AS_CONTAINER);
         classKindPersonPermissionMap.put(ClassKind.DerivedQuantityKind, PersonAccessRightKind.SAME_AS_SUPERCLASS);
         classKindPersonPermissionMap.put(ClassKind.DerivedUnit, PersonAccessRightKind.SAME_AS_SUPERCLASS);
         classKindPersonPermissionMap.put(ClassKind.DiagramCanvas, PersonAccessRightKind.NOT_APPLICABLE);
@@ -663,11 +679,13 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         classKindPersonPermissionMap.put(ClassKind.Goal, PersonAccessRightKind.NOT_APPLICABLE);
         classKindPersonPermissionMap.put(ClassKind.HyperLink, PersonAccessRightKind.SAME_AS_CONTAINER);
         classKindPersonPermissionMap.put(ClassKind.IdCorrespondence, PersonAccessRightKind.NOT_APPLICABLE);
+        classKindPersonPermissionMap.put(ClassKind.IndependentParameterTypeAssignment, PersonAccessRightKind.SAME_AS_CONTAINER);
         classKindPersonPermissionMap.put(ClassKind.IntervalScale, PersonAccessRightKind.SAME_AS_SUPERCLASS);
         classKindPersonPermissionMap.put(ClassKind.Iteration, PersonAccessRightKind.NOT_APPLICABLE);
         classKindPersonPermissionMap.put(ClassKind.IterationSetup, PersonAccessRightKind.NONE);
         classKindPersonPermissionMap.put(ClassKind.LinearConversionUnit, PersonAccessRightKind.SAME_AS_SUPERCLASS);
         classKindPersonPermissionMap.put(ClassKind.LogarithmicScale, PersonAccessRightKind.SAME_AS_SUPERCLASS);
+        classKindPersonPermissionMap.put(ClassKind.LogEntryChangelogItem, PersonAccessRightKind.SAME_AS_CONTAINER);
         classKindPersonPermissionMap.put(ClassKind.MappingToReferenceScale, PersonAccessRightKind.SAME_AS_CONTAINER);
         classKindPersonPermissionMap.put(ClassKind.MeasurementScale, PersonAccessRightKind.SAME_AS_CONTAINER);
         classKindPersonPermissionMap.put(ClassKind.MeasurementUnit, PersonAccessRightKind.SAME_AS_CONTAINER);
@@ -686,6 +704,7 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         classKindPersonPermissionMap.put(ClassKind.OrdinalScale, PersonAccessRightKind.SAME_AS_SUPERCLASS);
         classKindPersonPermissionMap.put(ClassKind.OrExpression, PersonAccessRightKind.NOT_APPLICABLE);
         classKindPersonPermissionMap.put(ClassKind.Organization, PersonAccessRightKind.NONE);
+        classKindPersonPermissionMap.put(ClassKind.OrganizationalParticipant, PersonAccessRightKind.SAME_AS_CONTAINER);
         classKindPersonPermissionMap.put(ClassKind.OwnedStyle, PersonAccessRightKind.NOT_APPLICABLE);
         classKindPersonPermissionMap.put(ClassKind.Page, PersonAccessRightKind.NOT_APPLICABLE);
         classKindPersonPermissionMap.put(ClassKind.Parameter, PersonAccessRightKind.NOT_APPLICABLE);
@@ -735,6 +754,7 @@ public class DefaultPermissionProviderImpl implements DefaultPermissionProvider 
         classKindPersonPermissionMap.put(ClassKind.RuleVerification, PersonAccessRightKind.NOT_APPLICABLE);
         classKindPersonPermissionMap.put(ClassKind.RuleVerificationList, PersonAccessRightKind.NOT_APPLICABLE);
         classKindPersonPermissionMap.put(ClassKind.RuleViolation, PersonAccessRightKind.NOT_APPLICABLE);
+        classKindPersonPermissionMap.put(ClassKind.SampledFunctionParameterType, PersonAccessRightKind.SAME_AS_SUPERCLASS);
         classKindPersonPermissionMap.put(ClassKind.ScalarParameterType, PersonAccessRightKind.SAME_AS_SUPERCLASS);
         classKindPersonPermissionMap.put(ClassKind.ScaleReferenceQuantityValue, PersonAccessRightKind.SAME_AS_CONTAINER);
         classKindPersonPermissionMap.put(ClassKind.ScaleValueDefinition, PersonAccessRightKind.SAME_AS_CONTAINER);

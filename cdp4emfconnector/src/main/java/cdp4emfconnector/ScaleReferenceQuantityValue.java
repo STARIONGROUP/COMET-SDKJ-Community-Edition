@@ -77,6 +77,8 @@ public class ScaleReferenceQuantityValue {
         
         emf.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);        
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.setValue(thing.getValue());
         
         return emf;
@@ -102,6 +104,8 @@ public class ScaleReferenceQuantityValue {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);        
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.setValue(emfThing.getValue());
         
