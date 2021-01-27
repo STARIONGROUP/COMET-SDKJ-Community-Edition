@@ -324,7 +324,7 @@ public class CdpServicesDal extends DalBase {
         attributes = this.getURIQueryAttributes(includeReferenceData);
       }
 
-      String siteRoot = getCredentials().getUri().getPath();
+      String siteRoot = this.getCredentials().getUri().getPath();
       String resourcePath = siteRoot + thingRoute + attributes.toString();
 
       String readToken = cdp4common.helpers.TokenGenerator.generateRandomToken();
