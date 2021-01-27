@@ -160,7 +160,9 @@ public class CdpServicesDal extends DalBase {
       attribute.setRevisionNumber(operationContainer.getTopContainerRevisionNumber());
 
       String postToken = operationContainer.getToken();
-      String resourcePath = operationContainer.getContext() + attribute.toString();
+      String siteRoot = this.getCredentials().getUri().getPath();
+      String resourcePath = siteRoot + operationContainer.getContext() + attribute.toString();
+
       URI uri;
       try {
         uri = new URIBuilder(this.getCredentials().getUri()).setPath(resourcePath).build();
@@ -322,7 +324,8 @@ public class CdpServicesDal extends DalBase {
         attributes = this.getURIQueryAttributes(includeReferenceData);
       }
 
-      String resourcePath = String.format("%s%s", thingRoute, attributes.toString());
+      String siteRoot = getCredentials().getUri().getPath();
+      String resourcePath = siteRoot + thingRoute + attributes.toString();
 
       String readToken = cdp4common.helpers.TokenGenerator.generateRandomToken();
       URIBuilder uriBuilder = new URIBuilder(this.getCredentials().getUri());
@@ -448,7 +451,8 @@ public class CdpServicesDal extends DalBase {
       queryAttributes.setExtent(ExtentQueryAttribute.deep);
       queryAttributes.setIncludeReferenceData(false);
 
-      String resourcePath = String.format("SiteDirectory%s", queryAttributes.toString());
+      String siteRoot = credentials.getUri().getPath();
+      String resourcePath = siteRoot + "/SiteDirectory" + queryAttributes.toString();
 
       String openToken = cdp4common.helpers.TokenGenerator.generateRandomToken();
 
