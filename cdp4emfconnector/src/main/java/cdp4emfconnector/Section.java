@@ -87,6 +87,8 @@ public class Section {
         
         emf.setShortName(thing.getShortName());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -120,6 +122,8 @@ public class Section {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.setShortName(emfThing.getShortName());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

@@ -105,6 +105,8 @@ public abstract class ContractDeviation {
         
         if (thing.getStatus() != null) {emfRequestForWaiver.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
+        emfRequestForWaiver.setThingPreference(thing.getThingPreference());
+        
         emfRequestForWaiver.setTitle(thing.getTitle());
         		        
         return emfRequestForWaiver;
@@ -149,6 +151,8 @@ public abstract class ContractDeviation {
         
         if (thing.getStatus() != null) {emfRequestForDeviation.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
+        emfRequestForDeviation.setThingPreference(thing.getThingPreference());
+        
         emfRequestForDeviation.setTitle(thing.getTitle());
         		        
         return emfRequestForDeviation;
@@ -192,6 +196,8 @@ public abstract class ContractDeviation {
         emfChangeRequest.getSourceAnnotation().addAll(thing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toEmf(item)).collect(Collectors.toList()));
         
         if (thing.getStatus() != null) {emfChangeRequest.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                        
+        
+        emfChangeRequest.setThingPreference(thing.getThingPreference());
         
         emfChangeRequest.setTitle(thing.getTitle());
         		        
@@ -251,6 +257,8 @@ public abstract class ContractDeviation {
         
         if (emfThing.getStatus() != null) {pojoRequestForWaiver.setStatus(cdp4common.reportingdata.AnnotationStatusKind.valueOf(emfThing.getStatus().toString()));}        
         
+        pojoRequestForWaiver.setThingPreference(emfThing.getThingPreference());
+        
         pojoRequestForWaiver.setTitle(emfThing.getTitle());
         		        
         return pojoRequestForWaiver;
@@ -295,6 +303,8 @@ public abstract class ContractDeviation {
         
         if (emfThing.getStatus() != null) {pojoRequestForDeviation.setStatus(cdp4common.reportingdata.AnnotationStatusKind.valueOf(emfThing.getStatus().toString()));}        
         
+        pojoRequestForDeviation.setThingPreference(emfThing.getThingPreference());
+        
         pojoRequestForDeviation.setTitle(emfThing.getTitle());
         		        
         return pojoRequestForDeviation;
@@ -338,6 +348,8 @@ public abstract class ContractDeviation {
         pojoChangeRequest.getSourceAnnotation().addAll(emfThing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toPojo(item)).collect(Collectors.toList()));              
         
         if (emfThing.getStatus() != null) {pojoChangeRequest.setStatus(cdp4common.reportingdata.AnnotationStatusKind.valueOf(emfThing.getStatus().toString()));}        
+        
+        pojoChangeRequest.setThingPreference(emfThing.getThingPreference());
         
         pojoChangeRequest.setTitle(emfThing.getTitle());
         		        

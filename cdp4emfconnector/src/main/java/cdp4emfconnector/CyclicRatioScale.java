@@ -105,6 +105,8 @@ public class CyclicRatioScale {
         
         emf.setShortName(thing.getShortName());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.setUnit(thing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toEmf(thing.getUnit()) : null);        
         
         emf.getValueDefinition().addAll(thing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toEmf(item)).collect(Collectors.toList()));
@@ -160,6 +162,8 @@ public class CyclicRatioScale {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.setShortName(emfThing.getShortName());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.setUnit(emfThing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toPojo(emfThing.getUnit()) : null);        
         

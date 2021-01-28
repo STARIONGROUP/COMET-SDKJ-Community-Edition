@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -190,6 +191,7 @@ public class UserPreference extends Thing implements Cloneable, ShortNamedThing 
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
+        this.setThingPreference(dto.getThingPreference());
         this.setValue(dto.getValue());
 
         this.resolveExtraProperties();
@@ -209,6 +211,7 @@ public class UserPreference extends Thing implements Cloneable, ShortNamedThing 
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
+        dto.setThingPreference(this.getThingPreference());
         dto.setValue(this.getValue());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());

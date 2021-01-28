@@ -92,6 +92,16 @@ public abstract class Relationship extends Thing implements Cloneable, Categoriz
     private ArrayList<UUID> category;
 
     /**
+     * The name.
+     */
+    @CDPVersion(version = "1.2.0")
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @DataMember
+    @Getter
+    @Setter
+    private String name;
+
+    /**
      * The unique identifier of the referenced owner.
      */
     @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)

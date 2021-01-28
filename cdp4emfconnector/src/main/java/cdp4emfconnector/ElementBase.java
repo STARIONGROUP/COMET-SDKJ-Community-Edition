@@ -91,6 +91,8 @@ public abstract class ElementBase {
         emfElementDefinition.setRevisionNumber(thing.getRevisionNumber());
         
         emfElementDefinition.setShortName(thing.getShortName());
+        
+        emfElementDefinition.setThingPreference(thing.getThingPreference());
         		        
         return emfElementDefinition;
         
@@ -120,6 +122,8 @@ public abstract class ElementBase {
         emfElementUsage.setRevisionNumber(thing.getRevisionNumber());
         
         emfElementUsage.setShortName(thing.getShortName());
+        
+        emfElementUsage.setThingPreference(thing.getThingPreference());
         		        
         return emfElementUsage;
         	
@@ -163,6 +167,8 @@ public abstract class ElementBase {
         pojoElementDefinition.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoElementDefinition.setShortName(emfThing.getShortName());
+        
+        pojoElementDefinition.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoElementDefinition;
         
@@ -192,6 +198,8 @@ public abstract class ElementBase {
         pojoElementUsage.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoElementUsage.setShortName(emfThing.getShortName());
+        
+        pojoElementUsage.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoElementUsage;
         	

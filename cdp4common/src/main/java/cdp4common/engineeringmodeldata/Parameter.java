@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -234,6 +235,7 @@ public class Parameter extends ParameterOrOverrideBase implements Cloneable, Mod
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setScale((dto.getScale() != null) ? PojoThingFactory.get(this.getCache(), dto.getScale(), dto.getIterationContainerId(), MeasurementScale.class) : null);
         this.setStateDependence((dto.getStateDependence() != null) ? PojoThingFactory.get(this.getCache(), dto.getStateDependence(), dto.getIterationContainerId(), ActualFiniteStateList.class) : null);
+        this.setThingPreference(dto.getThingPreference());
         PojoThingFactory.resolveList(this.getValueSet(), dto.getValueSet(), dto.getIterationContainerId(), this.getCache(), ParameterValueSet.class);
 
         this.resolveExtraProperties();
@@ -262,6 +264,7 @@ public class Parameter extends ParameterOrOverrideBase implements Cloneable, Mod
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setScale(this.getScale() != null ? (UUID)this.getScale().getIid() : null);
         dto.setStateDependence(this.getStateDependence() != null ? (UUID)this.getStateDependence().getIid() : null);
+        dto.setThingPreference(this.getThingPreference());
         dto.getValueSet().addAll(this.getValueSet().stream().map(Thing::getIid).collect(Collectors.toList()));
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());

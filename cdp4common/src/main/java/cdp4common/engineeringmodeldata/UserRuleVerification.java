@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -205,6 +206,7 @@ public class UserRuleVerification extends RuleVerification implements Cloneable 
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setRule(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getRule(), dto.getIterationContainerId(), Rule.class), SentinelThingProvider.getSentinel(Rule.class)));
         this.setStatus(dto.getStatus());
+        this.setThingPreference(dto.getThingPreference());
         PojoThingFactory.resolveList(this.getViolation(), dto.getViolation(), dto.getIterationContainerId(), this.getCache(), RuleViolation.class);
 
         this.resolveExtraProperties();
@@ -227,6 +229,7 @@ public class UserRuleVerification extends RuleVerification implements Cloneable 
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setRule(this.getRule() != null ? this.getRule().getIid() : new UUID(0L, 0L));
         dto.setStatus(this.getStatus());
+        dto.setThingPreference(this.getThingPreference());
         dto.getViolation().addAll(this.getViolation().stream().map(Thing::getIid).collect(Collectors.toList()));
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());

@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -176,6 +177,7 @@ public class NotExpression extends BooleanExpression implements Cloneable {
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setTerm(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getTerm(), dto.getIterationContainerId(), BooleanExpression.class), SentinelThingProvider.getSentinel(BooleanExpression.class)));
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -194,6 +196,7 @@ public class NotExpression extends BooleanExpression implements Cloneable {
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setTerm(this.getTerm() != null ? this.getTerm().getIid() : new UUID(0L, 0L));
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

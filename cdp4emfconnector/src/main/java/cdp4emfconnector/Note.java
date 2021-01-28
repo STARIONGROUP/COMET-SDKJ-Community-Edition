@@ -87,6 +87,8 @@ public abstract class Note {
         emfBinaryNote.setRevisionNumber(thing.getRevisionNumber());
         
         emfBinaryNote.setShortName(thing.getShortName());
+        
+        emfBinaryNote.setThingPreference(thing.getThingPreference());
         		        
         return emfBinaryNote;
         
@@ -112,6 +114,8 @@ public abstract class Note {
         emfTextualNote.setRevisionNumber(thing.getRevisionNumber());
         
         emfTextualNote.setShortName(thing.getShortName());
+        
+        emfTextualNote.setThingPreference(thing.getThingPreference());
         		        
         return emfTextualNote;
         	
@@ -151,6 +155,8 @@ public abstract class Note {
         pojoBinaryNote.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoBinaryNote.setShortName(emfThing.getShortName());
+        
+        pojoBinaryNote.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoBinaryNote;
         
@@ -176,6 +182,8 @@ public abstract class Note {
         pojoTextualNote.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoTextualNote.setShortName(emfThing.getShortName());
+        
+        pojoTextualNote.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoTextualNote;
         	

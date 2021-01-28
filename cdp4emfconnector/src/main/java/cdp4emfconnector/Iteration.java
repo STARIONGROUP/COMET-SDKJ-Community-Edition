@@ -112,6 +112,8 @@ public class Iteration {
         
         emf.getStakeholderValueMap().addAll(thing.getStakeholderValueMap().stream().map(item -> cdp4emfconnector.StakeHolderValueMap.toEmf(item)).collect(Collectors.toList()));
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.setTopElement(thing.getTopElement() != null ? cdp4emfconnector.ElementDefinition.toEmf(thing.getTopElement()) : null);
         emf.getValueGroup().addAll(thing.getValueGroup().stream().map(item -> cdp4emfconnector.ValueGroup.toEmf(item)).collect(Collectors.toList()));
         
@@ -173,6 +175,8 @@ public class Iteration {
         pojo.getStakeholderValue().addAll(emfThing.getStakeholderValue().stream().map(item -> cdp4emfconnector.StakeholderValue.toPojo(item)).collect(Collectors.toList()));              
         
         pojo.getStakeholderValueMap().addAll(emfThing.getStakeholderValueMap().stream().map(item -> cdp4emfconnector.StakeHolderValueMap.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.setTopElement(emfThing.getTopElement() != null ? cdp4emfconnector.ElementDefinition.toPojo(emfThing.getTopElement()) : null);
         pojo.getValueGroup().addAll(emfThing.getValueGroup().stream().map(item -> cdp4emfconnector.ValueGroup.toPojo(item)).collect(Collectors.toList()));              

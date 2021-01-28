@@ -79,6 +79,8 @@ public class ActualFiniteState {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -104,6 +106,8 @@ public class ActualFiniteState {
         pojo.getPossibleState().addAll(emfThing.getPossibleState().stream().map(item -> cdp4emfconnector.PossibleFiniteState.toPojo(item)).collect(Collectors.toList()));              
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

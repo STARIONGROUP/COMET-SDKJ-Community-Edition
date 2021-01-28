@@ -79,6 +79,8 @@ public abstract class DiagramThingBase {
         emfPoint.setName(thing.getName());
         
         emfPoint.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfPoint.setThingPreference(thing.getThingPreference());
         		        
         return emfPoint;
         
@@ -96,6 +98,8 @@ public abstract class DiagramThingBase {
         emfBounds.setName(thing.getName());
         
         emfBounds.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfBounds.setThingPreference(thing.getThingPreference());
         		        
         return emfBounds;
         
@@ -113,6 +117,8 @@ public abstract class DiagramThingBase {
         emfColor.setName(thing.getName());
         
         emfColor.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfColor.setThingPreference(thing.getThingPreference());
         		        
         return emfColor;
         
@@ -131,6 +137,8 @@ public abstract class DiagramThingBase {
         emfOwnedStyle.setName(thing.getName());
         
         emfOwnedStyle.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfOwnedStyle.setThingPreference(thing.getThingPreference());
         		        
         return emfOwnedStyle;
         
@@ -148,6 +156,8 @@ public abstract class DiagramThingBase {
         emfSharedStyle.setName(thing.getName());
         
         emfSharedStyle.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSharedStyle.setThingPreference(thing.getThingPreference());
         		        
         return emfSharedStyle;
         
@@ -167,6 +177,8 @@ public abstract class DiagramThingBase {
         emfDiagramEdge.setName(thing.getName());
         
         emfDiagramEdge.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDiagramEdge.setThingPreference(thing.getThingPreference());
         		        
         return emfDiagramEdge;
         
@@ -185,6 +197,8 @@ public abstract class DiagramThingBase {
         emfDiagramObject.setName(thing.getName());
         
         emfDiagramObject.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDiagramObject.setThingPreference(thing.getThingPreference());
         		        
         return emfDiagramObject;
         
@@ -202,6 +216,8 @@ public abstract class DiagramThingBase {
         emfDiagramCanvas.setName(thing.getName());
         
         emfDiagramCanvas.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDiagramCanvas.setThingPreference(thing.getThingPreference());
         		        
         return emfDiagramCanvas;
         	
@@ -233,6 +249,8 @@ public abstract class DiagramThingBase {
         pojoPoint.setName(emfThing.getName());
         
         pojoPoint.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoPoint.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoPoint;
         
@@ -250,6 +268,8 @@ public abstract class DiagramThingBase {
         pojoBounds.setName(emfThing.getName());
         
         pojoBounds.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoBounds.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoBounds;
         
@@ -267,6 +287,8 @@ public abstract class DiagramThingBase {
         pojoColor.setName(emfThing.getName());
         
         pojoColor.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoColor.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoColor;
         
@@ -285,6 +307,8 @@ public abstract class DiagramThingBase {
         pojoOwnedStyle.setName(emfThing.getName());
         
         pojoOwnedStyle.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoOwnedStyle.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoOwnedStyle;
         
@@ -302,6 +326,8 @@ public abstract class DiagramThingBase {
         pojoSharedStyle.setName(emfThing.getName());
         
         pojoSharedStyle.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSharedStyle.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSharedStyle;
         
@@ -321,6 +347,8 @@ public abstract class DiagramThingBase {
         pojoDiagramEdge.setName(emfThing.getName());
         
         pojoDiagramEdge.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDiagramEdge.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDiagramEdge;
         
@@ -339,6 +367,8 @@ public abstract class DiagramThingBase {
         pojoDiagramObject.setName(emfThing.getName());
         
         pojoDiagramObject.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDiagramObject.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDiagramObject;
         
@@ -356,6 +386,8 @@ public abstract class DiagramThingBase {
         pojoDiagramCanvas.setName(emfThing.getName());
         
         pojoDiagramCanvas.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDiagramCanvas.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDiagramCanvas;
         	

@@ -89,6 +89,8 @@ public class Stakeholder {
         
         emf.getStakeholderValue().addAll(thing.getStakeholderValue().stream().map(item -> cdp4emfconnector.StakeholderValue.toEmf(item)).collect(Collectors.toList()));
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -124,6 +126,8 @@ public class Stakeholder {
         pojo.setShortName(emfThing.getShortName());
         
         pojo.getStakeholderValue().addAll(emfThing.getStakeholderValue().stream().map(item -> cdp4emfconnector.StakeholderValue.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

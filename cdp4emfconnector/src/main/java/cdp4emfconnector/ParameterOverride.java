@@ -81,6 +81,8 @@ public class ParameterOverride {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.getValueSet().addAll(thing.getValueSet().stream().map(item -> cdp4emfconnector.ParameterOverrideValueSet.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
@@ -110,6 +112,8 @@ public class ParameterOverride {
         pojo.getParameterSubscription().addAll(emfThing.getParameterSubscription().stream().map(item -> cdp4emfconnector.ParameterSubscription.toPojo(item)).collect(Collectors.toList()));              
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.getValueSet().addAll(emfThing.getValueSet().stream().map(item -> cdp4emfconnector.ParameterOverrideValueSet.toPojo(item)).collect(Collectors.toList()));              
         

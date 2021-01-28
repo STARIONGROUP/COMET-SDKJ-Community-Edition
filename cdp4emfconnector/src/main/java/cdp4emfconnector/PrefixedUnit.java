@@ -87,6 +87,8 @@ public class PrefixedUnit {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -120,6 +122,8 @@ public class PrefixedUnit {
         pojo.setReferenceUnit(emfThing.getReferenceUnit() != null ? cdp4emfconnector.MeasurementUnit.toPojo(emfThing.getReferenceUnit()) : null);        
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

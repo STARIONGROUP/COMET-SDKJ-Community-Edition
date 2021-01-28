@@ -84,6 +84,8 @@ public abstract class DiagramElementContainer {
         emfDiagramEdge.setName(thing.getName());
         
         emfDiagramEdge.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDiagramEdge.setThingPreference(thing.getThingPreference());
         		        
         return emfDiagramEdge;
         
@@ -106,6 +108,8 @@ public abstract class DiagramElementContainer {
         emfDiagramObject.setName(thing.getName());
         
         emfDiagramObject.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDiagramObject.setThingPreference(thing.getThingPreference());
         		        
         return emfDiagramObject;
         
@@ -127,6 +131,8 @@ public abstract class DiagramElementContainer {
         emfDiagramCanvas.setName(thing.getName());
         
         emfDiagramCanvas.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDiagramCanvas.setThingPreference(thing.getThingPreference());
         		        
         return emfDiagramCanvas;
         	
@@ -163,6 +169,8 @@ public abstract class DiagramElementContainer {
         pojoDiagramEdge.setName(emfThing.getName());
         
         pojoDiagramEdge.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDiagramEdge.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDiagramEdge;
         
@@ -185,6 +193,8 @@ public abstract class DiagramElementContainer {
         pojoDiagramObject.setName(emfThing.getName());
         
         pojoDiagramObject.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDiagramObject.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDiagramObject;
         
@@ -206,6 +216,8 @@ public abstract class DiagramElementContainer {
         pojoDiagramCanvas.setName(emfThing.getName());
         
         pojoDiagramCanvas.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDiagramCanvas.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDiagramCanvas;
         	

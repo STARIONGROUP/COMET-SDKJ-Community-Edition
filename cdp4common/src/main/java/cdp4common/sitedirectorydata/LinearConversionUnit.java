@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -176,6 +177,7 @@ public class LinearConversionUnit extends ConversionBasedUnit implements Cloneab
         this.setReferenceUnit(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getReferenceUnit(), dto.getIterationContainerId(), MeasurementUnit.class), SentinelThingProvider.getSentinel(MeasurementUnit.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -201,6 +203,7 @@ public class LinearConversionUnit extends ConversionBasedUnit implements Cloneab
         dto.setReferenceUnit(this.getReferenceUnit() != null ? this.getReferenceUnit().getIid() : new UUID(0L, 0L));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

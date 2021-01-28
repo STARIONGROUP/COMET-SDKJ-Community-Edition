@@ -57,6 +57,7 @@ public class EngineeringModelContainmentClassType
         ClassKind.FileRevision,
         ClassKind.Folder,
         ClassKind.Iteration,
+        ClassKind.LogEntryChangelogItem,
         ClassKind.ModellingThingReference,
         ClassKind.ModelLogEntry,
         ClassKind.Page,

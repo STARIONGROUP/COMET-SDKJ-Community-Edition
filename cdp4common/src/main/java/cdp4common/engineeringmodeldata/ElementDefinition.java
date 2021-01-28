@@ -32,36 +32,27 @@
 
 package cdp4common.engineeringmodeldata;
 
-import cdp4common.AggregationKind;
-import cdp4common.ChangeKind;
-import cdp4common.Container;
-import cdp4common.ModelCode;
-import cdp4common.SentinelThingProvider;
-import cdp4common.UmlInformation;
-import cdp4common.commondata.Alias;
-import cdp4common.commondata.Definition;
-import cdp4common.commondata.HyperLink;
-import cdp4common.commondata.ParticipantAccessRightKind;
-import cdp4common.commondata.PersonAccessRightKind;
-import cdp4common.commondata.Thing;
-import cdp4common.exceptions.ContainmentException;
-import cdp4common.helpers.PojoThingFactory;
-import cdp4common.sitedirectorydata.Category;
-import cdp4common.sitedirectorydata.DomainOfExpertise;
-import cdp4common.sitedirectorydata.Person;
-import cdp4common.types.CacheKey;
-import cdp4common.types.ContainerList;
-import com.google.common.cache.Cache;
+import java.util.*;
+import java.util.stream.*;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.io.*;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import cdp4common.*;
+import cdp4common.commondata.*;
+import cdp4common.diagramdata.*;
+import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
+import cdp4common.helpers.*;
+import cdp4common.reportingdata.*;
+import cdp4common.sitedirectorydata.*;
+import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
+import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * definition of an element in a design solution for a system-of-interest
@@ -91,6 +82,7 @@ public class ElementDefinition extends ElementBase implements Cloneable, ModelCo
      */
     public ElementDefinition() {
         this.containedElement = new ContainerList<ElementUsage>(this);
+        this.organizationalParticipant = new ArrayList<OrganizationalParticipant>();
         this.parameter = new ContainerList<Parameter>(this);
         this.parameterGroup = new ContainerList<ParameterGroup>(this);
         this.referencedElement = new ArrayList<NestedElement>();
@@ -107,6 +99,7 @@ public class ElementDefinition extends ElementBase implements Cloneable, ModelCo
     public ElementDefinition(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
         super(iid, cache, iDalUri);
         this.containedElement = new ContainerList<ElementUsage>(this);
+        this.organizationalParticipant = new ArrayList<OrganizationalParticipant>();
         this.parameter = new ContainerList<Parameter>(this);
         this.parameterGroup = new ContainerList<ParameterGroup>(this);
         this.referencedElement = new ArrayList<NestedElement>();
@@ -123,6 +116,19 @@ public class ElementDefinition extends ElementBase implements Cloneable, ModelCo
     @Getter
     @Setter
     private ContainerList<ElementUsage> containedElement;
+
+    /**
+     * List of OrganizationalParticipant.
+     * represents a list of OrganizationalParticipant that are privy to this ElementDefinition. Exclusion of your Organization from this list indicates no access to this ElementDefinition.
+     * NOTE: defaultOrganizationalParticipant of the containing EngineeringModelSetup bypass this list and are able to see all ElementDefinitions and their contents.
+     * NOTE 2: the constents of this list must be a subset of the organizationalParticipant list of the EnggineeringModelSetup.
+     * NOTE 3: if the organizationalParticipant list of the EnggineeringModelSetup is pruned, this list must be cleaned up.
+     */
+    @CDPVersion(version = "1.2.0")
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
+    private ArrayList<OrganizationalParticipant> organizationalParticipant;
 
     /**
      * List of contained Parameter.
@@ -196,6 +202,7 @@ public class ElementDefinition extends ElementBase implements Cloneable, ModelCo
         clone.setExcludedDomain(new ArrayList<DomainOfExpertise>(this.getExcludedDomain()));
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
+        clone.setOrganizationalParticipant(new ArrayList<OrganizationalParticipant>(this.getOrganizationalParticipant()));
         clone.setParameter(cloneContainedThings ? new ContainerList<Parameter>(clone) : new ContainerList<Parameter>(this.getParameter(), clone, false));
         clone.setParameterGroup(cloneContainedThings ? new ContainerList<ParameterGroup>(clone) : new ContainerList<ParameterGroup>(this.getParameterGroup(), clone, false));
         clone.setReferencedElement(new ArrayList<NestedElement>(this.getReferencedElement()));
@@ -261,12 +268,14 @@ public class ElementDefinition extends ElementBase implements Cloneable, ModelCo
         PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
+        PojoThingFactory.resolveList(this.getOrganizationalParticipant(), dto.getOrganizationalParticipant(), dto.getIterationContainerId(), this.getCache(), OrganizationalParticipant.class);
         this.setOwner(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getOwner(), dto.getIterationContainerId(), DomainOfExpertise.class), SentinelThingProvider.getSentinel(DomainOfExpertise.class)));
         PojoThingFactory.resolveList(this.getParameter(), dto.getParameter(), dto.getIterationContainerId(), this.getCache(), Parameter.class);
         PojoThingFactory.resolveList(this.getParameterGroup(), dto.getParameterGroup(), dto.getIterationContainerId(), this.getCache(), ParameterGroup.class);
         PojoThingFactory.resolveList(this.getReferencedElement(), dto.getReferencedElement(), dto.getIterationContainerId(), this.getCache(), NestedElement.class);
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -289,12 +298,14 @@ public class ElementDefinition extends ElementBase implements Cloneable, ModelCo
         dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());
+        dto.getOrganizationalParticipant().addAll(this.getOrganizationalParticipant().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setOwner(this.getOwner() != null ? this.getOwner().getIid() : new UUID(0L, 0L));
         dto.getParameter().addAll(this.getParameter().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.getParameterGroup().addAll(this.getParameterGroup().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.getReferencedElement().addAll(this.getReferencedElement().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

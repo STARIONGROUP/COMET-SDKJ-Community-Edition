@@ -93,6 +93,8 @@ public class EnumerationParameterType {
         
         emf.setSymbol(thing.getSymbol());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.getValueDefinition().addAll(thing.getValueDefinition().stream().map(item -> cdp4emfconnector.EnumerationValueDefinition.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
@@ -134,6 +136,8 @@ public class EnumerationParameterType {
         pojo.setShortName(emfThing.getShortName());
         
         pojo.setSymbol(emfThing.getSymbol());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.getValueDefinition().addAll(emfThing.getValueDefinition().stream().map(item -> cdp4emfconnector.EnumerationValueDefinition.toPojo(item)).collect(Collectors.toList()));
         

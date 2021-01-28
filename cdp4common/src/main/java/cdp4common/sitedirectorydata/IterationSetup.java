@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -240,6 +241,7 @@ public class IterationSetup extends Thing implements Cloneable, ParticipantAffec
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setSourceIterationSetup((dto.getSourceIterationSetup() != null) ? PojoThingFactory.get(this.getCache(), dto.getSourceIterationSetup(), dto.getIterationContainerId(), IterationSetup.class) : null);
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -264,6 +266,7 @@ public class IterationSetup extends Thing implements Cloneable, ParticipantAffec
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setSourceIterationSetup(this.getSourceIterationSetup() != null ? (UUID)this.getSourceIterationSetup().getIid() : null);
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

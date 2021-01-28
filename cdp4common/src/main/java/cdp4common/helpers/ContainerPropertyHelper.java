@@ -77,6 +77,7 @@ public class ContainerPropertyHelper {
         CONTAINER_PROPERTY_MAP.put("DateTimeParameterType", new AbstractMap.SimpleEntry<>("ReferenceDataLibrary", "parameterType"));
         CONTAINER_PROPERTY_MAP.put("DecompositionRule", new AbstractMap.SimpleEntry<>("ReferenceDataLibrary", "rule"));
         CONTAINER_PROPERTY_MAP.put("Definition", new AbstractMap.SimpleEntry<>("DefinedThing", "definition"));
+        CONTAINER_PROPERTY_MAP.put("DependentParameterTypeAssignment", new AbstractMap.SimpleEntry<>("SampledFunctionParameterType", "dependentParameterType"));
         CONTAINER_PROPERTY_MAP.put("DerivedQuantityKind", new AbstractMap.SimpleEntry<>("ReferenceDataLibrary", "parameterType"));
         CONTAINER_PROPERTY_MAP.put("DerivedUnit", new AbstractMap.SimpleEntry<>("ReferenceDataLibrary", "unit"));
         CONTAINER_PROPERTY_MAP.put("DiagramCanvas", new AbstractMap.SimpleEntry<>("Iteration", "diagramCanvas"));
@@ -106,11 +107,13 @@ public class ContainerPropertyHelper {
         CONTAINER_PROPERTY_MAP.put("Goal", new AbstractMap.SimpleEntry<>("Iteration", "goal"));
         CONTAINER_PROPERTY_MAP.put("HyperLink", new AbstractMap.SimpleEntry<>("DefinedThing", "hyperLink"));
         CONTAINER_PROPERTY_MAP.put("IdCorrespondence", new AbstractMap.SimpleEntry<>("ExternalIdentifierMap", "correspondence"));
+        CONTAINER_PROPERTY_MAP.put("IndependentParameterTypeAssignment", new AbstractMap.SimpleEntry<>("SampledFunctionParameterType", "independentParameterType"));
         CONTAINER_PROPERTY_MAP.put("IntervalScale", new AbstractMap.SimpleEntry<>("ReferenceDataLibrary", "scale"));
         CONTAINER_PROPERTY_MAP.put("Iteration", new AbstractMap.SimpleEntry<>("EngineeringModel", "iteration"));
         CONTAINER_PROPERTY_MAP.put("IterationSetup", new AbstractMap.SimpleEntry<>("EngineeringModelSetup", "iterationSetup"));
         CONTAINER_PROPERTY_MAP.put("LinearConversionUnit", new AbstractMap.SimpleEntry<>("ReferenceDataLibrary", "unit"));
         CONTAINER_PROPERTY_MAP.put("LogarithmicScale", new AbstractMap.SimpleEntry<>("ReferenceDataLibrary", "scale"));
+        CONTAINER_PROPERTY_MAP.put("LogEntryChangelogItem", new AbstractMap.SimpleEntry<>("LogEntry", "logEntryChangelogItem"));
         CONTAINER_PROPERTY_MAP.put("MappingToReferenceScale", new AbstractMap.SimpleEntry<>("MeasurementScale", "mappingToReferenceScale"));
         CONTAINER_PROPERTY_MAP.put("MeasurementScale", new AbstractMap.SimpleEntry<>("ReferenceDataLibrary", "scale"));
         CONTAINER_PROPERTY_MAP.put("MeasurementUnit", new AbstractMap.SimpleEntry<>("ReferenceDataLibrary", "unit"));
@@ -129,6 +132,7 @@ public class ContainerPropertyHelper {
         CONTAINER_PROPERTY_MAP.put("OrdinalScale", new AbstractMap.SimpleEntry<>("ReferenceDataLibrary", "scale"));
         CONTAINER_PROPERTY_MAP.put("OrExpression", new AbstractMap.SimpleEntry<>("ParametricConstraint", "expression"));
         CONTAINER_PROPERTY_MAP.put("Organization", new AbstractMap.SimpleEntry<>("SiteDirectory", "organization"));
+        CONTAINER_PROPERTY_MAP.put("OrganizationalParticipant", new AbstractMap.SimpleEntry<>("EngineeringModelSetup", "organizationalParticipant"));
         CONTAINER_PROPERTY_MAP.put("OwnedStyle", new AbstractMap.SimpleEntry<>("DiagramElementThing", "localStyle"));
         CONTAINER_PROPERTY_MAP.put("Page", new AbstractMap.SimpleEntry<>("Section", "page"));
         CONTAINER_PROPERTY_MAP.put("Parameter", new AbstractMap.SimpleEntry<>("ElementDefinition", "parameter"));
@@ -172,6 +176,7 @@ public class ContainerPropertyHelper {
         CONTAINER_PROPERTY_MAP.put("RuleVerification", new AbstractMap.SimpleEntry<>("RuleVerificationList", "ruleVerification"));
         CONTAINER_PROPERTY_MAP.put("RuleVerificationList", new AbstractMap.SimpleEntry<>("Iteration", "ruleVerificationList"));
         CONTAINER_PROPERTY_MAP.put("RuleViolation", new AbstractMap.SimpleEntry<>("RuleVerification", "violation"));
+        CONTAINER_PROPERTY_MAP.put("SampledFunctionParameterType", new AbstractMap.SimpleEntry<>("ReferenceDataLibrary", "parameterType"));
         CONTAINER_PROPERTY_MAP.put("ScalarParameterType", new AbstractMap.SimpleEntry<>("ReferenceDataLibrary", "parameterType"));
         CONTAINER_PROPERTY_MAP.put("ScaleReferenceQuantityValue", new AbstractMap.SimpleEntry<>("LogarithmicScale", "referenceQuantityValue"));
         CONTAINER_PROPERTY_MAP.put("ScaleValueDefinition", new AbstractMap.SimpleEntry<>("MeasurementScale", "valueDefinition"));
@@ -276,7 +281,7 @@ public class ContainerPropertyHelper {
                 return Enum.valueOf(ClassKind.class, pair.get().getKey());
             }
         }
-
+        
         throw new IllegalArgumentException(String.format("the container property %1$s does not exist", containerProperty));
     }
 }

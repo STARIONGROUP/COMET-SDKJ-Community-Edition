@@ -86,6 +86,8 @@ public abstract class RuleVerification {
         
         if (thing.getStatus() != null) {emfUserRuleVerification.setStatus(CDP4.EngineeringModelData.RuleVerificationStatusKind.valueOf(thing.getStatus().toString()));}                        
         
+        emfUserRuleVerification.setThingPreference(thing.getThingPreference());
+        
         emfUserRuleVerification.getViolation().addAll(thing.getViolation().stream().map(item -> cdp4emfconnector.RuleViolation.toEmf(item)).collect(Collectors.toList()));
         		        
         return emfUserRuleVerification;
@@ -110,6 +112,8 @@ public abstract class RuleVerification {
         emfBuiltInRuleVerification.setRevisionNumber(thing.getRevisionNumber());
         
         if (thing.getStatus() != null) {emfBuiltInRuleVerification.setStatus(CDP4.EngineeringModelData.RuleVerificationStatusKind.valueOf(thing.getStatus().toString()));}                        
+        
+        emfBuiltInRuleVerification.setThingPreference(thing.getThingPreference());
         
         emfBuiltInRuleVerification.getViolation().addAll(thing.getViolation().stream().map(item -> cdp4emfconnector.RuleViolation.toEmf(item)).collect(Collectors.toList()));
         		        
@@ -150,6 +154,8 @@ public abstract class RuleVerification {
         
         if (emfThing.getStatus() != null) {pojoUserRuleVerification.setStatus(cdp4common.engineeringmodeldata.RuleVerificationStatusKind.valueOf(emfThing.getStatus().toString()));}        
         
+        pojoUserRuleVerification.setThingPreference(emfThing.getThingPreference());
+        
         pojoUserRuleVerification.getViolation().addAll(emfThing.getViolation().stream().map(item -> cdp4emfconnector.RuleViolation.toPojo(item)).collect(Collectors.toList()));              
         		        
         return pojoUserRuleVerification;
@@ -174,6 +180,8 @@ public abstract class RuleVerification {
         pojoBuiltInRuleVerification.setRevisionNumber(emfThing.getRevisionNumber());
         
         if (emfThing.getStatus() != null) {pojoBuiltInRuleVerification.setStatus(cdp4common.engineeringmodeldata.RuleVerificationStatusKind.valueOf(emfThing.getStatus().toString()));}        
+        
+        pojoBuiltInRuleVerification.setThingPreference(emfThing.getThingPreference());
         
         pojoBuiltInRuleVerification.getViolation().addAll(emfThing.getViolation().stream().map(item -> cdp4emfconnector.RuleViolation.toPojo(item)).collect(Collectors.toList()));              
         		        

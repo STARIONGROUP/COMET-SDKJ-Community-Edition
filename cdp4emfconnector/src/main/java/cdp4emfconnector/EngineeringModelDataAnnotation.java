@@ -92,6 +92,8 @@ public abstract class EngineeringModelDataAnnotation {
         emfRequestForWaiver.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForWaiver.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRequestForWaiver.setThingPreference(thing.getThingPreference());
         		        
         return emfRequestForWaiver;
         
@@ -120,6 +122,8 @@ public abstract class EngineeringModelDataAnnotation {
         emfRequestForDeviation.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfRequestForDeviation.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRequestForDeviation.setThingPreference(thing.getThingPreference());
         		        
         return emfRequestForDeviation;
         
@@ -148,6 +152,8 @@ public abstract class EngineeringModelDataAnnotation {
         emfChangeRequest.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeRequest.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfChangeRequest.setThingPreference(thing.getThingPreference());
         		        
         return emfChangeRequest;
         
@@ -176,6 +182,8 @@ public abstract class EngineeringModelDataAnnotation {
         emfReviewItemDiscrepancy.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfReviewItemDiscrepancy.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfReviewItemDiscrepancy.setThingPreference(thing.getThingPreference());
         		        
         return emfReviewItemDiscrepancy;
         
@@ -204,6 +212,8 @@ public abstract class EngineeringModelDataAnnotation {
         emfActionItem.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfActionItem.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfActionItem.setThingPreference(thing.getThingPreference());
         		        
         return emfActionItem;
         
@@ -232,6 +242,8 @@ public abstract class EngineeringModelDataAnnotation {
         emfChangeProposal.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfChangeProposal.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfChangeProposal.setThingPreference(thing.getThingPreference());
         		        
         return emfChangeProposal;
         
@@ -260,6 +272,8 @@ public abstract class EngineeringModelDataAnnotation {
         emfContractChangeNotice.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfContractChangeNotice.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfContractChangeNotice.setThingPreference(thing.getThingPreference());
         		        
         return emfContractChangeNotice;
         
@@ -288,6 +302,8 @@ public abstract class EngineeringModelDataAnnotation {
         emfEngineeringModelDataNote.getRelatedThing().addAll(thing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toEmf(item)).collect(Collectors.toList()));
         
         emfEngineeringModelDataNote.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfEngineeringModelDataNote.setThingPreference(thing.getThingPreference());
         		        
         return emfEngineeringModelDataNote;
         	
@@ -332,6 +348,8 @@ public abstract class EngineeringModelDataAnnotation {
         pojoRequestForWaiver.getRelatedThing().addAll(emfThing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toPojo(item)).collect(Collectors.toList()));              
         
         pojoRequestForWaiver.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRequestForWaiver.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRequestForWaiver;
         
@@ -360,6 +378,8 @@ public abstract class EngineeringModelDataAnnotation {
         pojoRequestForDeviation.getRelatedThing().addAll(emfThing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toPojo(item)).collect(Collectors.toList()));              
         
         pojoRequestForDeviation.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRequestForDeviation.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRequestForDeviation;
         
@@ -388,6 +408,8 @@ public abstract class EngineeringModelDataAnnotation {
         pojoChangeRequest.getRelatedThing().addAll(emfThing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toPojo(item)).collect(Collectors.toList()));              
         
         pojoChangeRequest.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoChangeRequest.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoChangeRequest;
         
@@ -416,6 +438,8 @@ public abstract class EngineeringModelDataAnnotation {
         pojoReviewItemDiscrepancy.getRelatedThing().addAll(emfThing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toPojo(item)).collect(Collectors.toList()));              
         
         pojoReviewItemDiscrepancy.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoReviewItemDiscrepancy.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoReviewItemDiscrepancy;
         
@@ -444,6 +468,8 @@ public abstract class EngineeringModelDataAnnotation {
         pojoActionItem.getRelatedThing().addAll(emfThing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toPojo(item)).collect(Collectors.toList()));              
         
         pojoActionItem.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoActionItem.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoActionItem;
         
@@ -472,6 +498,8 @@ public abstract class EngineeringModelDataAnnotation {
         pojoChangeProposal.getRelatedThing().addAll(emfThing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toPojo(item)).collect(Collectors.toList()));              
         
         pojoChangeProposal.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoChangeProposal.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoChangeProposal;
         
@@ -500,6 +528,8 @@ public abstract class EngineeringModelDataAnnotation {
         pojoContractChangeNotice.getRelatedThing().addAll(emfThing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toPojo(item)).collect(Collectors.toList()));              
         
         pojoContractChangeNotice.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoContractChangeNotice.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoContractChangeNotice;
         
@@ -528,6 +558,8 @@ public abstract class EngineeringModelDataAnnotation {
         pojoEngineeringModelDataNote.getRelatedThing().addAll(emfThing.getRelatedThing().stream().map(item -> cdp4emfconnector.ModellingThingReference.toPojo(item)).collect(Collectors.toList()));              
         
         pojoEngineeringModelDataNote.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoEngineeringModelDataNote.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoEngineeringModelDataNote;
         	

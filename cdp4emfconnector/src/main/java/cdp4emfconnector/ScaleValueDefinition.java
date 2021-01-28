@@ -85,6 +85,8 @@ public class ScaleValueDefinition {
         
         emf.setShortName(thing.getShortName());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.setValue(thing.getValue());
         
         return emf;
@@ -118,6 +120,8 @@ public class ScaleValueDefinition {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.setShortName(emfThing.getShortName());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.setValue(emfThing.getValue());
         

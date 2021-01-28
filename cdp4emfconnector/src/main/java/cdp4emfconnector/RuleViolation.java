@@ -77,6 +77,8 @@ public class RuleViolation {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         thing.getViolatingThing().forEach(item -> emf.getViolatingThing().add(item.toString()));
         return emf;
     }
@@ -101,6 +103,8 @@ public class RuleViolation {
         pojo.setModifiedOn(emfThing.getModifiedOn());
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         emfThing.getViolatingThing().forEach(item -> pojo.getViolatingThing().add(UUID.fromString(item.toString())));
         return pojo;

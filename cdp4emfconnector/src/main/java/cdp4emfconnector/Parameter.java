@@ -91,6 +91,8 @@ public class Parameter {
         
         emf.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);
         emf.setStateDependence(thing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toEmf(thing.getStateDependence()) : null);
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.getValueSet().addAll(thing.getValueSet().stream().map(item -> cdp4emfconnector.ParameterValueSet.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
@@ -131,6 +133,8 @@ public class Parameter {
         
         pojo.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);
         pojo.setStateDependence(emfThing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toPojo(emfThing.getStateDependence()) : null);
+        pojo.setThingPreference(emfThing.getThingPreference());
+        
         pojo.getValueSet().addAll(emfThing.getValueSet().stream().map(item -> cdp4emfconnector.ParameterValueSet.toPojo(item)).collect(Collectors.toList()));              
         
         return pojo;

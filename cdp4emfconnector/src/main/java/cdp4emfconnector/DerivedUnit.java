@@ -87,6 +87,8 @@ public class DerivedUnit {
         
         emf.setShortName(thing.getShortName());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.getUnitFactor().addAll(thing.getUnitFactor().stream().map(item -> cdp4emfconnector.UnitFactor.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
@@ -122,6 +124,8 @@ public class DerivedUnit {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.setShortName(emfThing.getShortName());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.getUnitFactor().addAll(emfThing.getUnitFactor().stream().map(item -> cdp4emfconnector.UnitFactor.toPojo(item)).collect(Collectors.toList()));
         

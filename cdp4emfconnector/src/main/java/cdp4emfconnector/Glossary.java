@@ -91,6 +91,8 @@ public class Glossary {
         
         emf.getTerm().addAll(thing.getTerm().stream().map(item -> cdp4emfconnector.Term.toEmf(item)).collect(Collectors.toList()));
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -128,6 +130,8 @@ public class Glossary {
         pojo.setShortName(emfThing.getShortName());
         
         pojo.getTerm().addAll(emfThing.getTerm().stream().map(item -> cdp4emfconnector.Term.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

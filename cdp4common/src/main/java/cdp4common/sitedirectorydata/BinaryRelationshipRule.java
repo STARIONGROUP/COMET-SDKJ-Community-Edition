@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -251,6 +252,7 @@ public class BinaryRelationshipRule extends Rule implements Cloneable {
         this.setShortName(dto.getShortName());
         this.setSourceCategory(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getSourceCategory(), dto.getIterationContainerId(), Category.class), SentinelThingProvider.getSentinel(Category.class)));
         this.setTargetCategory(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getTargetCategory(), dto.getIterationContainerId(), Category.class), SentinelThingProvider.getSentinel(Category.class)));
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -279,6 +281,7 @@ public class BinaryRelationshipRule extends Rule implements Cloneable {
         dto.setShortName(this.getShortName());
         dto.setSourceCategory(this.getSourceCategory() != null ? this.getSourceCategory().getIid() : new UUID(0L, 0L));
         dto.setTargetCategory(this.getTargetCategory() != null ? this.getTargetCategory().getIid() : new UUID(0L, 0L));
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

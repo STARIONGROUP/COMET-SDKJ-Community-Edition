@@ -77,6 +77,8 @@ public class StakeHolderValueMapSettings {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         emf.setStakeholderValueToRequirementRelationship(thing.getStakeholderValueToRequirementRelationship() != null ? cdp4emfconnector.BinaryRelationshipRule.toEmf(thing.getStakeholderValueToRequirementRelationship()) : null);
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.setValueGroupToStakeholderValueRelationship(thing.getValueGroupToStakeholderValueRelationship() != null ? cdp4emfconnector.BinaryRelationshipRule.toEmf(thing.getValueGroupToStakeholderValueRelationship()) : null);
         return emf;
     }
@@ -102,6 +104,8 @@ public class StakeHolderValueMapSettings {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.setStakeholderValueToRequirementRelationship(emfThing.getStakeholderValueToRequirementRelationship() != null ? cdp4emfconnector.BinaryRelationshipRule.toPojo(emfThing.getStakeholderValueToRequirementRelationship()) : null);
+        pojo.setThingPreference(emfThing.getThingPreference());
+        
         pojo.setValueGroupToStakeholderValueRelationship(emfThing.getValueGroupToStakeholderValueRelationship() != null ? cdp4emfconnector.BinaryRelationshipRule.toPojo(emfThing.getValueGroupToStakeholderValueRelationship()) : null);
         return pojo;
     }

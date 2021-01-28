@@ -97,6 +97,8 @@ public class BinaryRelationshipRule {
         
         emf.setTargetCategory(thing.getTargetCategory() != null ? cdp4emfconnector.Category.toEmf(thing.getTargetCategory()) : null);        
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -140,6 +142,8 @@ public class BinaryRelationshipRule {
         pojo.setSourceCategory(emfThing.getSourceCategory() != null ? cdp4emfconnector.Category.toPojo(emfThing.getSourceCategory()) : null);        
         
         pojo.setTargetCategory(emfThing.getTargetCategory() != null ? cdp4emfconnector.Category.toPojo(emfThing.getTargetCategory()) : null);        
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

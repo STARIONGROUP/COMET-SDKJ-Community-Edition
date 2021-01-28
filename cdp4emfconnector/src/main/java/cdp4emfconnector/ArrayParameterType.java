@@ -99,6 +99,8 @@ public class ArrayParameterType {
         
         emf.setSymbol(thing.getSymbol());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -144,6 +146,8 @@ public class ArrayParameterType {
         pojo.setShortName(emfThing.getShortName());
         
         pojo.setSymbol(emfThing.getSymbol());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

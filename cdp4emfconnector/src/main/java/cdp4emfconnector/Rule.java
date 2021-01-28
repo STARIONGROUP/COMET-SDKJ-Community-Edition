@@ -89,6 +89,8 @@ public abstract class Rule {
         emfReferencerRule.setRevisionNumber(thing.getRevisionNumber());
         
         emfReferencerRule.setShortName(thing.getShortName());
+        
+        emfReferencerRule.setThingPreference(thing.getThingPreference());
         		        
         return emfReferencerRule;
         
@@ -116,6 +118,8 @@ public abstract class Rule {
         emfBinaryRelationshipRule.setRevisionNumber(thing.getRevisionNumber());
         
         emfBinaryRelationshipRule.setShortName(thing.getShortName());
+        
+        emfBinaryRelationshipRule.setThingPreference(thing.getThingPreference());
         		        
         return emfBinaryRelationshipRule;
         
@@ -143,6 +147,8 @@ public abstract class Rule {
         emfMultiRelationshipRule.setRevisionNumber(thing.getRevisionNumber());
         
         emfMultiRelationshipRule.setShortName(thing.getShortName());
+        
+        emfMultiRelationshipRule.setThingPreference(thing.getThingPreference());
         		        
         return emfMultiRelationshipRule;
         
@@ -170,6 +176,8 @@ public abstract class Rule {
         emfDecompositionRule.setRevisionNumber(thing.getRevisionNumber());
         
         emfDecompositionRule.setShortName(thing.getShortName());
+        
+        emfDecompositionRule.setThingPreference(thing.getThingPreference());
         		        
         return emfDecompositionRule;
         
@@ -197,6 +205,8 @@ public abstract class Rule {
         emfParameterizedCategoryRule.setRevisionNumber(thing.getRevisionNumber());
         
         emfParameterizedCategoryRule.setShortName(thing.getShortName());
+        
+        emfParameterizedCategoryRule.setThingPreference(thing.getThingPreference());
         		        
         return emfParameterizedCategoryRule;
         	
@@ -238,6 +248,8 @@ public abstract class Rule {
         pojoReferencerRule.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoReferencerRule.setShortName(emfThing.getShortName());
+        
+        pojoReferencerRule.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoReferencerRule;
         
@@ -265,6 +277,8 @@ public abstract class Rule {
         pojoBinaryRelationshipRule.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoBinaryRelationshipRule.setShortName(emfThing.getShortName());
+        
+        pojoBinaryRelationshipRule.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoBinaryRelationshipRule;
         
@@ -292,6 +306,8 @@ public abstract class Rule {
         pojoMultiRelationshipRule.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoMultiRelationshipRule.setShortName(emfThing.getShortName());
+        
+        pojoMultiRelationshipRule.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoMultiRelationshipRule;
         
@@ -319,6 +335,8 @@ public abstract class Rule {
         pojoDecompositionRule.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoDecompositionRule.setShortName(emfThing.getShortName());
+        
+        pojoDecompositionRule.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDecompositionRule;
         
@@ -346,6 +364,8 @@ public abstract class Rule {
         pojoParameterizedCategoryRule.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoParameterizedCategoryRule.setShortName(emfThing.getShortName());
+        
+        pojoParameterizedCategoryRule.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoParameterizedCategoryRule;
         	

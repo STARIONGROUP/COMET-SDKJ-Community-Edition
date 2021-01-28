@@ -31,6 +31,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 import cdp4common.commondata.*;
+import cdp4common.CDPVersion;
 
 /**
  * representation of an entry in a logbook
@@ -39,6 +40,17 @@ import cdp4common.commondata.*;
  */
 public interface LogEntry
 {
+    /**
+     * Gets the unique identifiers of the referenced affectedDomainIid instances.
+     * The list of affected Domains of Expertise that this LogEntry.
+     */
+    ArrayList<UUID> getAffectedDomainIid();
+
+    /**
+     * Sets the unique identifiers of the referenced affectedDomainIid instances.
+     * The list of affected Domains of Expertise that this LogEntry.
+     */
+    void setAffectedDomainIid(ArrayList<UUID> affectedDomainIid);
     /**
      * Gets the unique identifiers of the referenced affectedItemIid instances.
      * weak reference to zero or more items that are relevant to or affected by what is described in the content of this LogEntry
@@ -76,4 +88,15 @@ public interface LogEntry
      * Note: The <i>level</i> can be used to filter log entries. Also applications may provide a setting that switches on or off logging log entries of a certain level.
      */
     void setLevel(LogLevelKind level);
+    /**
+     * Gets the logEntryChangelogItem.
+     */
+    @CDPVersion(version = "1.2.0")
+    ArrayList<UUID> getLogEntryChangelogItem();
+
+    /**
+     * Sets the logEntryChangelogItem.
+     */
+    @CDPVersion(version = "1.2.0")
+    void setLogEntryChangelogItem(ArrayList<UUID> logEntryChangelogItem);
 }

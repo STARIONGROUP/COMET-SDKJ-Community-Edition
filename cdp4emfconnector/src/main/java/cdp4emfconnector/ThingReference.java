@@ -81,6 +81,8 @@ public abstract class ThingReference {
         emfModellingThingReference.setReferencedThing(thing.getReferencedThing() != null ? cdp4emfconnector.Thing.toEmf(thing.getReferencedThing()) : null);        
         
         emfModellingThingReference.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfModellingThingReference.setThingPreference(thing.getThingPreference());
         		        
         return emfModellingThingReference;
         
@@ -100,6 +102,8 @@ public abstract class ThingReference {
         emfSiteDirectoryThingReference.setReferencedThing(thing.getReferencedThing() != null ? cdp4emfconnector.Thing.toEmf(thing.getReferencedThing()) : null);        
         
         emfSiteDirectoryThingReference.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSiteDirectoryThingReference.setThingPreference(thing.getThingPreference());
         		        
         return emfSiteDirectoryThingReference;
         	
@@ -133,6 +137,8 @@ public abstract class ThingReference {
         pojoModellingThingReference.setReferencedThing(emfThing.getReferencedThing() != null ? cdp4emfconnector.Thing.toPojo(emfThing.getReferencedThing()) : null);        
         
         pojoModellingThingReference.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoModellingThingReference.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoModellingThingReference;
         
@@ -152,6 +158,8 @@ public abstract class ThingReference {
         pojoSiteDirectoryThingReference.setReferencedThing(emfThing.getReferencedThing() != null ? cdp4emfconnector.Thing.toPojo(emfThing.getReferencedThing()) : null);        
         
         pojoSiteDirectoryThingReference.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSiteDirectoryThingReference.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSiteDirectoryThingReference;
         	

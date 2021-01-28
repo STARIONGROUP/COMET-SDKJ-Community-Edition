@@ -31,6 +31,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 import cdp4common.commondata.*;
+import cdp4common.CDPVersion;
 
 /**
  * abstract supertype that represents information expressed in human-readable natural language

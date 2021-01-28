@@ -77,6 +77,8 @@ public abstract class BooleanExpression {
         emfOrExpression.setModifiedOn(thing.getModifiedOn());
         
         emfOrExpression.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfOrExpression.setThingPreference(thing.getThingPreference());
         		        
         return emfOrExpression;
         
@@ -92,6 +94,8 @@ public abstract class BooleanExpression {
         emfNotExpression.setModifiedOn(thing.getModifiedOn());
         
         emfNotExpression.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfNotExpression.setThingPreference(thing.getThingPreference());
         		        
         return emfNotExpression;
         
@@ -107,6 +111,8 @@ public abstract class BooleanExpression {
         emfAndExpression.setModifiedOn(thing.getModifiedOn());
         
         emfAndExpression.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfAndExpression.setThingPreference(thing.getThingPreference());
         		        
         return emfAndExpression;
         
@@ -122,6 +128,8 @@ public abstract class BooleanExpression {
         emfExclusiveOrExpression.setModifiedOn(thing.getModifiedOn());
         
         emfExclusiveOrExpression.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfExclusiveOrExpression.setThingPreference(thing.getThingPreference());
         		        
         return emfExclusiveOrExpression;
         
@@ -137,6 +145,8 @@ public abstract class BooleanExpression {
         emfRelationalExpression.setModifiedOn(thing.getModifiedOn());
         
         emfRelationalExpression.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfRelationalExpression.setThingPreference(thing.getThingPreference());
         		        
         return emfRelationalExpression;
         	
@@ -166,6 +176,8 @@ public abstract class BooleanExpression {
         pojoOrExpression.setModifiedOn(emfThing.getModifiedOn());
         
         pojoOrExpression.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoOrExpression.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoOrExpression;
         
@@ -181,6 +193,8 @@ public abstract class BooleanExpression {
         pojoNotExpression.setModifiedOn(emfThing.getModifiedOn());
         
         pojoNotExpression.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoNotExpression.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoNotExpression;
         
@@ -196,6 +210,8 @@ public abstract class BooleanExpression {
         pojoAndExpression.setModifiedOn(emfThing.getModifiedOn());
         
         pojoAndExpression.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoAndExpression.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoAndExpression;
         
@@ -211,6 +227,8 @@ public abstract class BooleanExpression {
         pojoExclusiveOrExpression.setModifiedOn(emfThing.getModifiedOn());
         
         pojoExclusiveOrExpression.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoExclusiveOrExpression.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoExclusiveOrExpression;
         
@@ -226,6 +244,8 @@ public abstract class BooleanExpression {
         pojoRelationalExpression.setModifiedOn(emfThing.getModifiedOn());
         
         pojoRelationalExpression.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoRelationalExpression.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRelationalExpression;
         	

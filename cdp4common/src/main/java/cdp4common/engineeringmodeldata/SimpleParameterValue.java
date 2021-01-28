@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -234,6 +235,7 @@ public class SimpleParameterValue extends Thing implements Cloneable, OwnedThing
         this.setParameterType(ObjectUtils.firstNonNull(PojoThingFactory.get(this.getCache(), dto.getParameterType(), dto.getIterationContainerId(), ParameterType.class), SentinelThingProvider.getSentinel(ParameterType.class)));
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setScale((dto.getScale() != null) ? PojoThingFactory.get(this.getCache(), dto.getScale(), dto.getIterationContainerId(), MeasurementScale.class) : null);
+        this.setThingPreference(dto.getThingPreference());
         this.setValue(new ValueArray<String>(dto.getValue(), this, String.class));
 
         this.resolveExtraProperties();
@@ -254,6 +256,7 @@ public class SimpleParameterValue extends Thing implements Cloneable, OwnedThing
         dto.setParameterType(this.getParameterType() != null ? this.getParameterType().getIid() : new UUID(0L, 0L));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setScale(this.getScale() != null ? (UUID)this.getScale().getIid() : null);
+        dto.setThingPreference(this.getThingPreference());
         dto.setValue(new ValueArray<String>(this.getValue(), this, String.class));
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());

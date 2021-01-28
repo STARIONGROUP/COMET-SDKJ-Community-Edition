@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -245,6 +246,7 @@ public class Definition extends Thing implements Cloneable, Annotation {
         this.setModifiedOn(dto.getModifiedOn());
         PojoThingFactory.clearAndAddRange(this.getNote(), dto.getNote());
         this.setRevisionNumber(dto.getRevisionNumber());
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -267,6 +269,7 @@ public class Definition extends Thing implements Cloneable, Annotation {
         dto.setModifiedOn(this.getModifiedOn());
         dto.getNote().addAll(this.getNote().toDtoOrderedItemList());
         dto.setRevisionNumber(this.getRevisionNumber());
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

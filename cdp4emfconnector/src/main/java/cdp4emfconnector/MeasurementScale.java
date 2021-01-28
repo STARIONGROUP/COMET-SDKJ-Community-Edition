@@ -106,6 +106,8 @@ public abstract class MeasurementScale {
         
         emfOrdinalScale.setShortName(thing.getShortName());
         
+        emfOrdinalScale.setThingPreference(thing.getThingPreference());
+        
         emfOrdinalScale.setUnit(thing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toEmf(thing.getUnit()) : null);        
         
         emfOrdinalScale.getValueDefinition().addAll(thing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toEmf(item)).collect(Collectors.toList()));
@@ -152,6 +154,8 @@ public abstract class MeasurementScale {
         emfRatioScale.setRevisionNumber(thing.getRevisionNumber());
         
         emfRatioScale.setShortName(thing.getShortName());
+        
+        emfRatioScale.setThingPreference(thing.getThingPreference());
         
         emfRatioScale.setUnit(thing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toEmf(thing.getUnit()) : null);        
         
@@ -200,6 +204,8 @@ public abstract class MeasurementScale {
         
         emfCyclicRatioScale.setShortName(thing.getShortName());
         
+        emfCyclicRatioScale.setThingPreference(thing.getThingPreference());
+        
         emfCyclicRatioScale.setUnit(thing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toEmf(thing.getUnit()) : null);        
         
         emfCyclicRatioScale.getValueDefinition().addAll(thing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toEmf(item)).collect(Collectors.toList()));
@@ -247,6 +253,8 @@ public abstract class MeasurementScale {
         
         emfIntervalScale.setShortName(thing.getShortName());
         
+        emfIntervalScale.setThingPreference(thing.getThingPreference());
+        
         emfIntervalScale.setUnit(thing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toEmf(thing.getUnit()) : null);        
         
         emfIntervalScale.getValueDefinition().addAll(thing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toEmf(item)).collect(Collectors.toList()));
@@ -293,6 +301,8 @@ public abstract class MeasurementScale {
         emfLogarithmicScale.setRevisionNumber(thing.getRevisionNumber());
         
         emfLogarithmicScale.setShortName(thing.getShortName());
+        
+        emfLogarithmicScale.setThingPreference(thing.getThingPreference());
         
         emfLogarithmicScale.setUnit(thing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toEmf(thing.getUnit()) : null);        
         
@@ -355,6 +365,8 @@ public abstract class MeasurementScale {
         
         pojoOrdinalScale.setShortName(emfThing.getShortName());
         
+        pojoOrdinalScale.setThingPreference(emfThing.getThingPreference());
+        
         pojoOrdinalScale.setUnit(emfThing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toPojo(emfThing.getUnit()) : null);        
         
         pojoOrdinalScale.getValueDefinition().addAll(emfThing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toPojo(item)).collect(Collectors.toList()));              
@@ -401,6 +413,8 @@ public abstract class MeasurementScale {
         pojoRatioScale.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoRatioScale.setShortName(emfThing.getShortName());
+        
+        pojoRatioScale.setThingPreference(emfThing.getThingPreference());
         
         pojoRatioScale.setUnit(emfThing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toPojo(emfThing.getUnit()) : null);        
         
@@ -449,6 +463,8 @@ public abstract class MeasurementScale {
         
         pojoCyclicRatioScale.setShortName(emfThing.getShortName());
         
+        pojoCyclicRatioScale.setThingPreference(emfThing.getThingPreference());
+        
         pojoCyclicRatioScale.setUnit(emfThing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toPojo(emfThing.getUnit()) : null);        
         
         pojoCyclicRatioScale.getValueDefinition().addAll(emfThing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toPojo(item)).collect(Collectors.toList()));              
@@ -496,6 +512,8 @@ public abstract class MeasurementScale {
         
         pojoIntervalScale.setShortName(emfThing.getShortName());
         
+        pojoIntervalScale.setThingPreference(emfThing.getThingPreference());
+        
         pojoIntervalScale.setUnit(emfThing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toPojo(emfThing.getUnit()) : null);        
         
         pojoIntervalScale.getValueDefinition().addAll(emfThing.getValueDefinition().stream().map(item -> cdp4emfconnector.ScaleValueDefinition.toPojo(item)).collect(Collectors.toList()));              
@@ -542,6 +560,8 @@ public abstract class MeasurementScale {
         pojoLogarithmicScale.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoLogarithmicScale.setShortName(emfThing.getShortName());
+        
+        pojoLogarithmicScale.setThingPreference(emfThing.getThingPreference());
         
         pojoLogarithmicScale.setUnit(emfThing.getUnit() != null ? cdp4emfconnector.MeasurementUnit.toPojo(emfThing.getUnit()) : null);        
         

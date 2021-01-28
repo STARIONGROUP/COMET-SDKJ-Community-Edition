@@ -78,6 +78,8 @@ public class RelationshipParameterValue {
         emf.setRevisionNumber(thing.getRevisionNumber());
         
         emf.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);
+        emf.setThingPreference(thing.getThingPreference());
+        
         thing.getValue().forEach(item -> emf.getValue().add(item));	             
         
         return emf;
@@ -105,6 +107,8 @@ public class RelationshipParameterValue {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);
+        pojo.setThingPreference(emfThing.getThingPreference());
+        
         emfThing.getValue().forEach(item -> pojo.getValue().set(item.indexOf(item), item));		      
         
         return pojo;

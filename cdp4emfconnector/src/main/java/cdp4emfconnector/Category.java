@@ -93,6 +93,8 @@ public class Category {
         
         emf.getSuperCategory().addAll(thing.getSuperCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -132,6 +134,8 @@ public class Category {
         pojo.setShortName(emfThing.getShortName());
         
         pojo.getSuperCategory().addAll(emfThing.getSuperCategory().stream().map(item -> cdp4emfconnector.Category.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

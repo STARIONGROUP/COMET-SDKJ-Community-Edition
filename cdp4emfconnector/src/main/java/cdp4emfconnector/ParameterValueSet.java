@@ -87,6 +87,8 @@ public class ParameterValueSet {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         if (thing.getValueSwitch() != null) {emf.setValueSwitch(CDP4.EngineeringModelData.ParameterSwitchKind.valueOf(thing.getValueSwitch().toString()));}                          
         
         return emf;
@@ -122,6 +124,8 @@ public class ParameterValueSet {
         emfThing.getReference().forEach(item -> pojo.getReference().set(item.indexOf(item), item));		      
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         if (emfThing.getValueSwitch() != null) {pojo.setValueSwitch(cdp4common.engineeringmodeldata.ParameterSwitchKind.valueOf(emfThing.getValueSwitch().toString()));}  
         

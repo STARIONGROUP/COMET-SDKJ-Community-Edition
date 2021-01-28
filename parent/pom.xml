@@ -7,7 +7,7 @@
   <groupId>com.rheagroup</groupId>
   <artifactId>cdp4-sdk4j-parent</artifactId>
   <packaging>pom</packaging>
-  <version>2.0.0</version>
+  <version>3.0.0</version>
   <name>CDP4 SDK Java Implementation Project Parent</name>
   <description>A parent pom that is used by all CDP4 modules</description>
   <url>https://github.com/RHEAGROUP/CDP4-SDKJ-Community-Edition</url>

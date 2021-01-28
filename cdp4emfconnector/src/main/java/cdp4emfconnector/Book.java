@@ -87,6 +87,8 @@ public class Book {
         
         emf.setShortName(thing.getShortName());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -120,6 +122,8 @@ public class Book {
         pojo.getSection().addAll(emfThing.getSection().stream().map(item -> cdp4emfconnector.Section.toPojo(item)).collect(Collectors.toList()));
         
         pojo.setShortName(emfThing.getShortName());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

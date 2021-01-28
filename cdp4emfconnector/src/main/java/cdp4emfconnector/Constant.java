@@ -92,6 +92,8 @@ public class Constant {
         emf.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);
         emf.setShortName(thing.getShortName());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         thing.getValue().forEach(item -> emf.getValue().add(item));	             
         
         return emf;
@@ -132,6 +134,8 @@ public class Constant {
         
         pojo.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);
         pojo.setShortName(emfThing.getShortName());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         emfThing.getValue().forEach(item -> pojo.getValue().set(item.indexOf(item), item));		      
         

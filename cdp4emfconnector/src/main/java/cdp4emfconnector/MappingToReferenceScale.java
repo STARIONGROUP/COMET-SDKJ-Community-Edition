@@ -79,6 +79,8 @@ public class MappingToReferenceScale {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -104,6 +106,8 @@ public class MappingToReferenceScale {
         pojo.setReferenceScaleValue(emfThing.getReferenceScaleValue() != null ? cdp4emfconnector.ScaleValueDefinition.toPojo(emfThing.getReferenceScaleValue()) : null);        
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

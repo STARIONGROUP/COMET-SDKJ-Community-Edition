@@ -79,6 +79,8 @@ public class SiteDirectoryThingReference {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -104,6 +106,8 @@ public class SiteDirectoryThingReference {
         pojo.setReferencedThing(emfThing.getReferencedThing() != null ? cdp4emfconnector.Thing.toPojo(emfThing.getReferencedThing()) : null);        
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

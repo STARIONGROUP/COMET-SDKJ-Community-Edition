@@ -104,6 +104,8 @@ public class ContractChangeNotice {
         
         if (thing.getStatus() != null) {emf.setStatus(CDP4.ReportingData.AnnotationStatusKind.valueOf(thing.getStatus().toString()));}                          
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.setTitle(thing.getTitle());
         
         return emf;
@@ -156,6 +158,8 @@ public class ContractChangeNotice {
         pojo.getSourceAnnotation().addAll(emfThing.getSourceAnnotation().stream().map(item -> cdp4emfconnector.ModellingAnnotationItem.toPojo(item)).collect(Collectors.toList()));              
         
         if (emfThing.getStatus() != null) {pojo.setStatus(cdp4common.reportingdata.AnnotationStatusKind.valueOf(emfThing.getStatus().toString()));}  
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.setTitle(emfThing.getTitle());
         

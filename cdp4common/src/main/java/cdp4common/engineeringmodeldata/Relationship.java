@@ -32,27 +32,27 @@
 
 package cdp4common.engineeringmodeldata;
 
-import cdp4common.*;
-import cdp4common.commondata.ParticipantAccessRightKind;
-import cdp4common.commondata.PersonAccessRightKind;
-import cdp4common.commondata.Thing;
-import cdp4common.helpers.ActionImpl;
-import cdp4common.sitedirectorydata.CategorizableThing;
-import cdp4common.sitedirectorydata.Category;
-import cdp4common.sitedirectorydata.DomainOfExpertise;
-import cdp4common.types.CacheKey;
-import cdp4common.types.ContainerList;
-import com.google.common.cache.Cache;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
+import java.util.*;
+import java.util.stream.*;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.io.*;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import cdp4common.*;
+import cdp4common.commondata.*;
+import cdp4common.diagramdata.*;
+import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
+import cdp4common.helpers.*;
+import cdp4common.reportingdata.*;
+import cdp4common.sitedirectorydata.*;
+import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
+import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * representation of a relationship between two or more Things
@@ -83,11 +83,10 @@ public abstract class Relationship extends Thing implements Cloneable, Categoriz
 
     /**
      * Initializes a new instance of the {@link Relationship} class.
-     *
-     * @param iid     The unique identifier.
-     * @param cache   The {@link Cache} where the current thing is stored.
-     *                The {@link CacheKey} of {@link UUID} is the key used to store this thing.
-     *                The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iid The unique identifier.
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
     protected Relationship(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
@@ -104,6 +103,17 @@ public abstract class Relationship extends Thing implements Cloneable, Categoriz
     @Getter
     @Setter
     private ArrayList<Category> category;
+
+    /**
+     * Property name.
+     * human readable character string in English by which something can be       referred       to
+     * Note: The implied LanguageCode of <i>name</i> is "en-GB".
+     */
+    @CDPVersion(version = "1.2.0")
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
+    private String name;
 
     /**
      * Property owner.
@@ -142,15 +152,15 @@ public abstract class Relationship extends Thing implements Cloneable, Categoriz
 
     /**
      * Creates and returns a copy of this {@link Relationship} for edit purpose.
-     *
      * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
+     *
      * @return A cloned instance of {@link Relationship}.
      */
     @Override
     public Relationship clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
-        return (Relationship) this.genericClone(cloneContainedThings);
+        return (Relationship)this.genericClone(cloneContainedThings);
     }
 
     /**

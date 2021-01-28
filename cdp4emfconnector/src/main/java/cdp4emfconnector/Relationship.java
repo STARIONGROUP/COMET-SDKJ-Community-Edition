@@ -78,11 +78,15 @@ public abstract class Relationship {
         
         emfMultiRelationship.setModifiedOn(thing.getModifiedOn());
         
+        emfMultiRelationship.setName(thing.getName());
+        
         emfMultiRelationship.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
         emfMultiRelationship.getParameterValue().addAll(thing.getParameterValue().stream().map(item -> cdp4emfconnector.RelationshipParameterValue.toEmf(item)).collect(Collectors.toList()));
         
         emfMultiRelationship.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfMultiRelationship.setThingPreference(thing.getThingPreference());
         		        
         return emfMultiRelationship;
         
@@ -99,11 +103,15 @@ public abstract class Relationship {
         
         emfBinaryRelationship.setModifiedOn(thing.getModifiedOn());
         
+        emfBinaryRelationship.setName(thing.getName());
+        
         emfBinaryRelationship.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
         emfBinaryRelationship.getParameterValue().addAll(thing.getParameterValue().stream().map(item -> cdp4emfconnector.RelationshipParameterValue.toEmf(item)).collect(Collectors.toList()));
         
         emfBinaryRelationship.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfBinaryRelationship.setThingPreference(thing.getThingPreference());
         		        
         return emfBinaryRelationship;
         	
@@ -134,11 +142,15 @@ public abstract class Relationship {
         
         pojoMultiRelationship.setModifiedOn(emfThing.getModifiedOn());
         
+        pojoMultiRelationship.setName(emfThing.getName());
+        
         pojoMultiRelationship.setOwner(emfThing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toPojo(emfThing.getOwner()) : null);        
         
         pojoMultiRelationship.getParameterValue().addAll(emfThing.getParameterValue().stream().map(item -> cdp4emfconnector.RelationshipParameterValue.toPojo(item)).collect(Collectors.toList()));              
         
         pojoMultiRelationship.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoMultiRelationship.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoMultiRelationship;
         
@@ -155,11 +167,15 @@ public abstract class Relationship {
         
         pojoBinaryRelationship.setModifiedOn(emfThing.getModifiedOn());
         
+        pojoBinaryRelationship.setName(emfThing.getName());
+        
         pojoBinaryRelationship.setOwner(emfThing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toPojo(emfThing.getOwner()) : null);        
         
         pojoBinaryRelationship.getParameterValue().addAll(emfThing.getParameterValue().stream().map(item -> cdp4emfconnector.RelationshipParameterValue.toPojo(item)).collect(Collectors.toList()));              
         
         pojoBinaryRelationship.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoBinaryRelationship.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoBinaryRelationship;
         	

@@ -31,6 +31,7 @@ import java.time.OffsetDateTime;
 import java.util.*;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.*;
+import cdp4common.CDPVersion;
 
 /**
  * representation of an entry in a logbook
@@ -38,6 +39,12 @@ import cdp4common.types.*;
  * Note 2: A LogEntry could be categorized (see Category and CategorizableThing) e.g. to denote that a LogEntry contains a  "design rationale". This would later help with reporting or retrieving useful information from the logbook.
  */
 public interface LogEntry {
+    /**
+     * Gets a list of UUID.
+     * The list of affected Domains of Expertise that this LogEntry.
+     */
+    ArrayList<UUID> getAffectedDomainIid();
+
     /**
      * Gets a list of UUID.
      * weak reference to zero or more items that are relevant to or affected by what is described in the content of this LogEntry
@@ -59,6 +66,18 @@ public interface LogEntry {
     LogLevelKind getLevel();
 
     /**
+     * Gets a list of contained LogEntryChangelogItem.
+     */
+    @CDPVersion(version = "1.2.0")
+    ContainerList<LogEntryChangelogItem> getLogEntryChangelogItem();
+
+    /**
+     * Sets a list of UUID.
+     * The list of affected Domains of Expertise that this LogEntry.
+     */
+    void setAffectedDomainIid(ArrayList<UUID> affectedDomainIid);
+
+    /**
      * Sets a list of UUID.
      * weak reference to zero or more items that are relevant to or affected by what is described in the content of this LogEntry
      * Note: Each reference should be an <i>iid</i> of a Thing that exists when the log entry is created. The references are of type Uuid in order to support retaining log entries even when the referenced Thing is later deleted. An implementation of E-TM-10-25 shall support a mechanism to dereference items by Uuid and report when items can not (no longer) be dereferenced.
@@ -77,4 +96,10 @@ public interface LogEntry {
      * Note: The <i>level</i> can be used to filter log entries. Also applications may provide a setting that switches on or off logging log entries of a certain level.
      */
     void setLevel(LogLevelKind level);
+
+    /**
+     * Sets a list of contained LogEntryChangelogItem.
+     */
+    @CDPVersion(version = "1.2.0")
+    void setLogEntryChangelogItem(ContainerList<LogEntryChangelogItem> logEntryChangelogItem);
 }

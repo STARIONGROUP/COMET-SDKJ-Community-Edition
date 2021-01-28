@@ -31,6 +31,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 import cdp4common.commondata.*;
+import cdp4common.CDPVersion;
 
 /**
  * representation of a Thing in a SiteDirectory that is affected by PersonAccessRightKind.READ_IF_PARTICIPANT or PersonAccessRightKind.MODIFY_IF_PARTICIPANT

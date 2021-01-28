@@ -87,6 +87,8 @@ public abstract class FileStore {
         emfCommonFileStore.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
         emfCommonFileStore.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfCommonFileStore.setThingPreference(thing.getThingPreference());
         		        
         return emfCommonFileStore;
         
@@ -112,6 +114,8 @@ public abstract class FileStore {
         emfDomainFileStore.setOwner(thing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toEmf(thing.getOwner()) : null);        
         
         emfDomainFileStore.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfDomainFileStore.setThingPreference(thing.getThingPreference());
         		        
         return emfDomainFileStore;
         	
@@ -151,6 +155,8 @@ public abstract class FileStore {
         pojoCommonFileStore.setOwner(emfThing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toPojo(emfThing.getOwner()) : null);        
         
         pojoCommonFileStore.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoCommonFileStore.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoCommonFileStore;
         
@@ -176,6 +182,8 @@ public abstract class FileStore {
         pojoDomainFileStore.setOwner(emfThing.getOwner() != null ? cdp4emfconnector.DomainOfExpertise.toPojo(emfThing.getOwner()) : null);        
         
         pojoDomainFileStore.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoDomainFileStore.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDomainFileStore;
         	

@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -408,6 +409,7 @@ public class SiteDirectory extends TopContainer implements Cloneable, NamedThing
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
         PojoThingFactory.resolveList(this.getSiteReferenceDataLibrary(), dto.getSiteReferenceDataLibrary(), dto.getIterationContainerId(), this.getCache(), SiteReferenceDataLibrary.class);
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -442,6 +444,7 @@ public class SiteDirectory extends TopContainer implements Cloneable, NamedThing
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
         dto.getSiteReferenceDataLibrary().addAll(this.getSiteReferenceDataLibrary().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

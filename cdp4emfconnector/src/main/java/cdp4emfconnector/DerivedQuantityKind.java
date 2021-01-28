@@ -99,6 +99,8 @@ public class DerivedQuantityKind {
         
         emf.setSymbol(thing.getSymbol());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -144,6 +146,8 @@ public class DerivedQuantityKind {
         pojo.setShortName(emfThing.getShortName());
         
         pojo.setSymbol(emfThing.getSymbol());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -222,6 +223,7 @@ public class Glossary extends DefinedThing implements Cloneable, CategorizableTh
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
         PojoThingFactory.resolveList(this.getTerm(), dto.getTerm(), dto.getIterationContainerId(), this.getCache(), Term.class);
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -247,6 +249,7 @@ public class Glossary extends DefinedThing implements Cloneable, CategorizableTh
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
         dto.getTerm().addAll(this.getTerm().stream().map(Thing::getIid).collect(Collectors.toList()));
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

@@ -101,6 +101,8 @@ public abstract class DiagrammingStyle {
         
         emfOwnedStyle.setStrokeWidth(thing.getStrokeWidth());
         
+        emfOwnedStyle.setThingPreference(thing.getThingPreference());
+        
         emfOwnedStyle.getUsedColor().addAll(thing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toEmf(item)).collect(Collectors.toList()));
         		        
         return emfOwnedStyle;
@@ -140,6 +142,8 @@ public abstract class DiagrammingStyle {
         emfSharedStyle.setStrokeOpacity(thing.getStrokeOpacity());
         
         emfSharedStyle.setStrokeWidth(thing.getStrokeWidth());
+        
+        emfSharedStyle.setThingPreference(thing.getThingPreference());
         
         emfSharedStyle.getUsedColor().addAll(thing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toEmf(item)).collect(Collectors.toList()));
         		        
@@ -195,6 +199,8 @@ public abstract class DiagrammingStyle {
         
         pojoOwnedStyle.setStrokeWidth((float)emfThing.getStrokeWidth());
         
+        pojoOwnedStyle.setThingPreference(emfThing.getThingPreference());
+        
         pojoOwnedStyle.getUsedColor().addAll(emfThing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toPojo(item)).collect(Collectors.toList()));              
         		        
         return pojoOwnedStyle;
@@ -234,6 +240,8 @@ public abstract class DiagrammingStyle {
         pojoSharedStyle.setStrokeOpacity((float)emfThing.getStrokeOpacity());
         
         pojoSharedStyle.setStrokeWidth((float)emfThing.getStrokeWidth());
+        
+        pojoSharedStyle.setThingPreference(emfThing.getThingPreference());
         
         pojoSharedStyle.getUsedColor().addAll(emfThing.getUsedColor().stream().map(item -> cdp4emfconnector.Color.toPojo(item)).collect(Collectors.toList()));              
         		        

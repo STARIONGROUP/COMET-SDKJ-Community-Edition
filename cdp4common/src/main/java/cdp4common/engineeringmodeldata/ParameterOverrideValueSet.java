@@ -32,33 +32,27 @@
 
 package cdp4common.engineeringmodeldata;
 
-import cdp4common.AggregationKind;
-import cdp4common.ChangeKind;
-import cdp4common.Container;
-import cdp4common.ModelCode;
-import cdp4common.SentinelThingProvider;
-import cdp4common.UmlInformation;
-import cdp4common.commondata.ParticipantAccessRightKind;
-import cdp4common.commondata.PersonAccessRightKind;
-import cdp4common.commondata.Thing;
-import cdp4common.exceptions.ContainmentException;
-import cdp4common.helpers.ActionImpl;
-import cdp4common.helpers.PojoThingFactory;
-import cdp4common.sitedirectorydata.DomainOfExpertise;
-import cdp4common.sitedirectorydata.ParameterType;
-import cdp4common.sitedirectorydata.Person;
-import cdp4common.types.CacheKey;
-import cdp4common.types.ValueArray;
-import com.google.common.cache.Cache;
+import java.util.*;
+import java.util.stream.*;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.io.*;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import cdp4common.*;
+import cdp4common.commondata.*;
+import cdp4common.diagramdata.*;
+import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
+import cdp4common.helpers.*;
+import cdp4common.reportingdata.*;
+import cdp4common.sitedirectorydata.*;
+import cdp4common.types.*;
 import org.apache.commons.lang3.ObjectUtils;
+import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * representation of the switch setting and all values for a ParameterOverride
@@ -86,11 +80,10 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
 
     /**
      * Initializes a new instance of the {@link ParameterOverrideValueSet} class.
-     *
-     * @param iid     The unique identifier.
-     * @param cache   The {@link Cache} where the current thing is stored.
-     *                The {@link CacheKey} of {@link UUID} is the key used to store this thing.
-     *                The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
+     * @param iid The unique identifier.
+     * @param cache The {@link Cache} where the current thing is stored.
+     * The {@link CacheKey} of {@link UUID} is the key used to store this thing.
+     * The key is a combination of this thing's identifier and the identifier of its {@link Iteration} container if applicable or null.
      * @param iDalUri The {@link URI} of this thing
      */
     public ParameterOverrideValueSet(UUID iid, Cache<CacheKey, Thing> cache, URI iDalUri) {
@@ -125,7 +118,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * Gets the actualOption.
      * reference to the actual Option to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
      */
-    public Option getActualOption() {
+    public Option getActualOption(){
         return this.getDerivedActualOption();
     }
 
@@ -133,7 +126,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * Gets the actualState.
      * reference to the ActualFiniteState to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
      */
-    public ActualFiniteState getActualState() {
+    public ActualFiniteState getActualState(){
         return this.getDerivedActualState();
     }
 
@@ -142,9 +135,10 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * reference to the actual Option to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
      *
      * @throws IllegalStateException The actualOption property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
+     *
      * @see IllegalStateException
      */
-    public void setActualOption(Option actualOption) {
+    public void setActualOption(Option actualOption){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterOverrideValueSet.actualOption");
     }
 
@@ -153,9 +147,10 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * reference to the ActualFiniteState to which this ParameterOverrideValueSet pertains, derived from the associated ParameterValueSet for convenience
      *
      * @throws IllegalStateException The actualState property is a derived property; when the setter is invoked an IllegalStateException will be thrown.
+     *
      * @see IllegalStateException
      */
-    public void setActualState(ActualFiniteState actualState) {
+    public void setActualState(ActualFiniteState actualState){
         throw new IllegalStateException("Forbidden Set value for the derived property ParameterOverrideValueSet.actualState");
     }
 
@@ -163,13 +158,14 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
      * Creates and returns a copy of this {@link ParameterOverrideValueSet} for edit purpose.
      *
      * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
+     *
      * @return A cloned instance of {@link ParameterOverrideValueSet}.
      */
     @Override
     protected Thing genericClone(boolean cloneContainedThings) {
         ParameterOverrideValueSet clone;
         try {
-            clone = (ParameterOverrideValueSet) this.clone();
+            clone = (ParameterOverrideValueSet)this.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             throw new IllegalAccessError("Somehow ParameterOverrideValueSet cannot be cloned.");
@@ -194,15 +190,15 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
 
     /**
      * Creates and returns a copy of this {@link ParameterOverrideValueSet} for edit purpose.
-     *
      * @param cloneContainedThings A value that indicates whether the contained {@link Thing}s should be cloned or not.
+     *
      * @return A cloned instance of {@link ParameterOverrideValueSet}.
      */
     @Override
     public ParameterOverrideValueSet clone(boolean cloneContainedThings) {
         this.setChangeKind(ChangeKind.UPDATE);
 
-        return (ParameterOverrideValueSet) this.genericClone(cloneContainedThings);
+        return (ParameterOverrideValueSet)this.genericClone(cloneContainedThings);
     }
 
     /**
@@ -233,7 +229,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
             throw new IllegalArgumentException("dtoThing");
         }
 
-        cdp4common.dto.ParameterOverrideValueSet dto = (cdp4common.dto.ParameterOverrideValueSet) dtoThing;
+        cdp4common.dto.ParameterOverrideValueSet dto = (cdp4common.dto.ParameterOverrideValueSet)dtoThing;
 
         this.setComputed(new ValueArray<String>(dto.getComputed(), this, String.class));
         PojoThingFactory.resolveList(this.getExcludedDomain(), dto.getExcludedDomain(), dto.getIterationContainerId(), this.getCache(), DomainOfExpertise.class);
@@ -245,6 +241,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
         this.setPublished(new ValueArray<String>(dto.getPublished(), this, String.class));
         this.setReference(new ValueArray<String>(dto.getReference(), this, String.class));
         this.setRevisionNumber(dto.getRevisionNumber());
+        this.setThingPreference(dto.getThingPreference());
         this.setValueSwitch(dto.getValueSwitch());
 
         this.resolveExtraProperties();
@@ -269,6 +266,7 @@ public class ParameterOverrideValueSet extends ParameterValueSetBase implements 
         dto.setPublished(new ValueArray<String>(this.getPublished(), this, String.class));
         dto.setReference(new ValueArray<String>(this.getReference(), this, String.class));
         dto.setRevisionNumber(this.getRevisionNumber());
+        dto.setThingPreference(this.getThingPreference());
         dto.setValueSwitch(this.getValueSwitch());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());

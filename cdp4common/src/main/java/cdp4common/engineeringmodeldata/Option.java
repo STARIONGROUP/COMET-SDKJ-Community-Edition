@@ -32,34 +32,27 @@
 
 package cdp4common.engineeringmodeldata;
 
-import cdp4common.AggregationKind;
-import cdp4common.ChangeKind;
-import cdp4common.Container;
-import cdp4common.UmlInformation;
-import cdp4common.commondata.Alias;
-import cdp4common.commondata.DefinedThing;
-import cdp4common.commondata.Definition;
-import cdp4common.commondata.HyperLink;
-import cdp4common.commondata.ParticipantAccessRightKind;
-import cdp4common.commondata.PersonAccessRightKind;
-import cdp4common.commondata.Thing;
-import cdp4common.helpers.PojoThingFactory;
-import cdp4common.sitedirectorydata.CategorizableThing;
-import cdp4common.sitedirectorydata.Category;
-import cdp4common.sitedirectorydata.DomainOfExpertise;
-import cdp4common.sitedirectorydata.Person;
-import cdp4common.types.CacheKey;
-import cdp4common.types.ContainerList;
-import com.google.common.cache.Cache;
+import java.util.*;
+import java.util.stream.*;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.io.*;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import cdp4common.*;
+import cdp4common.commondata.*;
+import cdp4common.diagramdata.*;
+import cdp4common.engineeringmodeldata.*;
+import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
+import cdp4common.helpers.*;
+import cdp4common.reportingdata.*;
+import cdp4common.sitedirectorydata.*;
+import cdp4common.types.*;
+import org.apache.commons.lang3.ObjectUtils;
+import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
+import com.google.common.collect.Iterables;
+import lombok.*;
 
 /**
  * representation of an option that is a potential design solution for the system-of-interest being developed in an Iteration of an EngineeringModel
@@ -222,6 +215,7 @@ public class Option extends DefinedThing implements Cloneable, CategorizableThin
         PojoThingFactory.resolveList(this.getNestedElement(), dto.getNestedElement(), dto.getIterationContainerId(), this.getCache(), NestedElement.class);
         this.setRevisionNumber(dto.getRevisionNumber());
         this.setShortName(dto.getShortName());
+        this.setThingPreference(dto.getThingPreference());
 
         this.resolveExtraProperties();
     }
@@ -246,6 +240,7 @@ public class Option extends DefinedThing implements Cloneable, CategorizableThin
         dto.getNestedElement().addAll(this.getNestedElement().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setRevisionNumber(this.getRevisionNumber());
         dto.setShortName(this.getShortName());
+        dto.setThingPreference(this.getThingPreference());
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());
         dto.registerSourceThing(this);

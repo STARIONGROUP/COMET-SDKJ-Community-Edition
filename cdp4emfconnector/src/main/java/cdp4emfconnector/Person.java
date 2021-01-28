@@ -98,6 +98,8 @@ public class Person {
         
         emf.getTelephoneNumber().addAll(thing.getTelephoneNumber().stream().map(item -> cdp4emfconnector.TelephoneNumber.toEmf(item)).collect(Collectors.toList()));
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.getUserPreference().addAll(thing.getUserPreference().stream().map(item -> cdp4emfconnector.UserPreference.toEmf(item)).collect(Collectors.toList()));
         
         return emf;
@@ -144,6 +146,8 @@ public class Person {
         pojo.setSurname(emfThing.getSurname());
         
         pojo.getTelephoneNumber().addAll(emfThing.getTelephoneNumber().stream().map(item -> cdp4emfconnector.TelephoneNumber.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.getUserPreference().addAll(emfThing.getUserPreference().stream().map(item -> cdp4emfconnector.UserPreference.toPojo(item)).collect(Collectors.toList()));              
         

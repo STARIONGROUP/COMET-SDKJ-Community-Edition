@@ -83,6 +83,8 @@ public class NestedElement {
         
         emf.setRootElement(thing.getRootElement() != null ? cdp4emfconnector.ElementDefinition.toEmf(thing.getRootElement()) : null);        
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -112,6 +114,8 @@ public class NestedElement {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.setRootElement(emfThing.getRootElement() != null ? cdp4emfconnector.ElementDefinition.toPojo(emfThing.getRootElement()) : null);        
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

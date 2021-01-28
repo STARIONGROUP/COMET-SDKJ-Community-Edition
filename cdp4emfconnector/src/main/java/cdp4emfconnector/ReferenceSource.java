@@ -97,6 +97,8 @@ public class ReferenceSource {
         
         emf.setShortName(thing.getShortName());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.setVersionDate(thing.getVersionDate());
         
         emf.setVersionIdentifier(thing.getVersionIdentifier());
@@ -144,6 +146,8 @@ public class ReferenceSource {
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojo.setShortName(emfThing.getShortName());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.setVersionDate(emfThing.getVersionDate());
         

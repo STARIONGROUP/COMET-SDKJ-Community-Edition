@@ -84,6 +84,8 @@ public abstract class DiscussionItem {
         
         emfEngineeringModelDataDiscussionItem.setReplyTo(thing.getReplyTo() != null ? cdp4emfconnector.DiscussionItem.toEmf(thing.getReplyTo()) : null);
         emfEngineeringModelDataDiscussionItem.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfEngineeringModelDataDiscussionItem.setThingPreference(thing.getThingPreference());
         		        
         return emfEngineeringModelDataDiscussionItem;
         
@@ -106,6 +108,8 @@ public abstract class DiscussionItem {
         
         emfSiteDirectoryDataDiscussionItem.setReplyTo(thing.getReplyTo() != null ? cdp4emfconnector.DiscussionItem.toEmf(thing.getReplyTo()) : null);
         emfSiteDirectoryDataDiscussionItem.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSiteDirectoryDataDiscussionItem.setThingPreference(thing.getThingPreference());
         		        
         return emfSiteDirectoryDataDiscussionItem;
         	
@@ -142,6 +146,8 @@ public abstract class DiscussionItem {
         
         pojoEngineeringModelDataDiscussionItem.setReplyTo(emfThing.getReplyTo() != null ? cdp4emfconnector.DiscussionItem.toPojo(emfThing.getReplyTo()) : null);
         pojoEngineeringModelDataDiscussionItem.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoEngineeringModelDataDiscussionItem.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoEngineeringModelDataDiscussionItem;
         
@@ -164,6 +170,8 @@ public abstract class DiscussionItem {
         
         pojoSiteDirectoryDataDiscussionItem.setReplyTo(emfThing.getReplyTo() != null ? cdp4emfconnector.DiscussionItem.toPojo(emfThing.getReplyTo()) : null);
         pojoSiteDirectoryDataDiscussionItem.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSiteDirectoryDataDiscussionItem.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSiteDirectoryDataDiscussionItem;
         	

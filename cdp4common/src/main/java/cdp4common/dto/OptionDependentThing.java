@@ -31,6 +31,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 import cdp4common.commondata.*;
+import cdp4common.CDPVersion;
 
 /**
  * representation of a Thing that can be included in or excluded from one or     more     Options

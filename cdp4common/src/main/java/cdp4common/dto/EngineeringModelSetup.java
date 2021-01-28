@@ -68,6 +68,7 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
     public EngineeringModelSetup() {
         this.activeDomain = new ArrayList<UUID>();
         this.iterationSetup = new ArrayList<UUID>();
+        this.organizationalParticipant = new ArrayList<UUID>();
         this.participant = new ArrayList<UUID>();
         this.requiredRdl = new ArrayList<UUID>();
     }
@@ -82,6 +83,7 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
         super(iid, rev);
         this.activeDomain = new ArrayList<UUID>();
         this.iterationSetup = new ArrayList<UUID>();
+        this.organizationalParticipant = new ArrayList<UUID>();
         this.participant = new ArrayList<UUID>();
         this.requiredRdl = new ArrayList<UUID>();
     }
@@ -94,6 +96,16 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
     @Getter
     @Setter
     private ArrayList<UUID> activeDomain;
+
+    /**
+     * The unique identifier of the referenced defaultOrganizationalParticipant.
+     */
+    @CDPVersion(version = "1.2.0")
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = true, isPersistent = true)
+    @DataMember
+    @Getter
+    @Setter
+    private UUID defaultOrganizationalParticipant;
 
     /**
      * The unique identifier of the referenced engineeringModelIid.
@@ -121,6 +133,16 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
     @Getter
     @Setter
     private EngineeringModelKind kind;
+
+    /**
+     * The unique identifiers of the contained organizationalParticipant instances.
+     */
+    @CDPVersion(version = "1.2.0")
+    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @DataMember
+    @Getter
+    @Setter
+    private ArrayList<UUID> organizationalParticipant;
 
     /**
      * The unique identifiers of the contained participant instances.
@@ -173,6 +195,7 @@ public class EngineeringModelSetup extends DefinedThing implements Cloneable, Pa
     public List<List> getContainerLists() {
         List<List> containers = new ArrayList<>(super.getContainerLists());
         containers.add(this.getIterationSetup());
+        containers.add(this.getOrganizationalParticipant());
         containers.add(this.getParticipant());
         containers.add(this.getRequiredRdl());
         return containers;

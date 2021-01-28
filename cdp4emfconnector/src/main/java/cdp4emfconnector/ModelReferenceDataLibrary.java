@@ -106,6 +106,8 @@ public class ModelReferenceDataLibrary {
         
         emf.setShortName(thing.getShortName());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.getUnit().addAll(thing.getUnit().stream().map(item -> cdp4emfconnector.MeasurementUnit.toEmf(item)).collect(Collectors.toList()));
         
         emf.getUnitPrefix().addAll(thing.getUnitPrefix().stream().map(item -> cdp4emfconnector.UnitPrefix.toEmf(item)).collect(Collectors.toList()));
@@ -162,6 +164,8 @@ public class ModelReferenceDataLibrary {
         pojo.getScale().addAll(emfThing.getScale().stream().map(item -> cdp4emfconnector.MeasurementScale.toPojo(item)).collect(Collectors.toList()));              
         
         pojo.setShortName(emfThing.getShortName());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.getUnit().addAll(emfThing.getUnit().stream().map(item -> cdp4emfconnector.MeasurementUnit.toPojo(item)).collect(Collectors.toList()));              
         

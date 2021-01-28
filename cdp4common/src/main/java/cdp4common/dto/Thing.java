@@ -148,6 +148,16 @@ public abstract class Thing {
     private OffsetDateTime modifiedOn;
 
     /**
+     * Gets or sets the ThingPreference
+     */
+    @CDPVersion(version = "1.2.0")
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @Getter
+    @Setter
+    @DataMember
+    private String thingPreference;
+
+    /**
      * Gets or set the revision number of this Thing
      * Note: In this data model a revision numbering approach similar to Subversion is used, see http://svnbook.red-bean.com/en/1.7/svn-book.html#svn.basic. Therefore the revision number is actually a change set number. At any time that an update to a Thing is made and committed to a persistent data store, the revisionNumber of its TopContainer is incremented by one, and then the revisionNumber of the updated Thing is set to the new TopContainer's revisionNumber. See also TopContainer. When a Thing is first created (in a client application) its revisionNumber is set to zero, implying it has not yet been persisted.
      */

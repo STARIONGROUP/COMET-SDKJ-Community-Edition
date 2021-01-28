@@ -95,6 +95,8 @@ public abstract class RequirementsContainer {
         emfRequirementsSpecification.setRevisionNumber(thing.getRevisionNumber());
         
         emfRequirementsSpecification.setShortName(thing.getShortName());
+        
+        emfRequirementsSpecification.setThingPreference(thing.getThingPreference());
         		        
         return emfRequirementsSpecification;
         
@@ -128,6 +130,8 @@ public abstract class RequirementsContainer {
         emfRequirementsGroup.setRevisionNumber(thing.getRevisionNumber());
         
         emfRequirementsGroup.setShortName(thing.getShortName());
+        
+        emfRequirementsGroup.setThingPreference(thing.getThingPreference());
         		        
         return emfRequirementsGroup;
         	
@@ -175,6 +179,8 @@ public abstract class RequirementsContainer {
         pojoRequirementsSpecification.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoRequirementsSpecification.setShortName(emfThing.getShortName());
+        
+        pojoRequirementsSpecification.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRequirementsSpecification;
         
@@ -208,6 +214,8 @@ public abstract class RequirementsContainer {
         pojoRequirementsGroup.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoRequirementsGroup.setShortName(emfThing.getShortName());
+        
+        pojoRequirementsGroup.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoRequirementsGroup;
         	

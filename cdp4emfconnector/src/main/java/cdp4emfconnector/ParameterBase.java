@@ -87,6 +87,8 @@ public abstract class ParameterBase {
         
         emfParameterSubscription.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);
         emfParameterSubscription.setStateDependence(thing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toEmf(thing.getStateDependence()) : null);
+        emfParameterSubscription.setThingPreference(thing.getThingPreference());
+        		        
         return emfParameterSubscription;
         
         
@@ -112,6 +114,8 @@ public abstract class ParameterBase {
         
         emfParameter.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);
         emfParameter.setStateDependence(thing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toEmf(thing.getStateDependence()) : null);
+        emfParameter.setThingPreference(thing.getThingPreference());
+        		        
         return emfParameter;
         
         case "cdp4common.engineeringmodeldata.ParameterOverride":
@@ -136,6 +140,8 @@ public abstract class ParameterBase {
         
         emfParameterOverride.setScale(thing.getScale() != null ? cdp4emfconnector.MeasurementScale.toEmf(thing.getScale()) : null);
         emfParameterOverride.setStateDependence(thing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toEmf(thing.getStateDependence()) : null);
+        emfParameterOverride.setThingPreference(thing.getThingPreference());
+        		        
         return emfParameterOverride;
         	
         }
@@ -174,6 +180,8 @@ public abstract class ParameterBase {
         
         pojoParameterSubscription.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);
         pojoParameterSubscription.setStateDependence(emfThing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toPojo(emfThing.getStateDependence()) : null);
+        pojoParameterSubscription.setThingPreference(emfThing.getThingPreference());
+        		        
         return pojoParameterSubscription;
         
         
@@ -199,6 +207,8 @@ public abstract class ParameterBase {
         
         pojoParameter.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);
         pojoParameter.setStateDependence(emfThing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toPojo(emfThing.getStateDependence()) : null);
+        pojoParameter.setThingPreference(emfThing.getThingPreference());
+        		        
         return pojoParameter;
         
         case "CDP4.engineeringmodeldata.ParameterOverride":                
@@ -223,6 +233,8 @@ public abstract class ParameterBase {
         
         pojoParameterOverride.setScale(emfThing.getScale() != null ? cdp4emfconnector.MeasurementScale.toPojo(emfThing.getScale()) : null);
         pojoParameterOverride.setStateDependence(emfThing.getStateDependence() != null ? cdp4emfconnector.ActualFiniteStateList.toPojo(emfThing.getStateDependence()) : null);
+        pojoParameterOverride.setThingPreference(emfThing.getThingPreference());
+        		        
         return pojoParameterOverride;
         	
         }

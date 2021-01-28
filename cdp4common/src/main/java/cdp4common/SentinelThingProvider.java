@@ -62,6 +62,7 @@ public class SentinelThingProvider {
         sentinelProvider.put("IterationSetup", new IterationSetup(new UUID(0L, 0L), null, null));
         sentinelProvider.put("MeasurementScale", new CyclicRatioScale(new UUID(0L, 0L), null, null));
         sentinelProvider.put("MeasurementUnit", new DerivedUnit(new UUID(0L, 0L), null, null));
+        sentinelProvider.put("Organization", new Organization(new UUID(0L, 0L), null, null));
         sentinelProvider.put("Parameter", new Parameter(new UUID(0L, 0L), null, null));
         sentinelProvider.put("ParameterBase", new Parameter(new UUID(0L, 0L), null, null));
         sentinelProvider.put("ParameterType", new ArrayParameterType(new UUID(0L, 0L), null, null));

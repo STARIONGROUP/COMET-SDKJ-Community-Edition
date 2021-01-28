@@ -66,8 +66,10 @@ public class SiteLogEntry extends Thing implements Cloneable, Annotation, Catego
      * Initializes a new instance of the {@link SiteLogEntry} class.
      */
     public SiteLogEntry() {
+        this.affectedDomainIid = new ArrayList<UUID>();
         this.affectedItemIid = new ArrayList<UUID>();
         this.category = new ArrayList<UUID>();
+        this.logEntryChangelogItem = new ArrayList<UUID>();
     }
 
     /**
@@ -78,9 +80,20 @@ public class SiteLogEntry extends Thing implements Cloneable, Annotation, Catego
      */
     public SiteLogEntry(UUID iid, int rev) {
         super(iid, rev);
+        this.affectedDomainIid = new ArrayList<UUID>();
         this.affectedItemIid = new ArrayList<UUID>();
         this.category = new ArrayList<UUID>();
+        this.logEntryChangelogItem = new ArrayList<UUID>();
     }
+
+    /**
+     * The list of unique identifiers of the referenced affectedDomainIid instances.
+     */
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @DataMember
+    @Getter
+    @Setter
+    private ArrayList<UUID> affectedDomainIid;
 
     /**
      * The list of unique identifiers of the referenced affectedItemIid instances.
@@ -144,6 +157,16 @@ public class SiteLogEntry extends Thing implements Cloneable, Annotation, Catego
     @Getter
     @Setter
     private LogLevelKind level;
+
+    /**
+     * The unique identifiers of the contained logEntryChangelogItem instances.
+     */
+    @CDPVersion(version = "1.2.0")
+    @UmlInformation(aggregation = AggregationKind.COMPOSITE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @DataMember
+    @Getter
+    @Setter
+    private ArrayList<UUID> logEntryChangelogItem;
 
     /**
      * Gets the route for the current {@link SiteLogEntry}.

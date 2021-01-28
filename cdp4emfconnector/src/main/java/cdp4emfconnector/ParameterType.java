@@ -93,6 +93,8 @@ public abstract class ParameterType {
         emfCompoundParameterType.setShortName(thing.getShortName());
         
         emfCompoundParameterType.setSymbol(thing.getSymbol());
+        
+        emfCompoundParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfCompoundParameterType;
         
@@ -124,6 +126,8 @@ public abstract class ParameterType {
         emfArrayParameterType.setShortName(thing.getShortName());
         
         emfArrayParameterType.setSymbol(thing.getSymbol());
+        
+        emfArrayParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfArrayParameterType;
         
@@ -156,6 +160,8 @@ public abstract class ParameterType {
         emfEnumerationParameterType.setShortName(thing.getShortName());
         
         emfEnumerationParameterType.setSymbol(thing.getSymbol());
+        
+        emfEnumerationParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfEnumerationParameterType;
         
@@ -187,6 +193,8 @@ public abstract class ParameterType {
         emfBooleanParameterType.setShortName(thing.getShortName());
         
         emfBooleanParameterType.setSymbol(thing.getSymbol());
+        
+        emfBooleanParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfBooleanParameterType;
         
@@ -218,6 +226,8 @@ public abstract class ParameterType {
         emfDateParameterType.setShortName(thing.getShortName());
         
         emfDateParameterType.setSymbol(thing.getSymbol());
+        
+        emfDateParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfDateParameterType;
         
@@ -249,6 +259,8 @@ public abstract class ParameterType {
         emfTextParameterType.setShortName(thing.getShortName());
         
         emfTextParameterType.setSymbol(thing.getSymbol());
+        
+        emfTextParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfTextParameterType;
         
@@ -280,6 +292,8 @@ public abstract class ParameterType {
         emfDateTimeParameterType.setShortName(thing.getShortName());
         
         emfDateTimeParameterType.setSymbol(thing.getSymbol());
+        
+        emfDateTimeParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfDateTimeParameterType;
         
@@ -311,6 +325,8 @@ public abstract class ParameterType {
         emfTimeOfDayParameterType.setShortName(thing.getShortName());
         
         emfTimeOfDayParameterType.setSymbol(thing.getSymbol());
+        
+        emfTimeOfDayParameterType.setThingPreference(thing.getThingPreference());
         		        
         return emfTimeOfDayParameterType;
         
@@ -343,6 +359,8 @@ public abstract class ParameterType {
         emfSpecializedQuantityKind.setShortName(thing.getShortName());
         
         emfSpecializedQuantityKind.setSymbol(thing.getSymbol());
+        
+        emfSpecializedQuantityKind.setThingPreference(thing.getThingPreference());
         		        
         return emfSpecializedQuantityKind;
         
@@ -374,6 +392,8 @@ public abstract class ParameterType {
         emfSimpleQuantityKind.setShortName(thing.getShortName());
         
         emfSimpleQuantityKind.setSymbol(thing.getSymbol());
+        
+        emfSimpleQuantityKind.setThingPreference(thing.getThingPreference());
         		        
         return emfSimpleQuantityKind;
         
@@ -405,8 +425,43 @@ public abstract class ParameterType {
         emfDerivedQuantityKind.setShortName(thing.getShortName());
         
         emfDerivedQuantityKind.setSymbol(thing.getSymbol());
+        
+        emfDerivedQuantityKind.setThingPreference(thing.getThingPreference());
         		        
         return emfDerivedQuantityKind;
+        
+        case "cdp4common.sitedirectorydata.SampledFunctionParameterType":
+        CDP4.SiteDirectoryData.ParameterType emfSampledFunctionParameterType =  CDP4.SiteDirectoryData.impl.SiteDirectoryDataFactoryImpl.eINSTANCE.createSampledFunctionParameterType();    
+        
+        emfSampledFunctionParameterType.setIid(thing.getIid().toString()); 
+        
+        emfSampledFunctionParameterType.getAlias().addAll(thing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toEmf(item)).collect(Collectors.toList()));
+        
+        emfSampledFunctionParameterType.getCategory().addAll(thing.getCategory().stream().map(item -> cdp4emfconnector.Category.toEmf(item)).collect(Collectors.toList()));
+        
+        emfSampledFunctionParameterType.getDefinition().addAll(thing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toEmf(item)).collect(Collectors.toList()));
+        
+        emfSampledFunctionParameterType.getExcludedDomain().addAll(thing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toEmf(item)).collect(Collectors.toList()));
+        
+        emfSampledFunctionParameterType.getExcludedPerson().addAll(thing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toEmf(item)).collect(Collectors.toList()));
+        
+        emfSampledFunctionParameterType.getHyperLink().addAll(thing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toEmf(item)).collect(Collectors.toList()));
+        
+        emfSampledFunctionParameterType.setIsDeprecated(thing.isDeprecated());
+        
+        emfSampledFunctionParameterType.setModifiedOn(thing.getModifiedOn());
+        
+        emfSampledFunctionParameterType.setName(thing.getName());
+        
+        emfSampledFunctionParameterType.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfSampledFunctionParameterType.setShortName(thing.getShortName());
+        
+        emfSampledFunctionParameterType.setSymbol(thing.getSymbol());
+        
+        emfSampledFunctionParameterType.setThingPreference(thing.getThingPreference());
+        		        
+        return emfSampledFunctionParameterType;
         	
         }
 
@@ -450,6 +505,8 @@ public abstract class ParameterType {
         pojoCompoundParameterType.setShortName(emfThing.getShortName());
         
         pojoCompoundParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoCompoundParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoCompoundParameterType;
         
@@ -481,6 +538,8 @@ public abstract class ParameterType {
         pojoArrayParameterType.setShortName(emfThing.getShortName());
         
         pojoArrayParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoArrayParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoArrayParameterType;
         
@@ -513,6 +572,8 @@ public abstract class ParameterType {
         pojoEnumerationParameterType.setShortName(emfThing.getShortName());
         
         pojoEnumerationParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoEnumerationParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoEnumerationParameterType;
         
@@ -544,6 +605,8 @@ public abstract class ParameterType {
         pojoBooleanParameterType.setShortName(emfThing.getShortName());
         
         pojoBooleanParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoBooleanParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoBooleanParameterType;
         
@@ -575,6 +638,8 @@ public abstract class ParameterType {
         pojoDateParameterType.setShortName(emfThing.getShortName());
         
         pojoDateParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoDateParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDateParameterType;
         
@@ -606,6 +671,8 @@ public abstract class ParameterType {
         pojoTextParameterType.setShortName(emfThing.getShortName());
         
         pojoTextParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoTextParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoTextParameterType;
         
@@ -637,6 +704,8 @@ public abstract class ParameterType {
         pojoDateTimeParameterType.setShortName(emfThing.getShortName());
         
         pojoDateTimeParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoDateTimeParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDateTimeParameterType;
         
@@ -668,6 +737,8 @@ public abstract class ParameterType {
         pojoTimeOfDayParameterType.setShortName(emfThing.getShortName());
         
         pojoTimeOfDayParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoTimeOfDayParameterType.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoTimeOfDayParameterType;
         
@@ -700,6 +771,8 @@ public abstract class ParameterType {
         pojoSpecializedQuantityKind.setShortName(emfThing.getShortName());
         
         pojoSpecializedQuantityKind.setSymbol(emfThing.getSymbol());
+        
+        pojoSpecializedQuantityKind.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSpecializedQuantityKind;
         
@@ -731,6 +804,8 @@ public abstract class ParameterType {
         pojoSimpleQuantityKind.setShortName(emfThing.getShortName());
         
         pojoSimpleQuantityKind.setSymbol(emfThing.getSymbol());
+        
+        pojoSimpleQuantityKind.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoSimpleQuantityKind;
         
@@ -762,8 +837,43 @@ public abstract class ParameterType {
         pojoDerivedQuantityKind.setShortName(emfThing.getShortName());
         
         pojoDerivedQuantityKind.setSymbol(emfThing.getSymbol());
+        
+        pojoDerivedQuantityKind.setThingPreference(emfThing.getThingPreference());
         		        
         return pojoDerivedQuantityKind;
+        
+        case "CDP4.sitedirectorydata.SampledFunctionParameterType":                
+        cdp4common.sitedirectorydata.ParameterType pojoSampledFunctionParameterType = new cdp4common.sitedirectorydata.SampledFunctionParameterType();	    
+        
+        pojoSampledFunctionParameterType.setIid(UUID.fromString(emfThing.getIid())); 
+        
+        pojoSampledFunctionParameterType.getAlias().addAll(emfThing.getAlias().stream().map(item -> cdp4emfconnector.Alias.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoSampledFunctionParameterType.getCategory().addAll(emfThing.getCategory().stream().map(item -> cdp4emfconnector.Category.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoSampledFunctionParameterType.getDefinition().addAll(emfThing.getDefinition().stream().map(item -> cdp4emfconnector.Definition.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoSampledFunctionParameterType.getExcludedDomain().addAll(emfThing.getExcludedDomain().stream().map(item -> cdp4emfconnector.DomainOfExpertise.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoSampledFunctionParameterType.getExcludedPerson().addAll(emfThing.getExcludedPerson().stream().map(item -> cdp4emfconnector.Person.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoSampledFunctionParameterType.getHyperLink().addAll(emfThing.getHyperLink().stream().map(item -> cdp4emfconnector.HyperLink.toPojo(item)).collect(Collectors.toList()));              
+        
+        pojoSampledFunctionParameterType.setDeprecated(emfThing.getIsDeprecated());
+        
+        pojoSampledFunctionParameterType.setModifiedOn(emfThing.getModifiedOn());
+        
+        pojoSampledFunctionParameterType.setName(emfThing.getName());
+        
+        pojoSampledFunctionParameterType.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoSampledFunctionParameterType.setShortName(emfThing.getShortName());
+        
+        pojoSampledFunctionParameterType.setSymbol(emfThing.getSymbol());
+        
+        pojoSampledFunctionParameterType.setThingPreference(emfThing.getThingPreference());
+        		        
+        return pojoSampledFunctionParameterType;
         	
         }
 

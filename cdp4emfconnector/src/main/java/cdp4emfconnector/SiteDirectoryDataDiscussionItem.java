@@ -84,6 +84,8 @@ public class SiteDirectoryDataDiscussionItem {
         emf.setReplyTo(thing.getReplyTo() != null ? cdp4emfconnector.DiscussionItem.toEmf(thing.getReplyTo()) : null);
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         return emf;
     }
 
@@ -114,6 +116,8 @@ public class SiteDirectoryDataDiscussionItem {
         
         pojo.setReplyTo(emfThing.getReplyTo() != null ? cdp4emfconnector.DiscussionItem.toPojo(emfThing.getReplyTo()) : null);
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         return pojo;
     }

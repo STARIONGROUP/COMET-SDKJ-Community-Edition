@@ -88,6 +88,8 @@ public abstract class DiagramShape {
         emfDiagramObject.setRevisionNumber(thing.getRevisionNumber());
         
         emfDiagramObject.setSharedStyle(thing.getSharedStyle() != null ? cdp4emfconnector.SharedStyle.toEmf(thing.getSharedStyle()) : null);
+        emfDiagramObject.setThingPreference(thing.getThingPreference());
+        		        
         return emfDiagramObject;
         	
         }
@@ -127,6 +129,8 @@ public abstract class DiagramShape {
         pojoDiagramObject.setRevisionNumber(emfThing.getRevisionNumber());
         
         pojoDiagramObject.setSharedStyle(emfThing.getSharedStyle() != null ? cdp4emfconnector.SharedStyle.toPojo(emfThing.getSharedStyle()) : null);
+        pojoDiagramObject.setThingPreference(emfThing.getThingPreference());
+        		        
         return pojoDiagramObject;
         	
         }

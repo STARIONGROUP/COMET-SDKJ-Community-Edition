@@ -43,6 +43,7 @@ import cdp4common.commondata.*;
 import cdp4common.diagramdata.*;
 import cdp4common.engineeringmodeldata.*;
 import cdp4common.exceptions.ContainmentException;
+import cdp4common.extensions.*;
 import cdp4common.helpers.*;
 import cdp4common.reportingdata.*;
 import cdp4common.sitedirectorydata.*;
@@ -229,6 +230,7 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
         PojoThingFactory.resolveList(this.getExpression(), dto.getExpression(), dto.getIterationContainerId(), this.getCache(), BooleanExpression.class);
         this.setModifiedOn(dto.getModifiedOn());
         this.setRevisionNumber(dto.getRevisionNumber());
+        this.setThingPreference(dto.getThingPreference());
         this.setTopExpression((dto.getTopExpression() != null) ? PojoThingFactory.get(this.getCache(), dto.getTopExpression(), dto.getIterationContainerId(), BooleanExpression.class) : null);
 
         this.resolveExtraProperties();
@@ -248,6 +250,7 @@ public class ParametricConstraint extends Thing implements Cloneable, OwnedThing
         dto.getExpression().addAll(this.getExpression().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.setModifiedOn(this.getModifiedOn());
         dto.setRevisionNumber(this.getRevisionNumber());
+        dto.setThingPreference(this.getThingPreference());
         dto.setTopExpression(this.getTopExpression() != null ? (UUID)this.getTopExpression().getIid() : null);
 
         dto.setIterationContainerId(this.getCacheKey().getIteration());

@@ -90,6 +90,8 @@ public abstract class ParameterValueSetBase {
         
         emfParameterValueSet.setRevisionNumber(thing.getRevisionNumber());
         
+        emfParameterValueSet.setThingPreference(thing.getThingPreference());
+        
         if (thing.getValueSwitch() != null) {emfParameterValueSet.setValueSwitch(CDP4.EngineeringModelData.ParameterSwitchKind.valueOf(thing.getValueSwitch().toString()));}                        
         		        
         return emfParameterValueSet;
@@ -118,6 +120,8 @@ public abstract class ParameterValueSetBase {
         thing.getReference().forEach(item -> emfParameterOverrideValueSet.getReference().add(item));	      
         
         emfParameterOverrideValueSet.setRevisionNumber(thing.getRevisionNumber());
+        
+        emfParameterOverrideValueSet.setThingPreference(thing.getThingPreference());
         
         if (thing.getValueSwitch() != null) {emfParameterOverrideValueSet.setValueSwitch(CDP4.EngineeringModelData.ParameterSwitchKind.valueOf(thing.getValueSwitch().toString()));}                        
         		        
@@ -162,6 +166,8 @@ public abstract class ParameterValueSetBase {
         
         pojoParameterValueSet.setRevisionNumber(emfThing.getRevisionNumber());
         
+        pojoParameterValueSet.setThingPreference(emfThing.getThingPreference());
+        
         if (emfThing.getValueSwitch() != null) {pojoParameterValueSet.setValueSwitch(cdp4common.engineeringmodeldata.ParameterSwitchKind.valueOf(emfThing.getValueSwitch().toString()));}        
         		        
         return pojoParameterValueSet;
@@ -190,6 +196,8 @@ public abstract class ParameterValueSetBase {
         emfThing.getReference().forEach(item -> pojoParameterOverrideValueSet.getReference().set(item.indexOf(item), item));		      
         
         pojoParameterOverrideValueSet.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojoParameterOverrideValueSet.setThingPreference(emfThing.getThingPreference());
         
         if (emfThing.getValueSwitch() != null) {pojoParameterOverrideValueSet.setValueSwitch(cdp4common.engineeringmodeldata.ParameterSwitchKind.valueOf(emfThing.getValueSwitch().toString()));}        
         		        

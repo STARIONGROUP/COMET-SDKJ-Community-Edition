@@ -79,6 +79,8 @@ public class HyperLink {
         
         emf.setRevisionNumber(thing.getRevisionNumber());
         
+        emf.setThingPreference(thing.getThingPreference());
+        
         emf.setUri(thing.getUri());
         
         return emf;
@@ -106,6 +108,8 @@ public class HyperLink {
         pojo.setModifiedOn(emfThing.getModifiedOn());
         
         pojo.setRevisionNumber(emfThing.getRevisionNumber());
+        
+        pojo.setThingPreference(emfThing.getThingPreference());
         
         pojo.setUri(emfThing.getUri());
         
