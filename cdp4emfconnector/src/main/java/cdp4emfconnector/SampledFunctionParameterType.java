@@ -85,7 +85,8 @@ public class SampledFunctionParameterType {
         
         emf.getIndependentParameterType().addAll(thing.getIndependentParameterType().stream().map(item -> cdp4emfconnector.IndependentParameterTypeAssignment.toEmf(item)).collect(Collectors.toList()));
         
-        thing.getInterpolationPeriod().forEach(item -> emf.getInterpolationPeriod().add(item.toString()));
+        thing.getInterpolationPeriod().forEach(item -> emf.getInterpolationPeriod().add(item));	             
+        
         emf.setIsDeprecated(thing.isDeprecated());
         
         emf.setModifiedOn(thing.getModifiedOn());
@@ -132,7 +133,8 @@ public class SampledFunctionParameterType {
         
         pojo.getIndependentParameterType().addAll(emfThing.getIndependentParameterType().stream().map(item -> cdp4emfconnector.IndependentParameterTypeAssignment.toPojo(item)).collect(Collectors.toList()));
         
-        emfThing.getInterpolationPeriod().forEach(item -> pojo.getInterpolationPeriod().add(UUID.fromString(item.toString())));
+        emfThing.getInterpolationPeriod().forEach(item -> pojo.getInterpolationPeriod().set(item.indexOf(item), item));		      
+        
         pojo.setDeprecated(emfThing.getIsDeprecated());
         
         pojo.setModifiedOn(emfThing.getModifiedOn());
