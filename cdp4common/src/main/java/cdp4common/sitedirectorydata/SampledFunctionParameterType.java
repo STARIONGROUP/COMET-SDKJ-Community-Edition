@@ -84,7 +84,7 @@ public class SampledFunctionParameterType extends ParameterType implements Clone
     public SampledFunctionParameterType() {
         this.dependentParameterType = new OrderedItemList<DependentParameterTypeAssignment>(this, true, DependentParameterTypeAssignment.class);
         this.independentParameterType = new OrderedItemList<IndependentParameterTypeAssignment>(this, true, IndependentParameterTypeAssignment.class);
-        this.interpolationPeriod = new ArrayList<String>();
+        this.interpolationPeriod = new ValueArray<String>(this, String.class);
     }
 
     /**
@@ -99,7 +99,7 @@ public class SampledFunctionParameterType extends ParameterType implements Clone
         super(iid, cache, iDalUri);
         this.dependentParameterType = new OrderedItemList<DependentParameterTypeAssignment>(this, true, DependentParameterTypeAssignment.class);
         this.independentParameterType = new OrderedItemList<IndependentParameterTypeAssignment>(this, true, IndependentParameterTypeAssignment.class);
-        this.interpolationPeriod = new ArrayList<String>();
+        this.interpolationPeriod = new ValueArray<String>(this, String.class);
     }
 
     /**
@@ -131,15 +131,15 @@ public class SampledFunctionParameterType extends ParameterType implements Clone
     private OrderedItemList<IndependentParameterTypeAssignment> independentParameterType;
 
     /**
-     * List of String.
+     * List of ordered String.
      * optional representation of a period in case of a cyclic function to be taken into account for interpolation
      * Note: The number of values shall be equal to the number of parameter types in the <i>independentParameterType</i> property. An empty value means no cyclic interpolation for the corresponding <i>independentParameterType</i>.
      * Example: The function could represent the incident albedo flux as a function of mission elapsed time for a spacecraft in a circular orbit.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
     @Getter
     @Setter
-    private ArrayList<String> interpolationPeriod;
+    private ValueArray<String> interpolationPeriod;
 
     /**
      * {@link Iterable} that references the composite properties of the current {@link SampledFunctionParameterType}.
@@ -182,7 +182,7 @@ public class SampledFunctionParameterType extends ParameterType implements Clone
         clone.setExcludedPerson(new ArrayList<Person>(this.getExcludedPerson()));
         clone.setHyperLink(cloneContainedThings ? new ContainerList<HyperLink>(clone) : new ContainerList<HyperLink>(this.getHyperLink(), clone, false));
         clone.setIndependentParameterType(cloneContainedThings ? null : new OrderedItemList<IndependentParameterTypeAssignment>(this.getIndependentParameterType(), clone, IndependentParameterTypeAssignment.class));
-        clone.setInterpolationPeriod(new ArrayList<String>(this.getInterpolationPeriod()));
+        clone.setInterpolationPeriod(new ValueArray<String>(this.getInterpolationPeriod(), this, String.class));
 
         if (cloneContainedThings) {
             clone.getAlias().addAll(this.getAlias().stream().map(x -> x.clone(true)).collect(Collectors.toList()));
@@ -259,7 +259,7 @@ public class SampledFunctionParameterType extends ParameterType implements Clone
         PojoThingFactory.resolveList(this.getExcludedPerson(), dto.getExcludedPerson(), dto.getIterationContainerId(), this.getCache(), Person.class);
         PojoThingFactory.resolveList(this.getHyperLink(), dto.getHyperLink(), dto.getIterationContainerId(), this.getCache(), HyperLink.class);
         PojoThingFactory.resolveList(this.getIndependentParameterType(), dto.getIndependentParameterType(), dto.getIterationContainerId(), this.getCache(), IndependentParameterTypeAssignment.class);
-        PojoThingFactory.clearAndAddRange(this.getInterpolationPeriod(), dto.getInterpolationPeriod());
+        this.setInterpolationPeriod(new ValueArray<String>(dto.getInterpolationPeriod(), this, String.class));
         this.setDeprecated(dto.isDeprecated());
         this.setModifiedOn(dto.getModifiedOn());
         this.setName(dto.getName());
@@ -289,7 +289,7 @@ public class SampledFunctionParameterType extends ParameterType implements Clone
         dto.getExcludedPerson().addAll(this.getExcludedPerson().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.getHyperLink().addAll(this.getHyperLink().stream().map(Thing::getIid).collect(Collectors.toList()));
         dto.getIndependentParameterType().addAll(this.getIndependentParameterType().toDtoOrderedItemList());
-        dto.getInterpolationPeriod().addAll(this.getInterpolationPeriod());
+        dto.setInterpolationPeriod(new ValueArray<String>(this.getInterpolationPeriod(), this, String.class));
         dto.setDeprecated(this.isDeprecated());
         dto.setModifiedOn(this.getModifiedOn());
         dto.setName(this.getName());

@@ -69,7 +69,7 @@ public class SampledFunctionParameterType extends ParameterType implements Clone
     public SampledFunctionParameterType() {
         this.dependentParameterType = new ArrayList<OrderedItem>();
         this.independentParameterType = new ArrayList<OrderedItem>();
-        this.interpolationPeriod = new ArrayList<String>();
+        this.interpolationPeriod = new ValueArray<String>(String.class);
     }
 
     /**
@@ -82,7 +82,7 @@ public class SampledFunctionParameterType extends ParameterType implements Clone
         super(iid, rev);
         this.dependentParameterType = new ArrayList<OrderedItem>();
         this.independentParameterType = new ArrayList<OrderedItem>();
-        this.interpolationPeriod = new ArrayList<String>();
+        this.interpolationPeriod = new ValueArray<String>(String.class);
     }
 
     /**
@@ -113,13 +113,13 @@ public class SampledFunctionParameterType extends ParameterType implements Clone
     private ArrayList<OrderedItem> independentParameterType;
 
     /**
-     * The list of String.
+     * The list of ordered String.
      */
-    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = false, isNullable = false, isPersistent = true)
+    @UmlInformation(aggregation = AggregationKind.NONE, isDerived = false, isOrdered = true, isNullable = false, isPersistent = true)
     @DataMember
     @Getter
     @Setter
-    private ArrayList<String> interpolationPeriod;
+    private ValueArray<String> interpolationPeriod;
 
     /**
      * Gets the route for the current {@link SampledFunctionParameterType}.
