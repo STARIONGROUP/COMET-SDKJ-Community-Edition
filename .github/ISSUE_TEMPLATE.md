@@ -1,8 +1,8 @@
 ### Prerequisites
 
 - [ ] I have written a descriptive issue title
-- [ ] I have verified that I am running the latest version of the CDP4-SDKJ
-- [ ] I have searched [open](https://github.com/RHEAGROUP/CDP4-SDKJ-Community-Edition/issues) and [closed](https://github.com/RHEAGROUP/CDP4-SDKJ-Community-Edition/issues?q=is%3Aissue+is%3Aclosed) issues to ensure it has not already been reported
+- [ ] I have verified that I am running the latest version of the COMET-SDKJ
+- [ ] I have searched [open](https://github.com/RHEAGROUP/COMET-SDKJ-Community-Edition/issues) and [closed](https://github.com/RHEAGROUP/COMET-SDKJ-Community-Edition/issues?q=is%3Aissue+is%3Aclosed) issues to ensure it has not already been reported
 
 ### Description
 <!-- A description of the bug or feature -->
@@ -13,7 +13,7 @@
 ### System Configuration
 <!-- Tell us about the environment where you are experiencing the bug -->
 
-- CDP4 version:
+- COMET version:
   - [ ] CDP4Common:         
   - [ ] CDP4JsonSerializer: 
   - [ ] CDP4Dal:            
@@ -25,4 +25,4 @@
 - .Java version:
 - Additional information:
 
-<!-- Thanks for reporting the issue to CDP4-SDKJ! -->
+<!-- Thanks for reporting the issue to COMET-SDKJ! -->

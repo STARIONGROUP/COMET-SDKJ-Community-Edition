@@ -1,6 +1,10 @@
-# CDP4-SDKJ-Community-Edition
+<img src="https://github.com/RHEAGROUP/COMET-SDKJ-Community-Edition/raw/master/COMET.jpg" width="250">
 
-The Concurrent Design Platform Java Software Development Kit that is compliant with ECSS-E-TM-10-25 Annex A and Annex C. The CDP4-SDKJ-Community-Edition is a line by line port of the [C# CDP4-SDK-Community-Editio](https://github.com/RHEAGROUP/CDP4-SDK-Community-Edition). The CDP4-SDKJ tries to stay very close to the C# CDP4-SDK to make sure the API's are very similar, differences may occur due to languate specific features.
+> COMET is the new name for what was previously called the CDP4. We are transitioning the applications and software libraries. The code and documentation will still refer to CDP4 in a number of places while we are updating.
+
+# COMET-SDKJ-Community-Edition
+
+The COMET Java Software Development Kit that is compliant with ECSS-E-TM-10-25 Annex A and Annex C. The COMET-SDKJ-Community-Edition is a line by line port of the [C# COMET-SDK-Community-Editio](https://github.com/RHEAGROUP/COMET-SDK-Community-Edition). The COMET-SDKJ tries to stay very close to the C# COMET-SDK to make sure the API's are very similar, differences may occur due to languate specific features.
 
 > The C# SDK is the primary implementation, therefore the Java implementation may be a bit behind on new features and bug fixes. Both libraries are actively maintained and the Java implementation will get sycned up within a few weeks.
 
@@ -19,7 +23,7 @@ CDP4WspDal | [![Maven Central](https://img.shields.io/maven-central/v/com.rheagr
 
 # Build and Coverage Status
 
-Travis is used to build and test the CDP4-SDKJ
+Travis is used to build and test the COMET-SDKJ
 
 | Branch | Status | Coverage |
 |--------|--------|----------|
@@ -28,7 +32,7 @@ Travis is used to build and test the CDP4-SDKJ
 
 ## CDP4Common
 
-The CDP4Common library is a Java implementation of the CDP4 UML master model. The CDP4 UML master model is based on the ECSS-E-TM-10-25A Annex A UML master model and extends it with CDP4 concepts to improve the use of ECSS-E-TM-10-25A Annex A for Concurrent Design of complex systems. The library contains both POJO and DTO implementations of the classes defined in the CDP4 UML master model. The POJO classes are used when a full object graph is required. The DTO's are used when a full object graph is not required, references to other class are represented by unique identifiers in the form of a GUID.
+The CDP4Common library is a Java implementation of the COMET UML master model. The COMET UML master model is based on the ECSS-E-TM-10-25A Annex A UML master model and extends it with COMET concepts to improve the use of ECSS-E-TM-10-25A Annex A for Concurrent Design of complex systems. The library contains both POJO and DTO implementations of the classes defined in the COMET UML master model. The POJO classes are used when a full object graph is required. The DTO's are used when a full object graph is not required, references to other class are represented by unique identifiers in the form of a GUID.
 
 The CDP4Common library also includes a set of so-called MetaInfo classes. These classes are used to provide information about the classes in the UML master model such as the properties, relationships to other classes etc. These classes provide similar functionality as the Java reflection system, but with higher performance.
 
@@ -46,7 +50,7 @@ The CDP4EmfModel library is a Ecore implementation of the ECSS-E-TM-10-25A Annex
 
 ## CDP4EmfConnector
 
-The CDP4EmfConnector library is a middle layer that enables to use Ecore implementation of the ECSS-E-TM-10-25A Annex A UML master model for CDP4 Concurrent Design of complex systems. The library contains method that can be use to convert Ecore implementation of the ECSS-E-TM-10-25A Annex A UML master model to CDP4 POJO classes defined in the CDP4 UML master model.
+The CDP4EmfConnector library is a middle layer that enables to use Ecore implementation of the ECSS-E-TM-10-25A Annex A UML master model for COMET Concurrent Design of complex systems. The library contains method that can be use to convert Ecore implementation of the ECSS-E-TM-10-25A Annex A UML master model to CDP4 POJO classes defined in the COMET UML master model.
 
 ## CDP4JsonFileDal
 
@@ -54,15 +58,15 @@ The CDP4JsonFileDal library is a Java library that provides an implementation of
 
 ## CDP4ServicesDal
 
-The CDP4ServicesDal library is a Java library that provides an implementation of ECSS-E-TM-10-25A Annex C.2, the JSON REST API, which includes concepts that are specific to the CDP4. These CDP4 specific items are pure extensions of ECSS-E-TM-10-25A. The CDP4ServicesDal library can only be used to communicate with a CDP4 Services instance, dedicated HTTP headers are used to verify that the REST API is indeed a CDP4 Services instance.
+The CDP4ServicesDal library is a Java library that provides an implementation of ECSS-E-TM-10-25A Annex C.2, the JSON REST API, which includes concepts that are specific to the COMET. These COMET specific items are pure extensions of ECSS-E-TM-10-25A. The CDP4ServicesDal library can only be used to communicate with a COMET Services instance, dedicated HTTP headers are used to verify that the REST API is indeed a COMET Services instance.
 
 ## CDP4WspDal
 
-The CDP4WspDal library is a Java library that provides an implementation of ECSS-E-TM-10-25A Annex C.2, the JSON REST API. The CDP4WspDal can be used to communicate with any ECSS-E-TM-10-25A Annex C.2 implementation, including the CDP4 Services.
+The CDP4WspDal library is a Java library that provides an implementation of ECSS-E-TM-10-25A Annex C.2, the JSON REST API. The CDP4WspDal can be used to communicate with any ECSS-E-TM-10-25A Annex C.2 implementation, including the COMET Services.
 
 # License
 
-The libraries contained in the CDP4-SDKJ Community Edition are provided to the community under the GNU Lesser General Public License. Because we make the software available with the LGPL, it can be used in both open source and proprietary software without being required to release the source code of your own components.
+The libraries contained in the COMET-SDKJ Community Edition are provided to the community under the GNU Lesser General Public License. Because we make the software available with the LGPL, it can be used in both open source and proprietary software without being required to release the source code of your own components.
 
 # Contributions
 
