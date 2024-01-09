@@ -28,15 +28,21 @@ import cdp4dal.dal.DalQueryAttributes;
 import cdp4dal.dal.QueryAttributes;
 import com.google.common.base.Strings;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  * The ECSS 1025 Annex C request query attributes. Appended to the query if required.
  */
 @Getter
 @Setter
+@FieldNameConstants(innerTypeName = "FieldNames", level = AccessLevel.PACKAGE)
 public class QueryAttributesImpl extends DalQueryAttributes {
 
   /**
@@ -58,6 +64,34 @@ public class QueryAttributesImpl extends DalQueryAttributes {
    * Gets or sets whether to include the file data.
    */
   private Boolean includeFileData;
+
+  /**
+   * Gets a dictionary of all attributes and attributes name
+   *
+   * @return A {@linkplain Map} of {@linkplain String} attribute name {@linkplain String} value
+   */
+  @Override
+  public Map<String, String> toUriParameters() {
+    Map parameters = super.toUriParameters();
+
+    if (this.getExtent() != null) {
+      parameters.put(FieldNames.extent, this.getExtent().name());
+    }
+
+    if (this.getIncludeReferenceData() != null) {
+      parameters.put(FieldNames.includeReferenceData, String.valueOf(this.getIncludeReferenceData().booleanValue()));
+    }
+
+    if (this.getIncludeAllContainers() != null) {
+      parameters.put(FieldNames.includeAllContainers, String.valueOf(this.getIncludeAllContainers().booleanValue()));
+    }
+
+    if (this.getIncludeFileData() != null) {
+      parameters.put(FieldNames.includeFileData, String.valueOf(this.getIncludeFileData().booleanValue()));
+    }
+
+    return parameters;
+  }
 
   /**
    * Converts all values of this {@link QueryAttributes} class to a uri attributes String.

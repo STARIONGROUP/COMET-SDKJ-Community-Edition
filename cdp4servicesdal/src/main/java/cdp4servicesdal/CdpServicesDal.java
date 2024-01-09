@@ -60,21 +60,19 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -161,11 +159,10 @@ public class CdpServicesDal extends DalBase {
 
       String postToken = operationContainer.getToken();
       String siteRoot = this.getCredentials().getUri().getPath();
-      String resourcePath = siteRoot + operationContainer.getContext() + attribute.toString();
 
       URI uri;
       try {
-        uri = new URIBuilder(this.getCredentials().getUri()).setPath(resourcePath).build();
+        uri = this.getUri(this.getCredentials().getUri(), attribute, siteRoot, operationContainer.getContext());
       } catch (URISyntaxException e) {
         e.printStackTrace();
         log.error(e.getMessage());
@@ -315,8 +312,6 @@ public class CdpServicesDal extends DalBase {
 
       List<cdp4common.dto.Thing> result = new ArrayList<>();
 
-      String thingRoute = this.cleanURIFinalSlash(thing.getRoute());
-
       QueryAttributes attributes = queryAttributes;
       if (attributes == null) {
         boolean includeReferenceData = thing instanceof ReferenceDataLibrary;
@@ -325,17 +320,15 @@ public class CdpServicesDal extends DalBase {
       }
 
       String siteRoot = this.getCredentials().getUri().getPath();
-      String resourcePath = siteRoot + thingRoute + attributes.toString();
 
       String readToken = cdp4common.helpers.TokenGenerator.generateRandomToken();
-      URIBuilder uriBuilder = new URIBuilder(this.getCredentials().getUri());
-      uriBuilder.setPath(resourcePath);
-      log.debug("CDP4Services GET {}: {}", readToken, uriBuilder.toString());
 
       Stopwatch requestsw = Stopwatch.createStarted();
 
       try {
-        URI uri = uriBuilder.build();
+        URI uri = this.getUri(this.getCredentials().getUri(), attributes, thing, siteRoot);
+        log.debug("CDP4Services GET {}: {}", readToken, uri.toString());
+
         HttpGet requestMessage = new HttpGet(uri);
         requestMessage.addHeader(Headers.CDP_TOKEN, readToken);
 
@@ -452,7 +445,6 @@ public class CdpServicesDal extends DalBase {
       queryAttributes.setIncludeReferenceData(false);
 
       String siteRoot = credentials.getUri().getPath();
-      String resourcePath = siteRoot + "/SiteDirectory" + queryAttributes.toString();
 
       String openToken = cdp4common.helpers.TokenGenerator.generateRandomToken();
 
@@ -460,14 +452,12 @@ public class CdpServicesDal extends DalBase {
 
       Stopwatch watch = Stopwatch.createStarted();
 
-      URIBuilder uriBuilder = new URIBuilder(credentials.getUri());
-      uriBuilder.setPath(resourcePath);
-      log.debug("CDP4Services Open {}: {}", openToken, uriBuilder);
-
       Stopwatch requestsw = Stopwatch.createStarted();
 
       try {
-        URI uri = uriBuilder.build();
+        URI uri = this.getUri(credentials.getUri(), queryAttributes, siteRoot, "SiteDirectory");
+        log.debug("CDP4Services Open {}: {}", openToken, uri.toString());
+
         HttpGet requestMessage = new HttpGet(uri);
         requestMessage.addHeader(Headers.CDP_TOKEN, openToken);
 
@@ -499,7 +489,7 @@ public class CdpServicesDal extends DalBase {
         }
 
         watch.stop();
-        log.info("CDP4Services Open {}: {} completed in {} [ms]", openToken, uriBuilder,
+        log.info("CDP4Services Open {}: {} completed in {} [ms]", openToken, uri.toString(),
             watch.elapsed(TimeUnit.MILLISECONDS));
 
         this.processHeaders(response);
@@ -544,6 +534,46 @@ public class CdpServicesDal extends DalBase {
 
       return result;
     });
+  }
+
+  /**
+   * Constructs a resource path based on the provided URI and path segments with the addition of the provided {@linkplain Thing} route
+   *
+   * @param baseUri The root of the site.
+   * @param queryAttributes The query attributes to be included in the path.
+   * @param thing The {@linkplain Thing}
+   * @return The constructed resource path.
+   */
+  public URI getUri(URI baseUri, QueryAttributes queryAttributes, Thing thing, String... segments) throws URISyntaxException {
+
+    URI uri = this.getUri(baseUri, queryAttributes, segments);
+
+    if(!StringUtils.isBlank(thing.getRoute()))
+    {
+      return uri.resolve(new URI(thing.getRoute()));
+    }
+
+    return uri;
+  }
+
+  /**
+   * Constructs a resource path based on the provided URI and path segments.
+   *
+   * @param uri The root of the site.
+   * @param queryAttributes The query attributes to be included in the path.
+   * @return The constructed resource path.
+   */
+  public URI getUri(URI uri, QueryAttributes queryAttributes, String... segments) throws URISyntaxException {
+
+    URIBuilder uriBuilder = new URIBuilder(uri)
+            .setPathSegments(Stream.of(segments).filter(x -> !StringUtils.isBlank(x)).collect(Collectors.toList()));
+
+    for (Map.Entry<String, String> parameter : queryAttributes.toUriParameters().entrySet())
+    {
+      uriBuilder.addParameter(parameter.getKey(), parameter.getValue());
+    }
+
+    return uriBuilder.build();
   }
 
   /**
