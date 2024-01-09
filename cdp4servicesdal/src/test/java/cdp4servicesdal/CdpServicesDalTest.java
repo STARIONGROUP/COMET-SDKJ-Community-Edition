@@ -91,6 +91,7 @@ import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.message.BasicHeader;
+import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -244,6 +245,17 @@ class CdpServicesDalTest {
     } catch (ExecutionException e) {
       assertTrue(e.getCause() instanceof DalReadException);
     }
+  }
+
+  @Test
+  void verifyUriIsBuiltCorrectly() throws URISyntaxException
+  {
+    QueryAttributesImpl queryAttributes = new QueryAttributesImpl();
+    queryAttributes.setExtent(ExtentQueryAttribute.deep);
+    queryAttributes.setIncludeReferenceData(false);
+
+    URI uri = this.dal.getUri(URI.create("https://cdp4services-test.cdp4.org"), queryAttributes, "SiteDirectory");
+    assertFalse(uri.toString().contains("%3F"));
   }
 
   @Test

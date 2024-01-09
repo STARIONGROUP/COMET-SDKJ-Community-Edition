@@ -26,10 +26,19 @@ package cdp4dal.dal;
 
 import cdp4dal.dal.ecss1025annexc.ExtentQueryAttribute;
 
+import java.util.Map;
+
 /**
  * The QueryAttributes interface.
  */
 public interface QueryAttributes {
+
+  /**
+   * Gets a dictionary of all attributes and attributes name
+   *
+   * @return A {@linkplain Map} of {@linkplain String} attribute name {@linkplain String} value
+   */
+  Map<String, String> toUriParameters();
 
   /**
    * Converts all values of this {@link QueryAttributes} class to a uri attributes String.

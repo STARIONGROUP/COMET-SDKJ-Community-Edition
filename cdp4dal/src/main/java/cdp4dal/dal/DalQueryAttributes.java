@@ -27,15 +27,21 @@ package cdp4dal.dal;
 import cdp4dal.dal.ecss1025annexc.ExtentQueryAttribute;
 import com.google.common.base.Strings;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 /**
  * The base query attributes.
  */
 @Getter
 @Setter
+@FieldNameConstants(innerTypeName = "FieldNames", level = AccessLevel.PACKAGE)
 public class DalQueryAttributes implements QueryAttributes {
 
   /**
@@ -62,6 +68,22 @@ public class DalQueryAttributes implements QueryAttributes {
    * Gets or sets the revision number.
    */
   private Integer revisionNumber;
+
+  /**
+   * Gets a dictionary of all attributes and attributes name
+   *
+   * @return A {@linkplain Map} of {@linkplain String} attribute name {@linkplain String} value
+   */
+  @Override
+  public Map<String, String> toUriParameters() {
+     Map parameters = new HashMap();
+
+     if (this.getRevisionNumber() != null) {
+        parameters.put(FieldNames.revisionNumber, String.valueOf(this.getRevisionNumber().intValue()));
+     }
+
+     return parameters;
+  }
 
   /**
    * Converts all values of this {@link DalQueryAttributes} class to a uri attributes String.
