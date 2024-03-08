@@ -567,8 +567,24 @@ public class CdpServicesDal extends DalBase {
    */
   public URI getUri(URI uri, QueryAttributes queryAttributes, String... segments) throws URISyntaxException {
 
-    URIBuilder uriBuilder = new URIBuilder(uri)
-            .setPathSegments(Stream.of(segments).filter(x -> !StringUtils.isBlank(x)).collect(Collectors.toList()));
+    List<String> decodedSegments = new ArrayList<>();
+
+    for (String segment : Stream.of(segments).filter(x -> !StringUtils.isBlank(x)).collect(Collectors.toList()))
+    {
+      if(segment.contains("/"))
+      {
+        for (String part : Stream.of(segment.split("/")).filter(x -> !StringUtils.isBlank(x)).collect(Collectors.toList()))
+        {
+          decodedSegments.add(part);
+        }
+      }
+      else
+      {
+        decodedSegments.add(segment);
+      }
+    }
+
+    URIBuilder uriBuilder = new URIBuilder(uri).setPathSegments(decodedSegments);
 
     for (Map.Entry<String, String> parameter : queryAttributes.toUriParameters().entrySet())
     {
