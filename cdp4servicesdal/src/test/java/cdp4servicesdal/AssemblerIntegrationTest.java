@@ -1,7 +1,7 @@
 /*
  * AssemblerIntegrationTest.java
  *
- * Copyright (c) 2015-2019 RHEA System S.A.
+ * Copyright (c) 2015-2024 Starion Group S.A.
  *
  * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
  *
@@ -54,7 +54,7 @@ class AssemblerIntegrationTest {
 
   @BeforeEach
   void setUp() throws IOException {
-    this.uri = URI.create("http://www.rheagroup.com");
+    this.uri = URI.create("http://www.stariongroup.eu");
 
     InputStream is = new FileInputStream(
         "src/test/java/cdp4servicesdal/testdata/SiteDirectoryExtentDeep.json");

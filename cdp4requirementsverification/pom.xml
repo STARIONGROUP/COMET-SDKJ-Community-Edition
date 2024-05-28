@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>cdp4-sdk4j</artifactId>
-        <groupId>com.rheagroup</groupId>
-        <version>3.1.0</version>
+        <groupId>eu.stariongroup</groupId>
+        <version>3.2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>cdp4requirementsverification</artifactId>
     <name>CDP4 Requirements Verification</name>
     <packaging>jar</packaging>
-    <url>https://github.com/RHEAGROUP/CDP4-SDKJ-Community-Edition</url>
+    <url>https://github.com/STARIONGROUP/CDP4-SDKJ-Community-Edition</url>
     <licenses>
         <license>
             <name>GNU Lesser General Public License v3.0</name>
@@ -22,31 +22,31 @@
     <developers>
         <developer>
             <name>Sam Gerené</name>
-            <email>s.gerene@rheagroup.com</email>
+            <email>s.gerene@stariongroup.eu</email>
             <organization>RHEA GROUP</organization>
-            <organizationUrl>https://www.rheagroup.com/</organizationUrl>
+            <organizationUrl>https://www.stariongroup.eu/</organizationUrl>
         </developer>
         <developer>
             <name>Alex Vorobiev</name>
-            <email>a.vorobiev@rheagroup.com</email>
+            <email>a.vorobiev@stariongroup.eu</email>
             <organization>RHEA GROUP</organization>
-            <organizationUrl>https://www.rheagroup.com/</organizationUrl>
+            <organizationUrl>https://www.stariongroup.eu/</organizationUrl>
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git://github.com/RHEAGROUP/CDP4-SDKJ-Community-Edition.git</connection>
-        <developerConnection>scm:git:ssh://github.com:RHEAGROUP/CDP4-SDKJ-Community-Edition.git
+        <connection>scm:git:git://github.com/STARIONGROUP/CDP4-SDKJ-Community-Edition.git</connection>
+        <developerConnection>scm:git:ssh://github.com:STARIONGROUP/CDP4-SDKJ-Community-Edition.git
         </developerConnection>
-        <url>https://github.com/RHEAGROUP/CDP4-SDKJ-Community-Edition/tree/master</url>
+        <url>https://github.com/STARIONGROUP/CDP4-SDKJ-Community-Edition/tree/master</url>
     </scm>
 
     <properties>
-        <cdp4dal.version>3.1.0</cdp4dal.version>
+        <cdp4dal.version>3.2.0</cdp4dal.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.rheagroup</groupId>
+            <groupId>eu.stariongroup</groupId>
             <artifactId>cdp4dal</artifactId>
             <version>${cdp4dal.version}</version>
         </dependency>

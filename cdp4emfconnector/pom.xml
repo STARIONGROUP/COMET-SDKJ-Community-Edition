@@ -3,16 +3,16 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-        <groupId>com.rheagroup</groupId>
+        <groupId>eu.stariongroup</groupId>
         <artifactId>cdp4-sdk4j-parent</artifactId>
-        <version>3.1.0</version>
+        <version>3.2.0</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>cdp4emfconnector</artifactId>
     <name>CDP4 EmfConnector</name>
     <packaging>jar</packaging>
-    <url>https://github.com/RHEAGROUP/CDP4-SDKJ-Community-Edition</url>
+    <url>https://github.com/STARIONGROUP/CDP4-SDKJ-Community-Edition</url>
     <licenses>
         <license>
             <name>GNU Lesser General Public License v3.0</name>
@@ -22,37 +22,37 @@
     <developers>
         <developer>
             <name>Sam Gerené</name>
-            <email>s.gerene@rheagroup.com</email>
+            <email>s.gerene@stariongroup.eu</email>
             <organization>RHEA GROUP</organization>
-            <organizationUrl>https://www.rheagroup.com/</organizationUrl>
+            <organizationUrl>https://www.stariongroup.eu/</organizationUrl>
         </developer>
         <developer>
             <name>Alex Vorobiev</name>
-            <email>a.vorobiev@rheagroup.com</email>
+            <email>a.vorobiev@stariongroup.eu</email>
             <organization>RHEA GROUP</organization>
-            <organizationUrl>https://www.rheagroup.com/</organizationUrl>
+            <organizationUrl>https://www.stariongroup.eu/</organizationUrl>
         </developer>
          <developer>
             <name>Kamil Wojnowski</name>
-            <email>k.wojnowski@rheagroup.com</email>
+            <email>k.wojnowski@stariongroup.eu</email>
             <organization>RHEA GROUP</organization>
-            <organizationUrl>https://www.rheagroup.com/</organizationUrl>
+            <organizationUrl>https://www.stariongroup.eu/</organizationUrl>
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git://github.com/RHEAGROUP/CDP4-SDKJ-Community-Edition.git</connection>
-        <developerConnection>scm:git:ssh://github.com:RHEAGROUP/CDP4-SDKJ-Community-Edition.git
+        <connection>scm:git:git://github.com/STARIONGROUP/CDP4-SDKJ-Community-Edition.git</connection>
+        <developerConnection>scm:git:ssh://github.com:STARIONGROUP/CDP4-SDKJ-Community-Edition.git
         </developerConnection>
-        <url>https://github.com/RHEAGROUP/CDP4-SDKJ-Community-Edition/tree/master</url>
+        <url>https://github.com/STARIONGROUP/CDP4-SDKJ-Community-Edition/tree/master</url>
     </scm>
 
     <properties>
-        <cdp4common.version>3.1.0</cdp4common.version>
+        <cdp4common.version>3.2.0</cdp4common.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.rheagroup</groupId>
+            <groupId>eu.stariongroup</groupId>
             <artifactId>cdp4common</artifactId>
             <version>${cdp4common.version}</version>
         </dependency>

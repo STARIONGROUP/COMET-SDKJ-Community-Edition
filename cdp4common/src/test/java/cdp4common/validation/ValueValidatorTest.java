@@ -1,7 +1,7 @@
 /*
  * ValueValidatorTest.java
  *
- * Copyright (c) 2015-2019 RHEA System S.A.
+ * Copyright (c) 2015-2024 Starion Group S.A.
  *
  * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
  *
@@ -68,7 +68,7 @@ class ValueValidatorTest {
 
     @BeforeEach
     void setup() {
-        this.uri = URI.create("http://www.rheagroup.com");
+        this.uri = URI.create("http://www.stariongroup.eu");
         this.cache = CacheBuilder.newBuilder().build();
 
         this.ratioScale = new RatioScale(UUID.randomUUID(), this.cache, this.uri);

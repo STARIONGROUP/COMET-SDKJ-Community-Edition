@@ -1,7 +1,7 @@
 /*
  * DalTest.java
  *
- * Copyright (c) 2015-2019 RHEA System S.A.
+ * Copyright (c) 2015-2024 Starion Group S.A.
  *
  * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
  *
@@ -52,7 +52,7 @@ class DalTest {
     DalStubExport dalStub = new DalStubExport();
 
     URI elementDefinitionUri = URI.create(
-        "http://www.rheagroup.com/EngineeringModel/00B1FD7E-BE0F-4512-A406-02FCBD63E06A/iteration/0111A76D-346D-4055-A78D-B8215B993DA1/element/E9E8E386-B8BB-44F1-80B9-2C30761EE688");
+        "http://www.stariongroup.eu/EngineeringModel/00B1FD7E-BE0F-4512-A406-02FCBD63E06A/iteration/0111A76D-346D-4055-A78D-B8215B993DA1/element/E9E8E386-B8BB-44F1-80B9-2C30761EE688");
     String elementDefinitionContext = dalStub.queryRequestContext(elementDefinitionUri);
     assertEquals(
         "/EngineeringModel/00B1FD7E-BE0F-4512-A406-02FCBD63E06A/iteration/0111A76D-346D-4055-A78D-B8215B993DA1",

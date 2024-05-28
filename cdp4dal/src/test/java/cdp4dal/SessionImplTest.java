@@ -1,7 +1,7 @@
 /*
  * SessionImplTest.java
  *
- * Copyright (c) 2015-2019 RHEA System S.A.
+ * Copyright (c) 2015-2024 Starion Group S.A.
  *
  * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
  *
@@ -129,7 +129,7 @@ class SessionImplTest {
     this.dalOutputs.add(phone2);
     this.dalOutputs.add(phone3);
 
-    this.uri = URI.create("http://www.rheagroup.com/");
+    this.uri = URI.create("http://www.stariongroup.eu/");
     Credentials credentials = new Credentials("John", "Doe", this.uri, null);
 
     this.mockedDal = mock(Dal.class);
@@ -260,7 +260,7 @@ class SessionImplTest {
         requiredPojoDto.getIid(), null, null);
     rdlDto.setRequiredRdl(requiredPojoDto.getIid());
 
-    Credentials credentials = new Credentials("admin", "pass", URI.create("http://www.rheagroup.com"),
+    Credentials credentials = new Credentials("admin", "pass", URI.create("http://www.stariongroup.eu"),
         null);
     SessionImpl session2 = new SessionImpl(this.mockedDal, credentials);
     SiteReferenceDataLibrary rdlPojo = new cdp4common.sitedirectorydata.SiteReferenceDataLibrary();
@@ -451,7 +451,7 @@ class SessionImplTest {
     modelRdlDto.setRequiredRdl(requiredPojoDto.getIid());
     siteDir.getPerson().add(johnDoe);
 
-    Credentials credentials = new Credentials("admin", "pass", URI.create("http://www.rheagroup.com"),
+    Credentials credentials = new Credentials("admin", "pass", URI.create("http://www.stariongroup.eu"),
         null);
     SessionImpl session2 = new SessionImpl(this.mockedDal, credentials);
     FieldUtils.writeField(session2, "activePerson", johnDoe, true);
@@ -509,7 +509,7 @@ class SessionImplTest {
     siteDir.getModel().add(containerEngModelSetup);
     modelRdlDto.setRequiredRdl(requiredPojoDto.getIid());
 
-    Credentials credentials = new Credentials("admin", "pass", URI.create("http://www.rheagroup.com"),
+    Credentials credentials = new Credentials("admin", "pass", URI.create("http://www.stariongroup.eu"),
         null);
     SessionImpl session2 = new SessionImpl(this.mockedDal, credentials);
 

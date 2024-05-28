@@ -1,7 +1,7 @@
 /*
  * TransactionContextTest.java
  *
- * Copyright (c) 2015-2019 RHEA System S.A.
+ * Copyright (c) 2015-2024 Starion Group S.A.
  *
  * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené
  *
@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
 class TransactionContextTest {
 
   private Cache<CacheKey, Thing> cache;
-  private URI uri = URI.create("http://www.rheagroup.com");
+  private URI uri = URI.create("http://www.stariongroup.eu");
 
   private UUID siteDirectoryIid;
   private UUID engineeringModelIid;
