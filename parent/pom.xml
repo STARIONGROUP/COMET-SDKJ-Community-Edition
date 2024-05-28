@@ -410,13 +410,14 @@
             </executions>
           </plugin>
           <plugin>
-            <groupId>org.sonatype.central</groupId>
-            <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>0.1.2</version>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>${nexus.staging.plugin.version}</version>
             <extensions>true</extensions>
             <configuration>
-              <publishingServerId>ossrh</publishingServerId>
-              <tokenEnabled>true</tokenEnabled>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>false</autoReleaseAfterClose>
             </configuration>
           </plugin>
           <plugin>
