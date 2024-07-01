@@ -1,10 +1,10 @@
-<img src="https://github.com/RHEAGROUP/COMET-SDKJ-Community-Edition/raw/master/COMET.jpg" width="250">
+<img src="https://github.com/STARIONGROUP/COMET-SDKJ-Community-Edition/raw/master/COMET.jpg" width="250">
 
 > COMET is the new name for what was previously called the CDP4. We are transitioning the applications and software libraries. The code and documentation will still refer to CDP4 in a number of places while we are updating.
 
 # COMET-SDKJ-Community-Edition
 
-The COMET Java Software Development Kit that is compliant with ECSS-E-TM-10-25 Annex A and Annex C. The COMET-SDKJ-Community-Edition is a line by line port of the [C# COMET-SDK-Community-Editio](https://github.com/RHEAGROUP/COMET-SDK-Community-Edition). The COMET-SDKJ tries to stay very close to the C# COMET-SDK to make sure the API's are very similar, differences may occur due to languate specific features.
+The COMET Java Software Development Kit that is compliant with ECSS-E-TM-10-25 Annex A and Annex C. The COMET-SDKJ-Community-Edition is a line by line port of the [C# COMET-SDK-Community-Editio](https://github.com/STARIONGROUP/COMET-SDK-Community-Edition). The COMET-SDKJ tries to stay very close to the C# COMET-SDK to make sure the API's are very similar, differences may occur due to languate specific features.
 
 > The C# SDK is the primary implementation, therefore the Java implementation may be a bit behind on new features and bug fixes. Both libraries are actively maintained and the Java implementation will get sycned up within a few weeks.
 
@@ -14,12 +14,12 @@ The SDK contains multiple libraries that are each packaged as Maven artifacts an
 
 Artifact | Link
 ---------|-----
-CDP4Common | [![Maven Central](https://img.shields.io/maven-central/v/com.rheagroup/cdp4common?style=plastic)](https://mvnrepository.com/artifact/com.rheagroup/cdp4common)
-CDP4JsonSerializer | [![Maven Central](https://img.shields.io/maven-central/v/com.rheagroup/cdp4jsonserializer?style=plastic)](https://mvnrepository.com/artifact/com.rheagroup/cdp4jsonserializer)
-CDP4Dal | [![Maven Central](https://img.shields.io/maven-central/v/com.rheagroup/cdp4dal?style=plastic)](https://mvnrepository.com/artifact/com.rheagroup/cdp4dal)
-CDP4JsonFileDal | [![Maven Central](https://img.shields.io/maven-central/v/com.rheagroup/cdp4jsonfiledal?style=plastic)](https://mvnrepository.com/artifact/com.rheagroup/cdp4jsonfiledal)
-CDP4ServicesDal | [![Maven Central](https://img.shields.io/maven-central/v/com.rheagroup/cdp4servicesdal?style=plastic)](https://mvnrepository.com/artifact/com.rheagroup/cdp4servicesdal)
-CDP4WspDal | [![Maven Central](https://img.shields.io/maven-central/v/com.rheagroup/cdp4wspdal?style=plastic)](https://mvnrepository.com/artifact/com.rheagroup/cdp4wspdal)
+CDP4Common | [![Maven Central](https://img.shields.io/maven-central/v/eu.stariongroup/cdp4common?style=plastic)](https://mvnrepository.com/artifact/eu.stariongroup/cdp4common)
+CDP4JsonSerializer | [![Maven Central](https://img.shields.io/maven-central/v/eu.stariongroup/cdp4jsonserializer?style=plastic)](https://mvnrepository.com/artifact/eu.stariongroup/cdp4jsonserializer)
+CDP4Dal | [![Maven Central](https://img.shields.io/maven-central/v/eu.stariongroup/cdp4dal?style=plastic)](https://mvnrepository.com/artifact/eu.stariongroup/cdp4dal)
+CDP4JsonFileDal | [![Maven Central](https://img.shields.io/maven-central/v/eu.stariongroup/cdp4jsonfiledal?style=plastic)](https://mvnrepository.com/artifact/eu.stariongroup/cdp4jsonfiledal)
+CDP4ServicesDal | [![Maven Central](https://img.shields.io/maven-central/v/eu.stariongroup/cdp4servicesdal?style=plastic)](https://mvnrepository.com/artifact/eu.stariongroup/cdp4servicesdal)
+CDP4WspDal | [![Maven Central](https://img.shields.io/maven-central/v/eu.stariongroup/cdp4wspdal?style=plastic)](https://mvnrepository.com/artifact/eu.stariongroup/cdp4wspdal)
 
 # Build and Coverage Status
 
@@ -27,8 +27,8 @@ Travis is used to build and test the COMET-SDKJ
 
 | Branch | Status | Coverage |
 |--------|--------|----------|
-| Master | [![Build Status](https://travis-ci.com/RHEAGROUP/CDP4-SDKJ-Community-Edition.svg?branch=master)](https://travis-ci.com/RHEAGROUP/CDP4-SDKJ-Community-Edition) | [![codecov](https://codecov.io/gh/RHEAGROUP/CDP4-SDKJ-Community-Edition/branch/master/graph/badge.svg)](https://codecov.io/gh/RHEAGROUP/CDP4-SDKJ-Community-Edition) |
-| Development | [![Build Status](https://travis-ci.com/RHEAGROUP/CDP4-SDKJ-Community-Edition.svg?branch=development)](https://travis-ci.com/RHEAGROUP/CDP4-SDKJ-Community-Edition) | [![codecov](https://codecov.io/gh/RHEAGROUP/CDP4-SDKJ-Community-Edition/branch/development/graph/badge.svg)](https://codecov.io/gh/RHEAGROUP/CDP4-SDKJ-Community-Edition) |
+| Master | [![Build Status](https://travis-ci.com/STARIONGROUP/CDP4-SDKJ-Community-Edition.svg?branch=master)](https://travis-ci.com/STARIONGROUP/CDP4-SDKJ-Community-Edition) | [![codecov](https://codecov.io/gh/STARIONGROUP/CDP4-SDKJ-Community-Edition/branch/master/graph/badge.svg)](https://codecov.io/gh/STARIONGROUP/CDP4-SDKJ-Community-Edition) |
+| Development | [![Build Status](https://travis-ci.com/STARIONGROUP/CDP4-SDKJ-Community-Edition.svg?branch=development)](https://travis-ci.com/STARIONGROUP/CDP4-SDKJ-Community-Edition) | [![codecov](https://codecov.io/gh/STARIONGROUP/CDP4-SDKJ-Community-Edition/branch/development/graph/badge.svg)](https://codecov.io/gh/STARIONGROUP/CDP4-SDKJ-Community-Edition) |
 
 ## CDP4Common
 
@@ -70,4 +70,4 @@ The libraries contained in the COMET-SDKJ Community Edition are provided to the 
 
 # Contributions
 
-Contributions to the code-base are welcome. However, before we can accept your contributions we ask any contributor to sign the Contributor License Agreement (CLA) and send this digitaly signed to s.gerene@rheagroup.com. You can find the CLA's in the CLA folder.
+Contributions to the code-base are welcome. However, before we can accept your contributions we ask any contributor to sign the Contributor License Agreement (CLA) and send this digitaly signed to s.gerene@stariongroup.eu. You can find the CLA's in the CLA folder.

@@ -1,7 +1,7 @@
 /* --------------------------------------------------------------------------------------------------------------------
  * EngineeringModelDataDiscussionItem.java
  *
- * Copyright (c) 2015-2020 RHEA System S.A.
+ * Copyright (c) 2015-2024 Starion Group S.A.
  *
  * Author: Alex Vorobiev, Yevhen Ikonnykov, Sam Gerené, Kamil Wojnowski, Alexander van Delft, Nathanael Smiechowski
  *
