@@ -103,7 +103,7 @@ class WSPDalTest {
   private Credentials credentials;
   private Session session;
 
-  private final URI uri = URI.create("https://cdp4services-test.cdp4.org");
+  private final URI uri = URI.create("http://localhost:5000");
   private AtomicBoolean cancelled;
 
   private SiteDirectory siteDirectory;
@@ -516,7 +516,7 @@ class WSPDalTest {
     List<String> files = Arrays.asList(filename);
 
     String contentHash = "F73747371CFD9473C19A0A7F99BCAB008474C4CA";
-    URI uri = URI.create("https://cdp4services-test.cdp4.org");
+    URI uri = URI.create("http://localhost:5000");
     this.credentials = new Credentials("admin", "pass", uri, null);
 
     this.dal.open(this.credentials, this.cancelled).get();
@@ -577,7 +577,7 @@ class WSPDalTest {
   void verifyThatIsValidUriReturnsExpectedResult() {
 
     assertTrue(dal.isValidURI("http://cdp4services-test.cdp4.org"));
-    assertTrue(dal.isValidURI("https://cdp4services-test.cdp4.org"));
+    assertTrue(dal.isValidURI("http://localhost:5000"));
     assertFalse(dal.isValidURI("file://some file"));
   }
 
@@ -620,7 +620,7 @@ class WSPDalTest {
   @Tag("WebServicesDependent")
   void verify_that_opens_returns_expected_result()
       throws ExecutionException, InterruptedException {
-    URI uri = URI.create("https://cdp4services-test.cdp4.org");
+    URI uri = URI.create("http://localhost:5000");
     this.credentials = new Credentials("admin", "pass", uri, null);
 
     List<Thing> result = dal.open(this.credentials, new AtomicBoolean()).get();
@@ -683,7 +683,7 @@ class WSPDalTest {
       throws ExecutionException, InterruptedException {
     ProxySettings proxySettings = new ProxySettings(URI.create("http://tinyproxy:8888"), null, null);
 
-    URI uri = URI.create("https://cdp4services-test.cdp4.org");
+    URI uri = URI.create("http://localhost:5000");
     this.credentials = new Credentials("admin", "pass", uri, proxySettings);
 
     List<Thing> result = dal.open(this.credentials, new AtomicBoolean()).get();
@@ -695,7 +695,7 @@ class WSPDalTest {
   @Tag("WebServicesDependent")
   void verify_that_multiple_read_requests_can_be_made_in_parallel()
       throws ExecutionException, InterruptedException {
-    URI uri = URI.create("https://cdp4services-test.cdp4.org");
+    URI uri = URI.create("http://localhost:5000");
     Credentials credentials = new Credentials("admin", "pass", uri, null);
 
     List<Thing> result = dal.open(credentials, new AtomicBoolean()).get();
@@ -722,7 +722,7 @@ class WSPDalTest {
       throws ExecutionException, InterruptedException, URISyntaxException {
     WSPDal wspDal = new WSPDal();
 
-    URI uri = new URI("https://cdp4services-test.cdp4.org");
+    URI uri = new URI("http://localhost:5000");
     Credentials credentials = new Credentials("admin", "pass", uri, null);
     List<Thing> dtos = wspDal.open(credentials, this.cancelled).get();
 
