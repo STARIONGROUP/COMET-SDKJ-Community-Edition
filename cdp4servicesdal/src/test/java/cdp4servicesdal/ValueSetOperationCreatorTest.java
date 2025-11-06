@@ -79,7 +79,7 @@ class ValueSetOperationCreatorTest {
 
   private Session session;
   private PermissionService permissionService;
-  private URI uri = URI.create("https://cdp4services-test.cdp4.org");
+  private URI uri = URI.create("http://localhost:5000");
   private Assembler assembler;
 
   private SiteDirectory siteDir;

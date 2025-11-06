@@ -7,7 +7,7 @@
   <groupId>eu.stariongroup</groupId>
   <artifactId>cdp4-sdk4j-parent</artifactId>
   <packaging>pom</packaging>
-  <version>3.2.0</version>
+  <version>3.3.0</version>
   <name>CDP4 SDK Java Implementation Project Parent</name>
   <description>A parent pom that is used by all CDP4 modules</description>
   <url>https://github.com/STARIONGROUP/CDP4-SDKJ-Community-Edition</url>
@@ -77,7 +77,7 @@
     <mvn.versions.plugin.version>2.7</mvn.versions.plugin.version>
     <nexus.staging.plugin.version>1.6.8</nexus.staging.plugin.version>
     <puppycrawl.version>8.18</puppycrawl.version>
-    <logging.version>2.16.0</logging.version>
+    <logging.version>2.25.2</logging.version>
     <apachehttpclient.version>4.1.5</apachehttpclient.version>
     <apachehttpmime.version>4.5.9</apachehttpmime.version>
     <mockito.version>2.27.0</mockito.version>

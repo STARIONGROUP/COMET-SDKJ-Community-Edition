@@ -103,7 +103,7 @@ class CdpServicesDalTest {
   private Credentials credentials;
   private Session session;
 
-  private final URI uri = URI.create("https://cdp4services-test.cdp4.org");
+  private final URI uri = URI.create("http://localhost:5000");
   private AtomicBoolean cancelled;
 
   private SiteDirectory siteDirectory;
@@ -235,7 +235,7 @@ class CdpServicesDalTest {
 
   @Test
   void verifyThatIfNotHttpOrHttpsExceptionIsThrown() {
-    URI uri = URI.create("https://cdp4services-test.cdp4.org");
+    URI uri = URI.create("http://localhost:5000");
     Credentials invalidCredentials = new Credentials("John", "a password", uri, null);
 
     try {
@@ -250,7 +250,7 @@ class CdpServicesDalTest {
   @Test
   void verifyUriIsBuiltCorrectly() throws URISyntaxException
   {
-    URI baseUri = URI.create("https://cdp4services-test.cdp4.org");
+    URI baseUri = URI.create("http://localhost:5000");
     QueryAttributesImpl queryAttributes = new QueryAttributesImpl();
     queryAttributes.setExtent(ExtentQueryAttribute.deep);
     queryAttributes.setIncludeReferenceData(false);
@@ -268,7 +268,7 @@ class CdpServicesDalTest {
   @Test
   void verifyUriIsBuiltCorrectlyWhenPassingUnescapedString() throws URISyntaxException
   {
-    URI baseUri = URI.create("https://cdp4services-test.cdp4.org");
+    URI baseUri = URI.create("http://localhost:5000");
     QueryAttributesImpl queryAttributes = new QueryAttributesImpl();
     queryAttributes.setExtent(ExtentQueryAttribute.deep);
     queryAttributes.setIncludeReferenceData(false);
@@ -552,7 +552,7 @@ class CdpServicesDalTest {
     List<String> files = Arrays.asList(filename);
 
     String contentHash = "F73747371CFD9473C19A0A7F99BCAB008474C4CA";
-    URI uri = URI.create("https://cdp4services-test.cdp4.org");
+    URI uri = URI.create("http://localhost:5000");
     this.credentials = new Credentials("admin", "pass", uri, null);
 
     this.dal.open(this.credentials, this.cancelled).get();
@@ -613,7 +613,7 @@ class CdpServicesDalTest {
   void verifyThatIsValidUriReturnsExpectedResult() {
 
     assertTrue(dal.isValidURI("http://cdp4services-test.cdp4.org"));
-    assertTrue(dal.isValidURI("https://cdp4services-test.cdp4.org"));
+    assertTrue(dal.isValidURI("http://localhost:5000"));
     assertFalse(dal.isValidURI("file://some file"));
   }
 
@@ -656,7 +656,7 @@ class CdpServicesDalTest {
   @Tag("WebServicesDependent")
   void verify_that_opens_returns_expected_result()
       throws ExecutionException, InterruptedException {
-    URI uri = URI.create("https://cdp4services-test.cdp4.org");
+    URI uri = URI.create("http://localhost:5000");
     this.credentials = new Credentials("admin", "pass", uri, null);
 
     List<Thing> result = dal.open(this.credentials, new AtomicBoolean()).get();
@@ -719,7 +719,7 @@ class CdpServicesDalTest {
       throws ExecutionException, InterruptedException {
     ProxySettings proxySettings = new ProxySettings(URI.create("http://tinyproxy:8888"), null, null);
 
-    URI uri = URI.create("https://cdp4services-test.cdp4.org");
+    URI uri = URI.create("http://localhost:5000");
     this.credentials = new Credentials("admin", "pass", uri, proxySettings);
 
     List<Thing> result = dal.open(this.credentials, new AtomicBoolean()).get();
@@ -731,7 +731,7 @@ class CdpServicesDalTest {
   @Tag("WebServicesDependent")
   void verify_that_multiple_read_requests_can_be_made_in_parallel()
       throws ExecutionException, InterruptedException {
-    URI uri = URI.create("https://cdp4services-test.cdp4.org");
+    URI uri = URI.create("http://localhost:5000");
     Credentials credentials = new Credentials("admin", "pass", uri, null);
 
     List<Thing> result = dal.open(credentials, new AtomicBoolean()).get();
